@@ -105,7 +105,7 @@ if (!$product->isProduct()) {
 	
 	
 	$osTemplate->assign('BUTTON_SUBMIT', button_continue_submit().os_draw_hidden_field('get_params', $get_params));
-	$osTemplate->assign('CAPTCHA_IMG', '<img src="'.os_href_link(FILENAME_DISPLAY_CAPTCHA).'" alt="captcha" />');
+	$osTemplate->assign('CAPTCHA_IMG', '<img src="'.os_href_link(FILENAME_DISPLAY_CAPTCHA).'" alt="captcha" name="captcha" />');
 	$osTemplate->assign('CAPTCHA_INPUT', os_draw_input_field('captcha', '', 'size="6"', 'text', false));
 	$osTemplate->assign('FORM_END', '</form>');
 }

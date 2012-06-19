@@ -40,7 +40,7 @@ if (isset ($_GET['action']) && ($_GET['action'] == 'process')) {
 	$difference = $time - $logintime; 											// The difference time in seconds between the last login and now
   if ($check_customer['login_tries'] >= LOGIN_NUM and $difference < $blocktime) {
 		// Action for böse ?
-    $osTemplate->assign('CAPTCHA_IMG', '<img src="'.FILENAME_DISPLAY_CAPTCHA.'" alt="captcha" />');    
+    $osTemplate->assign('CAPTCHA_IMG', '<img src="'.FILENAME_DISPLAY_CAPTCHA.'" alt="captcha" name="captcha" />');    
     $osTemplate->assign('CAPTCHA_INPUT', os_draw_input_field('captcha', '', 'size="6" maxlength="6"', 'text', false));
     if ($_POST['captcha'] == $_SESSION['captcha_keystring']){
     // code ok

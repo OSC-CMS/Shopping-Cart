@@ -226,9 +226,21 @@
 
         $listing_sql = $select_str.$from_str.$where_str;
 
-
         //get_where_param_filter
         require (DIR_WS_MODULES.FILENAME_PRODUCT_LISTING);
+
+		if ( function_exists('search_keywords_page'))
+		{
+			$report_search_keywords = strtolower(addslashes($_GET['keywords']));
+			$report_last_search = date("Y-m-d H:i:s");
+			$sql_query = "SELECT search_id, search_text FROM ".DB_PREFIX."search_keywords WHERE search_text='".$report_search_keywords."'";
+			$keywords_query = os_db_query($sql_query);
+			if (os_db_num_rows($keywords_query)) { 
+				os_db_query("UPDATE ".DB_PREFIX."search_keywords SET hits=hits+1, last_search='".$report_last_search."' WHERE search_text='".$report_search_keywords."'");
+			} else {
+				os_db_query("insert into ".DB_PREFIX."search_keywords (search_text, search_result, hits, last_search) values ('" .$report_search_keywords . "','" . $search_result . "','1','" . $report_last_search . "')");	
+			}
+		}
     }
     $osTemplate->assign('language', $_SESSION['language']);
     $osTemplate->caching = 0;

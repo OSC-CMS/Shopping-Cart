@@ -41,10 +41,12 @@
     <td class="main" ><label for="firstname" title="{$ENTRY_FIRST_NAME_ERROR}">{#text_firstname#}</label></td>
     <td class="inputRequirement" >{$INPUT_FIRSTNAME}</td>
   </tr>
-{if $secondname=='1'}  <tr>     <td class="main">{#text_secondname#}</td>    <td class="inputRequirement" >{$INPUT_SECONDNAME}</td>  </tr>  {/if}  <tr> 
+{if $secondname=='1'}  <tr>     <td class="main">{#text_secondname#}</td>    <td class="inputRequirement" >{$INPUT_SECONDNAME}</td>  </tr>  {/if}
+  {if $lastname=='1'}  <tr> 
     <td class="main"><label for="lastname" title="{$ENTRY_LAST_NAME_ERROR}">{#text_lastname#}</label></td>
     <td class="inputRequirement">{$INPUT_LASTNAME}</td>
   </tr>
+  {/if}
   {if $birthdate=='1'} 
   <tr> 
     <td class="main"><label for="dob" title="{$ENTRY_DATE_OF_BIRTH_ERROR}">{#text_birthdate#}</label></td>

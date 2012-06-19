@@ -9,7 +9,7 @@
 #####################################
 */
 
- defined( '_VALID_OS' ) or die( 'Прямой доступ  не допускается.' ); 
+ defined( '_VALID_OS' ) or die( 'РџСЂСЏРјРѕР№ РґРѕСЃС‚СѓРї  РЅРµ РґРѕРїСѓСЃРєР°РµС‚СЃСЏ.' ); 
  
     if (@$_GET['sorting']) {
     switch ($_GET['sorting']){
@@ -51,6 +51,14 @@
         case 'stock-desc'   :
             $catsort    = 'c.sort_order ASC'; 
             $prodsort   = 'p.products_quantity DESC';            
+            break; 
+			case 'stocksort'        :
+            $catsort    = 'c.sort_order ASC'; 
+            $prodsort   = 'p.stock ASC';            
+            break;
+        case 'stocksort-desc'   :
+            $catsort    = 'c.sort_order ASC'; 
+            $prodsort   = 'p.stock DESC';            
             break;            
         case 'discount'     :
             $catsort    = 'c.sort_order ASC';
@@ -133,6 +141,9 @@
              <td class="dataTableHeadingContent" align="center">
                 <?php echo TABLE_HEADING_STARTPAGE.os_sorting(FILENAME_CATEGORIES,'startpage'); ?>
              </td>
+			  <td class="dataTableHeadingContent" align="center">
+                <?php echo TABLE_HEADING_STOCK.os_sorting(FILENAME_CATEGORIES,'stocksort');?>
+             </td>
              <td class="dataTableHeadingContent" align="center">
                 <?php echo TABLE_HEADING_XML.os_sorting(FILENAME_CATEGORIES,'yandex'); ?>
              </td>
@@ -145,6 +156,8 @@
              <td class="dataTableHeadingContent" width="10%" align="center">
                 <?php echo TABLE_HEADING_ACTION; ?>
              </td>
+
+
             </tr>
             
     <?php
@@ -214,6 +227,7 @@
              ?>
              </td>
              <td class="categories_view_data">--</td>
+			 <td class="categories_view_data">--</td>
              <td class="categories_view_data">
 	                  <?php
              //show status icons (green & red circle) with links
@@ -334,6 +348,7 @@ $max_count = MAX_DISPLAY_ADMIN_PAGE;
         p.products_id,
         pd.products_name,
         p.products_sort,
+		p.stock, 
         p.products_quantity,
         p.products_to_xml,
         p.products_image,
@@ -355,6 +370,7 @@ $max_count = MAX_DISPLAY_ADMIN_PAGE;
         p.products_tax_class_id,
         p.products_sort, 
         p.products_id, 
+        p.stock, 
         pd.products_name, 
         p.products_quantity, 
         p.products_to_xml,
@@ -390,6 +406,7 @@ if ($numr>$max_count){
 			$im++;
 			}
 }
+
     while ($products = os_db_fetch_array($products_query)) {
       $products_count++;
       $rows++;
@@ -451,6 +468,16 @@ if ($numr>$max_count){
             }
       ?>
       </td>
+	  <td class="categories_view_data">
+      <?php
+            if ($products['stock'] == '1') {
+                echo os_image(http_path('icons_admin')  . 'icon_status_green.gif', IMAGE_ICON_STATUS_GREEN, 10, 10) . '&nbsp;&nbsp;<a href="' . os_href_link(FILENAME_CATEGORIES, os_get_all_get_params(array('cPath', 'action', 'pID', 'cID')) . 'action=setstock&flag=0&pID=' . $products['products_id'] . '&cPath=' . $cPath) . '">' . os_image(http_path('icons_admin') . 'icon_status_red_light.gif', IMAGE_ICON_STATUS_RED_LIGHT, 10, 10) . '</a>';
+            } else {
+                echo '<a href="' . os_href_link(FILENAME_CATEGORIES, os_get_all_get_params(array('cPath', 'action', 'pID', 'cID')) . 'action=setstock&flag=1&pID=' . $products['products_id'] . '&cPath=' . $cPath) . '">' . os_image(http_path('icons_admin') . 'icon_status_green_light.gif', IMAGE_ICON_STATUS_GREEN_LIGHT, 10, 10) . '</a>&nbsp;&nbsp;' . os_image(http_path('icons_admin') . 'icon_status_red.gif', IMAGE_ICON_STATUS_RED, 10, 10);
+            }
+      ?>
+      </td>
+	  
       <td class="categories_view_data">
       <?php
             if ($products['products_to_xml'] == '1') {
@@ -533,7 +560,8 @@ if ($numr>$max_count){
 		                  <?php echo TEXT_CATEGORIES . '&nbsp;' . $categories_count . '<br />' . TEXT_PRODUCTS . '&nbsp;' . $products_count; ?>
 	
 		  </td>
-		  </tr>        </table>                
+		  </tr>
+        </table>                
         
      </td>
 <?php

@@ -126,39 +126,50 @@ if (sizeof($order->info['tax_groups']) > 1) {
 } else {
 
 }
-$data_products = '<table width="100%" border="0" cellspacing="0" cellpadding="0">';
-for ($i = 0, $n = sizeof($order->products); $i < $n; $i++) {
 
-	$data_products .= '<tr>' . "\n" . '            <td class="main" align="left" valign="top">' . $order->products[$i]['qty'] . ' x ' . $order->products[$i]['name'] . '</td>' . "\n" . '                <td class="main" align="right" valign="top">' . $osPrice->Format($order->products[$i]['final_price'], true) . '</td></tr>' . "\n";
-	if (ACTIVATE_SHIPPING_STATUS == 'true') {
-
-		$data_products .= '<tr>
-							<td class="main" align="left" valign="top">
-							<small>' . SHIPPING_TIME . $order->products[$i]['shipping_time'] . '
-							</small></td>
-							<td class="main" align="right" valign="top">&nbsp;</td></tr>';
-
+$productsArray = array();
+for ($i = 0, $n = sizeof($order->products); $i < $n; $i++)
+{
+	$shipping_time_title = '';
+	$shipping_time = '';
+	if (ACTIVATE_SHIPPING_STATUS == 'true')
+	{
+		$shipping_time_title = SHIPPING_TIME;
+		$shipping_time = $order->products[$i]['shipping_time'];
 	}
-	if ((isset ($order->products[$i]['attributes'])) && (sizeof($order->products[$i]['attributes']) > 0)) {
-		for ($j = 0, $n2 = sizeof($order->products[$i]['attributes']); $j < $n2; $j++) {
-			$data_products .= '<tr>
-								<td class="main" align="left" valign="top">
-								<small>&nbsp;<i> - ' . $order->products[$i]['attributes'][$j]['option'] . ': ' . $order->products[$i]['attributes'][$j]['value'] . '
-								</i></small></td>
-								<td class="main" align="right" valign="top">&nbsp;</td></tr>';
+
+	if ((isset ($order->products[$i]['attributes'])) && (sizeof($order->products[$i]['attributes']) > 0))
+	{
+		$productAtrArray = array();
+		for ($j = 0, $n2 = sizeof($order->products[$i]['attributes']); $j < $n2; $j++)
+		{
+			$productAtrArray[] = array(
+				'option' => $order->products[$i]['attributes'][$j]['option'],
+				'value' => $order->products[$i]['attributes'][$j]['value'],
+			);
 		}
 	}
 
-	$data_products .= '' . "\n";
-
-	if ($_SESSION['customers_status']['customers_status_show_price_tax'] == 0 && $_SESSION['customers_status']['customers_status_add_tax_ot'] == 1) {
+	$product_tax = '';
+	if ($_SESSION['customers_status']['customers_status_show_price_tax'] == 0 && $_SESSION['customers_status']['customers_status_add_tax_ot'] == 1)
+	{
 		if (sizeof($order->info['tax_groups']) > 1)
-			$data_products .= '            <td class="main" valign="top" align="right">' . os_display_tax_value($order->products[$i]['tax']) . '%</td>' . "\n";
+			$product_tax = os_display_tax_value($order->products[$i]['tax']) . '%';
 	}
-	$data_products .= '</tr>' . "\n";
+
+	$productsArray[] = array(
+		'pQty' => $order->products[$i]['qty'],
+		'pName' => $order->products[$i]['name'],
+		'pPrice' => $osPrice->Format($order->products[$i]['final_price'], true),
+		'pShippingTitle' => $shipping_time_title,
+		'pShipping' => $shipping_time,
+		'pAttributesArray' => $productAtrArray,
+		'pTax' => $product_tax,
+	);
 }
-$data_products .= '</table>';
-$osTemplate->assign('PRODUCTS_BLOCK', $data_products);
+
+$osTemplate->assign('productsArray', $productsArray);
+
 
 if ($order->info['payment_method'] != 'no_payment' && $order->info['payment_method'] != '') {
 	include (_MODULES.'payment/'.$order->info['payment_method'].'/'.$_SESSION['language'].'.php');
@@ -168,13 +179,14 @@ if ($order->info['payment_method'] != 'no_payment' && $order->info['payment_meth
 }
 $osTemplate->assign('PAYMENT_EDIT', os_href_link(FILENAME_CHECKOUT_PAYMENT, '', 'SSL'));
 
-$total_block = '<table>';
-if (MODULE_ORDER_TOTAL_INSTALLED) {
+$totalArray = '';
+if (MODULE_ORDER_TOTAL_INSTALLED)
+{
 	$order_total_modules->process();
-	$total_block .= $order_total_modules->output();
+	$totalArray = $order_total_modules->output();
 }
-$total_block .= '</table>';
-$osTemplate->assign('TOTAL_BLOCK', $total_block);
+
+$osTemplate->assign('totalArray', $totalArray);
 
 if (is_array($payment_modules->modules)) {
 	if ($confirmation = $payment_modules->confirmation()) {
@@ -206,6 +218,7 @@ if (isset ($$_SESSION['payment']->form_action_url) && !$$_SESSION['payment']->tm
 	$form_action_url = os_href_link(FILENAME_CHECKOUT_PROCESS, '', 'SSL');
 }
 $osTemplate->assign('CHECKOUT_FORM', os_draw_form('checkout_confirmation', $form_action_url, 'post'));
+$osTemplate->assign('CHECKOUT_FORM_END', '</form>');
 $payment_button = '';
 if (is_array($payment_modules->modules)) {
 	$payment_button .= $payment_modules->process_button();
@@ -221,7 +234,7 @@ $osTemplate->assign('MODULE_BUTTONS', $payment_button);
 	       $_array['code'] =   os_image_submit($_array['img'], $_array['alt']);
 	   }
 	   
-$osTemplate->assign('CHECKOUT_BUTTON', $_array['code']. '</form>' . "\n");
+$osTemplate->assign('CHECKOUT_BUTTON', $_array['code']. '' . "\n");
 
 if (DISPLAY_REVOCATION_ON_CHECKOUT == 'true') {
 

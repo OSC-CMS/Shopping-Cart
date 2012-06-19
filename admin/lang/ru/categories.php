@@ -211,4 +211,6 @@ define('TEXT_EDIT_CATEGORY_URL', 'ЧПУ URL категории:');
 define('TEXT_PRODUCTS_PAGE_URL', 'ЧПУ URL товара:');
 // Categiries/Products URL end
 
+define('TABLE_HEADING_STOCK', 'Склад');
+
 ?>

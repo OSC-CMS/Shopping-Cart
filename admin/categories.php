@@ -83,6 +83,15 @@ if (@$_GET['action'])
 	        set_category_cache();
 			
 			os_redirect(os_href_link(FILENAME_CATEGORIES, 'cPath='.$_GET['cPath'].'&cID='.$_GET['cID']));
+			break;		
+			
+		case 'setstock' :
+			if (($_GET['flag'] == '0') || ($_GET['flag'] == '1')) 
+			{
+				 os_db_query('UPDATE '.DB_PREFIX.'products SET stock="'.(int)$_GET['flag'].'" where products_id='.(int)$_GET['pID']);
+			}
+			
+			os_redirect(os_href_link(FILENAME_CATEGORIES, 'cPath='.$_GET['cPath'].'&cID='.$_GET['cID']));
 			break;
 
 		case 'setpflag' :

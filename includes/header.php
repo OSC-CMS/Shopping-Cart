@@ -99,12 +99,12 @@ _e('<head>');
 						  'href' => FILENAME_RSS2. '?feed=best_sellers&amp;limit=10',
 						  'group' => 'rss_best_sellers'); 
 
-  
+add_js(_HTTP.'jscript/jquery/jquery.js', $HEAD,  'jquery');
+
 if ( is_page('product_info') ) 
 {
-	 add_style('jscript/jquery/plugins/fancybox/jquery.fancybox-1.2.5.css', $HEAD,  'fancybox');
-	 add_js('jscript/jquery/plugins/fancybox/jquery.fancybox-1.2.5.pack.js', $HEAD, 'fancybox');
-	 
+	 add_style(_HTTP.'jscript/jquery/plugins/fancybox/jquery.fancybox-1.2.5.css', $HEAD,  'fancybox');
+	 add_js(_HTTP.'jscript/jquery/plugins/fancybox/jquery.fancybox-1.2.5.pack.js', $HEAD, 'fancybox');
 	 add_js_code ('$(document).ready(function() {
 		$("a.zoom").fancybox({
 		"zoomOpacity"			: true,
@@ -112,11 +112,14 @@ if ( is_page('product_info') )
 		"zoomSpeedIn"			: 500,
 		"zoomSpeedOut"			: 500
 	});
-	});', $HEAD, 'fancybox');	 
+	});', $HEAD, 'fancybox');
+ 
 }
+add_js(_HTTP.'jscript/jscript_JsHttpRequest.js', $HEAD, 'jshttprequest');
+add_js(_HTTP.'jscript/jscript_ajax.js', $HEAD, 'jscript_ajax');
 
-    add_js('jscript/jscript_JsHttpRequest.js', $HEAD, 'jshttprequest');
-    add_js('jscript/jscript_ajax.js', $HEAD, 'jscript_ajax');
+add_js_code ('var SITE_WEB_DIR = "'._HTTP.'";', $HEAD, 'site_web_dir');
+add_js(_HTTP.'jscript/osc_cms.js', $HEAD, 'osc_cms');
 
 if ( is_file(_THEMES_C.'javascript/general.js.php' ) )	
 {

@@ -220,5 +220,6 @@ define('TEXT_PRODUCTS_PAGE_URL', 'Products page SEO URL:');
 define('TEXT_LAST_PAGE', 'Последняя');
 // Categiries/Products URL end
 
+define('TABLE_HEADING_STOCK', 'Stock');
 
 ?>

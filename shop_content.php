@@ -1,12 +1,11 @@
 <?php
 /*
-#####################################
-#  OSC-CMS: Shopping Cart Software.
-#  Copyright (c) 2011-2012
-#  http://osc-cms.com
-#  http://osc-cms.com/forum
-#  Ver. 1.0.0
-#####################################
+*---------------------------------------------------------
+*
+*	OSC-CMS - Open Source Shopping Cart Software
+*	http://osc-cms.com
+*
+*---------------------------------------------------------
 */
 
 require ('includes/top.php');
@@ -57,7 +56,9 @@ $shop_content_sub_pages_query = os_db_query("SELECT
 
   $osTemplate->assign('sub_pages_content',$sub_pages_content);
 
-$breadcrumb->add($shop_content_data['content_title'], os_href_link(FILENAME_CONTENT.'?coID='.(int) $_GET['coID']));
+$shop_content_link = ($shop_content_data['content_url'] != '') ? $shop_content_data['content_url'] : os_href_link(FILENAME_CONTENT, 'coID='.$shop_content_data['content_group']);
+
+$breadcrumb->add($shop_content_data['content_title'], $shop_content_link);
 
 if ($_GET['coID'] != 7) {
 	require (dir_path('includes').'header.php');
@@ -118,7 +119,7 @@ if ($_GET['coID'] == 7)
 		$osTemplate->assign('INPUT_NAME', os_draw_input_field('name', ($error ? $_POST['name'] : @$first_name)));
 		$osTemplate->assign('INPUT_EMAIL', os_draw_input_field('email', ($error ? $_POST['email'] : @$email_address)));
 		$osTemplate->assign('INPUT_TEXT', os_draw_textarea_field('message_body', 'soft', 50, 15, @$_POST[''],''));
-		$osTemplate->assign('CAPTCHA_IMG', '<img src="'.FILENAME_DISPLAY_CAPTCHA.'" alt="captcha" />');    
+		$osTemplate->assign('CAPTCHA_IMG', '<img src="'.FILENAME_DISPLAY_CAPTCHA.'" alt="captcha" name="captcha" />');    
 		$osTemplate->assign('CAPTCHA_INPUT', os_draw_input_field('captcha', '', 'size="6" maxlength="6"', 'text', false));
 		$osTemplate->assign('BUTTON_SUBMIT', button_continue_submit());
 		$osTemplate->assign('FORM_END', '</form>');

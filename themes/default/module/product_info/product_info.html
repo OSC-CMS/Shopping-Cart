@@ -16,7 +16,11 @@
 			{if $MODULE_graduated_price !=''}<li>{$MODULE_graduated_price}</li>{/if}
 			{if $SHIPPING_NAME}<li>{#text_shippingtime#} {$SHIPPING_NAME}</li>{/if}
 			{if $PRODUCTS_FSK18=='true'}<li class="bold orange">Товар для взрослых</li>{/if}
-			<li class="prod-info-add-cart"><span class="add-qty">{$ADD_QTY}</span>{$ADD_CART_BUTTON}</li>
+			{if $PRODUCTS_STOCK eq 1}
+				<li class="prod-info-add-cart"><span class="add-qty">{$ADD_QTY}</span>{$ADD_CART_BUTTON}</li>
+			{else}
+				<li class="prod-info-add-cart">Нет на складе</li>
+			{/if}
 		</ul>
 		<div class="clear"></div>
 		{if $MODULE_product_options !=''}

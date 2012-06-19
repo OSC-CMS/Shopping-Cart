@@ -301,6 +301,11 @@ define('CATEGORIES_IMAGE_THUMBNAIL_MOTION_BLUR_DESC' , 'Category Images: Motion-
 define('IMAGE_MANIPULATOR_TITLE','GDlib processing');
 define('IMAGE_MANIPULATOR_DESC','Image Manipulator for GD2 or GD1');
 
+define('ACCOUNT_SECOND_NAME_TITLE' , 'Отчество');
+define('ACCOUNT_SECOND_NAME_DESC', 'Показывать поле Отчество при регистрации покупателя в магазине и в адресной книге');
+define('ACCOUNT_LAST_NAME_TITLE' , 'Фамилия');
+define('ACCOUNT_LAST_NAME_DESC', 'Показывать поле Фамилия при регистрации покупателя в магазине и в адресной книге');
+
 define('ACCOUNT_GENDER_TITLE' , 'Gender');
 define('ACCOUNT_GENDER_DESC' , 'Display gender in the customers account');
 define('ACCOUNT_DOB_TITLE' , 'Date of Birth');
@@ -934,10 +939,16 @@ define('SEO_URL_PRODUCT_GENERATOR_TITLE' , 'Автогенератор ЧПУ UR
 define('SEO_URL_PRODUCT_GENERATOR_DESC' , 'Автоматическое создание ЧПУ URL ссылки при редактировании/создании товара.');
 
 define('SEO_URL_CATEGORIES_GENERATOR_TITLE' , 'Автогенератор ЧПУ URL для категорий');
-define('SEO_URL_CATEGORIES_GENERATOR_DESC' , 'Автоматическое создание ЧПУ URL ссылки при редактировании/создании товара.');
+define('SEO_URL_CATEGORIES_GENERATOR_DESC' , 'Автоматическое создание ЧПУ URL ссылки при редактировании/создании категорий.');
 
 define('SEO_URL_PRODUCT_GENERATOR_IMPORT_TITLE' , 'Автогенератор ЧПУ URL при импорте товаров');
 define('SEO_URL_PRODUCT_GENERATOR_IMPORT_DESC' , '');
+
+define('SEO_URL_NEWS_GENERATOR_TITLE' , 'Автогенератор ЧПУ URL для новостей');
+define('SEO_URL_NEWS_GENERATOR_DESC' , 'Автоматическое создание ЧПУ URL ссылки при редактировании/создании новостей.');
+
+define('SEO_URL_ARTICLES_GENERATOR_TITLE' , 'Автогенератор ЧПУ URL для статей');
+define('SEO_URL_ARTICLES_GENERATOR_DESC' , 'Автоматическое создание ЧПУ URL ссылки при редактировании/создании статей.');
 
 define('BUTTON_DEFAULT', 'Default');
 

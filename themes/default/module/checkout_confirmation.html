@@ -50,16 +50,40 @@
 		{/if}
 		<div class="sub-block">
 			<h3 class="bold">{#text_products#} <a href="{$PRODUCTS_EDIT}">{#text_edit#}</a></h3>
-			<div class="confirm-table">{$PRODUCTS_BLOCK}</div>
-			<p>
-				<table width="100%" border="0" cellspacing="0" cellpadding="0">
-					<tr>
-						<td align="right">{$TOTAL_BLOCK}</td>
-					</tr>
-				</table>
-			</p>
+	  <table width="100%" border="0" cellspacing="0" cellpadding="0">
+		<tr>
+		  <td class="main">
+			<table width="100%" border="0" cellspacing="0" cellpadding="4">
+			{foreach item=p from=$productsArray}
+				<tr>
+					<td>{$p.pQty}x</td>
+					<td>
+						{$p.pName}<br />
+						{foreach item=a from=$p.pAttributesArray}	
+							{$a.option}: {$a.value}<br />
+						{/foreach}
+					</td>
+					<td>{$p.pPrice}</td>
+					<td>{$p.pShippingTitle} - {$p.pShipping}</td>
+					<td>{$p.pTax}</td>
+				</tr>
+			{/foreach}
+			</table>
+		  </td>
+		</tr>
+		<tr>
+		  <td>
+		  {foreach item=t from=$totalArray}
+			{$t.title} {$t.text}<br />
+		  {/foreach}
+		  </td>
+		</tr>
+	  </table>
 		</div>
-		{$CHECKOUT_FORM}{if $MODULE_BUTTONS!=''} {$MODULE_BUTTONS}<br />{/if}{$CHECKOUT_BUTTON}
+		{$CHECKOUT_FORM}
+			{if $MODULE_BUTTONS!=''} {$MODULE_BUTTONS}<br />{/if}
+			{$CHECKOUT_BUTTON}
+		{$CHECKOUT_FORM_END}
 		<div class="clear"></div>
 	</div>
 </div>

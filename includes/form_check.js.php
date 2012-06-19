@@ -107,7 +107,8 @@ function check_form(form_name) {
 <?php if (ACCOUNT_GENDER == 'true') echo '  check_radio("gender", "' . ENTRY_GENDER_ERROR . '");' . "\n"; ?>
 
   check_input("firstname", <?php echo ENTRY_FIRST_NAME_MIN_LENGTH; ?>, "<?php echo os_js_lang(ENTRY_FIRST_NAME_ERROR); ?>");
-  check_input("lastname", <?php echo ENTRY_LAST_NAME_MIN_LENGTH; ?>, "<?php echo os_js_lang(ENTRY_LAST_NAME_ERROR); ?>");
+  
+<?php if (ACCOUNT_LAST_NAME == 'true') echo '  check_input("lastname", '.ENTRY_LAST_NAME_MIN_LENGTH.', "'.os_js_lang(ENTRY_LAST_NAME_ERROR).'");' . "\n"; ?>
 
 <?php if (ACCOUNT_DOB == 'true') echo '  check_input("dob", ' . ENTRY_DOB_MIN_LENGTH . ', "' . os_js_lang(ENTRY_DATE_OF_BIRTH_ERROR) . '");' . "\n"; ?>
 

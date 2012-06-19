@@ -1,12 +1,11 @@
 <?php
 /*
-#####################################
-#  OSC-CMS: Shopping Cart Software.
-#  Copyright (c) 2011-2012
-#  http://osc-cms.com
-#  http://osc-cms.com/forum
-#  Ver. 1.0.0
-#####################################
+*---------------------------------------------------------
+*
+*	OSC-CMS - Open Source Shopping Cart Software
+*	http://osc-cms.com
+*
+*---------------------------------------------------------
 */
 
 class product {
@@ -92,7 +91,7 @@ class product {
 			$data_reviews = array ();
 			while ($reviews = os_db_fetch_array($reviews_query, true)) {
 				$row ++;
-				$data_reviews[] = array ('AUTHOR' => $reviews['customers_name'], 'DATE' => os_date_short($reviews['date_added']), 'RATING' => os_image('themes/'.CURRENT_TEMPLATE.'/img/stars_'.$reviews['reviews_rating'].'.gif', sprintf(TEXT_OF_5_STARS, $reviews['reviews_rating'])), 'TEXT' => os_break_string(nl2br(htmlspecialchars($reviews['reviews_text']), 60, '-<br />')));
+				$data_reviews[] = array ('AUTHOR' => $reviews['customers_name'], 'DATE' => os_date_short($reviews['date_added']), 'RATING' => os_image('themes/'.CURRENT_TEMPLATE.'/img/stars_'.$reviews['reviews_rating'].'.gif', sprintf(TEXT_OF_5_STARS, $reviews['reviews_rating'])), 'TEXT' => os_break_string(nl2br(htmlspecialchars($reviews['reviews_text'])), 60, '-<br />'));
 				if ($row == PRODUCT_REVIEWS_VIEW)
 					break;
 			}
@@ -393,6 +392,7 @@ class product {
 		      'PRODUCTS_QUANTITY'=> @$array['products_quantity'],
 				'COUNT'=> @$array['ID'],
 				'PRODUCTS_ID'=> @$array['products_id'],
+				'PRODUCTS_STOCK'=> @$array['stock'],
 				'PRODUCTS_VPE' => @$this->getVPEtext($array, $products_price['plain']), 
 				'PRODUCTS_IMAGE' => @$this->productImage($array['products_image'], $image), 
 				'PRODUCTS_LINK' => os_href_link(FILENAME_PRODUCT_INFO, os_product_link($array['products_id'], $array['products_name'])), 

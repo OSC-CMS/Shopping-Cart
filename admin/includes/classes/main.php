@@ -130,6 +130,7 @@
             $this->style('style');
             $this->style('menu');
 
+            _e ('<script type="text/javascript" src="'._HTTP.'jscript/jquery/jquery.js"></script>');
             _e ('<script type="text/javascript" src="includes/general.js"></script>');
 
 

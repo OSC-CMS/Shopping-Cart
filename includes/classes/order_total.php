@@ -193,21 +193,25 @@ class order_total
 	}
 
 	function output() {
-		$output_string = '';
+		$outputArray = array();
 		if (is_array($this->modules)) {
 			reset($this->modules);
 			while (list (, $value) = each($this->modules)) {
 				$class = substr($value, 0, strrpos($value, '.'));
 				if ($GLOBALS[$class]->enabled) {
 					$size = sizeof($GLOBALS[$class]->output);
-					for ($i = 0; $i < $size; $i ++) {
-						$output_string .= '              <tr>'."\n".'                <td align="right" class="main">'.$GLOBALS[$class]->output[$i]['title'].'</td>'."\n".'                <td align="right" class="main">'.$GLOBALS[$class]->output[$i]['text'].'</td>'."\n".'              </tr>';
+					for ($i = 0; $i < $size; $i ++)
+					{
+						$outputArray[] = array(
+							'title' => $GLOBALS[$class]->output[$i]['title'],
+							'text' => $GLOBALS[$class]->output[$i]['text'],
+						);
 					}
 				}
 			}
 		}
 
-		return $output_string;
+		return $outputArray;
 	}
 }
 ?>

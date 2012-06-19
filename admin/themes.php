@@ -105,7 +105,7 @@ $main->head();
 <?php $main->top_menu(); ?>
 <?php
         
-   echo "<div id='themes_other'><a target=\"_blank\" href=\"http://osc-cms.com/themes/\">".THEMES_OTHER."</a></div>"; 
+   echo "<div id='themes_other'><a target=\"_blank\" href=\"http://osc-cms.com/extend/themes\">".THEMES_OTHER."</a></div>"; 
 
 
 ?>

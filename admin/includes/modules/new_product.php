@@ -121,7 +121,7 @@ $form_action = ($_GET['pID']) ? 'update_product' : 'insert_product';
           <tr>
             <td valign="top" class="main"><?php echo TEXT_PRODUCTS_NAME; ?></td>
             <td valign="top" class="main">
-			<input <?php if(SEO_URL_PRODUCT_GENERATOR=='true') echo  'onKeyPress="onchange_products_page_url()"  onChange="onchange_products_page_url()"'; ?> id="products_name" type="text" name="<?php echo 'products_name[' . $languages[$i]['id'] . ']'; ?>" value="<?php echo htmlspecialchars(
+			<input <?php if (SEO_URL_PRODUCT_GENERATOR == 'true' && empty($pInfo->products_page_url)) echo  'onKeyPress="onchange_products_page_url()"  onChange="onchange_products_page_url()"'; ?> id="products_name" type="text" name="<?php echo 'products_name[' . $languages[$i]['id'] . ']'; ?>" value="<?php echo htmlspecialchars(
 os_get_products_name($pInfo->products_id, $languages[$i]['id'])); ?>" size=60>
 			</td>
           </tr>

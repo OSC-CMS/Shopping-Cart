@@ -67,6 +67,13 @@ function head_plugins()
     <td class="boxCenter" width="100%" valign="top">
     <?php $main->heading('plugin.gif', HEADING_TITLE); ?>  
 
+	<?php
+	
+	echo "<div style=\"position:absolute;top:58px; right:30px;\"><a target=\"_blank\" style=\"color:#4378a1\" href=\"http://osc-cms.com/extend/plugins\">".MODULES_OTHER."</a></div>"; 
+
+	
+	?>
+
     <table border="0" width="100%" cellspacing="4" cellpadding="2" valign="top">
       <tr>
         <td  valign="top"><table border="0" width="100%" cellspacing="0" cellpadding="0"  valign="top">

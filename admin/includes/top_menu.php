@@ -172,7 +172,7 @@
     $menu_value[6]['child'] =  array(
     array('value' => BOX_HELP, 'url' => 'http://osc-cms.com/docs'),
     array('value' => BOX_SUPPORT_SITE, 'url' => 'http://osc-cms.com'),
-    array('value' => BOX_THEMES_URL, 'url' => 'http://osc-cms.com/themes'),
+    array('value' => BOX_THEMES_URL, 'url' => 'http://osc-cms.com/extend/themes'),
     array('value' => BOX_SUPPORT_FORUM, 'url' => 'http://osc-cms.com/forum')
     );	
 

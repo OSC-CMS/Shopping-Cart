@@ -104,7 +104,7 @@ $osPrice = new osPrice($_SESSION['currency'],'');
     <?php os_header('plugin.gif', HEADING_TITLE); ?>  
 	<?php
 	
-	echo "<div style=\"position:absolute;top:100px; right:3%;\"><a target=\"_blank\" style=\"color:#4378a1\" href=\"http://osc-cms.com/module/\">".MODULES_OTHER."</a></div>"; 
+	echo "<div style=\"position:absolute;top:58px; right:30px;\"><a target=\"_blank\" style=\"color:#4378a1\" href=\"http://osc-cms.com/extend/modules\">".MODULES_OTHER."</a></div>"; 
 
 	
 	?>

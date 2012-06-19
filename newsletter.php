@@ -152,7 +152,7 @@ $breadcrumb->add(NAVBAR_TITLE_NEWSLETTER, os_href_link(FILENAME_NEWSLETTER, '', 
 
 require (dir_path('includes').'header.php');
 
-$osTemplate->assign('CAPTCHA_IMG', '<img src="'.os_href_link(FILENAME_DISPLAY_CAPTCHA).'" alt="captcha" />');
+$osTemplate->assign('CAPTCHA_IMG', '<img src="'.os_href_link(FILENAME_DISPLAY_CAPTCHA).'" alt="captcha" name="captcha" />');
 $osTemplate->assign('CAPTCHA_INPUT', os_draw_input_field('captcha', '', 'size="6"', 'text', false));
 
 $osTemplate->assign('text_newsletter', TEXT_NEWSLETTER);

@@ -21,6 +21,8 @@
       $this->description = MODULE_PAYMENT_ROBOXCHANGE_TEXT_DESCRIPTION;
       $this->sort_order = MODULE_PAYMENT_ROBOXCHANGE_SORT_ORDER;
       $this->enabled = ((MODULE_PAYMENT_ROBOXCHANGE_STATUS == 'True') ? true : false);
+      $this->icon = 'robox.gif';
+      $this->icon_small = 'icon.png';
 
 //      $this->form_action_url = 'https://www.roboxchange.com/ssl/calc.asp';
     }
@@ -35,8 +37,13 @@
     }
 
     function selection() {
+		$icon = os_image(http_path('payment').$this->code.'/'.$this->icon, $this->title);
       return array('id' => $this->code,
-                   'module' => $this->title);
+                   'module' => $this->title,
+                   'description' => $this->description,
+				   'icon' => $icon,
+				   
+				   );
     }
 
     function pre_confirmation_check() {
@@ -82,10 +89,10 @@
       $crc = md5(MODULE_PAYMENT_ROBOXCHANGE_LOGIN.':'.$out_summ.':'.$inv_id.':'.MODULE_PAYMENT_ROBOXCHANGE_PASSWORD1);
 
       $_SESSION['cart']->reset(true);
-      os_session_unregister('sendto');
-      os_session_unregister('billto');
-      os_session_unregister('shipping');
-      os_session_unregister('payment');
+      //os_session_unregister('sendto');
+      //os_session_unregister('billto');
+      //os_session_unregister('shipping');
+      //os_session_unregister('payment');
       os_session_unregister('comments');
       os_redirect('https://www.roboxchange.com/ssl/calc.asp?mrh='.MODULE_PAYMENT_ROBOXCHANGE_LOGIN.'&out_summ='.$out_summ.'&inv_id='.$inv_id.'&lang='.(($_SESSION['language']=='ru')?'ru':'en').'&crc='.$crc.'&p=vecher');
     }

@@ -101,6 +101,31 @@ function onchange_categories_url ()
    document.getElementById('categories_url').value = str;
 }
 
+// news
+function onchange_news_url ()
+{
+   str = ru2en.translit(document.getElementById('headline').value); 
+   str = str.toLowerCase();
+   str = str + '.html';
+   
+   str = str.replace(/\s+/g,"-");
+   str = str.replace(/[!;$,'":*^%#@\[\]&{}]+/g,"");
+
+   document.getElementById('news_page_url').value = str;
+}
+
+// articles
+function onchange_articles_url ()
+{
+   str = ru2en.translit(document.getElementById('articles_name').value); 
+   str = str.toLowerCase();
+   str = str + '.html';
+   
+   str = str.replace(/\s+/g,"-");
+   str = str.replace(/[!;$,'":*^%#@\[\]&{}]+/g,"");
+
+   document.getElementById('articles_page_url').value = str;
+}
 
 function SwitchCheck ()
   {

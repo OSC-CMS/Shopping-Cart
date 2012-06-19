@@ -57,7 +57,7 @@
         <?php for ($i = 0, $n = sizeof($languages); $i < $n; $i++) { 
                 if($languages[$i]['status']==1) {
 
-                    if (SEO_URL_CATEGORIES_GENERATOR == 'true') $seo_input_field = ' onKeyPress="onchange_categories_url()"  onChange="onchange_categories_url()"'; else $seo_input_field = '';
+                    if (SEO_URL_CATEGORIES_GENERATOR == 'true' && empty($cInfo->categories_url)) $seo_input_field = ' onKeyPress="onchange_categories_url()"  onChange="onchange_categories_url()"'; else $seo_input_field = '';
 
                 ?>
 

@@ -108,7 +108,7 @@ $osTemplate->assign('PRODUCTS_NAME', $product_info['products_name']);
 $osTemplate->assign('PRODUCTS_MODEL', $product_info['products_model']);
 
 $osTemplate->assign('FORM_ACTION', os_draw_form('ask_a_question', os_href_link(FILENAME_ASK_PRODUCT_QUESTION, 'action=process&products_id='.$product->data['products_id'], 'SSL')));
-$osTemplate->assign('CAPTCHA_IMG', '<img src="'.FILENAME_DISPLAY_CAPTCHA.'" alt="captcha" />');    
+$osTemplate->assign('CAPTCHA_IMG', '<img src="'.FILENAME_DISPLAY_CAPTCHA.'" alt="captcha" name="captcha" />'); 
 $osTemplate->assign('CAPTCHA_INPUT', os_draw_input_field('captcha', '', 'size="6" maxlength="6"', 'text', false));
 
         if (isset($_SESSION['customer_id'])) { 
@@ -159,7 +159,7 @@ $breadcrumb->add(NAVBAR_TITLE_ASK, os_href_link(FILENAME_ASK_PRODUCT_QUESTION, '
 
 $osTemplate->assign('PRODUCTS_NAME', $product_info['products_name']);
 $osTemplate->assign('PRODUCTS_MODEL', $product_info['products_model']);
-$osTemplate->assign('CAPTCHA_IMG', '<img src="'.FILENAME_DISPLAY_CAPTCHA.'" alt="captcha" />');    
+$osTemplate->assign('CAPTCHA_IMG', '<img src="'.FILENAME_DISPLAY_CAPTCHA.'" alt="captcha" name="captcha" />');    
 $osTemplate->assign('CAPTCHA_INPUT', os_draw_input_field('captcha', '', 'size="6" maxlength="6"', 'text', false));
 
 $osTemplate->assign('FORM_ACTION', os_draw_form('ask_a_question', os_href_link(FILENAME_ASK_PRODUCT_QUESTION, 'action=process&products_id='.$product->data['products_id'], 'SSL')));

@@ -30,9 +30,12 @@ if (ACCOUNT_SECOND_NAME == 'true') {
 	$module->assign('secondname', '1');
 $module->assign('INPUT_SECONDNAME', os_draw_input_fieldNote(array ('name' => 'secondname', 'text' => '&nbsp;'. (os_not_null(ENTRY_SECOND_NAME_TEXT) ? '<span class="Requirement">'.ENTRY_SECOND_NAME_TEXT.'</span>' : '')), '', 'id="secondname"'));
 }
+if (ACCOUNT_LAST_NAME == 'true')
+{
+$module->assign('lastname', '1');
 $module->assign('INPUT_LASTNAME', os_draw_input_fieldNote(array ('name' => 'lastname', 'text' => '&nbsp;'. (os_not_null(ENTRY_LAST_NAME_TEXT) ? '<span class="inputRequirement">'.ENTRY_LAST_NAME_TEXT.'</span>' : '')), '', 'id="lastname"'));
 $module->assign('ENTRY_LAST_NAME_ERROR', ENTRY_LAST_NAME_ERROR);
-
+}
 if (ACCOUNT_COMPANY == 'true') {
 	$module->assign('company', '1');
 	$module->assign('INPUT_COMPANY', os_draw_input_fieldNote(array ('name' => 'company', 'text' => '&nbsp;'. (os_not_null(ENTRY_COMPANY_TEXT) ? '<span class="inputRequirement">'.ENTRY_COMPANY_TEXT.'</span>' : ''))));

@@ -664,6 +664,9 @@
 <?php
     for ($i=0; $i<sizeof($languages); $i++) {
 	if($languages[$i]['status']==1) {
+
+	if (SEO_URL_ARTICLES_GENERATOR == 'true' && empty($aInfo->articles_page_url)) $seo_input_field = ' onKeyPress="onchange_articles_url()"  onChange="onchange_articles_url()"'; else $seo_input_field = '';
+
 ?>
 
         <div class="tabbertab">
@@ -672,7 +675,7 @@
 
           <tr>
             <td class="main"><?php echo TEXT_ARTICLES_NAME; ?></td>
-            <td class="main"><?php echo os_draw_input_field('articles_name[' . $languages[$i]['id'] . ']', (isset($articles_name[$languages[$i]['id']]) ? $articles_name[$languages[$i]['id']] : os_get_articles_name($aInfo->articles_id, $languages[$i]['id'])), 'size="35"'); ?></td>
+            <td class="main"><?php echo os_draw_input_field('articles_name[' . $languages[$i]['id'] . ']', (isset($articles_name[$languages[$i]['id']]) ? $articles_name[$languages[$i]['id']] : os_get_articles_name($aInfo->articles_id, $languages[$i]['id'])), 'size="35" id="articles_name" '.$seo_input_field.''); ?></td>
           </tr>
 
  
@@ -738,7 +741,7 @@
 
           <tr>
             <td class="main"><?php echo TEXT_ARTICLE_PAGE_URL; ?></td>
-            <td class="main"><?php echo os_draw_input_field('articles_page_url', $aInfo->articles_page_url, ''); ?></td>
+            <td class="main"><?php echo os_draw_input_field('articles_page_url', $aInfo->articles_page_url, ' id="articles_page_url"'); ?></td>
           </tr>
 
           <tr>

@@ -85,6 +85,7 @@ else
 		$info->assign('PRODUCTS_MODEL', $product->data['products_model']);
 		$info->assign('PRODUCTS_EAN', $product->data['products_ean']);
 		$info->assign('PRODUCTS_QUANTITY', $product->data['products_quantity']);
+		$info->assign('PRODUCTS_STOCK', $product->data['stock']);
 		$info->assign('PRODUCTS_WEIGHT', $product->data['products_weight']);
 		$info->assign('PRODUCTS_STATUS', $product->data['products_status']);
 		$info->assign('PRODUCTS_ORDERED', $product->data['products_ordered']);

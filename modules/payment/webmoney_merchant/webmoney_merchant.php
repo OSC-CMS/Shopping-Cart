@@ -26,6 +26,9 @@
       $this->icon_small = 'webmoney_small.png';
 	  
         $this->form_action_url = 'https://merchant.webmoney.ru/lmi/payment.asp';
+		if ((int) MODULE_PAYMENT_WEBMONEY_MERCHANT_ORDER_STATUS_ID > 0) {
+			$this->order_status = MODULE_PAYMENT_WEBMONEY_MERCHANT_ORDER_STATUS_ID;
+		}
     }
 
 // class methods
@@ -202,6 +205,7 @@ if ($_SERVER["HTTP_X_FORWARDED_FOR"]) {
                                   'shipping_method' => $order->info['shipping_method'],
                                   'shipping_class' => $order->info['shipping_class'],
                                   'language' => $_SESSION['language'],
+                                  'comments' => $order->info['comments'],
                                   'customers_ip' => $customers_ip,
                                   'orig_reference' => $order->customer['orig_reference'],
                                   'login_reference' => $order->customer['login_reference'],
@@ -218,6 +222,9 @@ if ($_SERVER["HTTP_X_FORWARDED_FOR"]) {
 
           $insert_id = os_db_insert_id();
 
+			$customer_notification = (SEND_EMAILS == 'true') ? '1' : '0';
+			$sql_data_array = array ('orders_id' => $insert_id, 'orders_status_id' => $order->info['order_status'], 'date_added' => 'now()', 'customer_notified' => $customer_notification, 'comments' => $order->info['comments']);
+			os_db_perform(TABLE_ORDERS_STATUS_HISTORY, $sql_data_array);
           for ($i=0, $n=sizeof($order_totals); $i<$n; $i++) {
             $sql_data_array = array('orders_id' => $insert_id,
                                     'title' => $order_totals[$i]['title'],
@@ -479,24 +486,32 @@ $osTemplate = new osTemplate;
 	os_php_mail(EMAIL_BILLING_ADDRESS, EMAIL_BILLING_NAME, $order->customer['email_address'], $order->customer['firstname'].' '.$order->customer['lastname'], '', EMAIL_BILLING_REPLY_ADDRESS, EMAIL_BILLING_REPLY_ADDRESS_NAME, '', '', $order_subject, $html_mail, $txt_mail);
 
 // load the after_process function from the payment modules
-      $this->after_process();
+      //$this->after_process();
 
       $_SESSION['cart']->reset(true);
 
 // unregister session variables used during checkout
-      unset($_SESSION['sendto']);
-      unset($_SESSION['billto']);
-      unset($_SESSION['shipping']);
-      unset($_SESSION['payment']);
+      //unset($_SESSION['sendto']);
+      //unset($_SESSION['billto']);
+      //unset($_SESSION['shipping']);
+      //unset($_SESSION['payment']);
       unset($_SESSION['comments']);
 
-      unset($_SESSION['cart_webmoney_id']);
 
-      os_redirect(os_href_link(FILENAME_CHECKOUT_SUCCESS, '', 'SSL'));
+      //unset($_SESSION['cart_webmoney_id']);
+
+      //os_redirect(os_href_link(FILENAME_CHECKOUT_SUCCESS, '', 'SSL'));
     }
 
     function after_process() {
-      return false;
+
+
+		global $insert_id;
+		if ($this->order_status)
+			os_db_query("UPDATE ".TABLE_ORDERS." SET orders_status='".$this->order_status."' WHERE orders_id='".$insert_id."'");
+
+      unset($_SESSION['cart_webmoney_id']);
+	  //return false;
     }
 
     function output_error() {

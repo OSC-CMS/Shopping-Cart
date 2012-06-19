@@ -90,19 +90,20 @@
     } else { //adding new news item
       $latest_news = array();
     }
+	if (SEO_URL_NEWS_GENERATOR == 'true' && empty($latest_news['news_page_url'])) $seo_input_field = ' onKeyPress="onchange_news_url()"  onChange="onchange_news_url()"'; else $seo_input_field = '';
 ?>
       <tr><?php echo os_draw_form('new_latest_news', FILENAME_LATEST_NEWS, isset($_GET['latest_news_id']) ? 'latest_news_id=' . $_GET['latest_news_id'] . '&action=update_latest_news' : 'action=insert_latest_news', 'post', 'enctype="multipart/form-data"'); ?>
         <td><table border="0" cellspacing="0" cellpadding="2" width="100%">
           <tr>
             <td class="main"><?php echo TEXT_LATEST_NEWS_HEADLINE; ?>:</td>
-            <td class="main"><?php echo '&nbsp;' . os_draw_input_field('headline', @$latest_news['headline'], 'size="60"', true); ?></td>
+            <td class="main"><?php echo '&nbsp;' . os_draw_input_field('headline', @$latest_news['headline'], 'size="60" id="headline" '.$seo_input_field, true); ?></td>
           </tr>
           <tr>
             <td colspan="2">&nbsp;</td>
           </tr>
           <tr>
             <td class="main"><?php echo TEXT_NEWS_PAGE_URL; ?>:</td>
-            <td class="main"><?php echo '&nbsp;' . os_draw_input_field('news_page_url', @$latest_news['news_page_url'], 'size="60"', true); ?></td>
+            <td class="main"><?php echo '&nbsp;' . os_draw_input_field('news_page_url', @$latest_news['news_page_url'], 'size="60" id="news_page_url"', true); ?></td>
           </tr>
 		     <tr>
             <td class="main">&nbsp;</td>

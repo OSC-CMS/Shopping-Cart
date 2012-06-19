@@ -101,7 +101,7 @@ switch ($case) {
 		break;
 	case code_error :
 
-		$osTemplate->assign('CAPTCHA_IMG', '<img src="'.os_href_link(FILENAME_DISPLAY_CAPTCHA).'" alt="captcha" />');
+		$osTemplate->assign('CAPTCHA_IMG', '<img src="'.os_href_link(FILENAME_DISPLAY_CAPTCHA).'" alt="captcha" name="captcha" />');
 		$osTemplate->assign('CAPTCHA_INPUT', os_draw_input_field('captcha', '', 'size="6"', 'text', false));
 		$osTemplate->assign('text_heading', HEADING_PASSWORD_FORGOTTEN);
 		$osTemplate->assign('info_message', $info_message);
@@ -131,7 +131,7 @@ switch ($case) {
 		break;
 	case wrong_mail :
 
-		$osTemplate->assign('CAPTCHA_IMG', '<img src="'.os_href_link(FILENAME_DISPLAY_CAPTCHA).'" alt="captcha" />');
+		$osTemplate->assign('CAPTCHA_IMG', '<img src="'.os_href_link(FILENAME_DISPLAY_CAPTCHA).'" alt="captcha" name="captcha" />');
 		$osTemplate->assign('CAPTCHA_INPUT', os_draw_input_field('captcha', '', 'size="6"', 'text', false));
 		$osTemplate->assign('text_heading', HEADING_PASSWORD_FORGOTTEN);
 		$osTemplate->assign('info_message', $info_message);
@@ -170,7 +170,7 @@ switch ($case) {
 		break;
 	case double_opt :
 
-		$osTemplate->assign('CAPTCHA_IMG', '<img src="'.os_href_link(FILENAME_DISPLAY_CAPTCHA).'" alt="captcha" />');
+		$osTemplate->assign('CAPTCHA_IMG', '<img src="'.os_href_link(FILENAME_DISPLAY_CAPTCHA).'" alt="captcha" name="captcha" />');
 		$osTemplate->assign('CAPTCHA_INPUT', os_draw_input_field('captcha', '', 'size="6"', 'text', false));
 		$osTemplate->assign('text_heading', HEADING_PASSWORD_FORGOTTEN);
 		$osTemplate->assign('message', TEXT_PASSWORD_FORGOTTEN);

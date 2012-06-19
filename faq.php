@@ -64,7 +64,8 @@ $_GET['faq_id'] = (int)$_GET['faq_id']; if ($_GET['faq_id']<1) $_GET['faq_id'] =
       $split = new splitPageResults($all_sql, $_GET['page'], MAX_DISPLAY_FAQ_PAGE, 'faq_id');
       $query = os_db_query($split->sql_query);
       if (($split->number_of_rows > 0)) {
-          $osTemplate->assign('NAVIGATION_BAR', '<span class="right">'.TEXT_RESULT_PAGE.' '.$split->display_links(MAX_DISPLAY_PAGE_LINKS, os_get_all_get_params(array ('page', 'info', 'x', 'y'))) . '</span>' .$split->display_count(TEXT_DISPLAY_NUMBER_OF_FAQ));
+          $osTemplate->assign('NAVIGATION_BAR', TEXT_RESULT_PAGE.' '.$split->display_links(MAX_DISPLAY_PAGE_LINKS, os_get_all_get_params(array ('page', 'info', 'x', 'y'))));
+          $osTemplate->assign('NAVIGATION_BAR_PAGES', $split->display_count(TEXT_DISPLAY_NUMBER_OF_FAQ));
       }
       $osTemplate->assign('ONE', false);
   } else {
