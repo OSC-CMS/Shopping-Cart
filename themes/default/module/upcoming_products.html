@@ -1,0 +1,17 @@
+{config_load file="$language/lang.conf" section="upcoming_products"}
+
+<table cellspacing="0" cellpadding="0" width="100%">
+<tr><td class="hd bf" align="left"><a href="#">{#heading_upcoming#}</a></td></tr></table>
+<table width="100%" border="0" cellpadding="0" cellspacing="0">
+  {foreach name=aussen item=module_data from=$module_content}
+  <tr>
+    <td><table width="100%" border="0" cellpadding="0" cellspacing="0">
+        <tr bgcolor="{cycle values="#ffffff,#f1f1f1"}">
+          <td class="main"><a href="{$module_data.PRODUCTS_LINK}">{$module_data.PRODUCTS_NAME}</a></td>
+          <td class="main"><div align="right">{$module_data.PRODUCTS_DATE}</div></td>
+        </tr>
+      </table></td>
+  </tr>
+  {/foreach}
+</table>
+

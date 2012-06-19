@@ -1,0 +1,100 @@
+{config_load file="$language/lang.conf" section="index"}
+<div id="wrapper">
+
+	<div id="header" class="relative">
+		<div class="top-nav clearfix">
+			{$box_CONTENT}
+			{$box_CURRENCIES}
+		</div>
+
+		<a class="logo" href="{$index}" title="{$smarty.const.STORE_OWNER}">{$smarty.const.STORE_NAME}</a>
+
+		{$box_SEARCH}
+
+		<div class="top-contacts">
+			{if $smarty.const.STORE_TELEPHONE}{$smarty.const.STORE_TELEPHONE}<br />{/if}
+			{if $smarty.const.STORE_OWNER_EMAIL_ADDRESS}{$smarty.const.STORE_OWNER_EMAIL_ADDRESS}<br />{/if}
+			{if $smarty.const.STORE_ICQ}{$smarty.const.STORE_ICQ}<br />{/if}
+			{if $smarty.const.STORE_SKYPE}{$smarty.const.STORE_SKYPE}{/if}
+		</div>
+
+	</div><!-- #header-->
+
+	<div class="nav">
+		<ul class="main-nav">
+			<li class="{$1} first"><a href="{$mainpage}"><span>{#text_mainpage#}</span></a></li>
+			{if $account}{if $smarty.session.customer_id}
+			<li class="{$2}"><a href="{$account}"><span>{#link_account#}</span></a></li>
+			{/if}{/if}
+			<li class="{$3}"><a href="{$cart}"><span>{#link_cart#}</span></a></li>
+			<li class="{$7}"><a href="{$price_list}"><span>{#price_list#}</span></a></li>
+			<li class="{$4}"><a href="{$checkout}"><span>{#link_checkout#}</span></a></li>
+			{if $account}{if $smarty.session.customer_id}
+			<li class="{$5}"><a href="{$logoff}"><span>{#link_logoff#}</span></a></li>
+			{else}
+			<li class="{$6} last"><a href="{$login}"><span>{#link_login#}</span></a></li>
+			{/if}{/if}
+		</ul>
+	</div>
+
+	<div id="middle">
+
+		<div id="container">
+			<div id="content">
+				<div class="contentInner">
+					<div class="navtrail">{$navtrail}</div>
+					{$text}{$main_content}
+				</div>
+			</div><!-- #content-->
+		</div><!-- #container-->
+
+		<div id="sideLeft">
+			<div class="contentInner">
+				{$box_CATEGORIES}
+				{$box_ADD_QUICKIE}
+				{$box_INFORMATION}
+				{$box_LAST_VIEWED}
+				{$box_REVIEWS}
+				{$box_SPECIALS}
+				{$box_FEATURED}
+				{$box_LATESTNEWS}
+				{$box_ARTICLES}
+				{$box_ARTICLESNEW}
+				{$box_AUTHORS}
+			</div>
+		</div><!-- #sideLeft -->
+
+		<div id="sideRight">
+			<div class="contentInner">
+				{$box_CART}
+				{$box_HISTORY}
+				{$box_LOGIN}
+				{$box_ADMIN}
+				{$box_DOWNLOADS}
+				{$box_AFFILIATE}
+				{$box_WHATSNEW}
+				{$box_NEWSLETTER}
+				{$box_BESTSELLERS}
+				{$box_INFOBOX}
+				{$box_LANGUAGES}
+				{$box_MANUFACTURERS}
+				{$box_MANUFACTURERS_INFO}
+				{$box_FAQ}
+			</div>
+		</div><!-- #sideRight -->
+
+	</div><!-- #middle-->
+
+</div><!-- #wrapper -->
+
+<div id="footer">
+	<div class="footer-copyright">
+		&copy; {$smarty.now|date_format:'%Y'} 
+		<a href="{$index}" title="{$smarty.const.STORE_NAME}">{$smarty.const.STORE_NAME}</a>. 
+		Powered by <a href="http://osc-cms.com/" alt="Shopping Cart Software">OSC-CMS</a>.
+		<br />
+		{$smarty.const.STORE_NAME_ADDRESS}
+	</div>
+
+	<div class="footer-banners"></div>
+</div><!-- #footer -->

@@ -1,0 +1,91 @@
+{config_load file="$language/lang.conf" section="account_history_info"}
+{config_load file="$language/lang.conf" section="print_order"}
+{config_load file="$language/lang.conf" section="product_info"}
+<div class="block">
+	<h3 class="block-title">{#heading_history_info#}</h3>
+	<div class="block-content">
+		<div class="sub-block">
+			<h3 class="bold">{#text_oid#} {$ORDER_NUMBER}</h3>
+			<p>{$ORDER_STATUS}<br />{#text_date#} {$ORDER_DATE}</p>
+		</div>
+		<div class="sub-block {if $BILLING_LABEL}w48 left{/if}">
+			<h3 class="bold">{#text_shipping_address#}</h3>
+			<p>{$DELIVERY_LABEL}</p>
+		</div>
+		{if $BILLING_LABEL}
+		<div class="sub-block w48 right">
+			<h3 class="bold">{#text_payment_address#}</h3>
+			<p>{$BILLING_LABEL}</p>
+		</div>
+		{/if}
+		<div class="clear"></div>
+		{if $SHIPPING_METHOD}
+		<div class="sub-block">
+			<h3 class="bold">{#text_shipping_method#}</h3>
+			<p>{$SHIPPING_METHOD}</p>
+		</div>
+		{/if}
+		{if $PAYMENT_METHOD}
+		<div class="sub-block">
+			<h3 class="bold">{#text_payment_method#}</h3>
+			<p>{$PAYMENT_METHOD}</p>
+		</div>
+		{/if}
+		{if $ORDER_COMMENTS!=''}
+		<div class="sub-block">
+			<h3 class="bold">{#text_comments#}</h3>
+			<p>{$ORDER_COMMENTS}</p>
+		</div>
+		{/if}
+		{if $PAYMENT_INFORMATION!=''}
+		<div class="sub-block">
+			<h3 class="bold">{#text_payment_info#}</h3>
+			<p>{$PAYMENT_INFORMATION}</p>
+		</div>
+		{/if}
+		<div class="sub-block">
+			<h3 class="bold">{#title_history#}</h3>
+			<p>{$HISTORY_BLOCK}</p>
+		</div>
+		<div class="sub-block">
+			<!-- {#heading_products#} - зачем два раза одно и то же слово(Товары) выводить? -->
+			<h3 class="bold">{#text_products#}</h3>
+			<table class="table-products" width="100%">
+				<tr class="table-head bold"> 
+					<td>{#head_units#}</td>
+					<td>{#head_products#}</td>
+					<td>{#head_artnr#}</td>
+					<td>{#head_single_price#}</td>
+					<td class="tright">{#head_price#}</td>
+				</tr>
+				{foreach name=aussen item=order_values from=$order_data} 
+				<tr class="{if $smarty.foreach.aussen.iteration % 2 == 0}table-prod bg2{else}table-prod bg1{/if}"> 
+					<td>{$order_values.PRODUCTS_QTY}</td>
+					<td>{$order_values.PRODUCTS_NAME} {$order_values.PRODUCTS_ATTRIBUTES} {if $order_values.PRODUCTS_SHIPPING_TIME neq ''}<br />{#text_shippingtime#} {$order_values.PRODUCTS_SHIPPING_TIME}<br />{/if}</td>
+					<td>{$order_values.PRODUCTS_MODEL} {$order_values.PRODUCTS_ATTRIBUTES_MODEL}</td>
+					<td>{$order_values.PRODUCTS_SINGLE_PRICE}</td>
+					<td class="tright">{$order_values.PRODUCTS_PRICE}</td>
+				</tr>
+				{/foreach}
+				{foreach name=aussen item=order_total_values from=$order_total}
+				<tr class="table-head bold"> 
+					<td colspan="5">{$order_total_values.TITLE} {$order_total_values.TEXT}</td>
+				</tr>
+				{/foreach}
+			</table>
+		</div>
+		{if $downloads_content neq ''}
+		<div class="sub-block">
+			<h3 class="bold">Загрузить</h3>
+			<p>{$downloads_content}</p>
+		</div>
+		{/if}
+		<div class="sub-block">
+			<h3 class="bold">{#title_print#}</h3>
+			<p>{#text_print#}</p>
+			<p>{$BUTTON_PRINT} {$BUTTON_SCHET_PRINT} {$BUTTON_KVITANCIA_PRINT}</p>
+		</div>
+		<span class="right">{$BUTTON_BACK}</span>
+		<div class="clear"></div>
+	</div>
+</div>

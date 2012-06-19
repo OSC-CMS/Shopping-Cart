@@ -1,0 +1,17 @@
+/*
+#####################################
+#  OSC-CMS: Shopping Cart Software.
+#  Copyright (c) 2011-2012
+#  http://osc-cms.com
+#  http://osc-cms.com/forum
+#  Ver. 1.0.2
+#####################################
+*/
+
+.javascript .mlcom    { color: #4040c2; }
+.javascript .com      { color: green; }
+.javascript .regexp   { color: maroon; }
+.javascript .string   { color: teal; }
+.javascript .keywords { color: navy; font-weight: bold; }
+.javascript .global   { color: blue; }
+.javascript .numbers  { color: red; }

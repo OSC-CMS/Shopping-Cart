@@ -1,0 +1,93 @@
+/*
+#####################################
+#  OSC-CMS: Скрипт интернет магазина
+ #  Copyright (c) 2011-2012              
+ #  http://osc-cms.com                 
+ # Ver. 1.0.1
+#####################################
+*/
+
+body { 
+    background-color: #ffffff; 
+    color: #000000; 
+    margin: 0px;
+}
+
+a:link { 
+    font-family: Verdana, Arial, sans-serif; 
+    font-size: 12px; 
+    color: #000000; 
+    font-weight: normal; 
+    text-decoration: none; 
+}
+a:visited { 
+    font-family: Verdana, Arial, sans-serif; 
+	font-size: 12px; 
+	color: #000000; 
+	font-weight: normal; 
+	text-decoration: none; 
+}
+a:active { 
+    font-family: Verdana, Arial, sans-serif; 
+	font-size: 12px; 
+	color: #000000; 
+	font-weight: normal; 
+	text-decoration: none; 
+}
+a:hover { 
+    font-family: Verdana, Arial, sans-serif; 
+	font-size: 12px; 
+	color: #000000; 
+	font-weight: normal; 
+	text-decoration: underline; 
+}
+
+.channel {
+	display: block;
+}
+
+h1.channel {
+	display: block;
+    font-size:12px; 
+    font-weight: bold; 
+    background: #f1f1f1; 
+    border: 1px solid #CCCCCC; 
+    padding: 4px;
+}
+
+.channel_description {
+	display: block;
+	padding: 5px;
+	font-style: italic;
+}
+
+.channel_copyright {
+	display: none;
+}
+
+.item {
+    font-size: 12px; 
+    font-family: verdana; 
+    border-bottom: 1px dashed #cccccc; 
+    padding: 5px;
+}
+
+a.item {
+    font-size:12px; 
+    font-weight: bold; 
+}
+
+a.item {
+	border: 0px none;
+	font-weight: bold;
+}
+
+img.item {
+	border: 0px none;
+}
+
+.item_description {
+	border: 0px none;
+	margin-right: 5px;
+	color: #666;
+}

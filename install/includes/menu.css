@@ -1,0 +1,82 @@
+/*
+#####################################
+#  OSC-CMS: Shopping Cart Software.
+ #  Copyright (c) 2011-2012              
+ #  http://osc-cms.com
+#  http://osc-cms.com/forum                 
+ #  Ver. 1.0.2
+#####################################
+*/
+
+#topmenu { 
+	width: 100%;
+	height: 34px;
+	margin: 0 auto;
+	padding: 0;
+	line-height: 34px;
+	text-decoration: none;
+	background: url(../images/menu_bg0.jpg) repeat-x left top;
+}
+
+#topmenu li.left {
+	display: block;
+	float: left;
+	clear: left;
+	width: 60px;
+	height: 34px;
+	background: url(../images/menu_l00.jpg) no-repeat left top;
+}
+
+#topmenu li.right {
+	display: block;
+	float: right;
+	clear: right;
+	width: 60px;
+	height: 34px;
+	background: url(../images/menu_r00.jpg) no-repeat right top;	
+}
+
+#topmenu li { 
+	width: auto;
+	display: inline;
+	float: left;
+	list-style: none;
+	text-align: center;
+	text-decoration: none;
+}
+
+#topmenu li a { 
+	display: block;
+	text-decoration: none;
+	text-transform: inherit;
+	padding: 0 10px;
+	color: #CCCCCC;
+}
+
+#topmenu li em {
+	display: block;
+	float: left;
+	width: 2px;
+	height: 34px;
+	background: url(../images/menu_sep.jpg) no-repeat left top;
+}
+
+#topmenu li.sep {
+	width: 2px;
+	background: url(../images/menu_sep.jpg) no-repeat left top;
+}
+		  
+#topmenu li a:hover, ul li a.active { 
+	background: transparent url(../images/menu_ove.jpg) repeat-x center top;
+	text-decoration: none;
+	color: white;
+}
+
+#topmenu li a.active {
+	font-weight: bold;
+	cursor: default;
+}
+
+#lang_menu{
+    
+}

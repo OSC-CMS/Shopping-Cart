@@ -1,0 +1,27 @@
+{config_load file="$language/lang.conf" section="articles"}
+<div class="block">
+	<h3 class="block-title">{$ARTICLE_NAME}</h3>
+	<div class="block-content">
+		{if $no_article == 'true'}
+			{#text_no_article#}
+		{else}
+			<ul class="news-list">
+				<li>
+					{if $ARTICLE_DESCRIPTION}{$ARTICLE_DESCRIPTION}{/if}
+					<p>
+						<br />
+						{if $ARTICLE_VIEWED}{#text_viewed#} {$ARTICLE_VIEWED} {/if}
+						{if $ARTICLE_DATE}<span class="news-data">{#text_date#} {$ARTICLE_DATE}</span> {/if}
+						{if $AUTHOR_NAME}{#text_author#} <a href="{$AUTHOR_LINK}">{$AUTHOR_NAME}</a> {/if}
+						{if $ARTICLE_CATEGORY_NAME}{#text_category#} <a href="{$ARTICLE_CATEGORY_LINK}">{$ARTICLE_CATEGORY_NAME}</a> {/if}
+						{if $ARTICLE_URL}{#text_url#} <a href="http://{$ARTICLE_URL}" target="_blank">http://{$ARTICLE_URL}</a>{/if}
+					<p>
+				</li>
+			</ul>
+		{/if}
+		<div class="clear"></div>
+	</div>
+</div>
+{if $no_article != 'true'}
+{if $MODULE_articles_xsell != ''}{$MODULE_articles_xsell}{/if}
+{/if}

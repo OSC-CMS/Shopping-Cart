@@ -1,0 +1,16 @@
+{config_load file="$language/lang.conf" section="boxes"}
+<div class="box">
+	<h6 class="box-title">{#heading_guestnewsletter#}</h6>
+	<div class="box-content">
+		{$FORM_ACTION}
+		<ul class="simple-form">
+			<li class="notes">{#text_email#}</li>
+			<li>
+				<div class="text">{$FIELD_EMAIL}</div>
+				<div class="button">{$BUTTON}</div>
+				<div class="clear"></div>
+			</li>
+		</ul>
+		{$FORM_END}
+	</div>
+</div>

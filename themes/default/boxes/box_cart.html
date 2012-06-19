@@ -1,0 +1,30 @@
+{config_load file="$language/lang.conf" section="boxes"}
+{if $deny_cart neq 'true'}
+<script type="text/javascript" src="jscript/jscript_ajax_cart.js"></script>
+<div id="divShoppingCart">
+<div class="box-cart">
+	<h6 class="box-cart-title"><a href="shopping_cart.php">{#heading_cart#}</a></h6>
+	<div class="box-cart-content">
+		{if $empty=='false'}
+			<ul class="cart-products">
+				{foreach name=aussen item=products_data from=$products}
+				<li>
+					<a class="oh-item" href="{$products_data.LINK}" title="{$products_data.NAME}">{$products_data.NAME|os_truncate:$smarty.const.MAX_DISPLAY_CART:"...":true}</a>
+					<span class="oh-cart">{$products_data.QTY}x</span>
+				</li>
+				{/foreach}
+			</ul>
+
+			<div class="cart-total-block tright">
+				{$UST}{#text_total#} <span class="bold total-price">{$TOTAL}</span><br />
+				{if $DISCOUNT}{#text_discount#} {$DISCOUNT}<br />{/if}
+				<a href="{$LINK_CHECKOUT}">{#text_checkout#}</a>
+			</div>
+		{else}
+			{#text_empty_cart#}
+		{/if}
+	</div>
+</div>
+
+</div>
+{/if}

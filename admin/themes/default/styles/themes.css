@@ -1,0 +1,91 @@
+/*
+#####################################
+#  OSC-CMS: Shopping Cart Software.
+#  Copyright (c) 2011-2012
+#  http://osc-cms.com
+#  http://osc-cms.com/forum
+#  Ver. 1.0.2
+#####################################
+*/
+
+.available-theme {
+
+	display: block;
+	border: 1px solid #efefef;
+	margin-bottom: 10px;
+	overflow: hidden;
+	padding: 5px;
+}
+
+.available-theme-ok {
+
+	display: block;
+	border: 1px solid #ffdbdb;
+	margin-bottom: 10px;
+	overflow: hidden;
+	padding: 5px;
+}
+
+DIV.PortfolioContent P{
+    margin:10px 0px 0px 0px;
+	padding:0px;
+	color:#000000;
+	font-size:13px;
+}
+
+IMG.Image{
+    margin:0px;
+	padding:10px;
+	color:#000000;
+	background-color:#d3dfeb;
+	border:1px solid #c1cdd9;
+}
+
+IMG.Image:hover{
+    margin:0px;
+	padding:10px;
+	color:#000000;
+	background-color:#cbd8ea;
+	border:1px solid #4985d2;
+}
+
+IMG.Image1{
+    margin:0px;
+	padding:10px;
+	color:#000000;
+	background-color:#ffdbdb;
+	border:1px solid red;
+}
+
+IMG.Image1:hover{
+    margin:0px;
+	padding:10px;
+	color:#000000;
+	background-color:#cbd8ea;
+	border:1px solid #4985d2;
+}
+
+h1.str {
+    display: block;
+    font: 14px Tahoma, Verdana, Arial, sans-serif;
+    font-weight: bold;
+    color: #14568a;
+    border-color: #b6b7cb;
+    margin: 0.2em 0 1em 0;  
+    clear:left; 
+}
+
+#themes_other {
+    position:absolute;
+    top:100px; 
+    right:3%;
+}
+
+#themes_other a {
+    color:#4378a1; 
+}
+
+a:visited
+{
+   color: #000000;
+}

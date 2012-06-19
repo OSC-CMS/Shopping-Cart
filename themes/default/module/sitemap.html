@@ -1,0 +1,28 @@
+{config_load file="$language/lang.conf" section="sitemap"}
+<table width="100%" cellspacing="0" cellpadding="3" border="0">
+<tr>
+{php}$i=0;{/php}
+{foreach name=aussen item=module_data from=$module_content}
+{php}$i++;{/php}
+<td valign="top">
+  <table width="100%" cellspacing="0" cellpadding="0" border="0">
+  <tr>
+  	<th class="sitemap_heading"><a href="{$module_data.CAT_LINK}">{$module_data.CAT_NAME}</a></th>
+  </tr>
+  <tr>
+  	<td><table width="100%" cellspacing="0" cellpadding="0" border="0">
+			{foreach key=key_data item=item_data from=$module_data.SCATS}
+	<tr>
+		<td class="sitemap_sub"><a href="{$item_data.link}">{$item_data.text}</a></td>
+	</tr>{foreachelse}
+	<tr>
+		<td class="sitemap_sub">{#no_subcategories#}</td>
+	</tr>			 
+    {/foreach}    
+    </table></td>
+  </tr>
+</table></td>
+{php}if ($i==3){ echo "</tr><tr>"; $i=0; }{/php}  
+{/foreach}
+</tr>
+</table>

@@ -1,0 +1,16 @@
+#####################################
+#  OSC-CMS: Shopping Cart Software.
+#  Copyright (c) 2011-2012
+#  http://osc-cms.com
+#  http://osc-cms.com/forum
+#  Ver. 1.0.0
+#####################################
+
+<Files *.html>
+Order Deny,Allow
+Deny from all
+</Files>
+<Files *.php>
+Order Deny,Allow
+Deny from all
+</Files>

@@ -1,0 +1,45 @@
+{config_load file="$language/lang.conf" section="ask_a_question"}
+{if $error!=''}
+<table width="100%" border="0" cellspacing="0" cellpadding="0">
+  <tr>
+    <td class="main" style="border: 1 px solid; border-color: #000000;" bgcolor="#FFCCCC" align="center">{$error}</td>
+  </tr>
+</table>
+{/if}
+<br />
+{$FORM_ACTION}
+    <table width="100%" border="0" cellspacing="2" cellpadding="0">
+		<tr>
+		  <td class="main">{#text_sec_code#}</td>
+		  <td class="main">{$CAPTCHA_IMG}</td>
+		</tr>
+		<tr>
+		  <td class="main">&nbsp;</td>
+		  <td class="main"><b><font size="1" color="#0B3168">{#text_ask_a_question_help#}</font></b></td>
+		</tr>
+		<tr>
+		  <td class="main">{#text_inp_code#}</td>
+		  <td class="main">{$CAPTCHA_INPUT}</td>
+		</tr>
+        <tr> 
+          <td class="main">{#text_firstname#}</td>
+          <td>{$INPUT_FIRSTNAME}</td>
+        </tr>
+        <tr> 
+          <td class="main">{#text_lastname#}</td>
+          <td>{$INPUT_LASTNAME}</td>
+        </tr>
+		<tr> 
+          <td class="main">{#text_email#}</td>
+          <td>{$INPUT_EMAIL}</td>
+        </tr>
+        <tr>
+          <td class="main" valign="top">{#text_message#}</td>
+          <td>{$INPUT_TEXT}</td>
+        </tr>
+		<tr>
+		  <td class="main">{$BUTTON_CONTINUE}</td>
+		  <td class="main" align="right">{$BUTTON_SUBMIT}</td>
+		</tr>
+      </table>
+{$FORM_END}

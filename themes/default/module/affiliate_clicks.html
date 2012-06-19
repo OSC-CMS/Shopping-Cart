@@ -1,0 +1,34 @@
+{config_load file="$language/affiliate.conf" section="affiliate_clicks"}
+<h1 class="contentBoxHeading">{#heading_title#}</h1>
+<table>
+  <tr>
+    <td><table border="0" width="100%" cellspacing="0" cellpadding="2">
+      <tr>
+        <td class="main" colspan="4">{#text_affiliate_header#}{$affiliate_clickthroughs_split_number}</td>
+      </tr>
+    </table></td>
+  </tr>
+  <tr>
+    <td><table border="0" width="100%" cellspacing="0" cellpadding="2">
+      <tr>
+        <td class="infoBoxHeading">{#table_heading_date#}</td>
+ 	    <td class="infoBoxHeading">{#table_heading_clicked_product#}</td>
+	    <td class="infoBoxHeading">{#table_heading_referred#}</td>
+      </tr>
+      {if $affiliate_clickthrough_table neq ''}
+        {$affiliate_clickthrough_table}
+      {else}
+        <tr class="productListing-odd"><td class="main" colspan="6">{#text_no_clicks#}</td></tr>
+      {/if}
+      </tr>
+      <tr>
+        <td colspan="4"><table border="0" width="100%" cellspacing="0" cellpadding="0">
+		  <tr>
+	        <td class="smallText">{$affiliate_clickthroughs_split_count}</td>
+	        <td class="smallText">{$affiliate_clickthroughs_split_links}</td>
+	      </tr>
+	    </table></td>
+	  </tr>
+	</table></td>
+  </tr>
+</table>

@@ -1,0 +1,33 @@
+{config_load file="$language/affiliate.conf" section="affiliate_payment"}
+<h1 class="contentBoxHeading">{#heading_title#}</h1>
+<table width="100%" border="0" cellspacing="0" cellpadding="1" class="infoBox">
+  <tr>
+    <td><table border="0" width="100%" cellspacing="0" cellpadding="2">
+      <tr>
+        <td class="main" colspan="4">{$affiliate_payment_split_number}</td>
+      </tr>
+      <tr>
+        <td class="infoBoxHeading" align="right">{#table_heading_payment_id#}</td>
+        <td class="infoBoxHeading" align="center">{#table_heading_date#}</td>
+        <td class="infoBoxHeading" align="right">{#table_heading_payment#}</td>
+        <td class="infoBoxHeading" align="right">{#table_heading_status#}</td>
+      </tr>
+      {if $affiliate_payment_table neq ''}
+        {$affiliate_payment_table}
+      {else}
+        <tr class="productListing-odd"><td colspan="4" class="main">{#text_no_payments#}</td></tr>
+      {/if}
+      <tr>
+        <td colspan="4"><table border="0" width="100%" cellspacing="0" cellpadding="0">
+		  <tr>
+	        <td class="smallText">{$affiliate_payment_split_count}</td>
+	        <td class="smallText">{$affiliate_payment_links}</td>
+	      </tr>
+	    </table></td>
+	  </tr>
+	  <tr>
+        <td class="main" colspan="4"><br />{#text_information_payment_total#}&nbsp;&nbsp;{$affiliate_payment_total}</td>
+      </tr>
+    </table></td>
+  </tr>
+</table>

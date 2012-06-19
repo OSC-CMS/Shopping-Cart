@@ -1,0 +1,15 @@
+<div class="block">
+	<h3 class="block-title">{$CONTENT_HEADING}</h3>
+	<div class="block-content">
+		{if $sub_pages_content}
+		<ul class="subpages-block">
+		{foreach name=aussen item=sub_pages from=$sub_pages_content}
+		<li><a href="{$sub_pages.PAGE_LINK}">{$sub_pages.PAGE_TITLE}</a></li>
+		{/foreach}
+		</ul>
+		{/if}
+		{if $file}{$file}{else}{$CONTENT_BODY}{/if}
+		<div class="clear"></div>
+	</div>
+</div>
+{$BUTTON_CONTINUE}

@@ -1,0 +1,8 @@
+{config_load file="$language/lang.conf" section="boxes"}
+{* {#heading_currencies#} *}
+<ul class="top-nav-currencies">
+	{foreach item=c from=$curArray}
+	<li {if $current == $c.key}class="current"{/if}><a rel="nofollow" href="{$c.link}">{$c.title}</a></li>
+	{/foreach}
+</ul>
+{$hidden_get_variables}

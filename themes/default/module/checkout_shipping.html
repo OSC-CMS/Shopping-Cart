@@ -1,0 +1,37 @@
+{config_load file="$language/lang.conf" section="checkout_shipping"}
+<div class="block">
+	<h3 class="block-title">{#heading_shipping#}</h3>
+	<div class="block-content">
+		<div class="order-info-block">          
+			<p class="left tcenter bold selected">{#text_shipping_info#}</p>
+			<p class="left tcenter">{#text_payment_info#}</p>
+			<p class="left tcenter">{#text_confirm#}</p>
+			<p class="left tcenter">{#text_finished#}</p>
+		</div>
+
+		{$FORM_ACTION}
+		{if $SHIPPING_ADDRESS=='true'}
+		<div class="sub-block">
+			<h3 class="bold" title="{#title_address#}">{#text_addressbook#}</h3>
+			<p class="left w48">{$ADDRESS_LABEL}</p>
+			<p class="right w48 tright">{$BUTTON_ADDRESS}</p>
+			<div class="clear"></div>
+		</div>
+		{/if}
+		
+		<div class="sub-block">
+			<h3 class="bold">{#title_shipping#}</h3>
+			<p>{#text_shipping#}</p>
+			<p>{$SHIPPING_BLOCK}</p>
+		</div>
+
+		<div class="sub-block">
+			<h3 class="bold">{#title_continue#}</h3>
+			<p class="left w48">{#text_continue#}</p>
+			<p class="right w48 tright">{$BUTON_CONTINUE}</p>
+			<div class="clear"></div>
+		</div>
+		{$FORM_END}
+		<div class="clear"></div>
+	</div>
+</div>

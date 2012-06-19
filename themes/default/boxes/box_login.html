@@ -1,0 +1,24 @@
+{config_load file="$language/lang.conf" section="boxes"}
+<div class="box">
+	<h6 class="box-title">{#heading_login#}</h6>
+	<div class="box-content">
+{$FORM_ACTION} 
+<table class="adw" align="center" border="0">
+<tr>
+<td>{#text_email#}:</td><td>{$FIELD_EMAIL}</td>
+</tr>
+<tr>
+<td></td><td></td>
+</tr>
+<tr>
+<td>{#text_pwd#}:</td><td class="mid">{$FIELD_PWD}</td>
+</tr>
+<tr>
+<td align="center" colspan="2"><br />{$BUTTON}
+<br /> <a href="{$LINK_NEW_ACCOUNT}">{#text_register#}</a>&nbsp;|&nbsp;<a href="{$LINK_LOST_PASSWORD}">{#text_password_forgotten#}</a></td>
+</tr>
+</table>
+{$FORM_END}
+
+	</div>
+</div>

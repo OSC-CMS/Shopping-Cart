@@ -1,0 +1,65 @@
+{config_load file="$language/affiliate.conf" section="affiliate_affiliate"}
+<h1 class="contentBoxHeading">{#heading_title#}</h1>
+<table>
+{if $info_message neq ''}
+  <tr>
+    <td class="smallText">{php} echo $info_message; {/php}</td>
+  </tr>
+{/if}
+<tr>
+  <td>{$FORM_ACTION}
+    <table border="0" width="100%" cellspacing="0" cellpadding="2">
+      <tr>
+        <td class="main" width="50%" valign="top"><b>{#heading_new_affiliate#}</b></td>
+        <td class="main" width="50%" valign="top"><b>{#heading_returning_affiliate#}</b></td>
+      </tr>
+      <tr>
+    	<td width="50%" height="100%" valign="top">
+		  <table border="0" width="100%" height="100%" cellspacing="0" cellpadding="1" class="infoBox">
+            <tr>
+              <td>
+			    <table border="0" width="100%" height="100%" cellspacing="0" cellpadding="2" class="infoBoxContents">
+                  <tr>
+                    <td class="main" valign="top">{#text_new_affiliate#}<br /><br />{#text_affiliate_introduction#}</td>
+                  </tr>
+                  <tr>
+                    <td class="smallText" colspan="2">{$LINK_TERMS}{#text_new_affiliate_terms#}</a></td>
+                  </tr>
+                </table>
+			  </td>
+            </tr>
+          </table>
+		</td>
+        <td width="50%" height="100%" valign="top">
+		  <table border="0" width="100%" height="100%" cellspacing="0" cellpadding="1" class="infoBox">
+            <tr>
+              <td>
+			    <table border="0" width="100%" height="100%" cellspacing="0" cellpadding="2" class="infoBoxContents">
+                  <tr>
+                    <td class="main" colspan="2">{#text_returning_affiliate#}</td>
+                  </tr>
+                  <tr>
+                    <td class="main"><b>{#text_affiliate_id#}</b></td>
+                    <td class="main">{$INPUT_AFFILIATE_USERNAME}</td>
+                  </tr>
+                  <tr>
+                    <td class="main"><b>{#text_affiliate_password#}</b></td>
+                    <td class="main">{$INPUT_AFFILIATE_PASSWORD}</td>
+                  </tr>
+                  <tr>
+                    <td class="smallText" colspan="2">{$LINK_PASSWORD_FORGOTTEN}{#text_affiliate_password_forgotten#}</a></td>
+                  </tr>
+                </table>
+			  </td>
+            </tr>
+          </table>
+		</td>
+      </tr>
+      <tr>
+        <td width="50%" align="right" valign="top">{$LINK_SIGNUP}</td>
+        <td width="50%" align="right" valign="top">{$BUTTON_LOGIN}</td>
+      </tr>
+    </table></form>
+  </td>
+</tr>
+</table>

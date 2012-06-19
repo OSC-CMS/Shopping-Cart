@@ -1,0 +1,13 @@
+{config_load file="$language/lang.conf" section="graduated_price"} 
+<table width="100%" border="0">
+  <tr> 
+    <td colspan="2" class="infoBoxHeading"><div align="center">{#heading_text#}</div></td>
+  </tr>
+  {foreach name=aussen item=module_data from=$module_content} 
+  <tr> 
+    <td class="main" nowrap="nowrap" valign="top">{$module_data.QUANTITY} {#unit#}</td>
+    <td class="main" nowrap="nowrap">{#pieces#} {$module_data.PRICE}{if $module_data.VPE}<br />{$module_data.VPE}{/if}</td>
+  </tr>
+  {/foreach}
+</table>
+

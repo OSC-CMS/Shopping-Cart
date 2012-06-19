@@ -1,0 +1,134 @@
+/*
+#####################################
+#  OSC-CMS: Shopping Cart Software.
+#  Copyright (c) 2011-2012
+#  http://osc-cms.com
+#  http://osc-cms.com/forum
+#  Ver. 1.0.2
+#####################################
+*/
+
+div.top-bar { padding-top: 5px;}
+div.top-bar ul, div.top-bar ul li { margin:0;padding:0;}
+
+.top-bar {
+    padding-left:10px;
+    height:30px;
+	background: #f5f5f5;
+	background:-moz-linear-gradient(0% 100% 90deg,#f5f5f5, #ffffff);
+	background:-webkit-gradient(linear, 0% 0%, 0% 100%, from(#ffffff), to(#f5f5f5));
+}
+.top-bar a, .top-bar a:visited {display:block;text-decoration:none;color:#3366CC;outline:none;border-left:1px solid #fafafa;border-right:1px solid #fafafa;}
+.top-bar a:hover  {background:#e4ebf8;border-left: 1px solid #fafafa;border-right: 1px solid #fafafa;}
+
+ul.dropdown {list-style:none;float:left;}
+ul.dropdown li {position:relative;float:left;zoom:1;}
+ul.dropdown a.fist-level {padding:8px;}
+ul.dropdown .arrow {border-color:#3366CC transparent transparent;border-style:solid dashed dashed;margin-left:5px;position:relative;top:10px;}
+
+ul.dropdown li ul {background:#fff;width:170px;visibility:hidden;position:absolute;top:100%;left:0;z-index:10;list-style:none;border:1px solid #C3D1EC;margin-top:-1px!important;}
+ul.dropdown ul li {float:none;}
+ul.dropdown ul li a {width:160px;display:inline-block;padding:5px;} 
+ul.dropdown ul ul {left:100%;top:0;list-style:none;}
+ul.dropdown li:hover > ul {visibility:visible;}
+
+ul.dropdown li.hover a.fist-level {z-index:50;border-left:1px solid #C3D1EC;border-right:1px solid #C3D1EC;
+	-moz-box-shadow:0 -3px 5px #CCCCCC;
+	-webkit-box-shadow:0 -3px 5px #CCCCCC;
+	box-shadow:0 -3px 5px #CCCCCC;
+}
+ul.dropdown li.hover, ul.dropdown li:hover {position:relative;}
+ul.dropdown .hover ul {display:block!important;
+	-moz-box-shadow:0 1px 5px #CCCCCC;
+	-webkit-box-shadow:0 1px 5px #CCCCCC;
+	box-shadow:0 1px 5px #CCCCCC;
+}
+
+/*ul.dropdown li.first-child {z-index:1000;}*/ /* fix позицианирования в ослах <= 7 пока выключаем */
+
+ul.dropdown li.hover a {position:relative;background:#fff;}
+ul.dropdown li.hover a:hover  {background:#fff;}
+ul.dropdown li.hover ul a:hover {background:#e4ebf8;}
+ul.dropdown li.hover ul a {width:160px;border:0!important;border:0;}
+
+/* языки */
+.lang-menu {position:absolute;left:70%;top:7px;}
+
+/* админские ссылки */
+.admin-links {float:right;height:30px;list-style:none;}
+.admin-links li {float:left;}
+.admin-links li a {padding:8px;}
+.admin-links li.text {padding:0 8px 0 8px;line-height:30px;text-align:right;font-size:12px;display:block;}
+
+/*********************************************************************************************************************/
+
+#cpanel div.icon {
+	text-align: center;
+	margin-right: 5px;
+	float: left;
+	margin-bottom: 5px;
+}
+
+#cpanel div.icon a {
+	display: block;
+	float: left;
+	border: 1px solid #f0f0f0;
+	height: 97px;
+	width: 108px;
+	color: #666;
+	vertical-align: middle;
+	text-decoration: none;
+	border-top-left-radius: 8px;
+    border-top-right-radius: 8px;
+    border-bottom-left-radius: 8px;
+    border-bottom-right-radius: 8px;
+   -moz-border-radius-topleft: 8px;
+   -webkit-border-top-left-radius: 8px;
+   -moz-border-radius-topright: 8px;
+   -webkit-border-top-right-radius: 8px;
+   -moz-border-radius-bottomleft: 8px;
+   -webkit-border-bottom-left-radius: 8px;
+   -moz-border-radius-bottomright: 8px;
+   -webkit-border-bottom-right-radius: 8px;
+}
+
+#cpanel div.icon a:hover {
+	border-left: 1px solid #eee;
+	border-top: 1px solid #eee;
+	border-right: 1px solid #ccc;
+	border-bottom: 1px solid #ccc;
+	background: #f9f9f9;
+	color: #0B55C4;
+}
+
+#cpanel img  { padding: 10px 0; margin: 0 auto; width:48px; height:48px;}
+#cpanel span { display: block; text-align: center; }
+
+ul.osc-version li{
+	position:absolute;
+	top:10px;
+	left:60%;
+	font-family: Verdana,Arial,sans-serif;
+	font-size: 12px;
+	font-weight: normal;
+}
+
+ul.osc-version li {
+   	list-style:none;
+}
+
+ul.osc-version li:hover
+{
+    color: red;
+}
+
+a.version{
+    float:left;
+	color:#cecaff;
+}
+
+a.version:hover{
+    float:left;
+	color:red;
+	background: #f5f5f5;
+}

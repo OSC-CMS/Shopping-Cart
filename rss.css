@@ -1,0 +1,99 @@
+/*
+#####################################
+#  OSC-CMS: Shopping Cart Software.
+#  Copyright (c) 2011-2012
+#  http://osc-cms.com
+#  http://osc-cms.com/forum
+#  Ver. 1.0.0
+#####################################
+*/
+
+rss {
+	display: block;
+	margin: 10px auto 10px auto;
+	width: 96%;
+	background: #FFF;
+	font-family: Verdana, arial, sans-serif;
+	font-size: small;
+	}
+
+channel {
+	display: block;
+	margin-bottom: 10px;
+	border: 1px solid #CCC;
+	padding: 10px;
+	}
+
+channel>title {
+	display: block;
+	font-size: large;
+	font-weight: bold;
+	}
+
+channel>description {
+	display: block;
+	}
+
+channel>copyright {
+	display: block;
+	font-size: x-small;
+	color: #666;
+	}
+
+channel>lastBuildDate {
+	display: block;
+	text-align: right;
+	}
+
+channel>language,
+channel>image,
+channel>managingEditor,
+channel>webMaster,
+channel>generator,
+channel>docs,
+channel>ttl {
+	display: none;
+	}
+
+item {
+	display: block;
+	padding: 5px;
+	margin-top: 10px;
+	border: 1px solid #CCC;
+	background: #EEE;
+	}
+
+item>title {
+	display: block;
+/*	float: left; */
+	margin-right: 5px;
+	font-weight: bold;
+	}
+
+item>description {
+	display: block;
+	margin-right: 5px;
+	color: #666;
+	}
+
+item>pubDate {
+	display: block;
+	margin-right: 5px;
+	font-size: x-small;
+	color: #666;
+	white-space: nowrap;
+	}
+
+item>link, 
+item>comments {
+	display: block;
+	margin-right: 5px;
+	font-size: x-small;
+	color: #666;
+	}
+
+item>category,
+item>author,
+item>guid {
+	display: none;
+	}

@@ -1,0 +1,6 @@
+.plugins_options {
+   filter:progid:DXImageTransform.Microsoft.Alpha(opacity=30); /* IE 5.5+*/
+   -moz-opacity: 0.3; /* Mozilla 1.6 и ниже */
+   -khtml-opacity: 0.3; /* Konqueror 3.1, Safari 1.1 */
+   opacity: 0.3; /* CSS3 - Mozilla 1.7b +, Firefox 0.9 +, Safari 1.2+, Opera 9 */
+}

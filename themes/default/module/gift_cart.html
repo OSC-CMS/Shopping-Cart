@@ -1,0 +1,89 @@
+{config_load file="$language/lang.conf" section="gift_cart"}
+
+{if $ACTIVATE_GIFT=='true'}
+{$FORM_ACTION}
+<table width="80%" border="0" cellspacing="0" cellpadding="0">
+	<tr>
+		<td class="main">&nbsp;</td>
+	</tr>
+</table>
+<table width="80%"  border="0" style="border: 1px solid; border-color:#000000;" class="boxTextBGII">
+	<tr>
+		<td class="main" align="center"><strong>{#title#}</strong></td>
+	</tr>
+{if $GV_AMOUNT neq ''}
+	<tr>
+		<td class="main" align="center">{#text_info#}</td>
+	</tr>
+	<tr>
+		<td class="main" align="center">{#voucher_balance#} <strong>{$GV_AMOUNT}</strong></td>
+	</tr>
+	<tr>
+		<td class="main" align="center">{#text_send_to_friend#} <a href="{$GV_SEND_TO_FRIEND_LINK}">{#box_send_to_friend#}</a></td>
+	</tr>	
+{/if}
+{if $COUPON_AMOUNT2 neq ''}
+	<tr>
+		<td class="main" align="center">{#voucher_redeemed#}</td>
+	</tr>
+	<tr>
+		<td class="main" align="center">{$COUPON_AMOUNT2}</td>
+	</tr>
+	<tr>
+		<td class="main">&nbsp;</td>
+	</tr>
+	<tr>
+		<td class="main">&nbsp;</td>
+	</tr>
+{/if}
+{if $COUPON_HELP_LINK neq ''}
+	<tr>
+		<td class="main">
+			<table width="100%" border="0">
+				<tr class="headerMessage">
+					<td class="main" align="center">{#cart_coupon#} {$COUPON_HELP_LINK} {#cart_coupon_info#}</a></td>
+				</tr>
+			</table>
+		</td>
+	</tr>
+{/if}
+{if $C_FLAG == 'true'}
+  <tr>
+	<td class="main" align="center">
+			<table width="100%" border="0" cellspacing="0" cellpadding="0">
+				<tr>
+					<td class="main" align="center">{#text_gift#}</td>
+				</tr>
+				<tr>
+					<td class="main">&nbsp;</td>
+				</tr>
+			</table>
+			<table border="0" cellpadding="2" cellspacing="0">
+				<tr valign="middle">
+					<td class="main">{#text_code#}</td>
+					<td class="main">{$INPUT_CODE}</td>
+					<td class="main">{$BUTTON_SUBMIT}</td>
+				</tr>
+			</table>
+		</td>
+	</tr>
+{else}
+	<tr>
+		<td class="main" align="center">
+			<table border="0" cellpadding="0" cellspacing="0">
+				<tr valign="middle">
+					<td class="main" align="center">{#create_account#}</td>
+				</tr>
+				<tr valign="middle">
+					<td class="main" align="center"><a href="{$LINK_ACCOUNT}"><strong>{#text_create_account#}</strong></a></td>
+				</tr>
+			</table>
+		</td>
+	</tr>
+{/if}
+	<tr>
+		<td class="main">&nbsp;</td>
+	</tr>
+</table>
+{$FORM_END}
+{/if}

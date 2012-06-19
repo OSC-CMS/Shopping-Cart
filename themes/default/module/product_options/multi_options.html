@@ -1,0 +1,89 @@
+{if $options!=''}
+{foreach name=outer item=options_data from=$options}
+{if $options_data.TYPE eq '1'}
+
+<!-- select -->
+<p>
+<strong>{$options_data.NAME}:</strong>
+<select name="id[{$options_data.ID}]">
+{foreach key=key_data item=item_data from=$options_data.DATA}
+<option value="{$item_data.ID}">{$item_data.TEXT}   {if $item_data.MODEL}({$item_data.MODEL}){/if} {$item_data.PREFIX}{$item_data.PRICE}</option>
+{/foreach}
+</select>
+</p>
+<!-- /select -->
+
+{elseif $options_data.TYPE eq '2'}
+
+<!-- text -->
+<p>
+<strong>{$options_data.NAME}:</strong>
+{foreach key=key_data item=item_data from=$options_data.DATA}
+<strong>{$item_data.TEXT}</strong>
+<input name="id[{$options_data.ID}]" type="hidden" value="{$item_data.ID}" />
+<input name="id[txt_{$options_data.ID}_{$item_data.ID}]" type="text" size="{$options_data.SIZE}" maxlength="{$options_data.LENGTH}" />{if $item_data.MODEL}({$item_data.MODEL}){/if} {$item_data.PREFIX}{$item_data.PRICE}
+{if $item_data.DESCRIPTION}<br />{$item_data.DESCRIPTION}{/if}<br />
+{/foreach}
+</p>
+<!-- /text -->
+
+{elseif $options_data.TYPE eq '3'}
+
+<!-- textarea -->
+<p>
+<strong>{$options_data.NAME}:</strong>
+{foreach key=key_data item=item_data from=$options_data.DATA}
+<strong>{$item_data.TEXT}</strong>
+<input name="id[{$options_data.ID}]" type="hidden" value="{$item_data.ID}" />
+<textarea name="id[txt_{$options_data.ID}_{$item_data.ID}]" cols="20" rows="{$options_data.ROWS}"></textarea>
+{if $item_data.MODEL}({$item_data.MODEL}){/if} {$item_data.PREFIX}{$item_data.PRICE}
+{if $item_data.DESCRIPTION}<br />{$item_data.DESCRIPTION}{/if}<br />
+{/foreach}
+</p>
+<!-- /textarea -->
+
+{elseif $options_data.TYPE eq '4'}
+
+<!-- radio -->
+<p>
+<strong>{$options_data.NAME}:</strong>
+{foreach key=key_data item=item_data from=$options_data.DATA}
+<input type="radio" name="id[{$options_data.ID}]" value="{$item_data.ID}" checked="checked" />
+{$item_data.TEXT} {$item_data.PREFIX}{$item_data.PRICE}
+{if $item_data.DESCRIPTION}<br />{$item_data.DESCRIPTION}<br />{/if}
+{if $item_data.SHORT_DESCRIPTION}{$item_data.SHORT_DESCRIPTION}<br />{/if}
+{if $item_data.IMAGE}<img src="{$image_dir}thumbs/{$item_data.IMAGE}" border="0" alt="{$item_data.TEXT}" />{/if}
+{if $item_data.LINK}<a align="right" href="http://{$item_data.LINK}" target="_blank"><img src="{$tpl_path}img/info.gif" border="0" alt="{$item_data.TEXT}" /></a>{/if}<br />
+{/foreach}
+</p>
+<!-- /radio -->
+
+{elseif $options_data.TYPE eq '5'}
+
+<!-- checkbox -->
+<p>
+<strong>{$options_data.NAME}:</strong>
+{foreach key=key_data item=item_data from=$options_data.DATA}
+<input type="checkbox" name="id[{$options_data.ID}]" value="{$item_data.ID}" />
+{$item_data.TEXT} {$item_data.PREFIX}{$item_data.PRICE}
+{if $item_data.DESCRIPTION}<br />{$item_data.DESCRIPTION}{/if}<br />
+{/foreach}
+</p>
+<!-- /checkbox -->
+
+{elseif $options_data.TYPE eq '6'}
+
+<!-- readonly -->
+<p>
+<strong>{$options_data.NAME}:</strong>
+{foreach key=key_data item=item_data from=$options_data.DATA}
+<input type="hidden" name="id[{$options_data.ID}]" value="{$item_data.ID}" />
+{if $item_data.MODEL}({$item_data.MODEL}){/if} {$item_data.TEXT} {$item_data.PREFIX}{$item_data.PRICE}
+{if $item_data.DESCRIPTION}<br />{$item_data.DESCRIPTION}{/if}<br />
+{/foreach}
+</p>
+<!-- /readonly -->
+
+{/if}
+{/foreach}
+{/if}
