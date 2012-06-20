@@ -1,12 +1,11 @@
 <?php
 /*
-#####################################
-#  OSC-CMS: Shopping Cart Software.
-#  Copyright (c) 2011-2012
-#  http://osc-cms.com
-#  http://osc-cms.com/forum
-#  Ver. 1.0.0
-#####################################
+*---------------------------------------------------------
+*
+*	OSC-CMS - Open Source Shopping Cart Software
+*	http://osc-cms.com
+*
+*---------------------------------------------------------
 */
 
 include ('includes/top.php');
@@ -162,7 +161,32 @@ if (isset ($_POST['action']) && ($_POST['action'] == 'process')) {
 	}
   }
 
-	if (ACCOUNT_STATE == 'true') {		$zone_id = 0;		$check_query = os_db_query("select count(*) as total from ".TABLE_ZONES." where zone_country_id = '".(int) $country."'");		$check = os_db_fetch_array($check_query);		$entry_state_has_zones = ($check['total'] > 0);		if ($entry_state_has_zones == true) {			$zone_query = os_db_query("select distinct zone_id from " . TABLE_ZONES . " where zone_country_id = '" . (int)$country . "' and zone_name = '" . os_db_input($state) . "'");			if (os_db_num_rows($zone_query) > 1) {				$zone_query = os_db_query("select distinct zone_id from ".TABLE_ZONES." where zone_country_id = '".(int) $country."' and zone_name = '".os_db_input($state)."'");			}			if (os_db_num_rows($zone_query) >= 1) {				$zone = os_db_fetch_array($zone_query);				$zone_id = $zone['zone_id'];			} else {				$error = true;				$messageStack->add('create_account', ENTRY_STATE_ERROR_SELECT);			}		} else {			if (strlen($state) < ENTRY_STATE_MIN_LENGTH) {				$error = true;				$messageStack->add('create_account', ENTRY_STATE_ERROR);			}		}	}
+	if (ACCOUNT_STATE == 'true') {
+		$zone_id = 0;
+		$check_query = os_db_query("select count(*) as total from ".TABLE_ZONES." where zone_country_id = '".(int) $country."'");
+		$check = os_db_fetch_array($check_query);
+		$entry_state_has_zones = ($check['total'] > 0);
+		if ($entry_state_has_zones == true) {
+			$zone_query = os_db_query("select distinct zone_id from " . TABLE_ZONES . " where zone_country_id = '" . (int)$country . "' and zone_name = '" . os_db_input($state) . "'");
+			if (os_db_num_rows($zone_query) > 1) {
+				$zone_query = os_db_query("select distinct zone_id from ".TABLE_ZONES." where zone_country_id = '".(int) $country."' and zone_name = '".os_db_input($state)."'");
+			}
+			if (os_db_num_rows($zone_query) >= 1) {
+				$zone = os_db_fetch_array($zone_query);
+				$zone_id = $zone['zone_id'];
+			} else {
+				$error = true;
+
+				$messageStack->add('create_account', ENTRY_STATE_ERROR_SELECT);
+			}
+		} else {
+			if (strlen($state) < ENTRY_STATE_MIN_LENGTH) {
+				$error = true;
+
+				$messageStack->add('create_account', ENTRY_STATE_ERROR);
+			}
+		}
+	}
 
    if (ACCOUNT_TELE == 'true') {
 	if (strlen($telephone) < ENTRY_TELEPHONE_MIN_LENGTH) {
@@ -211,6 +235,9 @@ if (isset ($_POST['action']) && ($_POST['action'] == 'process')) {
 
 		$_SESSION['customer_id'] = os_db_insert_id();
 		$customers_id = $_SESSION['customer_id'];
+
+		// Customer profile
+		os_db_query("INSERT INTO ".DB_PREFIX."customers_profile VALUES(".$customers_id.", NULL, 1, 1, 0, 0, 1, 0, 0, 0, 0);");
 
    	  	$extra_fields_query = os_db_query("select ce.fields_id from " . TABLE_EXTRA_FIELDS . " ce where ce.fields_status=1 ");
     	  while($extra_fields = os_db_fetch_array($extra_fields_query))

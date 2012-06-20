@@ -1,12 +1,11 @@
 <?php
 /*
-#####################################
-#  OSC-CMS: Shopping Cart Software.
-#  Copyright (c) 2011-2012
-#  http://osc-cms.com
-#  http://osc-cms.com/forum
-#  Ver. 1.0.0
-#####################################
+*---------------------------------------------------------
+*
+*	OSC-CMS - Open Source Shopping Cart Software
+*	http://osc-cms.com
+*
+*---------------------------------------------------------
 */
 
 include ('includes/top.php');
@@ -63,7 +62,7 @@ $osTemplate->assign('BUTTON_BACK', $_array['code']);
 	$_array = array('img' => 'button_write_review.gif', 
 	                                'href' => os_href_link(FILENAME_PRODUCT_REVIEWS_WRITE, $get_params), 
 									'alt' => IMAGE_BUTTON_WRITE_REVIEW,
-                  /* код готовой кнопки, по умолчанию пусто */									
+                  /* РєРѕРґ РіРѕС‚РѕРІРѕР№ РєРЅРѕРїРєРё, РїРѕ СѓРјРѕР»С‡Р°РЅРёСЋ РїСѓСЃС‚Рѕ */									
 									'code' => ''
 	);
 	

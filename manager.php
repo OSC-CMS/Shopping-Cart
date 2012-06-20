@@ -41,7 +41,7 @@ if (isset($URI_elements[0]) && (strlen($URI_elements[0]) > 0))
 	$URI_elements[0] = $path_elements[sizeof($path_elements) - 1];
 	$URI_elements[0] = urldecode(os_db_prepare_input($URI_elements[0]));
 
-	// Категория товара
+	// РљР°С‚РµРіРѕСЂРёСЏ С‚РѕРІР°СЂР°
 	$query = 'select categories_id from ' . TABLE_CATEGORIES . ' where categories_url="'.$URI_elements[0].'"';
 	$result = mysql_query($query);
 	if (mysql_num_rows($result) > 0)
@@ -53,7 +53,7 @@ if (isset($URI_elements[0]) && (strlen($URI_elements[0]) > 0))
 	else
 		$matched = false;
 
-	// Если есть категория
+	// Р•СЃР»Рё РµСЃС‚СЊ РєР°С‚РµРіРѕСЂРёСЏ
 	if ($matched)
 	{
 		$HTTP_GET_VARS['cat'] = $cId;
@@ -64,7 +64,7 @@ if (isset($URI_elements[0]) && (strlen($URI_elements[0]) > 0))
 		$PHP_SELF = '/index.php';
 		include('index.php');
 	}
-	// Если нет категории, то ищем товар
+	// Р•СЃР»Рё РЅРµС‚ РєР°С‚РµРіРѕСЂРёРё, С‚Рѕ РёС‰РµРј С‚РѕРІР°СЂ
 	else
 	{
 		mysql_free_result($result);
@@ -79,7 +79,7 @@ if (isset($URI_elements[0]) && (strlen($URI_elements[0]) > 0))
 		else
 			$matched = false;
 
-		// Если есть товар
+		// Р•СЃР»Рё РµСЃС‚СЊ С‚РѕРІР°СЂ
 		if ($matched)
 		{
 			$HTTP_GET_VARS['products_id']  = $pId;
@@ -90,7 +90,7 @@ if (isset($URI_elements[0]) && (strlen($URI_elements[0]) > 0))
 			$PHP_SELF = '/product_info.php';
 			include('product_info.php');
 		}
-		// Если нет товара, то ищем инфо. страницу
+		// Р•СЃР»Рё РЅРµС‚ С‚РѕРІР°СЂР°, С‚Рѕ РёС‰РµРј РёРЅС„Рѕ. СЃС‚СЂР°РЅРёС†Сѓ
 		else
 		{
 			mysql_free_result($result);
@@ -105,7 +105,7 @@ if (isset($URI_elements[0]) && (strlen($URI_elements[0]) > 0))
 			else
 				$matched = false;
 
-			// Если есть инфо. страница
+			// Р•СЃР»Рё РµСЃС‚СЊ РёРЅС„Рѕ. СЃС‚СЂР°РЅРёС†Р°
 			if ($matched) 
 			{
 				$HTTP_GET_VARS['coID']  = $coID;
@@ -115,7 +115,7 @@ if (isset($URI_elements[0]) && (strlen($URI_elements[0]) > 0))
 				$PHP_SELF = '/shop_content.php';
 				include('shop_content.php');
 			} 
-			// Если нет инфо. страницы, то ищем статью
+			// Р•СЃР»Рё РЅРµС‚ РёРЅС„Рѕ. СЃС‚СЂР°РЅРёС†С‹, С‚Рѕ РёС‰РµРј СЃС‚Р°С‚СЊСЋ
 			else
 			{
 				mysql_free_result($result);
@@ -130,7 +130,7 @@ if (isset($URI_elements[0]) && (strlen($URI_elements[0]) > 0))
 				else
 					$matched = false;
 
-				// Если есть статья
+				// Р•СЃР»Рё РµСЃС‚СЊ СЃС‚Р°С‚СЊСЏ
 				if ($matched)
 				{
 					$HTTP_GET_VARS['articles_id']  = $aID;
@@ -140,7 +140,7 @@ if (isset($URI_elements[0]) && (strlen($URI_elements[0]) > 0))
 					$PHP_SELF = '/article_info.php';
 					include('article_info.php');
 				}
-				// Если нет статьи, то ищем категорию статей
+				// Р•СЃР»Рё РЅРµС‚ СЃС‚Р°С‚СЊРё, С‚Рѕ РёС‰РµРј РєР°С‚РµРіРѕСЂРёСЋ СЃС‚Р°С‚РµР№
 				else
 				{
 					mysql_free_result($result);
@@ -155,7 +155,7 @@ if (isset($URI_elements[0]) && (strlen($URI_elements[0]) > 0))
 					else
 						$matched = false;
 
-					// Если есть категория статей
+					// Р•СЃР»Рё РµСЃС‚СЊ РєР°С‚РµРіРѕСЂРёСЏ СЃС‚Р°С‚РµР№
 					if ($matched)
 					{
 						$HTTP_GET_VARS['tPath']  = $tID;
@@ -165,7 +165,7 @@ if (isset($URI_elements[0]) && (strlen($URI_elements[0]) > 0))
 						$PHP_SELF = '/articles.php';
 						include('articles.php');
 					}
-					// Если нет категории статей, то ищем новость
+					// Р•СЃР»Рё РЅРµС‚ РєР°С‚РµРіРѕСЂРёРё СЃС‚Р°С‚РµР№, С‚Рѕ РёС‰РµРј РЅРѕРІРѕСЃС‚СЊ
 					else
 					{
 						mysql_free_result($result);
@@ -180,7 +180,7 @@ if (isset($URI_elements[0]) && (strlen($URI_elements[0]) > 0))
 						else
 							$matched = false;
 
-						// Если есть новость
+						// Р•СЃР»Рё РµСЃС‚СЊ РЅРѕРІРѕСЃС‚СЊ
 						if ($matched)
 						{
 							$HTTP_GET_VARS['news_id']  = $nID;
@@ -190,7 +190,7 @@ if (isset($URI_elements[0]) && (strlen($URI_elements[0]) > 0))
 							$PHP_SELF = '/news.php';
 							include('news.php');
 						}
-						// Если нет новости, то ищем faq
+						// Р•СЃР»Рё РЅРµС‚ РЅРѕРІРѕСЃС‚Рё, С‚Рѕ РёС‰РµРј faq
 						else
 						{
 							mysql_free_result($result);
@@ -214,7 +214,7 @@ if (isset($URI_elements[0]) && (strlen($URI_elements[0]) > 0))
 								$PHP_SELF = '/faq.php';
 								include('faq.php');
 							}
-							// Если нет faq, то инклудим главную
+							// Р•СЃР»Рё РЅРµС‚ faq, С‚Рѕ РёРЅРєР»СѓРґРёРј РіР»Р°РІРЅСѓСЋ
 							else
 							{
 								mysql_free_result($result);
@@ -230,7 +230,7 @@ if (isset($URI_elements[0]) && (strlen($URI_elements[0]) > 0))
 		}
 	}
 }
-// Если пусто, то инклудим главную
+// Р•СЃР»Рё РїСѓСЃС‚Рѕ, С‚Рѕ РёРЅРєР»СѓРґРёРј РіР»Р°РІРЅСѓСЋ
 else
 {
 	$PHP_SELF = '/index.php';

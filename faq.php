@@ -1,18 +1,15 @@
 <?php
 /*
-#####################################
-#  OSC-CMS: Shopping Cart Software.
-#  Copyright (c) 2011-2012
-#  http://osc-cms.com
-#  http://osc-cms.com/forum
-#  Ver. 1.0.0
-#####################################
+*---------------------------------------------------------
+*
+*	OSC-CMS - Open Source Shopping Cart Software
+*	http://osc-cms.com
+*
+*---------------------------------------------------------
 */
 
 include( 'includes/top.php');
 
-$breadcrumb->add(NAVBAR_TITLE_FAQ, os_href_link(FILENAME_FAQ));
-require(dir_path('includes') . 'header.php');
 $_GET['faq_id'] = (int)$_GET['faq_id']; if ($_GET['faq_id']<1) $_GET['faq_id'] = 0;
 
   $all_sql = "
@@ -28,7 +25,7 @@ $_GET['faq_id'] = (int)$_GET['faq_id']; if ($_GET['faq_id']<1) $_GET['faq_id'] =
       ORDER BY date_added DESC
       ";
   if ($_GET['akeywords'] != ""){
-  
+  //TODO: faq - akeywords для поиска?
   $_GET['akeywords'] = urldecode($_GET['akeywords']);
   
     $all_sql = "SELECT
@@ -54,6 +51,10 @@ $_GET['faq_id'] = (int)$_GET['faq_id']; if ($_GET['faq_id']<1) $_GET['faq_id'] =
       ORDER BY date_added DESC
       LIMIT 1
       ";
+
+$breadcrumb->add(NAVBAR_TITLE_FAQ, os_href_link(FILENAME_FAQ));
+
+require(dir_path('includes') . 'header.php');
 
   $module_content = array();
   if (!empty($_GET['faq_id'])) {

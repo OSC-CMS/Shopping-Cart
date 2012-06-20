@@ -1,12 +1,11 @@
 <?php
 /*
-#####################################
-#  OSC-CMS: Shopping Cart Software.
-#  Copyright (c) 2011-2012
-#  http://osc-cms.com
-#  http://osc-cms.com/forum
-#  Ver. 1.0.0
-#####################################
+*---------------------------------------------------------
+*
+*	OSC-CMS - Open Source Shopping Cart Software
+*	http://osc-cms.com
+*
+*---------------------------------------------------------
 */
 
 require ('includes/top.php');
@@ -151,7 +150,8 @@ if (isset ($_POST['action']) && ($_POST['action'] == 'process')) {
 		$check = os_db_fetch_array($check_query);
 		$entry_state_has_zones = ($check['total'] > 0);
 		if ($entry_state_has_zones == true) {
-			$zone_query = os_db_query("select distinct zone_id from " . TABLE_ZONES . " where zone_country_id = '" . (int)$country . "' and zone_name = '" . os_db_input($state) . "'");			if (os_db_num_rows($zone_query) > 1) {
+			$zone_query = os_db_query("select distinct zone_id from " . TABLE_ZONES . " where zone_country_id = '" . (int)$country . "' and zone_name = '" . os_db_input($state) . "'");
+			if (os_db_num_rows($zone_query) > 1) {
 				$zone_query = os_db_query("select distinct zone_id from ".TABLE_ZONES." where zone_country_id = '".(int) $country."' and zone_name = '".os_db_input($state)."'");
 			}
 			if (os_db_num_rows($zone_query) >= 1) {

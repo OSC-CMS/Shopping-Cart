@@ -1,12 +1,11 @@
 <?php
 /*
-#####################################
-#  OSC-CMS: Shopping Cart Software.
-#  Copyright (c) 2011-2012
-#  http://osc-cms.com
-#  http://osc-cms.com/forum
-#  Ver. 1.0.0
-#####################################
+*---------------------------------------------------------
+*
+*	OSC-CMS - Open Source Shopping Cart Software
+*	http://osc-cms.com
+*
+*---------------------------------------------------------
 */
 
 include ('includes/top.php');
@@ -39,7 +38,7 @@ if (isset ($_GET['action']) && ($_GET['action'] == 'process')) {
 	$logintime = strtotime($check_customer['login_time']);  // conversion from the ISO date format to a timestamp
 	$difference = $time - $logintime; 											// The difference time in seconds between the last login and now
   if ($check_customer['login_tries'] >= LOGIN_NUM and $difference < $blocktime) {
-		// Action for böse ?
+		// Action for bÑ†se ?
     $osTemplate->assign('CAPTCHA_IMG', '<img src="'.FILENAME_DISPLAY_CAPTCHA.'" alt="captcha" name="captcha" />');    
     $osTemplate->assign('CAPTCHA_INPUT', os_draw_input_field('captcha', '', 'size="6" maxlength="6"', 'text', false));
     if ($_POST['captcha'] == $_SESSION['captcha_keystring']){

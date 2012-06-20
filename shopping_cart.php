@@ -1,12 +1,11 @@
 <?php
 /*
-#####################################
-#  OSC-CMS: Shopping Cart Software.
-#  Copyright (c) 2011-2012
-#  http://osc-cms.com
-#  http://osc-cms.com/forum
-#  Ver. 1.0.0
-#####################################
+*---------------------------------------------------------
+*
+*	OSC-CMS - Open Source Shopping Cart Software
+*	http://osc-cms.com
+*
+*---------------------------------------------------------
 */
 
 $cart_empty = false;
@@ -115,7 +114,7 @@ if ($_SESSION['cart']->show_total() > 0 ) {
 	if (@$_GET['info_message'])
 		$osTemplate->assign('info_message', str_replace('+', ' ', htmlspecialchars($_GET['info_message'])));
 
-	/* êíîïêà */	
+	/* ÐºÐ½Ð¾Ð¿ÐºÐ° */	
 	$_array = array('img' => 'button_update_cart.gif', 
 	                                'href' => '', 
 									'alt' => IMAGE_BUTTON_UPDATE_CART, 'code' => '');

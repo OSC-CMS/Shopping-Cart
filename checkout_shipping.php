@@ -1,12 +1,11 @@
 <?php
 /*
-#####################################
-#  OSC-CMS: Shopping Cart Software.
-#  Copyright (c) 2011-2012
-#  http://osc-cms.com
-#  http://osc-cms.com/forum
-#  Ver. 1.0.0
-#####################################
+*---------------------------------------------------------
+*
+*	OSC-CMS - Open Source Shopping Cart Software
+*	http://osc-cms.com
+*
+*---------------------------------------------------------
 */
 
 include ('includes/top.php');
@@ -176,7 +175,7 @@ $osTemplate->assign('ADDRESS_LABEL', os_address_label($_SESSION['customer_id'], 
 $_array = array('img' => 'button_change_address.gif', 
 	                                'href' => os_href_link(FILENAME_CHECKOUT_SHIPPING_ADDRESS, '', 'SSL'), 
 									'alt' => IMAGE_BUTTON_CHANGE_ADDRESS,
-                  /* код готовой кнопки, по умолчанию пусто */									
+                  /* РєРѕРґ РіРѕС‚РѕРІРѕР№ РєРЅРѕРїРєРё, РїРѕ СѓРјРѕР»С‡Р°РЅРёСЋ РїСѓСЃС‚Рѕ */									
 									'code' => ''
 	);
 	
