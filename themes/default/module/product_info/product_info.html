@@ -29,6 +29,15 @@
 		</table>
 		{/if}
 		<div class="clear"></div>
+{if $tags_data}
+<p>
+{#text_tags#}: 
+{foreach name=tags item=tag from=$tags_data}
+<a href="{$tag.LINK}">{$tag.NAME}</a> 
+{/foreach}
+</p>
+{/if}
+		<div class="clear"></div>
 
 		<div class="prod-info-descr">
 			<div class="left w33">{$reviews_rating}</div>

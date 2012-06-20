@@ -95,6 +95,19 @@ else
 
 		$info->assign('ASK_PRODUCT_QUESTION', '<img src="'._HTTP_THEMES_C.'buttons/'.$_SESSION['language'].'/button_ask_a_question.gif" style="cursor:pointer" onclick="javascript:window.open(\''.os_href_link(FILENAME_ASK_PRODUCT_QUESTION, 'products_id='.$product->data['products_id']).'\', \'popup\', \'toolbar=0, width=640, height=600\')" alt="" />');
 
+		if ($product->data['products_keywords'] != '')
+		{
+			$products_tags = explode (",", $product->data['products_keywords']);
+
+			foreach ($products_tags as $tags)
+			{
+				$tags_data[] = array(
+					'NAME' => trim($tags),
+					'LINK' => os_href_link(FILENAME_ADVANCED_SEARCH_RESULT, 'keywords='.trim($tags))
+				);
+			}
+			$info->assign('tags_data', $tags_data);
+		}
 /*$cat_query = osDBquery("SELECT
                                  categories_name
                                  FROM ".TABLE_CATEGORIES_DESCRIPTION." 
