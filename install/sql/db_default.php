@@ -949,6 +949,7 @@ os_db_query("INSERT INTO `".DB_PREFIX."customers_status` VALUES
 (2, 1, 'Покупатель', 1, NULL, NULL, 'customer_status.gif', '0.00', '0', '0.00', '1', 1, 1, 0, '', '', 0, 1, 1, 1, 1, '0.0000'),
 (3, 1, 'Оптовый покупатель', 1, NULL, NULL, 'merchant_status.gif', '0.00', '0', '0.00', '1', 1, 0, 0, '', '', 0, 1, 1, 1, 1, '0.0000');");
 
+os_db_query("INSERT INTO ".DB_PREFIX."customers_profile VALUES(1, NULL, 1, 1, 0, 0, 1, 0, 0, 0, 0);");
 
 os_db_query("INSERT INTO ".DB_PREFIX."post_index VALUES
 (1, 1, 101000, 663981, 0),
@@ -1109,12 +1110,12 @@ os_db_query("INSERT INTO `".DB_PREFIX."configuration` VALUES
 (130, 'ACCOUNT_GENDER', 'false', 5, 1, NULL, '0000-00-00 00:00:00', NULL, 'os_cfg_select_option(array(\'true\', \'false\'),'),
 (131, 'ACCOUNT_DOB', 'false', 5, 2, NULL, '0000-00-00 00:00:00', NULL, 'os_cfg_select_option(array(\'true\', \'false\'),'),
 (132, 'ACCOUNT_COMPANY', 'false', 5, 3, NULL, '0000-00-00 00:00:00', NULL, 'os_cfg_select_option(array(\'true\', \'false\'),'),
-(133, 'ACCOUNT_STREET_ADDRESS', 'true', 5, 4, NULL, '0000-00-00 00:00:00', NULL, 'os_cfg_select_option(array(\'true\', \'false\'),'),
+(133, 'ACCOUNT_STREET_ADDRESS', 'false', 5, 4, NULL, '0000-00-00 00:00:00', NULL, 'os_cfg_select_option(array(\'true\', \'false\'),'),
 (134, 'ACCOUNT_CITY', 'true', 5, 5, NULL, '0000-00-00 00:00:00', NULL, 'os_cfg_select_option(array(\'true\', \'false\'),'),
-(135, 'ACCOUNT_POSTCODE', 'true', 5, 6, NULL, '0000-00-00 00:00:00', NULL, 'os_cfg_select_option(array(\'true\', \'false\'),'),
-(136, 'ACCOUNT_COUNTRY', 'true', 5, 7, NULL, '0000-00-00 00:00:00', NULL, 'os_cfg_select_option(array(\'true\', \'false\'),'),
+(135, 'ACCOUNT_POSTCODE', 'false', 5, 6, NULL, '0000-00-00 00:00:00', NULL, 'os_cfg_select_option(array(\'true\', \'false\'),'),
+(136, 'ACCOUNT_COUNTRY', 'false', 5, 7, NULL, '0000-00-00 00:00:00', NULL, 'os_cfg_select_option(array(\'true\', \'false\'),'),
 (137, 'ACCOUNT_TELE', 'true', 5, 8, NULL, '0000-00-00 00:00:00', NULL, 'os_cfg_select_option(array(\'true\', \'false\'),'),
-(138, 'ACCOUNT_FAX', 'true', 5, 9, NULL, '0000-00-00 00:00:00', NULL, 'os_cfg_select_option(array(\'true\', \'false\'),'),
+(138, 'ACCOUNT_FAX', 'false', 5, 9, NULL, '0000-00-00 00:00:00', NULL, 'os_cfg_select_option(array(\'true\', \'false\'),'),
 (139, 'ACCOUNT_SUBURB', 'false', 5, 10, NULL, '0000-00-00 00:00:00', NULL, 'os_cfg_select_option(array(\'true\', \'false\'),'),
 (140, 'ACCOUNT_STATE', 'true', 5, 11, NULL, '0000-00-00 00:00:00', NULL, 'os_cfg_select_option(array(\'true\', \'false\'),'),
 (141, 'ACCOUNT_OPTIONS', 'both', 5, 12, NULL, '0000-00-00 00:00:00', NULL, 'os_cfg_select_option(array(\'account\', \'guest\', \'both\'),'),
@@ -1321,7 +1322,14 @@ os_db_query("INSERT INTO `".DB_PREFIX."configuration` VALUES
 (382, 'SEO_URL_CATEGORIES_GENERATOR', 'false', 31, 1, '0000-00-00 00:00:00', '0000-00-00 00:00:00', NULL, 'os_cfg_select_option(array(\'true\', \'false\'),'),
 (383, 'SEARCH_ENGINE_FRIENDLY_URLS', 'false', 31, 2, NULL, '0000-00-00 00:00:00', NULL, 'os_cfg_select_option(array(\'true\', \'false\'),'),
 (384, 'USE_REVIEWS_MODERATION', 'false', 17, 19, NULL, '0000-00-00 00:00:00', NULL, 'os_cfg_select_option(array(\'true\', \'false\'),'),
-(385, 'TEMPLATE_COMPILE_CHECK', 'false', 11, 8, NULL, '0000-00-00 00:00:00', NULL, 'os_cfg_select_option(array(\'true\', \'false\'),');
+(385, 'TEMPLATE_COMPILE_CHECK', 'false', 11, 8, NULL, '0000-00-00 00:00:00', NULL, 'os_cfg_select_option(array(\'true\', \'false\'),'),
+(386, 'ACCOUNT_LAST_NAME', 'true', 5, 1, NULL, '0000-00-00 00:00:00', NULL, 'os_cfg_select_option(array(\'true\', \'false\'),'),
+(387, 'ACCOUNT_PROFILE', 'false', 5, 14, NULL, '0000-00-00 00:00:00', NULL, 'os_cfg_select_option(array(\'true\', \'false\'),'),
+(388, 'ACCOUNT_USER_NAME', 'false', 5, 15, NULL, '0000-00-00 00:00:00', NULL, 'os_cfg_select_option(array(\'true\', \'false\'),'),
+(389, 'ACCOUNT_USER_NAME_REG', 'false', 5, 16, NULL, '0000-00-00 00:00:00', NULL, 'os_cfg_select_option(array(\'true\', \'false\'),'),
+(390, 'SEO_URL_NEWS_GENERATOR', 'false', 31, 1, '0000-00-00 00:00:00', '0000-00-00 00:00:00', NULL, 'os_cfg_select_option(array(\'true\', \'false\'),'),
+(391, 'SEO_URL_ARTICLES_GENERATOR', 'false', 31, 1, '0000-00-00 00:00:00', '0000-00-00 00:00:00', NULL, 'os_cfg_select_option(array(\'true\', \'false\'),'),
+(392, 'ENTRY_USERNAME_MIN_LENGTH', '3', 2, 3, NULL, '0000-00-00 00:00:00', NULL, NULL);
 ");
 
 ?>

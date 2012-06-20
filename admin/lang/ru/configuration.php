@@ -338,6 +338,14 @@ define('ACCOUNT_SUBURB_TITLE' , 'Район');
 define('ACCOUNT_SUBURB_DESC', 'Показывать поле Район при регистрации покупателя в магазине и в адресной книге');
 define('ACCOUNT_STATE_TITLE' , 'Регион');
 define('ACCOUNT_STATE_DESC', 'Показывать поле Регион при регистрации покупателя в магазине и в адресной книге');
+define('ACCOUNT_PROFILE_TITLE','Профили');
+define('ACCOUNT_PROFILE_DESC','Использовать публичные профили покупателей <b>(Необходимо включение поля "Логин")</b>.');
+define('ACCOUNT_USER_NAME_TITLE','Логин');
+define('ACCOUNT_USER_NAME_DESC','Использовать логин для публичных профилей покупателей. (Будет дополнительное поле в редактировании аккаунта.)');
+define('ACCOUNT_USER_NAME_REG_TITLE','Логин на странице регистрации');
+define('ACCOUNT_USER_NAME_REG_DESC','Использовать логин на странице регистрации (Будет обязательно для заполнения).');
+define('DELETE_GUEST_ACCOUNT_TITLE','Удалять гостевые записи');
+define('DELETE_GUEST_ACCOUNT_DESC','Удалять запись гостя после заказа (дата заказа будет сохранена).');
 
 define('DEFAULT_CURRENCY_TITLE' , 'Валюта по умолчанию');
 define('DEFAULT_CURRENCY_DESC' , 'Валюта, используемая по умолчанию, все цены должны указывать в валюте по умолчанию');
@@ -538,9 +546,6 @@ define('TEMPLATE_COMPILE_CHECK_DESC','Проверка изменения шаб
 
 define('PRODUCT_REVIEWS_VIEW_TITLE','Отзывы на странице описания товара');
 define('PRODUCT_REVIEWS_VIEW_DESC','Количество отзывов на странице описания товара');
-
-define('DELETE_GUEST_ACCOUNT_TITLE','Удалять гостевые записи');
-define('DELETE_GUEST_ACCOUNT_DESC','Удалять запись гостя после заказа (дата заказа будет сохранена).');
 
 define('PRICE_IS_BRUTTO_TITLE','Брутто цены в админке');
 define('PRICE_IS_BRUTTO_DESC','Использовать цены с налогом в админке.');
