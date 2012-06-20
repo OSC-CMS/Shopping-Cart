@@ -86,20 +86,6 @@
         return(0);
     }
 
-    function install_menu() // Создание элементов меню в админке
-    {
-        $menu = '<div id="menu">';
-        $menu .= '&nbsp;&nbsp;<a href="http://osc-cms.com/forum/" target="_blank" alt="'.TEXT_MENU_FORUM.'">'.TEXT_MENU_FORUM.'</a>&nbsp;&nbsp;';
-        $menu .= '|&nbsp;&nbsp;<a href="http://osc-cms.com/themes/" target="_blank">'.TEXT_THEMES.'</a>&nbsp;&nbsp;';
-        $menu .= '|&nbsp;&nbsp;<a href="http://osc-cms.com/plugins/" target="_blank">'.TEXT_PLUGINS.'</a>&nbsp;&nbsp;';
-        $menu .= '|&nbsp;&nbsp;<a href="http://docs.osc-cms.com/" target="_blank" alt="'.TEXT_MENU_HELP.'">'.TEXT_MENU_HELP.'</a>&nbsp;&nbsp;';
-        $menu .= '|&nbsp;&nbsp;<a href="http://wosc-cms.com/hosting/" target="_blank" alt="Хостинг для интернет-магазина">Хостинг</a>';
-        $menu .= '</div>';
-        $menu .= '<div id="help"><a href="http://docs.osc-cms.com/" target="_blank" alt="'.TEXT_MENU_HELP.'">?</a></div>';
-
-        return $menu;
-    }
-
     function _copy()
     {
         echo '<center><span style="font-size:7px;color:#999999;">&copy; '.date('Y').' OSC-CMS</span><br /><a href="http://osc-cms.com" alt="OSC-CMS" style="font-size:7px;color:#999999;">Купить интернет-магазин</a></center>';

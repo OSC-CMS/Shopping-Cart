@@ -261,12 +261,7 @@ if (isset($_POST['action']) && (($_POST['action'] == 'process') || ($_POST['acti
 <script type="text/javascript" src="includes/include.js"></script>
 </head>
 <body onLoad="generation();">
-<div id="header1">
-   <div id="header2">
-      <?php echo install_menu(); ?>
-      <div id="header3"></div>
-   </div>
-</div>
+
 		<div id="content-box">
 			<div id="content-pad">
 				
@@ -459,11 +454,7 @@ changeselect("<?php echo os_db_prepare_input(@$_POST['state']); ?>");
 
 			</div>
 		</div>
-		<div id="footer1">
-			<div id="footer2">
-				<div id="footer3"></div>
-			</div>
-		</div>
+
 		
 <?php _copy(); ?>
 </body>

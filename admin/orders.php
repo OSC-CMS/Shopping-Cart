@@ -523,7 +523,7 @@ if (isset($_GET['action']) && ($_GET['action'] == 'edit') && ($order_exists)) {
 	            <td class="main"><?php echo isset($order->customer['orig_reference'])?$order->customer['orig_reference']:''; ?></td>
 	          </tr>
 
-              <?php echo os_get_extra_fields_order(isset($order->customer['ID'])?$order->customer['ID']:'', $_SESSION['languages_id'])?>
+              <?php echo os_get_extra_fields_order(isset($order->customer['ID'])?$order->customer['ID']:'', $_SESSION['languages_id']); ?>
 
              </table>   
              </td>       

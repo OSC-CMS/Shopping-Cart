@@ -191,8 +191,6 @@ form {
 #content-box {
   float: none !important;
   float: left;
-	border-left: 1px solid #ccc;
-	border-right: 1px solid #ccc;
 }
 
 #content-pad {

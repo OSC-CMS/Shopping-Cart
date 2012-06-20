@@ -191,7 +191,12 @@
     define('TEXT_STATUS_SHOW_TAX_LONG','Показывать цены с налогом (Да) или без налога (Нет)');
     define('TITLE_CHMOD','Установка прав доступа на файлы');
     define('TEXT_SHOP_CONFIG_SUCCESS','Настройка магазина <strong>OSC-CMS</strong> успешно завершена.');
-    define('TEXT_TEAM','<div class="endinstall"><li><a href="http://osc-cms.com/support/" target="_blank">Поддержка OSC-CMS</a><br><br><li><a href="http://osc-cms.com/forum/" target="_blank">Форум OSC-CMS</a><br><br><li><a href="../index.php">Ваш магазин</a><br><br><li><a href="http://osc-cms.com/help/" target="_blank">Документация</a><br><br><li><a href="http://osc-cms.com/hosting/" target="_blank">Хостинг</a><br><br><li><a href="../login.php">Ваша админка</a></div>');
+    define('TEXT_TEAM','<div class="endinstall">
+	<a href="http://osc-cms.com" target="_blank">OSC-CMS</a><br>
+	<a href="http://osc-cms.com/forum/" target="_blank">Форум OSC-CMS</a><br><br><br><br>
+	<a href="../index.php">Ваш магазин</a><br>
+	<a href="../login.php">Ваша админка</a>
+	</div>');
     define('IMAGE_CONTINUE','Далее');
     define('IMAGE_CANCEL','Отменить');
     define('IMAGE_BACK','Отменить');

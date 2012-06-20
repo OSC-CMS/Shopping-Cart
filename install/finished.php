@@ -51,12 +51,7 @@ if (isset($_POST['action']) && ($_POST['action'] == 'process'))
 <style type='text/css' media='all'>@import url('includes/style.css');</style>
 </head>
 <body>
-<div id="header1">
-   <div id="header2">
-      <?php echo install_menu(); ?>
-      <div id="header3"></div>
-   </div>
-</div>
+
 		
 		
 	
@@ -168,11 +163,7 @@ if (isset($_POST['action']) && ($_POST['action'] == 'process'))
 
 			</div>
 		</div>
-		<div id="footer1">
-			<div id="footer2">
-				<div id="footer3"></div>
-			</div>
-		</div>
+
 		
 <?php echo _copy(); ?>
 </body>

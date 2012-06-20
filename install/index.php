@@ -413,13 +413,6 @@
         <script type="text/javascript" src="includes/include.js"></script>	
     </head>
     <body>
-        <script type="text/javascript"></script>
-        <div id="header1">
-            <div id="header2">
-                <?php echo install_menu(); ?>
-                <div id="header3"></div>
-            </div>
-        </div>	
         <div id="content-box">
             <div id="content-pad">
                 <div id="stepbar">
@@ -564,11 +557,6 @@
                     </div>
                 </form>
                 <div class="clr"></div>
-            </div>
-        </div>
-        <div id="footer1">
-            <div id="footer2">
-                <div id="footer3"></div>
             </div>
         </div>
         <?php echo _copy(); ?>

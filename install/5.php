@@ -1,11 +1,11 @@
 <?php
 /*
-#####################################
-#  OSC-CMS: Shopping Cart Software.
-#  Copyright (c) 2011-2012
-#  http://osc-cms.com
-#  http://osc-cms.com/forum
-#####################################
+*---------------------------------------------------------
+*
+*	OSC-CMS - Open Source Shopping Cart Software
+*	http://osc-cms.com
+*
+*---------------------------------------------------------
 */
 
 require('includes/top.php');
@@ -33,12 +33,7 @@ include('lang/'.$_SESSION['language'].'/lang.php');
 <form action="" method="post" name="language">
 <input type="hidden" name="LANGUAGE" id="lang_a" value="" />
 </form> 
-<div id="header1">
-   <div id="header2">
-      <?php echo install_menu(); ?>
-      <div id="header3"></div>
-   </div>
-</div>
+
 
 		<div id="content-box">
 			<div id="content-pad">
@@ -186,14 +181,6 @@ include('lang/'.$_SESSION['language'].'/lang.php');
 
     
   $file_contents = ''.
-"#####################################". "\n" .
-"#  OSC-CMS: Shopping Cart Software.". "\n" .
-"#  Copyright (c) 2011-2012". "\n" .
-"#  http://osc-cms.com". "\n" .
-"#  http://osc-cms.com/forum". "\n" .
-"#  Ver. 2.5.6". "\n" .
-"#####################################". "\n". "\n" .
-
 'AddDefaultCharset utf-8'. "\n" .
 '' . "\n" .
 'RewriteEngine On' . "\n" .
@@ -207,10 +194,8 @@ include('lang/'.$_SESSION['language'].'/lang.php');
 '' . "\n" .
 'RewriteRule ^(product_info|index|shop_content).php(.*)$ redirector.php [L]'. "\n" .
 '' . "\n" .
-'RewriteRule ^.*\.gif|\.jpg|\.png|\.css|\.js$ - [L]'. "\n" .
-'RewriteRule ^(.*).html(.*)$ manager.php [L]'. "\n" .
-'' . "\n" .
 'RewriteRule ^.*\.gif|\.jpg|\.png|\.css|\.php|\.js$ - [L]'. "\n" .
+'RewriteRule ^(.*)$ manager.php [L]'. "\n" .
 '' . "\n" .
 '# PHP 5, Apache 1 and 2.'. "\n" .
 '<IfModule mod_php5.c>'. "\n" .
@@ -282,11 +267,7 @@ include('lang/'.$_SESSION['language'].'/lang.php');
 
 			</div>
 		</div>
-		<div id="footer1">
-			<div id="footer2">
-				<div id="footer3"></div>
-			</div>
-		</div>
+
 		
 <?php echo _copy(); ?>
 </body>

@@ -37,12 +37,6 @@ include('lang/'.$_SESSION['language'].'/lang.php');
 <form action="" method="post" name="language">
 <input type="hidden" name="LANGUAGE" id="lang_a" value="" />
 </form> 	
-<div id="header1">
-   <div id="header2">
-      <?php echo install_menu(); ?>
-      <div id="header3"></div>
-   </div>
-</div>
 		<div id="content-box">
 			<div id="content-pad">
 				
@@ -387,11 +381,7 @@ while (list($key, $value) = each($_POST))
 
 			</div>
 		</div>
-		<div id="footer1">
-			<div id="footer2">
-				<div id="footer3"></div>
-			</div>
-		</div>
+
 
 <?php
 //demo база
