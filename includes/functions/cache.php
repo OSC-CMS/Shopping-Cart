@@ -301,8 +301,8 @@
     function set_category_cache ()
     {
 	    global $category_cache;
-		
-        $categories_query = osDBquery("select categories_id, parent_id from ".TABLE_CATEGORIES." where categories_status = '1'");
+
+		$categories_query = osDBquery("select categories_id, parent_id from ".TABLE_CATEGORIES." where categories_status = '1' ORDER BY sort_order");
 
         $category_cache = array();
 
