@@ -210,6 +210,7 @@ if (os_in_array('database', $_POST['install']))
     DB_PREFIX."countries, ".
 	DB_PREFIX."currencies, ".
 	DB_PREFIX."customers, ".
+	DB_PREFIX."customers_profile, ".
 	DB_PREFIX."customers_basket, ".
 	DB_PREFIX."customers_basket_attributes, ".
 	DB_PREFIX."customers_info, ".

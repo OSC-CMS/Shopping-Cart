@@ -305,6 +305,10 @@ $entry_state = $_POST['state'];
 		os_db_query("update ".TABLE_CUSTOMERS." set customers_default_address_id = '".$address_id."' where customers_id = '".$cc_id."'");
 
 		os_db_query("insert into ".TABLE_CUSTOMERS_INFO." (customers_info_id, customers_info_number_of_logons, customers_info_date_account_created) values ('".$cc_id."', '0', now())");
+
+		// Customer profile
+		os_db_query("INSERT INTO ".DB_PREFIX."customers_profile VALUES(".$cc_id.", NULL, 1, 1, 0, 0, 1, 0, 0, 0, 0);");
+
 		// Create insert into admin access table if admin is created.
 		if ($customers_status_c == '0') {
 			os_db_query("INSERT into ".TABLE_ADMIN_ACCESS." (customers_id,index2) VALUES ('".$cc_id."','1')");

@@ -361,6 +361,7 @@ $entry_state = $_POST['state'];
 			os_db_query("delete from ".TABLE_CUSTOMERS_STATUS_HISTORY." where customers_id = '".os_db_input($customers_id)."'");
 			os_db_query("delete from ".TABLE_CUSTOMERS_IP." where customers_id = '".os_db_input($customers_id)."'");
 			os_db_query("DELETE FROM ".TABLE_ADMIN_ACCESS." WHERE customers_id = '".os_db_input($customers_id)."'");
+			os_db_query("DELETE FROM ".DB_PREFIX."customers_profile WHERE customers_id = '".os_db_input($customers_id)."'");
 
 			os_redirect(os_href_link(FILENAME_CUSTOMERS, os_get_all_get_params(array ('cID', 'action'))));
 			break;

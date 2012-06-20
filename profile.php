@@ -40,7 +40,9 @@ if (isset($_GET['id']) && is_numeric($_GET['id']))
 		$customers_dob = explode(' ', $profile['customers_last_modified']);
 		$profile['customers_last_modified'] = $customers_dob[0];
 
-		$breadcrumb->add('Профиль '.$profile['customers_username'], os_href_link('profile.php?id='.$id.'', '', 'SSL'));
+		$breadcrumbName = (!empty($profile['customers_username'])) ? $profile['customers_username'] : $profile['customers_firstname'];
+
+		$breadcrumb->add('Профиль '.$breadcrumbName.'', os_href_link('profile.php?id='.$id.'', '', 'SSL'));
 		$id_error = false;// ID есть
 	}
 	else
