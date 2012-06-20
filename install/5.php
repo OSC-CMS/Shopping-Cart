@@ -158,21 +158,13 @@ include('lang/'.$_SESSION['language'].'/lang.php');
    
    
     $file_contents = '<?php' . "\n" .
-"#####################################". "\n" .
-"#  OSC-CMS: Shopping Cart Software.". "\n" .
-"#  Copyright (c) 2011-2012". "\n" .
-"#  http://osc-cms.com". "\n" .
-"#  http://osc-cms.com/forum". "\n" .
-"#  Ver. 2.5.6". "\n" .
-"#####################################". "\n". "\n" .
-
-                     '  define(\'DB_SERVER\', \'' . trim(stripslashes($_POST['DB_SERVER'])) . '\');' . "\n" .
-                     '  define(\'DB_SERVER_USERNAME\', \'' . trim(stripslashes($_POST['DB_SERVER_USERNAME'])) . '\');' . "\n" .
-                     '  define(\'DB_SERVER_PASSWORD\', \'' . trim(stripslashes($_POST['DB_SERVER_PASSWORD'])). '\');' . "\n" .
-                     '  define(\'DB_DATABASE\', \'' . trim(stripslashes($_POST['DB_DATABASE'])). '\');' . "\n" .
-                     '  define(\'DB_PREFIX\', \'' . trim(stripslashes($_SESSION['DB_PREFIX'])). '\');' . "\n" .
-                     '  define(\'USE_PCONNECT\', \'' . ((isset($_POST['USE_PCONNECT']) && $_POST['USE_PCONNECT'] == 'true') ? 'true' : 'false') . '\');' . "\n" .
-                     '  define(\'STORE_SESSIONS\', \'' . (($_POST['STORE_SESSIONS'] == 'files') ? '' : 'mysql') . '\'); ' . 
+                     'define(\'DB_SERVER\', \'' . trim(stripslashes($_POST['DB_SERVER'])) . '\');' . "\n" .
+                     'define(\'DB_SERVER_USERNAME\', \'' . trim(stripslashes($_POST['DB_SERVER_USERNAME'])) . '\');' . "\n" .
+                     'define(\'DB_SERVER_PASSWORD\', \'' . trim(stripslashes($_POST['DB_SERVER_PASSWORD'])). '\');' . "\n" .
+                     'define(\'DB_DATABASE\', \'' . trim(stripslashes($_POST['DB_DATABASE'])). '\');' . "\n" .
+                     'define(\'DB_PREFIX\', \'' . trim(stripslashes($_SESSION['DB_PREFIX'])). '\');' . "\n" .
+                     'define(\'USE_PCONNECT\', \'' . ((isset($_POST['USE_PCONNECT']) && $_POST['USE_PCONNECT'] == 'true') ? 'true' : 'false') . '\');' . "\n" .
+                     'define(\'STORE_SESSIONS\', \'' . (($_POST['STORE_SESSIONS'] == 'files') ? '' : 'mysql') . '\'); ' . 
 					 "\n" ."\n".'  include(\'includes/paths.php\');'.
 					 "\n" .'?>';
     $fp = fopen(DIR_FS_CATALOG . 'config.php', 'w');
@@ -194,8 +186,9 @@ include('lang/'.$_SESSION['language'].'/lang.php');
 '' . "\n" .
 'RewriteRule ^(product_info|index|shop_content).php(.*)$ redirector.php [L]'. "\n" .
 '' . "\n" .
-'RewriteRule ^.*\.gif|\.jpg|\.png|\.css|\.php|\.js$ - [L]'. "\n" .
-'RewriteRule ^(.*)$ manager.php [L]'. "\n" .
+'RewriteRule ^.*\.gif|\.jpg|\.png|\.css|\.js$ - [L]' . "\n" .
+'RewriteRule ^(.*).html(.*)$ manager.php [L]' . "\n" .
+'RewriteRule ^.*\.gif|\.jpg|\.png|\.css|\.php|\.js$ - [L]' . "\n" .
 '' . "\n" .
 '# PHP 5, Apache 1 and 2.'. "\n" .
 '<IfModule mod_php5.c>'. "\n" .
