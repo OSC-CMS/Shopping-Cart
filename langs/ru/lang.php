@@ -93,6 +93,8 @@ define('ENTRY_PASSWORD_CURRENT_ERROR', 'Поле Пароль должно со�
 define('ENTRY_PASSWORD_NEW_TEXT', '*');
 define('ENTRY_PASSWORD_NEW_ERROR', 'Ваш Новый пароль должен содержать как минимум ' . ENTRY_PASSWORD_MIN_LENGTH . ' символов.');
 define('ENTRY_PASSWORD_NEW_ERROR_NOT_MATCHING', 'Поля Подтвердите пароль и Новый пароль должны совпадать.');
+define('ENTRY_USERNAME_ERROR', 'Поле Логин должно содержать как минимум ' . ENTRY_USERNAME_MIN_LENGTH . ' символа.');
+define('ENTRY_USERNAME_TEXT', '*');
 
 define('TEXT_RESULT_PAGE', 'Страницы:');
 define('TEXT_DISPLAY_NUMBER_OF_PRODUCTS', 'Показано <span class="bold">%d</span> - <span class="bold">%d</span> (всего <span class="bold">%d</span> позиций)');
@@ -186,8 +188,6 @@ define('NOT_ALLOWED_TO_SEE_PRICES_TEXT','У Вас нет доступа для 
 define('TEXT_DOWNLOAD','Загрузки');
 define('TEXT_VIEW','Смотреть');
 
-define('TEXT_BUY', 'Купить \'');
-define('TEXT_NOW', '\'');
 define('TEXT_GUEST','Посетитель');
 
 define('TEXT_ALL_CATEGORIES', 'Все категории');
@@ -484,5 +484,34 @@ define('TEXT_VALID_PRODUCTS_ID', 'ID товара');
 define('TEXT_VALID_PRODUCTS_NAME', 'Название товара');
 define('TEXT_VALID_PRODUCTS_MODEL', 'Модель товара');
 define('TEXT_VALID_PRODUCTS_PRICE', 'Цена');
+
+// Новые текстовки
+define('TEXT_YES', 'Да');
+define('TEXT_NO', 'Нет');
+
+// Buttons
+define('TEXT_BUTTON_BUY', 'Купить');
+define('TEXT_BUTTON_IN_CART', 'В корзину');
+define('TEXT_BUTTON_CONTINUE', 'Продолжить');
+define('TEXT_BUTTON_LOGIN', 'Войти');
+define('TEXT_BUTTON_CONFIRM_ORDER', 'Подтвердить заказ');
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 ?>
