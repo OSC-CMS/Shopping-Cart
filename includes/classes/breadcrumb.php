@@ -31,7 +31,7 @@
             $this->_trail[] = apply_filter('breadcrumb_info', array('title' => $title, 'link' => $link));
         }
 
-        function trail($separator = ' - ') 
+        function trail($separator = '') 
         {
             do_action('breadcrumb_trail');
 
@@ -43,17 +43,17 @@
             $separator = $array['separator'];
             $this->_trail = $array['trail'];
 
-            $trail_string = '';
-
+            $trail_string = '<ul class="breadcrumb">';
             for ($i=0, $n=sizeof($this->_trail); $i<$n; $i++) {
-                if (isset($this->_trail[$i]['link']) && os_not_null($this->_trail[$i]['link'])) {
-                    $trail_string .= '<a href="' . $this->_trail[$i]['link'] . '">' . $this->_trail[$i]['title'] . '</a>';
+				if (isset($this->_trail[$i]['link']) && os_not_null($this->_trail[$i]['link']) && $i != $n-1) {
+                    $trail_string .= '<li><a href="' . $this->_trail[$i]['link'] . '"><span>'.$this->_trail[$i]['title'].'</span></a></li>';
                 } else {
-                    $trail_string .= $this->_trail[$i]['title'];
+                    $trail_string .= '<li><span>'.$this->_trail[$i]['title'].'</span></li>';
                 }
 
                 if (($i+1) < $n) $trail_string .= $separator;
             }
+			$trail_string .= '</ul>';
 
             return  apply_filter('trail_string', $trail_string);
         }
