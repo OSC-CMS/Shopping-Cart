@@ -699,7 +699,7 @@
             }  
         }
 
-        function input ($value, $name)
+        function input_text ($value, $name)
         {
             $value = addslashes($value);
             $size = 15;
