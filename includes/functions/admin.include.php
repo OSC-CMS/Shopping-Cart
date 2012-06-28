@@ -1,13 +1,27 @@
 <?php
-    /*
-    #####################################
-    #  OSC-CMS: Shopping Cart Software.
-    #  Copyright (c) 2011-2012
-    #  http://osc-cms.com
-    #  http://osc-cms.com/forum
-    #  Ver. 1.0.0
-    #####################################
-    */
+/*
+*---------------------------------------------------------
+*
+*	OSC-CMS - Open Source Shopping Cart Software
+*	http://osc-cms.com
+*
+*---------------------------------------------------------
+*/
+
+	// Обработка полей аккаунта или других
+	function getAccountFields($fields = array())
+	{
+	
+	}
+
+
+	// Красивый print_r() ;)
+	function _print_r($v)
+	{
+		echo '<pre>';
+		print_r($v);
+		echo '</pre>';
+	}
 
     function my_sorting_products($sorting_data) 
     {
@@ -1125,20 +1139,6 @@
         }
 
         return $get_string;
-    }
-
-    function os_image_submit($image, $alt = '', $parameters = '') 
-    {
-
-        $image_submit = '<input class="imgsub" type="image" src="' . os_parse_input_field_data('themes/'.CURRENT_TEMPLATE.'/buttons/' . $_SESSION['language'] . '/'. $image, array('"' => '&quot;')) . '" alt="' . os_parse_input_field_data($alt, array('"' => '&quot;')) . '"';
-
-        if (os_not_null($alt)) $image_submit .= ' title=" ' . os_parse_input_field_data($alt, array('"' => '&quot;')) . ' "';
-
-        if (os_not_null($parameters)) $image_submit .= ' ' . $parameters;
-
-        $image_submit .= ' />';
-
-        return $image_submit;
     }
 
     function  os_customer_infos($customers_id) 

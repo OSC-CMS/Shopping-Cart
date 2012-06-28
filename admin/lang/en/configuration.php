@@ -958,6 +958,12 @@ define('VIS_BOX_NEWS_DESC','Показывать блок новостей (BOX_
 define('SET_WHOS_ONLINE_TITLE', 'Кто сейчас в магазине');
 define('SET_WHOS_ONLINE_DESC', 'Включить функцию кто сейчас в магазине');
 
+define('USE_REVIEWS_MODERATION_TITLE', 'Отправлять отзывы на модерацию');
+define('USE_REVIEWS_MODERATION_DESC', 'Отзывы будут отправляться на модерацию и их не будет видно в магазине, пока администратор не сменит статус');
+
+define('USE_IMAGE_SUBMIT_TITLE', 'Кнопки картинками');
+define('USE_IMAGE_SUBMIT_DESC', 'Использовать картинки вместо текста в у всех кнопок в магазине');
+
 define('DISPLAY_DB_QUERY_TITLE', 'Показывать выполняемые sql запросы');
 define('DISPLAY_DB_QUERY_DESC', '');
 

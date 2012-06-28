@@ -1329,7 +1329,8 @@ os_db_query("INSERT INTO `".DB_PREFIX."configuration` VALUES
 (389, 'ACCOUNT_USER_NAME_REG', 'false', 5, 16, NULL, '0000-00-00 00:00:00', NULL, 'os_cfg_select_option(array(\'true\', \'false\'),'),
 (390, 'SEO_URL_NEWS_GENERATOR', 'false', 31, 1, '0000-00-00 00:00:00', '0000-00-00 00:00:00', NULL, 'os_cfg_select_option(array(\'true\', \'false\'),'),
 (391, 'SEO_URL_ARTICLES_GENERATOR', 'false', 31, 1, '0000-00-00 00:00:00', '0000-00-00 00:00:00', NULL, 'os_cfg_select_option(array(\'true\', \'false\'),'),
-(392, 'ENTRY_USERNAME_MIN_LENGTH', '3', 2, 3, NULL, '0000-00-00 00:00:00', NULL, NULL);
+(392, 'ENTRY_USERNAME_MIN_LENGTH', '3', 2, 3, NULL, '0000-00-00 00:00:00', NULL, NULL),
+(393, 'USE_IMAGE_SUBMIT', 'false', 17, 19, NULL, '0000-00-00 00:00:00', NULL, 'os_cfg_select_option(array(\'true\', \'false\'),');
 ");
 
 ?>
