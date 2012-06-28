@@ -27,7 +27,7 @@ $osTemplate->assign('HELP_LINK', 'javascript:popupWindow(\''.os_href_link(FILENA
 	
 	if (empty($_array['code']))
 	{
-	   $_array['code'] = os_image_submit('button_search.gif', IMAGE_BUTTON_SEARCH);
+	   $_array['code'] = buttonSubmit($_array['img'], null, $_array['alt']);
 	}
 	
    $osTemplate->assign('BUTTON_SUBMIT', $_array['code']);
@@ -78,7 +78,7 @@ $main_content = $osTemplate->fetch(CURRENT_TEMPLATE.'/module/advanced_search.htm
 $osTemplate->assign('language', $_SESSION['language']);
 $osTemplate->assign('main_content', $main_content);
 $osTemplate->caching = 0;
- $osTemplate->load_filter('output', 'trimhitespace');
+ $osTemplate->loadFilter('output', 'trimhitespace');
 $template = (file_exists(_THEMES_C.FILENAME_ADVANCED_SEARCH.'.html') ? CURRENT_TEMPLATE.'/'.FILENAME_ADVANCED_SEARCH.'.html' : CURRENT_TEMPLATE.'/index.html');
 $osTemplate->display($template);
 include ('includes/bottom.php');

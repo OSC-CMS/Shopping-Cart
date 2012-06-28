@@ -75,7 +75,7 @@ $osTemplate->assign('main_content',$main_content);
 
 $osTemplate->assign('language', $_SESSION['language']);
 $osTemplate->caching = 0;
- $osTemplate->load_filter('output', 'trimhitespace');
+ $osTemplate->loadFilter('output', 'trimhitespace');
 $osTemplate->display(CURRENT_TEMPLATE . '/index.html');
 
 ?>

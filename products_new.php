@@ -30,7 +30,7 @@ if (!CacheCheck()) {
 	$cache_id = $_SESSION['language'] . $_SESSION['customers_status']['customers_status_id'] . $_SESSION['currency'] . $_GET['page'];
 }
 
-if (!$osTemplate->is_cached(CURRENT_TEMPLATE . '/module/new_products_overview.html', $cache_id) || !$cache) {
+if (!$osTemplate->isCached(CURRENT_TEMPLATE . '/module/new_products_overview.html', $cache_id) || !$cache) {
 	$osTemplate->assign('tpl_path', _HTTP_THEMES_C);
 	$rebuild = true;
 
@@ -106,7 +106,7 @@ if (!$cache || $rebuild)
 	if (count($module_content) > 0) {
 		$osTemplate->assign('module_content', $module_content);
 		if ($rebuild)
-			$osTemplate->clear_cache(CURRENT_TEMPLATE . '/module/new_products_overview.html', $cache_id);
+			$osTemplate->clearCache(CURRENT_TEMPLATE . '/module/new_products_overview.html', $cache_id);
 		$main_content = $osTemplate->fetch(CURRENT_TEMPLATE . '/module/new_products_overview.html', $cache_id);
 	}
 } 

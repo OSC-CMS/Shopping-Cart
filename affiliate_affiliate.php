@@ -70,7 +70,7 @@ $osTemplate->assign('LINK_SIGNUP', button_continue(os_href_link(FILENAME_AFFILIA
 	
 	   if (empty($_array['code']))
  	   {
-	       $_array['code'] =  os_image_submit($_array['img'], $_array['alt']);
+		   $_array['code'] = buttonSubmit($_array['img'], null, $_array['alt']);
 	   }
 	   
 $osTemplate->assign('BUTTON_LOGIN', $_array['code']);

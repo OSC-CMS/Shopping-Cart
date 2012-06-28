@@ -303,40 +303,42 @@ class product {
 	function getBuyNowButton($id, $name) 
 	{
 		global $PHP_SELF;
-		
-		$_array = array('img' => 'button_buy_now.gif', 
-		'href' => os_href_link(basename($PHP_SELF), 'action=buy_now&BUYproducts_id='.$id.'&'.os_get_all_get_params(array ('action')), 'NONSSL'), 
-		'alt' => TEXT_BUY.$name.TEXT_NOW, 
-		'code' => '');
-	
-	   $_array = apply_filter('button_buy_now', $_array);	
-	
-	   if (empty($_array['code']))
- 	   {
-	       $_array['code'] =  '<a href="'.$_array['href'].'">'.os_image_button($_array['img'], $_array['alt']).'</a>';
-	   }
-	   
-		
-		return $_array['code'];
 
+		$_array = array(
+			'img'	=> 'button_buy_now.gif',
+			'href'	=> os_href_link(basename($PHP_SELF), 'action=buy_now&BUYproducts_id='.$id.'&'.os_get_all_get_params(array ('action')), 'NONSSL'),
+			'alt'	=> TEXT_BUTTON_BUY." '".$name."'",
+			'code'	=> ''
+		);
+
+		$_array = apply_filter('button_buy_now', $_array);	
+
+		if (empty($_array['code']))
+		{
+			$_array['code'] = buttonSubmit($_array['img'], $_array['href'], $_array['alt']);
+		}
+
+		return $_array['code'];
 	}
 
 	function getBuyNowButtonNew($id, $name) 
 	{
 		global $PHP_SELF;
-		
-		$_array = array('img' => 'cart_big.gif', 
-		'href' => os_href_link(basename($PHP_SELF), 'action=buy_now&BUYproducts_id='.$id.'&'.os_get_all_get_params(array ('action')), 'NONSSL'), 
-		'alt' => '', 
-		'code' => '');
-	
-	   $_array = apply_filter('button_cart_big', $_array);	
-	
-	   if (empty($_array['code']))
- 	   {
-	       $_array['code'] =  '<a href="'.$_array['href'].'">'.os_image_button($_array['img']).'</a>';
-	   }
-	   
+
+		$_array = array(
+			'img'	=> 'cart_big.gif', 
+			'href'	=> os_href_link(basename($PHP_SELF), 'action=buy_now&BUYproducts_id='.$id.'&'.os_get_all_get_params(array ('action')), 'NONSSL'), 
+			'alt'	=> TEXT_BUTTON_IN_CART, 
+			'code'	=> ''
+		);
+
+		$_array = apply_filter('button_cart_big', $_array);	
+
+		if (empty($_array['code']))
+		{
+			$_array['code'] = buttonSubmit($_array['img'], $_array['href'], $_array['alt']);
+		}
+
 		return $_array['code'];
 	}
 

@@ -102,7 +102,7 @@ require(dir_path('includes') . 'header.php');
   $osTemplate->assign('language', $_SESSION['language']);
   $osTemplate->caching = 0;
   
-      $osTemplate->load_filter('output', 'trimhitespace');
+      $osTemplate->loadFilter('output', 'trimhitespace');
   $osTemplate->display(CURRENT_TEMPLATE.'/index.html');
   include ('includes/bottom.php');
 ?>

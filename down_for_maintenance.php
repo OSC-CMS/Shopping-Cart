@@ -18,7 +18,7 @@ $osTemplate->caching = 0;
 $main_content = $osTemplate->fetch(CURRENT_TEMPLATE.'/module/down_for_maintenance.html');
 $osTemplate->assign('main_content', $main_content);
 
-$osTemplate->load_filter('output', 'trimhitespace');
+$osTemplate->loadFilter('output', 'trimhitespace');
 $osTemplate->display(CURRENT_TEMPLATE.'/module/down_for_maintenance.html');
 
 ?>

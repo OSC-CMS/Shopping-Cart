@@ -1,12 +1,11 @@
 <?php
 /*
-#####################################
-#  OSC-CMS: Shopping Cart Software.
-#  Copyright (c) 2011-2012
-#  http://osc-cms.com
-#  http://osc-cms.com/forum
-#  Ver. 1.0.0
-#####################################
+*---------------------------------------------------------
+*
+*	OSC-CMS - Open Source Shopping Cart Software
+*	http://osc-cms.com
+*
+*---------------------------------------------------------
 */
 
 $module = new osTemplate;
@@ -17,18 +16,19 @@ if ($product->getReviewsCount() > 0) {
 
 if ($_SESSION['customers_status']['customers_status_write_reviews'] != 0) 
 {
-	$_array = array('img' => 'button_write_review.gif', 
-	                                'href' => os_href_link(FILENAME_PRODUCT_REVIEWS_WRITE, os_product_link($product->data['products_id'],$product->data['products_name'])), 
-									'alt' => IMAGE_BUTTON_WRITE_REVIEW,
-                  /* код готовой кнопки, по умолчанию пусто */									
-									'code' => ''
+	$_array = array(
+		'img' => 'button_write_review.gif', 
+		'href' => os_href_link(FILENAME_PRODUCT_REVIEWS_WRITE, os_product_link($product->data['products_id'],$product->data['products_name'])), 
+		'alt' => IMAGE_BUTTON_WRITE_REVIEW,
+		/* код готовой кнопки, по умолчанию пусто */									
+		'code' => ''
 	);
 	
 	$_array = apply_filter('button_write', $_array);
 	
 	if (empty($_array['code']))
 	{
-	   $_array['code'] = '<a href="'.$_array['href'].'">'.os_image_button($_array['img'], $_array['alt']).'</a>';
+		$_array['code'] = buttonSubmit($_array['img'], $_array['href'], $_array['alt']);
 	}
 	
 	$module->assign('BUTTON_WRITE', $_array['code']);
@@ -47,20 +47,21 @@ if ($_SESSION['customers_status']['customers_status_read_reviews'] != 0) {
 
 if ($_SESSION['customers_status']['customers_status_write_reviews'] != 0) 
 {
-	$_array = array('img' => 'button_write_review.gif', 
-	                                'href' => os_href_link(FILENAME_PRODUCT_REVIEWS_WRITE, os_product_link($product->data['products_id'],$product->data['products_name'])), 
-									'alt' => IMAGE_BUTTON_WRITE_REVIEW,
-                  /* код готовой кнопки, по умолчанию пусто */									
-									'code' => ''
+	$_array = array(
+		'img' => 'button_write_review.gif', 
+		'href' => os_href_link(FILENAME_PRODUCT_REVIEWS_WRITE, os_product_link($product->data['products_id'],$product->data['products_name'])), 
+		'alt' => IMAGE_BUTTON_WRITE_REVIEW,
+		/* код готовой кнопки, по умолчанию пусто */									
+		'code' => ''
 	);
-	
+
 	$_array = apply_filter('button_write', $_array);
 
 	if (empty($_array['code']))
 	{
-	   $_array['code'] = '<a href="'.$_array['href'].'">'.os_image_button($_array['img'], $_array['alt']).'</a>';
+	   $_array['code'] = buttonSubmit($_array['img'], $_array['href'], $_array['alt']);
 	}
-	
+
 	$module->assign('BUTTON_WRITE', $_array['code']);
 	
 }

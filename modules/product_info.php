@@ -42,7 +42,7 @@ else
 	
 	     if (empty($_array['code']))
 	     {
-	         $_array['code'] = os_image_submit($_array['img'], $_array['alt']);
+			 $_array['code'] = buttonSubmit($_array['img'], null, $_array['alt']);
 	     }
 	
 			// fsk18

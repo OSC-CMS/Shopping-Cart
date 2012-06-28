@@ -224,13 +224,13 @@ if (is_array($payment_modules->modules)) {
 }
 $osTemplate->assign('MODULE_BUTTONS', $payment_button);
 
-    $_array = array('img' => 'button_confirm_order.gif', 'href' => '', 'alt' => IMAGE_BUTTON_CONFIRM_ORDER, 'code' => '');
+    $_array = array('img' => 'button_confirm_order.gif', 'href' => '', 'alt' => TEXT_BUTTON_CONFIRM_ORDER, 'code' => '');
 	
 	   $_array = apply_filter('button_confirm_order', $_array);	
 	
 	   if (empty($_array['code']))
  	   {
-	       $_array['code'] =   os_image_submit($_array['img'], $_array['alt']);
+		   $_array['code'] = buttonSubmit($_array['img'], null, $_array['alt']);
 	   }
 	   
 $osTemplate->assign('CHECKOUT_BUTTON', $_array['code']. '' . "\n");
@@ -295,7 +295,7 @@ $main_content = $osTemplate->fetch(CURRENT_TEMPLATE . '/module/checkout_confirma
 $osTemplate->assign('language', $_SESSION['language']);
 $osTemplate->assign('main_content', $main_content);
 $osTemplate->caching = 0;
- $osTemplate->load_filter('output', 'trimhitespace');
+ $osTemplate->loadFilter('output', 'trimhitespace');
 $template = (file_exists(_THEMES_C.FILENAME_CHECKOUT_CONFIRMATION.'.html') ? CURRENT_TEMPLATE.'/'.FILENAME_CHECKOUT_CONFIRMATION.'.html' : CURRENT_TEMPLATE.'/index.html');
 $osTemplate->display($template);
 include ('includes/bottom.php');

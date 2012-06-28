@@ -140,7 +140,7 @@ if (ACCOUNT_COUNTRY == 'true') {
 	
 	if (empty($_array['code']))
 	{
-	   $_array['code'] = os_image_submit($_array['img'], $_array['alt'], 'name=loadStateXML');
+	   $_array['code'] = buttonSubmit($_array['img'], null, $_array['alt'], 'name=loadStateXML');
 	}
 	
 	

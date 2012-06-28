@@ -1,12 +1,11 @@
 <?php
 /*
-#####################################
-#  OSC-CMS: Shopping Cart Software.
-#  Copyright (c) 2011-2012
-#  http://osc-cms.com
-#  http://osc-cms.com/forum
-#  Ver. 1.0.0
-#####################################
+*---------------------------------------------------------
+*
+*	OSC-CMS - Open Source Shopping Cart Software
+*	http://osc-cms.com
+*
+*---------------------------------------------------------
 */
 
 $_DOCTYPE = '<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">';
@@ -99,6 +98,7 @@ _e('<head>');
 						  'href' => FILENAME_RSS2. '?feed=best_sellers&amp;limit=10',
 						  'group' => 'rss_best_sellers'); 
 
+add_js_code ('var SITE_WEB_DIR = "'._HTTP.'";', $HEAD, 'site_web_dir');
 add_js(_HTTP.'jscript/jquery/jquery.js', $HEAD,  'jquery');
 
 if ( is_page('product_info') ) 
@@ -113,22 +113,15 @@ if ( is_page('product_info') )
 		"zoomSpeedOut"			: 500
 	});
 	});', $HEAD, 'fancybox');
- 
 }
+
 add_js(_HTTP.'jscript/jscript_JsHttpRequest.js', $HEAD, 'jshttprequest');
 add_js(_HTTP.'jscript/jscript_ajax.js', $HEAD, 'jscript_ajax');
-
-add_js_code ('var SITE_WEB_DIR = "'._HTTP.'";', $HEAD, 'site_web_dir');
 add_js(_HTTP.'jscript/osc_cms.js', $HEAD, 'osc_cms');
 
 if ( is_file(_THEMES_C.'javascript/general.js.php' ) )	
 {
     add_head_file( _THEMES_C.'javascript/general.js.php', $HEAD );
-}
-
-if ( is_file(_THEMES_C.'head.html' ) )	
-{
-    add_head_file( _THEMES_C.'head.html', $HEAD );
 }
 
 if (strstr($PHP_SELF, FILENAME_CHECKOUT_PAYMENT)) 
@@ -169,58 +162,31 @@ if (strstr($PHP_SELF, FILENAME_ADDRESS_BOOK_PROCESS ))
   }
 }
 
-if (strstr($PHP_SELF, FILENAME_CHECKOUT_SHIPPING_ADDRESS )or strstr($PHP_SELF,FILENAME_CHECKOUT_PAYMENT_ADDRESS)) {
-require(dir_path('includes').'form_check.js.php');
-?>
-<script type="text/javascript"><!--
-function check_form_optional(form_name) {
-  var form = form_name;
-
-  var firstname = form.elements['firstname'].value;
-  var lastname = form.elements['lastname'].value;
-  var street_address = form.elements['street_address'].value;
-
-  if (firstname == '' && lastname == '' && street_address == '') {
-    return true;
-  } else {
-    return check_form(form_name);
-  }
-}
-//--></script>
-<?php
-}
-
-if (strstr($PHP_SELF, FILENAME_ADVANCED_SEARCH )) 
+if (strstr($PHP_SELF, FILENAME_CHECKOUT_SHIPPING_ADDRESS )or strstr($PHP_SELF,FILENAME_CHECKOUT_PAYMENT_ADDRESS))
 {
-   $HEAD[]['js']['action'] = 'js_check_form_advanced_search';
-   $HEAD[]['js']['src'] = 'includes/general.js';
+	require(dir_path('includes').'form_check.js.php');
 }
 
-if (strstr($PHP_SELF, FILENAME_PRODUCT_REVIEWS_WRITE )) 
-{
-   $HEAD[]['js']['action'] = 'js_checkForm';
-}
- 
-   //фильтруем массив метатегов
-   $HEAD = apply_filter('head_array_detail', $HEAD);
-   
-   //формируем массив метатегов
-   $_meta_array = osc_head_array($HEAD);
-   unset($HEAD);
-   //фильтруем массив метатегов
-   $_meta_array = apply_filter('head_array', $_meta_array);
-   
-   //формирует метатеги из массива
-   osc_head_print($_meta_array);
-   
-   do_action ('head');
-   
+//фильтруем массив метатегов
+$HEAD = apply_filter('head_array_detail', $HEAD);
+
+//формируем массив метатегов
+$_meta_array = osc_head_array($HEAD);
+unset($HEAD);
+
+//фильтруем массив метатегов
+$_meta_array = apply_filter('head_array', $_meta_array);
+
+//формирует метатеги из массива
+osc_head_print($_meta_array);
+
+do_action ('head');
 ?>
 </head>
 <body><?php
-  do_action ('body', '');	
+do_action ('body', '');	
 
-$osTemplate->assign('navtrail', $breadcrumb->trail(' &raquo; '));
+$osTemplate->assign('navtrail', $breadcrumb->trail());
 if (isset($_SESSION['customer_id'])) {
 
 $osTemplate->assign('logoff',os_href_link(FILENAME_LOGOFF, '', 'SSL'));

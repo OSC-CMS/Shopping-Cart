@@ -274,7 +274,7 @@ if (isset ($_GET['delete'])) {
 	
 	if (empty($_array['code']))
 	{
-	   $_array['code'] = '<a href="'.$_array['href'].'">'.os_image_button($_array['img'], $_array['alt']).'</a>';
+	   $_array['code'] = buttonSubmit($_array['img'], $_array['href'], $_array['alt']);
 	}
 	
 	$osTemplate->assign('BUTTON_BACK', $_array['code']);
@@ -289,7 +289,7 @@ if (isset ($_GET['delete'])) {
 	
 	if (empty($_array['code']))
 	{
-	   $_array['code'] = '<a href="'.$_array['href'].'">'.os_image_button($_array['img'], $_array['alt']).'</a>';
+	   $_array['code'] = buttonSubmit($_array['img'], $_array['href'], $_array['alt']);
 	}
 	
 	$osTemplate->assign('BUTTON_DELETE', $_array['code']);
@@ -310,7 +310,7 @@ if (isset ($_GET['delete'])) {
 	
 	if (empty($_array['code']))
 	{
-	   $_array['code'] = '<a href="'.$_array['href'].'">'.os_image_button($_array['img'], $_array['alt']).'</a>';
+	   $_array['code'] = buttonSubmit($_array['img'], $_array['href'], $_array['alt']);
 	}
 	
 		$osTemplate->assign('BUTTON_BACK', $_array['code']);
@@ -324,7 +324,7 @@ if (isset ($_GET['delete'])) {
 	
 	if (empty($_array['code']))
 	{
-	   $_array['code'] = os_image_submit($_array['img'], $_array['alt']);
+	   $_array['code'] = buttonSubmit($_array['img'], null, $_array['alt']);
 	}
 	
 		$osTemplate->assign('BUTTON_UPDATE', os_draw_hidden_field('action', 'update').os_draw_hidden_field('edit', $_GET['edit']).$_array['code']);
@@ -347,7 +347,7 @@ if (isset ($_GET['delete'])) {
 	
 	if (empty($_array['code']))
 	{
-	   $_array['code'] = '<a href="'.$_array[''].'">'.os_image_button($_array['img'], $_array['alt']).'</a>';
+	   $_array['code'] = buttonSubmit($_array['img'], $_array['href'], $_array['alt']);
 	}
 	
 		$osTemplate->assign('BUTTON_BACK', $_array['code']);
@@ -365,7 +365,7 @@ $main_content = $osTemplate->fetch(CURRENT_TEMPLATE.'/module/address_book_proces
 $osTemplate->assign('language', $_SESSION['language']);
 $osTemplate->assign('main_content', $main_content);
 $osTemplate->caching = 0;
- $osTemplate->load_filter('output', 'trimhitespace');
+ $osTemplate->loadFilter('output', 'trimhitespace');
 $template = (file_exists(_THEMES_C.FILENAME_ADDRESS_BOOK_PROCESS.'.html') ? CURRENT_TEMPLATE.'/'.FILENAME_ADDRESS_BOOK_PROCESS.'.html' : CURRENT_TEMPLATE.'/index.html');
 $osTemplate->display($template);
 include ('includes/bottom.php');

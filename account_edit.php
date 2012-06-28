@@ -307,7 +307,7 @@ if (ACCOUNT_USER_NAME == 'true')
 {
 	$osTemplate->assign('username', '1');
 	$osTemplate->assign('ENTRY_USERNAME_ERROR', ENTRY_USERNAME_ERROR);
-	$osTemplate->assign('INPUT_USERNAME', os_draw_input_fieldNote(array ('name' => 'customers_username', 'text' => '&nbsp;'. (os_not_null(ENTRY_USERNAME_TEXT) ? '<span class="Requirement">'.ENTRY_USERNAME_TEXT.'</span>' : '')), $account['customers_username'], 'id="username"'));
+	$osTemplate->assign('INPUT_USERNAME', os_draw_input_fieldNote(array ('name' => 'customers_username', 'text' => '&nbsp;'. (os_not_null(ENTRY_USERNAME_TEXT) ? '<span class="Requirement">'.ENTRY_USERNAME_TEXT.'</span>' : '')), $account['customers_username'], 'id="customers_username"'));
 }
 
 $osTemplate->assign('customers_extra_fileds', '1');
@@ -364,7 +364,7 @@ $main_content = $osTemplate->fetch(CURRENT_TEMPLATE.'/module/account_edit.html')
 $osTemplate->assign('language', $_SESSION['language']);
 $osTemplate->assign('main_content', $main_content);
 $osTemplate->caching = 0;
-$osTemplate->load_filter('output', 'trimhitespace');
+$osTemplate->loadFilter('output', 'trimhitespace');
 $template = (file_exists(_THEMES_C.FILENAME_ACCOUNT_EDIT.'.html') ? CURRENT_TEMPLATE.'/'.FILENAME_ACCOUNT_EDIT.'.html' : CURRENT_TEMPLATE.'/index.html');
 $osTemplate->display($template);
 include ('includes/bottom.php');

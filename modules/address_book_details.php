@@ -33,9 +33,12 @@ if (ACCOUNT_SECOND_NAME == 'true') {
 	$module->assign('secondname', '1');
 $module->assign('INPUT_SECONDNAME', os_draw_input_fieldNote(array ('name' => 'secondname', 'text' => '&nbsp;'. (os_not_null(ENTRY_SECOND_NAME_TEXT) ? '<span class="Requirement">'.ENTRY_SECOND_NAME_TEXT.'</span>' : '')),$entry['entry_secondname'], 'id="secondname"'));
 }
+if (ACCOUNT_LAST_NAME == 'true')
+{
+	$module->assign('lastname', '1');
   $module->assign('INPUT_LASTNAME',os_draw_input_fieldNote(array('name'=>'lastname','text'=>'&nbsp;' . (os_not_null(ENTRY_LAST_NAME_TEXT) ? '<span class="Requirement">' . ENTRY_LAST_NAME_TEXT . '</span>': '')),$entry['entry_lastname'], 'id="lastname"'));
   $module->assign('ENTRY_LAST_NAME_ERROR', ENTRY_LAST_NAME_ERROR);
-
+}
 
   if (ACCOUNT_COMPANY == 'true') {
   $module->assign('company','1');
@@ -136,13 +139,14 @@ if (ACCOUNT_COUNTRY == 'true') {
      //buttons	
 	$_array = array('img' => 'button_update.gif', 
 	                                'href' => '', 
-									'alt' => IMAGE_BUTTON_UPDATE, 'code' => '');
+									'alt' => IMAGE_BUTTON_UPDATE.'ssssss', 'code' => '');
 									
 	$_array = apply_filter('button_update', $_array);	
 	
+	//TODO: проверить что за кнопка
 	if (empty($_array['code']))
 	{
-	   $_array['code'] = os_image_submit($_array['img'], $_array['alt'], 'name=loadStateXML');
+	   $_array['code'] = buttonSubmit($_array['img'], null, $_array['alt'], 'name=loadStateXML');
 	}
 	
    $module->assign('SELECT_COUNTRY_NOSCRIPT', '<noscript><br />' . $_array['code'] . '<br />' . ENTRY_STATE_RELOAD . '</noscript>');

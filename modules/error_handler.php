@@ -35,7 +35,7 @@
   // search field
   $module->assign('FORM_ACTION',os_draw_form('new_find', os_href_link(FILENAME_ADVANCED_SEARCH_RESULT, '', 'NONSSL', false), 'get').os_hide_session_id());
   $module->assign('INPUT_SEARCH',os_draw_input_field('keywords', '', 'size="30" maxlength="30"'));
-  $module->assign('BUTTON_SUBMIT',os_image_submit('button_quick_find.gif', BOX_HEADING_SEARCH));
+  $module->assign('BUTTON_SUBMIT', buttonSubmit('button_quick_find.gif', null, BOX_HEADING_SEARCH));
   $module->assign('LINK_ADVANCED',os_href_link(FILENAME_ADVANCED_SEARCH));
   $module->assign('FORM_END', '</form>');
 

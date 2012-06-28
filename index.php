@@ -56,7 +56,7 @@
                     $osTemplate->assign('language', $_SESSION['language']);
                     $osTemplate->assign('main_content', $main_content);
 
-                    $osTemplate->load_filter('output', 'trimhitespace');
+                    $osTemplate->loadFilter('output', 'trimhitespace');
                     $template = (file_exists(_THEMES_C.FILENAME_CONTENT.'_'.$_GET['coID'].'.html') ? CURRENT_TEMPLATE.'/'.FILENAME_CONTENT.'_'.$_GET['coID'].'.html' : CURRENT_TEMPLATE.'/index.html');
 
                     $osTemplate->display($template);
@@ -107,7 +107,7 @@
         require (_INCLUDES.'header.php');
         include (_MODULES.'default.php');
         $osTemplate->assign('language', $_SESSION['language']);
-        $osTemplate->load_filter('output', 'trimhitespace');
+        $osTemplate->loadFilter('output', 'trimhitespace');
 
         $osTemplate->caching = 0;
         $template = (file_exists(_THEMES_C.FILENAME_DEFAULT.'_'.@$cID.'.html') ? CURRENT_TEMPLATE.'/'.FILENAME_DEFAULT.'_'.@$cID.'.html' : CURRENT_TEMPLATE.'/index.html');

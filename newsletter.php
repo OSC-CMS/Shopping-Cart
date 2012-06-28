@@ -169,7 +169,7 @@ $_array = array('img' => 'button_send.gif',
 	
 	if (empty($_array['code']))
 	{
-	   $_array['code'] = os_image_submit($_array['img'], $_array['alt']);
+	   $_array['code'] = buttonSubmit($_array['img'], null, $_array['alt']);
 	}
 	
 $osTemplate->assign('BUTTON_SEND', $_array['code']);
@@ -182,7 +182,7 @@ $osTemplate->assign('main_content', $main_content);
 
 $osTemplate->assign('language', $_SESSION['language']);
 $osTemplate->caching = 0;
- $osTemplate->load_filter('output', 'trimhitespace');
+ $osTemplate->loadFilter('output', 'trimhitespace');
 $template = (file_exists(_THEMES_C.FILENAME_NEWSLETTER.'.html') ? CURRENT_TEMPLATE.'/'.FILENAME_NEWSLETTER.'.html' : CURRENT_TEMPLATE.'/index.html');
 $osTemplate->display($template);
 include ('includes/bottom.php');

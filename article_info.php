@@ -69,7 +69,7 @@ $osTemplate->assign('main_content', $main_content);
 
 $osTemplate->assign('language', $_SESSION['language']);
 $osTemplate->caching = 0;
- $osTemplate->load_filter('output', 'trimhitespace');
+ $osTemplate->loadFilter('output', 'trimhitespace');
 $template = (file_exists(_THEMES_C.FILENAME_ARTICLE_INFO.'.html') ? CURRENT_TEMPLATE.'/'.FILENAME_ARTICLE_INFO.'.html' : CURRENT_TEMPLATE.'/index.html');
 $osTemplate->display($template);
 include ('includes/bottom.php');

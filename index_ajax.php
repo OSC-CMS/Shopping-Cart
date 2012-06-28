@@ -10,16 +10,21 @@
 
 define('AJAX_APPLICATION_RUNNING', true);
 
-require('includes/classes/JsHttpRequest.php');
+#require('includes/classes/JsHttpRequest.php');
 
-unset($JsHttpRequest);
-$JsHttpRequest = new JsHttpRequest('');
+#unset($JsHttpRequest);
+#$JsHttpRequest = new JsHttpRequest('');
 require('includes/top.php');
-$JsHttpRequest->setEncoding($_SESSION['language_charset']);
+#$JsHttpRequest->setEncoding($_SESSION['language_charset']);
 
-if (!isset($_GET['ajax_page']) || !os_not_null($_GET['ajax_page']) || !is_file(_MODULES . 'ajax/' . $_GET['ajax_page'] . '.php')) die('***ERROR*** Ajax page "' . $_GET['ajax_page'] . '" not define or not exist!!!');
-if(is_file(DIR_WS_LANGUAGES . $_SESSION['language'] . '/' . $_GET['ajax_page'] . '.php'))
-require(DIR_WS_LANGUAGES . $_SESSION['language'] . '/' . $_GET['ajax_page'] . '.php');
-require(_MODULES . 'ajax/' . $_GET['ajax_page'] . '.php');
+$axhandler = ($_SERVER['REQUEST_METHOD'] == 'GET') ? $_GET['ajax_page'] : $_POST['ajax_page'];
+
+if (!isset($axhandler) || !os_not_null($axhandler) || !is_file(_MODULES.'ajax/'.$axhandler.'.php'))
+	die('***ERROR*** Ajax page "'.$axhandler.'" not define or not exist!!!');
+
+if(is_file(DIR_WS_LANGUAGES.$_SESSION['language'].'/'.$axhandler.'.php'))
+	require(DIR_WS_LANGUAGES.$_SESSION['language'].'/'.$axhandler.'.php');
+
+require(_MODULES.'ajax/'.$axhandler.'.php');
 exit;
 ?>

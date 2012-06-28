@@ -70,6 +70,8 @@ $aProfileTabs = array();
 
 if ($profile)
 	$aProfileTabs['param'] = $profile;
+else
+	$aProfileTabs['param'] = '';
 
 $aProfileTabs = apply_filter('profile_add_tabs', $aProfileTabs);
 
@@ -90,13 +92,13 @@ $osTemplate->assign('tProfileTabs', $tProfileTabs);
 
 $osTemplate->assign('language', $_SESSION['language']);
 $osTemplate->caching = 0;
-$main_content = $osTemplate->fetch(CURRENT_TEMPLATE.'/module/account_profile.html');
+$main_content = $osTemplate->fetch(CURRENT_TEMPLATE.'/module/profile.html');
 
 $osTemplate->assign('language', $_SESSION['language']);
 $osTemplate->assign('main_content', $main_content);
 $osTemplate->caching = 0;
-$osTemplate->load_filter('output', 'trimhitespace');
-$template = (file_exists(_THEMES_C.FILENAME_ACCOUNT.'.html') ? CURRENT_TEMPLATE.'/'.FILENAME_ACCOUNT.'.html' : CURRENT_TEMPLATE.'/index.html');
+$osTemplate->loadFilter('output', 'trimhitespace');
+$template = (file_exists(_THEMES_C.'profile.php.html') ? CURRENT_TEMPLATE.'/profile.php.html' : CURRENT_TEMPLATE.'/index.html');
 $osTemplate->display($template);
 
 include ('includes/bottom.php');

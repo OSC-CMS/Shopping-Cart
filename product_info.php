@@ -30,7 +30,7 @@ include (DIR_WS_MODULES.'product_info.php');
 require (dir_path('includes').'header.php');
 $osTemplate->assign('language', $_SESSION['language']);
 $osTemplate->caching = 0;
- $osTemplate->load_filter('output', 'trimhitespace');
+ $osTemplate->loadFilter('output', 'trimhitespace');
 
 
 if (is_file(_THEMES_C.FILENAME_PRODUCT_INFO.'_'.$actual_products_id.'.html'))

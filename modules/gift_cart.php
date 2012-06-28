@@ -50,7 +50,7 @@ $gift->assign('INPUT_CODE', os_draw_input_field('gv_redeem_code'));
 	
 	if (empty($_array['code']))
 	{
-	   $_array['code'] = os_image_submit($_array['img'], $_array['alt']);
+	   $_array['code'] = buttonSubmit($_array['img'], null, $_array['alt']);
 	}
 	
 $gift->assign('BUTTON_SUBMIT', $_array['code']);

@@ -487,7 +487,7 @@ class osPrice {
 		}
 
 		if ($format) {
-			$Pprice = number_format($price, $this->currencies[$this->actualCurr]['decimal_places'], $this->currencies[$this->actualCurr]['decimal_point'], $this->currencies[$this->actualCurr]['thousands_point']);
+			$Pprice = number_format((double)$price, $this->currencies[$this->actualCurr]['decimal_places'], $this->currencies[$this->actualCurr]['decimal_point'], $this->currencies[$this->actualCurr]['thousands_point']);
 			$Pprice = $this->checkAttributes($pID).$this->currencies[$this->actualCurr]['symbol_left'].' <span class="pprice">'.$Pprice.'</span> '.$this->currencies[$this->actualCurr]['symbol_right'];
 			if ($vpeStatus == 0) {
 				return $Pprice;

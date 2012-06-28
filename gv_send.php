@@ -34,6 +34,7 @@ if ($_GET['action'] == 'send') {
 	$gv_result = os_db_fetch_array($gv_query);
 	$customer_amount = $gv_result['amount'];
 	$gv_amount = trim(str_replace(",", ".", $_POST['amount']));
+	//TODO: поправить ereg
 	if (ereg('[^0-9/.]', $gv_amount)) {
 		$error = true;
 		$error_amount = ERROR_ENTRY_AMOUNT_CHECK;
@@ -117,7 +118,7 @@ if ($_GET['action'] == 'send' && !$error) {
 	
 	if (empty($_array['code']))
 	{
-	   $_array['code'] = os_image_submit($_array['img'], $_array['alt'], 'name=back').'</a>';
+	   $_array['code'] = buttonSubmit($_array['img'], null, $_array['alt'], 'name=back');
 	}
 	
 	$osTemplate->assign('LINK_BACK', $_array['code']);
@@ -130,7 +131,7 @@ if ($_GET['action'] == 'send' && !$error) {
 	
 	if (empty($_array['code']))
 	{
-	   $_array['code'] = os_image_submit($_array['img'], $_array['alt']);
+	   $_array['code'] = buttonSubmit($_array['img'], null, $_array['alt']);
 	}
 	
 	$osTemplate->assign('LINK_SUBMIT', $_array['code']);
@@ -155,7 +156,7 @@ $main_content = $osTemplate->fetch(CURRENT_TEMPLATE.'/module/gv_send.html');
 $osTemplate->assign('language', $_SESSION['language']);
 $osTemplate->assign('main_content', $main_content);
 $osTemplate->caching = 0;
- $osTemplate->load_filter('output', 'trimhitespace');
+ $osTemplate->loadFilter('output', 'trimhitespace');
 $template = (file_exists(_THEMES_C.FILENAME_GV_SEND.'.html') ? CURRENT_TEMPLATE.'/'.FILENAME_GV_SEND.'.html' : CURRENT_TEMPLATE.'/index.html');
 $osTemplate->display($template);
 include ('includes/bottom.php');

@@ -123,7 +123,7 @@ if ($_SESSION['cart']->show_total() > 0 ) {
 	
 	if (empty($_array['code']))
 	{
-	   $_array['code'] = os_image_submit($_array['img'], $_array['alt']);
+	   $_array['code'] = buttonSubmit($_array['img'], null, $_array['alt']);
 	}
 	
 	$osTemplate->assign('BUTTON_RELOAD', $_array['code']);
@@ -138,7 +138,7 @@ if ($_SESSION['cart']->show_total() > 0 ) {
 	
 	if (empty($_array['code']))
 	{
-	   $_array['code'] = '<a href="'.$_array['href'].'">'.os_image_button($_array['img'], $_array['alt']).'</a>';
+	   $_array['code'] = buttonSubmit($_array['img'], $_array['href'], $_array['alt']);
 	}	
 									
 	$osTemplate->assign('BUTTON_CHECKOUT', $_array['code']);	
@@ -161,7 +161,7 @@ $osTemplate->assign('main_content', $main_content);
 
 $osTemplate->assign('language', $_SESSION['language']);
 $osTemplate->caching = 0;
- $osTemplate->load_filter('output', 'trimhitespace');
+ $osTemplate->loadFilter('output', 'trimhitespace');
 $template = (file_exists(_THEMES_C.FILENAME_SHOPPING_CART.'.html') ? CURRENT_TEMPLATE.'/'.FILENAME_SHOPPING_CART.'.html' : CURRENT_TEMPLATE.'/index.html');
 $osTemplate->display($template);
 include ('includes/bottom.php');

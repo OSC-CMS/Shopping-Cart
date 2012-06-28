@@ -14,11 +14,6 @@ if (isset ($_SESSION['customer_id'])) {
 	os_redirect(os_href_link(FILENAME_ACCOUNT, '', 'SSL'));
 }
 
-// create template elements
-//$osTemplate = new osTemplate;
-// include boxes
-
-
 $process = false;
 if (isset ($_POST['action']) && ($_POST['action'] == 'process')) {
 	$process = true;
@@ -409,7 +404,7 @@ if ($messageStack->size('create_account') > 0) {
 	$osTemplate->assign('error', $messageStack->output('create_account'));
 
 }
-$osTemplate->assign('FORM_ACTION', os_draw_form('create_account', os_href_link(FILENAME_CREATE_ACCOUNT, '', 'SSL'), 'post', 'onsubmit="return checkform(this);"').os_draw_hidden_field('action', 'process') . os_draw_hidden_field('required', 'gender,firstname,lastname,dob,email,address,postcode,city,state,country,telephone,pass,confirmation', 'id="required"'));
+$osTemplate->assign('FORM_ACTION', os_draw_form('create_account', os_href_link(FILENAME_CREATE_ACCOUNT, '', 'SSL'), 'post').os_draw_hidden_field('action', 'process'));
 
 if (ACCOUNT_GENDER == 'true') {
 	$osTemplate->assign('gender', '1');
@@ -444,7 +439,7 @@ if (ACCOUNT_DOB == 'true') {
 	$osTemplate->assign('birthdate', '0');
 }
 
-$osTemplate->assign('INPUT_EMAIL', os_draw_input_fieldNote(array ('name' => 'email_address', 'text' => '&nbsp;'. (os_not_null(ENTRY_EMAIL_ADDRESS_TEXT) ? '<span class="Requirement">'.ENTRY_EMAIL_ADDRESS_TEXT.'</span>' : '')), '', 'id="email"'));
+$osTemplate->assign('INPUT_EMAIL', os_draw_input_fieldNote(array ('name' => 'email_address', 'text' => '&nbsp;'. (os_not_null(ENTRY_EMAIL_ADDRESS_TEXT) ? '<span class="Requirement">'.ENTRY_EMAIL_ADDRESS_TEXT.'</span>' : '')), '', 'id="email_addres"'));
 $osTemplate->assign('ENTRY_EMAIL_ADDRESS_ERROR', ENTRY_EMAIL_ADDRESS_ERROR);
 
 if (ACCOUNT_COMPANY == 'true') {
@@ -463,7 +458,7 @@ if (ACCOUNT_COMPANY_VAT_CHECK == 'true') {
 
 if (ACCOUNT_STREET_ADDRESS == 'true') {
    $osTemplate->assign('street_address', '1');
-   $osTemplate->assign('INPUT_STREET', os_draw_input_fieldNote(array ('name' => 'street_address', 'text' => '&nbsp;'. (os_not_null(ENTRY_STREET_ADDRESS_TEXT) ? '<span class="Requirement">'.ENTRY_STREET_ADDRESS_TEXT.'</span>' : '')), '', 'id="address"'));
+   $osTemplate->assign('INPUT_STREET', os_draw_input_fieldNote(array ('name' => 'street_address', 'text' => '&nbsp;'. (os_not_null(ENTRY_STREET_ADDRESS_TEXT) ? '<span class="Requirement">'.ENTRY_STREET_ADDRESS_TEXT.'</span>' : '')), '', 'id="street_address"'));
    $osTemplate->assign('ENTRY_STREET_ADDRESS_ERROR', ENTRY_STREET_ADDRESS_ERROR);
 } else {
 	$osTemplate->assign('street_address', '0');
@@ -561,10 +556,7 @@ if ($_POST['country']) {
 
 if (ACCOUNT_COUNTRY == 'true') {
 	$osTemplate->assign('country', '1');
-//   $osTemplate->assign('SELECT_COUNTRY', os_get_country_list(array ('name' => 'country', 'text' => '&nbsp;'. (os_not_null(ENTRY_COUNTRY_TEXT) ? '<span class="inputRequirement">'.ENTRY_COUNTRY_TEXT.'</span>' : '')), $selected));
-
-   $osTemplate->assign('SELECT_COUNTRY', os_get_country_list(array ('name' => 'country', 'text' => '&nbsp;'. (os_not_null(ENTRY_COUNTRY_TEXT) ? '<span class="Requirement">'.ENTRY_COUNTRY_TEXT.'</span>' : '')), $selected, 'id="country" onchange="document.getElementById(\'stateXML\').innerHTML = \'' . ENTRY_STATEXML_LOADING . '\';loadXMLDoc(\'loadStateXML\',{country_id: this.value});"'));
-
+   $osTemplate->assign('SELECT_COUNTRY', os_get_country_list(array ('name' => 'country', 'text' => '&nbsp;'. (os_not_null(ENTRY_COUNTRY_TEXT) ? '<span class="Requirement">'.ENTRY_COUNTRY_TEXT.'</span>' : '')), $selected, 'id="country"'));
    $osTemplate->assign('ENTRY_COUNTRY_ERROR', ENTRY_COUNTRY_ERROR);
 
 } else {
@@ -602,7 +594,7 @@ $main_content = $osTemplate->fetch(CURRENT_TEMPLATE.'/module/create_account.html
 $osTemplate->assign('language', $_SESSION['language']);
 $osTemplate->assign('main_content', $main_content);
 $osTemplate->caching = 0;
- $osTemplate->load_filter('output', 'trimhitespace');
+ $osTemplate->loadFilter('output', 'trimhitespace');
 $template = (file_exists(_THEMES_C.FILENAME_CREATE_ACCOUNT.'.html') ? CURRENT_TEMPLATE.'/'.FILENAME_CREATE_ACCOUNT.'.html' : CURRENT_TEMPLATE.'/index.html');
 $osTemplate->display($template);
 include ('includes/bottom.php');
