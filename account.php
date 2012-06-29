@@ -69,7 +69,7 @@ if (os_count_customer_orders() > 0) {
 	
 	   if (empty($_array['code']))
  	   {
-	       $_array['code'] =  '<a href="'.$_array['href'].'">'.os_image_button($_array['img'], $_array['alt']).'</a>';
+		   $_array['code'] = buttonSubmit($_array['img'], $_array['href'], $_array['alt']);
 	   }
 	   
 			$order_content[] = array ('ORDER_ID' => $orders['orders_id'], 

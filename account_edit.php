@@ -351,7 +351,7 @@ $_array = array(
 $_array = apply_filter('button_back', $_array);
 if (empty($_array['code']))
 {
-	$_array['code'] = '<a href="'.$_array['href'].'">'.os_image_button($_array['img'], $_array['alt']).'</a>';
+	$_array['code'] = buttonSubmit($_array['img'], null, $_array['alt']);
 }
 $osTemplate->assign('BUTTON_BACK', $_array['code']);
 $osTemplate->assign('BUTTON_SUBMIT', button_continue_submit());
