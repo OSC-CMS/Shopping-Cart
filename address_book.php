@@ -48,7 +48,7 @@ while ($addresses = os_db_fetch_array($addresses_query))
 	
 	   if (empty($_array['code']))
  	   {
-	       $_array['code'] =  '<a href="'.$_array['href'].'">'.os_image_button($_array['img'], $_array['alt']).'</a>';
+		   $_array['code'] = buttonSubmit($_array['img'], $_array['href'], $_array['alt']);
 	   }
 		
 		//button edit
@@ -61,7 +61,8 @@ while ($addresses = os_db_fetch_array($addresses_query))
 	
 	   if (empty($_array_insert['code']))
  	   {
-	       $_array_insert['code'] =  '<a href="'.$_array_insert['href'].'">'.os_image_button($_array_insert['img'], $_array_insert['alt']).'</a>';
+	       //$_array_insert['code'] =  '<a href="'.$_array_insert['href'].'">'.os_image_button($_array_insert['img'], $_array_insert['alt']).'</a>';
+		   $_array_insert['code'] = buttonSubmit($_array_insert['img'], $_array_insert['href'], $_array_insert['alt']);
 	   }
 		
 		
@@ -83,7 +84,7 @@ $osTemplate->assign('addresses_data', $addresses_data);
 	
 	if (empty($_array['code']))
 	{
-	   $_array['code'] = '<a href="'.$_array['href'].'">'.os_image_button($_array['img'], $_array['alt']).'</a>';
+	   $_array['code'] = buttonSubmit($_array['img'], $_array['href'], $_array['alt']);
 	}
 	
 $osTemplate->assign('BUTTON_BACK', $_array['code']);
@@ -92,13 +93,13 @@ if (os_count_customer_address_book_entries() < MAX_ADDRESS_BOOK_ENTRIES)
 {
       $_array = array('img' => 'button_add_address.gif', 
 	                                'href' => os_href_link(FILENAME_ADDRESS_BOOK_PROCESS, '', 'SSL'), 
-									'alt' => IMAGE_BUTTON_CHECKOUT, 'code' => '');
+									'alt' => TEXT_BUTTON_ADD_ADDRESS, 'code' => '');
 									
 	$_array = apply_filter('button_add_address', $_array);	
 	
 	if (empty($_array['code']))
 	{
-	   $_array['code'] = '<a href="'.$_array['href'].'">'.os_image_button($_array['img'], $_array['alt']).'</a>';
+	   $_array['code'] = buttonSubmit($_array['img'], $_array['href'], $_array['alt']);
 	}
 	
 	$osTemplate->assign('BUTTON_NEW', $_array['code']);
