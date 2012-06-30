@@ -495,6 +495,7 @@ define('TEXT_BUTTON_IN_CART', 'В корзину');
 define('TEXT_BUTTON_CONTINUE', 'Продолжить');
 define('TEXT_BUTTON_LOGIN', 'Войти');
 define('TEXT_BUTTON_CONFIRM_ORDER', 'Подтвердить заказ');
+define('TEXT_BUTTON_ADD_ADDRESS', 'Добавить адрес');
 
 
 
