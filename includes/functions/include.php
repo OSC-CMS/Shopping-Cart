@@ -104,7 +104,7 @@
         if ($state != '') $statecomma = $state . ', ';
 
         $fmt = $address_format['format'];
-        //plugins filter. фильтруем формат вывода адреса
+        //plugins filter. С„РёР»СЊС‚СЂСѓРµРј С„РѕСЂРјР°С‚ РІС‹РІРѕРґР° Р°РґСЂРµСЃР°
         $fmt = apply_filter('address_format', $fmt);
 
         eval("\$address = \"$fmt\";");

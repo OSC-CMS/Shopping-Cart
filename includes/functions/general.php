@@ -95,7 +95,7 @@ function add_js ($path, &$head, $group = '')
 	
 }
 
-//добавления js кода в <head> 
+//РґРѕР±Р°РІР»РµРЅРёСЏ js РєРѕРґР° РІ <head> 
 function add_js_code ($code, &$head, $group = '')
 {
     if (!empty( $group ))
@@ -110,7 +110,7 @@ function add_js_code ($code, &$head, $group = '')
 	}				
 }
 
-//добавления кода в <head> 
+//РґРѕР±Р°РІР»РµРЅРёСЏ РєРѕРґР° РІ <head> 
 function add_head_code ($code, &$head, $group = '')
 {
     if (!empty( $group ))
@@ -125,7 +125,7 @@ function add_head_code ($code, &$head, $group = '')
 	}				
 }
 
-//добавления  кода в <head>
+//РґРѕР±Р°РІР»РµРЅРёСЏ  РєРѕРґР° РІ <head>
 function add_head_file ($file, &$head, $group = '')
 {
 	if ( is_file( $file ) )
@@ -145,7 +145,7 @@ function add_head_file ($file, &$head, $group = '')
     }			
 }
 
-//добавление фильтра в плагинах
+//РґРѕР±Р°РІР»РµРЅРёРµ С„РёР»СЊС‚СЂР° РІ РїР»Р°РіРёРЅР°С…
 function add_filter($tag, $function, $priority = '10')
 {
     global $os_filter;
@@ -169,7 +169,7 @@ function add_filter($tag, $function, $priority = '10')
 }
 
 /*
-  удаляет js, с строчкой, в котором есть $src
+  СѓРґР°Р»СЏРµС‚ js, СЃ СЃС‚СЂРѕС‡РєРѕР№, РІ РєРѕС‚РѕСЂРѕРј РµСЃС‚СЊ $src
 */
 function remove_js ($src,  &$_meta_array)
 { 
@@ -212,7 +212,7 @@ function is_head_js ($src,  &$_meta_array)
 }
 
 /*
-  удаляет метатегов определенной группы
+  СѓРґР°Р»СЏРµС‚ РјРµС‚Р°С‚РµРіРѕРІ РѕРїСЂРµРґРµР»РµРЅРЅРѕР№ РіСЂСѓРїРїС‹
 */
 function remove_head_group ($group,  &$_meta_array)
 { 
@@ -236,7 +236,7 @@ function remove_head_group ($group,  &$_meta_array)
 }
 
 /*
-  удаляет css, с строчкой, в котором есть $src
+  СѓРґР°Р»СЏРµС‚ css, СЃ СЃС‚СЂРѕС‡РєРѕР№, РІ РєРѕС‚РѕСЂРѕРј РµСЃС‚СЊ $src
 */
 function remove_style ($src,  &$_meta_array)
 { 
@@ -313,14 +313,14 @@ function remove_action_array ()
     }
 	else
     {  
-	    //нет action. нечего удалять
+	    //РЅРµС‚ action. РЅРµС‡РµРіРѕ СѓРґР°Р»СЏС‚СЊ
 	   return false;
 	}
 	
     return true;
 }
 
-//заменить один action на другой
+//Р·Р°РјРµРЅРёС‚СЊ РѕРґРёРЅ action РЅР° РґСЂСѓРіРѕР№
 function rewrite_action ($tag, $function, $function_to_add)
 {   
     global $os_rewrite_action;
@@ -382,7 +382,7 @@ function do_action ($tag, $separator = '')
 	}
 }
 
-//синоним функции do_action
+//СЃРёРЅРѕРЅРёРј С„СѓРЅРєС†РёРё do_action
 function run_action ($tag, $separator = '')
 {
     do_action ($tag, $separator);

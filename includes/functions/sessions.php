@@ -23,7 +23,7 @@
 
     function _sess_read($key) 
 	{
-	   //фильтруем key
+	   //С„РёР»СЊС‚СЂСѓРµРј key
        $key  = mysql_real_escape_string($key);
 	   
 	   if (preg_match("/[^(\w)|(\x7F-\xFF)|(\s)]/", $key)) 
@@ -43,7 +43,7 @@
 
     function _sess_write($key, $val) 
 	{
-	   //фильтруем key
+	   //С„РёР»СЊС‚СЂСѓРµРј key
        $key  = mysql_real_escape_string($key);
 	   
 	   if (preg_match("/[^(\w)|(\x7F-\xFF)|(\s)]/", $key)) 
@@ -71,7 +71,7 @@
 
     function _sess_destroy($key) 
 	{
-	   //фильтруем key
+	   //С„РёР»СЊС‚СЂСѓРµРј key
        $key  = mysql_real_escape_string($key);
 	   
 	   if (preg_match("/[^(\w)|(\x7F-\xFF)|(\s)]/", $key)) 
