@@ -171,7 +171,7 @@ function os_draw_input_field_installer($name, $text = '', $type = 'text', $param
    
 function db_test_create_db_permission($database) 
 {
-//œÓ‚ÂÍ‡ ·‡Á˚ ‰‡ÌÌ˚ı Ì‡ ˜ÚÂÌËÂ-Á‡ÔËÒ¸
+//–ü—Ä–æ–≤–µ—Ä–∫–∞ –±–∞–∑—ã –¥–∞–Ω–Ω—ã—Ö –Ω–∞ —á—Ç–µ–Ω–∏–µ-–∑–∞–ø–∏—Å—å
     global $db_error;
 
     $db_created = false;
@@ -1095,7 +1095,7 @@ function os_encrypt_password($plain)
 function os_get_country_list($name, $selected = '', $parameters = '') 
 {
    $countries_array = array(array('id' => '', 'text' => PULL_DOWN_DEFAULT));
-//    Probleme mit register_globals=off -> erstmal nur auskommentiert. Kann u.U. gel—Üscht werden.
+//    Probleme mit register_globals=off -> erstmal nur auskommentiert. Kann u.U. gel–°‚Ä†scht werden.
     $countries = os_get_countriesList();
 
     for ($i=0, $n=sizeof($countries); $i<$n; $i++) {

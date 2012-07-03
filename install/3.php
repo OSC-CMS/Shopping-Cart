@@ -8,7 +8,7 @@
 #####################################
 */
 
-@ ini_set("max_execution_time", 0);//Увеличение время загрузки
+@ ini_set("max_execution_time", 0);//РЈРІРµР»РёС‡РµРЅРёРµ РІСЂРµРјСЏ Р·Р°РіСЂСѓР·РєРё
 
 require('includes/top.php');
 
@@ -121,7 +121,7 @@ if (os_in_array('database', $_POST['install']))
     os_db_connect_installer($_db_server, $_db_username, $_db_password) ;
 	os_db_select_db($_db_select_db);
 	
-    //Удаление всех таблиц
+    //РЈРґР°Р»РµРЅРёРµ РІСЃРµС… С‚Р°Р±Р»РёС†
     os_db_query("drop table if exists ".DB_PREFIX."address_book,".
 	DB_PREFIX."address_format, ".
 	DB_PREFIX."admin_access, ".
@@ -385,7 +385,7 @@ while (list($key, $value) = each($_POST))
 
 
 <?php
-//demo база
+//demo Р±Р°Р·Р°
 if (isset($_POST['OS_TEST_BASE']) && $_POST['OS_TEST_BASE'] == 'on')
 {
    include(dirname(__FILE__).'/sql/db_shop.php');

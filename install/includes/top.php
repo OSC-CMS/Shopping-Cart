@@ -59,7 +59,7 @@
 
     if (!defined('_ICONS')) define('_ICONS','images/');
 
-    function os_check_version($mini='4.1.2')
+    function os_check_version($mini='5.2')
     {
         $dummy=phpversion();
         sscanf($dummy,"%d.%d.%d%s",$v1,$v2,$v3,$v4);

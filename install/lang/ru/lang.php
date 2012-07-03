@@ -224,7 +224,7 @@
     define('PHP_VERSION_ERROR','<b>Внимание!, Версия PHP слишком старая, для корректной работы OSC-CMS необходим PHP 4.1.3 и выше.</b><br /><br />
     Ваша версия PHP: <b><?php echo phpversion(); ?></b><br /><br />
     OSC-CMS не будет корректно работать на данном сервере, обновите PHP, либо смените сервер.');
-    define('TEXT_PHP_VERSION','<strong>PHP:</strong> v4.3.0 или выше ');
+    define('TEXT_PHP_VERSION','<strong>PHP:</strong> v5.2 или выше ');
     define('TEXT_GD_LIB_NOT_FOUND','ОШИБКА! БИБЛИОТЕКА GD НЕ НАЙДЕНА!');
     define('TEXT_GD_LIB_VERSION','');
     define('TEXT_GD_LIB_VERSION1','Версия GDlib');
