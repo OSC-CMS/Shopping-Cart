@@ -116,11 +116,11 @@ if ($_GET['coID'] == 7)
 		$osTemplate->assign('CONTACT_CONTENT', $contact_content);
 		
 		$osTemplate->assign('FORM_ACTION', os_draw_form('contact_us', os_href_link(FILENAME_CONTENT, 'action=send&coID='.(int) $_GET['coID'])));
-		$osTemplate->assign('INPUT_NAME', os_draw_input_field('name', ($error ? $_POST['name'] : @$first_name)));
-		$osTemplate->assign('INPUT_EMAIL', os_draw_input_field('email', ($error ? $_POST['email'] : @$email_address)));
-		$osTemplate->assign('INPUT_TEXT', os_draw_textarea_field('message_body', 'soft', 50, 15, @$_POST[''],''));
+		$osTemplate->assign('INPUT_NAME', os_draw_input_field('name', ($error ? $_POST['name'] : @$first_name), 'id="customer_name"'));
+		$osTemplate->assign('INPUT_EMAIL', os_draw_input_field('email', ($error ? $_POST['email'] : @$email_address), 'id="email_address"'));
+		$osTemplate->assign('INPUT_TEXT', os_draw_textarea_field('message_body', 'soft', '', '', @$_POST[''],''), 'id="message_body"');
 		$osTemplate->assign('CAPTCHA_IMG', '<img src="'.FILENAME_DISPLAY_CAPTCHA.'" alt="captcha" name="captcha" />');    
-		$osTemplate->assign('CAPTCHA_INPUT', os_draw_input_field('captcha', '', 'size="6" maxlength="6"', 'text', false));
+		$osTemplate->assign('CAPTCHA_INPUT', os_draw_input_field('captcha', '', 'maxlength="6" id="captcha"', 'text', false));
 		$osTemplate->assign('BUTTON_SUBMIT', button_continue_submit());
 		$osTemplate->assign('FORM_END', '</form>');
 	}
