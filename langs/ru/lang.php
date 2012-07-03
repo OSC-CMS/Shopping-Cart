@@ -293,7 +293,6 @@ define('TEXT_EMAIL_ERROR','Вы ввели неправильный e-mail и/и
 define('TEXT_NO_ACCOUNT','К сожалению, запрос-подтверждение на новый пароль неверный либо устарел. Возможно, Вы активируете старую ссылку, в то время как была отправлена более новая. Пожалуйста, попробуйте ещё раз.');
 
 define('HEADING_PASSWORD_FORGOTTEN','Забыли пароль?');
-define('TEXT_PASSWORD_FORGOTTEN','Измените пароль в три шага.');
 define('TEXT_EMAIL_PASSWORD_FORGOTTEN','Подтверждение E-Mail для отправки нового пароля');
 define('TEXT_EMAIL_PASSWORD_NEW_PASSWORD','Ваш новый пароль');
 define('ERROR_MAIL','Пожалуйста, проверьте указанные в форме данные');

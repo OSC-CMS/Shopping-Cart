@@ -11,7 +11,7 @@
 require ('includes/top.php');
 
 $case = double_opt;
-$info_message = TEXT_PASSWORD_FORGOTTEN;
+$info_message = '';
 if (isset ($_GET['action']) && ($_GET['action'] == 'first_opt_in')) {
 
 	$check_customer_query = os_db_query("select customers_email_address, customers_id from ".TABLE_CUSTOMERS." where customers_email_address = '".os_db_input($_POST['email'])."'");
@@ -102,8 +102,6 @@ switch ($case) {
 		$osTemplate->assign('CAPTCHA_INPUT', os_draw_input_field('captcha', '', 'size="6"', 'text', false));
 		$osTemplate->assign('text_heading', HEADING_PASSWORD_FORGOTTEN);
 		$osTemplate->assign('info_message', $info_message);
-		$osTemplate->assign('message', TEXT_PASSWORD_FORGOTTEN);
-		$osTemplate->assign('SHOP_NAME', STORE_NAME);
 		$osTemplate->assign('FORM_ACTION', os_draw_form('sign', os_href_link(FILENAME_PASSWORD_DOUBLE_OPT, 'action=first_opt_in', 'NONSSL')));
 		$osTemplate->assign('INPUT_EMAIL', os_draw_input_field('email', os_db_input($_POST['email'])));
 		
@@ -132,8 +130,6 @@ switch ($case) {
 		$osTemplate->assign('CAPTCHA_INPUT', os_draw_input_field('captcha', '', 'size="6"', 'text', false));
 		$osTemplate->assign('text_heading', HEADING_PASSWORD_FORGOTTEN);
 		$osTemplate->assign('info_message', $info_message);
-		$osTemplate->assign('message', TEXT_PASSWORD_FORGOTTEN);
-		$osTemplate->assign('SHOP_NAME', STORE_NAME);
 		$osTemplate->assign('FORM_ACTION', os_draw_form('sign', os_href_link(FILENAME_PASSWORD_DOUBLE_OPT, 'action=first_opt_in', 'NONSSL')));
 		$osTemplate->assign('INPUT_EMAIL', os_draw_input_field('email', os_db_input($_POST['email'])));
 		
@@ -170,8 +166,6 @@ switch ($case) {
 		$osTemplate->assign('CAPTCHA_IMG', '<img src="'.os_href_link(FILENAME_DISPLAY_CAPTCHA).'" alt="captcha" name="captcha" />');
 		$osTemplate->assign('CAPTCHA_INPUT', os_draw_input_field('captcha', '', 'size="6"', 'text', false));
 		$osTemplate->assign('text_heading', HEADING_PASSWORD_FORGOTTEN);
-		$osTemplate->assign('message', TEXT_PASSWORD_FORGOTTEN);
-		$osTemplate->assign('SHOP_NAME', STORE_NAME);
 		$osTemplate->assign('FORM_ACTION', os_draw_form('sign', os_href_link(FILENAME_PASSWORD_DOUBLE_OPT, 'action=first_opt_in', 'NONSSL')));
 		$osTemplate->assign('INPUT_EMAIL', os_draw_input_field('email', os_db_input($_POST['email'])));
 		$osTemplate->assign('BUTTON_SEND', button_continue_submit());
