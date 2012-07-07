@@ -18,7 +18,7 @@ require (dir_path('includes').'header.php');
 
 $osTemplate->assign('FORM_ACTION', os_draw_form('advanced_search', os_href_link(FILENAME_ADVANCED_SEARCH_RESULT, '', 'NONSSL', false), 'get', 'onsubmit="return check_form(this);"').os_hide_session_id());
 
-$osTemplate->assign('INPUT_KEYWORDS', os_draw_input_field('keywords', '', ''));
+$osTemplate->assign('INPUT_KEYWORDS', os_draw_input_field('keywords', '', 'id="keywords"'));
 
    $_array = array('img' => 'button_search.gif', 'href' => '', 'alt' => IMAGE_BUTTON_SEARCH,'code' => '');
 	
@@ -32,11 +32,11 @@ $osTemplate->assign('INPUT_KEYWORDS', os_draw_input_field('keywords', '', ''));
    $osTemplate->assign('BUTTON_SUBMIT', $_array['code']);
 
 
-$osTemplate->assign('SELECT_CATEGORIES',os_draw_pull_down_menu('categories_id', os_get_categories(array (array ('id' => '', 'text' => TEXT_ALL_CATEGORIES)))));
-$osTemplate->assign('ENTRY_SUBCAT',os_draw_checkbox_field('inc_subcat', '1', true));
-$osTemplate->assign('SELECT_MANUFACTURERS',os_draw_pull_down_menu('manufacturers_id', os_get_manufacturers(array (array ('id' => '', 'text' => TEXT_ALL_MANUFACTURERS)))));
-$osTemplate->assign('SELECT_PFROM',os_draw_input_field('pfrom'));
-$osTemplate->assign('SELECT_PTO',os_draw_input_field('pto'));
+$osTemplate->assign('SELECT_CATEGORIES',os_draw_pull_down_menu('categories_id', os_get_categories(array (array ('id' => '', 'text' => TEXT_ALL_CATEGORIES))), '', 'id="subcategories"'));
+$osTemplate->assign('ENTRY_SUBCAT',os_draw_checkbox_field('inc_subcat', '1', true, 'id="inc_subcat"'));
+$osTemplate->assign('SELECT_MANUFACTURERS',os_draw_pull_down_menu('manufacturers_id', os_get_manufacturers(array (array ('id' => '', 'text' => TEXT_ALL_MANUFACTURERS))), '', 'id="manufacturers"'));
+$osTemplate->assign('SELECT_PFROM',os_draw_input_field('pfrom', '', 'id="pfrom"'));
+$osTemplate->assign('SELECT_PTO',os_draw_input_field('pto', '', 'id="pto"'));
 
 
 $error = '';
