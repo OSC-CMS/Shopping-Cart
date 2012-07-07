@@ -1,36 +1,35 @@
 <?php
 /*
-#####################################
-#  OSC-CMS: Shopping Cart Software.
-#  Copyright (c) 2011-2012
-#  http://osc-cms.com
-#  http://osc-cms.com/forum
-#  Ver. 1.0.2
-#####################################
+*---------------------------------------------------------
+*
+*	OSC-CMS - Open Source Shopping Cart Software
+*	http://osc-cms.com
+*
+*---------------------------------------------------------
 */
 
 class AccountCheck {
-                                                                      
 
-/* Folgende Returncodes werden übergeben                                      */
+
+/* Folgende Returncodes werden ÑŒbergeben                                      */
 /*                                                                            */
 /* 0 -> Kontonummer & BLZ OK                                                  */
 /* 1 -> Kontonummer & BLZ passen nicht                                        */
-/* 2 -> Für diese Kontonummer ist kein Prüfziffernverfahren definiert         */
-/* 3 -> Dieses Prüfziffernverfahren ist noch nicht implementiert              */
-/* 4 -> Diese Kontonummer ist technisch nicht prüfbar                         */
+/* 2 -> FÑŒr diese Kontonummer ist kein PrÑŒfziffernverfahren definiert         */
+/* 3 -> Dieses PrÑŒfziffernverfahren ist noch nicht implementiert              */
+/* 4 -> Diese Kontonummer ist technisch nicht prÑŒfbar                         */
 /* 5 -> BLZ nicht gefunden                                                    */
-/* 8 -> Keine BLZ übergeben                                                   */
-/* 9 -> Keine Kontonummer übergeben                                           */
-/* 10 -> Kein Kontoinhaber übergeben                                          */
+/* 8 -> Keine BLZ ÑŒbergeben                                                   */
+/* 9 -> Keine Kontonummer ÑŒbergeben                                           */
+/* 10 -> Kein Kontoinhaber ÑŒbergeben                                          */
 /* 128 -> interner Fehler,der zeigt, das eine Methode nicht implementiert ist */
 /*                                                                            */
 
-var $Bankname; // Enthält den Namen der Bank bei der Suche nach BLZ
-var $PRZ; //Enthält die Prüfziffer
+var $Bankname; // EnthĞ´lt den Namen der Bank bei der Suche nach BLZ
+var $PRZ; //EnthĞ´lt die PrÑŒfziffer
 
 ////
-// Diese function gibt die Bankinformationen aus der csv-Datei zurück*/
+// Diese function gibt die Bankinformationen aus der csv-Datei zurÑŒck*/
   function csv_query($blz) {
     $cdata = -1;
     $fp = fopen(dir_path('includes') . 'data/blz.csv', 'r');

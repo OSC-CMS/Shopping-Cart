@@ -1,12 +1,12 @@
 <?php
-    /*
-    #####################################
-    #  OSC-CMS: Shopping Cart Software.
-    #  Copyright (c) 2011-2012
-    #  http://osc-cms.com
-    #  http://osc-cms.com/forum
-    #####################################
-    */
+/*
+*---------------------------------------------------------
+*
+*	OSC-CMS - Open Source Shopping Cart Software
+*	http://osc-cms.com
+*
+*---------------------------------------------------------
+*/
 
     class breadcrumb 
     {

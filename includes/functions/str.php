@@ -1,4 +1,12 @@
 <?php
+/*
+*---------------------------------------------------------
+*
+*	OSC-CMS - Open Source Shopping Cart Software
+*	http://osc-cms.com
+*
+*---------------------------------------------------------
+*/
 
 function os_substr($str, $start, $len = '', $encoding="UTF-8")
 {

@@ -1,13 +1,12 @@
 <?php
-    /*
-    #####################################
-    #  OSC-CMS: Shopping Cart Software.
-    #  Copyright (c) 2011-2012
-    #  http://osc-cms.com
-    #  http://osc-cms.com/forum
-    #  Ver. 1.0.0
-    #####################################
-    */
+/*
+*---------------------------------------------------------
+*
+*	OSC-CMS - Open Source Shopping Cart Software
+*	http://osc-cms.com
+*
+*---------------------------------------------------------
+*/
 
     @ header('Content-Type: text/html; charset=utf-8');
     define('PAGE_PARSE_START_TIME', microtime());
@@ -587,7 +586,10 @@
                 $p->group = $p->info[$p->name]['group'];
                 $p->set_dir();
 	
-                $_box = $_tag();
+				if ($p->info[$p->name]['status'] == '1')
+                {
+					$_box = $_tag();
+				}
 
                 if (!isset($_box['template']))
                 {
@@ -600,40 +602,7 @@
                         $osTemplate->assign($_tag, $_box_value);
                     }
                 }
-                else
-                {	/*			
-                    $default->assign('tpl_path', _HTTP_THEMES_C);
-
-                    if (isset($_box['title']))
-                    {
-                    $default->assign('BOX_TITLE', $_box['title']);
-                    }
-
-                    if (isset($_box['content']))
-                    {
-                    $default->assign('BOX_CONTENT', $_box['content']);
-                    }
-
-                    if (isset($_box['module_content']))
-                    {
-                    $default->assign('module_content', $_box['module_content']);
-                    }
-
-                    if (isset($_box['template']))
-                    {
-                    if (is_file(plugdir().$_box['template']))
-                    {
-                    $default->template_dir = DIR_FS_CATALOG;
-                    $_box_value = $default->fetch('modules\plugins\scroll\scroll.html');
-                    }
-                    else
-                    {
-                    $_box_value = $default->fetch(CURRENT_TEMPLATE.'/boxes/box.html');
-                    }
-                    }
-                    $osTemplate->assign($_tag, $_box_value);
-                    */
-                }
+                else {}
             }
         }
     }

@@ -183,7 +183,7 @@ osc_head_print($_meta_array);
 do_action ('head');
 ?>
 </head>
-<body><?php
+<body class="no-js"><?php
 do_action ('body', '');	
 
 $osTemplate->assign('navtrail', $breadcrumb->trail());

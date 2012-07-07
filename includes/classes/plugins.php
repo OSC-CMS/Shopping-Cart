@@ -1,13 +1,12 @@
 <?php
-    /*
-    #####################################
-    #  OSC-CMS: Shopping Cart Software.
-    #  Copyright (c) 2011-2012
-    #  http://osc-cms.com
-    #  http://osc-cms.com/forum
-    #  Ver. 1.0.0
-    #####################################
-    */
+/*
+*---------------------------------------------------------
+*
+*	OSC-CMS - Open Source Shopping Cart Software
+*	http://osc-cms.com
+*
+*---------------------------------------------------------
+*/
 
     include(_FUNC.'str.php');
 
@@ -104,13 +103,30 @@
         //вывод статуса в cписки плагина вкл./выкл.
         function status ()
         {
-            if(isset($this->info[$this->name]['status']) && ($this->info[$this->name]['status'] ==1))
+            if(isset($this->info[$this->name]['status']) && ($this->info[$this->name]['status'] == 1))
             {
                 _e(os_image(http_path('icons_admin') . 'icon_status_green.gif', IMAGE_ICON_STATUS_GREEN, 10, 10) . '&nbsp;&nbsp;<a onclick="return confirm(\'Действительно хотите удалить плагин?\')" href="'.FILENAME_PLUGINS.'?action=remove&module='.$this->name.'&group='.$this->info[$this->name]['group'].'">'. os_image(http_path('icons_admin'). 'icon_status_red_light.gif', IMAGE_ICON_STATUS_RED_LIGHT, 10, 10) . '</a>');
             }
             else
             {
                 _e('<a href="'.FILENAME_PLUGINS.'?action=install&module='.$this->name.'&group='.$this->info[$this->name]['group'].'">' . os_image(http_path('icons_admin').'icon_status_green_light.gif', IMAGE_ICON_STATUS_GREEN_LIGHT, 10, 10) . '</a>&nbsp;&nbsp;' . os_image(http_path('icons_admin'). 'icon_status_red.gif', IMAGE_ICON_STATUS_RED, 10, 10));
+
+            }
+
+            return true;
+        }
+
+		// TODO: добавить возможность выключать\включать плагины без удаления инфы из БД.
+		//вывод статуса в cписки плагина вкл./выкл.
+        function viewUpdatePluginStatus ()
+        {
+            if(isset($this->info[$this->name]['status']) && ($this->info[$this->name]['status'] == 0))
+            {
+                _e(os_image(http_path('icons_admin') . 'icon_status_green.gif', IMAGE_ICON_STATUS_GREEN, 10, 10) . '&nbsp;&nbsp;<a onclick="return confirm(\'Действительно хотите удалить плагин?\')" href="'.FILENAME_PLUGINS.'?action=update_status&module='.$this->name.'&group='.$this->info[$this->name]['group'].'&set_status=0">'. os_image(http_path('icons_admin'). 'icon_status_red_light.gif', IMAGE_ICON_STATUS_RED_LIGHT, 10, 10) . '</a>');
+            }
+            else
+            {
+                _e('<a href="'.FILENAME_PLUGINS.'?action=update_status&module='.$this->name.'&group='.$this->info[$this->name]['group'].'&set_status=0">' . os_image(http_path('icons_admin').'icon_status_green_light.gif', IMAGE_ICON_STATUS_GREEN_LIGHT, 10, 10) . '</a>&nbsp;&nbsp;' . os_image(http_path('icons_admin'). 'icon_status_red.gif', IMAGE_ICON_STATUS_RED, 10, 10));
 
             }
 
@@ -306,6 +322,33 @@
             return $options;
         }
 
+		// TODO: добавить возможность выключать\включать плагины без удаления инфы из БД.
+		// Включение\выключение плагина БЕЗ удаления настроек из БД.
+		function updatePluginStatus($_plugin_name = '', $_group = 'main')
+		{
+			//определяем получаемый статус
+			$status = $_GET['set_status'];
+
+			if (is_numeric($status))
+			{
+				//определяем имя устанавливаемого плагина
+				if (!empty($_plugin_name))
+					$this->name = $_plugin_name;
+				else
+					$this->name = $this->module;
+
+				//определяем группу устанавливаемого плагина
+				if (isset($_GET['group']) && !empty($_GET['group']))
+					$this->group = $_GET['group'];
+				else
+					$this->group = $_group;
+
+				$this->query("UPDATE ".DB_PREFIX."plugins SET plugins_value = '".$status."' WHERE plugins_key = '".$this->name."' AND plugins_name = 'show'");
+			}
+			else
+				return false;
+		}
+
         //удалене модуля
         /*
         если нужно удалить какой то конкретный модуль. 
@@ -314,11 +357,16 @@
         function remove($_plugin_name = '', $_group = 'main')
         {
             //определяем имя устанавливаемого плагина
-            if (!empty($_plugin_name)) $this->name = $_plugin_name;
-            else $this->name = $this->module;
+            if (!empty($_plugin_name))
+				$this->name = $_plugin_name;
+            else
+				$this->name = $this->module;
 
             //определяем группу устанавливаемого плагина
-            if (isset($_GET['group']) && !empty($_GET['group'])) $this->group = $_GET['group']; else $this->group = $_group;
+            if (isset($_GET['group']) && !empty($_GET['group']))
+				$this->group = $_GET['group'];
+			else
+				$this->group = $_group;
 
             switch ($this->group)
             {

@@ -1,11 +1,11 @@
 <?php
 /*
-#####################################
-#  OSC-CMS: Shopping Cart Software.
-#  Copyright (c) 2011-2012
-#  http://osc-cms.com
-#  Ver. 1.0.3
-#####################################
+*---------------------------------------------------------
+*
+*	OSC-CMS - Open Source Shopping Cart Software
+*	http://osc-cms.com
+*
+*---------------------------------------------------------
 */
 
 class osPrice {
@@ -554,10 +554,10 @@ class osPrice {
 		return $this->currencies[$this->actualCurr]['decimal_places'];
 	}
 	
-	//конвертация курсов валют
+	//РєРѕРЅРІРµСЂС‚Р°С†РёСЏ РєСѓСЂСЃРѕРІ РІР°Р»СЋС‚
 	/* 
-	  $cur_code1 из какой валюты переводить
-	  $cur_code2 в какую валюту переводить
+	  $cur_code1 РёР· РєР°РєРѕР№ РІР°Р»СЋС‚С‹ РїРµСЂРµРІРѕРґРёС‚СЊ
+	  $cur_code2 РІ РєР°РєСѓСЋ РІР°Р»СЋС‚Сѓ РїРµСЂРµРІРѕРґРёС‚СЊ
 	*/
 	
 	function ConvertCurr ($price, $cur_code1, $cur_code2, $format = false )

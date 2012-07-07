@@ -1,12 +1,11 @@
 <?php
 /*
-#####################################
-#  OSC-CMS: Shopping Cart Software.
-#  Copyright (c) 2011-2012
-#  http://osc-cms.com
-#  http://osc-cms.com/forum
-#  Ver. 1.0.0
-#####################################
+*---------------------------------------------------------
+*
+*	OSC-CMS - Open Source Shopping Cart Software
+*	http://osc-cms.com
+*
+*---------------------------------------------------------
 */
 
 if (!is_object($_SESSION['cart'])) {
@@ -59,7 +58,7 @@ if (isset ($_GET['action'])) {
 			}
 			os_redirect(os_href_link($goto, os_get_all_get_params($parameters)));
 			break;
-			//добавление продуктов
+			//РґРѕР±Р°РІР»РµРЅРёРµ РїСЂРѕРґСѓРєС‚РѕРІ
 		case 'add_product' :
 		
        foreach( $_REQUEST as $key => $value) $_POST[$key]=$value;

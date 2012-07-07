@@ -451,7 +451,7 @@ class product {
 		}
 	}
 	
-	//удаление товаров по id
+	//СѓРґР°Р»РµРЅРёРµ С‚РѕРІР°СЂРѕРІ РїРѕ id
 	function remove ($_array)
 	{
 	   if (!empty($_array))

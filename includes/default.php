@@ -1,19 +1,18 @@
 <?php
 /*
-#####################################
-#  OSC-CMS: Shopping Cart Software.
-#  Copyright (c) 2011-2012
-#  http://osc-cms.com
-#  http://osc-cms.com/forum
-#  Ver. 1.0.0
-#####################################
+*---------------------------------------------------------
+*
+*	OSC-CMS - Open Source Shopping Cart Software
+*	http://osc-cms.com
+*
+*---------------------------------------------------------
 */
 
-//ÿçûêè
+//ÑÐ·Ñ‹ÐºÐ¸
    define('DEFAULT_INSTALL_LANG', 'ru');
    define('DEFAULT_SHOP_LANG', 'ru');
    define('DEFAULT_ADMIN_LANG', 'ru');
-//íàñòðîéêè äëÿ óñòàíîâêè
+//Ð½Ð°ÑÑ‚Ñ€Ð¾Ð¹ÐºÐ¸ Ð´Ð»Ñ ÑƒÑÑ‚Ð°Ð½Ð¾Ð²ÐºÐ¸
    define('AUTO_INSTALL', false);
    define('DEFAULT_DB_SERVER', 'localhost');   
    define('DEFAULT_DB_SERVER_USERNAME', '');   
