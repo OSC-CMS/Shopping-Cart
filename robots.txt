@@ -37,8 +37,6 @@ Disallow: /newsletter.php
 Disallow: /products_new.php
 Disallow: /password_double_opt.php
 Disallow: /popup_image.php 
-Disallow: /popup_search_help.php 
-Disallow: /product_notifications.php 
 Disallow: /product_reviews.php 
 Disallow: /product_reviews_info.php 
 Disallow: /shipping.php 

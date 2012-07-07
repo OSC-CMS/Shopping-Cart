@@ -19,7 +19,6 @@ require (dir_path('includes').'header.php');
 $osTemplate->assign('FORM_ACTION', os_draw_form('advanced_search', os_href_link(FILENAME_ADVANCED_SEARCH_RESULT, '', 'NONSSL', false), 'get', 'onsubmit="return check_form(this);"').os_hide_session_id());
 
 $osTemplate->assign('INPUT_KEYWORDS', os_draw_input_field('keywords', '', ''));
-$osTemplate->assign('HELP_LINK', 'javascript:popupWindow(\''.os_href_link(FILENAME_POPUP_SEARCH_HELP).'\')');
 
    $_array = array('img' => 'button_search.gif', 'href' => '', 'alt' => IMAGE_BUTTON_SEARCH,'code' => '');
 	

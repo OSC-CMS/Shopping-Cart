@@ -1,12 +1,11 @@
 <?php
 /*
-#####################################
-#  OSC-CMS: Shopping Cart Software.
-#  Copyright (c) 2011-2012
-#  http://osc-cms.com
-#  http://osc-cms.com/forum
-#  Ver. 1.0.0
-#####################################
+*---------------------------------------------------------
+*
+*	OSC-CMS - Open Source Shopping Cart Software
+*	http://osc-cms.com
+*
+*---------------------------------------------------------
 */
 
 define('FILENAME_ACCOUNT', 'account.php');
@@ -40,7 +39,6 @@ define('FILENAME_LOGIN', 'login.php');
 define('FILENAME_LOGOFF', 'logoff.php');
 define('FILENAME_NEWSLETTER', 'newsletter.php');
 define('FILENAME_POPUP_IMAGE', 'popup_image.php');
-define('FILENAME_POPUP_SEARCH_HELP', 'popup_search_help.php');
 define('FILENAME_PRODUCT_INFO', 'product_info.php');
 define('FILENAME_PRODUCT_LISTING', 'product_listing.php');
 define('FILENAME_PRODUCT_NOTIFICATIONS', 'product_notifications.php');
