@@ -129,7 +129,7 @@ if (ACCOUNT_COUNTRY == 'true') {
   
   if ($process == true) $entry['entry_country_id'] = (int)$_POST['country'];
 
-   $module->assign('SELECT_COUNTRY', os_get_country_list('country', $entry['entry_country_id'], 'id="country", onChange="document.getElementById(\'stateXML\').innerHTML = \'' . ENTRY_STATEXML_LOADING . '\';loadXMLDoc(\'loadStateXML\',{country_id: this.value});"') . (os_not_null(ENTRY_COUNTRY_TEXT) ? '<span class="alert">' . ENTRY_COUNTRY_TEXT . '</span>': ''));
+   $module->assign('SELECT_COUNTRY', os_get_country_list('country', $entry['entry_country_id'], 'id="country", onChange="document.getElementById(\'stateXML\').innerHTML = \'' . ENTRY_STATEXML_LOADING . '\';loadXMLDoc(\'loadStateXML\',{country_id: this.value});"') . (os_not_null(ENTRY_COUNTRY_TEXT) ? '<span class="Requirement">' . ENTRY_COUNTRY_TEXT . '</span>': ''));
 
      //buttons	
 	$_array = array('img' => 'button_update.gif', 
