@@ -1,12 +1,11 @@
 <?php
 /*
-#####################################
-#  OSC-CMS: Shopping Cart Software.
-#  Copyright (c) 2011-2012
-#  http://osc-cms.com
-#  http://osc-cms.com/forum
-#  Ver. 1.0.0
-#####################################
+*---------------------------------------------------------
+*
+*	OSC-CMS - Open Source Shopping Cart Software
+*	http://osc-cms.com
+*
+*---------------------------------------------------------
 */
 
 define('TITLE', STORE_NAME);
@@ -382,7 +381,7 @@ define('ENTRY_NOSTATE_AVAILIABLE', 'У выбранной страны нет р
 define('ENTRY_STATEXML_LOADING', 'Загрузка регионов ...');
 
 define('SHIPPING_TIME','Время доставки: ');
-define('MORE_INFO','[Подробнее]');
+define('MORE_INFO','Подробнее');
 
 define('TABLE_HEADING_LATEST_NEWS', 'Последние новости');
 define('NAVBAR_TITLE_NEWS', 'Новости');
