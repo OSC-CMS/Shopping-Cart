@@ -34,7 +34,7 @@ if (isset($_POST['action'])) {
     $a_city = os_db_prepare_input($_POST['a_city']);
     $a_country = os_db_prepare_input($_POST['a_country']);
     $a_zone_id = os_db_prepare_input($_POST['a_zone_id']);
-    $a_state = os_db_prepare_input($_POST['a_state']);
+    $state = os_db_prepare_input($_POST['state']);
     $a_telephone = os_db_prepare_input($_POST['a_telephone']);
     $a_fax = os_db_prepare_input($_POST['a_fax']);
     $a_homepage = os_db_prepare_input($_POST['a_homepage']);
@@ -147,13 +147,13 @@ if (isset($_POST['action'])) {
 			$check_value = os_db_fetch_array($check_query);
 			$entry_state_has_zones = ($check_value['total'] > 0);
 			if ($entry_state_has_zones) {
-				$zone_query = os_db_query("select zone_id from " . TABLE_ZONES . " where zone_country_id = '" . os_db_input($a_country) . "' and zone_name = '" . os_db_input($a_state) . "'");
+				$zone_query = os_db_query("select zone_id from " . TABLE_ZONES . " where zone_country_id = '" . os_db_input($a_country) . "' and zone_name = '" . os_db_input($state) . "'");
 				if (os_db_num_rows($zone_query) == 1) {
 					$zone_values = os_db_fetch_array($zone_query);
 					$a_zone_id = $zone_values['zone_id'];
 				}
 				else {
-					$zone_query = os_db_query("select zone_id from " . TABLE_ZONES . " where zone_country_id = '" . os_db_input($a_country) . "' and zone_code = '" . os_db_input($a_state) . "'");
+					$zone_query = os_db_query("select zone_id from " . TABLE_ZONES . " where zone_country_id = '" . os_db_input($a_country) . "' and zone_code = '" . os_db_input($state) . "'");
 					if (os_db_num_rows($zone_query) == 1) {
 						$zone_values = os_db_fetch_array($zone_query);
 						$a_zone_id = $zone_values['zone_id'];
@@ -165,7 +165,7 @@ if (isset($_POST['action'])) {
 				}
 			}
 			else {
-				if (!$a_state) {
+				if (!$state) {
 					$error = true;
 					$entry_state_error = true;
 				}
@@ -273,7 +273,7 @@ if (isset($_POST['action'])) {
     		}
     		else {
     			$sql_data_array['affiliate_zone_id'] = '0';
-    			$sql_data_array['affiliate_state'] = $a_state;
+    			$sql_data_array['affiliate_state'] = $state;
     		}
     	}
     	

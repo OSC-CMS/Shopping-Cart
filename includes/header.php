@@ -167,6 +167,11 @@ if (strstr($PHP_SELF, FILENAME_CHECKOUT_SHIPPING_ADDRESS )or strstr($PHP_SELF,FI
 	require(dir_path('includes').'form_check.js.php');
 }
 
+if (strstr($PHP_SELF, 'affiliate_signup.php')) 
+{
+    add_head_file ( dir_path('includes') . 'form_check.js.php', $HEAD);
+}
+
 //фильтруем массив метатегов
 $HEAD = apply_filter('head_array_detail', $HEAD);
 
