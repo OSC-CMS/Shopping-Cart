@@ -204,7 +204,6 @@ $osTemplate->assign('checkout', os_href_link(FILENAME_CHECKOUT_SHIPPING, '', 'SS
 $osTemplate->assign('store_name', TITLE);
 $osTemplate->assign('login', os_href_link(FILENAME_LOGIN, '', 'SSL'));
 $osTemplate->assign('mainpage', os_href_link(FILENAME_DEFAULT, '', 'SSL'));
-$osTemplate->assign('price_list', os_href_link(FILENAME_CONTENT, 'coID=12', 'SSL'));
 
 
 
@@ -238,7 +237,6 @@ $link_array = array(
 4 => array('current', ''),
 5 => array('current', ''),
 6 => array('current', ''),
-7 => array('current', '')
 );
 
 $link_array = apply_filter('link_array', $link_array);
@@ -295,16 +293,6 @@ if (strstr($PHP_SELF, FILENAME_LOGIN))
 else
 {
    $osTemplate->assign('6', $link_array[6][1]);
-}
-
-//прайслист
-if ( isset($_GET['coID']) && $_GET['coID']==12)  
-{
-   $osTemplate->assign('7', $link_array[7][0]);
-}
-else
-{
-    $osTemplate->assign('7', $link_array[7][1]);
 }
 
 ?>
