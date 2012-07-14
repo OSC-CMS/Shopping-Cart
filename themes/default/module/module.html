@@ -1,0 +1,88 @@
+{config_load file="$language/lang.conf" section="module"}
+<h1 class="contentBoxHeading">{#heading_address#}</h1>
+{$FORM_ACTION}
+{if $error!=''}
+<table width="100%" border="0" cellspacing="0" cellpadding="0">
+  <tr>
+    <td>{$error}</td>
+  </tr>
+</table>
+{/if} 
+<table width="100%" border="0" cellspacing="0" cellpadding="0">
+    <tr>
+          <td class="main">&nbsp;</td>
+	</tr>
+	<tr>
+    	<td><strong>{#title_standard#}</strong></td>
+	</tr>
+</table>
+<table width="100%" border="0" cellspacing="0" cellpadding="0">
+  <tr>
+    <td style="border-top: 1px solid; border-color: #cccccc;">
+	  <table width="100%" border="0" cellspacing="0" cellpadding="0">
+        <tr>
+          <td class="main">{#text_standard#}</td>
+          <td>
+		    <table width="100%" border="0" cellspacing="0" cellpadding="4">
+              <tr>
+			  	<td class="main">&nbsp;</td>
+			  </tr>
+			  <tr> 
+                <td align="center" valign="top" class="main"><strong>{#title_standard#}</strong><br /><img src="{$tpl_path}img/arrow_south_east.gif" alt="" /></td>
+                <td class="boxTextBG" style="border-right: 1px solid; border-color: #cccccc;" align="left">{$ADDRESS_DEFAULT}</td>
+              </tr>
+            </table></td>
+        </tr>
+      </table></td>
+  </tr>
+</table>
+<table width="100%" border="0" cellspacing="0" cellpadding="0">
+    <tr>
+          <td class="main">&nbsp;</td>
+	</tr>
+	<tr>
+    	<td><strong>{#title_addresses#}</strong></td>
+	</tr>
+</table>
+<table width="100%" border="0" cellspacing="0" cellpadding="0">
+  <tr> 
+    <td style="border-top: 1px solid; border-color: #cccccc;">
+	  <table width="100%" border="0" cellspacing="0" cellpadding="0">
+        <tr> 
+          <td style="border-right: 1px solid; border-color: #cccccc;" valign="top" class="main"><br />
+            {foreach name=aussen item=addresses from=$addresses_data} 
+            <table width="100%" border="0" cellspacing="0" cellpadding="0">
+              <tr class="moduleRow">
+                <td class="main"><strong>{$addresses.NAME}</strong> {if $addresses.PRIMARY=='1'} 
+                  <em>({#title_standard#})</em> {/if}</td>
+                <td align="right">{$addresses.BUTTON_EDIT} {$addresses.BUTTON_DELETE}</td>
+              </tr>
+              <tr>
+                <td class="main">{$addresses.ADDRESS}</td>
+                <td>&nbsp;</td>
+              </tr>
+            </table>
+			{/foreach}
+
+</td>
+        </tr>
+      </table></td>
+  </tr>
+</table>
+<table width="100%" border="0" cellspacing="0" cellpadding="0">
+        <tr>
+          <td class="main">&nbsp;</td>
+        </tr>
+  <tr>
+    <td>{$BUTTON_BACK}</td>
+    <td align="right">{$BUTTON_NEW}<br /></td>
+  </tr>
+</table>
+<table width="100%" border="0" cellspacing="0" cellpadding="0">
+        <tr>
+          <td class="main">&nbsp;</td>
+        </tr>
+		<tr>
+          <td class="main">{$ADDRESS_COUNT}</td>
+        </tr>
+</table>

@@ -1,0 +1,50 @@
+{config_load file="$language/lang.conf" section="checkout_shipping_address"}
+<div class="page-header">
+	<h1>{#heading_address#}</h1>
+</div>
+
+<table style="width:100%;" class="progress-bar-checkout">
+	<tr class="tcenter">
+		<td style="width:25%;" class="active">{#text_shipping_info#}</td>
+		<td style="width:25%;">{#text_payment_info#}</td>
+		<td style="width:25%;">{#text_confirm#}</td>
+		<td style="width:25%;">{#text_finished#}</td>
+	</tr>
+</table>
+<div class="progress progress-striped active">
+	<div class="bar" style="width:25%;"></div>
+</div>
+
+{if $error != ''}
+<div class="alert alert-error fade in">
+	<a class="close" data-dismiss="alert" href="#">&times;</a>
+	{$error}
+</div>
+{/if}
+
+{$FORM_ACTION}
+
+{if $SHIPPING_ADDRESS == 'true'}
+	{#title_current_address#}
+{/if}
+
+{if $SHIPPING_ADDRESS == 'true'}
+	{#text_current_address#}
+	{#title_current_address#}
+	{$ADDRESS_LABEL}
+{/if}
+
+
+{if $BLOCK_ADDRESS}
+	{#title_old_addresses#}
+	{#text_old_addresses#}
+	{$BLOCK_ADDRESS}
+{else}
+	{if $MODULE_new_address}
+		{$MODULE_new_address}
+	{/if}
+{/if}
+
+{$BUTTON_BACK} {$BUTTON_CONTINUE}
+
+{$FORM_END}

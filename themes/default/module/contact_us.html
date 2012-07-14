@@ -1,0 +1,57 @@
+{config_load file="$language/lang.conf" section="contact_us"}
+<div class="page-header">
+	<h1>{$CONTACT_HEADING}</h1>
+</div>
+
+{if $error_message!=''}
+<div class="alert alert-error fade in">
+	<a class="close" data-dismiss="alert" href="#">&times;</a>
+	{$error_message}
+</div>
+{/if}
+
+{if $success != '1'}
+	<div class="form-horizontal">
+		{if $CONTACT_CONTENT}<div class="well well-small">{$CONTACT_CONTENT}</div>{/if}
+		{$FORM_ACTION}
+		<fieldset>
+			<div class="control-group">
+				<label class="control-label" for="customer_name">{#text_name#}</label>
+				<div class="controls">
+					{$INPUT_NAME}
+				</div>
+			</div>
+			<div class="control-group">
+				<label class="control-label" for="email_address">{#text_email#}</label>
+				<div class="controls">
+					{$INPUT_EMAIL}
+				</div>
+			</div>
+			<div class="control-group">
+				<label class="control-label" for="message_body">{#text_message#}</label>
+				<div class="controls textarea-xlarge">
+					{$INPUT_TEXT}
+				</div>
+			</div>
+			<div class="control-group">
+				<label class="control-label" for="">{#text_sec_code#}</label>
+				<div class="controls">
+					<a href="javascript:void(0)" title="{#text_captcha_update#}" onclick="reload_captcha()">{$CAPTCHA_IMG}</a>
+				</div>
+			</div>
+			<div class="control-group">
+				<label class="control-label" for="captcha">{#text_sec_code_text#}</label>
+				<div class="controls">
+					{$CAPTCHA_INPUT}
+				</div>
+			</div>
+			<div class="form-actions">
+				{$BUTTON_SUBMIT}
+			</div>
+		</fieldset>
+		{$FORM_END}
+	</div>
+{else}
+	<p>{#text_success#}</p>
+	<p>{$BUTTON_CONTINUE}</p>
+{/if}

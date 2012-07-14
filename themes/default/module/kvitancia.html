@@ -1,0 +1,83 @@
+{config_load file="$language/lang.conf" section="print_order"} {config_load file="$language/lang.conf" section="product_info"}<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>Квитанция - {#title#} {$oID}</title><meta http-equiv="Content-Type" content="text/html; charset={$charset}" />
+<link rel="stylesheet" type="text/css" href="{$tpl_path}/style.css" /></head><body onload="window.print()">
+<!-- Квитанция -->
+<div class="page">
+
+<CENTER>
+<TABLE border=1 cellPadding=3 cellSpacing=0 width=600>
+  <TBODY>
+  <TR>
+    <TD align=right height=255 vAlign=top width=240><br /><br /><FONT size=2>
+      <P>Извещение</P></FONT><FONT 
+      size=1><br /><br /><br /><br /><br /><br /><br /><br /><br /><br />
+      <P>Кассир</P><br /></FONT></FONT></TD>
+    <TD align=right height=255 vAlign=center width=100>
+      <TABLE border=1 cellPadding=3 cellSpacing=0 width=360><FONT size=-1>
+        <P align=center>{$1}<br />ИНН {$5}, {$6}
+	<br /><P></P></FONT><FONT size=1>получатель платежа</FONT>
+        <TBODY>
+        <TR>
+          <TD align=middle colSpan=4 height=10 vAlign=center><FONT size=2>
+            <P>Расчетный счет №: {$2}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;БИК: 
+            {$3}</P></FONT></TD></TR>
+        <TR>
+          <TD align=center colSpan=4 height=10 vAlign=middle><FONT size=2>
+            <P>Кор. сч.: {$4} &nbsp;&nbsp;&nbsp;&nbsp;КПП {$7}</P></FONT></TD></TR>
+        <TR>
+          <TD colSpan=4><FONT size=2>
+            <CENTER>&nbsp;{$kvit_name}<br />{$kvit_address}<br /></CENTER></FONT></TD></TR>
+        <TR>
+          <TD align=middle colSpan=2><FONT size=2>Вид платежа</FONT></TD>
+          <TD align=middle><FONT size=2>Дата</FONT></TD>
+          <TD align=middle><FONT size=2>Сумма</FONT></TD></TR>
+        <TR>
+          <TD align=middle colSpan=2><FONT size=1>{$8} {$oID}</FONT></TD>
+          <TD align=middle><FONT size=2>{$DATE}</FONT><br /></TD>
+          <TD align=middle><FONT size=2>{$final_price}</FONT></TD></TR>
+        <TR>
+          <TD align=left colSpan=2 rowSpan=2><FONT 
+            size=2>Плательщик:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</FONT></TD>
+          <TD align=middle><FONT size=1>Пеня:</FONT></TD>
+          <TD align=middle>---<br /></TD></TR>
+        <TR align=middle>
+          <TD><FONT size=2>Всего:</FONT></TD>
+          <TD><FONT size=2>{$final_price}</FONT><br /></TD></TR></P></TABLE></TD></TR>
+  <TR>
+    <TD align=right height=255 vAlign=top width=240><FONT size=2><br /><br />
+      <P>Квитанция</P><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><FONT size=1>
+      <P>Кассир</P><br /></FONT></FONT></TD>
+    <TD align=right height=255 vAlign=center width=100>
+      <TABLE border=1 cellPadding=3 cellSpacing=0 width=360><FONT size=-1>
+        <P align=center>{$1}<br />ИНН {$5}, {$6}
+	<br /><P></P></FONT><FONT size=1>получатель платежа</FONT>
+        <TBODY>
+        <TR>
+          <TD align=middle colSpan=4 height=10 vAlign=center><FONT size=2>
+            <P>Расчетный счет №: {$2}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;БИК: 
+            {$3}</P></FONT></TD></TR>
+        <TR>
+          <TD align=center colSpan=4 height=10 vAlign=middle><FONT size=2>
+            <P>Кор. сч.: {$4} &nbsp;&nbsp;&nbsp;&nbsp;КПП {$7}</P></FONT></TD></TR>
+        <TR>
+          <TD colSpan=4><FONT size=2>
+            <CENTER>&nbsp;{$kvit_name}<br />{$kvit_address}<br /></CENTER></FONT></TD></TR>
+        <TR>
+          <TD align=middle colSpan=2><FONT size=2>Вид платежа</FONT></TD>
+          <TD align=middle><FONT size=2>Дата</FONT></TD>
+          <TD align=middle><FONT size=2>Сумма</FONT></TD></TR>
+        <TR>
+          <TD align=middle colSpan=2><FONT size=1>{$8} {$oID}</FONT></TD>
+          <TD align=middle><FONT size=2>{$DATE}</FONT><br /></TD>
+          <TD align=middle><FONT size=2>{$final_price}</FONT></TD></TR>
+        <TR>
+          <TD align=left colSpan=2 rowSpan=2><FONT 
+            size=2>Плательщик:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</FONT></TD>
+          <TD align=middle><FONT size=1>Пеня:</FONT></TD>
+          <TD align=middle>---<br /></TD></TR>
+        <TR align=middle>
+          <TD><FONT size=2>Всего:</FONT></TD>
+          <TD><FONT size=2>{$final_price}</FONT><br /></TD></TR></P></TABLE></TD></TR></TBODY></TABLE></CENTER>
+          
+</div>
+<!-- /Квитанция -->
+</body></html>

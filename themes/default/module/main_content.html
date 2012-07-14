@@ -1,0 +1,12 @@
+{config_load file="$language/lang.conf" section="index"}
+{$MODULE_error}
+{if $text}
+<div class="hero-unit">
+	{if $title}<h1>{$title}</h1>{/if}
+	<p>{$text}</p>
+</div>
+{/if}
+{$MODULE_featured_products}
+{$MODULE_new_products}
+{$MODULE_upcoming_products}
+{$MODULE_latest_news}

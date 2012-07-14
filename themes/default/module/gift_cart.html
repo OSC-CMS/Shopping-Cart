@@ -1,0 +1,33 @@
+{config_load file="$language/lang.conf" section="gift_cart"}
+{if $ACTIVATE_GIFT == 'true'}
+<a href="javascript://" class="btn" data-toggle="collapse" data-target="#myCollapseGift">{#title#}</a>
+<p></p>
+<div id="myCollapseGift" class="collapse">
+	{$FORM_ACTION}
+	{if $GV_AMOUNT neq ''}
+		<p>{#voucher_balance#} <span class="badge badge-success">{$GV_AMOUNT}</span> <a class="btn btn-mini btn-primary" href="{$GV_SEND_TO_FRIEND_LINK}">{#box_send_to_friend#}</a></p>
+	{/if}
+
+	{if $COUPON_AMOUNT2 neq ''}
+		<p>{#voucher_redeemed#}</p>
+		<p>{$COUPON_AMOUNT2}</p>
+	{/if}
+
+	{if $COUPON_HELP_LINK neq ''}
+		<p>{#cart_coupon#} {$COUPON_HELP_LINK} {#cart_coupon_info#}</a></p>
+	{/if}
+
+	{if $C_FLAG == 'true'}
+		<p>{#text_gift#}</p>
+		<p>
+			<span class="pull-left">{$INPUT_CODE}</span> 
+			<span class="pull-left gift-buttom-submit">{$BUTTON_SUBMIT}</span>
+			<div class="clear"></div>
+		</p>
+	{else}
+		<p>{#create_account#}</p>
+		<p><a href="{$LINK_ACCOUNT}"><strong>{#text_create_account#}</strong></a></p>
+	{/if}
+	{$FORM_END}
+</div>
+{/if}

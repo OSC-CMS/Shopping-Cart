@@ -1,0 +1,35 @@
+{config_load file="$language/lang.conf" section="account_history"}
+<div class="page-header">
+	<h1>{#heading_history#}</h1>
+</div>
+
+<table class="table table-striped">
+	<thead>
+	<tr>
+		<th>{#text_date#}</th>
+		<th>{#text_articles#}</th>
+		<th>{#text_oid#}</th>
+		<th>{#text_total#}</th>
+		<th>{#text_status#}</th>
+		<th></th>
+	</tr>
+	</thead>
+	<tbody>
+	{foreach name=aussen item=order_data from=$order_content}
+	<tr>
+		<td>{$order_data.ORDER_DATE}</td>
+		<td>{$order_data.ORDER_PRODUCTS}</td>
+		<td>{$order_data.ORDER_ID}</td>
+		<td>{$order_data.ORDER_TOTAL}</td>
+		<td>{$order_data.ORDER_STATUS}</td>
+		<td>{$order_data.ORDER_BUTTON}</td>
+	</tr>
+	{/foreach}
+	</tbody>
+</table>
+
+<div class="page-navigation tcenter">
+	<p class="pn-nav">{$SPLIT_BAR}</p>
+	<p class="pn-desc">{$SPLIT_BAR_PAGES}</p>
+</div>
+{$BUTTON_BACK}

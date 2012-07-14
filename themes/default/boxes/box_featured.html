@@ -1,0 +1,31 @@
+{config_load file="$language/lang.conf" section="boxes"}
+<div class="box">
+	<h6 class="box-title">{#heading_featured#}</h6>
+	<div class="box-content">
+<table border="0" width="100%" cellspacing="0" cellpadding="3" class="infoBoxContents">
+<tr>
+<td colspan="2" align="center"><a href="{$box_content.PRODUCTS_LINK}">{$box_content.PRODUCTS_NAME}</a></td>
+</tr>
+<tr>
+<td class="boxText" align="center">{if $box_content.PRODUCTS_IMAGE}<a href="{$box_content.PRODUCTS_LINK}"><img src="{$box_content.PRODUCTS_IMAGE}" alt="{$box_content.PRODUCTS_NAME}" title="{$box_content.PRODUCTS_NAME}" /></a>{/if}
+<br />                       
+</td>
+<td class="boxText" align="center">
+
+{$box_content.PRODUCTS_BUTTON_BUY_NOW_NEW}
+
+</td>
+</tr>
+<tr>
+<td class="boxText" align="center" colspan="2">
+<table width="98%" border="0" cellpadding="0" cellspacing="0">
+<tr>
+<td class="boxTextBG" align="center"><strong>{$box_content.PRODUCTS_PRICE}</strong><br />{if $box_content.PRODUCTS_VPE}{$box_content.PRODUCTS_VPE}<br />{/if}{$box_content.PRODUCTS_TAX_INFO}{$box_content.PRODUCTS_SHIPPING_LINK}</td>
+</tr>
+</table>
+</td>
+</tr>
+</table>
+
+	</div>
+</div>

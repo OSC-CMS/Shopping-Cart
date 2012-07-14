@@ -1,0 +1,13 @@
+{config_load file="$language/lang.conf" section="sitemap"}
+<div id="sitemap">
+	{foreach name=aussen item=module_data from=$module_content}
+	<div class="sitemap-item sitemap-col">
+		<h3><a href="{$module_data.CAT_LINK}">{$module_data.CAT_NAME}</a></h3>
+		<ul>
+			{foreach key=key_data item=item_data from=$module_data.SCATS}
+			<li><a href="{$item_data.link}">{$item_data.text}</a></li>
+			{/foreach}
+		</ul>
+	</div>
+	{/foreach}
+</div>

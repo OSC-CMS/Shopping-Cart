@@ -1,0 +1,207 @@
+{config_load file="$language/lang.conf" section="index"}
+<div class="navbar navbar-fixed-top">
+	<div class="navbar-inner">
+		<div class="container">
+			<a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+				<span class="icon-bar"></span>
+				<span class="icon-bar"></span>
+				<span class="icon-bar"></span>
+			</a>
+
+			<a class="brand" href="{$index}" title="{$smarty.const.STORE_OWNER}">{$smarty.const.STORE_NAME}</a>
+
+			<div class="nav-collapse">
+				<ul class="nav">
+					<li class=""><a href="{$mainpage}">{#text_mainpage#}</a></li>
+					{if $account}{if $smarty.session.customer_id}
+					<li class=""><a href="{$account}">{#link_account#}</a></li>
+					{/if}{/if}
+					<li class=""><a href="{$cart}">{#link_cart#}</a></li>
+					<li class=""><a href="{$price_list}">{#price_list#}</a></li>
+					<li class=""><a href="{$checkout}">{#link_checkout#}</a></li>
+					{if $account}{if $smarty.session.customer_id}
+					<li class=""><a href="{$logoff}">{#link_logoff#}</a></li>
+					{else}
+					<li class=""><a href="{$login}">{#link_login#}</a></li>
+					{/if}{/if}
+				</ul>
+
+				{$box_INFORMATION}
+
+				<ul class="nav pull-right">
+					{if $account}{if $smarty.session.customer_id}
+					<li id="fat-menu" class="dropdown">
+						<a href="#" class="dropdown-toggle" data-toggle="dropdown">Аккаунт <b class="caret"></b></a>
+						<ul class="dropdown-menu">
+							<li><a href="{$index}profile.php?id=1">Страница профиля</a></li>
+							<li><a href="{$index}account_edit.php">Персональные данные</a></li>
+							<li><a href="{$index}account_password.php">Изменить пароль</a></li>
+							<li><a href="{$index}newsletter.php">Рассылка новостей</a></li>
+							<li><a href="{$index}address_book.php">Адресная книга</a></li>
+							<li><a href="{$index}account_history.php">Мои заказы</a></li>
+							<li class="divider"></li>
+							<li><a href="{$index}logoff.php">Выход</a></li>
+						</ul>
+					</li>
+					{else}
+					<li><a data-toggle="modal" href="{$login}#modalLogin">{#link_login#}</a></li>
+					<li><a href="{$index}create_account.php">Регистрация</a></li>
+					{/if}{/if}
+				</ul>
+			</div><!--/.nav-collapse -->
+		</div>
+	</div>
+</div>
+
+<div class="container">
+	<div class="row-fluid">
+		<div class="span3">
+			{$box_SEARCH}
+		</div>
+		<div class="span9">
+			{$box_LANGUAGES}
+			{$box_CURRENCIES}
+		</div>
+	</div>
+	
+	<div class="row-fluid">
+		<div class="span3">
+			{$box_CART}
+			{$box_NEW_CATEGORIES}
+			{$box_CONTENT}
+			{$box_PRODUCT_FILTER}
+			{$param_box}
+			{$box_ADD_QUICKIE}
+			{$box_LAST_VIEWED}
+			{$box_REVIEWS}
+			{$box_SPECIALS}
+			{$box_FEATURED}
+			{$box_ARTICLES}
+			{$box_ARTICLESNEW}
+			{$box_AUTHORS}
+			{$box_HISTORY}
+			{$box_LOGIN}
+			{$box_ADMIN}
+			{$box_DOWNLOADS}
+			{$box_AFFILIATE}
+			{$box_WHATSNEW}
+			{$box_NEWSLETTER}
+			{$box_BESTSELLERS}
+			{$box_INFOBOX}
+			{$box_LATESTNEWS}
+			{$box_MANUFACTURERS}
+			{$box_MANUFACTURERS_INFO}
+			{$box_FAQ}
+		</div>
+		<div class="span9">
+			{if !$default}{$navtrail}{/if}
+			{$text}{$main_content}
+		</div><!--/span-->
+	</div><!--/row-->
+
+	<hr>
+
+	<footer>
+		<p>&copy; Company 2012</p>
+	</footer>
+</div><!--/.fluid-container-->
+{$box_LOGIN}
+
+
+
+
+
+
+
+
+
+{*
+<div id="wrapper" style="display:none;">
+
+	<div id="header" class="relative">
+		<div class="top-nav clearfix">
+			
+			
+		</div>
+
+		<a class="logo" href="{$index}" title="{$smarty.const.STORE_OWNER}">{$smarty.const.STORE_NAME}</a>
+
+		
+
+		<div class="top-contacts">
+			{if $smarty.const.STORE_TELEPHONE}{$smarty.const.STORE_TELEPHONE}<br />{/if}
+			{if $smarty.const.STORE_OWNER_EMAIL_ADDRESS}{$smarty.const.STORE_OWNER_EMAIL_ADDRESS}<br />{/if}
+			{if $smarty.const.STORE_ICQ}{$smarty.const.STORE_ICQ}<br />{/if}
+			{if $smarty.const.STORE_SKYPE}{$smarty.const.STORE_SKYPE}{/if}
+		</div>
+
+	</div><!-- #header-->
+{literal}
+<style>
+#categories-title {float:left;position:relative;}
+#categories-title h3 {line-height:35px;}
+#categories-content {position:absolute;top:35px;left:0;width:180px;z-index:9999;}
+</style>
+{/literal}
+	<div class="nav">
+		<div id="categories-title">
+			<h3>Категории</h3>
+			<div id="categories-content" style="display:none;">
+				{$box_CATEGORIES}
+			</div>
+		</div>
+		<ul class="main-nav">
+			<li class="{$1} first"><a href="{$mainpage}"><span>{#text_mainpage#}</span></a></li>
+			{if $account}{if $smarty.session.customer_id}
+			<li class="{$2}"><a href="{$account}"><span>{#link_account#}</span></a></li>
+			{/if}{/if}
+			<li class="{$3}"><a href="{$cart}"><span>{#link_cart#}</span></a></li>
+			<li class="{$7}"><a href="{$price_list}"><span>{#price_list#}</span></a></li>
+			<li class="{$4}"><a href="{$checkout}"><span>{#link_checkout#}</span></a></li>
+			{if $account}{if $smarty.session.customer_id}
+			<li class="{$5}"><a href="{$logoff}"><span>{#link_logoff#}</span></a></li>
+			{else}
+			<li class="{$6} last"><a href="{$login}"><span>{#link_login#}</span></a></li>
+			{/if}{/if}
+		</ul>
+	</div>
+
+	<div id="middle">
+
+		<div id="container">
+			<div id="content">
+				<div class="contentInner">
+
+				</div>
+			</div><!-- #content-->
+		</div><!-- #container-->
+
+		<div id="sideLeft">
+			<div class="contentInner">
+
+			</div>
+		</div><!-- #sideLeft -->
+
+		<div id="sideRight">
+			<div class="contentInner">
+				
+
+			</div>
+		</div><!-- #sideRight -->
+
+	</div><!-- #middle-->
+
+</div><!-- #wrapper -->
+
+<div id="footer" style="display:none;">
+	<div class="footer-copyright">
+		&copy; {$smarty.now|date_format:'%Y'} 
+		<a href="{$index}" title="{$smarty.const.STORE_NAME}">{$smarty.const.STORE_NAME}</a>. 
+		Powered by <a href="http://osc-cms.com/" alt="Shopping Cart Software">OSC-CMS</a>.
+		<br />
+		{$smarty.const.STORE_NAME_ADDRESS}
+	</div>
+
+	<div class="footer-banners"></div>
+</div><!-- #footer -->
+*}

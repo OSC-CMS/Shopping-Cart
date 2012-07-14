@@ -1,0 +1,108 @@
+{config_load file="$language/lang.conf" section="product_info"}
+{$FORM_ACTION}
+<div class="block">
+	<h3 class="block-title">{$PRODUCTS_NAME}</h3>
+	<div class="block-content">
+		<div class="prod-info-img left w48 tcenter">{$PRODUCTS_IMAGE_BLOCK}</div>
+		<ul class="prod-info-info right w48">
+			<li class="prod-info-price">{$PRODUCTS_PRICE}</li>
+			<li>{$PRODUCTS_TAX_INFO}</li>
+			{if $PRODUCTS_SHIPPING_LINK}<li>{$PRODUCTS_SHIPPING_LINK}</li>{/if}
+			{if $PRODUCTS_VPE}<li>{$PRODUCTS_VPE}</li>{/if}
+			{if $PRODUCTS_MODEL!=''}<li>{#model#} <span class="orange">{$PRODUCTS_MODEL}</span></li>{/if}
+			{if $PRODUCTS_DISCOUNT}<li>{#text_discount#} {$PRODUCTS_DISCOUNT}</li>{/if}
+			<li>{#print#} {$PRODUCTS_PRINT|replace:"cursor:hand":"cursor:pointer"}</li>
+			<li>{#question#} {$ASK_PRODUCT_QUESTION|replace:"cursor:hand":"cursor:pointer"}</li>
+			{if $MODULE_graduated_price !=''}<li>{$MODULE_graduated_price}</li>{/if}
+			{if $SHIPPING_NAME}<li>{#text_shippingtime#} {$SHIPPING_NAME}</li>{/if}
+			{if $PRODUCTS_FSK18=='true'}<li class="bold orange">Товар для взрослых</li>{/if}
+			{if $PRODUCTS_STOCK eq 1}
+				<li class="prod-info-add-cart"><span class="add-qty">{$ADD_QTY}</span>{$ADD_CART_BUTTON}</li>
+			{else}
+				<li class="prod-info-add-cart">Нет на складе</li>
+			{/if}
+		</ul>
+		<div class="clear"></div>
+		{if $MODULE_product_options !=''}
+		<table class="product-options">
+			{$MODULE_product_options}
+		</table>
+		{/if}
+		<div class="clear"></div>
+{if $tags_data}
+<p>
+{#text_tags#}: 
+{foreach name=tags item=tag from=$tags_data}
+<a href="{$tag.LINK}">{$tag.NAME}</a> 
+{/foreach}
+</p>
+{/if}
+		<div class="clear"></div>
+
+		<div class="prod-info-descr">
+			<div class="left w33">{$reviews_rating}</div>
+			<div class="right w65 tright prod-info-added">
+				{if $PRODUCTS_DATE_AVIABLE != ''}{$PRODUCTS_DATE_AVIABLE}<br />{/if}
+				{if $PRODUCTS_ADDED != ''}{$PRODUCTS_ADDED}{/if}
+			</div>
+			<div class="clear"></div>
+		</div>
+		<div class="clear"></div>
+		<div class="section">
+			<ul class="tabs">
+				<li class="current">описание</li>
+				{if $extra_fields_data}<li>доп. поля</li>{/if}
+				{if $PRODUCTS_MO_IMAGES}<li>картинки</li></li>{/if}
+				<li>отзывы</li>
+			</ul>
+
+			<div class="tbox visible content-style">{if $PRODUCTS_DESCRIPTION !=''}{$PRODUCTS_DESCRIPTION}{else}Нет описания{/if}</div>
+			{if $extra_fields_data}
+			<div class="tbox">
+				<table class="extra-fields">
+					{foreach name=aussen item=extra_fields from=$extra_fields_data}
+					<tr>
+						<td class="ef-name">{$extra_fields.NAME}</td>
+						<td>{$extra_fields.VALUE}</td>
+					</tr>
+					{/foreach}
+				</table>
+			</div>
+			{/if}
+			{if $PRODUCTS_MO_IMAGES}
+			<div class="tbox">
+				<ul class="prod-info-moimg">
+					{foreach name=mo_pic item=img_values from=$mo_img}
+					<li>{$img_values.PRODUCTS_MO_IMAGE_BLOCK}</li>
+					{if $smarty.foreach.mo_pic.iteration % 3 == 0}</ul><div class="clear"></div><ul class="prod-info-moimg">{/if}
+					{/foreach}
+					<div class="clear"></div>
+				</ul>
+			</div>
+			{/if}
+			<div class="tbox">{if $MODULE_products_reviews != ''}{$MODULE_products_reviews}{/if}</div>
+		</div>
+
+		<div class="clear"></div>
+		<div class="center"><br />
+			{if $PRODUCTS_URL != ''}{$PRODUCTS_URL}{/if}
+		</div>
+		<div class="clear"></div>
+	</div>
+</div>
+{if $PRODUCT_NAVIGATOR}
+<div class="default-content">
+	<div class="content-box">
+		{$PRODUCT_NAVIGATOR}
+		<div class="right w48 tright"><a class="bold" href="{$smarty.const.CURR_CAT_LINK}">{#td_product_info_more_products#}</a></div>
+		<div class="clear"></div>
+	</div>
+</div>
+{/if}
+
+{if $MODULE_tpt != ''}{$MODULE_tpt}{/if}
+{if $MODULE_products_media != ''}{$MODULE_products_media}{/if}
+{if $MODULE_cross_selling != ''}{$MODULE_cross_selling}{/if}
+{if $MODULE_reverse_cross_selling != ''}{$MODULE_reverse_cross_selling}{/if}
+{if $MODULE_also_purchased != ''}{$MODULE_also_purchased}{/if}
+{$FORM_END}

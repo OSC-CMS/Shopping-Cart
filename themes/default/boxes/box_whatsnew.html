@@ -1,0 +1,15 @@
+{config_load file="$language/lang.conf" section="boxes"}
+<div class="box">
+	<h3><a href="{$LINK_NEW_PRODUCTS}">{#heading_whatsnew#}</a></h3>
+	<div class="thumbnail product-list">
+		{if $box_content.PRODUCTS_IMAGE}<a class="product-image" href="{$box_content.PRODUCTS_LINK}"><img src="{$box_content.PRODUCTS_IMAGE}" alt="{$box_content.PRODUCTS_NAME}" /></a>{/if}
+		<div class="caption">
+			<h5><a href="{$box_content.PRODUCTS_LINK}">{$box_content.PRODUCTS_NAME}</a></h5>
+			<p>{$box_content.PRODUCTS_PRICE}</p>
+			{if $box_content.PRODUCTS_VPE}<p>{$box_content.PRODUCTS_VPE}</p>{/if}
+			{if $box_content.PRODUCTS_TAX_INFO}<p>{$box_content.PRODUCTS_TAX_INFO}</p>{/if}
+			{if $box_content.PRODUCTS_SHIPPING_LINK}<p>{$box_content.PRODUCTS_SHIPPING_LINK}</p>{/if}
+			<p>{$box_content.PRODUCTS_BUTTON_BUY_NOW_NEW}</p>
+		</div>
+	</div>
+</div>

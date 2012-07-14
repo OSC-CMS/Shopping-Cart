@@ -1,0 +1,28 @@
+{config_load file="$language/lang.conf" section="address_book_process"}
+<div class="page-header">
+	<h1>{#heading_address#}</h1>
+</div>
+
+{if $error != ''}
+<div class="alert alert-error fade in">
+	<a class="close" data-dismiss="alert" href="#">&times;</a>
+	{$error}
+</div>
+{/if}
+
+{$FORM_ACTION}
+
+{$MODULE_address_book_details}
+
+{if $delete == '1'}
+<div class="well well-small">
+	<h3>{#title_delete#}</h3>
+	<p>{$ADDRESS}</p>
+	<hr>
+	<p>{#text_delete#}</p>
+</div>
+{/if}
+
+<p>{$BUTTON_BACK} {$BUTTON_UPDATE} {$BUTTON_DELETE}</p>
+
+{$FORM_END}

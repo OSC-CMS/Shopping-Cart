@@ -1,0 +1,47 @@
+{config_load file="$language/lang.conf" section="specials"} 
+{config_load file="$language/lang.conf" section="index"} 
+<h1 class="contentBoxHeading">{#heading_text#}</h1>
+<table width="100%" border="0" cellspacing="0" cellpadding="4">  <tr>  {foreach name=aussen item=module_data from=$module_content}  {php} $col++;   {/php}    <td class="main">
+    
+<table border="0" width="100%" cellspacing="0" cellpadding="0">
+  <tr class="contentBoxContents1" valign="top">
+    <td height="90" class="contentBoxContents1" valign="top">
+      <table width="100%" cellpadding="0" cellspacing="4"><tr>
+        <td class="contents" valign="top">
+        
+        {if $module_data.PRODUCTS_IMAGE}<a href="{$module_data.PRODUCTS_LINK}"><img src="{$module_data.PRODUCTS_IMAGE}" alt="{$module_data.PRODUCTS_NAME}" /></a>{/if}
+        
+        </td>
+                                                  
+     <td class="contents products_info" width="100%" valign="top">
+     
+     <strong><a href="{$module_data.PRODUCTS_LINK}">{$module_data.PRODUCTS_NAME}</a></strong>
+     
+     <br />
+
+     {if $module_data.PRODUCTS_SHORT_DESCRIPTION}{$module_data.PRODUCTS_SHORT_DESCRIPTION}<br />     
+     <a href="{$module_data.PRODUCTS_LINK}">{#text_more#}</a><br />{/if}
+
+     <br />
+
+            <strong>{$module_data.PRODUCTS_PRICE}</strong><br /> 			{if $module_data.PRODUCTS_VPE}{$module_data.PRODUCTS_VPE}<br />{/if}			{$module_data.PRODUCTS_TAX_INFO}{$module_data.PRODUCTS_SHIPPING_LINK}<br />     
+     </td>
+
+     <td class="contents" align="right">
+
+             {$module_data.PRODUCTS_BUTTON_BUY_NOW_NEW}
+
+      </td>
+     </tr>
+    </table>
+   </td>
+
+  </tr>
+</table>    
+    
+</td>  {php}   if ($col>=1) {  $col=0;  echo '</tr><tr>';  }  {/php}  {/foreach}    </tr></table>
+<div class="clear"></div>
+<div class="navigation">
+<span class="right">{$NAVBAR}</span>{$NAVBAR_PAGES}
+</div>
+<div class="clear"></div>

@@ -1,0 +1,38 @@
+{config_load file="$language/lang.conf" section="address_book"}
+<div class="page-header">
+	<span class="pull-right">{$BUTTON_NEW}</span>
+	<h1>{#heading_address#}</h1>
+</div>
+
+{if $error != ''}
+<div class="alert alert-error fade in">
+	<a class="close" data-dismiss="alert" href="#">&times;</a>
+	{$error}
+</div>
+{/if}
+
+<div class="well">
+	<h3>{#title_standard#}</h3>
+	<p>{#text_standard#}</p>
+	<hr>
+	{$ADDRESS_DEFAULT}
+</div>
+
+<div class="page-header">
+	<h3>{#title_addresses#}</h3>
+</div>
+
+<p>{$ADDRESS_COUNT}</p>
+
+<div class="row-fluid">
+{foreach name=aussen item=addresses from=$addresses_data}
+<div class="well well-small span6">
+	<h3>{$addresses.NAME} {if $addresses.PRIMARY=='1'}<span class="badge badge-success pull-right">{#title_standard#}</span>{/if}</h3>
+	<p>{$addresses.ADDRESS}</p>
+	<hr>
+	{$addresses.BUTTON_EDIT} {$addresses.BUTTON_DELETE}
+</div>
+{/foreach}
+</div>
+
+<p>{$BUTTON_BACK}</p>

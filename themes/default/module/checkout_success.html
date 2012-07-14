@@ -1,0 +1,48 @@
+{config_load file="$language/lang.conf" section="checkout_success"}
+<div class="page-header">
+	<h1>{#heading_success#}</h1>
+</div>
+
+<table style="width:100%;" class="progress-bar-checkout">
+	<tr class="tcenter">
+		<td style="width:25%;">{#text_shipping_info#}</td>
+		<td style="width:25%;">{#text_payment_info#}</td>
+		<td style="width:25%;">{#text_confirm#}</td>
+		<td style="width:25%;" class="active">{#text_finished#}</td>
+	</tr>
+</table>
+<div class="progress progress-success progress-striped">
+	<div class="bar" style="width:100%;"></div>
+</div>
+
+<p><h3>{#text_thankyou#}</h3></p>
+<p>{#text_success#}</p>
+
+<hr>
+
+{$FORM_ACTION}
+
+<p><h3>{#text_printorder#}</h3></p>
+<p>{$BUTTON_PRINT} {$BUTTON_SCHET_PRINT} {$BUTTON_KVITANCIA_PRINT}</p>
+
+{if $GV_SEND_LINK}
+<hr>
+<div class="well well-small">
+	<p>{#gv_has_vouchera#} {$GV_SEND_LINK} {#gv_has_voucherb#}</p>
+</div>
+{/if}
+
+{if $google_tracking eq 'true'}
+<div class="well well-small">
+	<p>{$tracking_code}</p>
+</div>
+{/if}
+
+{if $downloads_content neq ''}
+<div class="well well-small">
+	<p>{$downloads_content}</p>
+</div>
+{/if}
+
+{$BUTTON_CONTINUE}
+{$FORM_END}

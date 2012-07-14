@@ -1,0 +1,23 @@
+{if $dl neq ''}
+{config_load file="$language/lang.conf" section="downloads_module"}
+<h1 class="contentBoxHeading">{#heading_download#}</h1>
+<table width="100%" border="0" cellpadding="2" cellspacing="0">
+{if $dl_prevented eq 'true'}
+<tr>
+  <td class="main"><b>{#download_not_allowed#}</b></td>
+</tr>
+{/if}
+{foreach name=aussen item=dl_data from=$dl}
+  <tr>
+    <td bgcolor="FFFEC2" style="border: 2px solid; border-right: 0px solid; border-color: #ff0000;" class="main"><table width="100%"  border="0" cellpadding="0" cellspacing="0">
+      <tr>
+        <td width="1">{if $dl_data.pic_link}<a href="{$dl_data.pic_link}"><img src="{$tpl_path}img/img_download.jpg" alt="" border="0" /></a>{else}<img src="{$tpl_path}img/img_download_locked.jpg" alt="" />{/if}</td>
+        <td align="left" valign="middle" class="main">{$dl_data.download_link}</td>
+      </tr>
+    </table></td>
+    <td bgcolor="FFFEC2" style="border: 2px solid; border-left: 0px solid; border-right: 0px solid; border-color: #ff0000;" class="main">{#table_heading_download_date#}&nbsp;{$dl_data.date}</td>
+    <td bgcolor="FFFEC2" style="border: 2px solid; border-left: 0px solid; border-color: #ff0000;" class="main" align="right"><strong>{$dl_data.count}</strong>&nbsp;{#table_heading_download_count#}</td>
+  </tr>
+{/foreach}
+</table>
+{/if}

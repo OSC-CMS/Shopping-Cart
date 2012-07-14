@@ -1,0 +1,36 @@
+{config_load file="$language/lang.conf" section="latest_news"} 
+{if $ONE eq 1}
+{assign var="module_data" value=$module_content[0]}
+<div class="block">
+	<h3 class="block-title">{$module_data.NEWS_DATA} <a href="{$module_data.NEWS_LINK_MORE}">{$module_data.NEWS_HEADING}</a></h3>
+	<div class="block-content">
+		<ul class="news-list">
+			<li>
+				<p>{$module_data.NEWS_CONTENT}</p>
+				<p class="tright"><a href="{$NEWS_LINK}">{#other_news#}</a></p>
+			</li>
+		</ul>
+		<div class="clear"></div>
+	</div>
+</div>
+{else}
+<div class="block">
+	<h3 class="block-title">{#heading_text#}</h3>
+	<div class="block-content">
+		<ul class="news-list">
+		{foreach name=aussen item=module_data from=$module_content}
+			<li>
+				<p class="bold"><span class="news-data">{$module_data.NEWS_DATA}</span> <a href="{$module_data.NEWS_LINK_MORE}">{$module_data.NEWS_HEADING}</a></p>
+				<p class="news-descr">{$module_data.NEWS_CONTENT|os_truncate:$smarty.const.MAX_DISPLAY_LATEST_NEWS_CONTENT:" ..."}</p>
+			</li>
+		{/foreach}
+		</ul>
+		<div class="clear"></div>
+	</div>
+</div>
+
+<div class="page-navigation tcenter">
+	<p class="pn-nav">{$NAVIGATION_BAR}</p>
+	<p class="pn-desc">{$NAVIGATION_BAR_PAGES}</p>
+</div>
+{/if}

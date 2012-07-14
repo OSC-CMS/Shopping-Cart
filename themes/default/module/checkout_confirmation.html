@@ -1,0 +1,89 @@
+{config_load file="$language/lang.conf" section="checkout_confirmation"}
+<div class="page-header">
+	<h1>{#heading_confirmation#}</h1>
+</div>
+
+<table style="width:100%;" class="progress-bar-checkout">
+	<tr class="tcenter">
+		<td style="width:25%;">{#text_shipping_info#}</td>
+		<td style="width:25%;">{#text_payment_info#}</td>
+		<td style="width:25%;" class="active">{#text_confirm#}</td>
+		<td style="width:25%;">{#text_finished#}</td>
+	</tr>
+</table>
+<div class="progress progress-striped active">
+	<div class="bar" style="width:75%;"></div>
+</div>
+
+<p>{#text_information#}</p>
+{if $IP_LOG=='true'}<p><span class="bold">{#text_ip#}</span> {$CUSTOMERS_IP}</p>{/if}
+
+{if $SHIPPING_ADDRESS == 'true'}
+<div class="row-fluid">
+	<div class="well well-small{if $BILLING_LABEL} span6{/if}">
+		<a class="btn btn-primary btn-mini pull-right" href="{$SHIPPING_ADDRESS_EDIT}">{#text_edit#}</a>
+		<h3>{#text_shipping_address#}</h3>
+		<p>{$DELIVERY_LABEL}</p>
+	</div>
+	{if $BILLING_LABEL}
+		<div class="well well-small span6">
+			<a class="btn btn-primary btn-mini pull-right" href="{$BILLING_ADDRESS_EDIT}">{#text_edit#}</a>
+			<h3>{#text_payment_address#}</h3>
+			<p>{$BILLING_LABEL}</p>
+		</div>
+	{/if}
+	<div class="clear"></div>
+</div>
+{/if}
+
+{if $SHIPPING_METHOD}
+<p><span class="bold">{#text_shipping_method#}</span> {$SHIPPING_METHOD} <a class="btn btn-primary btn-mini" href="{$SHIPPING_EDIT}">{#text_edit#}</a></p>
+{/if}
+{if $PAYMENT_METHOD != ''}
+<p><span class="bold">{#text_payment_method#}</span> {$PAYMENT_METHOD} <a class="btn btn-primary btn-mini" href="{$PAYMENT_EDIT}">{#text_edit#}</a></p>
+{/if}
+
+{if $ORDER_COMMENTS != ''}
+<div class="well well-small">
+	<a class="btn btn-primary btn-mini pull-right" href="{$PAYMENT_EDIT}">{#text_edit#}</a>
+	<h3>{#text_comments#}</h3>
+	<p>{$ORDER_COMMENTS}</p>
+</div>
+{/if}
+
+{if $PAYMENT_INFORMATION != ''}
+<div class="well well-small">
+	<h3>{#text_payment_info#}</h3>
+	<p>{$PAYMENT_INFORMATION}</p>
+</div>
+{/if}
+
+<h3>{#text_products#} <a class="btn btn-primary btn-mini" href="{$PRODUCTS_EDIT}">{#text_edit#}</a></h3>
+<table class="table table-striped table-bordered table-condensed">
+{foreach item=p from=$productsArray}
+	<tr>
+		<td>{$p.pQty}x</td>
+		<td>
+			<span class="bold">{$p.pName}</span><br />
+			<small>{$p.pShippingTitle} {$p.pShipping}</small><br />
+			{foreach item=a from=$p.pAttributesArray}	
+				{$a.option}: {$a.value}<br />
+			{/foreach}
+		</td>
+		<td>{$p.pPrice}<br />{$p.pTax}</td>
+	</tr>
+{/foreach}
+</table>
+<table class="table table-striped table-bordered table-condensed">
+	{foreach item=t from=$totalArray}
+	<tr>
+		<td class="tright">{$t.title}</td>
+		<td style="width:150px;">{$t.text}</td>
+	</tr>
+	{/foreach}
+</table>
+
+{$CHECKOUT_FORM}
+{if $MODULE_BUTTONS != ''}{$MODULE_BUTTONS}{/if}
+{$CHECKOUT_BUTTON}
+{$CHECKOUT_FORM_END}

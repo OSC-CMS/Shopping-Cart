@@ -1,0 +1,68 @@
+{config_load file="$language/lang.conf" section="advanced_search"}
+<div class="page-header">
+	<a data-toggle="modal" href="#modalSearchHelp" class="pull-right btn btn-info btn-small">{#title_help#}</a>
+	<h1>{#heading_search#}</h1>
+</div>
+
+<div class="modal hide fade" id="modalSearchHelp">
+	<div class="modal-header">
+		<button type="button" class="close" data-dismiss="modal">&times;</button>
+		<h3>{#title_help#}</h3>
+	</div>
+	<div class="modal-body">
+		<p>{#text_help#}</p>
+	</div>
+</div>
+
+{if $error != ''}
+<div class="alert alert-error fade in">
+	<a class="close" data-dismiss="alert" href="#">&times;</a>
+	{$error}
+</div>
+{/if}
+
+<div class="form-horizontal">
+	{$FORM_ACTION}
+	<fieldset>
+		<div class="control-group">
+			<label class="control-label" for="keywords">{#title_keywords#}</label>
+			<div class="controls">
+				{$INPUT_KEYWORDS}
+			</div>
+		</div>
+		<div class="control-group">
+			<label class="control-label" for="subcategories">{#text_categories#}</label>
+			<div class="controls">
+				{$SELECT_CATEGORIES}
+			</div>
+		</div>
+		<div class="control-group">
+			<label class="control-label" for="inc_subcat"></label>
+			<div class="controls">
+				<label class="checkbox">{$ENTRY_SUBCAT} {#text_subkategories#}</label>
+			</div>
+		</div>
+		<div class="control-group">
+			<label class="control-label" for="manufacturers">{#text_manufacturer#}</label>
+			<div class="controls">
+				{$SELECT_MANUFACTURERS}
+			</div>
+		</div>
+		<div class="control-group">
+			<label class="control-label" for="pfrom">{#text_min#}</label>
+			<div class="controls">
+				{$SELECT_PFROM}
+			</div>
+		</div>
+		<div class="control-group">
+			<label class="control-label" for="pto">{#text_max#}</label>
+			<div class="controls">
+				{$SELECT_PTO}
+			</div>
+		</div>
+		<div class="form-actions">
+			{$BUTTON_SUBMIT}
+		</div>
+	</fieldset>
+	{$FORM_END}
+</div>

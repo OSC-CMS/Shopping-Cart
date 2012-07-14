@@ -1,0 +1,70 @@
+{config_load file="$language/lang.conf" section="print_order"} {config_load file="$language/lang.conf" section="product_info"}<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>{#title#} {$oID}</title><meta http-equiv="Content-Type" content="text/html; charset={$charset}" />
+<link rel="stylesheet" type="text/css" href="{$tpl_path}/style.css" /></head><body onload="window.print()">
+<!-- Информация о заказе -->
+<div class="page">
+
+
+
+{if $smarty.const.MODULE_PAYMENT_SCHET_STATUS == 'True'}
+<p><b>Поставщик</b> {$1}<br />
+<b>Адрес</b> {$2}<br />
+<b>Телефон</b>&nbsp;{$3} <b>Факс</b> {$4}<br />
+<b>Р/с</b> 
+{$5} <b>в банке</b> {$6}<br />
+<b>К/с</b> 
+{$7} <b>БИК</b> {$8}<br />
+<b>ИНН</b> {$9}&nbsp; <b>КПП</b> {$10}&nbsp; <b>ОГРН</b> {$11} <b>Код по 
+ОКПО</b> {$12}<br /></p>
+{/if}
+{if $company_name}
+<p><b>Покупатель</b> {$company_name}</p>
+{else}
+<p><b>Покупатель</b> {$address_label_customer}</p>
+{/if}
+{if $COMMENTS}<p>{$COMMENTS}</p>{/if}
+<hr>
+<p><b><font size="5">Счет № {$oID} от {$DATE}</font></b></p>
+<p>&nbsp;</p>
+<table border="0" width="92%" id="table1" cellspacing="0">
+	<tr>
+		<td width="5%" style="border-style: solid; border-width: 1px" align="center"><b>№ п/п</b></td>
+		<td width="17%" style="border-style: solid; border-width: 1px" align="center">
+		Н/номер</td>
+		<td width="48%" style="border-style: solid; border-width: 1px" align="center"><b>Наименование товара, услуг</b></td>
+		<td width="12%" style="border-style: solid; border-width: 1px" align="center"><b>Количество</b></td>
+		<td style="border-style: solid; border-width: 1px" width="6%" align="center"><b>Цена</b></td>
+		<td width="9%" style="border-style: solid; border-width: 1px" align="center"><b>Сумма руб.</b></td>
+	</tr>
+	
+        {foreach name=aussen item=order_values from=$order_data} 
+        <tr> 
+		<td width="5%" style="border-style: solid; border-width: 1px">{counter}.</td>
+		<td width="17%" style="border-style: solid; border-width: 1px">{$order_values.PRODUCTS_MODEL} {$order_values.PRODUCTS_ATTRIBUTES_MODEL}</td>
+		<td width="48%" style="border-style: solid; border-width: 1px">{$order_values.PRODUCTS_NAME} {$order_values.PRODUCTS_ATTRIBUTES}</td>
+		<td width="12%" style="border-style: solid; border-width: 1px">{$order_values.PRODUCTS_QTY}</td>
+		<td style="border-style: solid; border-width: 1px" width="6%">{$order_values.PRODUCTS_SINGLE_PRICE|string_format:"%01.2f"}</td>
+		<td width="9%" style="border-style: solid; border-width: 1px">{$order_values.PRODUCTS_PRICE|string_format:"%01.2f"}</td>
+        </tr>
+        {/foreach}
+	
+  {foreach name=aussen item=order_total_values from=$order_total}
+	<tr>
+		<td colspan="5" style="border-style: solid; border-width: 1px">
+		<p align="right"><b>{$order_total_values.TITLE}</b></td>
+		<td width="9%" style="border-style: solid; border-width: 1px">{$order_total_values.VALUE|string_format:"%01.2f"}</td>
+	</tr>
+  {/foreach} 
+
+</table>
+<p><b>Сумма прописью: {$summa}. Без НДС.</b></p>
+<p>&nbsp;</p>
+<p><b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+Директор _____________________________ /Фамилия/</b></p>
+<p><b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; МП&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+Главный бухгалтер _________________________/Фамилия/</b></p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+
+</div>
+<!-- /Информация о заказе -->
+</body></html>

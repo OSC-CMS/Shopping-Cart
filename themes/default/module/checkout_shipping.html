@@ -1,0 +1,32 @@
+{config_load file="$language/lang.conf" section="checkout_shipping"}
+<div class="page-header">
+	<h1>{#heading_shipping#}</h1>
+</div>
+
+<table style="width:100%;" class="progress-bar-checkout">
+	<tr class="tcenter">
+		<td style="width:25%;" class="active">{#text_shipping_info#}</td>
+		<td style="width:25%;">{#text_payment_info#}</td>
+		<td style="width:25%;">{#text_confirm#}</td>
+		<td style="width:25%;">{#text_finished#}</td>
+	</tr>
+</table>
+<div class="progress progress-striped active">
+	<div class="bar" style="width:25%;"></div>
+</div>
+
+{if $SHIPPING_ADDRESS == 'true'}
+<div class="well well-small">
+	<h3>{#text_addressbook#}</h3>
+	<p>{$ADDRESS_LABEL}</p>
+	<hr>
+	{$BUTTON_ADDRESS}
+</div>
+{/if}
+
+<p><h3>{#text_shipping#}</h3></p>
+
+{$FORM_ACTION}
+{$SHIPPING_BLOCK}
+{$BUTON_CONTINUE}
+{$FORM_END}
