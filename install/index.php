@@ -274,6 +274,17 @@
         text_ok("images/categories/", true); 
     }
 
+    if (!is_writeable(_CATALOG.'images/avatars/'))
+    {
+        $error_flag=true;
+        $folder_flag=true;
+        text_no("images/avatars/", true);
+    } 
+    else 
+    {
+        text_ok("images/avatars/", true); 
+    }
+
     if (!is_writeable(_CATALOG.'images/banner/'))
     {
         $error_flag=true;

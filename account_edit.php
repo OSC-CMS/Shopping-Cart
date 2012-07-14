@@ -198,6 +198,66 @@ if (isset ($_POST['action']) && ($_POST['action'] == 'process'))
 		// Если включены профили покупателей
 		if (ACCOUNT_PROFILE == 'true')
 		{
+			// Максимальный размер загружаемого аватара в байтах
+			$max_filesize = 50000;
+			// Макс. ширина
+			$max_file_width = '100';
+			// Макс. высота
+			$max_file_height = '100';
+			// Допустимые типы файлов
+			$allowed_filetypes = array( "gif","jpg","jpeg","png");
+			// Директория куда заливать файл
+			$dir_img = dir_path('images').'avatars/';
+			// Если аватар уже загружен и новый не добавляют, то старый оставляем на месте
+			$new_file_name = os_db_prepare_input($_POST['current_avatar']);
+
+			$customers_avatar = $_FILES['customers_avatar']['tmp_name'];
+			$filename = $_FILES['customers_avatar']['name'];
+
+			// Удаляем старый аватар
+			if (($_POST['customers_avatar_delete'] == 'delete'))
+			{
+				if (is_file($dir_img.$_POST['current_avatar']))
+				{
+					@unlink($dir_img.$_POST['current_avatar']);
+				}
+				$new_file_name = '';
+			}
+
+			if (!empty($customers_avatar))
+			{
+				// Удаляем старый аватар
+				if (is_file($dir_img.$_POST['current_avatar']))
+				{
+					@unlink($dir_img.$_POST['current_avatar']);
+				}
+
+				$imgsize = getimagesize($customers_avatar);
+				$size = filesize($customers_avatar);
+				$type = strtolower(substr($filename, 1+strrpos($filename,".")));
+				$new_file_name = 'c_'.$customers_id.'.'.$type;
+
+				if($size > $max_filesize)
+				{
+					//exit('Большой размер файла');
+				}
+				elseif(!in_array($type, $allowed_filetypes))
+				{
+					//exit('Файл имеет недопустимое расширение');
+				}
+				elseif(($imgsize[0] > $max_file_width) OR ($imgsize[1] > $max_file_height))
+				{
+					//exit('Высота или ширина изображения больше разрешенных');
+				}
+				else
+				{
+					if (move_uploaded_file($customers_avatar, $dir_img.$new_file_name))
+					{
+						@chmod($dir_img.$new_file_name, 0777);
+					}
+				}
+			}
+
 			$sqlDataArray = array(
 				'customers_signature' => os_db_prepare_input($_POST['customers_signature']),
 				'show_gender' => os_db_prepare_input($_POST['show_gender']),
@@ -208,6 +268,7 @@ if (isset ($_POST['action']) && ($_POST['action'] == 'process'))
 				'show_email' => os_db_prepare_input($_POST['show_email']),
 				'show_telephone' => os_db_prepare_input($_POST['show_telephone']),
 				'show_fax' => os_db_prepare_input($_POST['show_fax']),
+				'customers_avatar' => os_db_prepare_input($new_file_name),
 			);
 
 			os_db_perform(DB_PREFIX."customers_profile", $sqlDataArray, 'update', "customers_id = '".(int)$customers_id."'");
@@ -227,7 +288,7 @@ else
 	// Запрос на выбору данных о покупателе
 	$profileQuery = os_db_query("
 	SELECT 
-		customers_id, customers_signature, show_gender, show_firstname, show_secondname, show_lastname, show_dob, show_email, show_telephone, show_fax 
+		customers_id, customers_signature, show_gender, show_firstname, show_secondname, show_lastname, show_dob, show_email, show_telephone, show_fax, customers_avatar, customers_photo 
 	FROM 
 		".DB_PREFIX."customers_profile 
 	WHERE 
@@ -316,7 +377,6 @@ $osTemplate->assign('INPUT_CUSTOMERS_EXTRA_FIELDS', os_get_extra_fields($_SESSIO
 // START Profile
 if (ACCOUNT_PROFILE == 'true')
 {
-	$selectArray = '';
 	$selectArray = array(
 		array(
 			'id' => '0',
@@ -337,10 +397,12 @@ if (ACCOUNT_PROFILE == 'true')
 	$osTemplate->assign('show_email', os_draw_pull_down_menu('show_email', $selectArray, $profile['show_email'], 'id="show_email"'));
 	$osTemplate->assign('show_telephone', os_draw_pull_down_menu('show_telephone', $selectArray, $profile['show_telephone'], 'id="show_telephone"'));
 	$osTemplate->assign('show_fax', os_draw_pull_down_menu('show_fax', $selectArray, $profile['show_fax'], 'id="show_fax"'));
+	$osTemplate->assign('customers_avatar', $profile['customers_avatar']);
+	$osTemplate->assign('customers_photo', $profile['customers_photo']);
 }
 // END Profile
 
-$osTemplate->assign('FORM_ACTION', os_draw_form('account_edit', os_href_link(FILENAME_ACCOUNT_EDIT, '', 'SSL'), 'post', 'onsubmit="return checkform(this);"').os_draw_hidden_field('action', 'process') . os_draw_hidden_field('required', 'gender,firstname,lastname,dob,email,telephone,username', 'id="required"'));
+$osTemplate->assign('FORM_ACTION', os_draw_form('account_edit', os_href_link(FILENAME_ACCOUNT_EDIT, '', 'SSL'), 'post', 'onsubmit="return checkform(this);" enctype="multipart/form-data"').os_draw_hidden_field('action', 'process') . os_draw_hidden_field('required', 'gender,firstname,lastname,dob,email,telephone,username', 'id="required"'));
 $osTemplate->assign('FORM_END', '</form>');
 $_array = array(
 	'img' => 'button_back.gif', 
