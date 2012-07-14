@@ -602,7 +602,8 @@ os_db_query("CREATE TABLE ".DB_PREFIX."customers (
   customers_username VARCHAR(64) DEFAULT NULL,
   customers_fid INT(5) DEFAULT NULL,
   customers_sid INT(5) DEFAULT NULL,
-  PRIMARY KEY (customers_id)
+  PRIMARY KEY (customers_id),
+  KEY customers_username (customers_username)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE utf8_general_ci");
 
 os_db_query("CREATE TABLE ".DB_PREFIX."customers_profile (
@@ -617,6 +618,8 @@ os_db_query("CREATE TABLE ".DB_PREFIX."customers_profile (
 	show_telephone tinyint NOT NULL DEFAULT 0,
 	show_fax tinyint NOT NULL DEFAULT 0,
 	customers_wishlist int(11) NOT NULL DEFAULT 0,
+	customers_avatar varchar(255) DEFAULT NULL,
+	customers_photo varchar(255) DEFAULT NULL,
 	PRIMARY KEY (customers_id)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE utf8_general_ci");
 
