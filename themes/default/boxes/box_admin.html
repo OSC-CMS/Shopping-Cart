@@ -1,7 +1,7 @@
 {config_load file="$language/lang.conf" section="boxes"}
-<div class="box">
-	<h6 class="box-title">{#heading_admin#}</h6>
-	<div class="box-content">
+<li id="fat-menu" class="dropdown">
+	<a href="#" class="dropdown-toggle" data-toggle="dropdown">{$boxTitle} <b class="caret"></b></a>
+	<ul class="dropdown-menu">
 		{$BOX_CONTENT}
-	</div>
-</div>
+	</ul>
+</li>

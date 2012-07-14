@@ -10,7 +10,7 @@
 
 $box = new osTemplate;
 $box_content='';
-$flag='';
+
 $box->assign('tpl_path', _HTTP_THEMES_C);
 
   $orders_contents = '';
@@ -29,10 +29,10 @@ $box->assign('tpl_path', _HTTP_THEMES_C);
  while ($orders_status = os_db_fetch_array($orders_status_query,true)) 
   {
 
-    $orders_contents .= '<a href="' . os_href_link_admin(FILENAME_ORDERS, 'selected_box=customers&amp;status=' . $orders_status['orders_status_id'], 'SSL') . '">' . $orders_status['orders_status_name'] . '</a>: ' . (isset($_orders_status[$orders_status['orders_status_id']])? $_orders_status[$orders_status['orders_status_id']]:'0') . '<br />';
+    $orders_contents .= '<li><a href="'.os_href_link_admin(FILENAME_ORDERS, 'selected_box=customers&amp;status=' . $orders_status['orders_status_id'], 'SSL') . '">' . $orders_status['orders_status_name'].'<span class="pull-right">'.(isset($_orders_status[$orders_status['orders_status_id']]) ? $_orders_status[$orders_status['orders_status_id']] : '0').'</span></a></li>';
   }
   
-  $orders_contents = substr($orders_contents, 0, -6);
+  //$orders_contents = substr($orders_contents, 0, -6);
 
   $customers_query = osDBquery("select count(*) as count from " . TABLE_CUSTOMERS);
   $customers = os_db_fetch_array($customers_query,true);
@@ -52,11 +52,11 @@ $box->assign('tpl_path', _HTTP_THEMES_C);
 	
 	if (empty($_array['code']))
 	{
-	   $_array['code'] = '<a href="' . $_array['href'].'">'.os_image_button($_array['img'], $_array['alt']).'</a>';
+	   $_array['code'] = '<li><a href="' . $_array['href'].'">'.$_array['alt'].'</a></li>';
 	}
 
 	
-   $admin_image = '<p class="LoginContentLeft">'.$_array['code'].'</p>';
+   $admin_image = $_array['code'];
    
    if ($product->isProduct()) 
    {
@@ -69,10 +69,10 @@ $box->assign('tpl_path', _HTTP_THEMES_C);
 	
 	   if (empty($_array['code']))
  	   {
-	       $_array['code'] =  '<a href="' . $_array['href'] . '&amp;action=new_product' . '" onclick="window.open(this.href); return false;">' . os_image_button($_array['img'], $_array['alt']) . '</a>';
+	       $_array['code'] =  '<li><a href="' . $_array['href'] . '&amp;action=new_product' . '" onclick="window.open(this.href); return false;">' . $_array['alt'] . '</a></li>';
 	   }
 	   
-    $admin_link='<p class="LoginContentLeft">'.$_array['code'].'</p>';
+    $admin_link = $_array['code'];
   }
 
    if (isset($_GET['articles_id'])) 
@@ -87,20 +87,26 @@ $box->assign('tpl_path', _HTTP_THEMES_C);
 	
 	   if (empty($_array['code']))
  	   {
-	       $_array['code'] =  '<a href="' . $_array['href'] . '&amp;action=new_article' . '" onclick="window.open(this.href); return false;">' . os_image_button($_array['img'], $_array['alt']) . '</a>';
+	       $_array['code'] =  '<li><a href="' . $_array['href'] . '&amp;action=new_article' . '" onclick="window.open(this.href); return false;">' . $_array['alt'] . '</a></li>';
 	   }
 	   
-    $admin_link_article='<p class="LoginContentLeft">'.$_array['code'].'</p>';
+    $admin_link_article = $_array['code'];
   }
 
   
-  $box_content= '<b>' . BOX_TITLE_STATISTICS . '</b><br />' . $orders_contents . '<br />' .
-                                         BOX_ENTRY_CUSTOMERS . ' ' . $customers['count'] . '<br />' .
-                                         BOX_ENTRY_PRODUCTS . ' ' . $products['count'] . '<br />' .
-                                         BOX_ENTRY_REVIEWS . ' ' . $reviews['count'] .'<br />' .
-                                         $admin_image . '<br />' .@$admin_link.@$admin_link_article;
+$box_content = $admin_image;
+$box_content .= $admin_link;
+$box_content .= $admin_link_article;
+$box_content .= '<li class="divider"></li>';
+$box_content .= $orders_contents;
+$box_content .= '<li class="divider"></li>';
+$box_content .= '<li><a href="'.os_href_link_admin('admin/customers.php').'">'.BOX_ENTRY_CUSTOMERS.' <span class="pull-right">'.$customers['count'].'</span></a></li>';
+$box_content .= '<li><a href="'.os_href_link_admin('admin/categories.php').'">'.BOX_ENTRY_PRODUCTS.' <span class="pull-right">'.$products['count'].'</span></a></li>';
+$box_content .= '<li><a href="'.os_href_link_admin('admin/reviews.php').'">'.BOX_ENTRY_REVIEWS.' <span class="pull-right">'.$reviews['count'].'</span></a></li>';
 
-    if ($flag==true) define('SEARCH_ENGINE_FRIENDLY_URLS',true);
+
+
+    $box->assign('boxTitle', IMAGE_BUTTON_ADMIN);
     $box->assign('BOX_CONTENT', $box_content);
 
     $box->caching = 0;

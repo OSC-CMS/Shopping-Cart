@@ -1,0 +1,14 @@
+{config_load file="$language/lang.conf" section="boxes"}
+<li id="fat-menu" class="dropdown">
+	<a href="#" class="dropdown-toggle" data-toggle="dropdown">{#text_acc_title#} <b class="caret"></b></a>
+	<ul class="dropdown-menu">
+		<li><a href="{$index}profile.php?id={$smarty.session.customer_id}">{#text_acc_profile#}</a></li>
+		<li><a href="{$index}account_edit.php">{#text_acc_account_edit#}</a></li>
+		<li><a href="{$index}account_password.php">{#text_acc_password#}</a></li>
+		<li><a href="{$index}newsletter.php">{#text_acc_newsletter#}</a></li>
+		<li><a href="{$index}address_book.php">{#text_acc_address_book#}</a></li>
+		<li><a href="{$index}account_history.php">{#text_acc_orders#}</a></li>
+		<li class="divider"></li>
+		<li><a href="{$index}logoff.php">{#text_acc_logout#}</a></li>
+	</ul>
+</li>

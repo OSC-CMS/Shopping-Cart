@@ -28,6 +28,7 @@ if (VIS_BOX_FAQ					== 'true') { include(DIR_WS_BOXES.'faq.php'); }
 if (VIS_BOX_LANGUAGES			== 'true') { include(DIR_WS_BOXES.'languages.php'); }
 if (VIS_BOX_INFOBOX				== 'true') { include(DIR_WS_BOXES.'infobox.php'); }
 if (VIS_BOX_LOGIN				== 'true') { include(DIR_WS_BOXES.'loginbox.php'); }
+if (VIS_BOX_LOGIN				== 'true') { include(DIR_WS_BOXES.'accountbox.php'); }
 if (VIS_BOX_NEWSLETTER			== 'true') { include(DIR_WS_BOXES.'newsletter.php'); }
 if (VIS_BOX_BEST_SELLERS		== 'true') { include(DIR_WS_BOXES.'best_sellers.php'); }
 if (VIS_BOX_SPECIALS			== 'true') { include(DIR_WS_BOXES.'specials.php'); }

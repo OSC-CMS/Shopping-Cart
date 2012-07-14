@@ -17,7 +17,6 @@
 					<li class=""><a href="{$account}">{#link_account#}</a></li>
 					{/if}{/if}
 					<li class=""><a href="{$cart}">{#link_cart#}</a></li>
-					<li class=""><a href="{$price_list}">{#price_list#}</a></li>
 					<li class=""><a href="{$checkout}">{#link_checkout#}</a></li>
 					{if $account}{if $smarty.session.customer_id}
 					<li class=""><a href="{$logoff}">{#link_logoff#}</a></li>
@@ -30,22 +29,11 @@
 
 				<ul class="nav pull-right">
 					{if $account}{if $smarty.session.customer_id}
-					<li id="fat-menu" class="dropdown">
-						<a href="#" class="dropdown-toggle" data-toggle="dropdown">Аккаунт <b class="caret"></b></a>
-						<ul class="dropdown-menu">
-							<li><a href="{$index}profile.php?id=1">Страница профиля</a></li>
-							<li><a href="{$index}account_edit.php">Персональные данные</a></li>
-							<li><a href="{$index}account_password.php">Изменить пароль</a></li>
-							<li><a href="{$index}newsletter.php">Рассылка новостей</a></li>
-							<li><a href="{$index}address_book.php">Адресная книга</a></li>
-							<li><a href="{$index}account_history.php">Мои заказы</a></li>
-							<li class="divider"></li>
-							<li><a href="{$index}logoff.php">Выход</a></li>
-						</ul>
-					</li>
+						{$box_ACCOUNT}
+						{$box_ADMIN}
 					{else}
-					<li><a data-toggle="modal" href="{$login}#modalLogin">{#link_login#}</a></li>
-					<li><a href="{$index}create_account.php">Регистрация</a></li>
+						<li><a data-toggle="modal" href="{$login}#modalLogin">{#link_login#}</a></li>
+						<li><a href="{$index}create_account.php">{#text_create_account#}</a></li>
 					{/if}{/if}
 				</ul>
 			</div><!--/.nav-collapse -->
@@ -81,7 +69,6 @@
 			{$box_AUTHORS}
 			{$box_HISTORY}
 			{$box_LOGIN}
-			{$box_ADMIN}
 			{$box_DOWNLOADS}
 			{$box_AFFILIATE}
 			{$box_WHATSNEW}

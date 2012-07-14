@@ -32,8 +32,7 @@ if (isset($_SESSION['customer_id']))
 			(
 				'p_name'	=> $products['products_name'],
 				'p_link'	=> os_href_link(FILENAME_PRODUCT_INFO, os_product_link($products['products_id'],$products['products_name'])),
-				'o_link'	=> os_href_link(basename($PHP_SELF), os_get_all_get_params(array('action')).'action=cust_order&pid=' . $products['products_id']),
-				'o_img'		=> os_image(_HTTP_THEMES_C.'buttons/'.$_SESSION['language'].'/oh_cart.gif', ICON_CART)
+				'p_buy'		=> buttonSubmit('oh_cart.gif', os_href_link(basename($PHP_SELF), 'action=cust_order&pid=' . $products['products_id']), ICON_CART),
 			);
 		}
 	}
