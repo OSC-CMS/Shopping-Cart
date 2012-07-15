@@ -1,26 +1,28 @@
 {config_load file="$language/lang.conf" section="reviews"}
-<h1 class="contentBoxHeading">{#heading_reviews#}</h1>
-<br /><table width="100%" border="0" cellspacing="0" cellpadding="0">
-  {foreach name=aussen item=module_data from=$module_content} 
-  <tr> 
-    <td style ="border-bottom: 1px solid; border-color: #cccccc;" width="1" valign="top"><a href="{$module_data.PRODUCTS_LINK}"><img src="{$module_data.PRODUCTS_IMAGE}" alt="{$module_data.PRODUCTS_NAME}" border="0" /></a></td>
-    <td style ="border-bottom: 1px solid; border-color: #cccccc;" class="main"><strong>{#text_product#} </strong><a href="{$module_data.PRODUCTS_LINK}">{$module_data.PRODUCTS_NAME}</a><br />
-      <strong>{#text_author#}</strong> {$module_data.AUTHOR} <br />
-      <br />
-      <strong>{#text_text#}</strong><br />
-      {$module_data.TEXT} <br />
-      <br />
-      <strong>{#text_rating#}</strong> {$module_data.RATING}</td>
-  </tr>
-  <tr>
-    <td>&nbsp;</td>
-    <td>&nbsp;</td>
-  </tr>
-  {/foreach} 
-</table>
-<br />
-<div class="clear"></div>
-<div class="navigation">
-<span class="right">{$NAVBAR}</span>{$NAVBAR_PAGES}
+<div class="page-header">
+	<h1>{#heading_reviews#}</h1>
 </div>
-<div class="clear"></div>
+
+<ul class="new-reviews-page">
+	{foreach $module_content AS $module_data} 
+	<li class="nrp-item">
+		<div class="nrp-image">
+			<a href="{$module_data.PRODUCTS_LINK}"><span class="customer-images"><img class="nrp-img" src="{$module_data.PRODUCTS_IMAGE}" alt="{$module_data.PRODUCTS_NAME}" border="0" /></span></a>
+		</div>
+		<div class="nrp-content">
+			<div class="nrp-product">{#text_product#} <a href="{$module_data.PRODUCTS_LINK}">{$module_data.PRODUCTS_NAME}</a></div>
+			<ul class="nrp-info">
+				<li>{#text_rating#} {$module_data.RATING}</li>
+				<li>{#text_author#} <span class="bold">{$module_data.AUTHOR}</span></li>
+			</ul>
+			<div class="nrp-text"><strong>{#text_text#}</strong><br />{$module_data.TEXT}</div>
+		</div>
+		<div class="clear"></div>
+	</li>
+	{/foreach}
+</ul>
+
+<div class="page-navigation tcenter">
+	<p class="pn-nav">{$NAVBAR}</p>
+	<p class="pn-desc">{$NAVBAR_PAGES}</p>
+</div>

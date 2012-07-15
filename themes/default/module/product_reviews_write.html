@@ -1,33 +1,69 @@
 {config_load file="$language/lang.conf" section="reviews"}
-<h1 class="contentBoxHeading">{#heading_reviews_write#}</h1>
-{if $captcha_error}
-<div class="contacterror">{$captcha_error}</div>
-{/if}
-{if $error}
-{$error}
-{else}
-{$FORM_ACTION}
-<table width="100%" border="0" cellspacing="0" cellpadding="0">
-  <tr>
-    <td class="main"><p><strong>{#text_product#}</strong> {$PRODUCTS_NAME}<br />
-        <strong>{#text_author#}</strong> {$AUTHOR}</p>
-      <p><strong>{#text_input#}</strong><br />
-        {$INPUT_TEXT}<br />
-        <font size="1" face="Verdana, Arial, Helvetica, sans-serif">{#text_note#}</font><br />
-        <br />
-        <strong>{#text_rating#}&nbsp;<font color="#FF0000" size="1" face="Verdana, Arial, Helvetica, sans-serif">{#text_bad#}</font></strong>{$INPUT_RATING}<font color="#FF0000" size="1" face="Verdana, Arial, Helvetica, sans-serif"><strong>{#text_good#}</strong></font></p>
-		  <p>{#text_sec_code#} <a href="javascript:void(0)" title="{#text_captcha_update#}" onclick="reload_captcha()">{$CAPTCHA_IMG}</a></p>
-		  <p>{#text_sec_code_text#} {$CAPTCHA_INPUT}</p>
-        </td>
-  </tr>
-</table>
-<br />
-<table width="100%" border="0" cellspacing="0" cellpadding="0">
-  <tr>
-    <td>{$BUTTON_BACK}</td>
-    <td><div align="right">{$BUTTON_SUBMIT}</div></td>
-  </tr>
-</table>
-{$FORM_END}
+<div class="page-header">
+	<h1>{#heading_reviews_write#}</h1>
+</div>
 
+
+{if $captcha_error}
+<div class="alert alert-error fade in">
+	<a class="close" data-dismiss="alert" href="#">&times;</a>
+	{$captcha_error}
+</div>
 {/if}
+
+{if $error}
+<div class="alert alert-error fade in">
+	<a class="close" data-dismiss="alert" href="#">&times;</a>
+	{$error}
+</div>
+{/if}
+
+
+	<div class="form-horizontal">
+		{$FORM_ACTION}
+		<fieldset>
+			<div class="control-group">
+				<label class="control-label" for="">{#text_product#}</label>
+				<div class="controls">
+					{$PRODUCTS_NAME}
+				</div>
+			</div>
+			<div class="control-group">
+				<label class="control-label" for="">{#text_author#}</label>
+				<div class="controls">
+					{$AUTHOR}
+				</div>
+			</div>
+			<div class="control-group">
+				<label class="control-label" for="review">{#text_input#}</label>
+				<div class="controls textarea-xlarge">
+					{$INPUT_TEXT}
+					<p class="help-block">{#text_note#}</p>
+				</div>
+			</div>
+			<div class="control-group">
+				<label class="control-label" for="review">{#text_rating#}</label>
+				<div class="controls">
+					<font color="red">{#text_bad#}</font>
+					 {$INPUT_RATING} 
+					<font color="green">{#text_good#}</font>
+				</div>
+			</div>
+			<div class="control-group">
+				<label class="control-label" for="">{#text_sec_code#}</label>
+				<div class="controls">
+					<a href="javascript:void(0)" title="{#text_captcha_update#}" onclick="reload_captcha()">{$CAPTCHA_IMG}</a>
+				</div>
+			</div>
+			<div class="control-group">
+				<label class="control-label" for="captcha">{#text_sec_code_text#}</label>
+				<div class="controls">
+					{$CAPTCHA_INPUT}
+				</div>
+			</div>
+			<div class="form-actions">
+				{$BUTTON_BACK} {$BUTTON_SUBMIT}
+			</div>
+		</fieldset>
+		{$FORM_END}
+	</div>

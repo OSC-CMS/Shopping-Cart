@@ -83,7 +83,7 @@ if (!$product->isProduct()) {
 		$customer_info['customers_lastname'] = TEXT_GUEST;
 	$osTemplate->assign('PRODUCTS_NAME', $product->data['products_name']);
 	$osTemplate->assign('AUTHOR', $customer_info['customers_firstname'].' '.$customer_info['customers_lastname']);
-	$osTemplate->assign('INPUT_TEXT', os_draw_textarea_field('review', 'soft', 60, 15, $_POST['review'], '', false));
+	$osTemplate->assign('INPUT_TEXT', os_draw_textarea_field('review', 'soft', '', '', $_POST['review'], '', false));
 	$osTemplate->assign('INPUT_RATING', os_draw_radio_field('rating', '1').' '.os_draw_radio_field('rating', '2').' '.os_draw_radio_field('rating', '3').' '.os_draw_radio_field('rating', '4').' '.os_draw_radio_field('rating', '5'));
 	$osTemplate->assign('FORM_ACTION', os_draw_form('product_reviews_write', os_href_link(FILENAME_PRODUCT_REVIEWS_WRITE, 'action=process&'.os_product_link($product->data['products_id'],$product->data['products_name'])), 'post', 'onsubmit="return checkForm();"'));
 	
@@ -97,7 +97,7 @@ if (!$product->isProduct()) {
 	
 	if (empty($_array['code']))
 	{
-	   $_array['code'] ='<a href="'.$_array['href'].'">'.os_image_button($_array['img'], $_array['alt']).'</a>';
+	   $_array['code'] = buttonSubmit($_array['img'], $_array['href'], $_array['alt']);
 	}
 	
 	$osTemplate->assign('BUTTON_BACK', $_array['code'] );
@@ -105,7 +105,7 @@ if (!$product->isProduct()) {
 	
 	$osTemplate->assign('BUTTON_SUBMIT', button_continue_submit().os_draw_hidden_field('get_params', $get_params));
 	$osTemplate->assign('CAPTCHA_IMG', '<img src="'.os_href_link(FILENAME_DISPLAY_CAPTCHA).'" alt="captcha" name="captcha" />');
-	$osTemplate->assign('CAPTCHA_INPUT', os_draw_input_field('captcha', '', 'size="6"', 'text', false));
+	$osTemplate->assign('CAPTCHA_INPUT', os_draw_input_field('captcha', '', 'size="6" id="captcha"', 'text', false));
 	$osTemplate->assign('FORM_END', '</form>');
 }
 $osTemplate->assign('language', $_SESSION['language']);

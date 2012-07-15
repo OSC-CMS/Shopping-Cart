@@ -1,21 +1,23 @@
-{config_load file="$language/lang.conf" section="reviews"}<br />
-<font size="3" face="Verdana, Arial, Helvetica, sans-serif"><strong>{#heading_reviews#}</strong></font><font color="#666666" size="3" face="Verdana, Arial, Helvetica, sans-serif"><strong> 
- {$PRODUCTS_NAME}</strong></font><br />
-<br />
-<table width="100%" border="0" cellspacing="0" cellpadding="0">
-  <tr> 
-    <td width="1" class="main" style="border-bottom: 1px solid; border-color: #cccccc;"><strong>{#title_nr#}</strong></td>
-    <td style="border-bottom: 1px solid; border-color: #cccccc;" class="main"><strong>{#title_author#}</strong></td>
-    <td style="border-bottom: 1px solid; border-color: #cccccc;" class="main"><strong>{#title_rating#}</strong></td>
-    <td style="border-bottom: 1px solid; border-color: #cccccc;" class="main"><div align="right"><strong>{#title_date#}</strong></div></td>
-  </tr>
-  {foreach name=aussen item=module_data from=$module_content} 
-  <tr> 
-    <td class="main">{$module_data.ID}</td>
-    <td class="main">{$module_data.AUTHOR}</td>
-    <td class="main"><div align="left">{$module_data.RATING}</div></td>
-    <td class="main"><div align="right">{$module_data.DATE}</div></td>
-  </tr>
-  {/foreach} 
+{config_load file="$language/lang.conf" section="reviews"}
+<div class="page-header">
+	<h1>{#heading_reviews#} {$PRODUCTS_NAME}</h1>
+</div>
+
+<table class="table">
+	<tr> 
+		<th>{#title_nr#}</th>
+		<th>{#title_author#}</th>
+		<th>{#title_rating#}</th>
+		<th>{#title_date#}</th>
+	</tr>
+	{foreach name=aussen item=module_data from=$module_content} 
+	<tr> 
+		<td>{$module_data.ID}</td>
+		<td>{$module_data.AUTHOR}</td>
+		<td>{$module_data.RATING}</td>
+		<td>{$module_data.DATE}</td>
+	</tr>
+	{/foreach} 
 </table>
-{$BUTTON_BACK}{$BUTTON_WRITE}
+
+<p>{$BUTTON_BACK} {$BUTTON_WRITE}</p>

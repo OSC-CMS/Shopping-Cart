@@ -73,6 +73,7 @@ class product {
 		$reviews_query = osDBquery("select
 									                                 r.reviews_rating,
 									                                 r.reviews_id,
+									                                 r.customers_id,
 									                                 r.customers_name,
 									                                 r.date_added,
 									                                 r.last_modified,
@@ -91,7 +92,17 @@ class product {
 			$data_reviews = array ();
 			while ($reviews = os_db_fetch_array($reviews_query, true)) {
 				$row ++;
-				$data_reviews[] = array ('AUTHOR' => $reviews['customers_name'], 'DATE' => os_date_short($reviews['date_added']), 'RATING' => os_image('themes/'.CURRENT_TEMPLATE.'/img/stars_'.$reviews['reviews_rating'].'.gif', sprintf(TEXT_OF_5_STARS, $reviews['reviews_rating'])), 'TEXT' => os_break_string(nl2br(htmlspecialchars($reviews['reviews_text'])), 60, '-<br />'));
+				//if (ACCOUNT_PROFILE == 'true')
+				//	$author = '<a href="'._HTTP.'profile.php?id='.$reviews['customers_id'].'">'.$reviews['customers_name'].'</a>';
+				//else
+					$author = $reviews['customers_name'];
+
+				$data_reviews[] = array (
+					'AUTHOR' => $author,
+					'DATE' => os_date_short($reviews['date_added']),
+					'RATING' => os_image('themes/'.CURRENT_TEMPLATE.'/img/stars_'.$reviews['reviews_rating'].'.gif', sprintf(TEXT_OF_5_STARS, $reviews['reviews_rating'])),
+					'TEXT' => os_break_string(nl2br(htmlspecialchars($reviews['reviews_text'])), 60, '-<br />')
+				);
 				if ($row == PRODUCT_REVIEWS_VIEW)
 					break;
 			}

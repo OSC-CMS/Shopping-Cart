@@ -1,31 +1,26 @@
-{config_load file="$language/lang.conf" section="reviews"}<br />
-<h1 class="contentBoxHeading">{#heading_reviews#}</h1>
-{foreach name=aussen item=module_data from=$module_content} 
-<table width="100%" border="0" cellspacing="0" cellpadding="0">
-      <tr> 
-        
-    <td class="main"><b>{#text_author#}</b>{$module_data.AUTHOR} {$module_data.DATE}<br />
-      <strong>{#text_rating#}</strong>{$module_data.RATING} </td>
-      </tr>
-      <tr> 
-        <td style="border-bottom: 1px solid; border-color: #cccccc;" class="main" ><br />
-      {$module_data.TEXT}</td>
-      </tr>
-</table><br />
-{/foreach}<br />
+{config_load file="$language/lang.conf" section="reviews"}
+<div class="page-header">
+	<h1>{#heading_reviews#}</h1>
+</div>
+
+<ul class="new-reviews-page">
+	{foreach $module_content AS $module_data} 
+	<li class="nrp-item">
+		<div class="nrp-content">
+			<ul class="nrp-info">
+				<li>{#text_rating#} {$module_data.RATING}</li>
+				<li>{#text_author#} <span class="bold">{$module_data.AUTHOR}</span></li>
+				<li>{#text_date#} <span class="bold">{$module_data.DATE}</span></li>
+			</ul>
+			<div class="nrp-text">{$module_data.TEXT}</div>
+		</div>
+		<div class="clear"></div>
+	</li>
+	{/foreach}
+</ul>
 
 {if $TEXT_FIRST_REVIEW != ''}
-<table width="100%" border="0" cellspacing="0" cellpadding="0">
-  <tr>
-    <td>&nbsp;</td>
-    <td>{$TEXT_FIRST_REVIEW}</td>
-  </tr>
-</table>
+<div class="well tcenter">{$TEXT_FIRST_REVIEW}</div>
 {/if}
 
-<table width="100%" border="0" cellspacing="0" cellpadding="0">
-  <tr>
-    <td>&nbsp;</td>
-    <td><div align="right">{$BUTTON_WRITE}</div></td>
-  </tr>
-</table>
+<p>{$BUTTON_WRITE}</p>

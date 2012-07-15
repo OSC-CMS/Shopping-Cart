@@ -46,7 +46,7 @@ $osTemplate->assign('PRODUCTS_LINK', os_href_link(FILENAME_PRODUCT_INFO, os_prod
 	
 	if (empty($_array['code']))
 	{
-	   $_array['code'] = '<a href="'.$_array['href'].'">'.os_image_button($_array['img'], $_array['alt']).'</a>';
+	   $_array['code'] = buttonSubmit($_array['img'], $_array['href'], $_array['alt']);
 	}
 	
 $osTemplate->assign('BUTTON_BACK', $_array['code']);
@@ -61,7 +61,7 @@ $osTemplate->assign('BUTTON_BACK', $_array['code']);
 	
 	     if (empty($_array['code']))
 	     {
-	         $_array['code'] = '<a href="'.$_array['href'].'">'.os_image_button($_array['img'], $_array['alt']) . '</a>';
+			 $_array['code'] = buttonSubmit($_array['img'], $_array['href'], $_array['alt']);
 	     }
 		 
 $osTemplate->assign('BUTTON_BUY_NOW', $_array['code']);

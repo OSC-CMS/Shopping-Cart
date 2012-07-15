@@ -1,29 +1,24 @@
 {config_load file="$language/lang.conf" section="reviews"}
-<h1 class="contentBoxHeading">{#heading_product_reviews#}</h1>
-<font color="#666666" size="3" face="Verdana, Arial, Helvetica, sans-serif"><strong> 
-<a href="{$PRODUCTS_LINK}">{$PRODUCTS_NAME}</a></strong></font><br />
-<br />
-<table width="100%" border="0" cellspacing="0" cellpadding="0">
-  <tr>
-    <td class="main"><table width="100%" border="0" cellspacing="0" cellpadding="0">
-        <tr>
-          <td><div align="center"><strong>{$IMAGE}</strong></div></td>
-        </tr>
-      </table>
-      <strong> {#text_date#}</strong> {$DATE}<br />
-      <strong>{#text_author#}</strong> {$AUTHOR}<br />
-      <br />
-      <strong>{#text_text#}</strong><br />
-      {$REVIEWS_TEXT}<br />
-      <br />
-      <strong>{#text_rating#}</strong> {$RATING}</td>
-  </tr>
-</table>
-<p>&nbsp;</p>
-<table width="100%" border="0" cellspacing="0" cellpadding="0">
-  <tr>
-    <td>{$BUTTON_BACK} </td>
-    <td><div align="right">{$BUTTON_BUY_NOW}</div></td>
-  </tr>
-</table>
-<p>&nbsp;</p>
+<div class="page-header">
+	<h1>{#heading_product_reviews#}</h1>
+</div>
+
+<ul class="new-reviews-page">
+	<li class="nrp-item">
+		<div class="nrp-image">
+			<span class="customer-images">{$IMAGE}</span>
+		</div>
+		<div class="nrp-content">
+			<div class="nrp-product">{#text_product#} <a href="{$PRODUCTS_LINK}">{$PRODUCTS_NAME}</a></div>
+			<ul class="nrp-info">
+				<li>{#text_rating#} {$RATING}</li>
+				<li>{#text_author#} <span class="bold">{$AUTHOR}</span></li>
+				<li>{#text_date#} <span class="bold">{$DATE}</span></li>
+			</ul>
+			<div class="nrp-text"><strong>{#text_text#}</strong><br />{$REVIEWS_TEXT}</div>
+		</div>
+		<div class="clear"></div>
+	</li>
+</ul>
+
+<p>{$BUTTON_BACK} {$BUTTON_BUY_NOW}</p>
