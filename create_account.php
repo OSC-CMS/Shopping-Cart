@@ -232,7 +232,10 @@ if (isset ($_POST['action']) && ($_POST['action'] == 'process')) {
 		$customers_id = $_SESSION['customer_id'];
 
 		// Customer profile
-		os_db_query("INSERT INTO ".DB_PREFIX."customers_profile VALUES(".$customers_id.", NULL, 1, 1, 0, 0, 1, 0, 0, 0, 0);");
+		$customerProfileArray = array(
+			'customers_id' => $customers_id,
+		);
+		customerProfile($customerProfileArray, 'new');
 
    	  	$extra_fields_query = os_db_query("select ce.fields_id from " . TABLE_EXTRA_FIELDS . " ce where ce.fields_status=1 ");
     	  while($extra_fields = os_db_fetch_array($extra_fields_query))

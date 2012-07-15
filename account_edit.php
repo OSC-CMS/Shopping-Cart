@@ -259,6 +259,7 @@ if (isset ($_POST['action']) && ($_POST['action'] == 'process'))
 			}
 
 			$sqlDataArray = array(
+				'customers_id' => os_db_prepare_input($customers_id),
 				'customers_signature' => os_db_prepare_input($_POST['customers_signature']),
 				'show_gender' => os_db_prepare_input($_POST['show_gender']),
 				'show_firstname' => os_db_prepare_input($_POST['show_firstname']),
@@ -269,9 +270,11 @@ if (isset ($_POST['action']) && ($_POST['action'] == 'process'))
 				'show_telephone' => os_db_prepare_input($_POST['show_telephone']),
 				'show_fax' => os_db_prepare_input($_POST['show_fax']),
 				'customers_avatar' => os_db_prepare_input($new_file_name),
+				'customers_photo' => '',
 			);
 
-			os_db_perform(DB_PREFIX."customers_profile", $sqlDataArray, 'update', "customers_id = '".(int)$customers_id."'");
+			//os_db_perform(DB_PREFIX."customers_profile", $sqlDataArray, 'update', "customers_id = '".(int)$customers_id."'");
+			customerProfile($sqlDataArray, 'update');
 		}
 
 		// reset the session variables

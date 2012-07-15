@@ -9,11 +9,47 @@
 */
 
 	// Обработка полей аккаунта или других
-	function getAccountFields($fields = array())
+	function accountFields($fields = array())
 	{
 	
 	}
 
+	// Создание\обновление профиля покупателя
+	function customerProfile($array = array(), $type = '')
+	{
+		// всегда должен приходить id покупателя
+		if (!is_array($array) OR $array['customers_id'] == '')
+			return false;
+
+		if ($type == 'new')
+		{
+			// Создание профиля со стандартными настройками
+			$profileArray = array(
+				'customers_id'			=> $array['customers_id'],
+				'customers_signature'	=> '',
+				'show_gender'			=> 1,
+				'show_firstname'		=> 1,
+				'show_secondname'		=> 0,
+				'show_lastname'			=> 0,
+				'show_dob'				=> 1,
+				'show_email'			=> 0,
+				'show_telephone'		=> 0,
+				'show_fax'				=> 0,
+				'customers_wishlist'	=> 0,
+				'customers_avatar'		=> '',
+				'customers_photo'		=> '',
+			);
+		}
+		else
+			$profileArray = $array;
+
+		if ($type == 'update')
+			os_db_perform(DB_PREFIX."customers_profile", $profileArray, 'update', "customers_id = '".(int)$array['customers_id']."'");
+		else
+			os_db_perform(DB_PREFIX."customers_profile", $profileArray);
+
+		return true;
+	}
 
 	// Красивый print_r() ;)
 	function _print_r($v)
