@@ -1,28 +1,28 @@
 {config_load file="$language/lang.conf" section="articles"}
-<div class="block">
-	<h3 class="block-title">{#heading_text#}</h3>
-	<div class="block-content">
-		{if $no_new_articles == 'true'}
-			{#text_no_new_articles#}
-		{else}
-			<ul class="news-list">
-			{foreach name=aussen item=module_data from=$module_content}
-				<li>
-					<p>
-						{if $module_data.ARTICLE_DATE}<span class="news-data">{#text_date#} {$module_data.ARTICLE_DATE}</span> {/if}
-						{if $module_data.AUTHOR_NAME}{#text_author#} <a href="{$module_data.AUTHOR_LINK}">{$module_data.AUTHOR_NAME}</a> {/if}
-						{if $module_data.ARTICLE_CATEGORY_NAME}{#text_category#} <a href="{$module_data.ARTICLE_CATEGORY_LINK}">{$module_data.ARTICLE_CATEGORY_NAME}</a> {/if}
-						<br />
-						<a class="bold" href="{$module_data.ARTICLE_LINK}">{$module_data.ARTICLE_NAME}</a>
-					</p>
-					{if $module_data.ARTICLE_SHORT_DESCRIPTION}<p class="news-descr">{$module_data.ARTICLE_SHORT_DESCRIPTION}</p>{/if}
-				</li>
-			{/foreach}
-			</ul>
-		{/if}
-		<div class="clear"></div>
-	</div>
+<div class="page-header">
+	<h1>{#heading_text#}</h1>
 </div>
+
+{if $no_new_articles == 'true'}
+	<div class="well tcenter">{#text_no_new_articles#}</div>
+{else}
+
+	<div class="row-fluid">
+	{foreach $module_content AS $module_data}
+	<div class="span4 news-block">
+		<h2><a href="{$module_data.ARTICLE_LINK}">{$module_data.ARTICLE_NAME}</a></h2>
+		{if $module_data.ARTICLE_SHORT_DESCRIPTION}<p class="news-block-text">{$module_data.ARTICLE_SHORT_DESCRIPTION}</p>{/if}
+		<p>
+			{if $module_data.ARTICLE_DATE}{#text_date#} {$module_data.ARTICLE_DATE}<br />{/if}
+			{if $module_data.AUTHOR_NAME}{#text_author#} <a href="{$module_data.AUTHOR_LINK}">{$module_data.AUTHOR_NAME}</a><br />{/if}
+			{if $module_data.ARTICLE_CATEGORY_NAME}{#text_category#} <a href="{$module_data.ARTICLE_CATEGORY_LINK}">{$module_data.ARTICLE_CATEGORY_NAME}</a>{/if}
+		</p>
+	</div>
+	{if $module_data@iteration % 3 == 0}</div><hr><div class="row-fluid">{/if}
+	{/foreach}
+	</div>
+{/if}
+
 {if $no_new_articles != 'true'}
 <div class="page-navigation tcenter">
 	<p class="pn-nav">{$NAVIGATION_BAR}</p>

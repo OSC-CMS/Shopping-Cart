@@ -1,40 +1,40 @@
 {config_load file="$language/lang.conf" section="articles"}
-<div class="block">
-	<h3 class="block-title">{$HEADER_TEXT}</h3>
-	<div class="block-content">
-		{if $no_articles == 'true'}
-			{#text_no_articles#}
-		{else}
-			{if $TOPICS_HEADING_TITLE}{$TOPICS_HEADING_TITLE}{/if}
-			{if $TOPICS_DESCRIPTION}{$TOPICS_DESCRIPTION}{/if}
-
-			<div class="search_box_articles">
-				<form id="quick_find" action="articles.php" method="get">
-					<input type="hidden" name="description" value="1" />
-					<input type="text" name="akeywords" onkeyup="ajaxQuickFindUp(this);" id="quick_find_keyword" class="searchinput" value="{#text_search#}" onfocus="if(this.value==this.defaultValue)this.value=''" onblur="if(this.value=='')this.value=this.defaultValue" />
-					<input type="submit" class="searchsubmit" title="{#text_search#}" />
-				</form>
-			</div>
-			<div class="clear"></div>
-
-			<ul class="news-list">
-			{foreach name=aussen item=module_data from=$module_content}
-				<li>
-					<p>
-						{if $module_data.ARTICLE_DATE}<span class="news-data">{#text_date#} {$module_data.ARTICLE_DATE}</span> {/if}
-						{if $module_data.AUTHOR_NAME}{#text_author#} <a href="{$module_data.AUTHOR_LINK}">{$module_data.AUTHOR_NAME}</a> {/if}
-						{if $module_data.ARTICLE_CATEGORY_NAME}{#text_category#} <a href="{$module_data.ARTICLE_CATEGORY_LINK}">{$module_data.ARTICLE_CATEGORY_NAME}</a> {/if}
-						<br />
-						<a class="bold" href="{$module_data.ARTICLE_LINK}">{$module_data.ARTICLE_NAME}</a>
-					</p>
-					{if $module_data.ARTICLE_SHORT_DESCRIPTION}<p class="news-descr">{$module_data.ARTICLE_SHORT_DESCRIPTION}</p>{/if}
-				</li>
-			{/foreach}
-			</ul>
-		{/if}
-		<div class="clear"></div>
-	</div>
+<div class="page-header">
+	<h1>{$HEADER_TEXT}</h1>
 </div>
+
+{if $no_articles == 'true'}
+	<div class="well tcenter">{#text_no_articles#}</div>
+{else}
+	{if $TOPICS_HEADING_TITLE OR $TOPICS_DESCRIPTION}
+		<div class="well well-small">
+			{if $TOPICS_HEADING_TITLE}<h3>{$TOPICS_HEADING_TITLE}</h3>{/if}
+			{if $TOPICS_DESCRIPTION}<p>{$TOPICS_DESCRIPTION}</p>{/if}
+		</div>
+	{/if}
+
+	<form id="quick_find" action="articles.php" method="get" class="well form-search">
+		<input type="hidden" name="description" value="1" />
+		<input type="text" name="akeywords" placeholder="{#text_search#}" class="input-medium search-query" />
+		<input type="submit" class="btn" value="{#text_search#}" />
+	</form>
+
+	<div class="row-fluid">
+	{foreach $module_content AS $module_data}
+	<div class="span4 news-block">
+		<h2><a href="{$module_data.ARTICLE_LINK}">{$module_data.ARTICLE_NAME}</a></h2>
+		{if $module_data.ARTICLE_SHORT_DESCRIPTION}<p class="news-block-text">{$module_data.ARTICLE_SHORT_DESCRIPTION}</p>{/if}
+		<p>
+			{if $module_data.ARTICLE_DATE}{#text_date#} {$module_data.ARTICLE_DATE}<br />{/if}
+			{if $module_data.AUTHOR_NAME}{#text_author#} <a href="{$module_data.AUTHOR_LINK}">{$module_data.AUTHOR_NAME}</a><br />{/if}
+			{if $module_data.ARTICLE_CATEGORY_NAME}{#text_category#} <a href="{$module_data.ARTICLE_CATEGORY_LINK}">{$module_data.ARTICLE_CATEGORY_NAME}</a>{/if}
+		</p>
+	</div>
+	{if $module_data@iteration % 3 == 0}</div><hr><div class="row-fluid">{/if}
+	{/foreach}
+	</div>
+{/if}
+
 {if $no_articles != 'true'}
 <div class="page-navigation tcenter">
 	<p class="pn-nav">{$NAVIGATION_BAR}</p>
