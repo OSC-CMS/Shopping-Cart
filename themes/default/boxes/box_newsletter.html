@@ -1,16 +1,18 @@
 {config_load file="$language/lang.conf" section="boxes"}
 <div class="box">
 	<h3>{#heading_guestnewsletter#}</h3>
-	<div class="form-search">
-		{$FORM_ACTION}
-		<div class="control-group">
-			<p>{#text_email#}</p>
-			<div class="controls">
-				<p>{$FIELD_EMAIL}</p>
-				<p>{$BUTTON}</p>
-				<div class="clear"></div>
+	<div class="well well-small newsletter-form">
+		<div class="form-search">
+			{$FORM_ACTION}
+			<div class="control-group">
+				<p>{#text_email#}</p>
+				<div class="controls">
+					<p>{$FIELD_EMAIL}</p>
+					{$BUTTON}
+
+				</div>
 			</div>
+			{$FORM_END}
 		</div>
-		{$FORM_END}
 	</div>
 </div>

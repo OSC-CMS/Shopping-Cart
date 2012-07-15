@@ -1,100 +1,32 @@
-{config_load file="$language/lang.conf" section="faq"} 
-<h1 class="contentBoxHeading">{#heading_text#}</h1>
-<table width="100%" border="0" cellpadding="0" cellspacing="4">
+{config_load file="$language/lang.conf" section="faq"}
 {if $ONE eq 1}
-  {assign var="module_data" value=$module_content[0]}
-  <tr>
-    <td class="main" width="100%" valign="top">        <table  width="100%" border="0" cellpadding="0" cellspacing="0">
-  <tr class="contentBoxContents1" valign="top">
-    <td height="90" class="contentBoxContents1" valign="top">
-      <table border="0" width="100%" cellspacing="5" cellpadding="0">
-        <tr>
-                <td class="contents">
-                
-                <span class="date">{$module_data.FAQ_DATA}</span><br /><strong><a href="{$module_data.FAQ_LINK_MORE}">{$module_data.FAQ_QUESTION}</a></strong>
-                
-                </td>
-
-                <td class="contents" align="right"></td>
-                
-        </tr>
-        <tr>
-                <td class="contents" valign="top" width="100%" colspan="2">
-
-
-<table border="0" width="100%" cellspacing="0" cellpadding="0">
-
-<tr>
-        <td class="contents">
-
-		<div style="padding-left:1em">
-		{$module_data.FAQ_ANSWER}
-		</div>
-
-</td>
-</tr>
-
-</table>
-
-                </td>
-
-        </tr>
-</table>
-</td>
-  </tr>        </table></td>    
-    
-  </tr>
-  <tr><td class="main" align="right"><a href="{$FAQ_LINK}">{#other_faq#}</a></td></tr>
-{else}
-  <tr>
-
-  {foreach name=aussen item=module_data from=$module_content}  {php} $col++;   {/php}
-
-    <td class="main" width="100%" valign="top">        <table  width="100%" border="0" cellpadding="0" cellspacing="0">
-  <tr class="contentBoxContents1" valign="top">
-    <td height="90" class="contentBoxContents1" valign="top">
-      <table border="0" width="100%" cellspacing="5" cellpadding="0">
-        <tr>
-                <td class="contents">
-                
-                <span class="date">{$module_data.FAQ_DATA}</span><br /><strong><a href="{$module_data.FAQ_LINK_MORE}">{$module_data.FAQ_QUESTION}</a></strong>
-                
-                </td>
-
-                <td class="contents" align="right"></td>
-                
-        </tr>
-        <tr>
-                <td class="contents" valign="top" width="100%" colspan="2">
-
-
-<table border="0" width="100%" cellspacing="0" cellpadding="0">
-
-<tr>
-        <td class="contents">
-
-		<div style="padding-left:1em">
-		{$module_data.FAQ_ANSWER|truncate:$smarty.const.MAX_DISPLAY_FAQ_ANSWER:" ..."}
-		</div>
-
-</td>
-</tr>
-
-</table>
-
-                </td>
-
-        </tr>
-</table>
-</td>
-  </tr>
-        </table></td>  {php}   if ($col>=1) {  $col=0;  echo '</tr><tr>';  }  {/php}  {/foreach}  
-  </tr>
-<div class="clear"></div>
-<div class="navigation">
-{$NAVIGATION_BAR}{$NAVIGATION_BAR_PAGES}
+{assign var="f" value=$module_content[0]}
+<div class="page-header">
+	<h1>{$f.FAQ_QUESTION}</h1>
 </div>
-<div class="clear"></div>
+
+<p>{$f.FAQ_ANSWER}</p>
+<p>{$f.FAQ_DATA}</p>
+
+<a class="pull-right btn btn-info" href="{$FAQ_LINK}">{#other_faq#}</a>
+{else}
+<div class="page-header">
+	<h1>{#heading_text#}</h1>
+</div>
+
+<div class="row-fluid">
+	{foreach $module_content as $f}
+	<div class="span4 news-block">
+		<h2><a href="{$f.FAQ_LINK_MORE}">{$f.FAQ_QUESTION}</a></h2>
+		<p class="news-block-text">{$f.FAQ_ANSWER|truncate:$smarty.const.MAX_DISPLAY_FAQ_ANSWER:" ..."}</p>
+		<p>{$f.FAQ_DATA}</p>
+	</div>
+	{if $f@iteration % 3 == 0}</div><hr><div class="row-fluid">{/if}
+	{/foreach}
+</div>
+
+<div class="page-navigation tcenter">
+	<p class="pn-nav">{$NAVIGATION_BAR}</p>
+	<p class="pn-desc">{$NAVIGATION_BAR_PAGES}</p>
+</div>
 {/if}
-</table>
-<br />
