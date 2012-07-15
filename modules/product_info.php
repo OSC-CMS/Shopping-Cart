@@ -87,7 +87,6 @@ else
 		$info->assign('PRODUCTS_QUANTITY', $product->data['products_quantity']);
 		$info->assign('PRODUCTS_STOCK', $product->data['stock']);
 		$info->assign('PRODUCTS_WEIGHT', $product->data['products_weight']);
-		$info->assign('PRODUCTS_STATUS', $product->data['products_status']);
 		$info->assign('PRODUCTS_ORDERED', $product->data['products_ordered']);
       $info->assign('PRODUCTS_PRINT', '<img src="'._HTTP_THEMES_C.'buttons/'.$_SESSION['language'].'/print.gif"  style="cursor:pointer" onclick="javascript:window.open(\''.os_href_link(FILENAME_PRINT_PRODUCT_INFO, 'products_id='.$product->data['products_id']).'\', \'popup\', \'toolbar=0, scrollbars=yes, width=640, height=600\')" alt="" />');
 		$info->assign('PRODUCTS_DESCRIPTION', stripslashes($product->data['products_description']));
@@ -183,7 +182,7 @@ if (!file_exists(dir_path('images_popup').$img['image_name'])) $products_mo_popu
                  $_PRODUCTS_MO = array(
                 'PRODUCTS_MO_IMAGE' => http_path('images_info') . $img['image_name'],
                 'PRODUCTS_MO_POPUP_IMAGE' => $products_mo_popup_link,
-                'PRODUCTS_MO_IMAGE_BLOCK' => '<a href="'.$products_mo_popup_link.'" title="'.$product->data['products_name'].'" class="zoom" rel="gallery-plants" target="_blank"><img src="'.http_path('images_info') . $img['image_name'].'" alt="'.$product->data['products_name'].'" /></a>',
+                'PRODUCTS_MO_IMAGE_BLOCK' => '<a href="'.$products_mo_popup_link.'" title="'.$product->data['products_name'].'" class="zoom thumbnail" rel="gallery-plants" target="_blank"><img src="'.http_path('images_info') . $img['image_name'].'" alt="'.$product->data['products_name'].'" /></a>',
                 'PRODUCTS_MO_POPUP_LINK' => $products_mo_popup_link);
 				
 				$_PRODUCTS_MO = apply_filter('products_mo_image_block', $_PRODUCTS_MO);

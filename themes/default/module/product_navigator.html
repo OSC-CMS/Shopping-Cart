@@ -1,13 +1,18 @@
 {config_load file="$language/lang.conf" section="product_navigator"}
-<table  border="0" cellspacing="0" cellpadding="0" align="center">
-  <tr>
-    <td width="1"><font size="1" face="Verdana, Arial, Helvetica, sans-serif">{if $FIRST!=''}&nbsp;<a href="{$FIRST}">{#first#}</a>&nbsp;{/if}</font></td>
-    <td width="1"><font size="1" face="Verdana, Arial, Helvetica, sans-serif">{if $PREVIOUS!=''}&nbsp;<a href="{$PREVIOUS}">{#back#}</a>&nbsp;{/if}</font></td>
-    <td width="1"><font size="1" face="Verdana, Arial, Helvetica, sans-serif">{if $NEXT!=''}&nbsp;<a href="{$NEXT}">{#next#}</a>&nbsp;{/if}</font></td>
-    <td width="1"><font size="1" face="Verdana, Arial, Helvetica, sans-serif">{if $LAST!=''}&nbsp;<a href="{$LAST}">{#last#}</a>&nbsp;{/if}</font></td>
-   </tr>
-   <tr>
-    <td colspan="4" align="center"><font size="1" face="Verdana, Arial, Helvetica, sans-serif">{#total#}&nbsp;<strong>{$PRODUCTS_COUNT}</strong></font></td>
-  </tr>
-</table>
- 
+<div class="row-fluid tcenter">
+	<div class="span4">
+		{#total#} <strong>{$PRODUCTS_COUNT}</strong>
+	</div>
+	<div class="span2">
+		{if $FIRST!=''}<a href="{$FIRST}">{#first#}</a>{else}{#first#}{/if}
+	</div>
+	<div class="span2">
+		{if $PREVIOUS!=''}<a href="{$PREVIOUS}">{#back#}</a>{else}{#back#}{/if}
+	</div>
+	<div class="span2">
+		{if $NEXT!=''}<a href="{$NEXT}">{#next#}</a>{else}{#next#}{/if}
+	</div>
+	<div class="span2">
+		{if $LAST!=''}<a href="{$LAST}">{#last#}</a>{else}{#last#}{/if}
+	</div>
+</div>

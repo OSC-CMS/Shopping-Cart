@@ -1,23 +1,23 @@
 {config_load file="$language/lang.conf" section="reverse_cross_selling"}
-<h1 class="contentBoxHeading">{#heading_text#}</h1>
-<br />
-<table width="100%" border="0" cellspacing="0" cellpadding="0">
-  <tr> 
-    <td> <div align="center"> 
-        <table width="100%" border="0">
-          {foreach name=aussen item=module_data from=$module_content} 
-          <tr> 
-            <td width="1" rowspan="2" style="border-bottom: 1px solid; border-color: #cccccc;">{if $module_data.PRODUCTS_IMAGE}<a href="{$module_data.PRODUCTS_LINK}"><img src="{$module_data.PRODUCTS_IMAGE}" border="0" alt="{$module_data.PRODUCTS_NAME}" /></a>{/if}</td>
-            <td class="main"><strong><a href="{$module_data.PRODUCTS_LINK}">{$module_data.PRODUCTS_NAME}</a></strong></td>
-          </tr>
-          <tr> 
-            <td style="border-bottom: 1px solid; border-color: #cccccc;" class="main">{$module_data.PRODUCTS_SHORT_DESCRIPTION}<br /> 
-              <strong>{$module_data.PRODUCTS_PRICE}</strong><br />
-              <span class="smallText">{if $module_data.PRODUCTS_VPE}{$module_data.PRODUCTS_VPE}<br />{/if}{$module_data.PRODUCTS_TAX_INFO}{$module_data.PRODUCTS_SHIPPING_LINK}</span><br />
-              </strong></td>
-          </tr>
-          {/foreach} 
-        </table>
-      </div></td>
-  </tr>
-</table>
+<div class="page-header">
+	<h1>{#heading_text#}</h1>
+</div>
+
+<ul class="thumbnails">
+	{foreach $module_content as $p}
+	<li class="span3">
+		<div class="thumbnail product-list">
+			{if $p.PRODUCTS_IMAGE}<a class="product-image" href="{$p.PRODUCTS_LINK}"><img src="{$p.PRODUCTS_IMAGE}" alt="{$p.PRODUCTS_NAME}" title="{$p.PRODUCTS_NAME}" /></a>{/if}
+			<div class="caption">
+				<h5><a href="{$p.PRODUCTS_LINK}">{$p.PRODUCTS_NAME}</a></h5>
+				<p>{$p.PRODUCTS_PRICE}</p>
+				{if $p.PRODUCTS_VPE}<p>{$p.PRODUCTS_VPE}</p>{/if}
+				{if $p.PRODUCTS_TAX_INFO}<p>{$p.PRODUCTS_TAX_INFO}</p>{/if}
+				{if $p.PRODUCTS_SHIPPING_LINK}<p>{$p.PRODUCTS_SHIPPING_LINK}</p>{/if}
+				<p>{$p.PRODUCTS_BUTTON_BUY_NOW_NEW}</p>
+			</div>
+		</div>
+	</li>
+	{if $p@iteration % 4 == 0}</ul><div class="clear"></div><ul class="thumbnails">{/if}
+	{/foreach}
+</ul>

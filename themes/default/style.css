@@ -129,8 +129,10 @@ ul.subcat-nav li a.Current {background:#08C;color:#fff;}
 
 
 
-
-
+.product-info-ul {}
+.product-info-ul li {margin:0 0 5px 0;padding:0 0 5px 0;border-bottom:1px solid #eee;}
+.product-info-cart-button {margin-left:5px;}
+.product-info-qty input {width:70px!important;}
 
 
 
