@@ -22,7 +22,7 @@
 				</h2>
 
 				{if $account_edit == true}
-					<div style="float:right;" class="bold"><a href="account_edit.php">Редактировать аккаунт</a></div>
+					<div style="float:right;"><a class="btn" href="account_edit.php">Редактировать аккаунт</a></div>
 				{/if}
 
 				<div class="clear"></div>
@@ -49,8 +49,8 @@
 	</table>
 <div class="tabbable">
 	<ul class="nav nav-tabs">
-		<li class="active"><a href="#reviews" data-toggle="tab">Отзывы (2)</a></li>
-		<li><a href="#wishlist" data-toggle="tab">Список желаний (0)</a></li>
+		<li class="active"><a href="#reviews" data-toggle="tab">Отзывы</a></li>
+		<li><a href="#wishlist" data-toggle="tab">Список желаний</a></li>
 		{foreach item=t from=$tProfileTabs}
 		<li><a href="#tab_{$t.count}" data-toggle="tab">{$t.tab_name}</a></li>
 		{/foreach}
