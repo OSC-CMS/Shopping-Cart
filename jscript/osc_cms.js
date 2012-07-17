@@ -7,6 +7,37 @@
 *---------------------------------------------------------
 */
 
+jQuery(document).ready(function($){
+
+	// Удаляем класс, если браузер поддерживает JS
+	$('body').removeClass('no-js');
+
+	// Подсвечивание выбранного пункта доставки или оплаты
+	$('.selectMethodTable input[type=radio]').click(function()
+	{
+		$('.selectMethodTable input[type=radio]').parent().parent().filter('.selected').removeClass('selected');
+		$(this).parent().parent().addClass('selected');
+	});
+	$('.selectMethodTable input[type=radio]').filter(':checked').parent().parent().addClass('selected');
+
+	// Выбор страны
+	$("#country").change(function()
+	{
+		var searchString = $(this).val();
+		$.ajax({
+			url: SITE_WEB_DIR+"index_ajax.php",
+			dataType: "html",
+			data: "ajax_page=loadStateXML&country_id="+searchString,
+			type: "POST",
+			success: function(msg)
+			{
+				$("#stateXML").html(msg);
+			}
+		});
+	});
+
+});
+
 // Reload Captcha Image
 function reload_captcha()
 {

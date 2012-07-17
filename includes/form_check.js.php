@@ -42,27 +42,13 @@ if (strstr($PHP_SELF, FILENAME_CHECKOUT_SHIPPING_ADDRESS ) OR strstr($PHP_SELF,F
 {
 	$form_id = 'checkout_address';
 }
+
 ?>
 <script type="text/javascript" src="<?php echo _HTTP; ?>jscript/jquery/plugins/validate/jquery.validate.pack.js"></script>
 <script type="text/javascript" src="<?php echo _HTTP; ?>jscript/modified.js"></script>
 <script type="text/javascript"><!--
 $(document).ready(function()
 {
-	$("#country").change(function()
-	{
-		var searchString = $(this).val();
-		$.ajax({
-			url: SITE_WEB_DIR+"index_ajax.php",
-			dataType: "html",
-			data: "ajax_page=loadStateXML&country_id="+searchString,
-			type: "POST",
-			success: function(msg)
-			{
-				$("#stateXML").html(msg);
-			}
-		});
-	});
-
 	$("#<?php echo $form_id; ?>").validate({
 		rules: {
 			gender: "required",
