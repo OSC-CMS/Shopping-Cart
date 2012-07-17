@@ -273,7 +273,6 @@ if (isset ($_POST['action']) && ($_POST['action'] == 'process'))
 				'customers_photo' => '',
 			);
 
-			//os_db_perform(DB_PREFIX."customers_profile", $sqlDataArray, 'update', "customers_id = '".(int)$customers_id."'");
 			customerProfile($sqlDataArray, 'update');
 		}
 

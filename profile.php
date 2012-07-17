@@ -39,7 +39,8 @@ if (isset($_GET['id']) && is_numeric($_GET['id']))
 
 		$titleName = (!empty($profile['customers_username'])) ? $profile['customers_username'] : $profile['customers_firstname'];
 
-		$profile['customers_avatar'] = '<img src="'.http_path('images').'avatars/'.$profile['customers_avatar'].'" alt="'.$titleName.'" title="'.$titleName.'" />';
+		$avatar = (!empty($profile['customers_avatar'])) ? $profile['customers_avatar'] : 'noavatar.gif';
+		$profile['customers_avatar'] = '<img src="'.http_path('images').'avatars/'.$avatar.'" alt="'.$titleName.'" title="'.$titleName.'" />';
 
 		$customers_dob = explode(' ', $profile['customers_last_modified']);
 		$profile['customers_last_modified'] = $customers_dob[0];
