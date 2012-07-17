@@ -109,7 +109,7 @@ $_array = array('img' => 'button_change_address.gif',
 	
 	if (empty($_array['code']))
 	{
-	   $_array['code'] = '<a href="'.$_array['href'].'">'.os_image_button($_array['img'], $_array['alt']).'</a>';
+	   $_array['code'] = buttonSubmit($_array['img'], $_array['href'], $_array['alt']);
 	}
 	
 
@@ -203,9 +203,9 @@ $osTemplate->assign('conditions', 'true');
 	$osTemplate->assign('AGB_LINK', $main->getContentLink(3, MORE_INFO));
 	// LUUPAY ZAHLUNGSMODUL
 	if (isset ($_GET['step']) && $_GET['step'] == 'step2') {
-		$osTemplate->assign('AGB_checkbox', '<input type="checkbox" value="conditions" name="conditions" checked />');
+		$osTemplate->assign('AGB_checkbox', '<input type="checkbox" value="conditions" id="conditions" name="conditions" checked />');
 	} else {
-		$osTemplate->assign('AGB_checkbox', '<input type="checkbox" value="conditions" name="conditions" />');
+		$osTemplate->assign('AGB_checkbox', '<input type="checkbox" value="conditions" id="conditions" name="conditions" />');
 	}
 	// LUUPAY END
 

@@ -15,26 +15,12 @@ class order_total
 	function credit_selection() 
 	{
 		$selection_string = '';
-		$close_string = '';
 		$credit_class_string = '';
 		if (MODULE_ORDER_TOTAL_INSTALLED) 
         {
-			$header_string = '<tr>'."\n";
-			$header_string .= '   <td><table border="0" width="100%" cellspacing="0" cellpadding="2">'."\n";
-			$output1_string .= '      <tr>'."\n";
-			$header_string .= '        <td class="main"><b>'.TABLE_HEADING_CREDIT.'</b></td>'."\n";
-			$header_string .= '      </tr>'."\n";
-			$header_string .= '    </table></td>'."\n";
-			$header_string .= '  </tr>'."\n";
-			$header_string .= '<tr>'."\n";
-			$header_string .= '   <td><table border="0" width="100%" cellspacing="1" cellpadding="2" class="infoBox">'."\n";
-			$header_string .= '     <tr class="infoBoxContents"><td><table border="0" width="100%" cellspacing="0" cellpadding="2">'."\n";
-			$header_string .= '       <tr><td width="10"></td>'."\n";
-			$header_string .= '           <td colspan="2"><table border="0" width="100%" cellspacing="0" cellpadding="2">'."\n";
-			$close_string = '                           </table></td>';
-			$close_string .= '<td width="10"></td>';
-			$close_string .= '</tr></table></td></tr></table></td>';
-			$close_string .= '<tr><td width="100%"></td></tr>';
+			$header_string = '<div class="checkout-paymen-gift-title">'.TABLE_HEADING_CREDIT.'</div>'."\n";
+			$header_string .= '<table border="0" width="100%" cellspacing="0" cellpadding="0">'."\n";
+
 			reset($this->modules);
 			$output_string = '';
 			while (list (, $value) = each($this->modules)) {
@@ -44,10 +30,8 @@ class order_total
 					if ($selection_string == '')
 						$selection_string = $GLOBALS[$class]->credit_selection();
 					if (($use_credit_string != '') || ($selection_string != '')) {
-						$output_string .= '<tr colspan="4"><td colspan="4" width="100%"></td></tr>';
-						$output_string = ' <tr class="moduleRow" onmouseover="rowOverEffect(this)" onmouseout="rowOutEffect(this)" >'."\n".'     <td   class="main"><b>'.$GLOBALS[$class]->header.'</b></td>'.$use_credit_string;
-						$output_string .= '<td  width="10"></td>';
-						$output_string .= '  </tr>'."\n";
+						$output_string .= '<tr>'."\n".'<td><b>'.$GLOBALS[$class]->header.'</b></td>'.$use_credit_string;
+						$output_string .= '</tr>'."\n";
 						$output_string .= $selection_string;
 					}
 
@@ -55,7 +39,7 @@ class order_total
 			}
 			if ($output_string != '') {
 				$output_string = $header_string.$output_string;
-				$output_string .= $close_string;
+				$output_string .= '</table>';
 			}
 		}
 		return $output_string;

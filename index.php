@@ -13,7 +13,7 @@
     if (isset($_GET['page']) && !isset($_GET['cat']) && !isset($_GET['manufacturers_id']) && !empty($_GET['page']) or (isset($_GET['main_page']) && !empty($_GET['main_page'])) )
     {
         if (isset($os_action['page'][$_GET['page']]) && function_exists($_GET['page']))
-        {		
+        {
             $_plug_name = $os_action_plug[$_GET['page']];	
             $p->name = $_plug_name;
             $p->group = $p->info[$p->name]['group'];

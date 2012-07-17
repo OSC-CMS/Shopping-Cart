@@ -233,7 +233,7 @@ $osTemplate->assign('MODULE_BUTTONS', $payment_button);
 		   $_array['code'] = buttonSubmit($_array['img'], null, $_array['alt']);
 	   }
 	   
-$osTemplate->assign('CHECKOUT_BUTTON', $_array['code']. '' . "\n");
+$osTemplate->assign('CHECKOUT_BUTTON', $_array['code']);
 
 if (DISPLAY_REVOCATION_ON_CHECKOUT == 'true') {
 
