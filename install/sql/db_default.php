@@ -1316,9 +1316,9 @@ os_db_query("INSERT INTO `".DB_PREFIX."configuration` VALUES
 (376, 'VIS_BOX_ADMIN', 'true', 30, 29, NULL, '0000-00-00 00:00:00', NULL, 'os_cfg_select_option(array(\'true\', \'false\'),'),
 (377, 'VIS_BOX_DOWNLOADS', 'false', 30, 30, NULL, '0000-00-00 00:00:00', NULL, 'os_cfg_select_option(array(\'true\', \'false\'),'),
 (378, 'VIS_BOX_NEWS', 'true', 30, 31, NULL, '0000-00-00 00:00:00', NULL, 'os_cfg_select_option(array(\'true\', \'false\'),'),
-(380, 'SEO_URL_PRODUCT_GENERATOR', 'false', 31, 1, '0000-00-00 00:00:00', '0000-00-00 00:00:00', NULL, 'os_cfg_select_option(array(\'true\', \'false\'),'),
-(381, 'SEO_URL_PRODUCT_GENERATOR_IMPORT', 'false', 31, 1, '0000-00-00 00:00:00', '0000-00-00 00:00:00', NULL, 'os_cfg_select_option(array(\'true\', \'false\'),'),
-(382, 'SEO_URL_CATEGORIES_GENERATOR', 'false', 31, 1, '0000-00-00 00:00:00', '0000-00-00 00:00:00', NULL, 'os_cfg_select_option(array(\'true\', \'false\'),'),
+(380, 'SEO_URL_PRODUCT_GENERATOR', 'true', 31, 1, '0000-00-00 00:00:00', '0000-00-00 00:00:00', NULL, 'os_cfg_select_option(array(\'true\', \'false\'),'),
+(381, 'SEO_URL_PRODUCT_GENERATOR_IMPORT', 'true', 31, 1, '0000-00-00 00:00:00', '0000-00-00 00:00:00', NULL, 'os_cfg_select_option(array(\'true\', \'false\'),'),
+(382, 'SEO_URL_CATEGORIES_GENERATOR', 'true', 31, 1, '0000-00-00 00:00:00', '0000-00-00 00:00:00', NULL, 'os_cfg_select_option(array(\'true\', \'false\'),'),
 (383, 'SEARCH_ENGINE_FRIENDLY_URLS', 'false', 31, 2, NULL, '0000-00-00 00:00:00', NULL, 'os_cfg_select_option(array(\'true\', \'false\'),'),
 (384, 'USE_REVIEWS_MODERATION', 'false', 17, 19, NULL, '0000-00-00 00:00:00', NULL, 'os_cfg_select_option(array(\'true\', \'false\'),'),
 (385, 'TEMPLATE_COMPILE_CHECK', 'false', 11, 8, NULL, '0000-00-00 00:00:00', NULL, 'os_cfg_select_option(array(\'true\', \'false\'),'),
@@ -1326,8 +1326,8 @@ os_db_query("INSERT INTO `".DB_PREFIX."configuration` VALUES
 (387, 'ACCOUNT_PROFILE', 'false', 5, 14, NULL, '0000-00-00 00:00:00', NULL, 'os_cfg_select_option(array(\'true\', \'false\'),'),
 (388, 'ACCOUNT_USER_NAME', 'false', 5, 15, NULL, '0000-00-00 00:00:00', NULL, 'os_cfg_select_option(array(\'true\', \'false\'),'),
 (389, 'ACCOUNT_USER_NAME_REG', 'false', 5, 16, NULL, '0000-00-00 00:00:00', NULL, 'os_cfg_select_option(array(\'true\', \'false\'),'),
-(390, 'SEO_URL_NEWS_GENERATOR', 'false', 31, 1, '0000-00-00 00:00:00', '0000-00-00 00:00:00', NULL, 'os_cfg_select_option(array(\'true\', \'false\'),'),
-(391, 'SEO_URL_ARTICLES_GENERATOR', 'false', 31, 1, '0000-00-00 00:00:00', '0000-00-00 00:00:00', NULL, 'os_cfg_select_option(array(\'true\', \'false\'),'),
+(390, 'SEO_URL_NEWS_GENERATOR', 'true', 31, 1, '0000-00-00 00:00:00', '0000-00-00 00:00:00', NULL, 'os_cfg_select_option(array(\'true\', \'false\'),'),
+(391, 'SEO_URL_ARTICLES_GENERATOR', 'true', 31, 1, '0000-00-00 00:00:00', '0000-00-00 00:00:00', NULL, 'os_cfg_select_option(array(\'true\', \'false\'),'),
 (392, 'ENTRY_USERNAME_MIN_LENGTH', '3', 2, 3, NULL, '0000-00-00 00:00:00', NULL, NULL),
 (393, 'USE_IMAGE_SUBMIT', 'false', 17, 19, NULL, '0000-00-00 00:00:00', NULL, 'os_cfg_select_option(array(\'true\', \'false\'),');
 ");

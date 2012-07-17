@@ -342,6 +342,7 @@ while (list($key, $value) = each($_POST))
 if (isset($_POST['OS_TEST_BASE']) && $_POST['OS_TEST_BASE'] == 'on')
 {
    include(dirname(__FILE__).'/sql/db_shop.php');
+   @copy_folder('sql/product_images', '../images/product_images');
 }
 ?>
 

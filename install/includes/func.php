@@ -1,13 +1,30 @@
 <?php
 /*
-#####################################
-#  OSC-CMS: Shopping Cart Software.
-#  Copyright (c) 2011-2012
-#  http://osc-cms.com
-#  http://osc-cms.com/forum
-#  Ver. 1.0.0
-#####################################
+*---------------------------------------------------------
+*
+*	OSC-CMS - Open Source Shopping Cart Software
+*	http://osc-cms.com
+*
+*---------------------------------------------------------
 */
+
+function copy_folder($d1, $d2)
+{
+    if (is_dir($d1))
+	{
+        $d = dir( $d1 );
+        while (false !== ($entry = $d->read()))
+		{
+            if ($entry != '.' && $entry != '..')
+                @copy_folder("$d1/$entry", "$d2/$entry");
+        }
+        $d->close();
+    }
+    else
+	{
+        $ok = @copy($d1, $d2);
+    }
+}
 
 function os_db_install($database, $sql_file) 
 {

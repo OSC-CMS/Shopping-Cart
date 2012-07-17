@@ -158,7 +158,7 @@ if (os_in_array('database', $_POST['install']))
 		<form name="install" action="3.php" method="post">
 			<hr>
 			<p>
-				<span class="pull-left"><input type="checkbox" name="OS_TEST_BASE" id="OS_TEST_BASE"></span>
+				<span class="pull-left"><input type="checkbox" name="OS_TEST_BASE" id="OS_TEST_BASE" checked></span>
 				<span class="pull-left" style="padding-left:5px;"><label for="OS_TEST_BASE" class="bold"><?php echo STEP2_TEST;?></label></span>
 			</p>
 
