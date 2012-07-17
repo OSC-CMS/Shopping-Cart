@@ -15,7 +15,7 @@ $osTemplate->assign('tpl_path', _HTTP_THEMES_C);
 define('DIR_WS_BOXES', _THEMES_C.'source/boxes/');
 
 if (VIS_BOX_AFFILIATE			== 'true') { include(DIR_WS_BOXES.'affiliate.php'); }
-//if (VIS_BOX_CATEGORIES			== 'true') { include(DIR_WS_BOXES.'categories.php'); }
+if (VIS_BOX_CATEGORIES			== 'true') { include(DIR_WS_BOXES.'categories.php'); }
 if (VIS_BOX_AUTHORS				== 'true') { include(DIR_WS_BOXES.'authors.php'); }
 if (VIS_BOX_ARTICLES			== 'true') { include(DIR_WS_BOXES.'articles.php'); }
 if (VIS_BOX_ARTICLES_NEW		== 'true') { include(DIR_WS_BOXES.'articles_new.php'); }
