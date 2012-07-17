@@ -2,14 +2,26 @@
 /*
 	Plugin Name: Категории
 	Plugin URI: http://osc-cms.com/extend/plugins
-	Version: 1.0
+	Version: 1.1
 	Description: Плагин выводит дерево категорий
 	Author: OSC-CMS
 	Author URI: http://osc-cms.com
 	Plugin Group: Products
 */
 
-add_action('box', 'box_categories_func');
+add_action('box',				'box_categories_func');
+add_filter('head_array_detail',	'box_categories_js');
+
+function box_categories_js($value)
+{
+	if (get_option('menuJSType') == 'accordion')
+	{
+		add_style(plugurl().'js/menu_accordion.css', $value, 'categories');
+		add_js(plugurl().'js/menu_accordion.js', $value, 'categories');
+	}
+
+	return $value;
+}
 
 function box_categories_func()
 {
@@ -30,9 +42,9 @@ function box_categories_func()
 
 				$active = '';
 				if ($this_category == $cat['cID']) 
-					$active = 'Current active'; 
+					$active = 'current active'; 
 				elseif ($in_path) 
-					$active = 'CurrentParent'; 
+					$active = 'current-parent'; 
 
 				if ($level != get_option('maxSubCategories'))
 				{
@@ -54,7 +66,6 @@ function box_categories_func()
 		return $aTree;
 	}
 
-	// MySQL Query
 	$group_check = (GROUP_CHECK == 'true') ? "AND c.group_permission_".$_SESSION['customers_status']['customers_status_id']." = 1 " : ''; 
 
 	$categories_query = osDBquery("
@@ -103,5 +114,6 @@ function box_categories_install()
 	add_option('showCatImages',		'false', 'checkbox', "array('true', 'false')");
 	add_option('cImgWidth',			'30', 'input_text');
 	add_option('cImgHeight',		'30', 'input_text');
+	add_option('menuJSType',		'none', 'checkbox', "array('none', 'accordion')");
 }
 ?>

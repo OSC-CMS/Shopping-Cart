@@ -1,5 +1,5 @@
 {if $aCategories}
-<ul class="nav nav-tabs nav-stacked">
+<ul class="nav nav-tabs nav-stacked" id="box-categories">
 {foreach $aCategories as $item}
 	<li class="level-{$item.level}">
 	<a class="{$item.active} level-{$item.level}" href="{$item.link}">{$item.name}{if $item.counts}<span class="badge pull-right">{$item.counts}</span>{/if}</a>
