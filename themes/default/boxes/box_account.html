@@ -1,7 +1,9 @@
 {config_load file="$language/lang.conf" section="boxes"}
 <li id="fat-menu" class="dropdown">
 	<a href="#" class="dropdown-toggle" data-toggle="dropdown">{#text_acc_title#} <b class="caret"></b></a>
-	<ul class="dropdown-menu">
+	<ul class="dropdown-menu account-dropdown">
+		<li class="text-li">{$groupText} <span class="label label-info pull-right">{$groupName}</span></li>
+		<li class="divider"></li>
 		<li><a href="{$index}profile.php?id={$smarty.session.customer_id}">{#text_acc_profile#}</a></li>
 		<li><a href="{$index}account_edit.php">{#text_acc_account_edit#}</a></li>
 		<li><a href="{$index}account_password.php">{#text_acc_password#}</a></li>
@@ -9,6 +11,15 @@
 		<li><a href="{$index}address_book.php">{#text_acc_address_book#}</a></li>
 		<li><a href="{$index}account_history.php">{#text_acc_orders#}</a></li>
 		<li class="divider"></li>
+		{if $ACTIVATE_GIFT == true}
+			<li class="text-li">Баланс сертификата: <span class="label label-success pull-right">{$GV_AMOUNT}</span></li>
+			<li class="divider"></li>
+		{/if}
+		{if $discountGroup OR $discountOrder}
+			{if $discountGroup}<li class="text-li">{$discountGroupText} <span class="label label-success pull-right">{$discountGroup}%</span></li>{/if}
+			{if $discountOrder}<li class="text-li">{$discountOrderText} <span class="label label-success pull-right">{$discountOrder}%</span></li>{/if}
+			<li class="divider"></li>
+		{/if}
 		<li><a href="{$index}logoff.php">{#text_acc_logout#}</a></li>
 	</ul>
 </li>

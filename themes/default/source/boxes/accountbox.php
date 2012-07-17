@@ -11,8 +11,41 @@
 $box = new osTemplate;
 $box->assign('tpl_path', _HTTP_THEMES_C);
 
-if (os_session_is_registered('customer_id'))
+if (isset($_SESSION['customer_id']))
 {
+	// Баланс сертификата
+	if (ACTIVATE_GIFT_SYSTEM == 'true')
+	{
+		$box->assign('ACTIVATE_GIFT', true);
+
+		if (isset($_SESSION['customer_id']))
+		{
+			$gv_query = os_db_query("select amount from ".TABLE_COUPON_GV_CUSTOMER." where customer_id = '".$_SESSION['customer_id']."'");
+			$gv_result = os_db_fetch_array($gv_query);
+			if ($gv_result['amount'] > 0)
+				$box->assign('GV_AMOUNT', $osPrice->Format($gv_result['amount'], true, 0, true));
+			else
+				$box->assign('GV_AMOUNT', '0');
+		}
+	}
+
+	// Информация о группе
+	$box->assign('groupText', BOX_LOGINBOX_STATUS);
+	$box->assign('groupName', $_SESSION['customers_status']['customers_status_name']);
+
+	// Скидки
+	if ($_SESSION['customers_status']['customers_status_discount'] != '0.00')
+	{
+		$box->assign('discountGroupText', BOX_LOGINBOX_DISCOUNT);
+		$box->assign('discountGroup', $_SESSION['customers_status']['customers_status_discount']);
+	}
+
+	if ($_SESSION['customers_status']['customers_status_ot_discount_flag'] == 1  && $_SESSION['customers_status']['customers_status_ot_discount'] != '0.00')
+	{
+		$box->assign('discountOrderText', BOX_LOGINBOX_DISCOUNT_TEXT);
+		$box->assign('discountOrder', $_SESSION['customers_status']['customers_status_ot_discount']);
+	}
+
 	$box->caching = 0;
 	$box->assign('language', $_SESSION['language']);
 	$box_accountbox = $box->fetch(CURRENT_TEMPLATE.'/boxes/box_account.html');
