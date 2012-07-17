@@ -1,0 +1,13 @@
+
+.tcenter {text-align:center!important;}
+.tright {text-align:right!important;}
+.bold {font-weight:bold!important;}
+.clear {margin:0;padding:0;clear:both;display:block;font-size:0;height:0;line-height:0;width:100%;}
+
+.text-yes {color:green;font-weight:bold!important;}
+.text-no {color:red;font-weight:bold!important;}
+
+
+.lang_menu {margin-top:12px;}
+.lang_menu a {margin-left:5px;}
+.lang_menu img {background:#ccc;padding:2px;}
