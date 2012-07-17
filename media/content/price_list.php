@@ -1,8 +1,5 @@
-<style>
-    .price-list {margin-bottom:10px;width:100%;}
-    .price-list td {padding:3px;border-bottom:1px solid #ccc;}
-</style>
-<table class="price-list">
+<table class="table table-bordered">
+<thead>
 <tr>
     <th>
         <?php
@@ -21,7 +18,9 @@
         ?>
     </th>
 </tr>
-<?
+</thead>
+<tbody>
+<?php
     if (isset($_GET['products_name']))
     {
         trim( $_GET['products_name'] );
@@ -54,8 +53,6 @@
             $_orders = ' order by p.products_price ASC';
         }
     }
-
-
     $export_query = "select p.products_id, pd.products_name, p.products_model, p.products_price, p.products_status, p.products_tax_class_id from " . TABLE_PRODUCTS . " p LEFT JOIN " . TABLE_PRODUCTS_DESCRIPTION . " pd ON p.products_id = pd.products_id  where p.products_status = 1".$_orders;
 
     $export_query = $db->query($export_query);
@@ -65,13 +62,13 @@
         $products_price = $osPrice->Format( $row['products_price']*$osPrice->currencies[ $_SESSION['currency'] ]['value'] , true);
 
         echo "<tr>\n";
-        echo "<td class=\"border-right\">"."<a href=\"".os_href_link(FILENAME_PRODUCT_INFO, 'products_id=' .$row["products_id"])."\">" .$row["products_name"]."</a></td>\n";
+        echo "<td>"."<a href=\"".os_href_link(FILENAME_PRODUCT_INFO, 'products_id=' .$row["products_id"])."\">" .$row["products_name"]."</a></td>\n";
 
         echo "<td>";
         echo $products_price; 
         echo "</td>\n";
         echo "</tr>\n";
     }
-    echo "</table>";
+    echo "</tbody></table>";
 
 ?>

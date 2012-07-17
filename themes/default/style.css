@@ -36,8 +36,14 @@ ul.subcat-nav li a.current {background:#08C;color:#fff;}
 
 
 .product-list {}
-.product-list .caption h5 a {display:block;height:40px;}
-.product-list a.product-image {display:block;text-align:center;}
+.product-list .caption h5 a {display:block;height:40px;line-height:14px;overflow:hidden;}
+.product-list a.product-image {display:block;text-align:center;min-height:190px;}
+.thumbnail.product-list:hover {
+  border-color: #0088cc;
+  -webkit-box-shadow: 0 1px 4px rgba(0, 105, 214, 0.25);
+     -moz-box-shadow: 0 1px 4px rgba(0, 105, 214, 0.25);
+          box-shadow: 0 1px 4px rgba(0, 105, 214, 0.25);
+}
 
 
 .box-cart-title {margin-bottom:5px;}
