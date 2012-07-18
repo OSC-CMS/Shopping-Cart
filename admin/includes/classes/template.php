@@ -1,25 +1,26 @@
 <?php
 /*
-#####################################
-#  OSC-CMS: Shopping Cart Software.
-#  Copyright (c) 2011-2012
-#  http://osc-cms.com
-#  http://osc-cms.com/forum
-#  Ver. 1.0.1
-#####################################
+*---------------------------------------------------------
+*
+*	OSC-CMS - Open Source Shopping Cart Software
+*	http://osc-cms.com
+*
+*---------------------------------------------------------
 */
 
 require_once (_LIB.'smarty/smarty.class.php');
 
-class osTemplate extends Smarty {
-   function osTemplate()
-   {
-        $this->Smarty();
-        $this->template_dir = _THEMES;
-        $this->compile_dir = _CACHE;
-        $this->config_dir   = _LANG;
-        $this->cache_dir    = _CACHE;
-        $this->plugins_dir = array(_LIB.'smarty/plugins',);
+class osTemplate extends Smarty
+{
+	function __construct()
+	{
+		parent::__construct();
+		$this->setTemplateDir(_THEMES);
+		$this->setCompileDir(_CACHE);
+		$this->setConfigDir(_LANG);
+		$this->setCacheDir(_CACHE);
+		$this->compile_check   =  TEMPLATE_COMPILE_CHECK;
+		$this->setPluginsDir(_LIB.'smarty/plugins');
         $this->assign('app_name', 'osTemplate');
    }
 }
