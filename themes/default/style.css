@@ -38,6 +38,7 @@ ul.subcat-nav li a.current {background:#08C;color:#fff;}
 .product-list {}
 .product-list .caption h5 a {display:block;height:40px;line-height:14px;overflow:hidden;}
 .product-list a.product-image {display:block;text-align:center;min-height:190px;}
+.pprice {font-weight:bold;font-size:1.3em;color:#b33232;}
 .thumbnail.product-list:hover {
   border-color: #0088cc;
   -webkit-box-shadow: 0 1px 4px rgba(0, 105, 214, 0.25);
