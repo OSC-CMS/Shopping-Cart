@@ -8,7 +8,7 @@
 *---------------------------------------------------------
 */
 
-require_once (_LIB.'smarty/Smarty.class.php');
+require_once (_LIB.'smarty/smarty.class.php');
 
 class osTemplate extends Smarty
 {
