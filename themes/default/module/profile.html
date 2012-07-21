@@ -1,115 +1,121 @@
 
-{if $id_empty == true}
-	Вы не указали ID пользователя
-{/if}
-{if $id_error == true}
-	Вы указали ID не существующего пользователя
-{/if}
+{if $smarty.const.ACCOUNT_PROFILE == 'true'}
 
-{if $profile}
-	<table width="100%">
-		<tr>
-			<td valign="top" width="130">
-				<span class="customer-images">{$profile.customers_avatar}</span>
-			</td>
-			<td valign="top">
-				<h2 class="bold" style="float:left;">{$profile.customers_username} 
-				(
-				{if $profile.show_lastname == '1'} {$profile.customers_lastname}{/if}
-				{if $profile.show_firstname == '1'} {$profile.customers_firstname}{/if}
-				{if $profile.show_secondname == '1'} {$profile.customers_secondname}{/if}
-				)
-				</h2>
+	{if $id_empty == true}
+		Вы не указали ID пользователя
+	{/if}
+	{if $id_error == true}
+		Вы указали ID не существующего пользователя
+	{/if}
 
-				{if $account_edit == true}
-					<div style="float:right;"><a class="btn" href="account_edit.php">Редактировать аккаунт</a></div>
-				{/if}
+	{if $profile}
+		<table width="100%">
+			<tr>
+				<td valign="top" width="130">
+					<span class="customer-images">{$profile.customers_avatar}</span>
+				</td>
+				<td valign="top">
+					<h2 class="bold" style="float:left;">{$profile.customers_username} 
+					(
+					{if $profile.show_lastname == '1'} {$profile.customers_lastname}{/if}
+					{if $profile.show_firstname == '1'} {$profile.customers_firstname}{/if}
+					{if $profile.show_secondname == '1'} {$profile.customers_secondname}{/if}
+					)
+					</h2>
 
-				<div class="clear"></div>
+					{if $account_edit == true}
+						<div style="float:right;"><a class="btn" href="account_edit.php">Редактировать аккаунт</a></div>
+					{/if}
 
-				{if $profile.customers_signature}
-					<blockquote><h4>О себе</h4>{$profile.customers_signature}</blockquote>
-					<hr>
-				{/if}
+					<div class="clear"></div>
 
-				<table class="table table-striped table-bordered">
-				{*<tr><td>ID покупателя</td><td>{$profile.customers_id}</td></tr>*}
-				<tr><td>Группа</td><td>{$profile.customers_status_name}</td></tr>
-				{if $profile.show_gender == '1' && $profile.customers_gender}<tr><td>Пол</td><td>{if $profile.customers_gender == 'm'}Мужчина{else}Женщина{/if}</td></tr>{/if}
-				{if $profile.show_dob == '1' && $profile.customers_dob}<tr><td>Дата рождения</td><td>{$profile.customers_dob}</td></tr>{/if}
-				{if $profile.show_email == '1' && $profile.customers_email_address}<tr><td>Email</td><td>{$profile.customers_email_address}</td></tr>{/if}
-				{if $profile.show_telephone == '1' && $profile.customers_telephone}<tr><td>Телефон</td><td>{$profile.customers_telephone}</td></tr>{/if}
-				{if $profile.show_fax == '1' && $profile.customers_fax}<tr><td>Факс</td><td>{$profile.customers_fax}</td></tr>{/if}
-				{if $profile.customers_date_added}<tr><td>Дата регистрации</td><td>{$profile.customers_date_added}</td></tr>{/if}
-				{if $profile.customers_last_modified}<tr><td>Последнее редактирование аккаунта</td><td>{$profile.customers_last_modified}</td></tr>{/if}
-				{if $profile.login_time}<tr><td>Последний вход</td><td>{$profile.login_time}</td></tr>{/if}
-				</table>
-			</td>
-		</tr>
-	</table>
-<div class="tabbable">
-	<ul class="nav nav-tabs">
-		<li class="active"><a href="#reviews" data-toggle="tab">Отзывы</a></li>
-		<li><a href="#wishlist" data-toggle="tab">Список желаний</a></li>
-		{foreach item=t from=$tProfileTabs}
-		<li><a href="#tab_{$t.count}" data-toggle="tab">{$t.tab_name}</a></li>
-		{/foreach}
-	</ul>
+					{if $profile.customers_signature}
+						<blockquote><h4>О себе</h4>{$profile.customers_signature}</blockquote>
+						<hr>
+					{/if}
 
-	<div class="tab-content">
-		<div class="tab-pane active" id="reviews">
-			
-				{if $cReviews}
-				<ul class="new-reviews-page">
-					{foreach $cReviews AS $module_data} 
-					<li class="nrp-item">
-						<div class="nrp-image">
-							<a href="{$module_data.PRODUCTS_LINK}"><span class="customer-images"><img class="nrp-img" src="{$module_data.PRODUCTS_IMAGE}" alt="{$module_data.PRODUCTS_NAME}" border="0" /></span></a>
-						</div>
-						<div class="nrp-content">
-							<div class="nrp-product">Товар: <a href="{$module_data.PRODUCTS_LINK}">{$module_data.PRODUCTS_NAME}</a></div>
-							<ul class="nrp-info">
-								<li>Рейтинг: {$module_data.RATING}</li>
-								<li>Автор: <span class="bold">{$module_data.AUTHOR}</span></li>
-								<li>Дата: <span class="bold">{$module_data.DATE}</span></li>
-							</ul>
-							<div class="nrp-text">{$module_data.TEXT}</div>
-						</div>
-						<div class="clear"></div>
-					</li>
-					{/foreach}
-				</ul>
-				{else}
-				Отзывы отсутствуют
-				{/if}
+					<table class="table table-striped table-bordered">
+					{*<tr><td>ID покупателя</td><td>{$profile.customers_id}</td></tr>*}
+					<tr><td>Группа</td><td>{$profile.customers_status_name}</td></tr>
+					{if $profile.show_gender == '1' && $profile.customers_gender}<tr><td>Пол</td><td>{if $profile.customers_gender == 'm'}Мужчина{else}Женщина{/if}</td></tr>{/if}
+					{if $profile.show_dob == '1' && $profile.customers_dob}<tr><td>Дата рождения</td><td>{$profile.customers_dob}</td></tr>{/if}
+					{if $profile.show_email == '1' && $profile.customers_email_address}<tr><td>Email</td><td>{$profile.customers_email_address}</td></tr>{/if}
+					{if $profile.show_telephone == '1' && $profile.customers_telephone}<tr><td>Телефон</td><td>{$profile.customers_telephone}</td></tr>{/if}
+					{if $profile.show_fax == '1' && $profile.customers_fax}<tr><td>Факс</td><td>{$profile.customers_fax}</td></tr>{/if}
+					{if $profile.customers_date_added}<tr><td>Дата регистрации</td><td>{$profile.customers_date_added}</td></tr>{/if}
+					{if $profile.customers_last_modified}<tr><td>Последнее редактирование аккаунта</td><td>{$profile.customers_last_modified}</td></tr>{/if}
+					{if $profile.login_time}<tr><td>Последний вход</td><td>{$profile.login_time}</td></tr>{/if}
+					</table>
+				</td>
+			</tr>
+		</table>
+	<div class="tabbable">
+		<ul class="nav nav-tabs">
+			<li class="active"><a href="#reviews" data-toggle="tab">Отзывы</a></li>
+			<li><a href="#wishlist" data-toggle="tab">Список желаний</a></li>
+			{foreach item=t from=$tProfileTabs}
+			<li><a href="#tab_{$t.count}" data-toggle="tab">{$t.tab_name}</a></li>
+			{/foreach}
+		</ul>
 
-		</div>
-		<div class="tab-pane" id="wishlist">
-			<p>
-				Список желаний
-			</p>
-		</div>
-
-		{foreach $tProfileTabs $t}
-		<div class="tab-pane" id="tab_{$t.count}">
-			<p>
-				{if $t.is_array == true}
-					<ul>
-					{foreach key=k item=v from=$t.tab_content}
-						<li>{$k}: {$v}</li>
-					{/foreach}
+		<div class="tab-content">
+			<div class="tab-pane active" id="reviews">
+				
+					{if $cReviews}
+					<ul class="new-reviews-page">
+						{foreach $cReviews AS $module_data} 
+						<li class="nrp-item">
+							<div class="nrp-image">
+								<a href="{$module_data.PRODUCTS_LINK}"><span class="customer-images"><img class="nrp-img" src="{$module_data.PRODUCTS_IMAGE}" alt="{$module_data.PRODUCTS_NAME}" border="0" /></span></a>
+							</div>
+							<div class="nrp-content">
+								<div class="nrp-product">Товар: <a href="{$module_data.PRODUCTS_LINK}">{$module_data.PRODUCTS_NAME}</a></div>
+								<ul class="nrp-info">
+									<li>Рейтинг: {$module_data.RATING}</li>
+									<li>Автор: <span class="bold">{$module_data.AUTHOR}</span></li>
+									<li>Дата: <span class="bold">{$module_data.DATE}</span></li>
+								</ul>
+								<div class="nrp-text">{$module_data.TEXT}</div>
+							</div>
+							<div class="clear"></div>
+						</li>
+						{/foreach}
 					</ul>
-				{else}
-					{$t.tab_content}
-				{/if}
-			</p>
+					{else}
+					Отзывы отсутствуют
+					{/if}
+
+			</div>
+			<div class="tab-pane" id="wishlist">
+				<p>
+					Список желаний
+				</p>
+			</div>
+
+			{foreach $tProfileTabs $t}
+			<div class="tab-pane" id="tab_{$t.count}">
+				<p>
+					{if $t.is_array == true}
+						<ul>
+						{foreach key=k item=v from=$t.tab_content}
+							<li>{$k}: {$v}</li>
+						{/foreach}
+						</ul>
+					{else}
+						{$t.tab_content}
+					{/if}
+				</p>
+			</div>
+			{/foreach}
+
 		</div>
-		{/foreach}
-
 	</div>
-</div>
 
 
 
 
+	{/if}
+
+{else}
+	Профили выключены
 {/if}
