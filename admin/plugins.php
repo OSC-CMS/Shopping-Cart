@@ -41,7 +41,13 @@ if (isset($_GET['action']))
 		       $p->remove(); 
 			    os_redirect(FILENAME_PLUGINS.'?module='.$p->name.'&group='.$p->group);
 		  break; 
-   
+
+		  // TODO: добавить возможность выключать\включать плагины без удаления инфы из БД.
+          case 'update_status': 
+				$p->updatePluginStatus(); 
+				os_redirect(FILENAME_PLUGINS.'?module='.$p->name.'&group='.$p->group);
+		  break; 
+
 	      case 'process': $p->process(); break; 	
 	      case 'save': $p->save_options(); break; 
 	      case 'multi_action': $p-> multi_action(); break;

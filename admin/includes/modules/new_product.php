@@ -352,7 +352,6 @@ foreach (array('product_info', 'product_options') as $key) {
         </table>
         </div>
 
-		
 		<?php 
 		 /*
 		       $array = array(1 => array(

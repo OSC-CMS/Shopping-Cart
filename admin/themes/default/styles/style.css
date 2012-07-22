@@ -806,8 +806,8 @@ h1.contenttabber a, h1.contenttabber a:hover, h1.contenttabber a:visited {
 .red {color: #fd0404;}
 .redl {color: #ffb2b2;}
 
-#modules a:link, a:visited {color:blue;}
-#news a:link, a:visited {color:blue;}
+#modules a:link, #modules a:visited {color:blue;}
+#news a:link, #news a:visited {color:blue;}
 #modules a:hover{color:red;}
 #news a:hover{color:red;}
 
