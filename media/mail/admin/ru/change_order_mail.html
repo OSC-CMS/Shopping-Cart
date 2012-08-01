@@ -1,0 +1,20 @@
+<table  width="100%" border="0" align="center" cellpadding="4" cellspacing="0">
+  <tr> 
+    <td style="border-bottom: 1px solid; border-color: #cccccc;"><div align="right"><img src="{$logo_path}logo.gif"></div></td>
+  </tr>
+  <tr> 
+    <td><font size="2" face="Verdana, Arial, Helvetica, sans-serif"><strong>Уважаемый покупатель!</strong><br>
+      <br>
+      Статус Вашего заказа номер {$ORDER_NR} изменён.<br> 
+      {if $NOTIFY_COMMENTS}<br>
+Комментарии: 
+{$NOTIFY_COMMENTS}
+<br>
+{/if}
+<br>
+Новый статус: 
+<b>{$ORDER_STATUS}</b>
+<br>
+Если у Вас есть вопросы, задайте их в ответном письме. </font></td>
+  </tr>
+</table>

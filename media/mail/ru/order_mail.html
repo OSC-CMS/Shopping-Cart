@@ -1,0 +1,81 @@
+<table width="100%" border="0">
+  <tr>
+    <td><table width="100%" border="0" cellpadding="0" cellspacing="0">
+        <tr>
+          <td><font size="1" face="Verdana, Arial, Helvetica, sans-serif">{$address_label_customer}<br>
+            <br>
+            {if $PAYMENT_METHOD}<strong>Способ оплаты:</strong> {$PAYMENT_METHOD}<br>{/if}
+            {if $SHIPPING_METHOD}<strong>Способ доставки:</strong> {$SHIPPING_METHOD}<br>{/if}
+            <strong>Номер заказа:</strong> {$oID}<br>
+            <strong>Дата:</strong> {$DATE}<br>
+			{if $csID}<strong>Код покупателя:</strong> {$csID}<br>
+			{/if}
+			<strong>Телефон:</strong> {$PHONE}<br />
+         <strong>E-mail:</strong> {$EMAIL}<br />
+            </font></td>
+          <td width="1"><img src="{$logo_path}logo.gif"></td>
+        </tr>
+      </table>
+      <br> <table style="border-top:1px solid; border-bottom:1px solid;" width="100%" border="0">
+        <tr bgcolor="#f1f1f1">
+          <td width="50%"> <p><font size="1"><strong><font face="Verdana, Arial, Helvetica, sans-serif">Адрес доставки<br>
+          </font></strong></font></p></td>{if $address_label_payment}
+          <td> <p><font size="1"><strong><font face="Verdana, Arial, Helvetica, sans-serif">Адрес покупателя<br>
+          </font> </strong></font></p></td>{/if}
+        </tr>
+        <tr>
+          <td><font size="1" face="Verdana, Arial, Helvetica, sans-serif">            {$address_label_shipping}
+          </font></td>
+          {if $address_label_payment}<td><font size="1" face="Verdana, Arial, Helvetica, sans-serif">
+            {$address_label_payment}
+          </font></td>{/if}
+        </tr>
+      </table>
+      <p><font size="1" face="Verdana, Arial, Helvetica, sans-serif"> Уважаемый
+        {$NAME}!<br>
+        <br>
+ Вы оформили заказ в нашем интернет-магазине.</font><br>
+ <br>
+ {$PAYMENT_INFO_HTML}
+        {if $COMMENTS}<br>
+        <strong><font size="1" face="Verdana, Arial, Helvetica, sans-serif">Ваши комментарии:</font></strong><br>
+        <font size="1" face="Verdana, Arial, Helvetica, sans-serif">{$COMMENTS}</font><br>
+{/if}<br>
+      </p></td>
+  </tr>
+</table>
+<table style="border-bottom:1px solid;" width="100%" border="0" cellpadding="0" cellspacing="0">
+  <tr>
+    <td><font size="1" face="Verdana, Arial, Helvetica, sans-serif"> <strong>Вы заказали следующие товары:</strong></font></td>
+  </tr>
+  <tr>
+    <td> <table width="100%" border="0" cellpadding="3" cellspacing="0" bgcolor="f1f1f1">
+        <tr>
+          <td colspan="2" style="border-right: 2px solid; border-bottom: 2px solid; border-color: #ffffff;"><div align="center"><font size="1" face="Verdana, Arial, Helvetica, sans-serif"><strong><font size="1">Количество</font>
+              </strong></font></div></td>
+          <td style="border-right: 2px solid; border-bottom: 2px solid; border-color: #ffffff;"><font size="1" face="Verdana, Arial, Helvetica, sans-serif"><strong>
+            Товар</strong></font></td>
+          <td style="border-right: 2px solid; border-bottom: 2px solid; border-color: #ffffff;"><strong><font size="1" face="Verdana, Arial, Helvetica, sans-serif">Код товара </font></strong> </td>
+          <td style="border-right: 2px solid; border-bottom: 2px solid; border-color: #ffffff;" width="150"><font size="1" face="Verdana, Arial, Helvetica, sans-serif"><strong>Цена за единицу
+            </strong></font></td>
+          <td style="border-right: 2px solid; border-bottom: 2px solid; border-color: #ffffff;" width="150"><div align="right"><font size="1" face="Verdana, Arial, Helvetica, sans-serif"><strong><font size="1">Всего</font>
+              </strong></font></div></td>
+        </tr>
+        {foreach name=aussen item=order_values from=$order_data}
+        <tr>
+          <td width="20" style="border-right: 2px solid; border-bottom: 2px solid; border-color: #ffffff;"><div align="center"><font size="1" face="Verdana, Arial, Helvetica, sans-serif">{$order_values.PRODUCTS_QTY}</font></div></td>
+          <td width="20" style="border-right: 2px solid; border-bottom: 2px solid; border-color: #ffffff;"><div align="center"><font size="1" face="Verdana, Arial, Helvetica, sans-serif">x</font></div></td>
+          <td style="border-right: 2px solid; border-bottom: 2px solid; border-color: #ffffff;"><font size="1" face="Verdana, Arial, Helvetica, sans-serif"><strong>{$order_values.PRODUCTS_NAME}</strong>{if $order_values.PRODUCTS_SHIPPING_TIME neq ''}<br />Время доставки: {$order_values.PRODUCTS_SHIPPING_TIME}{/if}<em><br>
+            {$order_values.PRODUCTS_ATTRIBUTES}</em></font></td>
+          <td style="border-right: 2px solid; border-bottom: 2px solid; border-color: #ffffff;"><font size="1" face="Verdana, Arial, Helvetica, sans-serif">{$order_values.PRODUCTS_MODEL}<br>
+            <em>{$order_values.PRODUCTS_ATTRIBUTES_MODEL}</em></font></td>
+          <td style="border-right: 2px solid; border-bottom: 2px solid; border-color: #ffffff;" width="150"><font size="1" face="Verdana, Arial, Helvetica, sans-serif">{$order_values.PRODUCTS_SINGLE_PRICE}</font></td>
+          <td style="border-right: 2px solid; border-bottom: 2px solid; border-color: #ffffff;" width="150"><div align="right"><font size="1" face="Verdana, Arial, Helvetica, sans-serif">{$order_values.PRODUCTS_PRICE}</font></div></td>
+        </tr>
+        {/foreach} </table></td>
+  </tr>
+</table>
+{foreach name=aussen item=order_total_values from=$order_total}
+<div align="right"><font size="1" face="Arial, Helvetica, sans-serif">{$order_total_values.TITLE}{$order_total_values.TEXT}</font></div>
+<br />
+{/foreach}

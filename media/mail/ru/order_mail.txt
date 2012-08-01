@@ -1,0 +1,43 @@
+Уважаемый (ая) {$NAME}!
+Вы оформили заказ в нашем интернет-магазине!
+
+Пожалуйста, проверьте правильность следующей информации:
+
+Вы заказали:
+
+{foreach name=aussen item=order_values from=$order_data}
+{$order_values.PRODUCTS_QTY} x {$order_values.PRODUCTS_NAME}{if $order_values.PRODUCTS_MODEL neq ''} ({$order_values.PRODUCTS_MODEL}) {/if} {$order_values.PRODUCTS_PRICE}
+{if $order_values.PRODUCTS_SHIPPING_TIME neq ''}Время доставки: {$order_values.PRODUCTS_SHIPPING_TIME}{/if}
+
+{if $order_values.PRODUCTS_ATTRIBUTES !=''}{$order_values.PRODUCTS_ATTRIBUTES}{/if}
+
+{/foreach}
+
+{foreach name=aussen item=order_total_values from=$order_total}
+{$order_total_values.TITLE}{$order_total_values.TEXT}
+{/foreach}
+
+Выбранный Вами способ оплаты: {if $PAYMENT_METHOD}{$PAYMENT_METHOD}{/if}
+
+{$PAYMENT_INFO_TXT}
+
+{if $SHIPPING_METHOD}
+Доставка: {$SHIPPING_METHOD}
+
+Адрес доставки вашего заказа:
+{$address_label_shipping}
+
+{/if}
+
+{if $COMMENTS}
+Ваши комментарии к заказу:
+{$COMMENTS}
+{/if}
+
+Номер заказа: {$oID}
+Ваш контактный телефон: {$PHONE}
+Электронный адрес: {$EMAIL}.
+{if $customer_extra_fields}{$customer_extra_fields}{/if}
+
+В случае, если Вы обнаружите ошибку, сделанную при оформлении заказа -
+сообщите нам об этом как можно скорее в ответном письме.
