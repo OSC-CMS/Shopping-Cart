@@ -107,6 +107,9 @@ add_js(_HTTP.'jscript/jquery/jquery.js', $HEAD,  'jquery');
 add_style(_HTTP.'jscript/jquery/plugins/jquery-modal/jquery.modal.css', $HEAD, 'jquery_modal');
 add_js(_HTTP.'jscript/jquery/plugins/jquery-modal/jquery.modal.min.js', $HEAD, 'jquery_modal');
 
+// Search and Auto Completer
+add_js(_HTTP.'jscript/jquery/plugins/autocomplete/jquery.autocomplete-min.js', $HEAD, 'autocomplete');
+
 // System JS
 add_js(_HTTP.'jscript/jscript_JsHttpRequest.js', $HEAD, 'jshttprequest');
 add_js(_HTTP.'jscript/jscript_ajax.js', $HEAD, 'jscript_ajax');
