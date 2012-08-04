@@ -27,15 +27,9 @@ $content_data = os_db_fetch_array($content_query, true);
 <link rel="stylesheet" type="text/css" href="<?php echo 'themes/'.CURRENT_TEMPLATE.'/style.css'; ?>" />
 </head>
 <body>
-<div class="page">
-<b class="b1"></b><b class="b2"></b><b class="b3"></b><b class="b4"></b>
-<div class="pagecontent">
-<p>
-<span class="bold"><?php echo $content_data['content_heading']; ?></span>
-</p>
-<p>
- <?php
-
+<h2 class="popup-content-page-head"><?php echo $content_data['content_heading']; ?></h2>
+<div class="popup-content-page-body">
+<?php
 if ($content_data['content_file'] != '') {
 	if (strpos($content_data['content_file'], '.txt'))
 		echo '<pre>';
@@ -48,12 +42,6 @@ if ($content_data['content_file'] != '') {
 	echo $content_data['content_text'];
 }
 ?>
-</p>
-</div>
-<b class="b4b"></b><b class="b3b"></b><b class="b2b"></b><b class="b1b"></b>
-<div class="pagecontentfooter">
-<a href="javascript:window.close()"><?php echo TEXT_CLOSE_WINDOW; ?></a>
-</div>
 </div>
 </body>
 </html>
