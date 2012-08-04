@@ -32,7 +32,7 @@
 						{$box_ACCOUNT}
 						{$box_ADMIN}
 					{else}
-						<li><a data-toggle="modal" href="{$login}#modalLogin">{#link_login#}</a></li>
+						<li><a href="{$login}">{#link_login#}</a></li>
 						<li><a href="{$index}create_account.php">{#text_create_account#}</a></li>
 					{/if}{/if}
 				</ul>
@@ -54,11 +54,11 @@
 	
 	<div class="row-fluid">
 		<div class="span3">
+			{$box_PRODUCT_FILTER}
 			{$box_CART}
 			{$box_CATEGORIES}
 			{$box_NEW_CATEGORIES}
 			{$box_CONTENT}
-			{$box_PRODUCT_FILTER}
 			{$box_ADD_QUICKIE}
 			{$box_LAST_VIEWED}
 			{$box_REVIEWS}

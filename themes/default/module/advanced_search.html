@@ -1,17 +1,12 @@
 {config_load file="$language/lang.conf" section="advanced_search"}
 <div class="page-header">
-	<a data-toggle="modal" href="#modalSearchHelp" class="pull-right btn btn-info btn-small">{#title_help#}</a>
+	<a href="#modalSearchHelp" class="pull-right btn btn-info btn-small" rel="modal:open">{#title_help#}</a>
 	<h1>{#heading_search#}</h1>
 </div>
 
-<div class="modal hide fade" id="modalSearchHelp">
-	<div class="modal-header">
-		<button type="button" class="close" data-dismiss="modal">&times;</button>
-		<h3>{#title_help#}</h3>
-	</div>
-	<div class="modal-body">
-		<p>{#text_help#}</p>
-	</div>
+<div id="modalSearchHelp" style="display:none;">
+	<h3>{#title_help#}</h3>
+	<p>{#text_help#}</p>
 </div>
 
 {if $error != ''}

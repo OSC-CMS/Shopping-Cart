@@ -4130,7 +4130,7 @@ input[type="submit"].btn.btn-mini {
   background-color: #fff;
 }
 
-.modal-open .dropdown-menu {
+/*.modal-open .dropdown-menu {
   z-index: 2050;
 }
 
@@ -4253,7 +4253,7 @@ input[type="submit"].btn.btn-mini {
 
 .modal-footer .btn-group .btn + .btn {
   margin-left: -1px;
-}
+}*/
 
 .tooltip {
   position: absolute;
