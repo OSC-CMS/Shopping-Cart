@@ -1,13 +1,14 @@
 <?php
 /*
-#####################################
-#  OSC-CMS: Shopping Cart Software.
-#  Copyright (c) 2011-2012
-#  http://osc-cms.com
-#  http://osc-cms.com/forum
-#  Ver. 1.0.0
-#####################################
+*---------------------------------------------------------
+*
+*	OSC-CMS - Open Source Shopping Cart Software
+*	http://osc-cms.com
+*
+*---------------------------------------------------------
 */
+
+do_action('action_products_listing');
 
 require_once (_FUNC.'params_filters.php');
 
@@ -110,8 +111,6 @@ $listing_sql = get_params_listing_sql($listing_sql, @(int)($_GET['cat']), @$sele
 $listing_split = new splitPageResults($listing_sql, @(int)$_GET['page'], $num_page, 'p.products_id');
 $module_content = array ();
 if ($listing_split->number_of_rows > 0) {
-
-
 
 	$navigation = TEXT_RESULT_PAGE.' '.$listing_split->display_links(MAX_DISPLAY_PAGE_LINKS, os_get_all_get_params(array ('page', 'info', 'x', 'y')));
 	$navigation_pages = $listing_split->display_count(TEXT_DISPLAY_NUMBER_OF_PRODUCTS);
