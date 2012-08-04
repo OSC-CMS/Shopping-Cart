@@ -172,7 +172,7 @@ else
 	
 	if (empty($_array['code']))
 	{
-	   $_array['code'] = '<a href="javascript:history.back(1)">'.os_image_button( $_array['img'] , $_array['alt']).'</a>';
+	   $_array['code'] = buttonSubmit($_array['img'], "javascript:history.back(1)", $_array['alt']);
 	}
 	
 	$osTemplate->assign('BUTTON_CONTINUE', $_array['code']);
