@@ -171,8 +171,13 @@ box-shadow: 0 1px 5px #E8E8C0 inset;
 
 span.Requirement {color: red;}
 
-
-
+/* Search and Auto Completer */
+.autocomplete-w1 {width:300px!important;position:absolute;top:3px; left:0px; margin:6px 0 0 6px; /* IE6 fix: */ _background:none; _margin:1px 0 0 0; }
+.autocomplete {width:300px!important;border:1px solid #999; background:#FFF; cursor:default; text-align:left; overflow-x:auto;  overflow-y: auto; margin:-6px 6px 6px -6px; /* IE6 specific: */ _height:350px;  _margin:0; _overflow-x:hidden;}
+.autocomplete img {width:40px;}
+.autocomplete .selected {background:#F0F0F0;}
+.autocomplete div {padding:2px 5px; white-space:nowrap;}
+.autocomplete strong {font-weight:normal;color:#B33232;}
 
 
 

@@ -36,6 +36,25 @@ jQuery(document).ready(function($){
 		});
 	});
 
+	// Search and Auto Completer
+	$("#quick_find_keyword").autocomplete({
+		serviceUrl: SITE_WEB_DIR+'index_ajax.php?ajax_page=autocompleter_search',
+		minChars: 1,
+		noCache: false,
+		onSelect:
+			function(value, data)
+			{
+				$("#quick_find_keyword").closest('form').submit();
+			},
+		fnFormatResult:
+			function(value, data, currentValue)
+			{
+				var reEscape = new RegExp('(\\' + ['/', '.', '*', '+', '?', '|', '(', ')', '[', ']', '{', '}', '\\'].join('|\\') + ')', 'g');
+				var pattern = '(' + currentValue.replace(reEscape, '\\$1') + ')';
+				return (data.products_image ? "<img align=\"absmiddle\" src='"+data.products_image+"'> " : '') + value.replace(new RegExp(pattern, 'gi'), '<strong>$1<\/strong>');
+			}
+	});
+
 });
 
 // Reload Captcha Image
