@@ -99,75 +99,59 @@ _e('<head>');
 						  'group' => 'rss_best_sellers'); 
 
 add_js_code ('var SITE_WEB_DIR = "'._HTTP.'";', $HEAD, 'site_web_dir');
+
+// jQuery
 add_js(_HTTP.'jscript/jquery/jquery.js', $HEAD,  'jquery');
 
-if ( is_page('product_info') ) 
-{
-	 add_style(_HTTP.'jscript/jquery/plugins/fancybox/jquery.fancybox-1.2.5.css', $HEAD,  'fancybox');
-	 add_js(_HTTP.'jscript/jquery/plugins/fancybox/jquery.fancybox-1.2.5.pack.js', $HEAD, 'fancybox');
-	 add_js_code ('$(document).ready(function() {
-		$("a.zoom").fancybox({
-		"zoomOpacity"			: true,
-		"overlayShow"			: false,
-		"zoomSpeedIn"			: 500,
-		"zoomSpeedOut"			: 500
-	});
-	});', $HEAD, 'fancybox');
-}
+// jQuery Modal
+add_style(_HTTP.'jscript/jquery/plugins/jquery-modal/jquery.modal.css', $HEAD, 'jquery_modal');
+add_js(_HTTP.'jscript/jquery/plugins/jquery-modal/jquery.modal.min.js', $HEAD, 'jquery_modal');
 
+// System JS
 add_js(_HTTP.'jscript/jscript_JsHttpRequest.js', $HEAD, 'jshttprequest');
 add_js(_HTTP.'jscript/jscript_ajax.js', $HEAD, 'jscript_ajax');
 add_js(_HTTP.'jscript/osc_cms.js', $HEAD, 'osc_cms');
 
-if ( is_file(_THEMES_C.'javascript/general.js.php' ) )	
+if (is_file(_THEMES_C.'javascript/general.js.php'))
 {
-    add_head_file( _THEMES_C.'javascript/general.js.php', $HEAD );
+	add_head_file( _THEMES_C.'javascript/general.js.php', $HEAD );
 }
-
-if (strstr($PHP_SELF, FILENAME_CHECKOUT_PAYMENT)) 
+if (strstr($PHP_SELF, FILENAME_CHECKOUT_PAYMENT))
 {
-    add_head_code ($payment_modules->javascript_validation(), $HEAD );
+	add_head_code ($payment_modules->javascript_validation(), $HEAD );
 }
-
-if (strstr($PHP_SELF, FILENAME_CREATE_ACCOUNT)) 
+if (strstr($PHP_SELF, FILENAME_CREATE_ACCOUNT))
 {
-    add_head_file ( dir_path('includes') . 'form_check.js.php', $HEAD);
+	add_head_file ( dir_path('includes') . 'form_check.js.php', $HEAD);
 }
-
-if (strstr($PHP_SELF, FILENAME_CHECKOUT_ALTERNATIVE)) 
+if (strstr($PHP_SELF, FILENAME_CHECKOUT_ALTERNATIVE))
 {
-   add_head_file ( dir_path('includes').'form_check.js.php', $HEAD);
+	add_head_file ( dir_path('includes').'form_check.js.php', $HEAD);
 }
-
-if (strstr($PHP_SELF, FILENAME_CREATE_GUEST_ACCOUNT )) 
+if (strstr($PHP_SELF, FILENAME_CREATE_GUEST_ACCOUNT))
 {
-   add_head_file (dir_path('includes').'form_check.js.php', $HEAD);
+	add_head_file (dir_path('includes').'form_check.js.php', $HEAD);
 }
-
-if (strstr($PHP_SELF, FILENAME_ACCOUNT_PASSWORD )) 
+if (strstr($PHP_SELF, FILENAME_ACCOUNT_PASSWORD))
 {
-   add_head_file (dir_path('includes').'form_check.js.php', $HEAD);
+	add_head_file (dir_path('includes').'form_check.js.php', $HEAD);
 }
-
-if (strstr($PHP_SELF, FILENAME_ACCOUNT_EDIT )) 
+if (strstr($PHP_SELF, FILENAME_ACCOUNT_EDIT))
 {
-   add_head_file (dir_path('includes').'form_check.js.php', $HEAD);
+	add_head_file (dir_path('includes').'form_check.js.php', $HEAD);
 }
-
-if (strstr($PHP_SELF, FILENAME_ADDRESS_BOOK_PROCESS )) 
+if (strstr($PHP_SELF, FILENAME_ADDRESS_BOOK_PROCESS))
 {
-  if (isset($_GET['delete']) == false) 
-  {
-        add_head_file (dir_path('includes').'form_check.js.php', $HEAD);
-  }
+	if (isset($_GET['delete']) == false)
+	{
+		add_head_file (dir_path('includes').'form_check.js.php', $HEAD);
+	}
 }
-
 if (strstr($PHP_SELF, FILENAME_CHECKOUT_SHIPPING_ADDRESS )or strstr($PHP_SELF,FILENAME_CHECKOUT_PAYMENT_ADDRESS))
 {
 	require(dir_path('includes').'form_check.js.php');
 }
-
-if (strstr($PHP_SELF, 'affiliate_signup.php')) 
+if (strstr($PHP_SELF, 'affiliate_signup.php'))
 {
     add_head_file ( dir_path('includes') . 'form_check.js.php', $HEAD);
 }
