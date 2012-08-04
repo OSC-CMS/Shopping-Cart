@@ -97,7 +97,7 @@ if (@$customer_status_value['customers_status_ot_discount'] != 0) {
 	$total_content .= TEXT_CART_OT_DISCOUNT.$customer_status_value['customers_status_ot_discount'].'%';
 }
 if (SHOW_SHIPPING == 'true') {
-	$module->assign('SHIPPING_INFO', ' '.SHIPPING_EXCL.'<a href="javascript:newWin=void(window.open(\''.os_href_link(FILENAME_POPUP_CONTENT, 'coID='.SHIPPING_INFOS).'\', \'popup\', \'toolbar=0, width=640, height=600\'))"> '.SHIPPING_COSTS.'</a>');
+	$module->assign('SHIPPING_INFO', $main->getShippingLink());
 }
 
 $module->assign('UST_CONTENT', $_SESSION['cart']->show_tax());

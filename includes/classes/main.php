@@ -64,7 +64,8 @@ class main {
  	function getShippingLink() 
 	{
         if (SHOW_SHIPPING == 'true') {
-		return ' '.SHIPPING_EXCL.'<a href="'. os_href_link(FILENAME_POPUP_CONTENT, 'coID='.SHIPPING_INFOS) .'" target="_blank" onclick="window.open(\'' . os_href_link(FILENAME_POPUP_CONTENT, 'coID='.SHIPPING_INFOS) . '\', \'popUp\', \'toolbar=0,scrollbars=1,location=0,statusbar=0,menubar=0,resizable=1,width=395,height=320\'); return false;">'.SHIPPING_COSTS.'</a>';
+		//return ' '.SHIPPING_EXCL.'<a href="'. os_href_link(FILENAME_POPUP_CONTENT, 'coID='.SHIPPING_INFOS) .'" target="_blank" onclick="window.open(\'' . os_href_link(FILENAME_POPUP_CONTENT, 'coID='.SHIPPING_INFOS) . '\', \'popUp\', \'toolbar=0,scrollbars=1,location=0,statusbar=0,menubar=0,resizable=1,width=395,height=320\'); return false;">'.SHIPPING_COSTS.'</a>';
+		return ' '.SHIPPING_EXCL.'<a href="'. os_href_link(FILENAME_POPUP_CONTENT, 'coID='.SHIPPING_INFOS) .'" rel="modal:open" target="_blank">'.SHIPPING_COSTS.'</a>';
 	}
         return;
     }
