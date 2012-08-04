@@ -107,8 +107,16 @@ if (isset($_POST['submit']) && isset($_POST['multi_orders'])){
 				$osTemplate->assign('ORDER_DATE', os_date_long($check_status['date_purchased']));
 				$osTemplate->assign('ORDER_STATUS', $orders_status_array[$status]);
 
-				$html_mail = $osTemplate->fetch(_MAIL.'admin/'.$_SESSION['language_admin'].'/change_order_mail.html');
-				$txt_mail = $osTemplate->fetch(_MAIL.'admin/'.$_SESSION['language_admin'].'/change_order_mail.txt');
+				if (is_file(_MAIL.'admin/'.$_SESSION['language_admin'].'/change_order_mail_'.$status.'.html') && is_file(_MAIL.'admin/'.$_SESSION['language_admin'].'/change_order_mail_'.$status.'.txt'))
+				{
+					$html_mail = $osTemplate->fetch(_MAIL.'admin/'.$_SESSION['language_admin'].'/change_order_mail_'.$status.'.html');
+					$txt_mail = $osTemplate->fetch(_MAIL.'admin/'.$_SESSION['language_admin'].'/change_order_mail_'.$status.'.txt');
+				}
+				else
+				{
+					$html_mail = $osTemplate->fetch(_MAIL.'admin/'.$_SESSION['language_admin'].'/change_order_mail.html');
+					$txt_mail = $osTemplate->fetch(_MAIL.'admin/'.$_SESSION['language_admin'].'/change_order_mail.txt');
+				}
 
 				os_php_mail(EMAIL_BILLING_ADDRESS, EMAIL_BILLING_NAME, $check_status['customers_email_address'], $check_status['customers_name'], '', EMAIL_BILLING_REPLY_ADDRESS, EMAIL_BILLING_REPLY_ADDRESS_NAME, '', '', EMAIL_BILLING_SUBJECT, $html_mail, $txt_mail);
            $billing_subject = str_replace('{$nr}', $this_orderID, EMAIL_BILLING_SUBJECT);
@@ -277,8 +285,16 @@ switch (@$_GET['action']) {
 				$osTemplate->assign('NOTIFY_COMMENTS', $notify_comments);
 				$osTemplate->assign('ORDER_STATUS', $orders_status_array[$status]);
 
-				$html_mail = $osTemplate->fetch(_MAIL.'admin/'.$order->info['language'].'/change_order_mail.html');
-				$txt_mail = $osTemplate->fetch(_MAIL.'admin/'.$order->info['language'].'/change_order_mail.txt');
+				if (is_file(_MAIL.'admin/'.$order->info['language'].'/change_order_mail_'.$status.'.html') && is_file(_MAIL.'admin/'.$order->info['language'].'/change_order_mail_'.$status.'.txt'))
+				{
+					$html_mail = $osTemplate->fetch(_MAIL.'admin/'.$order->info['language'].'/change_order_mail_'.$status.'.html');
+					$txt_mail = $osTemplate->fetch(_MAIL.'admin/'.$order->info['language'].'/change_order_mail_'.$status.'.txt');
+				}
+				else
+				{
+					$html_mail = $osTemplate->fetch(_MAIL.'admin/'.$order->info['language'].'/change_order_mail.html');
+					$txt_mail = $osTemplate->fetch(_MAIL.'admin/'.$order->info['language'].'/change_order_mail.txt');
+				}
 
 				os_php_mail(EMAIL_BILLING_ADDRESS, EMAIL_BILLING_NAME, $check_status['customers_email_address'], $check_status['customers_name'], '', EMAIL_BILLING_REPLY_ADDRESS, EMAIL_BILLING_REPLY_ADDRESS_NAME, '', '', EMAIL_BILLING_SUBJECT, $html_mail, $txt_mail);
            $billing_subject = str_replace('{$nr}', $oID, EMAIL_BILLING_SUBJECT);
