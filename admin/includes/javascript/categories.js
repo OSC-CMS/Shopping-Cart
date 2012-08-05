@@ -150,3 +150,19 @@ function SwitchCategories ()
       }
     }
   }   
+
+function getListOfProductImages(el, i, p_dir, p_image)
+{
+	var dir = document.getElementsByName(i == 0 ? 'upload_dir_image_0' : 'mo_pics_upload_dir_image_'+(i - 1))[0];
+	$("#divOfImages"+i).text('loading ...');
+	$("#divOfImages"+i).load("ajax_product_images.php", {index:i, product_dir:p_dir, product_image:p_image, product_subdir:dir.value}, function(){getListOfProductComplete(i);});
+}
+function getListOfProductComplete(i)
+{
+	var el = document.getElementsByName(i == 0 ? 'get_file_image_0' : 'mo_pics_get_file_image_'+(i - 1))[0];
+	var dir = document.getElementsByName(i == 0 ? 'upload_dir_image_0' : 'mo_pics_upload_dir_image_'+(i - 1))[0];
+	el.onchange = function()
+	{
+		document.getElementById('getListOfProductPrevios_'+i).src = '../images/product_images/thumbnail_images/'+dir.value+el.value;
+	}
+}

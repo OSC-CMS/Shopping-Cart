@@ -549,7 +549,7 @@ class categories {
 				
 				@ os_del_image_file($products_image_name);
 				rename(dir_path('images_original').$pIMG->filename, dir_path('images_original').$products_image_name);
-				create_MO_PICS ($products_image_name, $img, $action, $products_id, $products_data);
+				create_MO_PICS ($products_image_name, $img, $action, $products_id, $products_data, $_POST['mo_text_'.$img]);
 			} else {
 				$mo_field_name='mo_pics_get_file_image_'.$img;
 				
@@ -572,7 +572,7 @@ class categories {
 					}
 				}
 				if (isset ($mo_products_image_name) && strlen($mo_products_image_name)>0){
-					create_MO_PICS ($mo_products_image_name, $img, $action, $products_id, $products_data);
+					create_MO_PICS ($mo_products_image_name, $img, $action, $products_id, $products_data, $_POST['mo_text_'.$img]);
 				}
 			}
 		}
@@ -979,11 +979,12 @@ class categories {
 			}
 	}
 } 
-function create_MO_PICS ($mo_products_image_name, $mo_image_number, $performed_action, $products_id, &$products_data){
+function create_MO_PICS ($mo_products_image_name, $mo_image_number, $performed_action, $products_id, &$products_data, $img_text = ''){
 	$absolute_image_number = $mo_image_number+1;
 	$mo_img = array ('products_id' => os_db_prepare_input($products_id), 
 			'image_nr' => os_db_prepare_input($absolute_image_number), 
-			'image_name' => os_db_prepare_input($mo_products_image_name));
+			'image_name' => os_db_prepare_input($mo_products_image_name),
+			'text' => os_db_prepare_input($img_text));
 	$previous_image_name = $products_data['products_previous_image_'.$absolute_image_number];
 
 	

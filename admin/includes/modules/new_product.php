@@ -267,7 +267,7 @@ foreach (array('product_info', 'product_options') as $key) {
         </div>
         <div class="tabbertab">
         <h3><?php echo strip_tags(HEADING_PRODUCT_IMAGES); ?></h3>
-        <table border="0" class="main">
+        <table border="0" class="main" width="100%">
         <?php include (_MODULES_ADMIN.'products_images.php'); ?>
         </table>
         </div>

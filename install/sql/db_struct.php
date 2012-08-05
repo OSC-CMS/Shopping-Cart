@@ -413,6 +413,7 @@ os_db_query("CREATE TABLE `".DB_PREFIX."admin_access` (
   `plugins_page` int(1) NOT NULL,
   `file` int(1) NOT NULL,
   `error_log` int(1) NOT NULL,
+  `ajax_product_images` int(1) NOT NULL default '1',
   PRIMARY KEY (`customers_id`)
 ) ENGINE=MyISAM /*!40101 DEFAULT CHARSET=utf8 */;
 ");
@@ -482,7 +483,7 @@ os_db_query("CREATE TABLE ".DB_PREFIX."categories (
   categories_count int NOT NULL default '0',
   PRIMARY KEY (categories_id),
   KEY idx_categories_parent_id (parent_id)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE utf8_general_ci;");
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE utf8_general_ci AUTO_INCREMENT=0;");
 
 os_db_query("CREATE TABLE ".DB_PREFIX."categories_description (
   categories_id int DEFAULT '0' NOT NULL,
@@ -1078,7 +1079,8 @@ os_db_query("CREATE TABLE ".DB_PREFIX."products_images (
   image_id INT NOT NULL auto_increment,
   products_id INT NOT NULL ,
   image_nr SMALLINT NOT NULL ,
-  image_name VARCHAR( 254 ) NOT NULL ,
+  image_name VARCHAR(254) NOT NULL ,
+  `text` text default '',
   PRIMARY KEY ( image_id )
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE utf8_general_ci;");
 

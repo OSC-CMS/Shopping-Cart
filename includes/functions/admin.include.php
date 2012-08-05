@@ -1027,7 +1027,7 @@
         if ( $results == $products_id )
         {
 		    $results = '';
-            $mo_query = "select image_id, image_nr, image_name from " . TABLE_PRODUCTS_IMAGES . " where products_id = '" . $products_id ."' ORDER BY image_nr";
+            $mo_query = "select image_id, image_nr, image_name, text from " . TABLE_PRODUCTS_IMAGES . " where products_id = '" . $products_id ."' ORDER BY image_nr";
 
             $products_mo_images_query = osDBquery($mo_query);
 

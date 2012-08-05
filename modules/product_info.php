@@ -177,13 +177,20 @@ $info->assign('PRODUCTS_POPUP_LINK', $products_popup_link);
                 $products_mo_popup_link = http_path('images_popup') . $img['image_name'];
 if (!file_exists(dir_path('images_popup').$img['image_name'])) $products_mo_popup_link = '';
 
+				// moimage text
+				if (!empty($img['text']))
+					$image_text = $img['text'];
+				else
+					$image_text = $product->data['products_name'];
+
                  if ( is_file( dir_path('images_info') . $img['image_name'] ) )
 				 {
                  $_PRODUCTS_MO = array(
                 'PRODUCTS_MO_IMAGE' => http_path('images_info') . $img['image_name'],
+				'PRODUCTS_MO_TEXT' => $image_text,
                 'PRODUCTS_MO_POPUP_IMAGE' => $products_mo_popup_link,
-                'PRODUCTS_MO_IMAGE_BLOCK' => '<a href="'.$products_mo_popup_link.'" title="'.$product->data['products_name'].'" class="zoom thumbnail" rel="gallery-plants" target="_blank"><img src="'.http_path('images_info') . $img['image_name'].'" alt="'.$product->data['products_name'].'" /></a>',
-                'PRODUCTS_MO_POPUP_LINK' => $products_mo_popup_link);
+                'PRODUCTS_MO_IMAGE_BLOCK' => '<a href="'.$products_mo_popup_link.'" title="'.$image_text.'" class="thumbnail" target="_blank"><img src="'.http_path('images_info') . $img['image_name'].'" alt="'.$image_text.'" /></a>',
+				'PRODUCTS_MO_POPUP_LINK' => $products_mo_popup_link);
 				
 				$_PRODUCTS_MO = apply_filter('products_mo_image_block', $_PRODUCTS_MO);
 				 
