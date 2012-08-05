@@ -38,7 +38,7 @@ if (is_page('product_info'))
 	{
 		global $product; 
 
-		$_value['PRODUCTS_MO_IMAGE_BLOCK'] = '<a class="colorbox-group" href="'.$_value['PRODUCTS_MO_POPUP_IMAGE'].'" title="'.$_value['PRODUCTS_MO_TEXT'].'" target="_blank"><img src="'.$_value['PRODUCTS_MO_IMAGE'].'" alt="'.$_value['PRODUCTS_MO_TEXT'].'" /></a>';
+		$_value['PRODUCTS_MO_IMAGE_BLOCK'] = '<a class="colorbox-group thumbnail" href="'.$_value['PRODUCTS_MO_POPUP_IMAGE'].'" title="'.$_value['PRODUCTS_MO_TEXT'].'" target="_blank"><img src="'.$_value['PRODUCTS_MO_IMAGE'].'" alt="'.$_value['PRODUCTS_MO_TEXT'].'" /></a>';
 
 		return $_value;
 	}
