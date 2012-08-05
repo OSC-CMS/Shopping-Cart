@@ -34,7 +34,7 @@ if (is_page('product_info'))
 		global $product;
 		global $image;
 		
-		$_value = '<a class="fancybox-buttons" data-fancybox-group="button" href="'.$image_pop.'" title="'.$product->data['products_name'].'" target="_blank"><img src="'.$image.'"  alt="'.$product->data['products_name'].'" /></a>';
+		$_value = '<a class="fancybox-buttons" data-fancybox-group="button" href="'.$image_pop.'" title="'.$product->data['products_name'].'" target="_blank"><img src="'.$image.'" alt="'.$product->data['products_name'].'" /></a>';
 
 		return $_value;
 	}
@@ -43,7 +43,7 @@ if (is_page('product_info'))
 	{
 		global $product; 
 
-		$_value['PRODUCTS_MO_IMAGE_BLOCK'] =  '<a class="fancybox-buttons" data-fancybox-group="button" href="'.$_value['PRODUCTS_MO_POPUP_IMAGE'].'" title="'.$product->data['products_name'].'" target="_blank"><img src="'.$_value['PRODUCTS_MO_IMAGE'].'"  alt="'.$product->data['products_name'].'" /></a>';
+		$_value['PRODUCTS_MO_IMAGE_BLOCK'] =  '<a class="fancybox-buttons" data-fancybox-group="button" href="'.$_value['PRODUCTS_MO_POPUP_IMAGE'].'" title="'.$_value['PRODUCTS_MO_TEXT'].'" target="_blank"><img src="'.$_value['PRODUCTS_MO_IMAGE'].'" alt="'.$_value['PRODUCTS_MO_TEXT'].'" /></a>';
 
 		return $_value;
 	}
