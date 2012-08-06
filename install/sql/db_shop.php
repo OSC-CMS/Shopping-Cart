@@ -32,7 +32,7 @@ os_db_query("INSERT INTO `".DB_PREFIX."categories_description` VALUES
 (9, 1, 'Электронные книги', '', '', '', '', '');
 ");
 
-os_db_query("INSERT INTO `".DB_PREFIX."products_to_categories` (`products_id`, `categories_id`) VALUES
+os_db_query("INSERT INTO `".DB_PREFIX."products_to_categories` VALUES
 (1, 1),
 (2, 1),
 (3, 1),
@@ -243,18 +243,18 @@ os_db_query("INSERT INTO `".DB_PREFIX."products_to_products_extra_fields` VALUES
 ");
 
 os_db_query("INSERT INTO `".DB_PREFIX."products_images` VALUES
-(1, 1, 1, '1_1.jpg'),
-(2, 2, 1, '2_1.jpg'),
-(3, 2, 2, '2_2.jpg'),
-(4, 3, 1, '3_1.jpg'),
-(5, 3, 2, '3_2.jpg'),
-(6, 4, 1, '4_1.jpg'),
-(7, 5, 1, '5_1.jpg'),
-(8, 6, 1, '6_1.jpg'),
-(9, 7, 1, '7_1.jpg'),
-(10, 10, 1, '10_1.jpg'),
-(11, 11, 1, '11_1.jpg'),
-(12, 14, 1, '14_1.jpg');
+(1, 1, 1, '1_1.jpg', ''),
+(2, 2, 1, '2_1.jpg', ''),
+(3, 2, 2, '2_2.jpg', ''),
+(4, 3, 1, '3_1.jpg', ''),
+(5, 3, 2, '3_2.jpg', ''),
+(6, 4, 1, '4_1.jpg', ''),
+(7, 5, 1, '5_1.jpg', ''),
+(8, 6, 1, '6_1.jpg', ''),
+(9, 7, 1, '7_1.jpg', ''),
+(10, 10, 1, '10_1.jpg', ''),
+(11, 11, 1, '11_1.jpg', ''),
+(12, 14, 1, '14_1.jpg', '');
 ");
 
 os_db_query("INSERT INTO `".DB_PREFIX."manufacturers` VALUES
@@ -274,14 +274,6 @@ os_db_query("INSERT INTO `".DB_PREFIX."manufacturers_info` VALUES
 (5, 1, 'Apple', '', '', '', '', 0, NULL),
 (6, 1, 'Panasonic', '', '', '', '', 0, NULL);
 ");
-
-
-
-
-
-
-
-
 
 os_db_query("INSERT INTO ".DB_PREFIX."topics VALUES (1, NULL, 0, 0, '2010-01-01 01:01:01', NULL, '');");
 os_db_query("INSERT INTO ".DB_PREFIX."topics_description VALUES (1, 1, 'Ноутбуки', '', '');");

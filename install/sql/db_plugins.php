@@ -9,5 +9,4 @@
 */
 
 $p->install('jquery');
-$p->install('theme_setting');
 ?>
