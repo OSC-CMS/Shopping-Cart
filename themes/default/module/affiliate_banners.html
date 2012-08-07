@@ -1,35 +1,44 @@
 {config_load file="$language/affiliate.conf" section="affiliate_banners"}
-<h1 class="contentBoxHeading">{#heading_title#}</h1>
-<table>
-  <tr>
-	<td><table width="100%" border="0" cellspacing="0" cellpadding="2">
-          <tr>
-            <td class="main" colspan=2>{#text_information#}</td>
-          </tr>
-    </table></td>
-  </tr>
-  <tr>
-    <td><table width="100%" border="0" cellspacing="0" cellpadding="2">
-          <tr>
-            <td class="infoBoxHeading" align="center">{#text_affiliate_individuel_banner#}&nbsp;{$affiliate_banners_title}</td>
-          </tr>
-          <tr>
-            <td class="smallText" align="center">{#text_affiliate_individual_banner_info#}&nbsp;&nbsp;{$FORM_ACTION}{$INPUT_BANNER_ID}&nbsp;&nbsp;{$BUTTON_SUBMIT}</form></td>
-          </tr>
-          {if $TEXTAREA_AFFILIATE_BANNER1 neq ''}
-          <tr>
-            <td class="smallText" align="center"><br />{$link}</td>
-          </tr>
-          <tr>
-            <td class="smallText" align="center">{#text_affiliate_info#}</td>
-          </tr>
-          <tr>
-            <td align="center">{$TEXTAREA_AFFILIATE_BANNER1}</td>
-          </tr>
-          {/if}
-     </table></td>
-   </tr>
-   {if $banner_table_content neq ''}
-	 {$banner_table_content}
-   {/if}
+<div class="page-header">
+	<h1>{#heading_title#}</h1>
+</div>
+
+<div class="well well-small">
+	{#text_affiliate_individual_banner_info#}
+	<div class="form-inline">
+	{$FORM_ACTION}
+		{$INPUT_BANNER_ID}
+		{$BUTTON_SUBMIT}
+	</form>
+	</div>
+</div>
+
+{if $TEXTAREA_AFFILIATE_BANNER1 neq ''}
+<table class="table table-bordered table-striped">
+	<tr>
+		<td class="bannerImage">{$link}</td>
+		<td>
+			{#text_affiliate_info#}<br /><br />
+			<p class="bannerTexarea">{$TEXTAREA_AFFILIATE_BANNER1}</p>
+		</td>
+	</tr>
 </table>
+<hr>
+{/if}
+
+{if $aBanners}
+<h4>{#text_information#}</h4>
+<p></p>
+<table class="table table-bordered table-striped">
+	{foreach $aBanners AS $b}
+	<tr>
+		<td class="bannerImage">{$b.link}</td>
+		<td>
+			<h3>{$b.textName} {$b.textBannerName}</h3>
+			{$b.textInfo}<br /><br />
+			<p class="bannerTexarea">{$b.textarea}</p>
+		</td>
+	</tr>
+	{/foreach}
+</table>
+{/if}

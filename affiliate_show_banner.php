@@ -127,7 +127,7 @@ if (is_file(AFFILIATE_SHOW_BANNERS_DEFAULT_PIC)) {
 	affiliate_show_banner(AFFILIATE_SHOW_BANNERS_DEFAULT_PIC);
 }
 else {
-    echo "<br>"; 
+    affiliate_show_banner($pic); 
 }
 exit();
 ?>

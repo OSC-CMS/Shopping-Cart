@@ -24,7 +24,6 @@ $affiliate_banners_values = os_db_query("select * from " . TABLE_AFFILIATE_BANNE
 
 require(dir_path('includes') . 'header.php');
 
-$osTemplate->assign('affiliate_banners_title', $affiliate_banners['affiliate_banners_title']);
 $osTemplate->assign('FORM_ACTION', os_draw_form('individual_banner', os_href_link(FILENAME_AFFILIATE_BANNERS)));
 $osTemplate->assign('INPUT_BANNER_ID', os_draw_input_field('individual_banner_id', '', 'size="5"'));
 $osTemplate->assign('BUTTON_SUBMIT', button_continue_submit());
@@ -43,11 +42,12 @@ if (os_not_null($_POST['individual_banner_id']) || os_not_null($_GET['individual
                 break;
         }
     }
-    $osTemplate->assign('link1', $link);
+    $osTemplate->assign('link', $link);
     $osTemplate->assign('TEXTAREA_AFFILIATE_BANNER1', os_draw_textarea_field('affiliate_banner', 'soft', '60', '6', $link));
 }
-$banner_table_content = '';
+
 if (os_db_num_rows($affiliate_banners_values)) {
+	$aBanners = array();
     while ($affiliate_banners = os_db_fetch_array($affiliate_banners_values)) {
         $affiliate_products_query = os_db_query("select products_name from " . TABLE_PRODUCTS_DESCRIPTION . " where products_id = '" . $affiliate_banners['affiliate_products_id'] . "' and language_id = '" . $_SESSION['languages_id'] . "'");
         $affiliate_products = os_db_fetch_array($affiliate_products_query);
@@ -71,15 +71,15 @@ if (os_db_num_rows($affiliate_banners_values)) {
                 }
                 break;
         }
-        $banner_table_content .= '<tr>';
-        $banner_table_content .= '<td><table width="100%" border="0" cellspacing="0" cellpadding="2">';
-        $banner_table_content .= '<tr><td class="infoBoxHeading" align="center">' . TEXT_AFFILIATE_NAME . ' ' . $affiliate_banners['affiliate_banners_title'] . '</td></tr>';
-        $banner_table_content .= '<tr><td class="smallText" align="center"><br>' . $link . '</td></tr>';
-        $banner_table_content .= '<tr><td class="smallText" align="center">' . TEXT_AFFILIATE_INFO . '</td></tr>';
-        $banner_table_content .= '<tr><td class="smallText" align="center">' . os_draw_textarea_field('affiliate_banner', 'soft', '60', '6', $link) . '</td></tr>';
-        $banner_table_content .= '</table></td></tr>';
+		$aBanners[] = array(
+			'textName' => TEXT_AFFILIATE_NAME,
+			'textBannerName' => $affiliate_banners['affiliate_banners_title'],
+			'link' => $link,
+			'textInfo' => TEXT_AFFILIATE_INFO,
+			'textarea' => os_draw_textarea_field('affiliate_banner', 'soft', '', '', $link),
+		);
     }
-    $osTemplate->assign('banner_table_content', $banner_table_content);
+    $osTemplate->assign('aBanners', $aBanners);
 }
 $osTemplate->assign('language', $_SESSION['language']);
 $osTemplate->caching = 0;

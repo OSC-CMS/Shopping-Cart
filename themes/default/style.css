@@ -82,6 +82,14 @@ ul.subcat-nav li a.current {background:#08C;color:#fff;}
 .textarea-checkout textarea {width:98.5%;min-height:100px;}
 
 
+
+form#individual_banner {margin:0!important;}
+.bannerImage {width:180px;text-align:center!important;}
+.bannerImage img {max-width:100%;}
+.bannerTexarea textarea {width:98.5%;min-height:60px;}
+
+
+
 /* sitemap */
 #sitemap {margin:0 -25px 0 0!important;overflow:hidden;}
 .sitemap-item {margin:0 25px 15px 0;float: left;}

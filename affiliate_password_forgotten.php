@@ -60,7 +60,7 @@ else
 	
 	if (empty($_array['code']))
 	{
-	   $_array['code'] = '<a href="' . $_array['href'] . '">' . os_image_button($_array['img'], $_array['alt']) . '</a>';
+	   $_array['code'] = buttonSubmit($_array['img'], $_array['href'], $_array['alt']);
 	}
 	
 	   $osTemplate->assign('LINK_AFFILIATE', $_array['code']);

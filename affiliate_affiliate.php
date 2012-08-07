@@ -58,10 +58,10 @@ else {
 $osTemplate->assign('info_message', $info_message);
 
 $osTemplate->assign('FORM_ACTION', os_draw_form('login', os_href_link(FILENAME_AFFILIATE, 'action=process', 'SSL')));
-$osTemplate->assign('LINK_TERMS', '<a  href="' . os_href_link(FILENAME_CONTENT,'coID=9', 'SSL') . '">');
-$osTemplate->assign('INPUT_AFFILIATE_USERNAME', os_draw_input_field('affiliate_username'));
-$osTemplate->assign('INPUT_AFFILIATE_PASSWORD', os_draw_password_field('affiliate_password'));
-$osTemplate->assign('LINK_PASSWORD_FORGOTTEN', '<a href="' . os_href_link(FILENAME_AFFILIATE_PASSWORD_FORGOTTEN, '', 'SSL') . '">');
+$osTemplate->assign('LINK_TERMS', '<a href="' . os_href_link(FILENAME_CONTENT,'coID=9', 'SSL') . '">');
+$osTemplate->assign('INPUT_AFFILIATE_USERNAME', os_draw_input_field('affiliate_username', '', 'id="affiliate_username"'));
+$osTemplate->assign('INPUT_AFFILIATE_PASSWORD', os_draw_password_field('affiliate_password', '', 'id="affiliate_password"'));
+$osTemplate->assign('LINK_PASSWORD_FORGOTTEN', '<a href="'.os_href_link(FILENAME_AFFILIATE_PASSWORD_FORGOTTEN, '', 'SSL') . '">');
 $osTemplate->assign('LINK_SIGNUP', button_continue(os_href_link(FILENAME_AFFILIATE_SIGNUP, '', 'SSL')));
 
        $_array = array('img' => 'button_login.gif', 'href' => '', 'alt' => IMAGE_BUTTON_LOGIN, 'code' => '');
