@@ -481,6 +481,7 @@ os_db_query("CREATE TABLE ".DB_PREFIX."categories (
   categories_url varchar(255),
   yml_enable tinyint(1) NOT NULL default '1',
   categories_count int NOT NULL default '0',
+  menu tinyint(1) NOT NULL default '1',
   PRIMARY KEY (categories_id),
   KEY idx_categories_parent_id (parent_id)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE utf8_general_ci AUTO_INCREMENT=0;");

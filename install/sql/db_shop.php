@@ -9,15 +9,15 @@
 */
 
 os_db_query("INSERT INTO `".DB_PREFIX."categories` VALUES
-(1, NULL, 0, 1, 'default', 0, 0, 0, 0, 'default', 1, 'p.products_price', 'ASC', NOW(), NULL, 0, 0, 'smartphones.html', 1,0),
-(2, NULL, 0, 1, 'default', 0, 0, 0, 0, 'default', 2, 'p.products_price', 'ASC', NOW(), NULL, 0, 0, 'phones.html', 1,0),
-(3, NULL, 0, 1, 'default', 0, 0, 0, 0, 'default', 3, 'p.products_price', 'ASC', NOW(), NULL, 0, 0, 'accessories.html', 1,0),
-(4, NULL, 0, 1, 'default', 0, 0, 0, 0, 'default', 4, 'p.products_price', 'ASC', NOW(), NULL, 0, 0, 'navigation.html', 1,0),
-(5, NULL, 0, 1, 'default', 0, 0, 0, 0, 'default', 5, 'p.products_price', 'ASC', NOW(), NULL, 0, 0, 'videoregistrator.html', 1,0),
-(6, NULL, 0, 1, 'default', 0, 0, 0, 0, 'default', 6, 'p.products_price', 'ASC', NOW(), NULL, 0, 0, 'tabletpc.html', 1,0),
-(7, NULL, 0, 1, 'default', 0, 0, 0, 0, 'default', 7, 'p.products_price', 'ASC', NOW(), NULL, 0, 0, 'notebooks.html', 1,0),
-(8, NULL, 0, 1, 'default', 0, 0, 0, 0, 'default', 8, 'p.products_price', 'ASC', NOW(), NULL, 0, 0, 'camera.html', 1,0),
-(9, NULL, 0, 1, 'default', 0, 0, 0, 0, 'default', 9, 'p.products_price', 'ASC', NOW(), NULL, 0, 0, 'pocketbook.html', 1,0);
+(1, NULL, 0, 1, 'default', 0, 0, 0, 0, 'default', 1, 'p.products_price', 'ASC', NOW(), NULL, 0, 0, 'smartphones.html', 1,0,'1'),
+(2, NULL, 0, 1, 'default', 0, 0, 0, 0, 'default', 2, 'p.products_price', 'ASC', NOW(), NULL, 0, 0, 'phones.html', 1,0,'1'),
+(3, NULL, 0, 1, 'default', 0, 0, 0, 0, 'default', 3, 'p.products_price', 'ASC', NOW(), NULL, 0, 0, 'accessories.html', 1,0,'1'),
+(4, NULL, 0, 1, 'default', 0, 0, 0, 0, 'default', 4, 'p.products_price', 'ASC', NOW(), NULL, 0, 0, 'navigation.html', 1,0,'1'),
+(5, NULL, 0, 1, 'default', 0, 0, 0, 0, 'default', 5, 'p.products_price', 'ASC', NOW(), NULL, 0, 0, 'videoregistrator.html', 1,0,'1'),
+(6, NULL, 0, 1, 'default', 0, 0, 0, 0, 'default', 6, 'p.products_price', 'ASC', NOW(), NULL, 0, 0, 'tabletpc.html', 1,0,'1'),
+(7, NULL, 0, 1, 'default', 0, 0, 0, 0, 'default', 7, 'p.products_price', 'ASC', NOW(), NULL, 0, 0, 'notebooks.html', 1,0,'1'),
+(8, NULL, 0, 1, 'default', 0, 0, 0, 0, 'default', 8, 'p.products_price', 'ASC', NOW(), NULL, 0, 0, 'camera.html', 1,0,'1'),
+(9, NULL, 0, 1, 'default', 0, 0, 0, 0, 'default', 9, 'p.products_price', 'ASC', NOW(), NULL, 0, 0, 'pocketbook.html', 1,0,'1');
 ");
 
 os_db_query("INSERT INTO `".DB_PREFIX."categories_description` VALUES

@@ -143,7 +143,7 @@ $categories_query = osDBquery("
 	FROM 
 		".TABLE_CATEGORIES." c, ".TABLE_CATEGORIES_DESCRIPTION . " cd 
 	WHERE 
-		c.categories_status = '1' ".$group_check." AND c.categories_id = cd.categories_id AND cd.language_id='".(int)$_SESSION['languages_id']."' 
+		c.categories_status = '1' ".$group_check." AND c.categories_id = cd.categories_id AND cd.language_id='".(int)$_SESSION['languages_id']."' AND c.menu = '1' 
 	ORDER BY 
 		sort_order, cd.categories_name
 ");

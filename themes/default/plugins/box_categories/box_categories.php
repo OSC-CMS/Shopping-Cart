@@ -50,13 +50,13 @@ function box_categories_func()
 				{
 					$aTree[] = array(
 						'id' => $cat['cID'],
-						'link' => os_href_link(FILENAME_DEFAULT, os_category_link($cat['cID'], $cat['categories_name']) ),
+						'link' => os_href_link(FILENAME_DEFAULT, os_category_link($cat['cID'], $cat['categories_name'])),
 						'name' => $cat['categories_name'],
 						'counts' => (get_option('countProducts') == 'true') ? os_count_products_in_category($cat['cID']) : '',
 						'level' => $level,
 						'active' => $active,
 						'childs' => (get_option('subCategories') == 'true') ? build_tree($cats, $cat['cID'], $level+1) : '',
-					); 
+					);
 				}
 			}
 		}
@@ -66,7 +66,7 @@ function box_categories_func()
 		return $aTree;
 	}
 
-	$group_check = (GROUP_CHECK == 'true') ? "AND c.group_permission_".$_SESSION['customers_status']['customers_status_id']." = 1 " : ''; 
+	$group_check = (GROUP_CHECK == 'true') ? "AND c.group_permission_".$_SESSION['customers_status']['customers_status_id']." = 1 " : '';
 
 	$categories_query = osDBquery("
 		SELECT 
@@ -74,7 +74,7 @@ function box_categories_func()
 		FROM 
 			".TABLE_CATEGORIES." c, ".TABLE_CATEGORIES_DESCRIPTION . " cd 
 		WHERE 
-			c.categories_status = '1' ".$group_check." AND c.categories_id = cd.categories_id AND cd.language_id='".(int)$_SESSION['languages_id']."' 
+			c.categories_status = '1' ".$group_check." AND c.categories_id = cd.categories_id AND cd.language_id='".(int)$_SESSION['languages_id']."' AND c.menu = '1' 
 		ORDER BY 
 			sort_order, cd.categories_name
 	");

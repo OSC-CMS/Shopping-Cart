@@ -144,6 +144,9 @@
 			  <td class="dataTableHeadingContent" align="center">
                 <?php echo TABLE_HEADING_STOCK.os_sorting(FILENAME_CATEGORIES,'stocksort');?>
              </td>
+			  <td class="dataTableHeadingContent" align="center">
+                <?php echo TABLE_HEADING_MENU; ?>
+             </td>
              <td class="dataTableHeadingContent" align="center">
                 <?php echo TABLE_HEADING_XML.os_sorting(FILENAME_CATEGORIES,'yandex'); ?>
              </td>
@@ -181,9 +184,9 @@
     $categories_count = 0;
     $rows = 0;
     if (@$_GET['search']) {
-      $categories_query = os_db_query("select c.categories_id, cd.categories_name, c.categories_image, c.parent_id, c.sort_order, c.date_added, c.last_modified, c.yml_enable, c.categories_status from " . TABLE_CATEGORIES . " c, " . TABLE_CATEGORIES_DESCRIPTION . " cd where c.categories_id = cd.categories_id and cd.language_id = '" . (int)$_SESSION['languages_id'] . "' and cd.categories_name like '%" . $_GET['search'] . "%' order by " . $catsort);
+      $categories_query = os_db_query("select c.categories_id, cd.categories_name, c.categories_image, c.parent_id, c.sort_order, c.date_added, c.last_modified, c.yml_enable, c.categories_status, c.menu from " . TABLE_CATEGORIES . " c, " . TABLE_CATEGORIES_DESCRIPTION . " cd where c.categories_id = cd.categories_id and cd.language_id = '" . (int)$_SESSION['languages_id'] . "' and cd.categories_name like '%" . $_GET['search'] . "%' order by " . $catsort);
     } else {
-      $categories_query = os_db_query("select c.categories_id, cd.categories_name, c.categories_image, c.parent_id, c.sort_order, c.date_added, c.last_modified, c.yml_enable, c.categories_status from " . TABLE_CATEGORIES . " c, " . TABLE_CATEGORIES_DESCRIPTION . " cd where c.parent_id = '" . $current_category_id . "' and c.categories_id = cd.categories_id and cd.language_id = '" . (int)$_SESSION['languages_id'] . "' order by " . $catsort);
+      $categories_query = os_db_query("select c.categories_id, cd.categories_name, c.categories_image, c.parent_id, c.sort_order, c.date_added, c.last_modified, c.yml_enable, c.categories_status, c.menu from " . TABLE_CATEGORIES . " c, " . TABLE_CATEGORIES_DESCRIPTION . " cd where c.parent_id = '" . $current_category_id . "' and c.categories_id = cd.categories_id and cd.language_id = '" . (int)$_SESSION['languages_id'] . "' order by " . $catsort);
     } 
  
     $color = '';
@@ -228,6 +231,16 @@
              </td>
              <td class="categories_view_data">--</td>
 			 <td class="categories_view_data">--</td>
+			 <td class="categories_view_data">
+			<?php
+             //show status icons (green & red circle) with links
+             if ($categories['menu'] == '1') {
+                 echo os_image(http_path('icons_admin').'icon_status_green.gif', IMAGE_ICON_STATUS_GREEN, 10, 10).'&nbsp;&nbsp;<a href="'.os_href_link(FILENAME_CATEGORIES, os_get_all_get_params(array('cPath', 'action', 'pID', 'cID')) . 'action=setmenu&flag=0&cID=' . $categories['categories_id'] . '&cPath=' . $cPath) . '">' . os_image(http_path('icons_admin') . 'icon_status_red_light.gif', IMAGE_ICON_STATUS_RED_LIGHT, 10, 10) . '</a>';
+             } else {
+                 echo '<a href="' . os_href_link(FILENAME_CATEGORIES, os_get_all_get_params(array('cPath', 'action', 'pID', 'cID')).'action=setmenu&flag=1&cID=' . $categories['categories_id'] . '&cPath=' . $cPath) . '">' . os_image(http_path('icons_admin') . 'icon_status_green_light.gif', IMAGE_ICON_STATUS_GREEN_LIGHT, 10, 10) . '</a>&nbsp;&nbsp;' . os_image(http_path('icons_admin') . 'icon_status_red.gif', IMAGE_ICON_STATUS_RED, 10, 10);
+             }
+             ?>
+			 </td>
              <td class="categories_view_data">
 	                  <?php
              //show status icons (green & red circle) with links
@@ -477,6 +490,7 @@ if ($numr>$max_count){
             }
       ?>
       </td>
+	  <td class="categories_view_data">--</td>
 	  
       <td class="categories_view_data">
       <?php

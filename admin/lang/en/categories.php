@@ -20,6 +20,7 @@ define('TABLE_HEADING_ACTION', 'Action');
 define('TABLE_HEADING_STATUS', 'Status');
 define('TABLE_HEADING_STARTPAGE', 'TOP');
 define('TABLE_HEADING_STOCK','Stock Warning');
+define('TABLE_HEADING_MENU','Menu');
 define('TABLE_HEADING_SORT','Sort');
 define('TABLE_HEADING_EDIT','');
 

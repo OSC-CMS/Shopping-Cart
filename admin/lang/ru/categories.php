@@ -19,6 +19,7 @@ define('TABLE_HEADING_CATEGORIES_PRODUCTS', 'Категории / Товары')
 define('TABLE_HEADING_ACTION', 'Действие');
 define('TABLE_HEADING_STARTPAGE', 'На главной');
 define('TABLE_HEADING_STOCK','Склад');
+define('TABLE_HEADING_MENU','Меню');
 define('TABLE_HEADING_SORT','Порядок');
 define('TABLE_HEADING_EDIT','');
 
