@@ -8,12 +8,14 @@
 *---------------------------------------------------------
 */
 
+setlocale(LC_ALL, "ru_RU.UTF-8");
+date_default_timezone_set('Europe/Moscow'); // See http://php.net/manual/en/timezones.php
+
 define('TITLE', STORE_NAME);
 define('LANG_VERSION', '1.0.1');
 define('HEADER_TITLE_TOP', 'Начало');     
 define('HEADER_TITLE_CATALOG', 'Главная');
 define('HTML_PARAMS','xmlns="http://www.w3.org/1999/xhtml" xml:lang="ru" lang="ru"');
-@setlocale(LC_TIME, 'en_US');
 
 define('DATE_FORMAT_SHORT', '%d.%m.%Y');  
 define('DATE_FORMAT_LONG', '%A, %d %B %Y'); 
@@ -495,23 +497,5 @@ define('TEXT_BUTTON_CONTINUE', 'Продолжить');
 define('TEXT_BUTTON_LOGIN', 'Войти');
 define('TEXT_BUTTON_CONFIRM_ORDER', 'Подтвердить заказ');
 define('TEXT_BUTTON_ADD_ADDRESS', 'Добавить адрес');
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 ?>
