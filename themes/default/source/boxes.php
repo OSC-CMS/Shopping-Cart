@@ -26,7 +26,7 @@ if (VIS_BOX_INFORMATION			== 'true') { include(DIR_WS_BOXES.'information.php'); 
 if (VIS_BOX_NEWS				== 'true') { include(DIR_WS_BOXES.'news.php'); }
 if (VIS_BOX_FAQ					== 'true') { include(DIR_WS_BOXES.'faq.php'); }
 if (VIS_BOX_LANGUAGES			== 'true') { include(DIR_WS_BOXES.'languages.php'); }
-if (VIS_BOX_INFOBOX				== 'true') { include(DIR_WS_BOXES.'infobox.php'); }
+//if (VIS_BOX_INFOBOX				== 'true') { include(DIR_WS_BOXES.'infobox.php'); }
 if (VIS_BOX_LOGIN				== 'true') { include(DIR_WS_BOXES.'loginbox.php'); }
 if (VIS_BOX_LOGIN				== 'true') { include(DIR_WS_BOXES.'accountbox.php'); }
 if (VIS_BOX_NEWSLETTER			== 'true') { include(DIR_WS_BOXES.'newsletter.php'); }
