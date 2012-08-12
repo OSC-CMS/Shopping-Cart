@@ -82,7 +82,7 @@ class schet {
       	                                   array('title' => MODULE_PAYMENT_SCHET_J_ADDRESS,
       	                                         'field' => os_draw_input_field('address') . MODULE_PAYMENT_SCHET_J_ADDRESS_HELP),
       	                                   array('title' => MODULE_PAYMENT_SCHET_J_TELEPHONE,
-      	                                         'field' => os_draw_input_field('telephone', $order->customer['telephone']))	                                         
+      	                                         'field' => os_draw_input_field('phone', $order->customer['telephone']))	                                         
       	                                   ));
 
 		return $selection;
@@ -103,7 +103,7 @@ class schet {
         $this->address = os_db_prepare_input($_POST['address']);
         $this->yur_address = os_db_prepare_input($_POST['yur_address']);
         $this->fakt_address = os_db_prepare_input($_POST['fakt_address']);
-        $this->telephone = os_db_prepare_input($_POST['telephone']);
+        $this->telephone = os_db_prepare_input($_POST['phone']);
         $this->fax = os_db_prepare_input($_POST['fax']);
         $this->email = os_db_prepare_input($_POST['email']);
         $this->director = os_db_prepare_input($_POST['director']);
@@ -133,7 +133,7 @@ class schet {
                                os_draw_hidden_field('address', $this->address).
                                os_draw_hidden_field('yur_address', $this->yur_address).
                                os_draw_hidden_field('fakt_address', $this->fakt_address) .
-                               os_draw_hidden_field('telephone', $this->telephone) .
+                               os_draw_hidden_field('phone', $this->telephone) .
                                os_draw_hidden_field('fax', $this->fax) .
                                os_draw_hidden_field('email', $this->email) .
                                os_draw_hidden_field('director', $this->director) .
