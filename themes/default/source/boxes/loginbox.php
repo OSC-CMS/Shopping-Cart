@@ -14,8 +14,8 @@ $box->assign('tpl_path', _HTTP_THEMES_C);
 if (!os_session_is_registered('customer_id'))
 {
 	$box->assign('FORM_ACTION', '<form class="form-horizontal" id="loginbox" method="post" action="'.os_href_link(FILENAME_LOGIN, 'action=process', 'SSL').'">');
-	$box->assign('FIELD_EMAIL', os_draw_input_field('email_address', '', 'id="login-email" class="input-xlarge"'));
-	$box->assign('FIELD_PWD', os_draw_password_field('password', '', 'id="login-password" class="input-xlarge"'));
+	$box->assign('FIELD_EMAIL', os_draw_input_field('email_address', '', 'id="login-email" class="input-medium"'));
+	$box->assign('FIELD_PWD', os_draw_password_field('password', '', 'id="login-password" class="input-medium"'));
 	
 	$_array = array(
 		'img' => 'button_login_small.gif',

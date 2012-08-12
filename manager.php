@@ -42,7 +42,7 @@ if (isset($URI_elements[0]) && (strlen($URI_elements[0]) > 0))
 	$URI_elements[0] = urldecode(os_db_prepare_input($URI_elements[0]));
 
 	// Категория товара
-	$query = 'select categories_id from ' . TABLE_CATEGORIES . ' where categories_url="'.$URI_elements[0].'"';
+	$query = 'select categories_id from '.TABLE_CATEGORIES.' where categories_url="'.$URI_elements[0].'"';
 	$result = mysql_query($query);
 	if (mysql_num_rows($result) > 0)
 	{

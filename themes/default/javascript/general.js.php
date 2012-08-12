@@ -7,7 +7,6 @@
 *
 *---------------------------------------------------------
 */
-
 ?>
 <link href="<?php echo _HTTP_THEMES_C; ?>javascript/css/bootstrap.css" rel="stylesheet">
 <link href="<?php echo _HTTP_THEMES_C; ?>javascript/css/bootstrap-responsive.css" rel="stylesheet">
@@ -26,36 +25,3 @@ $(document).ready(function () {
 <?php if (isset($_GET['coID']) && $_GET['coID'] == 8) { ?>
 <script src="<?php echo _HTTP_THEMES_C; ?>javascript/masonry.js"></script>
 <?php } ?>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
