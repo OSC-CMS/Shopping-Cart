@@ -1,291 +1,217 @@
-<!-- create_guest_account.php  -->
 {config_load file="$language/lang.conf" section="create_account"}
-<h1 class="contentBoxHeading">{#heading_checkout#}</h1>
-<table width="100%" border="0" cellspacing="0" cellpadding="0">
-  <tr>
-    <td>
-{$FORM_ACTION}
+<div class="page-header">
+	<h1>{#heading_checkout#}</h1>
+</div>
+
 {if $error!=''}
-<table border="0" width="100%" cellspacing="1" cellpadding="2" class="infoBoxNotice">
-		          <tr class="infoBoxNoticeContents">
-		            <td><table border="0" width="100%" cellspacing="0" cellpadding="2">
-		              <tr>
-		                <td>&nbsp;</td>
-		                <td class="main" width="100%" valign="top">{$error}</td>
-		                <td>&nbsp;</td>
-		              </tr>
-		            </table></td>
-		          </tr>
-		        </table>
+<div class="alert alert-error fade in">
+	<a class="close" data-dismiss="alert" href="#">&times;</a>
+	{$error}
+</div>
 {/if}
-<table width="100%" border="0" cellspacing="0" cellpadding="0">
-        <tr>
-          <td class="main">&nbsp;</td>
-        </tr>
-  <tr>
-    <td><strong>{#title_personal#}</strong></td>
-    <td align="right" class="inputRequirement">{#text_must#}</td>
-  </tr>
-</table>
-<table width="100%"  class="formArea" cellspacing="2" cellpadding="0">
-{if $gender=='1'}
-  <tr>
-          <td width="200" class="main"><label for="gender" title="{$ENTRY_GENDER_ERROR}">{#text_gender#}</label></td>
-    <td class="main">
-		<table cellspacing="0" cellpadding="0">
-			<tr>
-			  	<td class="main"> {$INPUT_MALE}</td>
-			  	<td class="main"> {$INPUT_FEMALE}</td>
-  			</tr>
-		</table>
-	</td>
-  </tr>
-  {/if}
-  <tr>
-    <td class="main"><label for="firstname" title="{$ENTRY_FIRST_NAME_ERROR}">{#text_firstname#}</label></td>
-    <td class="inputRequirement" >{$INPUT_FIRSTNAME}</td>
-  </tr>
-{if $secondname=='1'}  <tr>     <td class="main">{#text_secondname#}</td>    <td class="inputRequirement" >{$INPUT_SECONDNAME}</td>  </tr>  {/if}  <tr>
-    <td class="main"><label for="lastname" title="{$ENTRY_LAST_NAME_ERROR}">{#text_lastname#}</label></td>
-    <td class="inputRequirement">{$INPUT_LASTNAME}</td>
-  </tr>
-  {if $birthdate=='1'}
-  <tr>
-    <td class="main"><label for="dob" title="{$ENTRY_DATE_OF_BIRTH_ERROR}">{#text_birthdate#}</label></td>
-    <td class="inputRequirement">{$INPUT_DOB}</td>
-  </tr>
-  {/if}
-  <tr>
-    <td class="main"><label for="email" title="{$ENTRY_EMAIL_ADDRESS_ERROR}">{#text_email#}</label></td>
-    <td class="inputRequirement">{$INPUT_EMAIL}</td>
-  </tr>
-</table>
-{if $company=='1'}
-      <table width="100%" border="0" cellspacing="0" cellpadding="0">
-        <tr>
-          <td class="main">&nbsp;</td>
-        </tr>
-        <tr>
-          <td class="main"><strong>{#title_company#}</strong></td>
-        </tr>
-      </table>
-      <table class="formArea" width="100%" border="0" cellspacing="2" cellpadding="0">
-  <tr>
-          <td width="200" class="main">{#text_company#}</td>
-    <td class="inputRequirement">{$INPUT_COMPANY}</td>
-  </tr>
-  {if $vat=='1'}
-  <tr>
-     <td class="main">{#text_ustid#}</td>
-     <td class="inputRequirement">{$INPUT_VAT}</td>
-  </tr>
-  {/if}
 
-</table>
-{/if}
-  {if $street_address=='1'}
-      <table width="100%" border="0" cellspacing="0" cellpadding="0">
-        <tr>
-          <td class="main">&nbsp;</td>
-        </tr>
-        <tr>
-          <td class="main"><strong>{#title_address#}</strong></td>
-        </tr>
-      </table>
-  {/if}
-      <table class="formArea" width="100%" border="0" cellspacing="2" cellpadding="0">
-  {if $street_address=='1'}
-  <tr>
-          <td width="200" class="main"><label for="address" title="{$ENTRY_STREET_ADDRESS_ERROR}">{#text_street#}</label></td>
-    <td class="inputRequirement">{$INPUT_STREET}</td>
-  </tr>
-  {/if}
-  {if $suburb=='1'}
-  <tr>
-    <td class="main">{#text_suburb#}</td>
-    <td class="inputRequirement">{$INPUT_SUBURB}</td>
-  </tr>
-  {/if}
-  {if $postcode=='1'}
-  <tr>
-    <td class="main"><label for="postcode" title="{$ENTRY_POST_CODE_ERROR}">{#text_code#}</label></td>
-    <td class="inputRequirement">{$INPUT_CODE}</td>
-  </tr>
-  {/if}
-  {if $city=='1'}
-  <tr>
-    <td class="main"><label for="city" title="{$ENTRY_CITY_ERROR}">{#text_city#}</label></td>
-    <td class="inputRequirement">{$INPUT_CITY}</td>
-  </tr>
-  {/if}
-  {if $state=='1'}
-  <tr>
-    <td class="main"><label for="state" title="{$ENTRY_STATE_ERROR_SELECT}">{#text_state#}</label></td>
-    <td class="inputRequirement"><span id="stateXML">{$INPUT_STATE}</span></td>
-  </tr>
-  {/if}
-  {if $country=='1'}
-  <tr>
-    <td class="main"><label for="country" title="{$ENTRY_COUNTRY_ERROR}">{#text_country#}</label></td>
-    <td class="inputRequirement">{$SELECT_COUNTRY}{$SELECT_COUNTRY_NOSCRIPT}</td>
-  </tr>
-  {/if}
-</table>
-  {if $telephone=='1'}
-      <table width="100%" border="0" cellspacing="0" cellpadding="0">
-        <tr>
-          <td class="main">&nbsp;</td>
-        </tr>
-        <tr>
-          <td class="main"><strong>{#title_contact#}</strong></td>
-        </tr>
-      </table>
-  {/if}
-      <table class="formArea" width="100%" border="0" cellspacing="2" cellpadding="0">
-  {if $telephone=='1'}
-  <tr>
-          <td width="200" class="main"><label for="telephone" title="{$ENTRY_TELEPHONE_NUMBER_ERROR}">{#text_tel#}</label></td>
-    <td class="inputRequirement">{$INPUT_TEL}</td>
-  </tr>
-  {/if}
-  {if $fax=='1'}
-  <tr>
-    <td class="main">{#text_fax#}</td>
-    <td class="inputRequirement">{$INPUT_FAX}</td>
-  </tr>
-  {/if}
-{if $INPUT_CUSTOMERS_EXTRA_FIELDS}
-{foreach item=customers_extra_filelds from=$INPUT_CUSTOMERS_EXTRA_FIELDS}
-  <tr>
-    <td class="main">{$customers_extra_filelds.NAME}:</td>
-    <td class="inputRequirement">{$customers_extra_filelds.VALUE}</td>
-  </tr>
-{/foreach}
-{/if}
-</table>
+{$FORM_ACTION}
 
-  <table width="100%" border="0" cellspacing="0" cellpadding="0">        <tr>          <td class="main">&nbsp;</td>        </tr>		<tr>          <td class="main"><strong>{#title_password#}</strong></td>        </tr>      </table>       <table class="formArea" width="100%" border="0" cellspacing="2" cellpadding="0">  <tr>           <td width="200" class="main"><label for="pass" title="{$ENTRY_PASSWORD_ERROR}">{#text_password#}</label></td>    <td class="inputRequirement">{$INPUT_PASSWORD}</td>  </tr>  <tr>     <td class="main"><label for="confirmation" title="{$ENTRY_PASSWORD_ERROR_NOT_MATCHING}">{#text_confirmation#}</label></td>    <td class="inputRequirement">{$INPUT_CONFIRMATION}</td>  </tr></table>
+<div class="form-horizontal">
+	<fieldset>
+		<legend>{#title_personal#}<small>{#text_must#}</small></legend>
+		{if $gender == '1'}
+		<div class="control-group">
+			<label class="control-label" for="gender">{#text_gender#} <span class="myTooltip myTooltip-help" rel="tooltip" title="{$ENTRY_GENDER_ERROR}">?</span></label>
+			<div class="controls">
+				<label class="radio">{$INPUT_MALE}</label>
+				<label class="radio">{$INPUT_FEMALE}</label>
+			</div>
+		</div>
+		{/if}
+		<div class="control-group">
+			<label class="control-label" for="firstname">{#text_firstname#} <span class="myTooltip myTooltip-help" rel="tooltip" title="{$ENTRY_FIRST_NAME_ERROR}">?</span></label>
+			<div class="controls">
+				{$INPUT_FIRSTNAME}
+			</div>
+		</div>
+		{if $secondname == '1'}
+		<div class="control-group">
+			<label class="control-label" for="secondname">{#text_secondname#}</label>
+			<div class="controls">
+				{$INPUT_SECONDNAME}
+			</div>
+		</div>
+		{/if}
+		{if $lastname == '1'}
+		<div class="control-group">
+			<label class="control-label" for="lastname">{#text_lastname#} <span class="myTooltip myTooltip-help" rel="tooltip" title="{$ENTRY_LAST_NAME_ERROR}">?</span></label>
+			<div class="controls">
+				{$INPUT_LASTNAME}
+			</div>
+		</div>
+		{/if}
+		{if $birthdate == '1'}
+		<div class="control-group">
+			<label class="control-label" for="dob">{#text_birthdate#} <span class="myTooltip myTooltip-help" rel="tooltip" title="{$ENTRY_DATE_OF_BIRTH_ERROR}">?</span></label>
+			<div class="controls">
+				{$INPUT_DOB}
+			</div>
+		</div>
+		{/if}
+		<div class="control-group">
+			<label class="control-label" for="email">{#text_email#} <span class="myTooltip myTooltip-help" rel="tooltip" title="{$ENTRY_EMAIL_ADDRESS_ERROR}">?</span></label>
+			<div class="controls">
+				<div class="input-prepend">
+					<span class="add-on">@</span>{$INPUT_EMAIL}
+				</div>
+			</div>
+		</div>
 
-</td>
-  </tr>
-</table>
+		{if $company == '1'}
+		<legend>{#title_company#}</legend>
 
-{if $virtual=='false'} 
- <!-- checkout_shipping.php  -->
+		<div class="control-group">
+			<label class="control-label" for="">{#text_company#}</label>
+			<div class="controls">
+				{$INPUT_COMPANY}
+			</div>
+		</div>
+		{if $vat == '1'}
+		<div class="control-group">
+			<label class="control-label" for="">{#text_ustid#}</label>
+			<div class="controls">
+				{$INPUT_VAT}
+			</div>
+		</div>
+		{/if}
+		{/if}
+
+		{if $street_address == '1'}<legend>{#title_address#}</legend>{/if}
+
+		{if $postcode == '1'}
+		<div class="control-group">
+			<label class="control-label" for="postcode">{#text_code#} <span class="myTooltip myTooltip-help" rel="tooltip" title="{$ENTRY_POST_CODE_ERROR}">?</span></label>
+			<div class="controls">
+				{$INPUT_CODE}
+			</div>
+		</div>
+		{/if}
+		
+		{if $country == '1'}
+		<div class="control-group">
+			<label class="control-label" for="country">{#text_country#} <span class="myTooltip myTooltip-help" rel="tooltip" title="{$ENTRY_COUNTRY_ERROR}">?</span></label>
+			<div class="controls">
+				{$SELECT_COUNTRY}{$SELECT_COUNTRY_NOSCRIPT}
+			</div>
+		</div>
+		{/if}
+		{if $state == '1'}
+		<div class="control-group">
+			<label class="control-label" for="state">{#text_state#} <span class="myTooltip myTooltip-help" rel="tooltip" title="{$ENTRY_STATE_ERROR_SELECT}">?</span></label>
+			<div class="controls">
+				<span id="stateXML">{$INPUT_STATE}</span>
+			</div>
+		</div>
+		{/if}
+		{if $city == '1'}
+		<div class="control-group">
+			<label class="control-label" for="city">{#text_city#} <span class="myTooltip myTooltip-help" rel="tooltip" title="{$ENTRY_CITY_ERROR}">?</span></label>
+			<div class="controls">
+				{$INPUT_CITY}
+			</div>
+		</div>
+		{/if}
+		{if $suburb == '1'}
+		<div class="control-group">
+			<label class="control-label" for="">{#text_suburb#}</label>
+			<div class="controls">
+				{$INPUT_SUBURB}
+			</div>
+		</div>
+		{/if}
+		{if $street_address == '1'}
+		<div class="control-group">
+			<label class="control-label" for="address">{#text_street#} <span class="myTooltip myTooltip-help" rel="tooltip" title="{$ENTRY_STREET_ADDRESS_ERROR}">?</span></label>
+			<div class="controls">
+				{$INPUT_STREET}
+			</div>
+		</div>
+		{/if}
+
+		{if $telephone == '1'}<legend>{#title_contact#}</legend>{/if}
+
+		{if $telephone == '1'}
+		<div class="control-group">
+			<label class="control-label" for="telephone">{#text_tel#} <span class="myTooltip myTooltip-help" rel="tooltip" title="{$ENTRY_TELEPHONE_NUMBER_ERROR}">?</span></label>
+			<div class="controls">
+				{$INPUT_TEL}
+			</div>
+		</div>
+		{/if}
+		{if $fax == '1'}
+		<div class="control-group">
+			<label class="control-label" for="">{#text_fax#}</label>
+			<div class="controls">
+				{$INPUT_FAX}
+			</div>
+		</div>
+		{/if}
+		{if $INPUT_CUSTOMERS_EXTRA_FIELDS}
+		{foreach item=customers_extra_filelds from=$INPUT_CUSTOMERS_EXTRA_FIELDS}
+		<div class="control-group">
+			<label class="control-label" for="">{$customers_extra_filelds.NAME}</label>
+			<div class="controls">
+				{$customers_extra_filelds.VALUE}
+			</div>
+		</div>
+		{/foreach}
+		{/if}
+
+		<legend>{#title_password#}</legend>
+
+		<div class="control-group">
+			<label class="control-label" for="pass">{#text_password#} <span class="myTooltip myTooltip-help" rel="tooltip" title="{$ENTRY_PASSWORD_ERROR}">?</span></label>
+			<div class="controls">
+				{$INPUT_PASSWORD}
+			</div>
+		</div>
+		<div class="control-group">
+			<label class="control-label" for="confirmation">{#text_confirmation#} <span class="myTooltip myTooltip-help" rel="tooltip" title="{$ENTRY_PASSWORD_ERROR_NOT_MATCHING}">?</span></label>
+			<div class="controls">
+				{$INPUT_CONFIRMATION}
+			</div>
+		</div>
+	</fieldset>
+</div>
+
+<hr>
+
+{if $virtual == 'false'}
 {config_load file="$language/lang.conf" section="checkout_shipping"}
-<h1 class="contentBoxHeading">{#heading_shipping#}</h1>
-
-<table width="100%" border="0" cellspacing="0" cellpadding="0">
-  <tr>
-    <td style="border-top: 1px solid; border-color: #cccccc;">
-	  <table width="100%" border="0" cellspacing="0" cellpadding="0">
-        <tr>
-          <td style="border-right: 1px solid; border-color: #cccccc;" valign="top" class="main">{#text_shipping#}<br />
-            <br />
-            <table width="100%" border="0" cellspacing="0" cellpadding="0">
-              <tr>
-                <td>{$SHIPPING_BLOCK}</td>
-              </tr>
-            </table>
-          </td>
-        </tr>
-      </table></td>
-  </tr>
-</table>
+<h2 title="{#heading_shipping#}">{#text_shipping#}</h2>
+{$SHIPPING_BLOCK}
 {/if}
 
-<!-- checkout_payment.php -->
+<hr>
+
 {config_load file="$language/lang.conf" section="checkout_payment"}
-<h1 class="contentBoxHeading">{#heading_payment#}</h1>
-
-<table width="100%" border="0" cellspacing="0" cellpadding="0">
-  <tr>
-    <td style="border-top: 1px solid; border-color: #cccccc;">
-	  <table width="100%" border="0" cellspacing="0" cellpadding="0">
-        <tr>
-          <td style="border-right: 1px solid; border-color: #cccccc;" valign="top" class="main">{#text_payment#}<br /><br />
-		    <table width="100%" border="0" cellspacing="0" cellpadding="0">
-              <tr>
-                <td class="main">{if $GV_COVER!='true'}{$PAYMENT_BLOCK}{$module_gift}{else}
-                  <table width="100%"  border="0">
-                    <tr>
-                      <td class="headerMessage" align="center">{#text_gccover#}</td>
-                    </tr>
-                  </table>
-                {/if}</td>
-              </tr>
-            </table></td>
-        </tr>
-      </table></td>
-  </tr>
-</table>
-<table width="100%" border="0" cellspacing="0" cellpadding="0">
-        <tr>
-          <td class="main">&nbsp;</td>
-        </tr>
-  <tr>
-    <td><strong>{#title_comments#}</strong></td>
-  </tr>
-</table>
-<table width="100%" border="0" cellspacing="0" cellpadding="0">
-  <tr>
-    <td style="border-top: 1px solid; border-color: #cccccc;">
-	  <table width="100%" border="0" cellspacing="0" cellpadding="0">
-        <tr>
-          <td style="border-right: 1px solid; border-color: #cccccc;" valign="top" class="main"><br />
-		    <table width="100%" border="0" cellspacing="0" cellpadding="0">
-              <tr>
-                <td>{$COMMENTS}</td>
-              </tr>
-            </table></td>
-        </tr>
-      </table></td>
-  </tr>
-</table>
-{if $conditions=='true'}
-<table width="100%" border="0" cellspacing="0" cellpadding="0">
-        <tr>
-          <td class="main">&nbsp;</td>
-        </tr>
-  <tr>
-    <td><strong>{#title_agb#}</strong>&nbsp;{$AGB_LINK}</td>
-  </tr>
-</table>
-<table width="100%" border="0" cellspacing="0" cellpadding="0">
-  <tr>
-    <td style="border-top: 1px solid; border-color: #cccccc;">
-	  <table width="100%" border="0" cellspacing="0" cellpadding="0">
-        <tr>
-          <td style="border-right: 1px solid; border-color: #cccccc;" valign="top" class="main"><br />
-            <table width="100%" border="0" cellspacing="0" cellpadding="0">
-              <tr>
-                <td class="main">{$AGB}</td>
-              </tr>
-              <tr>
-                <td style="border: 1px solid; border-color: #ff0000;" class="conditions">{$AGB_checkbox} <strong>{#text_accept_agb#}</strong></td>
-              </tr>
-            </table></td>
-        </tr>
-      </table></td>
-  </tr>
-</table>
+<h2 title="{#heading_payment#}">{#text_payment#}</h2>
+{if $GV_COVER != 'true'}
+	{$PAYMENT_BLOCK}
+	{$module_gift}
+{else}
+	<div class="alert alert-success bold">{#text_gccover#}</div>
 {/if}
-<table width="100%" border="0" cellspacing="0" cellpadding="0">
-        <tr>
-          <td class="main">&nbsp;</td>
-        </tr>
-  <tr>
-    <td style="border-top: 1px solid; border-color: #cccccc;">
-	  <table width="100%" border="0" cellspacing="0" cellpadding="0">
-        <tr>
-          <td style="border-right: 1px solid; border-color: #cccccc;" valign="top" class="main"><strong>{#title_continue#}</strong><br />{#text_continue#}<br /><br />
-		    <table width="100%" border="0" cellspacing="0" cellpadding="0">
-              <tr>
-                <td align="right">{$BUTTON_CONTINUE}</td>
-              </tr>
-            </table></td>
-        </tr>
-      </table></td>
-  </tr>
-</table>
+
+<hr>
+
+<p></p>
+<p><a href="javascript://" class="btn btn-info" data-toggle="collapse" data-target="#myCollapseComment">{#title_comments#}</a></p>
+<div id="myCollapseComment" class="collapse textarea-checkout">{$COMMENTS}</div>
+<p></p>
+
+{if $conditions == 'true'}
+	<hr>
+	<p><h3>{#title_agb#} ({$AGB_LINK})</h3></p>
+	<p class="textarea-checkout">{$AGB}</p>
+	<p><label for="conditions">{$AGB_checkbox} {#text_accept_agb#}</label></p>
+{/if}
+
+<p>{$BUTTON_CONTINUE}</p>
 {$FORM_END}
