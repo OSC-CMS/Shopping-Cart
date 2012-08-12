@@ -155,7 +155,7 @@ function getListOfProductImages(el, i, p_dir, p_image)
 {
 	var dir = document.getElementsByName(i == 0 ? 'upload_dir_image_0' : 'mo_pics_upload_dir_image_'+(i - 1))[0];
 	$("#divOfImages"+i).text('loading ...');
-	$("#divOfImages"+i).load("ajax_product_images.php", {index:i, product_dir:p_dir, product_image:p_image, product_subdir:dir.value}, function(){getListOfProductComplete(i);});
+	$("#divOfImages"+i).load("ajax.php", {index:i, product_dir:p_dir, product_image:p_image, product_subdir:dir.value}, function(){getListOfProductComplete(i);});
 }
 function getListOfProductComplete(i)
 {

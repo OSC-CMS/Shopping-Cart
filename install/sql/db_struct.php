@@ -413,7 +413,7 @@ os_db_query("CREATE TABLE `".DB_PREFIX."admin_access` (
   `plugins_page` int(1) NOT NULL,
   `file` int(1) NOT NULL,
   `error_log` int(1) NOT NULL,
-  `ajax_product_images` int(1) NOT NULL default '1',
+  `ajax` int(1) NOT NULL default '1',
   PRIMARY KEY (`customers_id`)
 ) ENGINE=MyISAM /*!40101 DEFAULT CHARSET=utf8 */;
 ");
