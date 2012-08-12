@@ -1,23 +1,19 @@
 <?php
-$_config = dirname(dirname(dirname(dirname(dirname((dirname(dirname(dirname(__FILE__))))))))).'/includes/top.php';
+$_config = dirname(dirname(dirname(dirname(dirname(dirname(dirname(dirname(dirname(__FILE__))))))))).'/includes/top.php';
 include($_config);
 
-//ÐšÐ¾Ñ€Ð½ÐµÐ²Ð°Ñ Ð´Ð¸Ñ€ÐµÐºÑ‚Ð¾Ñ€Ð¸Ñ ÑÐ°Ð¹Ñ‚Ð°
+//Êîðíåâàÿ äèðåêòîðèÿ ñàéòà
 define('DIR_ROOT',		_CATALOG);
-//Ð”Ð¸Ñ€ÐµÐºÑ‚Ð¾Ñ€Ð¸Ñ Ñ Ð¸Ð·Ð¾Ð±Ñ€Ð°Ð¶ÐµÐ½Ð¸ÑÐ¼Ð¸ (Ð¾Ñ‚Ð½Ð¾ÑÐ¸Ñ‚ÐµÐ»ÑŒÐ½Ð¾ ÐºÐ¾Ñ€Ð½ÐµÐ²Ð¾Ð¹)
+//Äèðåêòîðèÿ ñ èçîáðàæåíèÿìè (îòíîñèòåëüíî êîðíåâîé)
 define('DIR_IMAGES',	'images');
-//Ð”Ð¸Ñ€ÐµÐºÑ‚Ð¾Ñ€Ð¸Ñ Ñ Ñ„Ð°Ð¹Ð»Ð°Ð¼Ð¸ (Ð¾Ñ‚Ð½Ð¾ÑÐ¸Ñ‚ÐµÐ»ÑŒÐ½Ð¾ ÐºÐ¾Ñ€Ð½ÐµÐ²Ð¾Ð¹)
+//Äèðåêòîðèÿ ñ ôàéëàìè (îòíîñèòåëüíî êîðíåâîé)
 define('DIR_FILES',		'images');
-
-
-//Ð’Ñ‹ÑÐ¾Ñ‚Ð° Ð¸ ÑˆÐ¸Ñ€Ð¸Ð½Ð° ÐºÐ°Ñ€Ñ‚Ð¸Ð½ÐºÐ¸ Ð´Ð¾ ÐºÐ¾Ñ‚Ð¾Ñ€Ð¾Ð¹ Ð±ÑƒÐ´ÐµÑ‚ ÑÐ¶Ð°Ñ‚Ð¾ Ð¸ÑÑ…Ð¾Ð´Ð½Ð¾Ðµ Ð¸Ð·Ð¾Ð±Ñ€Ð°Ð¶ÐµÐ½Ð¸Ðµ Ð¸ ÑÐ¾Ð·Ð´Ð°Ð½Ð° ÑÑÑ‹Ð»ÐºÐ° Ð½Ð° Ð¿Ð¾Ð»Ð½ÑƒÑŽ Ð²ÐµÑ€ÑÐ¸ÑŽ
+//Âûñîòà è øèðèíà êàðòèíêè äî êîòîðîé áóäåò ñæàòî èñõîäíîå èçîáðàæåíèå è ñîçäàíà ññûëêà íà ïîëíóþ âåðñèþ
 define('WIDTH_TO_LINK', 500);
 define('HEIGHT_TO_LINK', 500);
-
-//ÐÑ‚Ñ€Ð¸Ð±ÑƒÑ‚Ñ‹ ÐºÐ¾Ñ‚Ð¾Ñ€Ñ‹Ðµ Ð±ÑƒÐ´ÑƒÑ‚ Ð¿Ñ€Ð¸ÑÐ²Ð¾ÐµÐ½Ñ‹ ÑÑÑ‹Ð»ÐºÐµ (Ð´Ð»Ñ ÑÐºÑ€Ð¸Ð¿Ñ‚Ð¾Ð² Ñ‚Ð¸Ð¿Ð° lightbox)
+//Àòðèáóòû êîòîðûå áóäóò ïðèñâîåíû ññûëêå (äëÿ ñêðèïòîâ òèïà lightbox)
 define('CLASS_LINK', 'lightview');
 define('REL_LINK', 'lightbox');
 
-date_default_timezone_set('Asia/Yekaterinburg');
-
+date_default_timezone_set('Europe/Moscow');
 ?>
