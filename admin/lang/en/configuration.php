@@ -876,11 +876,6 @@ define('VIS_BOX_MANUFACTURERS_DESC','Выводится список произ�
 define('VIS_BOX_LOGIN_TITLE','Вход в админку');
 define('VIS_BOX_LOGIN_DESC','Показывать блок входа в амдинку (BOX_LOGIN).');
 
-
-define('VIS_BOX_LATEST_NEWS_TITLE','Последние новости');
-define('VIS_BOX_LATEST_NEWS_DESC','Показывает последние новости магазина BOX_LATEST_NEWS');
-
-
 define('VIS_BOX_LAST_VIEWED_TITLE','Просмотренные товары');
 define('VIS_BOX_LAST_VIEWED_DESC','Показывать блок просмотренных товаров (BOX_LAST_VIEWED).');
 

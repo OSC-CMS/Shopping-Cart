@@ -1296,7 +1296,6 @@ os_db_query("INSERT INTO `".DB_PREFIX."configuration` VALUES
 (356, 'VIS_BOX_MANUFACTURERS_INFO', 'true', 30, 7, NULL, '0000-00-00 00:00:00', NULL, 'os_cfg_select_option(array(\'true\', \'false\'),'),
 (357, 'VIS_BOX_MANUFACTURERS', 'true', 30, 8, NULL, '0000-00-00 00:00:00', NULL, 'os_cfg_select_option(array(\'true\', \'false\'),'),
 (358, 'VIS_BOX_LOGIN', 'true', 30, 9, NULL, '0000-00-00 00:00:00', NULL, 'os_cfg_select_option(array(\'true\', \'false\'),'),
-(359, 'VIS_BOX_LATEST_NEWS', 'true', 30, 10, NULL, '0000-00-00 00:00:00', NULL, 'os_cfg_select_option(array(\'true\', \'false\'),'),
 (360, 'VIS_BOX_LAST_VIEWED', 'true', 30, 11, NULL, '0000-00-00 00:00:00', NULL, 'os_cfg_select_option(array(\'true\', \'false\'),'),
 (361, 'VIS_BOX_LANGUAGES', 'true', 30, 12, NULL, '0000-00-00 00:00:00', NULL, 'os_cfg_select_option(array(\'true\', \'false\'),'),
 (362, 'VIS_BOX_INFORMATION', 'true', 30, 13, NULL, '0000-00-00 00:00:00', NULL, 'os_cfg_select_option(array(\'true\', \'false\'),'),
