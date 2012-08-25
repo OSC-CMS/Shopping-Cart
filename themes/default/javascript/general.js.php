@@ -16,6 +16,7 @@
 <script src="<?php echo _HTTP_THEMES_C; ?>javascript/js/bootstrap-tab.js"></script>
 <script src="<?php echo _HTTP_THEMES_C; ?>javascript/js/bootstrap-tooltip.js"></script>
 <script src="<?php echo _HTTP_THEMES_C; ?>javascript/js/bootstrap-collapse.js"></script>
+<script src="<?php echo _HTTP_THEMES_C; ?>javascript/vtip.js"></script>
 <script>
 $(document).ready(function () {
 	$(".alert").alert();
