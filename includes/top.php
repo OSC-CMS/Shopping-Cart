@@ -237,6 +237,16 @@
         }
     }
 
+/*
+	if (isset($_SESSION['http_host']) && $_SESSION['http_host'] != $_SERVER['HTTP_HOST'])
+	{
+		os_session_destroy();
+		unset($_SESSION);
+	}
+	else
+		$_SESSION['http_host'] = $_SERVER['HTTP_HOST'];
+*/
+
     do_action('session_start', '');
     add_path('themes_c', array('dir'  => dir_path  ('themes').CURRENT_TEMPLATE.'/', 
     'http' => http_path ('themes').CURRENT_TEMPLATE.'/'));

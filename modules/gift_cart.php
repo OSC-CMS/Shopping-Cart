@@ -26,6 +26,7 @@ if (isset ($_SESSION['customer_id'])) {
 		$gift->assign('GV_AMOUNT', 0);
 	}
 }
+
 if (isset ($_SESSION['gv_id'])) {
 	$gv_query = os_db_query("select coupon_amount from ".TABLE_COUPONS." where coupon_id = '".$_SESSION['gv_id']."'");
 	$coupon = os_db_fetch_array($gv_query);
