@@ -111,10 +111,9 @@ class main {
 	}
 	
 	function getContentLink($coID,$text) {
-		return '<a href="'. os_href_link(FILENAME_POPUP_CONTENT, 'coID='.$coID) .'" target="_blank" onclick="window.open(\'' . os_href_link(FILENAME_POPUP_CONTENT, 'coID='.$coID) . '\', \'popUp\', \'toolbar=0,scrollbars=1,location=0,statusbar=0,menubar=0,resizable=1,width=395,height=320\'); return false;">'.$text.'</a>';
+		return '<a href="'. os_href_link(FILENAME_POPUP_CONTENT, 'coID='.$coID) .'" rel="modal:open" target="_blank">'.$text.'</a>';
 	}
  	
  }
- 
- 
+
 ?>
