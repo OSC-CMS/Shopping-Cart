@@ -12,9 +12,9 @@
 
 <div class="tabbable">
 	<ul class="nav nav-tabs">
-		<li class="active"><a href="#ifno" data-toggle="tab">Информация</a></li>
-		<li><a href="#contacts" data-toggle="tab">Контакты</a></li>
-		{if $smarty.const.ACCOUNT_PROFILE == 'true'}<li><a href="#profile" data-toggle="tab">Профиль</a></li>{/if}
+		<li class="active"><a href="#ifno" data-toggle="tab">{#title_tab_info#}</a></li>
+		<li><a href="#contacts" data-toggle="tab">{#title_tab_contacts#}</a></li>
+		{if $smarty.const.ACCOUNT_PROFILE == 'true'}<li><a href="#profile" data-toggle="tab">{#title_tab_profile#}</a></li>{/if}
 	</ul>
 
 	<div class="form-horizontal">
@@ -27,7 +27,7 @@
 
 				{if $username == '1'}
 				<div class="control-group">
-					<label class="control-label" for="customers_username">Логин <span class="myTooltip myTooltip-help" rel="tooltip" title="{$ENTRY_USERNAME_ERROR}">?</span></label>
+					<label class="control-label" for="customers_username">{#text_username#} <span class="myTooltip myTooltip-help" rel="tooltip" title="{$ENTRY_USERNAME_ERROR}">?</span></label>
 					<div class="controls">
 						{$INPUT_USERNAME}
 					</div>
@@ -102,38 +102,38 @@
 				{/if}
 
 				{if $smarty.const.ACCOUNT_PROFILE == 'true'}
-				<legend>О себе</legend>
+				<legend>{#text_about#}</legend>
 
 				<div class="control-group">
-					<label class="control-label" for="customers_signature">Краткая подпись</label>
+					<label class="control-label" for="customers_signature">{#text_signature#}</label>
 					<div class="controls">
 						<textarea type="text" name="customers_signature" id="customers_signature" class="input-xlarge" rows="3">{$customers_signature}</textarea>
 					</div>
 				</div>
 
-				<legend>Изображения</legend>
+				<legend>{#text_images#}</legend>
 
 				<div class="control-group">
-					<label class="control-label" for="customers_avatar">Аватар</label>
+					<label class="control-label" for="customers_avatar">{#text_avatar#}</label>
 					<div class="controls">
 						<input class="input-file" type="file" name="customers_avatar" id="customers_avatar" />
-						<p class="help-block">Размер аватарки не должен превышать 100x100px!</p>
+						<p class="help-block">{#text_avatar_info#}</p>
 						{if $customers_avatar}
 						<p>
 							<br />
 							<input type="hidden" name="current_avatar" value="{$customers_avatar}" />
 							<span class="customer-images"><img src="images/avatars/{$customers_avatar}" /></span>
-							<label class="checkbox"><input type="checkbox" name="customers_avatar_delete" value="delete" /> Удалить?</label>
+							<label class="checkbox"><input type="checkbox" name="customers_avatar_delete" value="delete" /> {#text_images_del#}</label>
 						</p>
 						{/if}
 					</div>
 				</div>
 				<!--hr-->
 				<div class="control-group hidden">
-					<label class="control-label" for="customers_photo">Фотография</label>
+					<label class="control-label" for="customers_photo">{#text_photo#}</label>
 					<div class="controls">
 						<input type="file" name="customers_photo" id="customers_photo" />
-						<p class="help-block">Размер фотографии не должен превышать 300x300px!</p>
+						<p class="help-block">{#text_photo_info#}</p>
 					</div>
 				</div>
 				{/if}
@@ -170,25 +170,25 @@
 		{if $smarty.const.ACCOUNT_PROFILE == 'true'}
 		<div class="tab-pane" id="profile">
 			<p>
-				<legend>Настройки отображения в профиле</legend>
+				<legend>{#text_setting_title#}</legend>
 
 				{if $gender == '1'}
 				<div class="control-group">
-					<label class="control-label" for="show_gender">Показывать пол</label>
+					<label class="control-label" for="show_gender">{#text_show_gender#}</label>
 					<div class="controls">
 						{$show_gender}
 					</div>
 				</div>
 				{/if}
 				<div class="control-group">
-					<label class="control-label" for="show_firstname">Показывать имя</label>
+					<label class="control-label" for="show_firstname">{#text_show_name#}</label>
 					<div class="controls">
 						{$show_firstname}
 					</div>
 				</div>
 				{if $secondname == '1'}
 				<div class="control-group">
-					<label class="control-label" for="show_secondname">Показывать отчество</label>
+					<label class="control-label" for="show_secondname">{#text_show_secondname#}</label>
 					<div class="controls">
 						{$show_secondname}
 					</div>
@@ -196,7 +196,7 @@
 				{/if}
 				{if $lastname == '1'}
 				<div class="control-group">
-					<label class="control-label" for="show_lastname">Показывать фамилию</label>
+					<label class="control-label" for="show_lastname">{#text_show_lastname#}</label>
 					<div class="controls">
 						{$show_lastname}
 					</div>
@@ -204,21 +204,21 @@
 				{/if}
 				{if $birthdate == '1'}
 				<div class="control-group">
-					<label class="control-label" for="show_dob">Показывать дату рождения</label>
+					<label class="control-label" for="show_dob">{#text_show_dob#}</label>
 					<div class="controls">
 						{$show_dob}
 					</div>
 				</div>
 				{/if}
 				<div class="control-group">
-					<label class="control-label" for="show_email">Показывать email</label>
+					<label class="control-label" for="show_email">{#text_show_email#}</label>
 					<div class="controls">
 						{$show_email}
 					</div>
 				</div>
 				{if $telephone=='1'}
 				<div class="control-group">
-					<label class="control-label" for="show_telephone">Показывать телефон</label>
+					<label class="control-label" for="show_telephone">{#text_show_telephone#}</label>
 					<div class="controls">
 						{$show_telephone}
 					</div>

@@ -82,7 +82,6 @@ if (isset($_GET['id']) && is_numeric($_GET['id']))
 					'PRODUCTS_LINK' => os_href_link(FILENAME_PRODUCT_INFO, os_product_link($reviews['products_id'], $reviews['products_name'])),
 					'PRODUCTS_NAME' => $reviews['products_name'],
 					'DATE' => $reviews['date_added'],
-					'AUTHOR' => $reviews['customers_name'],
 					'TEXT' => nl2br(htmlspecialchars($reviews['reviews_text'])),
 					'RATING' => os_image('themes/'.CURRENT_TEMPLATE.'/img/stars_'.$reviews['reviews_rating'].'.gif', sprintf(TEXT_OF_5_STARS, $reviews['reviews_rating']))
 				);
