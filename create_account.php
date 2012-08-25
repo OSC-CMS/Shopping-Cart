@@ -18,6 +18,9 @@ $process = false;
 if (isset ($_POST['action']) && ($_POST['action'] == 'process')) {
 	$process = true;
 
+	if (ACCOUNT_USER_NAME == 'true' && ACCOUNT_USER_NAME_REG == 'true')
+		$username = os_db_prepare_input($_POST['username']);
+
 	if (ACCOUNT_GENDER == 'true')
 		$gender = os_db_prepare_input($_POST['gender']);
 	$firstname = os_db_prepare_input($_POST['firstname']);
@@ -191,6 +194,14 @@ if (isset ($_POST['action']) && ($_POST['action'] == 'process')) {
 	}
   }
 
+if (ACCOUNT_USER_NAME == 'true' && ACCOUNT_USER_NAME_REG == 'true') {
+	if (strlen($username) < '3') {
+		$error = true;
+
+		$messageStack->add('create_account', ENTRY_USERNAME_ERROR);
+	}
+  }
+
         $extra_fields_query = osDBquery("select ce.fields_id, ce.fields_input_type, ce.fields_required_status, cei.fields_name, ce.fields_status, ce.fields_input_type, ce.fields_size from " . TABLE_EXTRA_FIELDS . " ce, " . TABLE_EXTRA_FIELDS_INFO . " cei where ce.fields_status=1 and ce.fields_required_status=1 and cei.fields_id=ce.fields_id and cei.languages_id =" . $_SESSION['languages_id']);
 
    while($extra_fields = os_db_fetch_array($extra_fields_query,true)){
@@ -219,7 +230,23 @@ if (isset ($_POST['action']) && ($_POST['action'] == 'process')) {
 	if (!$newsletter)
 		$newsletter = 0;
 	if ($error == false) {
-		$sql_data_array = array ('customers_vat_id' => $vat, 'customers_vat_id_status' => $customers_vat_id_status, 'customers_status' => $customers_status, 'customers_firstname' => $firstname, 'customers_secondname' => $secondname, 'customers_lastname' => $lastname, 'customers_email_address' => $email_address, 'customers_telephone' => $telephone, 'customers_fax' => $fax, 'orig_reference' => $html_referer, 'customers_newsletter' => $newsletter, 'customers_password' => os_encrypt_password($password),'customers_date_added' => 'now()','customers_last_modified' => 'now()');
+		$sql_data_array = array (
+			'customers_vat_id' => $vat,
+			'customers_vat_id_status' => $customers_vat_id_status,
+			'customers_status' => $customers_status,
+			'customers_firstname' => $firstname,
+			'customers_secondname' => $secondname,
+			'customers_lastname' => $lastname,
+			'customers_email_address' => $email_address,
+			'customers_telephone' => $telephone,
+			'customers_fax' => $fax,
+			'orig_reference' => $html_referer,
+			'customers_newsletter' => $newsletter,
+			'customers_password' => os_encrypt_password($password),
+			'customers_date_added' => 'now()',
+			'customers_last_modified' => 'now()',
+			'customers_username' => $username
+		);
 
 		if (ACCOUNT_GENDER == 'true')
 			$sql_data_array['customers_gender'] = $gender;
@@ -313,6 +340,7 @@ if (isset ($_POST['action']) && ($_POST['action'] == 'process')) {
 		$_SESSION['customer_country_id'] = $country;
 		$_SESSION['customer_zone_id'] = $zone_id;
 		$_SESSION['customer_vat_id'] = $vat;
+		$_SESSION['customer_username'] = $username;
 
 		// restore cart contents
 		$_SESSION['cart']->restore_contents();
@@ -418,6 +446,15 @@ if (ACCOUNT_GENDER == 'true') {
 
 } else {
 	$osTemplate->assign('gender', '0');
+}
+
+if (ACCOUNT_USER_NAME == 'true' && ACCOUNT_USER_NAME_REG == 'true') {
+	$osTemplate->assign('username', '1');
+
+	$osTemplate->assign('INPUT_USERNAME', os_draw_input_fieldNote(array ('name' => 'username', 'text' => '&nbsp;'. (os_not_null(ENTRY_USERNAME_TEXT) ? '<span class="Requirement">'.ENTRY_USERNAME_TEXT.'</span>' : '')), '', 'id="username"'));$osTemplate->assign('ENTRY_USERNAME_ERROR', ENTRY_USERNAME_ERROR);
+
+} else {
+	$osTemplate->assign('username', '0');
 }
 
 $osTemplate->assign('INPUT_FIRSTNAME', os_draw_input_fieldNote(array ('name' => 'firstname', 'text' => '&nbsp;'. (os_not_null(ENTRY_FIRST_NAME_TEXT) ? '<span class="Requirement">'.ENTRY_FIRST_NAME_TEXT.'</span>' : '')), '', 'id="firstname"'));
