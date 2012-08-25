@@ -156,6 +156,23 @@ for ($i = 0, $n = sizeof($order->products); $i < $n; $i++)
 			$product_tax = os_display_tax_value($order->products[$i]['tax']) . '%';
 	}
 
+	//Bundle
+	$products_bundle = '';
+	if ($order->products[$i]['bundle'] == 1)
+	{
+		$bundle_query = getBundleProducts($order->products[$i]['id']);
+		
+		if (os_db_num_rows($bundle_query) > 0)
+		{
+			while($bundle_data = os_db_fetch_array($bundle_query))
+			{
+				$products_bundle_data .= $bundle_data['products_name'].'<br />';
+			}
+		}
+		$products_bundle = (!empty($products_bundle_data)) ? $products_bundle_data : '';
+	}
+	//End of Bundle
+
 	$productsArray[] = array(
 		'pQty' => $order->products[$i]['qty'],
 		'pName' => $order->products[$i]['name'],
@@ -164,6 +181,7 @@ for ($i = 0, $n = sizeof($order->products); $i < $n; $i++)
 		'pShipping' => $shipping_time,
 		'pAttributesArray' => $productAtrArray,
 		'pTax' => $product_tax,
+		'pBundle' => $products_bundle,
 	);
 }
 

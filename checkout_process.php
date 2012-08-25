@@ -129,10 +129,45 @@ for ($i = 0, $n = sizeof($order->products); $i < $n; $i ++) {
 			}
 			$stock_query = os_db_query($stock_query_raw);
 		} else {
-			$stock_query = os_db_query("select products_quantity from ".TABLE_PRODUCTS." where products_id = '".os_get_prid($order->products[$i]['id'])."'");
+			//$stock_query = os_db_query("select products_quantity from ".TABLE_PRODUCTS." where products_id = '".os_get_prid($order->products[$i]['id'])."'");
+			$stock_query = os_db_query("select products_quantity, products_bundle from ".TABLE_PRODUCTS." where products_id = '".os_get_prid($order->products[$i]['id'])."'");
 		}
 		if (os_db_num_rows($stock_query) > 0) {
 			$stock_values = os_db_fetch_array($stock_query);
+
+// Bundle
+if($stock_values['products_bundle'] == '1'){
+	// order item is a bundle and must be separated
+	$report_text .= "Bundle found in Order : ".os_get_prid($order->products[$i]['id'])."<br>\n";
+	$bundle_query = os_db_query("SELECT pb.subproduct_id, pb.subproduct_qty, p.products_model, p.products_quantity, p.products_bundle FROM ".DB_PREFIX."products_bundles pb LEFT JOIN " . TABLE_PRODUCTS . " p ON p.products_id = pb.subproduct_id WHERE pb.bundle_id = '" . os_get_prid($order->products[$i]['id']) . "'");
+	while($bundle_data = os_db_fetch_array($bundle_query))
+	{
+		if($bundle_data['products_bundle'] == "1")
+		{
+			$report_text .= "<br>level 2 bundle found in order : " . $bundle_data['products_model'] . "<br>";
+			$bundle_query_nested = os_db_query("SELECT pb.subproduct_id, pb.subproduct_qty, p.products_model, p.products_quantity, p.products_bundle FROM ".DB_PREFIX."products_bundles pb LEFT JOIN " . TABLE_PRODUCTS . " p ON p.products_id = pb.subproduct_id WHERE pb.bundle_id = '" . $bundle_data['subproduct_id'] . "'");
+			while($bundle_data_nested = os_db_fetch_array($bundle_query_nested))
+			{
+			$stock_left = $bundle_data_nested['products_quantity'] - $bundle_data_nested['subproduct_qty']*$order->products[$i]['qty'];
+			$report_text .= "updating level 2 item " . $bundle_data_nested['products_model'] . " : was " . $bundle_data_nested['products_quantity'] . " and number ordered is " . ($bundle_data_nested['subproduct_qty'] * $order->products[$i]['qty']) . " <br>\n";
+			os_db_query("update " . TABLE_PRODUCTS . " set products_quantity = '" . $stock_left . "' WHERE products_id = '" . $bundle_data_nested['subproduct_id'] . "'");
+			}
+		}
+		else
+		{
+			$stock_left = $bundle_data['products_quantity'] - $bundle_data['subproduct_qty'] * $order->products[$i]['qty'];
+			$report_text .= "updating level 1 item ".$bundle_data['products_model']." : was ".$bundle_data['products_quantity']." and number ordered is ".($bundle_data['subproduct_qty'] * $order->products[$i]['qty']) . " <br>\n";
+			os_db_query("update " . TABLE_PRODUCTS . " set products_quantity = '" . $stock_left . "' WHERE products_id = '" . $bundle_data['subproduct_id'] . "'");
+		}
+	}
+}
+else
+{
+	//order item is normal and should be treated as such
+	$report_text .= "Normal product found in order : " . os_get_prid($order->products[$i]['id']) . "\n";
+}
+// End of Bundle
+
 			// do not decrement quantities if products_attributes_filename exists
 			if ((DOWNLOAD_ENABLED != 'true') || (!$stock_values['products_attributes_filename'])) {
 				$stock_left = $stock_values['products_quantity'] - $order->products[$i]['qty'];
@@ -150,7 +185,19 @@ for ($i = 0, $n = sizeof($order->products); $i < $n; $i ++) {
 	// Update products_ordered (for bestsellers list)
 	os_db_query("update ".TABLE_PRODUCTS." set products_ordered = products_ordered + ".sprintf('%d', $order->products[$i]['qty'])." where products_id = '".os_get_prid($order->products[$i]['id'])."'");
 
-	$sql_data_array = array ('orders_id' => $insert_id, 'products_id' => os_get_prid($order->products[$i]['id']), 'products_model' => $order->products[$i]['model'], 'products_name' => $order->products[$i]['name'],'products_shipping_time'=>$order->products[$i]['shipping_time'], 'products_price' => $order->products[$i]['price'], 'final_price' => $order->products[$i]['final_price'], 'products_tax' => $order->products[$i]['tax'], 'products_discount_made' => $order->products[$i]['discount_allowed'], 'products_quantity' => $order->products[$i]['qty'], 'allow_tax' => $_SESSION['customers_status']['customers_status_show_price_tax']);
+	$sql_data_array = array (
+		'orders_id' => $insert_id,
+		'products_id' => os_get_prid($order->products[$i]['id']),
+		'products_model' => $order->products[$i]['model'],
+		'products_name' => $order->products[$i]['name'],
+		'products_shipping_time' => $order->products[$i]['shipping_time'],
+		'products_price' => $order->products[$i]['price'],
+		'final_price' => $order->products[$i]['final_price'],
+		'products_tax' => $order->products[$i]['tax'],
+		'products_discount_made' => $order->products[$i]['discount_allowed'],
+		'products_quantity' => $order->products[$i]['qty'],
+		'allow_tax' => $_SESSION['customers_status']['customers_status_show_price_tax']
+	);
 
 	os_db_perform(TABLE_ORDERS_PRODUCTS, $sql_data_array);
 	$order_products_id = os_db_insert_id();
