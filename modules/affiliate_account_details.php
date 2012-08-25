@@ -346,7 +346,7 @@ elseif ($error == true) {
     }
 }
 else {
-	$country_id_content = os_get_country_list('a_country', $affiliate['affiliate_country_id'], 'id="country", onChange="document.getElementById(\'stateXML\').innerHTML = \'' . ENTRY_STATEXML_LOADING . '\';loadXMLDoc(\'loadAffiliateStateXML\',{country_id: this.value});"') . (os_not_null(ENTRY_COUNTRY_TEXT) ? '<span class="Requirement">' . ENTRY_COUNTRY_TEXT . '</span>': '');
+	$country_id_content = os_get_country_list('a_country', $affiliate['affiliate_country_id'], 'id="country"') . (os_not_null(ENTRY_COUNTRY_TEXT) ? '<span class="Requirement">' . ENTRY_COUNTRY_TEXT . '</span>': '');
 }
 $module->assign('country_id_content', $country_id_content);
 
