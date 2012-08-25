@@ -70,45 +70,64 @@ class product {
 
 		$data_reviews = array ();
 
-		$reviews_query = osDBquery("select
-									                                 r.reviews_rating,
-									                                 r.reviews_id,
-									                                 r.customers_id,
-									                                 r.customers_name,
-									                                 r.date_added,
-									                                 r.last_modified,
-									                                 r.reviews_read,
-									                                 r.status, 
-									                                 rd.reviews_text
-									                                 from ".TABLE_REVIEWS." r,
-									                                 ".TABLE_REVIEWS_DESCRIPTION." rd
-									                                 where r.products_id = '".$this->pID."'
-									                                 and  r.reviews_id=rd.reviews_id
-									                                 and r.status = 1
-									                                 and rd.languages_id = '".$_SESSION['languages_id']."'
-									                                 order by reviews_id DESC");
-		if (os_db_num_rows($reviews_query, true)) {
+		$reviews_query = osDBquery("
+		SELECT
+			r.reviews_rating, r.reviews_id, r.customers_id as rcid, r.customers_name AS rCustomerName, r.date_added, r.last_modified, r.reviews_read, r.status, rd.reviews_text, 
+			p.customers_avatar, p.show_firstname, p.show_secondname, p.show_lastname, c.customers_firstname cfn, c.customers_secondname as csn, c.customers_lastname as cln, c.customers_username 
+		FROM 
+			".TABLE_REVIEWS." r 
+				LEFT JOIN ".DB_PREFIX."customers_profile p ON (p.customers_id = r.customers_id)
+				LEFT JOIN ".DB_PREFIX."customers c ON (r.customers_id = c.customers_id AND p.customers_id = c.customers_id),
+			".TABLE_REVIEWS_DESCRIPTION." rd
+		WHERE 
+			r.products_id = '".$this->pID."' AND r.reviews_id = rd.reviews_id AND r.status = 1 AND rd.languages_id = '".$_SESSION['languages_id']."' 
+		ORDER BY 
+			r.reviews_id DESC
+		");
+
+		if (os_db_num_rows($reviews_query, true))
+		{
 			$row = 0;
 			$data_reviews = array ();
 			while ($reviews = os_db_fetch_array($reviews_query, true)) {
 				$row ++;
-				//if (ACCOUNT_PROFILE == 'true')
-				//	$author = '<a href="'._HTTP.'profile.php?id='.$reviews['customers_id'].'">'.$reviews['customers_name'].'</a>';
-				//else
-					$author = $reviews['customers_name'];
+				$authorName = '';
+				$authorLink = '';
+				if (ACCOUNT_PROFILE == 'true' && ACCOUNT_USER_NAME == 'true' && $reviews['rcid'] != 0)
+				{
+					$cln = ($reviews['show_lastname'] == '1') ? $reviews['cln'].' ' : '';
+					$cfn = ($reviews['show_firstname'] == '1') ? $reviews['cfn'].' ' : '';
+					$csn = ($reviews['show_secondname'] == '1') ? $reviews['csn'].' ' : '';
 
-				$data_reviews[] = array (
-					'AUTHOR' => $author,
-					'DATE' => os_date_short($reviews['date_added']),
+					$authorName = (!empty($reviews['customers_username'])) ? $reviews['customers_username'].' ( '.$cln.$cfn.$csn.')' : $cln.$cfn.$csn;
+					$authorLink = _HTTP.'profile.php?id='.$reviews['rcid'];
+				}
+				else
+					$authorName = $reviews['rCustomerName'];
+
+				$customers_avatar = '';
+				if (ACCOUNT_PROFILE == 'true')
+				{
+					$avatar = (!empty($reviews['customers_avatar'])) ? $reviews['customers_avatar'] : 'noavatar.gif';
+					$customers_avatar = http_path('images').'avatars/'.$avatar;
+				}
+
+				$data_reviews[] = array
+				(
+					'AUTHOR' => $authorName,
+					'AUTHOR_LINK' => $authorLink,
+					'AVATAR' => $customers_avatar,
+					'DATE' => $reviews['date_added'],
 					'RATING' => os_image('themes/'.CURRENT_TEMPLATE.'/img/stars_'.$reviews['reviews_rating'].'.gif', sprintf(TEXT_OF_5_STARS, $reviews['reviews_rating'])),
 					'TEXT' => os_break_string(nl2br(htmlspecialchars($reviews['reviews_text'])), 60, '-<br />')
 				);
+				// TODO: пересмотреть ограничения по количеству отзывов на странице
 				if ($row == PRODUCT_REVIEWS_VIEW)
 					break;
 			}
 		}
-		return $data_reviews;
 
+		return $data_reviews;
 	}
 
 

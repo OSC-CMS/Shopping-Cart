@@ -128,7 +128,7 @@ form#individual_banner {margin:0!important;}
 
 
 .new-reviews-page {margin:0;padding:0;}
-.new-reviews-page li.nrp-item {margin:0 0 30px 0;padding:0 0 30px 0;position:relative;border-bottom:1px solid #eee;}
+.new-reviews-page li.nrp-item {margin:0 0 30px 0;padding:0 0 30px 0;position:relative;}
 .new-reviews-page {width:100%;}
 .new-reviews-page .nrp-image {width:110px;float:left;margin:3px 20px 0 5px;}
 .new-reviews-page .nrp-image .nrp-img {max-width:100%;}
@@ -156,6 +156,10 @@ form#individual_banner {margin:0!important;}
 
 .dropdown-menu.account-dropdown {min-width: 250px!important;}
 .dropdown-menu .text-li {display: block;padding: 3px 15px;clear: both;font-weight: normal;line-height: 18px;color: #6a6a6a;}
+
+
+
+p#vtip {display: none; position: absolute; padding: 10px; left: 5px; font-size: 0.8em; background-color: white; border: 1px solid #a6c9e2; -moz-border-radius: 5px; -webkit-border-radius: 5px; z-index: 9999 }
 
 
 

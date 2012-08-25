@@ -44,9 +44,9 @@ if (isset ($_GET['action']) && $_GET['action'] == 'process') {
 		$customer_values = os_db_fetch_array($customer);
 		$date_now = date('Ymd');
 
-		$status = (USE_REVIEWS_MODERATION == true) ? '1' : '0';
+		$status = (USE_REVIEWS_MODERATION == 'true') ? '0' : '1';
 
-		if ($customer_values['customers_lastname'] == '')
+		if ($_SESSION['customer_id'] == '')
 			$customer_values['customers_lastname'] = TEXT_GUEST;
 		os_db_query("insert into ".TABLE_REVIEWS." (products_id, customers_id, customers_name, reviews_rating, date_added, status) values ('".$product->data['products_id']."', '".(int) $_SESSION['customer_id']."', '".addslashes($customer_values['customers_firstname']).' '.addslashes($customer_values['customers_lastname'])."', '".addslashes($_POST['rating'])."', now(), '".$status."')");
 		$insert_id = os_db_insert_id();

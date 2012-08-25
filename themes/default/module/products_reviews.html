@@ -7,10 +7,16 @@
 <ul class="new-reviews-page">
 	{foreach $module_content AS $module_data} 
 	<li class="nrp-item">
+		{if $module_data.AVATAR}
+		<div class="nrp-image">
+			<span class="customer-images"><img class="nrp-img" src="{$module_data.AVATAR}" alt="" title="" /></span>
+		</div>
+		{/if}
+		<span class="customer-images pull-left"></span>
 		<div class="nrp-content">
 			<ul class="nrp-info">
 				<li>{#text_rating#} {$module_data.RATING}</li>
-				<li>{#text_author#} <span class="bold">{$module_data.AUTHOR}</span></li>
+				<li>{#text_author#} <span class="bold">{if $module_data.AUTHOR_LINK}<a href="{$module_data.AUTHOR_LINK}">{/if}{$module_data.AUTHOR}{if $module_data.AUTHOR_LINK}</a>{/if}</span></li>
 				<li>{#text_date#} <span class="bold">{$module_data.DATE}</span></li>
 			</ul>
 			<div class="nrp-text">{$module_data.TEXT}</div>
