@@ -1137,3 +1137,19 @@ option {
 {
    color: #555ea5;
 }
+
+#bundles-block {width:70%;font-size:11px;}
+#bundles-block a {font-size:11px;}
+.bundles-block-table {width:100%;}
+.bundles-block-table td.bbt-head {padding:4px 2px 4px 2px;background-color: #e7e7e7;font-weight: bold; }
+.bundles-block-table td {padding:2px;border-bottom:1px solid #ccc;}
+.bundles-block-table td.br {border-right:1px solid #ccc;}
+
+a#add-new-bundles {font-size:12px;}
+
+
+.bundles-products-block {background-color: #FFF9E9;padding:3px;border:1px dotted #ccc;font-size:11px;}
+.bundles-products-block a {font-size:11px;}
+
+
+

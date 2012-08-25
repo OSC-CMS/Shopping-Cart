@@ -8,6 +8,26 @@
 *---------------------------------------------------------
 */
 
+	// Запрос на получение наборов товаров
+	function getBundleProducts($pid, $status = false)
+	{
+		if (empty($pid)) return false;
+
+		$status = ($status != false) ? " p.products_status = '1' AND " : '';
+
+		$bundle_query = os_db_query("
+			SELECT 
+				pd.products_name, pb.bundle_id, pb.subproduct_id, pb.subproduct_qty, p.products_bundle, p.products_quantity, p.products_status, p.products_id, p.products_tax_class_id, p.products_price, p.products_image 
+			FROM 
+				".TABLE_PRODUCTS." p 
+					INNER JOIN ".TABLE_PRODUCTS_DESCRIPTION." pd ON p.products_id=pd.products_id 
+					INNER JOIN ".DB_PREFIX."products_bundles pb ON pb.subproduct_id=pd.products_id 
+			WHERE 
+				pb.bundle_id = '".(int)$pid."' AND ".$status." pd.language_id = '".(int)$_SESSION['languages_id']."'
+		");
+		return $bundle_query;
+	}
+
 	// Обработка полей аккаунта или других
 	function accountFields($fields = array())
 	{
@@ -748,7 +768,13 @@
         $attributes_query  = osDBquery($attributes_query);
         $attributes = os_db_fetch_array($attributes_query,true);
 
-        if ($attributes['count'] > 0) {
+		// Bundle
+		$bundle_query = "select count(*) as count FROM ".DB_PREFIX."products_bundles WHERE bundle_id = '".$products_id."'";
+		$bundle_query = osDBquery($bundle_query);
+		$bundle = os_db_fetch_array($bundle_query,true);
+		if ($attributes['count'] > 0 || $bundle['count'] > 0)
+		{ // end of Bundle
+        //if ($attributes['count'] > 0) {
             return true;
         } else {
             return false;

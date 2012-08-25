@@ -157,7 +157,7 @@ defined( '_VALID_OS' ) or die( 'Прямой доступ  не допускается.' );
 
       $index = 0;
       $orders_products_query = os_db_query("select
-                                                 orders_products_id,products_id, products_name, products_model, products_price, products_tax, products_quantity, final_price,allow_tax, products_discount_made
+                                                 orders_products_id,products_id, products_name, products_model, products_price, products_tax, products_quantity, final_price,allow_tax, products_discount_made, bundle
                                              from
                                                  " . TABLE_ORDERS_PRODUCTS . "
                                              where
@@ -173,6 +173,7 @@ defined( '_VALID_OS' ) or die( 'Прямой доступ  не допускается.' );
                                         'price' => $orders_products['products_price'],
                                         'discount' => $orders_products['products_discount_made'],
                                         'final_price' => $orders_products['final_price'],
+					'bundle' => $orders_products['bundle'],
 					'allow_tax' => $orders_products['allow_tax']);
 
         $subindex = 0;

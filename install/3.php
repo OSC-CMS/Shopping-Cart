@@ -182,6 +182,7 @@ if (os_in_array('database', $_POST['install']))
 	DB_PREFIX."post_index, ".
 	DB_PREFIX."products_content, ".
 	DB_PREFIX."products_description, ".
+	DB_PREFIX."products_bundles, ".
 	DB_PREFIX."products_extra_fields, ".
 	DB_PREFIX."products_graduated_prices, ".
 	DB_PREFIX."products_images, ".

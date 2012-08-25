@@ -61,7 +61,8 @@
 				{foreach name=aussen item=order_values from=$order_data} 
 				<tr class="{if $smarty.foreach.aussen.iteration % 2 == 0}table-prod bg2{else}table-prod bg1{/if}"> 
 					<td>{$order_values.PRODUCTS_QTY}</td>
-					<td>{$order_values.PRODUCTS_NAME} {$order_values.PRODUCTS_ATTRIBUTES} {if $order_values.PRODUCTS_SHIPPING_TIME neq ''}<br />{#text_shippingtime#} {$order_values.PRODUCTS_SHIPPING_TIME}<br />{/if}</td>
+					<td>{$order_values.PRODUCTS_NAME}
+						{if $order_values.PRODUCTS_BUNDLE}<br />{$order_values.PRODUCTS_BUNDLE}<br />{/if}{$order_values.PRODUCTS_ATTRIBUTES} {if $order_values.PRODUCTS_SHIPPING_TIME neq ''}<br />{#text_shippingtime#} {$order_values.PRODUCTS_SHIPPING_TIME}<br />{/if}</td>
 					<td>{$order_values.PRODUCTS_MODEL} {$order_values.PRODUCTS_ATTRIBUTES_MODEL}</td>
 					<td>{$order_values.PRODUCTS_SINGLE_PRICE}</td>
 					<td class="tright">{$order_values.PRODUCTS_PRICE}</td>

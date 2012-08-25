@@ -739,6 +739,25 @@ if (isset($_GET['action']) && ($_GET['action'] == 'edit') && ($order_exists)) {
 			  
 				echo '<td class="dataTableContent" valign="top" align="right">'.$order->products[$i]['qty'].'&nbsp;x&nbsp;</td>'."\n".'            <td class="dataTableContent" valign="top"><a href="'.os_href_link(FILENAME_CATEGORIES, 'pID='.$products_id_order.'&action=new_product').'">'.$order->products[$i]['name'].'</a>';
 
+				//Bundle
+				$products_bundle = '';
+				if ($order->products[$i]['bundle'] == 1)
+				{
+					
+					$bundle_query = getBundleProducts($order->products[$i]['id']);
+					
+					if (os_db_num_rows($bundle_query) > 0)
+					{
+						while($bundle_data = os_db_fetch_array($bundle_query))
+						{
+							$products_bundle_data .= ' - <a href="'.os_href_link(FILENAME_CATEGORIES, 'pID='.$bundle_data['products_id'].'&action=new_product').'">'.$bundle_data['products_name'].' ('.TEXT_QTY.$bundle_data['products_quantity'].TEXT_UNITS.')</a><br />';
+						}
+					}
+					$products_bundle = (!empty($products_bundle_data)) ? '<br /><div class="bundles-products-block">'.$products_bundle_data.'</div>' : '';
+				}
+				echo $products_bundle;
+				//End of Bundle
+
 		if (isset($order->products[$i]['attributes']) && sizeof($order->products[$i]['attributes']) > 0) {
 			for ($j = 0, $k = sizeof($order->products[$i]['attributes']); $j < $k; $j ++) {
 
@@ -1046,15 +1065,35 @@ else
 				
 				$order = new order($oInfo->orders_id);
 				$contents[] = array ('text' => '<br /><br />'.sizeof($order->products).TEXT_PRODUCTS);
+
 				for ($i = 0; $i < sizeof($order->products); $i ++) {
 
 					$products_id_order=$order->products[$i]['id'];
 					
-					$rest_order_query = os_db_query("SELECT products_quantity FROM ".DB_PREFIX."products WHERE products_id = '".$products_id_order."'");
-					$rest_order = os_db_fetch_array($rest_order_query);	
-					$rest_order_quantity=$rest_order['products_quantity'];
+					$rest_order_query = os_db_query("SELECT products_id, products_quantity, products_bundle FROM ".DB_PREFIX."products WHERE products_id = '".$products_id_order."'");
+					$rest_order = os_db_fetch_array($rest_order_query);
+
+					//Bundle
+					$products_bundle = '';
+					if ($order->products[$i]['bundle'] == 1)
+					{
+						
+						$bundle_query = getBundleProducts($order->products[$i]['id']);
+						
+						if (os_db_num_rows($bundle_query) > 0)
+						{
+							while($bundle_data = os_db_fetch_array($bundle_query))
+							{
+								$products_bundle_data .= ' - <a href="'.os_href_link(FILENAME_CATEGORIES, 'pID='.$bundle_data['products_id'].'&action=new_product').'">'.$bundle_data['products_name'].' ('.TEXT_QTY.$bundle_data['products_quantity'].TEXT_UNITS.')</a><br />';
+							}
+						}
+						$products_bundle = (!empty($products_bundle_data)) ? '<br /><div class="bundles-products-block">'.$products_bundle_data.'</div>' : '';
+					}
+					//End of Bundle
+
+					$model = ($order->products[$i]['model']) ? ' ('.$order->products[$i]['model'].') ' : '';
 					
-					$contents[] = array ('text' => $order->products[$i]['qty'].'&nbsp;x&nbsp;<a href="'.os_href_link(FILENAME_CATEGORIES, 'pID='.$products_id_order.'&action=new_product').'">'.$order->products[$i]['name'].' ('.$order->products[$i]['model'].') ('.TEXT_QTY.$rest_order_quantity.TEXT_UNITS.')</a>');
+					$contents[] = array ('text' => $order->products[$i]['qty'].'&nbsp;x&nbsp;<a href="'.os_href_link(FILENAME_CATEGORIES, 'pID='.$products_id_order.'&action=new_product').'">'.$order->products[$i]['name'].$model.' ('.TEXT_QTY.$rest_order['products_quantity'].TEXT_UNITS.')</a>'.$products_bundle.'');
 
 					if (isset($order->products[$i]['attributes']) && sizeof($order->products[$i]['attributes']) > 0) {
 						for ($j = 0; $j < sizeof($order->products[$i]['attributes']); $j ++) {

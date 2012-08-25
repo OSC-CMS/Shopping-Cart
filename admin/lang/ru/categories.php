@@ -214,4 +214,26 @@ define('TEXT_PRODUCTS_PAGE_URL', 'ЧПУ URL товара:');
 
 define('TABLE_HEADING_STOCK', 'Склад');
 
+// Bundle
+define('TABLE_HEADING_BANDLE', 'Набор');
+define('TABLE_USE_BANDLE', 'Использовать набор');
+define('TABLE_USE_BANDLE_NO', 'Нет');
+define('TABLE_USE_BANDLE_YES', 'Да');
+define('TABLE_USE_BANDLE_PRODUCT_NAME', 'Название товара');
+define('TABLE_USE_BANDLE_PRODUCT_ID', 'ID товара');
+define('TABLE_USE_BANDLE_PRODUCT_QTY', 'Кол-во в наборе');
+define('TABLE_USE_BANDLE_DEL', 'Удалить');
+define('TABLE_USE_BANDLE_QTY_DESC', '<b>Кол-во в наборе</b> - количество товара в наборе которое считается всё вместе в итоговую сумму.');
+define('TABLE_USE_BANDLE_ADD', 'Добавить вариант');
+
+
+
+
+
+
+
+
+
+
+
 ?>

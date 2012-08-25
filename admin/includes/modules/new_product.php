@@ -352,6 +352,74 @@ foreach (array('product_info', 'product_options') as $key) {
         </table>
         </div>
 
+
+        <div class="tabbertab">
+        <h3><?php echo TABLE_HEADING_BANDLE; ?></h3>
+			<?php echo TABLE_USE_BANDLE; ?> 
+			<select name="products_bundle">
+				<option value="0" <?php echo ($pInfo->products_bundle == '0') ? 'selected' : ''; ?>><?php echo TABLE_USE_BANDLE_NO; ?></option>
+				<option value="1" <?php echo ($pInfo->products_bundle == '1') ? 'selected' : ''; ?>><?php echo TABLE_USE_BANDLE_YES; ?></option>
+			</select>
+			<br />
+			<br />
+			<div id="bundles-block">
+				<table class="bundles-block-table" border="0" cellspacing="0" cellpadding="0">
+					<tr>
+						<td class="br bbt-head" width="40%"><?php echo TABLE_USE_BANDLE_PRODUCT_NAME; ?></td>
+						<td class="br bbt-head" width="25%"><?php echo TABLE_USE_BANDLE_PRODUCT_ID; ?></td>
+						<td class="br bbt-head" width="25%"><?php echo TABLE_USE_BANDLE_PRODUCT_QTY; ?></td>
+						<td class="bbt-head" width="10%"></td>
+					</tr>
+				</table>
+
+				<div id="bundles">
+				<?php
+				// Bundle
+				if (isset($pInfo->products_bundle) && $pInfo->products_bundle == '1')
+				{
+					// this product is a bundle so get contents data
+					$bundle_query = os_db_query("
+					SELECT 
+						pb.subproduct_id, pb.subproduct_qty, pd.products_name 
+					FROM 
+						".TABLE_PRODUCTS_DESCRIPTION." pd 
+							INNER JOIN ".DB_PREFIX."products_bundles pb ON pb.subproduct_id=pd.products_id 
+					WHERE 
+						pb.bundle_id = " . $pInfo->products_id . " and pd.language_id = '" . (int)$_SESSION['languages_id'] . "'");
+					while ($bundle_contents = os_db_fetch_array($bundle_query))
+					{
+					?>
+					<table class="bundles-block-table" border="0" cellspacing="0" cellpadding="0">
+						<tr>
+							<td class="br" width="40%"><?php echo $bundle_contents['products_name']; ?></td>
+							<td class="br" width="25%"><input name="bundles[id][]" type="text" value="<?php echo $bundle_contents['subproduct_id']; ?>" /></td>
+							<td class="br" width="25%"><input name="bundles[qty][]" type="text" value="<?php echo $bundle_contents['subproduct_qty']; ?>" /></td>
+							<td width="10%"><a class="del_bundles button" href="javascript:;"><span><?php echo TABLE_USE_BANDLE_DEL; ?></span></a></td>
+						</tr>
+					</table>
+					<?php
+					}
+				}
+				// End of Bundle
+				?>
+				</div>
+				<br />
+				<div><?php echo TABLE_USE_BANDLE_QTY_DESC; ?></div>
+				<br />
+				<table class="bundles-block-table" border="0" cellspacing="0" cellpadding="0" id="new_bundles" style='display:none;'>
+					<tr>
+						<td class="br" width="40%"></td>
+						<td class="br" width="25%"><input name="bundles[id][]" type="text" value="" /></td>
+						<td class="br" width="25%"><input name="bundles[qty][]" type="text" value="" /></td>
+						<td width="10%"><a class="del_bundles button" href="javascript:;"><span><?php echo TABLE_USE_BANDLE_DEL; ?></span></a></td>
+					</tr>
+				</table>
+				<a class="button" href="javascript:;" id="add-new-bundles"><span><?php echo TABLE_USE_BANDLE_ADD; ?></span></a>
+			</div>
+        </div>
+
+
+
 		<?php 
 		 /*
 		       $array = array(1 => array(

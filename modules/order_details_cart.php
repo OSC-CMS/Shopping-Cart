@@ -31,7 +31,24 @@ for ($i = 0, $n = sizeof($products); $i < $n; $i ++) {
 	
 	if (!is_file($image)) $image = http_path('images_thumbnail').'../noimage.gif';
 	else  $image = http_path('images_thumbnail').$products[$i]['image'];
-	
+
+	//Bundle
+	$products_bundle = '';
+	if ($products[$i]['bundle'] == 1)
+	{
+		$bundle_query = getBundleProducts($products[$i]['id']);
+		
+		if (os_db_num_rows($bundle_query) > 0)
+		{
+			while($bundle_data = os_db_fetch_array($bundle_query))
+			{
+				$products_bundle_data .= ' - <a href="'.os_href_link(FILENAME_PRODUCT_INFO, os_product_link($bundle_data['products_id'], $bundle_data['products_name'])).'">'.$bundle_data['products_name'].'</a><br />';
+			}
+		}
+		$products_bundle = (!empty($products_bundle_data)) ? $products_bundle_data : '';
+	}
+	//End of Bundle
+
 	$module_content[$i] = array ('PRODUCTS_NAME' => $products[$i]['name'].$mark_stock, 
 	                             'PRODUCTS_QTY' => os_draw_input_field('cart_quantity[]', 
 								 $products[$i]['quantity'], 'size="2"').os_draw_hidden_field('products_id[]', 
@@ -43,12 +60,12 @@ for ($i = 0, $n = sizeof($products); $i < $n; $i ++) {
 								 'PRODUCTS_IMAGE' => $image, 
 								 'IMAGE_ALT' => $products[$i]['name'], 
 								 'BOX_DELETE' => os_draw_checkbox_field('cart_delete[]', $products[$i]['id']), 
-								 'PRODUCTS_LINK' => os_href_link(FILENAME_PRODUCT_INFO, os_product_link($products[$i]['id'], 
-								 $products[$i]['name'])), 
+								 'PRODUCTS_LINK' => os_href_link(FILENAME_PRODUCT_INFO, os_product_link($products[$i]['id'], $products[$i]['name'])), 
 								 'PRODUCTS_PRICE' => $osPrice->Format($products[$i]['price'] * $products[$i]['quantity'], true), 
 								 'PRODUCTS_SINGLE_PRICE' =>$osPrice->Format($products[$i]['price'], true), 
 								 'PRODUCTS_SHORT_DESCRIPTION' => get_short_description_cache($products[$i]['id']), 
-								 'ATTRIBUTES' => '');
+								 'PRODUCTS_BUNDLE' => $products_bundle,
+								 'ATTRIBUTES' => '',);
 	$attributes_exist = ((isset ($products[$i]['attributes'])) ? 1 : 0);
 
 	if ($attributes_exist == 1) 

@@ -913,6 +913,7 @@ os_db_query("CREATE TABLE ".DB_PREFIX."orders_products (
   products_tax decimal(7,4) NOT NULL,
   products_quantity int(2) NOT NULL,
   allow_tax int(1) NOT NULL,
+  bundle int(1) NOT NULL DEFAULT '0',
   PRIMARY KEY (orders_products_id)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE utf8_general_ci;");
 
@@ -1030,8 +1031,16 @@ os_db_query("CREATE TABLE ".DB_PREFIX."products (
   yml_cbid tinyint(1) NOT NULL DEFAULT '0',
   products_page_url varchar(255),
   stock int(1) default '1',
+  products_bundle tinyint(4) NOT NULL DEFAULT '0',
   PRIMARY KEY (products_id),
   KEY idx_products_date_added (products_date_added)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE utf8_general_ci;");
+
+os_db_query("CREATE TABLE ".DB_PREFIX."products_bundles (
+  bundle_id smallint(6) NOT NULL,
+  subproduct_id smallint(6) NOT NULL,
+  subproduct_qty tinyint(4) NOT NULL,
+  PRIMARY KEY (`bundle_id`,`subproduct_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE utf8_general_ci;");
 
 os_db_query("CREATE TABLE ".DB_PREFIX."products_attributes (

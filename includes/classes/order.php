@@ -164,7 +164,8 @@ class order {
 	        				products_name,
 	        				final_price,
 	        			  	products_shipping_time,
-	        				products_quantity
+	        				products_quantity,
+							bundle
 	        				FROM ".TABLE_ORDERS_PRODUCTS."
 	        				WHERE orders_id='".(int) $oID."'";
 	$order_data = array ();
@@ -185,7 +186,33 @@ class order {
 			$attributes_model .= '<br />'.os_get_attributes_model($order_data_values['products_id'], $attributes_data_values['products_options_values'],$attributes_data_values['products_options']);
 
 		}
-		$order_data[] = array ('PRODUCTS_MODEL' => $order_data_values['products_model'], 'PRODUCTS_NAME' => $order_data_values['products_name'],'PRODUCTS_SHIPPING_TIME' => $order_data_values['products_shipping_time'], 'PRODUCTS_ATTRIBUTES' => $attributes_data, 'PRODUCTS_ATTRIBUTES_MODEL' => $attributes_model, 'PRODUCTS_PRICE' => $osPrice->Format($order_data_values['final_price'], true),'PRODUCTS_SINGLE_PRICE' => $osPrice->Format($order_data_values['final_price']/$order_data_values['products_quantity'], true), 'PRODUCTS_QTY' => $order_data_values['products_quantity']);
+
+		//Bundle
+		$products_bundle_data = '';
+		if ($order_data_values['bundle'] == 1)
+		{
+			$bundle_query = getBundleProducts($order_data_values['products_id']);
+			if (os_db_num_rows($bundle_query) > 0)
+			{
+				while($bundle_data = os_db_fetch_array($bundle_query))
+				{
+					$products_bundle_data .= $bundle_data['products_name'].'<br />';
+				}
+			}
+		}
+		//End of Bundle
+
+		$order_data[] = array (
+			'PRODUCTS_MODEL' => $order_data_values['products_model'],
+			'PRODUCTS_NAME' => $order_data_values['products_name'],
+			'PRODUCTS_SHIPPING_TIME' => $order_data_values['products_shipping_time'],
+			'PRODUCTS_ATTRIBUTES' => $attributes_data,
+			'PRODUCTS_ATTRIBUTES_MODEL' => $attributes_model,
+			'PRODUCTS_PRICE' => $osPrice->Format($order_data_values['final_price'], true),
+			'PRODUCTS_SINGLE_PRICE' => $osPrice->Format($order_data_values['final_price']/$order_data_values['products_quantity'], true),
+			'PRODUCTS_QTY' => $order_data_values['products_quantity'],
+			'PRODUCTS_BUNDLE' => $products_bundle_data
+			);
 
 	}
 	
@@ -346,7 +373,8 @@ class order {
                             		    'final_price' => $products_price*$products[$i]['quantity'],
                             		    'shipping_time'=>$products[$i]['shipping_time'],
 					                    'weight' => $products[$i]['weight'],
-                                        'id' => $products[$i]['id']);
+                                        'bundle' => $products[$i]['bundle'],
+                                        'id' => $products[$i]['id'],);
 
         if ($products[$i]['attributes']) {
           $subindex = 0;

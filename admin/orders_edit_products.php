@@ -59,7 +59,31 @@ echo '<span class="button"><button type="submit" onClick="this.blur();" value="'
 </tr>
 
 <tr class="dataTableRow">
-<td class="dataTableContent" colspan="8">&nbsp;</td>
+<td class="dataTableContent" colspan="8">
+
+<?php
+
+//Bundle
+$products_bundle = '';
+if ($order->products[$i]['bundle'] == 1)
+{
+	$bundle_query = getBundleProducts($order->products[$i]['id']);
+	
+	if (os_db_num_rows($bundle_query) > 0)
+	{
+		while($bundle_data = os_db_fetch_array($bundle_query))
+		{
+			$products_bundle_data .= ' - <a href="'.os_href_link(FILENAME_CATEGORIES, 'pID='.$bundle_data['products_id'].'&action=new_product').'">'.$bundle_data['products_name'].'</a><br />';
+		}
+	}
+	$products_bundle = (!empty($products_bundle_data)) ? '<div class="bundles-products-block">'.$products_bundle_data.'</div>' : '';
+}
+echo $products_bundle;
+//End of Bundle
+
+?>
+
+</td>
 
 <td class="dataTableContent">
 <?php

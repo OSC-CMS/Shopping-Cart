@@ -354,6 +354,8 @@ class categories {
 		os_db_query("DELETE FROM ".TABLE_PRODUCTS_ATTRIBUTES." WHERE products_id = '".os_db_input($product_id)."'");
 		os_db_query("DELETE FROM ".TABLE_CUSTOMERS_BASKET." WHERE products_id = '".os_db_input($product_id)."'");
 		os_db_query("DELETE FROM ".TABLE_CUSTOMERS_BASKET_ATTRIBUTES." WHERE products_id = '".os_db_input($product_id)."'");
+		//Bundle
+		os_db_query("DELETE FROM ".DB_PREFIX."products_bundles WHERE bundle_id = '".os_db_input($product_id)."'");
 
 		$customers_status_array = os_get_customers_statuses();
 		for ($i = 0, $n = sizeof($customers_status_array); $i < $n; $i ++) {
@@ -474,7 +476,8 @@ class categories {
 		'products_vpe' => os_db_prepare_input($products_data['products_vpe']),
 		'yml_bid' => os_db_prepare_input($products_data['yml_bid']), 
 		'yml_cbid' => os_db_prepare_input($products_data['yml_cbid']), 
-		'products_page_url' => os_db_prepare_input($products_data['products_page_url']));
+		'products_page_url' => os_db_prepare_input($products_data['products_page_url']),
+		'products_bundle' => os_db_prepare_input($products_data['products_bundle']));
 		
 
 		$sql_data_array = array_merge($sql_data_array, $permission_array);
@@ -586,6 +589,24 @@ class categories {
 			$sql_data_array = os_array_merge($sql_data_array, $insert_sql_data);
 			os_db_perform(TABLE_PRODUCTS, $sql_data_array);
 			$products_id = os_db_insert_id();
+
+			//Bundle
+			if ($products_data['products_bundle'] == '1')
+			{
+				os_db_query("DELETE FROM ".DB_PREFIX."products_bundles WHERE bundle_id = '".$products_id."'");
+				if (isset($_POST['bundles']))
+				{
+					$arr = $_POST['bundles'];
+					for($i = 0; $i < count($arr['id']); $i++)
+					{
+						os_db_query("INSERT INTO ".DB_PREFIX."products_bundles (bundle_id, subproduct_id, subproduct_qty) VALUES ('".os_db_input($products_id)."', '".os_db_input($arr['id'][$i])."', '".os_db_input($arr['qty'][$i])."')");
+					}
+				}
+
+			}
+			// Bundle
+
+
 			os_db_query("INSERT INTO ".TABLE_PRODUCTS_TO_CATEGORIES."
 								              SET products_id   = '".$products_id."',
 								              categories_id = '".$dest_category_id."'");
@@ -595,6 +616,21 @@ class categories {
 			$sql_data_array = os_array_merge($sql_data_array, $update_sql_data);
 			
 			os_db_perform(TABLE_PRODUCTS, $sql_data_array, 'update', 'products_id = \''.os_db_input($products_id).'\'');
+
+			// Bundle
+			if ($products_data['products_bundle'] == '1')
+			{
+				os_db_query("DELETE FROM ".DB_PREFIX."products_bundles WHERE bundle_id = '" . $products_id . "'");
+				if (isset($_POST['bundles']))
+				{
+					$arr = $_POST['bundles'];
+					for($i = 0; $i < count($arr['id']); $i++)
+					{
+						os_db_query("INSERT INTO ".DB_PREFIX."products_bundles (bundle_id, subproduct_id, subproduct_qty) VALUES ('".os_db_input($products_id)."', '".os_db_input($arr['id'][$i])."', '".os_db_input($arr['qty'][$i])."')");
+					}
+				}
+			}
+			// Bundle
 		}
 
 		$languages = os_get_languages();

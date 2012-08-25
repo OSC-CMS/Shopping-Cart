@@ -166,3 +166,20 @@ function getListOfProductComplete(i)
 		document.getElementById('getListOfProductPrevios_'+i).src = '../images/product_images/thumbnail_images/'+dir.value+el.value;
 	}
 }
+
+// bundles
+$(function() {
+	// Удаление пункта набора
+	$('a.del_bundles').click(function() {
+		$(this).closest("table").fadeOut(200, function() { $(this).remove(); });
+		return false;
+	});
+
+	// Добавление пункта набора
+	var bundles = $('#new_bundles').clone(true);
+	$('#new_bundles').remove().removeAttr('id');
+	$('#bundles-block #add-new-bundles').click(function() {
+		$(bundles).clone(true).appendTo('#bundles').fadeIn('slow');
+		return false;
+	});
+});

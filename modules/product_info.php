@@ -1,12 +1,11 @@
 <?php
 /*
-#####################################
-#  OSC-CMS: Shopping Cart Software.
-#  Copyright (c) 2011-2012
-#  http://osc-cms.com
-#  http://osc-cms.com/forum
-#  Ver. 1.0.0
-#####################################
+*---------------------------------------------------------
+*
+*	OSC-CMS - Open Source Shopping Cart Software
+*	http://osc-cms.com
+*
+*---------------------------------------------------------
 */
 
 $info = new osTemplate;
@@ -256,10 +255,16 @@ if (!file_exists(dir_path('images_popup').$img['image_name'])) $products_mo_popu
 
   $info->assign('extra_fields_data', $extra_fields_data);
 
-		include(_MODULES.FILENAME_PRODUCTS_MEDIA);
-		include(_MODULES.FILENAME_ALSO_PURCHASED_PRODUCTS);
-		include(_MODULES.FILENAME_CROSS_SELLING);
-	
+	include(_MODULES.FILENAME_PRODUCTS_MEDIA);
+	include(_MODULES.FILENAME_ALSO_PURCHASED_PRODUCTS);
+	include(_MODULES.FILENAME_CROSS_SELLING);
+
+	//Bundle
+	if ($product->data['products_bundle'] == '1')
+	{
+		include(_MODULES.'product_bundles.php');
+	} //End of Bundle
+
 	if ($product->data['product_template'] == '' or $product->data['product_template'] == 'default') 
 	{
 		$files = array ();
