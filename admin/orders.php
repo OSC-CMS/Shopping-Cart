@@ -126,6 +126,8 @@ if (isset($_POST['submit']) && isset($_POST['multi_orders'])){
           os_db_query("insert into " . TABLE_ORDERS_STATUS_HISTORY . " (orders_id, orders_status_id, date_added, customer_notified, comments) values ('" . (int)$this_orderID . "', '" . os_db_input($status) . "', now(), '" . os_db_input($customer_notified) . "', '" . os_db_input($comments)  . "')");
           $order_updated = true;
 
+		  // изменение статуса заказа
+		  do_action('change_order_status');
 
         $changed = false;
        
@@ -302,6 +304,11 @@ switch (@$_GET['action']) {
 			}
 
 			os_db_query("insert into ".TABLE_ORDERS_STATUS_HISTORY." (orders_id, orders_status_id, date_added, customer_notified, comments) values ('".os_db_input($oID)."', '".os_db_input($status)."', now(), '".$customer_notified."', '".os_db_input($comments)."')");
+
+			$this_orderID = $oID;
+
+			// изменение статуса заказа
+			do_action('change_order_status');
 
 			$order_updated = true;
 		}
