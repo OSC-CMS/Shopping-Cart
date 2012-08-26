@@ -147,6 +147,7 @@ define('TEXT_FSK18','товар до 18 лет:');
 define('TEXT_CHOOSE_INFO_TEMPLATE_CATEGORIE','Шаблон для списка категорий');
 define('TEXT_CHOOSE_INFO_TEMPLATE_LISTING','Шаблон для списка товаров');
 define('TEXT_PRODUCTS_SORT','Порядок:');
+define('TEXT_PRODUCTS_REVIEWS','Включить отзывы:');
 define('TEXT_EDIT_PRODUCT_SORT_ORDER','Сортировка товара');
 define('TXT_PRICES','Цена');
 define('TXT_NAME','Название товара');

@@ -213,8 +213,10 @@ if (!file_exists(dir_path('images_popup').$img['image_name'])) $products_mo_popu
 		}
 
 		include (_MODULES.'product_attributes.php');
+		if ($product->data['products_reviews'] == '1')
+		{
 		include (_MODULES.'product_reviews.php');
-
+		}
 		if (os_not_null($product->data['products_url']))
 			$info->assign('PRODUCTS_URL', sprintf(TEXT_MORE_INFORMATION, os_href_link(FILENAME_REDIRECT, 'action=product&id='.$product->data['products_id'], 'NONSSL', true, false)));
 

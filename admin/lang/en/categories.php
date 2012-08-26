@@ -153,6 +153,7 @@ define('TEXT_FSK18','FSK 18:');
 define('TEXT_CHOOSE_INFO_TEMPLATE_CATEGORIE','Template for Category Listing');
 define('TEXT_CHOOSE_INFO_TEMPLATE_LISTING','Template for Product Listing');
 define('TEXT_PRODUCTS_SORT','Sorting:');
+define('TEXT_PRODUCTS_REVIEWS','Reviews:');
 define('TEXT_EDIT_PRODUCT_SORT_ORDER','Product Sorting');
 define('TXT_PRICES','Price');
 define('TXT_NAME','Productname');

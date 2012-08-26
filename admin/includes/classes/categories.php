@@ -309,7 +309,8 @@ class categories {
         
         do_action('copy_category');
 	}
-    
+
+	// TODO: добавить экшон удаления товаров
 	function remove_product($product_id) {
 		$product_content_query = os_db_query("SELECT content_file FROM ".TABLE_PRODUCTS_CONTENT." WHERE products_id = '".os_db_input($product_id)."'");
 		while ($product_content = os_db_fetch_array($product_content_query)) {   
@@ -465,6 +466,7 @@ class categories {
 		'products_weight' => os_db_prepare_input($products_data['products_weight']), 
 		'products_status' => $products_status, 
 		'products_startpage' => os_db_prepare_input($products_data['products_startpage']), 
+		'products_reviews' => os_db_prepare_input($products_data['products_reviews']), 
 		'products_startpage_sort' => os_db_prepare_input($products_data['products_startpage_sort']), 
 		'products_tax_class_id' => os_db_prepare_input($products_data['products_tax_class_id']), 
 		'product_template' => os_db_prepare_input($products_data['info_template']), 
@@ -762,6 +764,7 @@ class categories {
 						'products_shippingtime'=>$product['products_shippingtime'],
 						'products_sort'=>$product['products_sort'],
 						'products_startpage'=>$startpage,
+						'products_reviews'=>$product['products_reviews'],
 						'products_sort'=>$product['products_sort'],
 						'products_price'=>$product['products_price'],
 						'products_discount_allowed'=>$product['products_discount_allowed'],

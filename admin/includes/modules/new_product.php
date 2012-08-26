@@ -41,6 +41,7 @@ elseif ($_POST) {
         $products_url = $_POST['products_url'];
         $products_page_url = $_POST['products_page_url'];
         $pInfo->products_startpage = $_POST['products_startpage'];
+        $pInfo->products_reviews = $_POST['products_reviews'];
    $products_startpage_sort = $_POST['products_startpage_sort'];
 } else {
         $pInfo = new objectInfo(array ());
@@ -182,6 +183,12 @@ os_get_products_name($pInfo->products_id, $languages[$i]['id'])); ?>" size=60>
             <td valign="top" class="main"><?php echo TEXT_PRODUCTS_SORT; ?></td>
             <td valign="top" class="main"><?php echo  os_draw_input_field('products_sort', $pInfo->products_sort,'size=3'); ?></td>
           </tr>
+          <tr>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td valign="top" class="main"><?php echo TEXT_PRODUCTS_REVIEWS; ?></td>
+            <td valign="top" class="main"><?php echo os_draw_pull_down_menu('products_reviews', $fsk18_array, $pInfo->products_reviews); ?></tr>
 <!--// Products URL begin //-->
           <tr>
             <td valign="top" class="main"><?php echo TEXT_PRODUCTS_PAGE_URL; ?></td>
