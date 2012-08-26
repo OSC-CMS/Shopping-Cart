@@ -71,7 +71,7 @@ $_SESSION['cartID'] = $_SESSION['cart']->cartID;
 
 // if the order contains only virtual products, forward the customer to the billing page as
 // a shipping address is not needed
-if ($order->content_type == 'virtual' || ($order->content_type == 'virtual_weight') || ($_SESSION['cart']->count_contents_virtual() == 0)) { // GV Code added
+if ($order->content_type == 'virtual' || ($order->content_type == 'virtual_weight') || ($_SESSION['cart']->count_contents_virtual() == 0) || SKIP_SHIPPING == 'true') { // GV Code added
 	$_SESSION['shipping'] = false;
 	$_SESSION['sendto'] = false;
 	os_redirect(os_href_link(FILENAME_CHECKOUT_PAYMENT, '', 'SSL'));
