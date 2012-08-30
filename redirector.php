@@ -6,6 +6,13 @@
 *	http://osc-cms.com
 *
 *---------------------------------------------------------
+*
+*	redirector.php
+*
+*	Copyright (c) 2008 Andrew Yermakov ( andrew@cti.org.ua )
+*	Released under the BSD License
+*
+*---------------------------------------------------------
 */
 
   require_once ('config.php');
