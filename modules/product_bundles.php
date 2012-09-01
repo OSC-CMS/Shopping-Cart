@@ -6,15 +6,16 @@
 *	http://osc-cms.com
 *
 *---------------------------------------------------------
+*
+*	AddOn-Modul zur Darstellung von Bundles
+*	Erstellt 2006 von API-Solutions Ltd. & Co. KG Div.Omega-Soft - http://www.omega-soft.de
+*	Erstellt für für xt:Commerce 3.0.4-SP1 - http://www.xt-commerce.com
+*	Copyright (C) 2006 by API-Solutions Ltd. & Co. KG - http://www.api-solutions-ltd.com
+*	Version 2.0.2 Stand: 23.05.2006
+*	Released under the GNU General Public License  http://www.gnu.org
+*
+*---------------------------------------------------------
 */
-/* -----------------------------------------------------------------------------
-	AddOn-Modul zur Darstellung von Bundles
-	Erstellt 2006 von API-Solutions Ltd. & Co. KG Div.Omega-Soft - http://www.omega-soft.de
-	Erstellt f�r f�r xt:Commerce 3.0.4-SP1 - http://www.xt-commerce.com
-	Copyright (C) 2006 by API-Solutions Ltd. & Co. KG - http://www.api-solutions-ltd.com
-	Version 2.0.2 Stand: 23.05.2006
-	Released under the GNU General Public License  http://www.gnu.org
-----------------------------------------------------------------------------*/
 
 $module_smarty = new osTemplate;
 
@@ -33,25 +34,30 @@ if ($products_bundles['total'] > 0)
 		else
 			$image = http_path('images_thumbnail').'../noimage.gif';
 
+		$products_price = $osPrice->GetPrice($bundle_data['products_id'], true, 1, $bundle_data['products_tax_class_id'], $bundle_data['products_price'], 1, 0, $bundle_data['products_discount_allowed']);
+
 		$products_bundle_data[] = array
 		(
 			'PLINK' => os_href_link(FILENAME_PRODUCT_INFO, os_product_link($bundle_data['products_id'], $bundle_data['products_name'])),
 			'IMAGE' => $image,
 			'QTY' => $bundle_data['subproduct_qty'],
 			'NAME' => $bundle_data['products_name'],
-			'PRICE' => $osPrice->Format($bundle_data['products_price'], true,$bundle_data['products_tax_class_id'])
+			'PRICE' => $products_price['formated'],
+			'PRICE_PLAIN' => $products_price['plain'],
 		);
 
-		$bundle_sum += $bundle_data['products_price']*$bundle_data['subproduct_qty'];
-		$bundle_saving = $bundle_sum - $product->data['products_price'];
+		// Считаем стоимость с кол. и считаем экономию
+		$bSum += $bundle_data['products_price']*$bundle_data['subproduct_qty'];
+		$bSaving = $bSum - $product->data['products_price'];
+
+		$bundle_sum = $osPrice->GetPrice($bundle_data['products_id'], true, 1, $bundle_data['products_tax_class_id'], $bSum, 1, 0, $bundle_data['products_discount_allowed']);
+		$bundle_saving = $osPrice->GetPrice($bundle_data['products_id'], true, 1, $bundle_data['products_tax_class_id'], $bSaving, 1, 0, $bundle_data['products_discount_allowed']);
+
 	}
 }
 
-$bundle_sum_price = $osPrice->Format($bundle_sum, true, $product->data['products_tax_class_id']);
-$bundle_saving_price = $osPrice->Format($bundle_saving, true, $product->data['products_tax_class_id']);
-
 $info->assign('PRODUCTS_BUNDLE', $product->data['products_bundle']);
 $info->assign('PRODUCTS_BUNDLE_DATA', $products_bundle_data);
-$info->assign('PRODUCTS_BUNDLE_SUM', $bundle_sum_price);
-$info->assign('PRODUCTS_BUNDLE_SAVING', $bundle_saving_price);
+$info->assign('PRODUCTS_BUNDLE_SUM', $bundle_sum['formated']);
+$info->assign('PRODUCTS_BUNDLE_SAVING', $bundle_saving['formated']);
 ?>
