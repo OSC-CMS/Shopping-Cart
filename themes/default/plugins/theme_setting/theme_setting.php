@@ -8,12 +8,5 @@
 	Author URI: http://osc-cms.com
 */
 
-// Стилизация "хлебных крошек"
-add_filter('trail_string', 'trail_string_func');
 
-function trail_string_func($array)
-{
-	$srt = str_replace('</a></li>', '</a><span class="divider">/</span></li>', $array);
-	return $srt;
-}
 ?>
