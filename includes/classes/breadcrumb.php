@@ -33,7 +33,7 @@
 
         function trail() 
         {
-			global $osTemplate;
+			$tpl = new osTemplate;
             do_action('breadcrumb_trail');
 
             $array = array();
@@ -50,11 +50,11 @@
             }
 
 			// Передаем массив в файл шаблона breadcrumb.html
-			$osTemplate->assign('aBreadCrumbs', $aBreadCrumbs);
+			$tpl->assign('aBreadCrumbs', $aBreadCrumbs);
 
 			// Файл шаблона Не кэшируем
-			$osTemplate->caching = 0;
-			$getTemplate = $osTemplate->fetch(CURRENT_TEMPLATE.'/module/breadcrumb.html');
+			$tpl->caching = 0;
+			$getTemplate = $tpl->fetch(CURRENT_TEMPLATE.'/module/breadcrumb.html');
 
 			return $getTemplate;
         }
