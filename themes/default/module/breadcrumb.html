@@ -1,0 +1,9 @@
+<ul class="breadcrumb">
+	{foreach $aBreadCrumbs as $b}
+		{if !$b@last}
+			<li><a href="{$b.link}"><span>{$b.title}</span></a><span class="divider">/</span></li>
+		{else}
+			<li><span>{$b.title}</span></li>
+		{/if}
+	{/foreach}
+</ul>
