@@ -24,7 +24,12 @@ if (isset ($_POST['action']) && ($_POST['action'] == 'process'))
 	$firstname = os_db_prepare_input($_POST['firstname']);
 
 	if (ACCOUNT_USER_NAME == 'true')
-		$username = os_db_prepare_input($_POST['customers_username']);
+	{
+		if (isset($_SESSION['customers_username']) && !empty($_SESSION['customers_username']))
+			$username = $_SESSION['customers_username'];
+		else
+			$username = os_db_prepare_input($_POST['customers_username']);
+	}
 
 	if (ACCOUNT_SECOND_NAME == 'true')
 		$secondname = os_db_prepare_input($_POST['secondname']);
@@ -119,6 +124,23 @@ if (isset ($_POST['action']) && ($_POST['action'] == 'process'))
 		}
 	}
 
+if (ACCOUNT_USER_NAME == 'true') {
+	if (strlen($username) < '3') {
+		$error = true;
+
+		$messageStack->add('account_edit', ENTRY_USERNAME_ERROR);
+	}
+
+	if (empty($_SESSION['customers_username']))
+	{
+		if (checkCustomerUserName($username) == true)
+		{
+			$error = true;
+			$messageStack->add('account_edit', ENTRY_USERNAME_IS_NOT_AVAILABLE);
+		}
+	}
+  }
+
 	$extra_fields_query = osDBquery("select ce.fields_id, ce.fields_input_type, ce.fields_required_status, cei.fields_name, ce.fields_status, ce.fields_input_type, ce.fields_size from " . TABLE_EXTRA_FIELDS . " ce, " . TABLE_EXTRA_FIELDS_INFO . " cei where ce.fields_status=1 and ce.fields_required_status=1 and cei.fields_id=ce.fields_id and cei.languages_id =" . $_SESSION['languages_id']);
 
 	while($extra_fields = os_db_fetch_array($extra_fields_query,true))
@@ -145,6 +167,11 @@ if (isset ($_POST['action']) && ($_POST['action'] == 'process'))
 			'customers_last_modified' => 'now()',
 			'customers_username' => $username
 		);
+
+		if (empty($_SESSION['customers_username']))
+		{
+			$_SESSION['customers_username'] = $username;
+		}
 
 		if (ACCOUNT_GENDER == 'true')
 			$sql_data_array['customers_gender'] = $gender;
@@ -370,7 +397,11 @@ if (ACCOUNT_USER_NAME == 'true')
 {
 	$osTemplate->assign('username', '1');
 	$osTemplate->assign('ENTRY_USERNAME_ERROR', ENTRY_USERNAME_ERROR);
-	$osTemplate->assign('INPUT_USERNAME', os_draw_input_fieldNote(array ('name' => 'customers_username', 'text' => '&nbsp;'. (os_not_null(ENTRY_USERNAME_TEXT) ? '<span class="Requirement">'.ENTRY_USERNAME_TEXT.'</span>' : '')), $account['customers_username'], 'id="customers_username"'));
+	if (empty($account['customers_username']))
+		$customerUserName = os_draw_input_fieldNote(array ('name' => 'customers_username', 'text' => '&nbsp;'. (os_not_null(ENTRY_USERNAME_TEXT) ? '<span class="Requirement">'.ENTRY_USERNAME_TEXT.'</span>' : '')), $account['customers_username'], 'id="customers_username"');
+	else
+		$customerUserName = $account['customers_username'];
+	$osTemplate->assign('INPUT_USERNAME', $customerUserName);
 }
 
 $osTemplate->assign('customers_extra_fileds', '1');

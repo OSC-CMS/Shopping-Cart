@@ -16,11 +16,13 @@
 				</td>
 				<td valign="top">
 					<h2 class="bold" style="float:left;">{$profile.customers_username} 
-					(
-					{if $profile.show_lastname == '1'} {$profile.customers_lastname}{/if}
-					{if $profile.show_firstname == '1'} {$profile.customers_firstname}{/if}
-					{if $profile.show_secondname == '1'} {$profile.customers_secondname}{/if}
-					)
+					{if $profile.show_lastname == '1' OR $profile.show_firstname == '1' OR $profile.show_secondname == '1'}
+						(
+						{if $profile.show_lastname == '1'} {$profile.customers_lastname}{/if}
+						{if $profile.show_firstname == '1'} {$profile.customers_firstname}{/if}
+						{if $profile.show_secondname == '1'} {$profile.customers_secondname}{/if}
+						)
+					{/if}
 					</h2>
 
 					{if $account_edit == true}

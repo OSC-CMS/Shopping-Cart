@@ -200,6 +200,12 @@ if (ACCOUNT_USER_NAME == 'true' && ACCOUNT_USER_NAME_REG == 'true') {
 
 		$messageStack->add('create_account', ENTRY_USERNAME_ERROR);
 	}
+
+	if (checkCustomerUserName($username) == true)
+	{
+		$error = true;
+		$messageStack->add('create_account', ENTRY_USERNAME_IS_NOT_AVAILABLE);
+	}
   }
 
         $extra_fields_query = osDBquery("select ce.fields_id, ce.fields_input_type, ce.fields_required_status, cei.fields_name, ce.fields_status, ce.fields_input_type, ce.fields_size from " . TABLE_EXTRA_FIELDS . " ce, " . TABLE_EXTRA_FIELDS_INFO . " cei where ce.fields_status=1 and ce.fields_required_status=1 and cei.fields_id=ce.fields_id and cei.languages_id =" . $_SESSION['languages_id']);

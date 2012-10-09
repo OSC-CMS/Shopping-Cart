@@ -46,6 +46,8 @@ if (isset($_SESSION['customer_id']))
 		$box->assign('discountOrder', $_SESSION['customers_status']['customers_status_ot_discount']);
 	}
 
+	$box->assign('profileLink', customerProfileLink($_SESSION['customers_username'], $_SESSION['customer_id']));
+
 	$box->caching = 0;
 	$box->assign('language', $_SESSION['language']);
 	$box_accountbox = $box->fetch(CURRENT_TEMPLATE.'/boxes/box_account.html');

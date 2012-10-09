@@ -214,14 +214,40 @@ if (isset($URI_elements[0]) && (strlen($URI_elements[0]) > 0))
 								$PHP_SELF = '/faq.php';
 								include('faq.php');
 							}
-							// Если нет faq, то инклудим главную
+							// Если нет faq, то ищем профиль покупателя
 							else
 							{
 								mysql_free_result($result);
-								mysql_close();
-								header('HTTP/1.1 404 Not Found');
-								$PHP_SELF = '/index.php';
-								include('index.php');
+								$customerLogin = str_replace('.html', '', $URI_elements[0]);
+								$query = 'select customers_id from '.TABLE_CUSTOMERS.' where customers_username="'.$customerLogin.'"';
+								$result = mysql_query($query);
+								if (mysql_num_rows($result) > 0)
+								{
+									$row = mysql_fetch_array($result, MYSQL_ASSOC);
+									$uID = $row['customers_id'];
+									$matched = true;
+								}
+								else
+									$matched = false;
+
+								if ($matched)
+								{
+									$HTTP_GET_VARS['id']  = $uID;
+									$_GET['id']  = $uID;
+									mysql_free_result($result);
+									mysql_close();
+									$PHP_SELF = '/profile.php';
+									include('profile.php');
+								}
+								// Если нет профиля, инклудим главную страницу
+								else
+								{
+									mysql_free_result($result);
+									mysql_close();
+									header('HTTP/1.1 404 Not Found');
+									$PHP_SELF = '/index.php';
+									include('index.php');
+								}
 							}
 						}
 					}        
@@ -236,5 +262,4 @@ else
 	$PHP_SELF = '/index.php';
 	include('index.php');
 }
-
 ?>

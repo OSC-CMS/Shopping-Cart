@@ -91,7 +91,7 @@ if (isset($_GET['id']) && is_numeric($_GET['id']))
 		}
 
 		// Хлебные крошки
-		$breadcrumb->add('Профиль '.$titleName.'', os_href_link('profile.php?id='.$id.'', '', 'SSL'));
+		$breadcrumb->add('Профиль '.$titleName.'', customerProfileLink($profile['customers_username'], $id));
 		$id_error = false;// ID есть
 	}
 	else

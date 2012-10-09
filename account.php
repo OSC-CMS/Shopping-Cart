@@ -92,6 +92,7 @@ $osTemplate->assign('LINK_ALL', os_href_link(FILENAME_ACCOUNT_HISTORY, '', 'SSL'
 $osTemplate->assign('order_content', $order_content);
 $osTemplate->assign('products_history', $products_history);
 $osTemplate->assign('also_purchased_history', $also_purchased_history);
+$osTemplate->assign('profileLink', customerProfileLink($_SESSION['customers_username'], $_SESSION['customer_id']));
 $osTemplate->assign('language', $_SESSION['language']);
 
 $osTemplate->caching = 0;

@@ -100,7 +100,7 @@ class product {
 					$csn = ($reviews['show_secondname'] == '1') ? $reviews['csn'].' ' : '';
 
 					$authorName = (!empty($reviews['customers_username'])) ? $reviews['customers_username'].' ( '.$cln.$cfn.$csn.')' : $cln.$cfn.$csn;
-					$authorLink = _HTTP.'profile.php?id='.$reviews['rcid'];
+					$authorLink = customerProfileLink($reviews['customers_username'], $reviews['rcid']);
 				}
 				else
 					$authorName = $reviews['rCustomerName'];
@@ -111,6 +111,10 @@ class product {
 					$avatar = (!empty($reviews['customers_avatar'])) ? $reviews['customers_avatar'] : 'noavatar.gif';
 					$customers_avatar = http_path('images').'avatars/'.$avatar;
 				}
+
+
+
+
 
 				$data_reviews[] = array
 				(

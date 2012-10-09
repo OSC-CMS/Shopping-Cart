@@ -25,7 +25,7 @@ if (isset ($_GET['action']) && ($_GET['action'] == 'process')) {
 	$password = os_db_prepare_input($_POST['password']);
 
 	// Check if email exists
-	$check_customer_query = os_db_query("select customers_id, customers_vat_id, customers_firstname,customers_lastname, customers_gender, customers_password, customers_email_address, login_tries, login_time, customers_default_address_id from ".TABLE_CUSTOMERS." where customers_email_address = '".os_db_input($email_address)."' and account_type = '0'");
+	$check_customer_query = os_db_query("select customers_id, customers_vat_id, customers_firstname,customers_lastname, customers_gender, customers_password, customers_email_address, login_tries, login_time, customers_default_address_id, customers_username from ".TABLE_CUSTOMERS." where customers_email_address = '".os_db_input($email_address)."' and account_type = '0'");
 	if (!os_db_num_rows($check_customer_query)) {
 		$_GET['login'] = 'fail';
 		$info_message = TEXT_NO_EMAIL_ADDRESS_FOUND;
@@ -113,6 +113,7 @@ if (isset ($_GET['action']) && ($_GET['action'] == 'process')) {
 			$_SESSION['customer_default_address_id'] = $check_customer['customers_default_address_id'];
 			$_SESSION['customer_country_id'] = $check_country['entry_country_id'];
 			$_SESSION['customer_zone_id'] = $check_country['entry_zone_id'];
+			$_SESSION['customers_username'] = $check_customer['customers_username'];
 
 
 

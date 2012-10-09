@@ -94,7 +94,8 @@ define('ENTRY_PASSWORD_CURRENT_ERROR', 'Поле Пароль должно со�
 define('ENTRY_PASSWORD_NEW_TEXT', '*');
 define('ENTRY_PASSWORD_NEW_ERROR', 'Ваш Новый пароль должен содержать как минимум ' . ENTRY_PASSWORD_MIN_LENGTH . ' символов.');
 define('ENTRY_PASSWORD_NEW_ERROR_NOT_MATCHING', 'Поля Подтвердите пароль и Новый пароль должны совпадать.');
-define('ENTRY_USERNAME_ERROR', 'Поле Логин должно содержать как минимум ' . ENTRY_USERNAME_MIN_LENGTH . ' символа.');
+define('ENTRY_USERNAME_ERROR', 'Поле Логин должно содержать как минимум ' . ENTRY_USERNAME_MIN_LENGTH . ' символа. Может состоять только из букв (A-Z a-z), цифр (0-9).');
+define('ENTRY_USERNAME_IS_NOT_AVAILABLE', 'Логин уже занят. Попробуйте ввести другие варианты.');
 define('ENTRY_USERNAME_TEXT', '*');
 
 define('TEXT_RESULT_PAGE', 'Страницы:');
