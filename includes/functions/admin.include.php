@@ -34,7 +34,9 @@
 	
 	}
 
-	// Создание\обновление профиля покупателя
+	/**
+	 * Создание\обновление профиля покупателя
+	 */
 	function customerProfile($array = array(), $type = '')
 	{
 		// всегда должен приходить id покупателя
@@ -69,6 +71,26 @@
 			os_db_perform(DB_PREFIX."customers_profile", $profileArray);
 
 		return true;
+	}
+
+	/**
+	 * Проверка доступности логина покупателя
+	 */
+	function checkCustomerUserName($cun)
+	{
+		$query = os_db_query("SELECT customers_username FROM ".TABLE_CUSTOMERS." WHERE customers_username = '".$cun."'");
+		return (os_db_num_rows($query) > 0) ? true : false;
+	}
+
+	/**
+	 * Формирование ссылки на профиль покупателя
+	 */
+	function customerProfileLink($c_username, $c_id)
+	{
+		if (isset($c_username) && !empty($c_username))
+			return _HTTP.$c_username.'.html';
+		else
+			return _HTTP.'profile.php?id='.$c_id;
 	}
 
 	// Красивый print_r() ;)
