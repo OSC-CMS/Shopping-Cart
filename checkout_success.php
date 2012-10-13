@@ -92,6 +92,8 @@ if ($order->info['payment_method'] == 'kvitancia')
 $osTemplate->assign('BUTTON_KVITANCIA_PRINT', $_array['code']);
 }
 
+do_action('checkout_success');
+
 if (DOWNLOAD_ENABLED == 'true') include (DIR_WS_MODULES.'downloads.php');
 
 $osTemplate->assign('language', $_SESSION['language']);
