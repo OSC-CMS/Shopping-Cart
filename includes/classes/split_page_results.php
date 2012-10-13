@@ -55,7 +55,7 @@ class splitPageResults {
 
     }
 
-    function display_links($max_page_links, $parameters = '') {
+    function display_links($max_page_links, $parameters = '', $page = 'page') {
       global $PHP_SELF, $request_type;
 
       $display_links_string = '';
@@ -64,7 +64,7 @@ class splitPageResults {
 
       if (os_not_null($parameters) && (substr($parameters, -1) != '&')) $parameters .= '&';
 
-      if ($this->current_page_number > 1) $display_links_string .= '<a href="' . os_href_link(basename($PHP_SELF), $parameters . 'page=' . ($this->current_page_number - 1), $request_type) . '" class="pageResults" title=" ' . PREVNEXT_TITLE_PREVIOUS_PAGE . ' ">' . PREVNEXT_BUTTON_PREV . '</a>&nbsp;&nbsp;';
+      if ($this->current_page_number > 1) $display_links_string .= '<a href="' . os_href_link(basename($PHP_SELF), $parameters .$page. '=' . ($this->current_page_number - 1), $request_type) . '" class="pageResults" title=" ' . PREVNEXT_TITLE_PREVIOUS_PAGE . ' ">' . PREVNEXT_BUTTON_PREV . '</a>&nbsp;&nbsp;';
 
       $cur_window_num = intval($this->current_page_number / $max_page_links);
       if ($this->current_page_number % $max_page_links) $cur_window_num++;
@@ -72,19 +72,19 @@ class splitPageResults {
       $max_window_num = intval($this->number_of_pages / $max_page_links);
       if ($this->number_of_pages % $max_page_links) $max_window_num++;
 
-      if ($cur_window_num > 1) $display_links_string .= '<a href="' . os_href_link(basename($PHP_SELF), $parameters . 'page=' . (($cur_window_num - 1) * $max_page_links), $request_type) . '" class="pageResults" title=" ' . sprintf(PREVNEXT_TITLE_PREV_SET_OF_NO_PAGE, $max_page_links) . ' ">...</a>';
+      if ($cur_window_num > 1) $display_links_string .= '<a href="' . os_href_link(basename($PHP_SELF), $parameters .$page. '=' . (($cur_window_num - 1) * $max_page_links), $request_type) . '" class="pageResults" title=" ' . sprintf(PREVNEXT_TITLE_PREV_SET_OF_NO_PAGE, $max_page_links) . ' ">...</a>';
 
       for ($jump_to_page = 1 + (($cur_window_num - 1) * $max_page_links); ($jump_to_page <= ($cur_window_num * $max_page_links)) && ($jump_to_page <= $this->number_of_pages); $jump_to_page++) {
         if ($jump_to_page == $this->current_page_number) {
           $display_links_string .= '&nbsp;<b>' . $jump_to_page . '</b>&nbsp;';
         } else {
-          $display_links_string .= '&nbsp;<a href="' . os_href_link(basename($PHP_SELF), $parameters . 'page=' . $jump_to_page, $request_type) . '" class="pageResults" title=" ' . sprintf(PREVNEXT_TITLE_PAGE_NO, $jump_to_page) . ' ">' . $jump_to_page . '</a>&nbsp;';
+          $display_links_string .= '&nbsp;<a href="' . os_href_link(basename($PHP_SELF), $parameters .$page. '=' . $jump_to_page, $request_type) . '" class="pageResults" title=" ' . sprintf(PREVNEXT_TITLE_PAGE_NO, $jump_to_page) . ' ">' . $jump_to_page . '</a>&nbsp;';
         }
       }
 
-      if ($cur_window_num < $max_window_num) $display_links_string .= '<a href="' . os_href_link(basename($PHP_SELF), $parameters . 'page=' . (($cur_window_num) * $max_page_links + 1), $request_type) . '" class="pageResults" title=" ' . sprintf(PREVNEXT_TITLE_NEXT_SET_OF_NO_PAGE, $max_page_links) . ' ">...</a>&nbsp;';
+      if ($cur_window_num < $max_window_num) $display_links_string .= '<a href="' . os_href_link(basename($PHP_SELF), $parameters .$page. '=' . (($cur_window_num) * $max_page_links + 1), $request_type) . '" class="pageResults" title=" ' . sprintf(PREVNEXT_TITLE_NEXT_SET_OF_NO_PAGE, $max_page_links) . ' ">...</a>&nbsp;';
 
-      if (($this->current_page_number < $this->number_of_pages) && ($this->number_of_pages != 1)) $display_links_string .= '&nbsp;<a href="' . os_href_link(basename($PHP_SELF), $parameters . 'page=' . ($this->current_page_number + 1), $request_type) . '" class="pageResults" title=" ' . PREVNEXT_TITLE_NEXT_PAGE . ' ">' . PREVNEXT_BUTTON_NEXT . '</a>&nbsp;';
+      if (($this->current_page_number < $this->number_of_pages) && ($this->number_of_pages != 1)) $display_links_string .= '&nbsp;<a href="' . os_href_link(basename($PHP_SELF), $parameters .$page. '=' . ($this->current_page_number + 1), $request_type) . '" class="pageResults" title=" ' . PREVNEXT_TITLE_NEXT_PAGE . ' ">' . PREVNEXT_BUTTON_NEXT . '</a>&nbsp;';
 
       return $display_links_string;
     }
