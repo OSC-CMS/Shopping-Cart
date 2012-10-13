@@ -174,7 +174,8 @@ class product {
 														                                  p.products_vpe,
 						                           										  p.products_vpe_status,
 						                           										  p.products_vpe_value,
-														                                  pd.products_short_description FROM ".TABLE_ORDERS_PRODUCTS." opa, ".TABLE_ORDERS_PRODUCTS." opb, ".TABLE_ORDERS." o, ".TABLE_PRODUCTS." p, ".TABLE_PRODUCTS_DESCRIPTION." pd
+														                                  pd.products_short_description,
+																							p.products_bundle FROM ".TABLE_ORDERS_PRODUCTS." opa, ".TABLE_ORDERS_PRODUCTS." opb, ".TABLE_ORDERS." o, ".TABLE_PRODUCTS." p, ".TABLE_PRODUCTS_DESCRIPTION." pd
 														                                  where opa.products_id = '".$this->pID."'
 														                                  and opa.orders_id = opb.orders_id
 														                                  and opb.products_id != '".$this->pID."'
@@ -224,7 +225,8 @@ class product {
 																								                                                 p.products_fsk18,p.products_price,p.products_vpe,
 						                           																									p.products_vpe_status,
 						                           																									p.products_vpe_value,
-																								                                                 xp.sort_order from ".TABLE_PRODUCTS_XSELL." xp, ".TABLE_PRODUCTS." p, ".TABLE_PRODUCTS_DESCRIPTION." pd
+																								                                                 xp.sort_order,
+																								                                                 p.products_bundle from ".TABLE_PRODUCTS_XSELL." xp, ".TABLE_PRODUCTS." p, ".TABLE_PRODUCTS_DESCRIPTION." pd
 																								                                            where xp.products_id = '".$this->pID."' and xp.xsell_id = p.products_id ".$fsk_lock.$group_check."
 																								                                            and p.products_id = pd.products_id and xp.products_xsell_grp_name_id='".$cross_sells['products_xsell_grp_name_id']."'
 																								                                            and pd.language_id = '".$_SESSION['languages_id']."'
@@ -268,7 +270,8 @@ class product {
 																                                                 p.products_fsk18,p.products_price,p.products_vpe,
 						                           																p.products_vpe_status,
 						                           																p.products_vpe_value,  
-																                                                 xp.sort_order from ".TABLE_PRODUCTS_XSELL." xp, ".TABLE_PRODUCTS." p, ".TABLE_PRODUCTS_DESCRIPTION." pd
+																                                                 xp.sort_order,
+																												 p.products_bundle from ".TABLE_PRODUCTS_XSELL." xp, ".TABLE_PRODUCTS." p, ".TABLE_PRODUCTS_DESCRIPTION." pd
 																                                            where xp.xsell_id = '".$this->pID."' and xp.products_id = p.products_id ".$fsk_lock.$group_check."
 																                                            and p.products_id = pd.products_id
 																                                            and pd.language_id = '".$_SESSION['languages_id']."'
@@ -446,7 +449,8 @@ class product {
 				'PRODUCTS_SHORT_DESCRIPTION' => @$array['products_short_description'], 
 				'PRODUCTS_FSK18' => @$array['products_fsk18'],
 				'PRODUCTS_MANUFACTURER_NAME' => @$array['manufacturers_name'],
-				'PRODUCTS_MANUFACTURER_ID' => @$array['manufacturers_id'])
+				'PRODUCTS_MANUFACTURER_ID' => @$array['manufacturers_id'],
+				'PRODUCTS_BUNDLE' => @$array['products_bundle'])
 				);		
 				
 

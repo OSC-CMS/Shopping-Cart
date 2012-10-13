@@ -240,7 +240,8 @@ else {
 				p.products_vpe_status,
 				p.products_vpe_value,
 				p.products_discount_allowed,
-				p.products_tax_class_id
+				p.products_tax_class_id,
+				p.products_bundle
 				from ".TABLE_PRODUCTS_DESCRIPTION." pd, ".TABLE_MANUFACTURERS." m, ".TABLE_PRODUCTS_TO_CATEGORIES." p2c, ".TABLE_PRODUCTS." p left join ".TABLE_SPECIALS." s on p.products_id = s.products_id
 				where p.products_status = '1'
 				and p.manufacturers_id = m.manufacturers_id
@@ -275,7 +276,8 @@ else {
 				p.products_vpe_status,
 				p.products_vpe_value,     
 				p.products_discount_allowed,
-				p.products_tax_class_id
+				p.products_tax_class_id,
+				p.products_bundle
 				from ".TABLE_PRODUCTS_DESCRIPTION." pd, ".TABLE_MANUFACTURERS." m, ".TABLE_PRODUCTS." p left join ".TABLE_SPECIALS." s on p.products_id = s.products_id
 				where p.products_status = '1'
 				and pd.products_id = p.products_id
@@ -330,7 +332,8 @@ else {
 				p.products_vpe_status,
 				p.products_vpe_value,                           
 				p.products_discount_allowed,
-				p.products_tax_class_id
+				p.products_tax_class_id,
+				p.products_bundle
 				from  ".$recursive_table_categories.TABLE_PRODUCTS_DESCRIPTION." pd, ".TABLE_MANUFACTURERS." m, ".TABLE_PRODUCTS_TO_CATEGORIES." p2c, ".TABLE_PRODUCTS." p left join ".TABLE_SPECIALS." s on p.products_id = s.products_id
 				where p.products_status = '1'
 				and p.manufacturers_id = m.manufacturers_id
@@ -409,7 +412,8 @@ ON t.product_id = p.products_id";
 				p.products_vpe_status,
 				p.products_vpe_value,                             
 				p.products_discount_allowed,
-				p.products_tax_class_id ".$param_select."
+				p.products_tax_class_id,
+				p.products_bundle ".$param_select."
 				from  ".$recursive_table_categories.TABLE_PRODUCTS_DESCRIPTION." pd, ".TABLE_PRODUCTS_TO_CATEGORIES." p2c, ".TABLE_PRODUCTS." p left join ".TABLE_MANUFACTURERS." m on p.manufacturers_id = m.manufacturers_id
 				left join ".TABLE_SPECIALS." s on p.products_id = s.products_id ".$param_join."
 				where $param_where p.products_status = '1'

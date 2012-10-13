@@ -7,14 +7,17 @@
 	{foreach $module_content as $p}
 	<li class="span3">
 		<div class="thumbnail product-list">
-			{if $p.PRODUCTS_IMAGE}<a class="product-image" href="{$p.PRODUCTS_LINK}"><img src="{$p.PRODUCTS_IMAGE}" alt="{$p.PRODUCTS_NAME}" title="{$p.PRODUCTS_NAME}" /></a>{/if}
-			<div class="caption">
-				<h5><a href="{$p.PRODUCTS_LINK}">{$p.PRODUCTS_NAME}</a></h5>
-				<p>{$p.PRODUCTS_PRICE}</p>
-				{if $p.PRODUCTS_VPE}<p>{$p.PRODUCTS_VPE}</p>{/if}
-				{if $p.PRODUCTS_TAX_INFO}<p>{$p.PRODUCTS_TAX_INFO}</p>{/if}
-				{if $p.PRODUCTS_SHIPPING_LINK}<p>{$p.PRODUCTS_SHIPPING_LINK}</p>{/if}
-				<p>{$p.PRODUCTS_BUTTON_BUY_NOW_NEW}</p>
+			<div class="product-list-item">
+				{if $p.PRODUCTS_BUNDLE == '1'}<img class="product-bundle-icon" src="{$tpl_path}img/set.png" />{/if}
+				{if $p.PRODUCTS_IMAGE}<a class="product-image" href="{$p.PRODUCTS_LINK}"><img src="{$p.PRODUCTS_IMAGE}" alt="{$p.PRODUCTS_NAME}" title="{$p.PRODUCTS_NAME}" /></a>{/if}
+				<div class="caption">
+					<h5><a href="{$p.PRODUCTS_LINK}">{$p.PRODUCTS_NAME}</a></h5>
+					<p>{$p.PRODUCTS_PRICE}</p>
+					{if $p.PRODUCTS_VPE}<p>{$p.PRODUCTS_VPE}</p>{/if}
+					{if $p.PRODUCTS_TAX_INFO}<p>{$p.PRODUCTS_TAX_INFO}</p>{/if}
+					{if $p.PRODUCTS_SHIPPING_LINK}<p>{$p.PRODUCTS_SHIPPING_LINK}</p>{/if}
+					<p>{$p.PRODUCTS_BUTTON_BUY_NOW_NEW}</p>
+				</div>
 			</div>
 		</div>
 	</li>
