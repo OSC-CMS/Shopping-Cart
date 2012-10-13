@@ -10,7 +10,7 @@
 
     include(_FUNC.'str.php');
 
-    class plugins extends db
+    class plugins
     {
         var $status = array();
         /*
@@ -92,7 +92,7 @@
 
                     if (!empty($plugins_name))
                     {
-                        $this->query("UPDATE ".DB_PREFIX."plugins SET plugins_value='".$plugins_value."' where plugins_key = '".$plugins_key."' and plugins_name='".$plugins_name."'");
+                        os_db_query("UPDATE ".DB_PREFIX."plugins SET plugins_value='".$plugins_value."' where plugins_key = '".$plugins_key."' and plugins_name='".$plugins_name."'");
                     }
                 }
             }
@@ -311,9 +311,9 @@
         {
             $options = array();
 
-            $plugins_query = $this->query('select plugins_key, plugins_name, plugins_value, sort_order, use_function from '.DB_PREFIX.'plugins where plugins_key=\''.$key.'\' and plugins_name <> \'show\' order by sort_order');
+            $plugins_query = os_db_query('select plugins_key, plugins_name, plugins_value, sort_order, use_function from '.DB_PREFIX.'plugins where plugins_key=\''.$key.'\' and plugins_name <> \'show\' order by sort_order');
 
-            while ($plugins_result = $this->fetch_array($plugins_query))  
+            while ($plugins_result = os_db_fetch_array($plugins_query))  
             {
                 $options[$plugins_result['plugins_name']]['value'] = $plugins_result['plugins_value'];
                 $options[$plugins_result['plugins_name']]['use_function'] = $plugins_result['use_function'];
@@ -343,7 +343,7 @@
 				else
 					$this->group = $_group;
 
-				$this->query("UPDATE ".DB_PREFIX."plugins SET plugins_value = '".$status."' WHERE plugins_key = '".$this->name."' AND plugins_name = 'show'");
+				os_db_query("UPDATE ".DB_PREFIX."plugins SET plugins_value = '".$status."' WHERE plugins_key = '".$this->name."' AND plugins_name = 'show'");
 			}
 			else
 				return false;
@@ -389,7 +389,7 @@
                         $func();
                     }
 
-                    $this->query('delete from '.DB_PREFIX.'plugins where plugins_key=\''.$this->name.'\'');
+                    os_db_query('delete from '.DB_PREFIX.'plugins where plugins_key=\''.$this->name.'\'');
 
                     break;
 
@@ -413,7 +413,7 @@
                         $func();
                     }
 
-                    $this->query('delete from '.DB_PREFIX.'plugins where plugins_key=\''.$this->name.'\'');
+                    os_db_query('delete from '.DB_PREFIX.'plugins where plugins_key=\''.$this->name.'\'');
 
                     break;
 
@@ -456,8 +456,8 @@
                         $func();
                     }
 
-                    $this->query("insert ".DB_PREFIX."plugins (plugins_key, plugins_name, plugins_value, sort_order, sort_plugins, use_function) VALUES ('".$this->name."', 'show','1',0,0, NULL);");
-                    $this->query("insert ".DB_PREFIX."plugins (plugins_key, plugins_name, plugins_value, sort_order, sort_plugins, use_function) VALUES ('".$this->name."', 'group','themes',0,0, NULL);");
+                    os_db_query("insert ".DB_PREFIX."plugins (plugins_key, plugins_name, plugins_value, sort_order, sort_plugins, use_function) VALUES ('".$this->name."', 'show','1',0,0, NULL);");
+                    os_db_query("insert ".DB_PREFIX."plugins (plugins_key, plugins_name, plugins_value, sort_order, sort_plugins, use_function) VALUES ('".$this->name."', 'group','themes',0,0, NULL);");
 
                     break;
 
@@ -494,8 +494,8 @@
                         $func();
                     }
 
-                    $this->query("insert ".DB_PREFIX."plugins (plugins_key, plugins_name, plugins_value, sort_order, sort_plugins, use_function) VALUES ('".$this->name."', 'show','1',0,0, NULL);");
-                    $this->query("insert ".DB_PREFIX."plugins (plugins_key, plugins_name, plugins_value, sort_order, sort_plugins, use_function) VALUES ('".$this->name."', 'group','main',0,0, NULL);");
+                    os_db_query("insert ".DB_PREFIX."plugins (plugins_key, plugins_name, plugins_value, sort_order, sort_plugins, use_function) VALUES ('".$this->name."', 'show','1',0,0, NULL);");
+                    os_db_query("insert ".DB_PREFIX."plugins (plugins_key, plugins_name, plugins_value, sort_order, sort_plugins, use_function) VALUES ('".$this->name."', 'group','main',0,0, NULL);");
 
                     break;
 
@@ -688,9 +688,9 @@
 
         function plugins ($param = '') // возвращает массив. информацию о всех плагинах
         { 
-            $plugins_query = $this->query('select plugins_key, plugins_name, plugins_value from '.DB_PREFIX.'plugins order by sort_order');
+            $plugins_query = os_db_query('select plugins_key, plugins_name, plugins_value from '.DB_PREFIX.'plugins order by sort_order');
 
-            while ($plugins_result = $this->fetch_array($plugins_query,true))  
+            while ($plugins_result = os_db_fetch_array($plugins_query,true))  
             {
                 if (!empty($plugins_result['plugins_key']))
                 {   
@@ -747,7 +747,7 @@
             }  
         }
 
-        function input_text ($value, $name)
+        function input ($value, $name)
         {
             $value = addslashes($value);
             $size = 15;
@@ -1032,7 +1032,7 @@
                         $func();
                     }
 
-                    $this->query('delete from '.DB_PREFIX.'plugins where plugins_key=\''.$this->name.'\'');
+                    os_db_query('delete from '.DB_PREFIX.'plugins where plugins_key=\''.$this->name.'\'');
 
                 }
 
@@ -1068,8 +1068,8 @@
                         $func();
                     }
 
-                    $this->query("insert ".DB_PREFIX."plugins (plugins_key, plugins_name, plugins_value, sort_order, sort_plugins, use_function) VALUES ('".$this->name."', 'show','1',0,0, NULL);");
-                    $this->query("insert ".DB_PREFIX."plugins (plugins_key, plugins_name, plugins_value, sort_order, sort_plugins, use_function) VALUES ('".$this->name."', 'group','themes',0,0, NULL);");
+                    os_db_query("insert ".DB_PREFIX."plugins (plugins_key, plugins_name, plugins_value, sort_order, sort_plugins, use_function) VALUES ('".$this->name."', 'show','1',0,0, NULL);");
+                    os_db_query("insert ".DB_PREFIX."plugins (plugins_key, plugins_name, plugins_value, sort_order, sort_plugins, use_function) VALUES ('".$this->name."', 'group','themes',0,0, NULL);");
                 }
 
             }
