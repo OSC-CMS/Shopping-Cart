@@ -110,10 +110,10 @@ function box_categories_install()
 {
 	add_option('countProducts',		'false', 'checkbox', "array('true', 'false')");
 	add_option('subCategories',		'true', 'checkbox', "array('true', 'false')");
-	add_option('maxSubCategories',	'5', 'input_text');
+	add_option('maxSubCategories',	'5', 'input');
 	add_option('showCatImages',		'false', 'checkbox', "array('true', 'false')");
-	add_option('cImgWidth',			'30', 'input_text');
-	add_option('cImgHeight',		'30', 'input_text');
+	add_option('cImgWidth',			'30', 'input');
+	add_option('cImgHeight',		'30', 'input');
 	add_option('menuJSType',		'none', 'checkbox', "array('none', 'accordion')");
 }
 ?>
