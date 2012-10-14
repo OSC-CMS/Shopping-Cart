@@ -20,7 +20,7 @@
       $this->title = MODULE_PAYMENT_ROBOXCHANGE_TEXT_TITLE;
       $this->description = MODULE_PAYMENT_ROBOXCHANGE_TEXT_DESCRIPTION;
       $this->sort_order = MODULE_PAYMENT_ROBOXCHANGE_SORT_ORDER;
-      $this->enabled = ((MODULE_PAYMENT_ROBOXCHANGE_STATUS == 'True') ? true : false);
+      $this->enabled = ((MODULE_PAYMENT_ROBOXCHANGE_STATUS == 'True') ? 1 : false);
       $this->icon = 'robox.gif';
       $this->icon_small = 'icon.png';
 
@@ -110,7 +110,7 @@
     }
 
     function install() {
-      os_db_query("insert into " . TABLE_CONFIGURATION . " (configuration_key, configuration_value, configuration_group_id, sort_order, set_function, date_added) values ('MODULE_PAYMENT_ROBOXCHANGE_STATUS', 'False', '6', '3', 'os_cfg_select_option(array(\'True\', \'False\'), ', now())");
+      os_db_query("insert into " . TABLE_CONFIGURATION . " (configuration_key, configuration_value, configuration_group_id, sort_order, set_function, date_added) values ('MODULE_PAYMENT_ROBOXCHANGE_STATUS', 'True', '6', '3', 'os_cfg_select_option(array(\'True\', \'False\'), ', now())");
       os_db_query("insert into ".TABLE_CONFIGURATION." ( configuration_key, configuration_value,  configuration_group_id, sort_order, date_added) values ('MODULE_PAYMENT_ROBOXCHANGE_ALLOWED', '', '6', '0', now())");
       os_db_query("insert into " . TABLE_CONFIGURATION . " (configuration_key, configuration_value, configuration_group_id, sort_order, date_added) values ('MODULE_PAYMENT_ROBOXCHANGE_LOGIN', '', '6', '4', now())");
       os_db_query("insert into " . TABLE_CONFIGURATION . " (configuration_key, configuration_value, configuration_group_id, sort_order, date_added) values ('MODULE_PAYMENT_ROBOXCHANGE_PASSWORD1', '', '6', '5', now())");
