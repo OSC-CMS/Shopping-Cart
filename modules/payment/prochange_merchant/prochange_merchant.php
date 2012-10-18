@@ -477,31 +477,24 @@ $osTemplate = new osTemplate;
 	os_php_mail(EMAIL_BILLING_ADDRESS, EMAIL_BILLING_NAME, $order->customer['email_address'], $order->customer['firstname'].' '.$order->customer['lastname'], '', EMAIL_BILLING_REPLY_ADDRESS, EMAIL_BILLING_REPLY_ADDRESS_NAME, '', '', $order_subject, $html_mail, $txt_mail);
 
 // load the after_process function from the payment modules
-      //$this->after_process();
+      $this->after_process();
 
       $_SESSION['cart']->reset(true);
 
 // unregister session variables used during checkout
-      //unset($_SESSION['sendto']);
-      //unset($_SESSION['billto']);
-      //unset($_SESSION['shipping']);
-      //unset($_SESSION['payment']);
+      unset($_SESSION['sendto']);
+      unset($_SESSION['billto']);
+      unset($_SESSION['shipping']);
+      unset($_SESSION['payment']);
       unset($_SESSION['comments']);
 
+      unset($_SESSION['cart_prochange_id']);
 
-      //unset($_SESSION['cart_prochange_id']);
-
-      //os_redirect(os_href_link(FILENAME_CHECKOUT_SUCCESS, '', 'SSL'));
+      os_redirect(os_href_link(FILENAME_CHECKOUT_SUCCESS, '', 'SSL'));
     }
 
     function after_process() {
-
-		global $insert_id;
-		if ($this->order_status)
-			os_db_query("UPDATE ".TABLE_ORDERS." SET orders_status='".$this->order_status."' WHERE orders_id='".$insert_id."'");
-
-      unset($_SESSION['cart_prochange_id']);
-	  //return false;
+	  return false;
     }
 
     function output_error() {

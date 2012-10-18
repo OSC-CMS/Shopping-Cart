@@ -10,7 +10,7 @@
 
 if (isset($_GET['payment']) && !empty($_GET['payment']))
 {
-  include_once(dirname(__FILE__).'/includes/top.php');
+  //include_once(dirname(__FILE__).'/includes/top.php');
   include_once(dirname(__FILE__).'/includes/functions/os_check.php');
   
   $_payment = os_check_file_name($_GET['payment']);
