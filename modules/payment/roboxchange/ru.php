@@ -1,10 +1,11 @@
 <?php
 /*
 #####################################
-# OSC-CMS: Shopping Cart Software
+#  OSC-CMS: Shopping Cart Software.
 #  Copyright (c) 2011-2012
-# http://osc-cms.com
-# Ver. 1.0.0
+#  http://osc-cms.com
+#  http://osc-cms.com/forum
+#  Ver. 1.0.0
 #####################################
 */
 
@@ -17,7 +18,7 @@
 2) На сайте http://roboxchange.net в разделе "Администрирование" укажите:<br />
 "пароль #1" любой<br />
 "пароль #2" любой<br />
-"Result URL" http://ваш-сайт/robox.php<br />
+"Result URL" http://ваш-сайт/process.php?payment=roboxchange<br />
 "метод отсылки в Result URL" POST<br />
 "Success URL" http://ваш-сайт/checkout_process.php<br />
 "метод отсылки в Success URL" POST<br />
@@ -34,7 +35,12 @@
   define('MODULE_PAYMENT_ROBOXCHANGE_SORT_ORDER_DESC','Порядок сортировки модуля.');
   define('MODULE_PAYMENT_ROBOXCHANGE_PASSWORD2_TITLE','Пароль номер 2');
   define('MODULE_PAYMENT_ROBOXCHANGE_PASSWORD2_DESC','Ваш второй пароль в roboxchange cash register');
-  define('MODULE_PAYMENT_ROBOXCHANGE_ORDER_STATUS_TITLE','Статус оплаченного заказа');
-  define('MODULE_PAYMENT_ROBOXCHANGE_ORDER_STATUS_DESC','Статус, устанавливаемый заказу после успешной оплаты');
+  define('MODULE_PAYMENT_ROBOXCHANGE_ORDER_STATUS_ID_TITLE','Статус оплаченного заказа');
+  define('MODULE_PAYMENT_ROBOXCHANGE_ORDER_STATUS_ID_DESC','Статус, устанавливаемый заказу после успешной оплаты');
+  define('MODULE_PAYMENT_ROBOXCHANGE_ZONE_TITLE' , 'Зона');
+  define('MODULE_PAYMENT_ROBOXCHANGE_ZONE_DESC' , 'Если выбрана зона, то данный модуль оплаты будет виден только покупателям из выбранной зоны.');
+
+  define('MODULE_PAYMENT_ROBOXCHANGE_TEST_TITLE','Режим работы');
+  define('MODULE_PAYMENT_ROBOXCHANGE_TEST_DESC','test - для тестирования работы модуля, production - для полноценного приёма оплаты.');
   
 ?>
