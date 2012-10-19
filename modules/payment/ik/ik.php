@@ -320,8 +320,8 @@ if ($_SERVER["HTTP_X_FORWARDED_FOR"]) {
 
       $OrderID = substr($_SESSION['cart_interkassa_id'], strpos($_SESSION['cart_interkassa_id'], '-')+1);
       
-      //$TotalAmount = number_format($osPrice->CalculateCurrEx($order->info['total'], MODULE_PAYMENT_IK_CURRENCY), 2, '.', '');
-	  $TotalAmount = $order->info['total'];
+      $TotalAmount = number_format($osPrice->CalculateCurrEx($order->info['total'], MODULE_PAYMENT_IK_CURRENCY), 2, '.', '');
+	  //$TotalAmount = $order->info['total'];
 
       //$ik_sign_hash_str = MODULE_PAYMENT_IK_SHOP_ID . ':' . $TotalAmount . ':' . $OrderID . ':' . '' . ':' . os_session_id() . ':' . MODULE_PAYMENT_IK_SECRET_KEY;
       //$ik_sign_hash = md5($ik_sign_hash_str);
