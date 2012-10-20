@@ -305,6 +305,8 @@ if (DISPLAY_REVOCATION_ON_CHECKOUT == 'true') {
 
 }
 
+do_action('send_order');
+
 $osTemplate->assign('language', $_SESSION['language']);
 $osTemplate->assign('PAYMENT_BLOCK', $payment_block);
 $osTemplate->caching = 0;
