@@ -1,37 +1,42 @@
 {config_load file="$language/lang.conf" section="categorie_listing"}
-<div class="block-cat">
-	<h3 class="block-cat-title">{$CATEGORIES_NAME}</h3>
-	<div class="block-content-products">
+<div class="page-header">
+	<h1>{$CATEGORIES_NAME}</h1>
+</div>
+
+{if $CATEGORIES_NAME}
+<div class="block">
+	<div class="block-content">
 		<div class="category-block">
 			{if $CATEGORIES_IMAGE}<img class="cat-image" src="{$CATEGORIES_IMAGE}" alt="{$CATEGORIES_NAME}" />{/if}
-			<div class="cat-description">
+			<p class="cat-description">
 				{if $CATEGORIES_HEADING_TITLE}<h3 class="cat-title">{$CATEGORIES_HEADING_TITLE}</h3>{/if}
 				{if $CATEGORIES_DESCRIPTION}{$CATEGORIES_DESCRIPTION}{/if}
-			</div>
+			</p>
 			<div class="clear"></div>
 		</div>
 	</div>
 </div>
-{if $module_content !=''}
-<div class="block-cat">
-	<h3 class="block-cat-title">{#heading_more_categories#}</h3>
-	<div class="block-content-products">
-		<ul class="product-columns col3">
-			{foreach name=aussen item=module_data from=$module_content}
-			<li class="columns-li tcenter relative {if $smarty.foreach.aussen.iteration % 3 != 0}border-right{/if}">
-			<div class="item">
-				<div class="image">{if $module_data.CATEGORIES_IMAGE}<a href="{$module_data.CATEGORIES_LINK}"><img src="{$module_data.CATEGORIES_IMAGE}" alt="{$module_data.CATEGORIES_NAME}" /></a>{/if}</div>
-				<a class="name" href="{$module_data.CATEGORIES_LINK}">{$module_data.CATEGORIES_NAME}</a>
-				<div class="item-info">
-					{$module_data.CATEGORIES_DESCRIPTION}
-				</div>
-			</div></li>
-			{if $smarty.foreach.aussen.iteration % 3 == 0}</ul><div class="clear-products"></div><ul class="product-columns col3">{/if}
-			{/foreach}
-		</ul>
-		<div class="clear"></div>
-	</div>
-</div>
 {/if}
+
+{if $module_content != ''}
+<h3 class="block-cat-title">{#heading_more_categories#}</h3>
+<ul class="thumbnails">
+	{foreach $module_content as $c}
+	<li class="span3">
+		<div class="thumbnail categories-list">
+			<div class="categories-list-item">
+				{if $c.CATEGORIES_IMAGE}<a class="categories-image" href="{$c.CATEGORIES_LINK}"><img src="{$c.CATEGORIES_IMAGE}" alt="{$c.CATEGORIES_NAME}" /></a>{/if}
+				<div class="caption">
+					<h5><a href="{$c.CATEGORIES_LINK}">{$c.CATEGORIES_NAME}</a></h5>
+					<p>{$c.CATEGORIES_DESCRIPTION}</p>
+				</div>
+			</div>
+		</div>
+	</li>
+	{if $c@iteration % 4 == 0}</ul><div class="clear"></div><ul class="thumbnails">{/if}
+	{/foreach}
+</ul>
+{/if}
+
 {$MODULE_featured_products}
 {$MODULE_new_products}
