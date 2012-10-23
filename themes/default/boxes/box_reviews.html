@@ -1,7 +1,10 @@
 {config_load file="$language/lang.conf" section="boxes"}
 <div class="box">
 	<h3>{#heading_reviews#}</h3>
-	<div class="box-content">
-		{$BOX_CONTENT}
+	<div class="thumbnail product-list">
+		{if $box_content.PRODUCTS_IMAGE}<a class="product-image" href="{$box_content.PRODUCTS_LINK}"><img src="{$box_content.PRODUCTS_IMAGE}" alt="{$box_content.PRODUCTS_NAME}" /></a>{/if}
+		<div class="caption">
+			{$BOX_CONTENT}
+		</div>
 	</div>
 </div>
