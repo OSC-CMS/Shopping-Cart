@@ -41,6 +41,7 @@ if (VIS_BOX_ADMIN				== 'true') { if ($_SESSION['customers_status']['customers_s
 if (VIS_BOX_CART				== 'true') { if ($_SESSION['customers_status']['customers_status_show_price'] == 1) { include(DIR_WS_BOXES.'shopping_cart.php'); } }
 if (VIS_BOX_ADD_A_QUICKIE		== 'true') { if ($_SESSION['customers_status']['customers_status_show_price'] != '0') { include(DIR_WS_BOXES.'add_a_quickie.php'); } }
 if (VIS_BOX_ORDER_HISTORY		== 'true') { if (isset($_SESSION['customer_id'])) { include(DIR_WS_BOXES.'order_history.php'); } }
+if (VIS_BOX_MANUFACTURERS		== 'true') { include(DIR_WS_BOXES.'manufacturers.php'); }
 if (VIS_BOX_MANUFACTURERS_INFO	== 'true') { if ($product->isProduct()) { include(DIR_WS_BOXES.'manufacturer_info.php'); } }
 
 // Current Cat
