@@ -59,11 +59,17 @@ if (!$box->isCached(CURRENT_TEMPLATE.'/boxes/box_manufacturers.html', @$cache_id
 		}
 
 		while ($manufacturers = os_db_fetch_array($manufacturers_query, true)) {
+
+			if ($manufacturers['manufacturers_page_url'] != '')
+				$manufacturers_link = os_href_link($manufacturers['manufacturers_page_url']);
+			else
+				$manufacturers_link = os_href_link(FILENAME_DEFAULT, 'manufacturers_id='.$manufacturers['manufacturers_id']);
+
 			$manufacturers_name = ((utf8_strlen($manufacturers['manufacturers_name']) > MAX_DISPLAY_MANUFACTURER_NAME_LEN) ? utf8_substr($manufacturers['manufacturers_name'], 0, MAX_DISPLAY_MANUFACTURER_NAME_LEN).'..' : $manufacturers['manufacturers_name']);
-			$manufacturers_array[] = array ('id' => $manufacturers['manufacturers_id'], 'text' => $manufacturers_name);
+			$manufacturers_array[] = array ('id' => $manufacturers_link, 'text' => $manufacturers_name);
 		}
 
-		$box_content = os_draw_form('manufacturers', os_href_link(FILENAME_DEFAULT, '', 'NONSSL', false), 'get').os_draw_pull_down_menu('manufacturers_id', $manufacturers_array, isset($_GET['manufacturers_id'])?$_GET['manufacturers_id']:'', 'onchange="this.form.submit();" size="'.MAX_MANUFACTURERS_LIST.'" style="width: 100%"').os_hide_session_id().'</form>';
+		$box_content = os_draw_form('manufacturers', '', 'get').os_draw_pull_down_menu('manufacturers_id', $manufacturers_array, isset($_GET['manufacturers_id'])?$_GET['manufacturers_id']:'', 'onchange="top.location.href = this.options[this.selectedIndex].value;" size="'.MAX_MANUFACTURERS_LIST.'" style="width: 100%"').os_hide_session_id().'</form>';
 
 	}
 
