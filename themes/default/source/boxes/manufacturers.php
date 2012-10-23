@@ -41,9 +41,6 @@ if (!$box->isCached(CURRENT_TEMPLATE.'/boxes/box_manufacturers.html', @$cache_id
 			else
 				$manufacturers_link = os_href_link(FILENAME_DEFAULT, 'manufacturers_id='.$manufacturers['manufacturers_id']);
 
-
-			$manufacturers_page_url = 
-		
 			$manufacturers_name = ((utf8_strlen($manufacturers['manufacturers_name']) > MAX_DISPLAY_MANUFACTURER_NAME_LEN) ? utf8_substr($manufacturers['manufacturers_name'], 0, MAX_DISPLAY_MANUFACTURER_NAME_LEN).'..' : $manufacturers['manufacturers_name']);
 			if (isset ($_GET['manufacturers_id']) && ($_GET['manufacturers_id'] == $manufacturers['manufacturers_id']))
 				$manufacturers_name = '<b>'.$manufacturers_name.'</b>';
