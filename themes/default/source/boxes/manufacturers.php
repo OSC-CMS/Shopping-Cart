@@ -28,17 +28,26 @@ if (!$box->isCached(CURRENT_TEMPLATE.'/boxes/box_manufacturers.html', @$cache_id
 {
 	$box->assign('tpl_path', _HTTP_THEMES_C);
 
-	$manufacturers_query = "select distinct m.manufacturers_id, m.manufacturers_name from ".TABLE_MANUFACTURERS." as m, ".TABLE_PRODUCTS." as p where m.manufacturers_id=p.manufacturers_id order by m.manufacturers_name";
+	$manufacturers_query = "select distinct m.manufacturers_id, m.manufacturers_name, m.manufacturers_page_url from ".TABLE_MANUFACTURERS." as m, ".TABLE_PRODUCTS." as p where m.manufacturers_id=p.manufacturers_id order by m.manufacturers_name";
 
 	$manufacturers_query = osDBquery($manufacturers_query);
 	if (os_db_num_rows($manufacturers_query, true) <= MAX_DISPLAY_MANUFACTURERS_IN_A_LIST) {
 		// Display a list
 		$manufacturers_list = '';
 		while ($manufacturers = os_db_fetch_array($manufacturers_query, true)) {
+
+			if ($manufacturers['manufacturers_page_url'] != '')
+				$manufacturers_link = os_href_link($manufacturers['manufacturers_page_url']);
+			else
+				$manufacturers_link = os_href_link(FILENAME_DEFAULT, 'manufacturers_id='.$manufacturers['manufacturers_id']);
+
+
+			$manufacturers_page_url = 
+		
 			$manufacturers_name = ((utf8_strlen($manufacturers['manufacturers_name']) > MAX_DISPLAY_MANUFACTURER_NAME_LEN) ? utf8_substr($manufacturers['manufacturers_name'], 0, MAX_DISPLAY_MANUFACTURER_NAME_LEN).'..' : $manufacturers['manufacturers_name']);
 			if (isset ($_GET['manufacturers_id']) && ($_GET['manufacturers_id'] == $manufacturers['manufacturers_id']))
 				$manufacturers_name = '<b>'.$manufacturers_name.'</b>';
-			$manufacturers_list .= '<a href="'.os_href_link(FILENAME_DEFAULT, 'manufacturers_id='.$manufacturers['manufacturers_id']).'">'.$manufacturers_name.'</a><br />';
+			$manufacturers_list .= '<a href="'.$manufacturers_link.'">'.$manufacturers_name.'</a><br />';
 		}
 		
 		$box_content = $manufacturers_list;

@@ -44,8 +44,9 @@ function os_get_manufacturers_meta_title($manufacturer_id, $language_id)
     case 'save':
       $manufacturers_id = os_db_prepare_input($_GET['mID']);
       $manufacturers_name = os_db_prepare_input($_POST['manufacturers_name']);
+      $manufacturers_page_url = os_db_prepare_input($_POST['manufacturers_page_url']);
 
-      $sql_data_array = array('manufacturers_name' => $manufacturers_name);
+      $sql_data_array = array('manufacturers_name' => $manufacturers_name, 'manufacturers_page_url' => $manufacturers_page_url);
 
       if ($_GET['action'] == 'insert') {
         $insert_sql_data = array('date_added' => 'now()');
@@ -161,7 +162,7 @@ function os_get_manufacturers_meta_title($manufacturer_id, $language_id)
                 <td class="dataTableHeadingContent" align="right"><?php echo TABLE_HEADING_ACTION; ?>&nbsp;</td>
               </tr>
 <?php
-  $manufacturers_query_raw = "select manufacturers_id, manufacturers_name, manufacturers_image, date_added, last_modified from " . TABLE_MANUFACTURERS . " order by manufacturers_name";
+  $manufacturers_query_raw = "select manufacturers_id, manufacturers_name, manufacturers_image, date_added, last_modified, manufacturers_page_url from " . TABLE_MANUFACTURERS . " order by manufacturers_name";
   $manufacturers_split = new splitPageResults($_GET['page'], MAX_DISPLAY_ADMIN_PAGE, $manufacturers_query_raw, $manufacturers_query_numrows);
   $manufacturers_query = os_db_query($manufacturers_query_raw);
   while ($manufacturers = os_db_fetch_array($manufacturers_query)) {
@@ -248,6 +249,7 @@ function os_get_manufacturers_meta_title($manufacturer_id, $language_id)
         $manufacturer_desc_string .= '<br />' . $languages[$i]['name'] . ':&nbsp;<br />' . os_draw_textarea_field('manufacturers_description[' . $languages[$i]['id'] . ']', 'soft', '30', '5');
       }
       $contents[] = array('text' => '<br />' . TEXT_MANUFACTURERS_DESCRIPTION . $manufacturer_desc_string);
+	  $contents[] = array('text' => '<br>' . TEXT_MANUFACTURERS_SEO_URL . os_draw_input_field('manufacturers_page_url', $mInfo->manufacturers_page_url));
 
       $contents[] = array('text' => '<br />' . TEXT_MANUFACTURERS_IMAGE . '<br />' . os_draw_file_field('manufacturers_image'));
 
@@ -299,6 +301,7 @@ function os_get_manufacturers_meta_title($manufacturer_id, $language_id)
         $manufacturer_desc_string .= '<br>' . $languages[$i]['name'] . ':&nbsp;<br/>' . os_draw_textarea_field('manufacturers_description[' . $languages[$i]['id'] . ']', 'soft', '30', '5', os_get_manufacturers_description($mInfo->manufacturers_id, $languages[$i]['id']));
       }
       $contents[] = array('text' => '<br>' . TEXT_MANUFACTURERS_DESCRIPTION . $manufacturer_desc_string);
+      $contents[] = array('text' => '<br>' . TEXT_MANUFACTURERS_SEO_URL . os_draw_input_field('manufacturers_page_url', $mInfo->manufacturers_page_url));
 
       $contents[] = array('text' => '<br />' . TEXT_MANUFACTURERS_IMAGE . '<br />' . os_draw_file_field('manufacturers_image') . '<br />' . $mInfo->manufacturers_image);
 

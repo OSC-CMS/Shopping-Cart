@@ -772,6 +772,7 @@ os_db_query("CREATE TABLE ".DB_PREFIX."manufacturers (
   manufacturers_image varchar(255),
   date_added datetime NULL,
   last_modified datetime NULL,
+  manufacturers_page_url varchar(255) NOT NULL,
   PRIMARY KEY (manufacturers_id),
   KEY IDX_MANUFACTURERS_NAME (manufacturers_name)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE utf8_general_ci;");

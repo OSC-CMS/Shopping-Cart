@@ -13,7 +13,7 @@ $box->assign('tpl_path', _HTTP_THEMES_C);
 $box_content='';
 
 
-    $manufacturer_query = osDBquery("select m.manufacturers_id, m.manufacturers_name, m.manufacturers_image, mi.manufacturers_url from " . TABLE_MANUFACTURERS . " m left join " . TABLE_MANUFACTURERS_INFO . " mi on (m.manufacturers_id = mi.manufacturers_id and mi.languages_id = '" . (int)$_SESSION['languages_id'] . "'), " . TABLE_PRODUCTS . " p  where p.products_id = '" . $product->data['products_id'] . "' and p.manufacturers_id = m.manufacturers_id");
+    $manufacturer_query = osDBquery("select m.manufacturers_id, m.manufacturers_name, m.manufacturers_image, mi.manufacturers_url, m.manufacturers_page_url from " . TABLE_MANUFACTURERS . " m left join " . TABLE_MANUFACTURERS_INFO . " mi on (m.manufacturers_id = mi.manufacturers_id and mi.languages_id = '" . (int)$_SESSION['languages_id'] . "'), " . TABLE_PRODUCTS . " p  where p.products_id = '" . $product->data['products_id'] . "' and p.manufacturers_id = m.manufacturers_id");
     if (os_db_num_rows($manufacturer_query,true)) {
       $manufacturer = os_db_fetch_array($manufacturer_query,true);
 
@@ -22,8 +22,13 @@ $box_content='';
       $box->assign('IMAGE',$image);
       $box->assign('NAME',$manufacturer['manufacturers_name']);
       
-        if ($manufacturer['manufacturers_url']!='')$box->assign('URL','<a href="' . os_href_link(FILENAME_REDIRECT, 'action=manufacturer&'.os_manufacturer_link($manufacturer['manufacturers_id'],$manufacturer['manufacturers_name'])) . '" onclick="window.open(this.href); return false;">' . sprintf(BOX_MANUFACTURER_INFO_HOMEPAGE, $manufacturer['manufacturers_name']) . '</a>');
-        $box->assign('LINK_MORE','<a href="' . os_href_link(FILENAME_DEFAULT, os_manufacturer_link($manufacturer['manufacturers_id'],$manufacturer['manufacturers_name'])) . '">' . BOX_MANUFACTURER_INFO_OTHER_PRODUCTS . '</a>');
+        if ($manufacturer['manufacturers_url'] != '')
+			$box->assign('URL','<a href="' . os_href_link(FILENAME_REDIRECT, 'action=manufacturer&'.os_manufacturer_link($manufacturer['manufacturers_id'],$manufacturer['manufacturers_name'])) . '" onclick="window.open(this.href); return false;">' . sprintf(BOX_MANUFACTURER_INFO_HOMEPAGE, $manufacturer['manufacturers_name']) . '</a>');
+
+		if ($manufacturer['manufacturers_page_url'] != '')
+			$box->assign('LINK_MORE','<a href="' . os_href_link($manufacturer['manufacturers_page_url']) . '">' . BOX_MANUFACTURER_INFO_OTHER_PRODUCTS . '</a>');
+		else
+			$box->assign('LINK_MORE','<a href="' . os_href_link(FILENAME_DEFAULT, os_manufacturer_link($manufacturer['manufacturers_id'],$manufacturer['manufacturers_name'])) . '">' . BOX_MANUFACTURER_INFO_OTHER_PRODUCTS . '</a>');
 
     }
   

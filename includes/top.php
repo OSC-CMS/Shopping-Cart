@@ -427,11 +427,13 @@
         }
     }
     elseif (isset($_GET['manufacturers_id']) && os_not_null($_GET['manufacturers_id'])) {
-        $manufacturers_query = osDBquery("select manufacturers_name from ".TABLE_MANUFACTURERS." where manufacturers_id = '".(int) $_GET['manufacturers_id']."'");
+        $manufacturers_query = osDBquery("select manufacturers_name, manufacturers_page_url from ".TABLE_MANUFACTURERS." where manufacturers_id = '".(int) $_GET['manufacturers_id']."'");
         $manufacturers = os_db_fetch_array($manufacturers_query, true);
 
-        $breadcrumb->add($manufacturers['manufacturers_name'], os_href_link(FILENAME_DEFAULT, os_manufacturer_link((int) $_GET['manufacturers_id'], $manufacturers['manufacturers_name'])));
-
+		if ($manufacturers['manufacturers_page_url'] != '')
+			$breadcrumb->add($manufacturers['manufacturers_name'], os_href_link($manufacturers['manufacturers_page_url']));
+		else
+			$breadcrumb->add($manufacturers['manufacturers_name'], os_href_link(FILENAME_DEFAULT, os_manufacturer_link((int) $_GET['manufacturers_id'], $manufacturers['manufacturers_name'])));
     }
 
     // add the products model/name to the breadcrumb trail

@@ -42,6 +42,7 @@ define('ERROR_DIRECTORY_DOES_NOT_EXIST', 'Ошибка: Директория н�
 define('TEXT_MANUFACTURERS_META_TITLE', 'Meta title:');
 define('TEXT_MANUFACTURERS_META_KEYWORDS', 'Meta keywords:');
 define('TEXT_MANUFACTURERS_META_DESCRIPTION', 'Meta description:');
-define('TEXT_MANUFACTURERS_DESCRIPTION','Описание производителя:')
+define('TEXT_MANUFACTURERS_DESCRIPTION','Описание производителя:');
+define('TEXT_MANUFACTURERS_SEO_URL','ЧПУ УРЛ производителя:');
 
 ?>

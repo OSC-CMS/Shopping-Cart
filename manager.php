@@ -90,141 +90,141 @@ if (isset($URI_elements[0]) && (strlen($URI_elements[0]) > 0))
 			$PHP_SELF = '/product_info.php';
 			include('product_info.php');
 		}
-		// Если нет товара, то ищем инфо. страницу
+		// Если нет товара, то ищем производителя
 		else
 		{
 			mysql_free_result($result);
-			$query = 'select content_id from ' . TABLE_CONTENT_MANAGER . ' where content_page_url="'.$URI_elements[0].'"';
+			$query = 'select manufacturers_id from ' . TABLE_MANUFACTURERS . ' where manufacturers_page_url="'.$URI_elements[0].'"';
 			$result = mysql_query($query);
 			if (mysql_num_rows($result) > 0)
 			{
 				$row = mysql_fetch_array($result, MYSQL_ASSOC);
-				$coID = $row['content_id'];
+				$mID = $row['manufacturers_id'];
 				$matched = true;
 			}
 			else
 				$matched = false;
 
-			// Если есть инфо. страница
+			// Если есть производитель
 			if ($matched) 
 			{
-				$HTTP_GET_VARS['coID']  = $coID;
-				$_GET['coID']  = $coID;
+				$HTTP_GET_VARS['manufacturers_id']  = $mID;
+				$_GET['manufacturers_id']  = $mID;
 				mysql_free_result($result);
 				mysql_close();
-				$PHP_SELF = '/shop_content.php';
-				include('shop_content.php');
-			} 
-			// Если нет инфо. страницы, то ищем статью
+				$PHP_SELF = '/index.php';
+				include('index.php');
+			}
+			// Если нет производителя, то ищем инфо. страницу
 			else
 			{
 				mysql_free_result($result);
-				$query = 'select articles_id from ' . TABLE_ARTICLES . ' where articles_page_url="'.$URI_elements[0].'"';
+				$query = 'select content_id from ' . TABLE_CONTENT_MANAGER . ' where content_page_url="'.$URI_elements[0].'"';
 				$result = mysql_query($query);
 				if (mysql_num_rows($result) > 0)
 				{
 					$row = mysql_fetch_array($result, MYSQL_ASSOC);
-					$aID = $row['articles_id'];
+					$coID = $row['content_id'];
 					$matched = true;
 				}
 				else
 					$matched = false;
 
-				// Если есть статья
-				if ($matched)
+				// Если есть инфо. страница
+				if ($matched) 
 				{
-					$HTTP_GET_VARS['articles_id']  = $aID;
-					$_GET['articles_id']  = $aID;
+					$HTTP_GET_VARS['coID']  = $coID;
+					$_GET['coID']  = $coID;
 					mysql_free_result($result);
 					mysql_close();
-					$PHP_SELF = '/article_info.php';
-					include('article_info.php');
+					$PHP_SELF = '/shop_content.php';
+					include('shop_content.php');
 				}
-				// Если нет статьи, то ищем категорию статей
+				// Если нет инфо. страницы, то ищем статью
 				else
 				{
 					mysql_free_result($result);
-					$query = 'select topics_id from ' . TABLE_TOPICS . ' where topics_page_url="'.$URI_elements[0].'"';
+					$query = 'select articles_id from ' . TABLE_ARTICLES . ' where articles_page_url="'.$URI_elements[0].'"';
 					$result = mysql_query($query);
 					if (mysql_num_rows($result) > 0)
 					{
 						$row = mysql_fetch_array($result, MYSQL_ASSOC);
-						$tID = $row['topics_id'];
+						$aID = $row['articles_id'];
 						$matched = true;
 					}
 					else
 						$matched = false;
 
-					// Если есть категория статей
+					// Если есть статья
 					if ($matched)
 					{
-						$HTTP_GET_VARS['tPath']  = $tID;
-						$_GET['tPath']  = $tID;
+						$HTTP_GET_VARS['articles_id']  = $aID;
+						$_GET['articles_id']  = $aID;
 						mysql_free_result($result);
 						mysql_close();
-						$PHP_SELF = '/articles.php';
-						include('articles.php');
+						$PHP_SELF = '/article_info.php';
+						include('article_info.php');
 					}
-					// Если нет категории статей, то ищем новость
+					// Если нет статьи, то ищем категорию статей
 					else
 					{
 						mysql_free_result($result);
-						$query = 'select news_id from ' . TABLE_LATEST_NEWS . ' where news_page_url="'.$URI_elements[0].'"';
+						$query = 'select topics_id from ' . TABLE_TOPICS . ' where topics_page_url="'.$URI_elements[0].'"';
 						$result = mysql_query($query);
 						if (mysql_num_rows($result) > 0)
 						{
 							$row = mysql_fetch_array($result, MYSQL_ASSOC);
-							$nID = $row['news_id'];
+							$tID = $row['topics_id'];
 							$matched = true;
 						}
 						else
 							$matched = false;
 
-						// Если есть новость
+						// Если есть категория статей
 						if ($matched)
 						{
-							$HTTP_GET_VARS['news_id']  = $nID;
-							$_GET['news_id']  = $nID;
+							$HTTP_GET_VARS['tPath']  = $tID;
+							$_GET['tPath']  = $tID;
 							mysql_free_result($result);
 							mysql_close();
-							$PHP_SELF = '/news.php';
-							include('news.php');
+							$PHP_SELF = '/articles.php';
+							include('articles.php');
 						}
-						// Если нет новости, то ищем faq
+						// Если нет категории статей, то ищем новость
 						else
 						{
 							mysql_free_result($result);
-							$query = 'select faq_id from '.TABLE_FAQ.' where faq_page_url="'.$URI_elements[0].'"';
+							$query = 'select news_id from ' . TABLE_LATEST_NEWS . ' where news_page_url="'.$URI_elements[0].'"';
 							$result = mysql_query($query);
 							if (mysql_num_rows($result) > 0)
 							{
 								$row = mysql_fetch_array($result, MYSQL_ASSOC);
-								$fID = $row['faq_id'];
+								$nID = $row['news_id'];
 								$matched = true;
 							}
 							else
 								$matched = false;
 
+							// Если есть новость
 							if ($matched)
 							{
-								$HTTP_GET_VARS['faq_id']  = $fID;
-								$_GET['faq_id']  = $fID;
+								$HTTP_GET_VARS['news_id']  = $nID;
+								$_GET['news_id']  = $nID;
 								mysql_free_result($result);
 								mysql_close();
-								$PHP_SELF = '/faq.php';
-								include('faq.php');
+								$PHP_SELF = '/news.php';
+								include('news.php');
 							}
-							// Если нет faq, то ищем профиль покупателя
+							// Если нет новости, то ищем faq
 							else
 							{
 								mysql_free_result($result);
-								$customerLogin = str_replace('.html', '', $URI_elements[0]);
-								$query = 'select customers_id from '.TABLE_CUSTOMERS.' where customers_username="'.$customerLogin.'"';
+								$query = 'select faq_id from '.TABLE_FAQ.' where faq_page_url="'.$URI_elements[0].'"';
 								$result = mysql_query($query);
 								if (mysql_num_rows($result) > 0)
 								{
 									$row = mysql_fetch_array($result, MYSQL_ASSOC);
-									$uID = $row['customers_id'];
+									$fID = $row['faq_id'];
 									$matched = true;
 								}
 								else
@@ -232,25 +232,51 @@ if (isset($URI_elements[0]) && (strlen($URI_elements[0]) > 0))
 
 								if ($matched)
 								{
-									$HTTP_GET_VARS['id']  = $uID;
-									$_GET['id']  = $uID;
+									$HTTP_GET_VARS['faq_id']  = $fID;
+									$_GET['faq_id']  = $fID;
 									mysql_free_result($result);
 									mysql_close();
-									$PHP_SELF = '/profile.php';
-									include('profile.php');
+									$PHP_SELF = '/faq.php';
+									include('faq.php');
 								}
-								// Если нет профиля, инклудим главную страницу
+								// Если нет faq, то ищем профиль покупателя
 								else
 								{
 									mysql_free_result($result);
-									mysql_close();
-									header('HTTP/1.1 404 Not Found');
-									$PHP_SELF = '/index.php';
-									include('index.php');
+									$customerLogin = str_replace('.html', '', $URI_elements[0]);
+									$query = 'select customers_id from '.TABLE_CUSTOMERS.' where customers_username="'.$customerLogin.'"';
+									$result = mysql_query($query);
+									if (mysql_num_rows($result) > 0)
+									{
+										$row = mysql_fetch_array($result, MYSQL_ASSOC);
+										$uID = $row['customers_id'];
+										$matched = true;
+									}
+									else
+										$matched = false;
+
+									if ($matched)
+									{
+										$HTTP_GET_VARS['id']  = $uID;
+										$_GET['id']  = $uID;
+										mysql_free_result($result);
+										mysql_close();
+										$PHP_SELF = '/profile.php';
+										include('profile.php');
+									}
+									// Если нет профиля, инклудим главную страницу
+									else
+									{
+										mysql_free_result($result);
+										mysql_close();
+										header('HTTP/1.1 404 Not Found');
+										$PHP_SELF = '/index.php';
+										include('index.php');
+									}
 								}
 							}
 						}
-					}        
+					}
 				}
 			}
 		}
