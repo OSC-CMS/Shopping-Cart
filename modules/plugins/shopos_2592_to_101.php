@@ -33,6 +33,7 @@ function shopos_2592_to_101_install()
 	os_db_query("ALTER TABLE ".DB_PREFIX."categories ADD menu tinyint(1) NOT NULL default '1';");
 	os_db_query("ALTER TABLE ".DB_PREFIX."orders_products ADD bundle int(1) NOT NULL default '0';");
 	os_db_query("ALTER TABLE ".DB_PREFIX."products ADD products_bundle int(1) NOT NULL default '0';");
+	os_db_query("ALTER TABLE ".DB_PREFIX."manufacturers ADD manufacturers_page_url VARCHAR(255) NOT NULL DEFAULT  '';");
 
 	os_db_query("CREATE TABLE ".DB_PREFIX."customers_profile (
 		customers_id int(11) NOT NULL auto_increment,
