@@ -188,7 +188,7 @@ os_get_products_name($pInfo->products_id, $languages[$i]['id'])); ?>" size=60>
             <td></td>
             <td></td>
             <td valign="top" class="main"><?php echo TEXT_PRODUCTS_REVIEWS; ?></td>
-            <td valign="top" class="main"><?php echo os_draw_pull_down_menu('products_reviews', $fsk18_array, $pInfo->products_reviews); ?></tr>
+            <td valign="top" class="main"><?php echo os_draw_pull_down_menu('products_reviews', $fsk18_array, (($pInfo->products_reviews != '') ? $pInfo->products_reviews : 1)); ?></tr>
 <!--// Products URL begin //-->
           <tr>
             <td valign="top" class="main"><?php echo TEXT_PRODUCTS_PAGE_URL; ?></td>
