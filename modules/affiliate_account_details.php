@@ -350,7 +350,7 @@ else {
 }
 $module->assign('country_id_content', $country_id_content);
 
-if (ACCOUNT_STATE == 'true') {
+if (ACCOUNT_STATE == 'true' && ACCOUNT_COUNTRY == 'true') {
 	$module->assign('ACCOUNT_STATE', 'true');
 	$state = os_get_zone_name($a_country, $a_zone_id, $a_state);
     if ($is_read_only == true) {

@@ -216,7 +216,7 @@ if (isset($_GET['action']) && $_GET['action']) {
 if (isset($_POST['country'])) { $entry_country_id = $_POST['country']; } else { $entry_country_id = STORE_COUNTRY; }
 $entry_state = $_POST['state'];
 
-	if (ACCOUNT_STATE == 'true') {
+	if (ACCOUNT_STATE == 'true' && ACCOUNT_COUNTRY == 'true') {
 		if ($entry_country_error == true) {
 			$entry_state_error = true;
 		} else {
@@ -310,7 +310,7 @@ $entry_state = $_POST['state'];
 				if (ACCOUNT_SUBURB == 'true')
 					$sql_data_array['entry_suburb'] = $entry_suburb;
 
-				if (ACCOUNT_STATE == 'true') {
+				if (ACCOUNT_STATE == 'true' && ACCOUNT_COUNTRY == 'true') {
 					if ($entry_zone_id > 0) {
 						$sql_data_array['entry_zone_id'] = (int)$entry_zone_id;
 						$sql_data_array['entry_state'] = '';
@@ -447,7 +447,7 @@ function check_form() {
 
 <?php
 
-	if (ACCOUNT_STATE == 'true') {
+	if (ACCOUNT_STATE == 'true' && ACCOUNT_COUNTRY == 'true') {
 ?>
   if (document.customers.elements['entry_state'].type != "hidden") {
     if (document.customers.entry_state.value == '' || document.customers.entry_state.value.length < <?php echo ENTRY_STATE_MIN_LENGTH; ?> ) {
@@ -827,7 +827,7 @@ if (isset($_GET['action']) && ( $_GET['action'] == 'edit' || $_GET['action'] == 
   }
 ?>
 <?php
-if (ACCOUNT_STATE == 'true') {
+if (ACCOUNT_STATE == 'true' && ACCOUNT_COUNTRY == 'true') {
 ?>
              <tr>
                <td class="main"><?php echo ENTRY_STATE;?></td>

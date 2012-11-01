@@ -1,12 +1,11 @@
 <?php
 /*
-#####################################
-#  OSC-CMS: Shopping Cart Software.
-#  Copyright (c) 2011-2012
-#  http://osc-cms.com
-#  http://osc-cms.com/forum
-#  Ver. 1.0.0
-#####################################
+*---------------------------------------------------------
+*
+*	OSC-CMS - Open Source Shopping Cart Software
+*	http://osc-cms.com
+*
+*---------------------------------------------------------
 */
 
 require ('includes/top.php');
@@ -209,7 +208,7 @@ if ($_GET['action'] == 'edit') {
 if (isset($_POST['country'])) { $entry_country_id = $_POST['country']; } else { $entry_country_id = STORE_COUNTRY; }
 $entry_state = $_POST['state'];
 
-	if (ACCOUNT_STATE == 'true') {
+	if (ACCOUNT_STATE == 'true' && ACCOUNT_COUNTRY == 'true') {
 		if ($entry_country_error == true) {
 			$entry_state_error = true;
 		} else {
@@ -288,7 +287,7 @@ $entry_state = $_POST['state'];
 			$sql_data_array['entry_company'] = $entry_company;
 		if (ACCOUNT_SUBURB == 'true')
 			$sql_data_array['entry_suburb'] = $entry_suburb;
-		if (ACCOUNT_STATE == 'true') {
+		if (ACCOUNT_STATE == 'true' && ACCOUNT_COUNTRY == 'true') {
 			if ($zone_id > 0) {
 				$sql_data_array['entry_zone_id'] = $entry_zone_id;
 				$sql_data_array['entry_state'] = '';
@@ -308,7 +307,7 @@ $entry_state = $_POST['state'];
 
 		// Create insert into admin access table if admin is created.
 		if ($customers_status_c == '0') {
-			os_db_query("INSERT into ".TABLE_ADMIN_ACCESS." (customers_id,index2) VALUES ('".$cc_id."','1')");
+			//os_db_query("INSERT into ".TABLE_ADMIN_ACCESS." (customers_id,index2) VALUES ('".$cc_id."','1')");
 		}
 
 		// Create eMail
@@ -332,7 +331,7 @@ $entry_state = $_POST['state'];
 			os_php_mail(EMAIL_SUPPORT_ADDRESS, EMAIL_SUPPORT_NAME, $customers_email_address, $customers_lastname.' '.$customers_firstname, EMAIL_SUPPORT_FORWARDING_STRING, EMAIL_SUPPORT_REPLY_ADDRESS, EMAIL_SUPPORT_REPLY_ADDRESS_NAME, '', '', EMAIL_SUPPORT_SUBJECT, $html_mail, $txt_mail);
 		}
 		
-        os_db_query("delete from " . TABLE_CUSTOMERS_TO_EXTRA_FIELDS . " where customers_id=" . (int)$cc_id);
+       os_db_query("delete from " . TABLE_CUSTOMERS_TO_EXTRA_FIELDS . " where customers_id=" . (int)$cc_id);
         $extra_fields_query =os_db_query("select ce.fields_id from " . TABLE_EXTRA_FIELDS . " ce where ce.fields_status=1 ");
         while($extra_fields = os_db_fetch_array($extra_fields_query)){
             $sql_extra_data_array = array('customers_id' => (int)$cc_id,
@@ -659,7 +658,7 @@ if ($error == true) {
   }
 ?>
 <?php
-if (ACCOUNT_STATE == 'true') {
+if (ACCOUNT_STATE == 'true' && ACCOUNT_COUNTRY == 'true') {
 ?>
              <tr>
                <td class="main"><?php echo ENTRY_STATE;?></td>

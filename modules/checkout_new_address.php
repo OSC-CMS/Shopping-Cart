@@ -75,7 +75,7 @@ $module->assign('ENTRY_CITY_ERROR', ENTRY_CITY_ERROR);
 $module->assign('city', '0');
 }
 
-if (ACCOUNT_STATE == 'true') {
+if (ACCOUNT_STATE == 'true' && ACCOUNT_COUNTRY == 'true') {
 	$module->assign('state', '1');
 
     if ($process != true) {

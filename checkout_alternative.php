@@ -153,7 +153,7 @@ if (isset ($_POST['payment']))
 	if (ACCOUNT_CITY == 'true')
 	$city = os_db_prepare_input($_POST['city']);
 	$zone_id = os_db_prepare_input($_POST['zone_id']);
-	if (ACCOUNT_STATE == 'true')
+	if (ACCOUNT_STATE == 'true' && ACCOUNT_COUNTRY == 'true')
 		$state = os_db_prepare_input($_POST['state']);
    if (ACCOUNT_COUNTRY == 'true') {
 	   $country = os_db_prepare_input($_POST['country']);
@@ -265,7 +265,7 @@ if (isset ($_POST['payment']))
 	}
   }
 
-	if (ACCOUNT_STATE == 'true') {
+	if (ACCOUNT_STATE == 'true' && ACCOUNT_COUNTRY == 'true') {
 		$zone_id = 0;
 		$check_query = os_db_query("select count(*) as total from ".TABLE_ZONES." where zone_country_id = '".(int) $country."'");
 		$check = os_db_fetch_array($check_query);
@@ -387,7 +387,7 @@ if (isset ($_POST['payment']))
 			$sql_data_array['entry_company'] = $company;
 		if (ACCOUNT_SUBURB == 'true')
 			$sql_data_array['entry_suburb'] = $suburb;
-		if (ACCOUNT_STATE == 'true') {
+		if (ACCOUNT_STATE == 'true' && ACCOUNT_COUNTRY == 'true') {
 			if ($zone_id > 0) {
 				$sql_data_array['entry_zone_id'] = $zone_id;
 				$sql_data_array['entry_state'] = '';
@@ -536,7 +536,7 @@ if (ACCOUNT_CITY == 'true') {
 	$osTemplate->assign('city', '0');
 }
 
-if (ACCOUNT_STATE == 'true') {
+if (ACCOUNT_STATE == 'true' && ACCOUNT_COUNTRY == 'true') {
 	$osTemplate->assign('state', '1');
 
 	    $country = (isset($_POST['country']) ? os_db_prepare_input($_POST['country']) : STORE_COUNTRY);

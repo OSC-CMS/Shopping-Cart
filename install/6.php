@@ -109,7 +109,7 @@ if (isset($_POST['action']) && (($_POST['action'] == 'process') || ($_POST['acti
          }
       }
 
-      if (ACCOUNT_STATE == 'true') 
+      if (ACCOUNT_STATE == 'true' && ACCOUNT_COUNTRY == 'true') 
 	  {
          $zone_id = 0;
          $check_query = os_db_query("select count(*) as total from " . TABLE_ZONES . " where zone_country_id = '" . (int)$country . "'");

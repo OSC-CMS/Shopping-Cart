@@ -48,7 +48,7 @@ if (isset ($_POST['action']) && ($_POST['action'] == 'submit')) {
    	} else {
       $country = STORE_COUNTRY;
    	}
-		if (ACCOUNT_STATE == 'true') {
+		if (ACCOUNT_STATE == 'true' && ACCOUNT_COUNTRY == 'true') {
 			$zone_id = os_db_prepare_input($_POST['zone_id']);
 			$state = os_db_prepare_input($_POST['state']);
 		}
@@ -97,7 +97,7 @@ if (isset ($_POST['action']) && ($_POST['action'] == 'submit')) {
 		}
      }
 
-		if (ACCOUNT_STATE == 'true') {
+		if (ACCOUNT_STATE == 'true' && ACCOUNT_COUNTRY == 'true') {
 			$zone_id = 0;
 			$check_query = os_db_query("select count(*) as total from ".TABLE_ZONES." where zone_country_id = '".(int) $country."'");
 			$check = os_db_fetch_array($check_query);
@@ -139,7 +139,7 @@ if (isset ($_POST['action']) && ($_POST['action'] == 'submit')) {
 				$sql_data_array['entry_company'] = $company;
 			if (ACCOUNT_SUBURB == 'true')
 				$sql_data_array['entry_suburb'] = $suburb;
-			if (ACCOUNT_STATE == 'true') {
+			if (ACCOUNT_STATE == 'true' && ACCOUNT_COUNTRY == 'true') {
 				if ($zone_id > 0) {
 					$sql_data_array['entry_zone_id'] = $zone_id;
 					$sql_data_array['entry_state'] = '';

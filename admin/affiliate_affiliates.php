@@ -72,7 +72,7 @@
           $sql_data_array['affiliate_company_taxid'] =  $affiliate_company_taxid;
         }
         if (ACCOUNT_SUBURB == 'true') $sql_data_array['affiliate_suburb'] = $affiliate_suburb;
-        if (ACCOUNT_STATE == 'true') {
+        if (ACCOUNT_STATE == 'true' && ACCOUNT_COUNTRY == 'true') {
           $sql_data_array['affiliate_state'] = $affiliate_state;
           $sql_data_array['affiliate_zone_id'] = $affiliate_zone_id;
         }
@@ -268,7 +268,7 @@
             <td class="main"><?php echo os_draw_pull_down_menu('affiliate_country_id', os_get_countries(), $aInfo->affiliate_country_id, 'onChange="update_zone(this.form);"'); ?></td>
           </tr>
 <?php
-    if (ACCOUNT_STATE == 'true') {
+    if (ACCOUNT_STATE == 'true' && ACCOUNT_COUNTRY == 'true') {
 ?>
           <tr>
             <td class="main"><?php echo ENTRY_STATE; ?></td>

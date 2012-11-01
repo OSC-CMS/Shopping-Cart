@@ -136,7 +136,7 @@ if (isset($_POST['action'])) {
     }
    }
 
-    if (ACCOUNT_STATE == 'true') {
+    if (ACCOUNT_STATE == 'true' && ACCOUNT_COUNTRY == 'true') {
     	if ($entry_country_error) {
     		$entry_state_error = true;
     	}
@@ -266,7 +266,7 @@ if (isset($_POST['action'])) {
     		$sql_data_array['affiliate_company_taxid'] = $a_company_taxid;
     	}
     	if (ACCOUNT_SUBURB == 'true') $sql_data_array['affiliate_suburb'] = $a_suburb;
-    	if (ACCOUNT_STATE == 'true') {
+    	if (ACCOUNT_STATE == 'true' && ACCOUNT_COUNTRY == 'true') {
     		if ($a_zone_id > 0) {
     			$sql_data_array['affiliate_zone_id'] = $a_zone_id;
     			$sql_data_array['affiliate_state'] = '';

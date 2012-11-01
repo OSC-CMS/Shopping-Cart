@@ -1112,7 +1112,7 @@ os_db_query("INSERT INTO `".DB_PREFIX."configuration` VALUES
 (133, 'ACCOUNT_STREET_ADDRESS', 'false', 5, 4, NULL, '0000-00-00 00:00:00', NULL, 'os_cfg_select_option(array(\'true\', \'false\'),'),
 (134, 'ACCOUNT_CITY', 'true', 5, 5, NULL, '0000-00-00 00:00:00', NULL, 'os_cfg_select_option(array(\'true\', \'false\'),'),
 (135, 'ACCOUNT_POSTCODE', 'false', 5, 6, NULL, '0000-00-00 00:00:00', NULL, 'os_cfg_select_option(array(\'true\', \'false\'),'),
-(136, 'ACCOUNT_COUNTRY', 'false', 5, 7, NULL, '0000-00-00 00:00:00', NULL, 'os_cfg_select_option(array(\'true\', \'false\'),'),
+(136, 'ACCOUNT_COUNTRY', 'true', 5, 7, NULL, '0000-00-00 00:00:00', NULL, 'os_cfg_select_option(array(\'true\', \'false\'),'),
 (137, 'ACCOUNT_TELE', 'true', 5, 8, NULL, '0000-00-00 00:00:00', NULL, 'os_cfg_select_option(array(\'true\', \'false\'),'),
 (138, 'ACCOUNT_FAX', 'false', 5, 9, NULL, '0000-00-00 00:00:00', NULL, 'os_cfg_select_option(array(\'true\', \'false\'),'),
 (139, 'ACCOUNT_SUBURB', 'false', 5, 10, NULL, '0000-00-00 00:00:00', NULL, 'os_cfg_select_option(array(\'true\', \'false\'),'),
