@@ -1,12 +1,11 @@
 <?php
 /*
-#####################################
-#  OSC-CMS: Shopping Cart Software.
-#  Copyright (c) 2011-2012
-#  http://osc-cms.com
-#  http://osc-cms.com/forum
-#  Ver. 1.0.0
-#####################################
+*---------------------------------------------------------
+*
+*	OSC-CMS - Open Source Shopping Cart Software
+*	http://osc-cms.com
+*
+*---------------------------------------------------------
 */
 
 define('TABLE_HEADING_CONFIGURATION_TITLE', 'Title');
@@ -973,6 +972,9 @@ define('DB_CACHE_PRO_DESC','');
 
 define('TEMPLATE_COMPILE_CHECK_TITLE','Проверка перекомпиляции шаблона');
 define('TEMPLATE_COMPILE_CHECK_DESC','Проверка изменения шаблонов необходима только на стадии содания шаблона. На рабочих сайтах, для повышения быстродействия, проверку необходимо отключать.');
+
+define('AVISOSMS_EMAIL_TITLE','AvisoSMS');
+define('AVISOSMS_EMAIL_DESC','Получить Email нужно в личном кабинете AvisoSMS, в разделе "Рассылки" – "Адреса отправителя". Для этого нужно добавить магазин и получить уникальный email адрес и ввести тут.');
 
 require_once(DIR_FS_ADMIN .'lang/'. $_SESSION['language_admin']. '/affiliate_configuration.php');
 ?>

@@ -119,7 +119,7 @@ if (isset($URI_elements[0]) && (strlen($URI_elements[0]) > 0))
 			else
 			{
 				mysql_free_result($result);
-				$query = 'select content_id from ' . TABLE_CONTENT_MANAGER . ' where content_page_url="'.$URI_elements[0].'"';
+				$query = 'select content_id from '.TABLE_CONTENT_MANAGER.' where content_page_url="'.$URI_elements[0].'"';
 				$result = mysql_query($query);
 				if (mysql_num_rows($result) > 0)
 				{
