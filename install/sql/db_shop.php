@@ -258,12 +258,12 @@ os_db_query("INSERT INTO `".DB_PREFIX."products_images` VALUES
 ");
 
 os_db_query("INSERT INTO `".DB_PREFIX."manufacturers` VALUES
-(1, 'Sony', NULL, '2012-07-17 14:16:31', NULL),
-(2, 'Nokia', NULL, '2012-07-17 14:16:44', NULL),
-(3, 'HTC', NULL, '2012-07-17 14:16:53', NULL),
-(4, 'Samsung', NULL, '2012-07-17 14:17:02', NULL),
-(5, 'Apple', NULL, '2012-07-17 14:17:44', NULL),
-(6, 'Panasonic', NULL, '2012-07-17 14:17:59', NULL);
+(1, 'Sony', NULL, '2012-07-17 14:16:31', NULL, ''),
+(2, 'Nokia', NULL, '2012-07-17 14:16:44', NULL, ''),
+(3, 'HTC', NULL, '2012-07-17 14:16:53', NULL, ''),
+(4, 'Samsung', NULL, '2012-07-17 14:17:02', NULL, ''),
+(5, 'Apple', NULL, '2012-07-17 14:17:44', NULL, ''),
+(6, 'Panasonic', NULL, '2012-07-17 14:17:59', NULL, '');
 ");
 
 os_db_query("INSERT INTO `".DB_PREFIX."manufacturers_info` VALUES
