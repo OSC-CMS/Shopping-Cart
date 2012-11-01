@@ -1,0 +1,8 @@
+Заказ {$ORDER_NR} изменён.
+
+Новый статус: {$ORDER_STATUS}
+
+{if $NOTIFY_COMMENTS}{$NOTIFY_COMMENTS}{/if}
+
+{$smarty.const.STORE_OWNER_EMAIL_ADDRESS}
+{$smarty.const.STORE_TELEPHONE}

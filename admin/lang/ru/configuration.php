@@ -986,5 +986,8 @@ define('DISPLAY_DB_QUERY_DESC', '');
 
 define('BUTTON_DEFAULT', 'По умолчанию');
 
+define('AVISOSMS_EMAIL_TITLE','AvisoSMS');
+define('AVISOSMS_EMAIL_DESC','Получить Email нужно в личном кабинете AvisoSMS, в разделе "Рассылки" – "Адреса отправителя". Для этого нужно добавить магазин и получить уникальный email адрес и ввести тут.');
+
 require_once(DIR_FS_ADMIN .'lang/'. $_SESSION['language_admin']. '/affiliate_configuration.php');
 ?>

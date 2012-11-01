@@ -114,6 +114,14 @@ if ($_SESSION['customer_id'] == $order_check['customers_id']) {
 	// send mail to customer
 	os_php_mail(EMAIL_BILLING_ADDRESS, EMAIL_BILLING_NAME, $order->customer['email_address'], $order->customer['firstname'].' '.$order->customer['lastname'], '', EMAIL_BILLING_REPLY_ADDRESS, EMAIL_BILLING_REPLY_ADDRESS_NAME, '', '', $order_subject, $html_mail, $txt_mail);
 
+	if (defined('AVISOSMS_EMAIL') && AVISOSMS_EMAIL != '')
+	{
+		$html_mail_sms = $osTemplate->fetch(_MAIL.$_SESSION['language'].'/order_mail_sms.html');
+		$txt_mail_sms = $osTemplate->fetch(_MAIL.$_SESSION['language'].'/order_mail_sms.txt');
+		// send mail to customer
+		os_php_mail(EMAIL_BILLING_ADDRESS, EMAIL_BILLING_NAME, AVISOSMS_EMAIL, $order->customer['firstname'].' '.$order->customer['lastname'], '', EMAIL_BILLING_REPLY_ADDRESS, EMAIL_BILLING_REPLY_ADDRESS_NAME, '', '', $order->customer['telephone'], $html_mail_sms, $txt_mail_sms);
+	}
+
 	if (AFTERBUY_ACTIVATED == 'true') {
 		require_once (dir_path('class').'afterbuy.php');
 		$aBUY = new os_afterbuy_functions($insert_id);

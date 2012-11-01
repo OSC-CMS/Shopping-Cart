@@ -87,7 +87,7 @@ if (isset($_POST['submit']) && isset($_POST['multi_orders'])){
   }
   foreach ($_POST['multi_orders'] as $this_orderID){
     $order_updated = false;
-    $check_status_query = os_db_query("select customers_name, customers_email_address, orders_status, date_purchased from " . TABLE_ORDERS . " where orders_id = '" . (int)$this_orderID . "'");
+    $check_status_query = os_db_query("select customers_name, customers_telephone, customers_email_address, orders_status, date_purchased from " . TABLE_ORDERS . " where orders_id = '" . (int)$this_orderID . "'");
     $check_status = os_db_fetch_array($check_status_query);
 
     if ($check_status['orders_status'] != $status) {
@@ -119,6 +119,14 @@ if (isset($_POST['submit']) && isset($_POST['multi_orders'])){
 				}
 
 				os_php_mail(EMAIL_BILLING_ADDRESS, EMAIL_BILLING_NAME, $check_status['customers_email_address'], $check_status['customers_name'], '', EMAIL_BILLING_REPLY_ADDRESS, EMAIL_BILLING_REPLY_ADDRESS_NAME, '', '', EMAIL_BILLING_SUBJECT, $html_mail, $txt_mail);
+
+				if (defined('AVISOSMS_EMAIL') && AVISOSMS_EMAIL != '')
+				{
+					$html_mail_sms = $osTemplate->fetch(_MAIL.'admin/'.$_SESSION['language_admin'].'/change_order_mail_sms.html');
+					$txt_mail_sms = $osTemplate->fetch(_MAIL.'admin/'.$_SESSION['language_admin'].'/change_order_mail_sms.txt');
+					// sms to customer
+					os_php_mail(EMAIL_BILLING_ADDRESS, EMAIL_BILLING_NAME, AVISOSMS_EMAIL, $check_status['customers_name'], '', EMAIL_BILLING_REPLY_ADDRESS, EMAIL_BILLING_REPLY_ADDRESS_NAME, '', '', $check_status['customers_telephone'], $html_mail_sms, $txt_mail_sms);
+				}
            $billing_subject = str_replace('{$nr}', $this_orderID, EMAIL_BILLING_SUBJECT);
 
             $customer_notified = '1';
@@ -299,6 +307,15 @@ switch (@$_GET['action']) {
 				}
 
 				os_php_mail(EMAIL_BILLING_ADDRESS, EMAIL_BILLING_NAME, $check_status['customers_email_address'], $check_status['customers_name'], '', EMAIL_BILLING_REPLY_ADDRESS, EMAIL_BILLING_REPLY_ADDRESS_NAME, '', '', EMAIL_BILLING_SUBJECT, $html_mail, $txt_mail);
+
+				if (defined('AVISOSMS_EMAIL') && AVISOSMS_EMAIL != '')
+				{
+					$html_mail_sms = $osTemplate->fetch(_MAIL.'admin/'.$order->info['language'].'/change_order_mail_sms.html');
+					$txt_mail_sms = $osTemplate->fetch(_MAIL.'admin/'.$order->info['language'].'/change_order_mail_sms.txt');
+					// sms to customer
+					os_php_mail(EMAIL_BILLING_ADDRESS, EMAIL_BILLING_NAME, AVISOSMS_EMAIL, $order->customer['firstname'].' '.$order->customer['lastname'], '', EMAIL_BILLING_REPLY_ADDRESS, EMAIL_BILLING_REPLY_ADDRESS_NAME, '', '', $order->customer['telephone'], $html_mail_sms, $txt_mail_sms);
+				}
+
            $billing_subject = str_replace('{$nr}', $oID, EMAIL_BILLING_SUBJECT);
 				$customer_notified = '1';
 			}
