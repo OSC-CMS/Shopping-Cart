@@ -27,7 +27,7 @@ class osTemplate extends Smarty
 
 		if (is_file(_THEMES_C.'lang/'.$_SESSION['language_code'].'.conf'))
 		{
-			$this->config_load(_THEMES_C.'lang/'.$_SESSION['language_code'].'.conf');
+			$this->configLoad(_THEMES_C.'lang/'.$_SESSION['language_code'].'.conf');
 		}
 
 		global $p;
