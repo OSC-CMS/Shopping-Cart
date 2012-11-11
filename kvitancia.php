@@ -42,14 +42,14 @@ if ($_SESSION['customer_id'] == $order_check['customers_id']) {
 	$osTemplate->assign('order_total', $order_total['data']);
 	$osTemplate->assign('final_price', $order->info['total']);
 
-	$osTemplate->assign('1', MODULE_PAYMENT_KVITANCIA_1);
-	$osTemplate->assign('2', MODULE_PAYMENT_KVITANCIA_2);
-	$osTemplate->assign('3', MODULE_PAYMENT_KVITANCIA_3);
-	$osTemplate->assign('4', MODULE_PAYMENT_KVITANCIA_4);
-	$osTemplate->assign('5', MODULE_PAYMENT_KVITANCIA_5);
-	$osTemplate->assign('6', MODULE_PAYMENT_KVITANCIA_6);
-	$osTemplate->assign('7', MODULE_PAYMENT_KVITANCIA_7);
-	$osTemplate->assign('8', MODULE_PAYMENT_KVITANCIA_8);
+	$osTemplate->assign('module_1', MODULE_PAYMENT_KVITANCIA_1);
+	$osTemplate->assign('module_2', MODULE_PAYMENT_KVITANCIA_2);
+	$osTemplate->assign('module_3', MODULE_PAYMENT_KVITANCIA_3);
+	$osTemplate->assign('module_4', MODULE_PAYMENT_KVITANCIA_4);
+	$osTemplate->assign('module_5', MODULE_PAYMENT_KVITANCIA_5);
+	$osTemplate->assign('module_6', MODULE_PAYMENT_KVITANCIA_6);
+	$osTemplate->assign('module_7', MODULE_PAYMENT_KVITANCIA_7);
+	$osTemplate->assign('module_8', MODULE_PAYMENT_KVITANCIA_8);
 
 	// assign language to template for caching
 	$osTemplate->assign('language', $_SESSION['language']);
