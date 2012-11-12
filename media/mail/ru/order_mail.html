@@ -1,81 +1,315 @@
-<table width="100%" border="0">
-  <tr>
-    <td><table width="100%" border="0" cellpadding="0" cellspacing="0">
-        <tr>
-          <td><font size="1" face="Verdana, Arial, Helvetica, sans-serif">{$address_label_customer}<br>
-            <br>
-            {if $PAYMENT_METHOD}<strong>Способ оплаты:</strong> {$PAYMENT_METHOD}<br>{/if}
-            {if $SHIPPING_METHOD}<strong>Способ доставки:</strong> {$SHIPPING_METHOD}<br>{/if}
-            <strong>Номер заказа:</strong> {$oID}<br>
-            <strong>Дата:</strong> {$DATE}<br>
-			{if $csID}<strong>Код покупателя:</strong> {$csID}<br>
-			{/if}
-			<strong>Телефон:</strong> {$PHONE}<br />
-         <strong>E-mail:</strong> {$EMAIL}<br />
-            </font></td>
-          <td width="1"><img src="{$logo_path}logo.gif"></td>
-        </tr>
-      </table>
-      <br> <table style="border-top:1px solid; border-bottom:1px solid;" width="100%" border="0">
-        <tr bgcolor="#f1f1f1">
-          <td width="50%"> <p><font size="1"><strong><font face="Verdana, Arial, Helvetica, sans-serif">Адрес доставки<br>
-          </font></strong></font></p></td>{if $address_label_payment}
-          <td> <p><font size="1"><strong><font face="Verdana, Arial, Helvetica, sans-serif">Адрес покупателя<br>
-          </font> </strong></font></p></td>{/if}
-        </tr>
-        <tr>
-          <td><font size="1" face="Verdana, Arial, Helvetica, sans-serif">            {$address_label_shipping}
-          </font></td>
-          {if $address_label_payment}<td><font size="1" face="Verdana, Arial, Helvetica, sans-serif">
-            {$address_label_payment}
-          </font></td>{/if}
-        </tr>
-      </table>
-      <p><font size="1" face="Verdana, Arial, Helvetica, sans-serif"> Уважаемый
-        {$NAME}!<br>
-        <br>
- Вы оформили заказ в нашем интернет-магазине.</font><br>
- <br>
- {$PAYMENT_INFO_HTML}
-        {if $COMMENTS}<br>
-        <strong><font size="1" face="Verdana, Arial, Helvetica, sans-serif">Ваши комментарии:</font></strong><br>
-        <font size="1" face="Verdana, Arial, Helvetica, sans-serif">{$COMMENTS}</font><br>
-{/if}<br>
-      </p></td>
-  </tr>
-</table>
-<table style="border-bottom:1px solid;" width="100%" border="0" cellpadding="0" cellspacing="0">
-  <tr>
-    <td><font size="1" face="Verdana, Arial, Helvetica, sans-serif"> <strong>Вы заказали следующие товары:</strong></font></td>
-  </tr>
-  <tr>
-    <td> <table width="100%" border="0" cellpadding="3" cellspacing="0" bgcolor="f1f1f1">
-        <tr>
-          <td colspan="2" style="border-right: 2px solid; border-bottom: 2px solid; border-color: #ffffff;"><div align="center"><font size="1" face="Verdana, Arial, Helvetica, sans-serif"><strong><font size="1">Количество</font>
-              </strong></font></div></td>
-          <td style="border-right: 2px solid; border-bottom: 2px solid; border-color: #ffffff;"><font size="1" face="Verdana, Arial, Helvetica, sans-serif"><strong>
-            Товар</strong></font></td>
-          <td style="border-right: 2px solid; border-bottom: 2px solid; border-color: #ffffff;"><strong><font size="1" face="Verdana, Arial, Helvetica, sans-serif">Код товара </font></strong> </td>
-          <td style="border-right: 2px solid; border-bottom: 2px solid; border-color: #ffffff;" width="150"><font size="1" face="Verdana, Arial, Helvetica, sans-serif"><strong>Цена за единицу
-            </strong></font></td>
-          <td style="border-right: 2px solid; border-bottom: 2px solid; border-color: #ffffff;" width="150"><div align="right"><font size="1" face="Verdana, Arial, Helvetica, sans-serif"><strong><font size="1">Всего</font>
-              </strong></font></div></td>
-        </tr>
-        {foreach name=aussen item=order_values from=$order_data}
-        <tr>
-          <td width="20" style="border-right: 2px solid; border-bottom: 2px solid; border-color: #ffffff;"><div align="center"><font size="1" face="Verdana, Arial, Helvetica, sans-serif">{$order_values.PRODUCTS_QTY}</font></div></td>
-          <td width="20" style="border-right: 2px solid; border-bottom: 2px solid; border-color: #ffffff;"><div align="center"><font size="1" face="Verdana, Arial, Helvetica, sans-serif">x</font></div></td>
-          <td style="border-right: 2px solid; border-bottom: 2px solid; border-color: #ffffff;"><font size="1" face="Verdana, Arial, Helvetica, sans-serif"><strong>{$order_values.PRODUCTS_NAME}</strong>{if $order_values.PRODUCTS_SHIPPING_TIME neq ''}<br />Время доставки: {$order_values.PRODUCTS_SHIPPING_TIME}{/if}<em><br>
-            {$order_values.PRODUCTS_ATTRIBUTES}</em></font></td>
-          <td style="border-right: 2px solid; border-bottom: 2px solid; border-color: #ffffff;"><font size="1" face="Verdana, Arial, Helvetica, sans-serif">{$order_values.PRODUCTS_MODEL}<br>
-            <em>{$order_values.PRODUCTS_ATTRIBUTES_MODEL}</em></font></td>
-          <td style="border-right: 2px solid; border-bottom: 2px solid; border-color: #ffffff;" width="150"><font size="1" face="Verdana, Arial, Helvetica, sans-serif">{$order_values.PRODUCTS_SINGLE_PRICE}</font></td>
-          <td style="border-right: 2px solid; border-bottom: 2px solid; border-color: #ffffff;" width="150"><div align="right"><font size="1" face="Verdana, Arial, Helvetica, sans-serif">{$order_values.PRODUCTS_PRICE}</font></div></td>
-        </tr>
-        {/foreach} </table></td>
-  </tr>
-</table>
-{foreach name=aussen item=order_total_values from=$order_total}
-<div align="right"><font size="1" face="Arial, Helvetica, sans-serif">{$order_total_values.TITLE}{$order_total_values.TEXT}</font></div>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html>
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+        <meta property="og:title" content="{$smarty.const.STORE_NAME}" />
+        <title>{$smarty.const.STORE_NAME}</title>
+		<style type="text/css">
+			{literal}
+			#outlook a{padding:0;}
+			body{width:100% !important;} .ReadMsgBody{width:100%;} .ExternalClass{width:100%;}
+			body{-webkit-text-size-adjust:none;}
+			body{margin:0; padding:0;}
+			img{border:0; height:auto; line-height:100%; outline:none; text-decoration:none;}
+			table td{border-collapse:collapse;}
+			#backgroundTable{height:100% !important; margin:0; padding:0; width:100% !important;}
+			body, #backgroundTable{
+				/*@editable*/ background-color:#FAFAFA;
+			}
+			#templateContainer{
+				/*@editable*/ border: 1px solid #DDDDDD;
+			}
+			h1, .h1{
+				/*@editable*/ color:#202020;
+				display:block;
+				/*@editable*/ font-family:Arial;
+				/*@editable*/ font-size:34px;
+				/*@editable*/ font-weight:bold;
+				/*@editable*/ line-height:100%;
+				margin-top:0;
+				margin-right:0;
+				margin-bottom:10px;
+				margin-left:0;
+				/*@editable*/ text-align:left;
+			}
+			h2, .h2{
+				/*@editable*/ color:#202020;
+				display:block;
+				/*@editable*/ font-family:Arial;
+				/*@editable*/ font-size:30px;
+				/*@editable*/ font-weight:bold;
+				/*@editable*/ line-height:100%;
+				margin-top:0;
+				margin-right:0;
+				margin-bottom:10px;
+				margin-left:0;
+				/*@editable*/ text-align:left;
+			}
+			h3, .h3{
+				/*@editable*/ color:#202020;
+				display:block;
+				/*@editable*/ font-family:Arial;
+				/*@editable*/ font-size:26px;
+				/*@editable*/ font-weight:bold;
+				/*@editable*/ line-height:100%;
+				margin-top:0;
+				margin-right:0;
+				margin-bottom:10px;
+				margin-left:0;
+				/*@editable*/ text-align:left;
+			}
+			h4, .h4{
+				/*@editable*/ color:#202020;
+				display:block;
+				/*@editable*/ font-family:Arial;
+				/*@editable*/ font-size:22px;
+				/*@editable*/ font-weight:bold;
+				/*@editable*/ line-height:100%;
+				margin-top:0;
+				margin-right:0;
+				margin-bottom:10px;
+				margin-left:0;
+				/*@editable*/ text-align:left;
+			}
+			#header{
+				/*@editable*/ background-color:#FAFAFA;
+				/*@editable*/ border:0;
+				/*@editable*/ border-bottom: 1px solid #DDDDDD;
+			}
+			#header div{
+				/*@editable*/ text-align:center;
+				/*@editable*/ font-family:Arial;
+				/*@editable*/ font-size:22px;
+				/*@editable*/ line-height:130%;
+				/*@editable*/ text-align:center;
+			}
+			#templateHeader{
+				/*@editable*/ background-color:#FFFFFF;
+				/*@editable*/ border-bottom:0;
+			}
+			#templateContainer, .bodyContent{
+				/*@editable*/ background-color:#FFFFFF;
+			}
+			.bodyContent div{
+				/*@editable*/ color:#505050;
+				/*@editable*/ font-family:Arial;
+				/*@editable*/ font-size:12px;
+				/*@editable*/ line-height:150%;
+				/*@editable*/ text-align:left;
+			}
+			.bodyContent div a:link, .bodyContent div a:visited, /* Yahoo! Mail Override */ .bodyContent div a .yshortcuts /* Yahoo! Mail Override */{
+				/*@editable*/ color:#336699;
+				/*@editable*/ font-weight:normal;
+				/*@editable*/ text-decoration:underline;
+			}
+			.bodyContent img{
+				display:inline;
+				height:auto;
+			}
+			#templateFooter{
+				/*@editable*/ background-color:#FFFFFF;
+				/*@editable*/ border-top:0;
+			}
+			.footerContent div{
+				/*@editable*/ color:#707070;
+				/*@editable*/ font-family:Arial;
+				/*@editable*/ font-size:12px;
+				/*@editable*/ line-height:125%;
+				/*@editable*/ text-align:center;
+			}
+			.footerContent div a:link, .footerContent div a:visited, /* Yahoo! Mail Override */ .footerContent div a .yshortcuts /* Yahoo! Mail Override */{
+				/*@editable*/ color:#336699;
+				/*@editable*/ font-weight:normal;
+				/*@editable*/ text-decoration:underline;
+			}
+			.footerContent img{
+				display:inline;
+			}
+			#monkeyRewards img{
+				max-width:190px;
+			}
+			.templateDataTable td{
+				/*@editable*/ background-color:#FFFFFF;
+				/*@editable*/ border-bottom:1px solid #DDDDDD;
+				/*@editable*/ padding:2px 0 2px 0;
+			}
+			{/literal}
+		</style>
+	</head>
+    <body leftmargin="0" marginwidth="0" topmargin="0" marginheight="0" offset="0">
+    	<center>
+        	<table border="0" cellpadding="0" cellspacing="0" height="100%" width="100%" id="backgroundTable">
+            	<tr>
+                	<td align="center" valign="top" style="padding-top:20px;">
+                    	<table border="0" cellpadding="0" cellspacing="0" width="600" id="templateContainer">
+                        	<tr>
+                            	<td align="center" valign="top">
+                                	<table border="0" cellpadding="0" cellspacing="0" width="600" id="templateHeader">
+										<tr>
+											<td valign="middle" id="header">
+												<div mc:edit="std_header" style="padding:10px;">
+													<a href="{$smarty.const._HTTP}" target="_blank">{$smarty.const.STORE_NAME}</a>
+												</div>
+											</td>
+										</tr>
+                                    </table>
+                                </td>
+                            </tr>
+                        	<tr>
+                            	<td align="center" valign="top">
+                                	<table border="0" cellpadding="0" cellspacing="0" width="600" id="templateBody">
+                                    	<tr>
+                                            <td valign="top">
+                                                <table border="0" cellpadding="20" cellspacing="0" width="100%">
+                                                    <tr>
+                                                        <td valign="top" class="bodyContent">
+                                                            <div mc:edit="std_content00">
+Уважаемый <strong>{$NAME}</strong>!
 <br />
-{/foreach}
+Вы оформили заказ в нашем интернет-магазине.
+<br />
+<br />
+<table border="0" cellpadding="0" cellspacing="0" width="100%" class="templateDataTable">
+	<tr>
+		<td width="25%" valign="top">Номер заказа:</td>
+		<td valign="top"><strong>{$oID}</strong></td>
+	</tr>
+	<tr>
+		<td width="25%" valign="top">Дата:</td>
+		<td valign="top"><strong>{$DATE}</strong></td>
+	</tr>
+	{if $csID}
+	<tr>
+		<td width="25%" valign="top">Код покупателя:</td>
+		<td valign="top"><strong>{$csID}</strong></td>
+	</tr>
+	{/if}
+	{if $PAYMENT_METHOD}
+	<tr>
+		<td width="25%" valign="top">Способ оплаты:</td>
+		<td valign="top"><strong>{$PAYMENT_METHOD}</strong></td>
+	</tr>
+	{/if}
+	{if $SHIPPING_METHOD}
+	<tr>
+		<td width="25%" valign="top">Способ доставки:</td>
+		<td valign="top"><strong>{$SHIPPING_METHOD}</strong></td>
+	</tr>
+	{/if}
+	<tr>
+		<td width="25%" valign="top">Телефон:</td>
+		<td valign="top"><strong>{$PHONE}</strong></td>
+	</tr>
+	<tr>
+		<td width="25%" valign="top">E-mail:</td>
+		<td valign="top"><strong>{$EMAIL}</strong></td>
+	</tr>
+	{if $COMMENTS}
+	<tr>
+		<td width="25%" valign="top">Комментарий к заказу:</td>
+		<td valign="top"><strong>{$COMMENTS}</strong></td>
+	</tr>
+	{/if}
+</table>
+<br />
+<br />
+<table border="0" cellpadding="0" cellspacing="0" width="100%" class="templateDataTable">
+	<tr>
+		<td width="50%"><strong>Адрес доставки</strong></td>
+		{if $address_label_payment}<td><strong>Адрес покупателя</strong></td>{/if}
+	</tr>
+	<tr>
+		<td>{$address_label_shipping}</td>
+		{if $address_label_payment}<td>{$address_label_payment}</td>{/if}
+	</tr>
+</table>
+<br />
+<br />
+<table border="0" cellpadding="0" cellspacing="0" width="100%" class="templateDataTable">
+	<tr>
+		<td width="50%"><strong>Данные покупателя</strong></td>
+		{if $PAYMENT_INFO_HTML}<td><strong>Информация платежа</strong></td>{/if}
+	</tr>
+	<tr>
+		<td>{$address_label_customer}</td>
+		{if $PAYMENT_INFO_HTML}<td>{$PAYMENT_INFO_HTML}</td>{/if}
+	</tr>
+</table>
+<br />
+<br />
+<strong>Вы заказали следующие товары:</strong>
+<br />
+<table border="0" cellpadding="0" cellspacing="0" width="100%" class="templateDataTable">
+	<tr>
+		<td width="25">Кол.</td>
+		<td>Товар</td>
+		<td>Код</td>
+		<td width="110">За единицу</td>
+		<td width="110">Всего</td>
+	</tr>
+	{foreach name=aussen item=order_values from=$order_data}
+	<tr>
+		<td>{$order_values.PRODUCTS_QTY}</td>
+		<td>
+			<strong>{$order_values.PRODUCTS_NAME}</strong>
+			{if $order_values.PRODUCTS_SHIPPING_TIME neq ''}
+				<br />Время доставки: {$order_values.PRODUCTS_SHIPPING_TIME}
+			{/if}
+			{if $order_values.PRODUCTS_ATTRIBUTES}
+				<br />
+				<em>{$order_values.PRODUCTS_ATTRIBUTES}</em>
+			{/if}
+		</td>
+		<td>
+			{$order_values.PRODUCTS_MODEL}<br /><em>{$order_values.PRODUCTS_ATTRIBUTES_MODEL}</em>
+		</td>
+		<td>{$order_values.PRODUCTS_SINGLE_PRICE}</td>
+		<td>{$order_values.PRODUCTS_PRICE}</td>
+	</tr>
+	{/foreach}
+</table>
+<table border="0" cellpadding="0" cellspacing="0" width="100%" class="templateDataTable">
+	{foreach name=aussen item=order_total_values from=$order_total}
+	<tr>
+		<td align="right">{$order_total_values.TITLE}</td>
+		<td width="120">&nbsp;&nbsp;<strong>{$order_total_values.TEXT}</strong></td>
+	</tr>
+	{/foreach}
+</table>
+															</div>
+														</td>
+                                                    </tr>
+                                                </table>
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </td>
+                            </tr>
+                        	<tr>
+                            	<td align="center" valign="top">
+                                	<table border="0" cellpadding="10" cellspacing="0" width="600" id="templateFooter">
+                                    	<tr>
+                                        	<td valign="top" class="footerContent">
+ 
+                                                <table border="0" cellpadding="10" cellspacing="0" width="100%">
+                                                    <tr>
+                                                        <td valign="top">
+                                                            <div mc:edit="std_footer">
+																<em>Copyright &copy; {$smarty.now|date_format:"%Y"} <a href="{$smarty.const._HTTP}" target="_blank">{$smarty.const.STORE_NAME}</a>.</em>
+                                                            </div>
+                                                        </td>
+                                                    </tr>
+                                                </table>
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </td>
+                            </tr>
+                        </table>
+                        <br />
+                    </td>
+                </tr>
+            </table>
+        </center>
+    </body>
+</html>
