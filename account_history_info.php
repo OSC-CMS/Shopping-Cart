@@ -64,7 +64,7 @@ if (DOWNLOAD_ENABLED == 'true') include (_MODULES.'downloads.php');
 if ($order->info['payment_method'] == 'schet') 
 {
 
-   $_array = array('img' => 'button_print_schet.gif', 'href' => os_href_link(FILENAME_PRINT_SCHET, 'oID='.$orders['orders_id']), 'alt' => MODULE_PAYMENT_SCHET_PRINT, 'code' => '');
+   $_array = array('img' => 'button_print_schet.gif', 'href' => os_href_link(FILENAME_PRINT_SCHET, 'oID='.(int)$_GET['order_id']), 'alt' => MODULE_PAYMENT_SCHET_PRINT, 'code' => '');
 	
 	$_array = apply_filter('button_print_schet', $_array);
 	
@@ -81,7 +81,7 @@ $osTemplate->assign('BUTTON_PACKINGSLIP_PRINT', '<img alt="' . MODULE_PAYMENT_PA
 }
 if ($order->info['payment_method'] == 'kvitancia') {
  $_array = array('img' => 'button_print_kvitancia.gif', 
- 'href' => os_href_link(FILENAME_PRINT_KVITANCIA, 'oID='.$orders['orders_id']), 
+ 'href' => os_href_link(FILENAME_PRINT_KVITANCIA, 'oID='.(int)$_GET['order_id']), 
  'alt' => MODULE_PAYMENT_KVITANCIA_PRINT, 
  'code' => '');
 	
