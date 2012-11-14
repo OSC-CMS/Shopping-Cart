@@ -165,23 +165,23 @@ if ($_SESSION['customer_id'] == $order_check['customers_id'])
 	$osTemplate->assign('csID', $order->customer['csID']);
 	// get products data
 	$order_total = $order->getTotalData($oID); 
-	$osTemplate->assign('order_data', $order->getOrderData($oID));
+	$osTemplate->assign('order_data', $osccms->orders->getOrderData($oID, false));
 	$osTemplate->assign('order_total', $order_total['data']);
 
-	$osTemplate->assign('1', MODULE_PAYMENT_SCHET_1);
-	$osTemplate->assign('2', MODULE_PAYMENT_SCHET_2);
-	$osTemplate->assign('3', MODULE_PAYMENT_SCHET_3);
-	$osTemplate->assign('4', MODULE_PAYMENT_SCHET_4);
-	$osTemplate->assign('5', MODULE_PAYMENT_SCHET_5);
-	$osTemplate->assign('6', MODULE_PAYMENT_SCHET_6);
-	$osTemplate->assign('7', MODULE_PAYMENT_SCHET_7);
-	$osTemplate->assign('8', MODULE_PAYMENT_SCHET_8);
-	$osTemplate->assign('9', MODULE_PAYMENT_SCHET_9);
-	$osTemplate->assign('10', MODULE_PAYMENT_SCHET_10);
-	$osTemplate->assign('11', MODULE_PAYMENT_SCHET_11);
-	$osTemplate->assign('12', MODULE_PAYMENT_SCHET_12);
-	$osTemplate->assign('13', $order->customer['firstname']);
-	$osTemplate->assign('14', $order->customer['lastname']);
+	$osTemplate->assign('module_1', MODULE_PAYMENT_SCHET_1);
+	$osTemplate->assign('module_2', MODULE_PAYMENT_SCHET_2);
+	$osTemplate->assign('module_3', MODULE_PAYMENT_SCHET_3);
+	$osTemplate->assign('module_4', MODULE_PAYMENT_SCHET_4);
+	$osTemplate->assign('module_5', MODULE_PAYMENT_SCHET_5);
+	$osTemplate->assign('module_6', MODULE_PAYMENT_SCHET_6);
+	$osTemplate->assign('module_7', MODULE_PAYMENT_SCHET_7);
+	$osTemplate->assign('module_8', MODULE_PAYMENT_SCHET_8);
+	$osTemplate->assign('module_9', MODULE_PAYMENT_SCHET_9);
+	$osTemplate->assign('module_10', MODULE_PAYMENT_SCHET_10);
+	$osTemplate->assign('module_11', MODULE_PAYMENT_SCHET_11);
+	$osTemplate->assign('module_12', MODULE_PAYMENT_SCHET_12);
+	$osTemplate->assign('module_13', $order->customer['firstname']);
+	$osTemplate->assign('module_14', $order->customer['lastname']);
 
     $iw=new inwords; 
 
