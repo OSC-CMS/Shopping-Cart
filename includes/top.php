@@ -21,6 +21,10 @@
     if (file_exists($_dir.'/config.php')) require_once ($_dir.'/config.php'); else echo('Error Configure file');
 
     if (!function_exists('get_path')) header('Location: install');
+
+	require_once (_INCLUDES.'api/osccms.class.php');
+	$osccms = new OscCms();
+
     require_once (_CLASS.'db.php');
 
     require_once (_FUNC.'admin.include.php');
