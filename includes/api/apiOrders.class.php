@@ -11,57 +11,79 @@
 class apiOrders extends OscCms
 {
 	/**
-	 * ���������� ���������� � ������ �� ID
+	 * Возвращает информацию о заказе по ID
 	 */
-	public function getOrderData($oID, $format = true)
+	public function getOrderData($oID)
 	{
 		global $osPrice;
 
-		$order_query = os_db_query("SELECT products_id, orders_products_id, products_model, products_name, final_price, products_shipping_time, products_quantity, bundle FROM ".TABLE_ORDERS_PRODUCTS." WHERE orders_id='".(int) $oID."'");
-		$order_data = array ();
-		while ($order_data_values = os_db_fetch_array($order_query))
+		$orderProductsQuery = os_db_query("SELECT * FROM ".TABLE_ORDERS_PRODUCTS." WHERE orders_id = '".(int)$oID."'");
+
+		if (os_db_num_rows($orderProductsQuery) > 0)
 		{
-			// attributes
-			$attributes_query = os_db_query("SELECT products_options, products_options_values, price_prefix, options_values_price FROM ".TABLE_ORDERS_PRODUCTS_ATTRIBUTES." WHERE orders_products_id='".$order_data_values['orders_products_id']."'");
-			$attributes_data = '';
-			$attributes_model = '';
-			while ($attributes_data_values = os_db_fetch_array($attributes_query))
+			// товары заказа
+			while($o = os_db_fetch_array($orderProductsQuery))
 			{
-				$attributes_data .= '<br />'.$attributes_data_values['products_options'].': '.$attributes_data_values['products_options_values'];
-				$attributes_model .= '<br />'.os_get_attributes_model($order_data_values['products_id'], $attributes_data_values['products_options_values'],$attributes_data_values['products_options']);
+				$aOrders[] = $o;
+				$aOrdersId[] = $o['orders_products_id'];
 			}
 
-			//Bundle
-			$products_bundle_data = '';
-			if ($order_data_values['bundle'] == 1)
+			// атрибуты
+			$attributesQuery = os_db_query("SELECT * FROM ".TABLE_ORDERS_PRODUCTS_ATTRIBUTES." WHERE orders_products_id IN (".implode(',', $aOrdersId).")");
+			if (os_db_num_rows($attributesQuery) > 0)
 			{
-				$bundle_query = getBundleProducts($order_data_values['products_id']);
-				if (os_db_num_rows($bundle_query) > 0)
+				while ($a = os_db_fetch_array($attributesQuery))
 				{
-					while($bundle_data = os_db_fetch_array($bundle_query))
+					$aAttributesData[] = $a;
+				}
+
+				// Собираем в новый массив
+				foreach ($aOrders as $k => $order)
+				{
+					foreach ($aAttributesData as $attr)
 					{
-						$products_bundle_data .= $bundle_data['products_name'].'<br />';
+						if ($attr['orders_id'] == $order['orders_id'] && $attr['orders_products_id'] == $order['orders_products_id'])
+						{
+							$aOrders[$k]['attributes'][] = $attr;
+						}
 					}
 				}
+				return $aOrders;
 			}
-			//End of Bundle
+			else
+				return false;
+		}
+		else
+			return false;
+	}
 
-			$order_data[] = array
+	/**
+	 * Возвращает итого заказа по ID
+	 */
+	public function getTotalData($oID)
+	{
+		$orderTotalQuery = os_db_query("SELECT * FROM ".TABLE_ORDERS_TOTAL." WHERE orders_id = '".(int)$oID."' ORDER BY sort_order ASC");
+
+		if (os_db_num_rows($orderTotalQuery) > 0)
+		{
+			$aOrderTotal = array ();
+			while ($o = os_db_fetch_array($orderTotalQuery))
+			{
+				$aOrderTotal[] = $o;
+				if ($o['class'] = 'ot_total')
+					$total = $o['value'];
+			}
+
+			return array
 			(
-				'PRODUCTS_MODEL' => $order_data_values['products_model'],
-				'PRODUCTS_NAME' => $order_data_values['products_name'],
-				'PRODUCTS_SHIPPING_TIME' => $order_data_values['products_shipping_time'],
-				'PRODUCTS_ATTRIBUTES' => $attributes_data,
-				'PRODUCTS_ATTRIBUTES_MODEL' => $attributes_model,
-				'PRODUCTS_PRICE' => $osPrice->Format($order_data_values['final_price'], $format),
-				'PRODUCTS_SINGLE_PRICE' => $osPrice->Format($order_data_values['final_price']/$order_data_values['products_quantity'], $format),
-				'PRODUCTS_QTY' => $order_data_values['products_quantity'],
-				'PRODUCTS_BUNDLE' => $products_bundle_data
+				'data' => $aOrderTotal,
+				'total' => $total
 			);
 		}
-
-		return $order_data;
+		else
+			return false;
 	}
+
 
 }
 ?>
