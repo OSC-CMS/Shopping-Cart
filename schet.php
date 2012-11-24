@@ -9,163 +9,241 @@
 */
 
 include ('includes/top.php');
-class inwords 
-{ 
-var $diw=Array(    0 =>    Array(    0  => Array( 0=> "ноль",    1=>1), 
-                1  => Array( 0=> "",        1=>2), 
-                2  => Array( 0=> "",        1=>3), 
-                3  => Array( 0=> "три",        1=>0), 
-                4  => Array( 0=> "четыре",    1=>0), 
-                5  => Array( 0=> "пять",    1=>1), 
-                6  => Array( 0=> "шесть",    1=>1), 
-                7  => Array( 0=> "семь",    1=>1), 
-                8  => Array( 0=> "восемь",    1=>1), 
-                9  => Array( 0=> "девять",    1=>1), 
-                10 => Array( 0=> "десять",    1=>1), 
-                11 => Array( 0=> "одинадцать",    1=>1), 
-                12 => Array( 0=> "двенадцать",    1=>1), 
-                13 => Array( 0=> "тринадцать",    1=>1), 
-                14 => Array( 0=> "четырнадцать",1=>1), 
-                15 => Array( 0=> "пятнадцать",    1=>1), 
-                16 => Array( 0=> "шестнадцать",    1=>1), 
-                17 => Array( 0=> "семнадцать",    1=>1), 
-                18 => Array( 0=> "восемнадцать",1=>1), 
-                19 => Array( 0=> "девятнадцать",1=>1) 
-            ), 
-        1 =>    Array(    2  => Array( 0=> "двадцать",    1=>1), 
-                3  => Array( 0=> "тридцать",    1=>1), 
-                4  => Array( 0=> "сорок",    1=>1), 
-                5  => Array( 0=> "пятьдесят",    1=>1), 
-                6  => Array( 0=> "шестьдесят",    1=>1), 
-                7  => Array( 0=> "семьдесят",    1=>1), 
-                8  => Array( 0=> "восемьдесят",    1=>1), 
-                9  => Array( 0=> "девяносто",    1=>1)  
-            ), 
-        2 =>    Array(    1  => Array( 0=> "сто",        1=>1), 
-                2  => Array( 0=> "двести",    1=>1), 
-                3  => Array( 0=> "триста",    1=>1), 
-                4  => Array( 0=> "четыреста",    1=>1), 
-                5  => Array( 0=> "пятьсот",    1=>1), 
-                6  => Array( 0=> "шестьсот",    1=>1), 
-                7  => Array( 0=> "семьсот",    1=>1), 
-                8  => Array( 0=> "восемьсот",    1=>1), 
-                9  => Array( 0=> "девятьсот",    1=>1) 
-            ) 
-); 
 
-var $nom=Array(    0 => Array(0=>"копейки",  1=>"копеек",    2=>"одна копейка", 3=>"две копейки"), 
-        1 => Array(0=>"рубля",    1=>"рублей",    2=>"один рубль",   3=>"два рубля"), 
-        2 => Array(0=>"тысячи",   1=>"тысяч",     2=>"одна тысяча",  3=>"две тысячи"), 
-        3 => Array(0=>"миллиона", 1=>"миллионов", 2=>"один миллион", 3=>"два миллиона"), 
-        4 => Array(0=>"миллиарда",1=>"миллиардов",2=>"один миллиард",3=>"два миллиарда"), 
-/* :))) */ 
-        5 => Array(0=>"триллиона",1=>"триллионов",2=>"один триллион",3=>"два триллиона") 
-); 
+/**
+ * Сумма прописью
+ */
+function SumProp($srcsumm, $val_rub = '', $val_kop = '')
+{
+  $point ='\,'; // десятичная запятая
+  if (strtoupper($val_rub) == 'USD' || strtoupper($val_rub) == 'EUR') $point ='\.'; // десятичная точка
+  $pattern = '/[^0-9'.$point.']/';
+  $srcsumm = preg_replace($pattern,'',$srcsumm);
+  $cifir= Array('од','дв','три','четыр','пят','шест','сем','восем','девят');
+  $sotN = Array('сто','двести','триста','четыреста','пятьсот','шестьсот','семьсот','восемьсот','девятьсот');
+  $milion= Array('триллион','миллиард','миллион','тысяч');
+  $anDan = Array('','','','сорок','','','','','девяносто');
+  $scet=4;
+  $cifR='';
+  $cfR='';
+  $oboR= Array();
+//==========================
+  $splt = explode('.',"$srcsumm");
+  if(count($splt)<2) $splt = explode(',',"$srcsumm");
+  $xx = $splt[0];
+  $xx1 = (empty($splt[1])? '00': $splt[1]);
+  $xx1 = str_pad("$xx1", 2, "0", STR_PAD_RIGHT); // 2345.1 -> 10 копеек
+//  $xx1 = round(($srcsumm-floor($srcsumm))*100);
+  if ($xx>999999999999999) { $cfR=$srcsumm; return $cfR; }
+  while($xx/1000>0){
+     $yy=floor($xx/1000);
+     $delen= round(($xx/1000-$yy)*1000);
 
-var $out_rub; 
+     $sot= floor($delen/100)*100;
+     $des=(floor($delen-$sot)>9? floor(($delen-$sot)/10)*10:0);
+     $ed= floor($delen-$sot)-floor(($delen-$sot)/10)*10;
 
-function get($summ)
-{ 
-   if($summ>=1) $this->out_rub=0; 
-   else $this->out_rub=1; 
-   $summ_rub= doubleval(sprintf("%0.0f",$summ)); 
-   if(($summ_rub-$summ)>0) $summ_rub--; 
- $summ_kop= doubleval(sprintf("%0.2f",$summ-$summ_rub))*100; 
- $kop=$this->get_string($summ_kop,0); 
- $retval=""; 
- for($i=1;$i<6&&$summ_rub>=1;$i++): 
-  $summ_tmp=$summ_rub/1000; 
-  $summ_part=doubleval(sprintf("%0.3f",$summ_tmp-intval($summ_tmp)))*1000; 
-  $summ_rub= doubleval(sprintf("%0.0f",$summ_tmp)); 
-  if(($summ_rub-$summ_tmp)>0) $summ_rub--; 
-  $retval=$this->get_string($summ_part,$i)." ".$retval; 
- endfor; 
- if(($this->out_rub)==0) $retval.=" рублей"; 
- return $retval." ".$kop; 
-} 
+     $forDes=($des/10==2?'а':'');
+     $forEd= ($ed==1 ? 'ин': ($ed==2?'е':'') );
+     if ( floor($yy/1000)>=1000 ) { // делаю "единицы" для тысяч, миллионов...
+         $ffD=($ed>4?'ь': ($ed==1 || $scet<3? ($ed<2?'ин': ($scet==3?'на': ($scet<4? ($ed==2?'а':( $ed==4?'е':'')) :'на') ) ) : ($ed==2 || $ed==4?'е':'') ) );
+     }
+     else { // единицы для "единиц
+         $ffD=($ed>4?'ь': ($ed==1 || $scet<3? ($scet<3 && $ed<2?'ин': ($scet==3?'на': ($scet<4? ($ed==2?'а':( $ed==4?'е':'')) :'ин') ) ) : ( $ed==4?'е':($ed==2?'а':'')) ) );
+     }
+     if($ed==2) $ffD = ($scet==3)?'е':'а'; // два рубля-миллиона-миллиарда, но две тысячи
 
-function get_string($summ,$nominal){ 
- $retval=""; 
- $nom=-1; 
- $summ=round($summ); 
- if(($nominal==0&&$summ<100)||($nominal>0&&$nominal<6&&$summ<1000)): 
-  $s2=intval($summ/100); 
-  if($s2>0): 
-   $retval.=" ".$this->diw[2][$s2][0]; 
-   $nom=$this->diw[2][$s2][1]; 
-  endif; 
-  $sx=doubleval(sprintf("%0.0f",$summ-$s2*100)); 
-  if(($sx-($summ-$s2*100))>0) $sx--; 
-  if(($sx<20&&$sx>0)||($sx==0&&$nominal==0)): 
-   $retval.=" ".$this->diw[0][$sx][0]; 
-   $nom=$this->diw[0][$sx][1]; 
-  else: 
-   $s1=doubleval(sprintf("%0.0f",$sx/10)); 
-   if(($s1-$sx/10)>0)$s1--; 
-   $s0=doubleval($summ-$s2*100-$s1*10); 
-   if($s1>0): 
-    $retval.=" ".$this->diw[1][$s1][0]; 
-    $nom=$this->diw[1][$s1][1]; 
-   endif; 
-   if($s0>0): 
-    $retval.=" ".$this->diw[0][$s0][0]; 
-    $nom=$this->diw[0][$s0][1]; 
-   endif; 
-  endif; 
- endif; 
- if($nom>=0): 
-  $retval.=" ".$this->nom[$nominal][$nom]; 
-  if($nominal==1) $this->out_rub=1; 
- endif; 
- return trim($retval); 
-} 
+     $forTys=($des/10==1? ($scet<3?'ов':'') : ($scet<3? ($ed==1?'': ($ed>1 && $ed<5?'а':'ов') ) : ($ed==1? 'а': ($ed>1 && $ed<5?'и':'') )) );
+     $nnn = floor($sot/100)-1;
+     $oprSot=(!empty($sotN[$nnn]) ? $sotN[$nnn]:'');
+     $nnn = floor($des/10);
+     $oprDes=(!empty($cifir[$nnn-1])? ($nnn==1?'': ($nnn==4 || $nnn==9? $anDan[$nnn-1]:($nnn==2 || $nnn==3?$cifir[$nnn-1].$forDes.'дцать':$cifir[$nnn-1].'ьдесят') ) ) :'');
 
-} 
+     $oprEd=(!empty($cifir[$ed-1])? $cifir[$ed-1].(floor($des/10)==1?$forEd.'надцать' : $ffD ) : ($des==10?'десять':'') );
+     $oprTys=(!empty($milion[$scet]) && $delen>0) ? $milion[$scet].$forTys : '';
 
-//$osTemplate = new osTemplate;
+     $cifR= (strlen($oprSot) ? ' '.$oprSot:'').
+       (strlen($oprDes)>1 ? ' '.$oprDes:'').
+       (strlen($oprEd)>1  ? ' '.$oprEd:'').
+       (strlen($oprTys)>1 ? ' '.$oprTys:'');
+     $oboR[]=$cifR;
+     $xx=floor($xx/1000);
+     $scet--;
+     if (floor($xx)<1 ) break;
+  }
+  $oboR = array_reverse($oboR);
+  for ($i=0; $i<count($oboR); $i++){
+      $probel = strlen($cfR)>0 ? ' ':'';
+      $cfR .= (($oboR[$i]!='' && $cfR!='') ? $probel:'') . $oboR[$i];
+  }
+  if (strlen($cfR)<3) $cfR='ноль';
+
+  $intsrc = $splt[0];
+  $kopeiki = $xx1;
+  $kop2 =str_pad("$xx1", 2, "0", STR_PAD_RIGHT);
+
+  $sum2 = str_pad("$intsrc", 2, "0", STR_PAD_LEFT);
+  $sum2 = substr($sum2, strlen($sum2)-2); // 676571-> '71'
+  $sum21 = substr($sum2, strlen($sum2)-2,1); // 676571-> '7'
+  $sum22 = substr($sum2, strlen($sum2)-1,1); // 676571-> '1'
+  $kop1  = substr($kop2,0,1);
+  $kop2  = substr($kop2,1,1);
+  $ar234 = array('2','3','4'); // доллар-А, рубл-Я...
+  // делаю спряжения у слова рубл-ей|я|ь / доллар-ов... / евро
+  switch(strtoupper($val_rub)) {
+    case 'BYR':
+		$val1 = 'рубл';
+		$val2 = 'копейка';
+		if($sum22=='1' && $sum21!='1') $val1 .= 'ь'; // 01,21...91 рубль
+		elseif(in_array($sum22, $ar234) && ($sum21!='1')) $val1 .= 'я';
+		else $val1 .= 'ей';
+
+		if(in_array($kop2, $ar234) && ($kop1!='1')) $val2 = 'копейки';
+		elseif($kop2=='1' && $kop1!='1') $val2 = 'копейка'; // 01,21...91 копейка
+		else $val2 = 'копеек';
+		$val1 .= ' РБ';
+		$cfR .= " $val1 $kopeiki $val2";
+		break;
+	case 'EUR':
+		$val1 = 'евро'; // несклоняемое
+		$val2 = 'цент';
+		if($kop2=='1' && $kop1!='1') $val2 .= ''; // 01,21...91 цент
+		elseif(in_array($kop2, $ar234) && ($kop1!='1')) $val2 .= 'a';
+		else $val2 .= 'ов';
+
+		$cfR .= " $val1 $kopeiki $val2";
+		break;
+	case 'KGS':
+		$val1 = 'сом';
+		$val2 = 'тыйын';
+		if($sum22=='1' && $sum21!='1') $val1 .= ''; // 01,21...91 сом
+		elseif(in_array($sum22, $ar234) && ($sum21!='1')) $val1 .= 'a';
+		else $val1 .= 'ов';
+
+		if($kop2=='1' && $kop1!='1') $val2 .= ''; // 01,21...91 тыйын
+		elseif(in_array($kop2, $ar234) && ($kop1!='1')) $val2 .= 'a';
+		else $val2 .= 'ов';
+
+		$cfR .= " $val1 $kopeiki $val2";
+		break;
+	case 'KZT':
+		$val1 = 'тенге'; // несклоняемое
+		$val2 = 'тиын';
+		if($kop2=='1' && $kop1!='1') $val2 .= ''; // 01,21...91 тиын
+		elseif(in_array($kop2, $ar234) && ($kop1!='1')) $val2 .= 'a';
+		else $val2 .= 'ов';
+
+		$cfR .= " $val1 $kopeiki $val2";
+		break;
+    case 'RUB':
+    case 'RUR':
+		$val1 = 'рубл';
+		$val2 = 'копейка';
+		if($sum22=='1' && $sum21!='1') $val1 .= 'ь'; // 01,21...91 рубль
+		elseif(in_array($sum22, $ar234) && ($sum21!='1')) $val1 .= 'я';
+		else $val1 .= 'ей';
+
+		if(in_array($kop2, $ar234) && ($kop1!='1')) $val2 = 'копейки';
+		elseif($kop2=='1' && $kop1!='1') $val2 = 'копейка'; // 01,21...91 копейка
+		else $val2 = 'копеек';
+		$cfR .= " $val1 $kopeiki $val2";
+		break;
+	case 'TJS':
+		$val1 = 'сомони'; // несклоняемое
+		$val2 = 'дирам';
+		if($kop2=='1' && $kop1!='1') $val2 .= ''; // 01,21...91 дирам
+		elseif(in_array($kop2, $ar234) && ($kop1!='1')) $val2 .= 'a';
+		else $val2 .= 'ов';
+
+		$cfR .= " $val1 $kopeiki $val2";
+		break;
+	case 'UAH':
+		$val1 = 'грив'; // ж.р.?
+		$val2 = 'копейка';
+		if($sum22=='1' && $sum21!='1') $val1 .= 'ня'; // 01,21...91 гривня
+		elseif(in_array($sum22, $ar234) && ($sum21!='1')) $val1 .= 'ни';
+		else $val1 .= 'ень';
+
+		if(in_array($kop2, $ar234) && ($kop1!='1')) $val2 = 'копейки';
+		elseif($kop2=='1' && $kop1!='1') $val2 = 'копейка'; // 01,21...91 копейка
+		else $val2 = 'копеек';
+		$cfR .= " $val1 $kopeiki $val2";
+		break;
+	case 'USD':
+		$val1 = 'доллар';
+		$val2 = 'цент';
+		if($sum22=='1' && $sum21!='1') $val1 .= ''; // 01,21...91 доллар
+		elseif(in_array($sum22, $ar234) && ($sum21!='1')) $val1 .= 'a';
+		else $val1 .= 'ов';
+
+		if($kop2=='1' && $kop1!='1') $val2 .= ''; // 01,21...91 цент
+		elseif(in_array($kop2, $ar234) && ($kop1!='1')) $val2 .= 'a';
+		else $val2 .= 'ов';
+		$val1 .= ' США';
+		$cfR .= " $val1 $kopeiki $val2";
+		break;
+	default:
+		$cfR .= ' '.$val_rub;
+		if($val_kop!='') $cfR .= " $kopeiki $val_kop";
+		break;
+  }
+  $cfR = trim($cfR);
+  return utf8_ucfirst($cfR);
+}
+
+/**
+ * utf8_ucfirst func
+ */
+function utf8_ucfirst($string, $e = "utf-8", $lower_str_remaining = false)
+{
+	if (!defined('UTF8_NOMBSTRING') && function_exists('mb_strtoupper') && function_exists('mb_substr') && !empty($string))
+	{
+		$first_letter = mb_strtoupper(mb_substr($string, 0, 1, $e), $e);
+		$str_remaining = "";
+
+		if ($lower_str_remaining)
+			$str_remaining = mb_strtolower(mb_substr($string, 1, mb_strlen($string, $e), $e), $e);
+		else
+			$str_remaining = mb_substr($string, 1, mb_strlen($string, $e), $e);
+
+		$string = $first_letter . $str_remaining;
+	}
+	else
+		$string = ucfirst($string);
+
+	return $string;
+}
+
+//--------------------------------------------------------------------------------------------------//
+//--------------------------------------------------------------------------------------------------//
+
+// Order ID
+$oID = $_GET['oID'];
 
 // check if custmer is allowed to see this order!
-$order_query_check = os_db_query("SELECT
-  					customers_id
-  					FROM ".TABLE_ORDERS."
-  					WHERE orders_id='".(int) $_GET['oID']."'");
-$oID = (int) $_GET['oID'];
+$order_query_check = os_db_query("SELECT customers_id FROM ".TABLE_ORDERS." WHERE orders_id='".(int)$oID."'");
 $order_check = os_db_fetch_array($order_query_check);
-
-  $company_query = os_db_query("SELECT * FROM ".TABLE_COMPANIES."
-  					WHERE orders_id='".(int)$_GET['oID']."'");
-  					
-  $company = os_db_fetch_array($company_query);
-
-	$osTemplate->assign('company_name', $company['name']);
-	$osTemplate->assign('company_telephone', $company['telephone']);
-	$osTemplate->assign('company_fax', $company['fax']);
-	$osTemplate->assign('company_inn', $company['inn']);
-	$osTemplate->assign('company_kpp', $company['kpp']);
-	$osTemplate->assign('company_ogrn', $company['ogrn']);
-	$osTemplate->assign('company_okpo', $company['okpo']);
-	$osTemplate->assign('company_rs', $company['rs']);
-	$osTemplate->assign('company_bank_name', $company['bank_name']);
-	$osTemplate->assign('company_bik', $company['bik']);
-	$osTemplate->assign('company_ks', $company['ks']);
-	$osTemplate->assign('company_address', $company['address']);
-	$osTemplate->assign('company_yur_address', $company['yur_address']);
-	$osTemplate->assign('company_fakt_address', $company['fakt_address']);
-	$osTemplate->assign('company_director', $company['name']);
-	$osTemplate->assign('company_accountant', $company['accountant']);
 
 if ($_SESSION['customer_id'] == $order_check['customers_id']) 
 {
 	// get order data
 	include (dir_path('class').'order.php');
 	$order = new order($oID);
+
+	$company_query = os_db_query("SELECT * FROM ".TABLE_COMPANIES." WHERE orders_id='".(int)$oID."'");
+	$company = os_db_fetch_array($company_query);
+	$osTemplate->assign('company', $company);
+
 	$osTemplate->assign('address_label_customer', os_address_format($order->customer['format_id'], $order->customer, 1, '', '<br />'));
 	$osTemplate->assign('address_label_shipping', os_address_format($order->delivery['format_id'], $order->delivery, 1, '', '<br />'));
 	$osTemplate->assign('address_label_payment', os_address_format($order->billing['format_id'], $order->billing, 1, '', '<br />'));
+
 	$osTemplate->assign('csID', $order->customer['csID']);
-	// get products data
-	$order_total = $order->getTotalData($oID); 
-	$osTemplate->assign('order_data', $osccms->orders->getOrderData($oID, false));
+
+	// products
+	$osTemplate->assign('order_data', $osccms->orders->getOrderData($oID));
+	// total
+	$order_total = $osccms->orders->getTotalData($oID);
 	$osTemplate->assign('order_total', $order_total['data']);
 
 	$osTemplate->assign('module_1', MODULE_PAYMENT_SCHET_1);
@@ -183,28 +261,19 @@ if ($_SESSION['customer_id'] == $order_check['customers_id'])
 	$osTemplate->assign('module_13', $order->customer['firstname']);
 	$osTemplate->assign('module_14', $order->customer['lastname']);
 
-    $iw=new inwords; 
-
-	$osTemplate->assign('summa', $iw->get($order->info['total']));
-	$osTemplate->assign('language', $_SESSION['language']);
-    $osTemplate->assign('charset', $_SESSION['language_charset']); 
-	$osTemplate->assign('oID', (int) $_GET['oID']);
-	if ($order->info['payment_method'] != '' && $order->info['payment_method'] != 'no_payment') 
-	{
-		include (DIR_FS_DOCUMENT_ROOT.'/modules/payment/' . $order->info['payment_method'] . '/'.$_SESSION['language'].'.php');
-		$payment_method = constant(strtoupper('MODULE_PAYMENT_'.$order->info['payment_method'].'_TEXT_TITLE'));
-	}
-	$osTemplate->assign('PAYMENT_METHOD', $payment_method);
-	$osTemplate->assign('COMMENT', $order->info['comments']);
+	$osTemplate->assign('summa', SumProp($order->info['total'], $order->info['currency']));
+	$osTemplate->assign('no_vat', '0');
+	$osTemplate->assign('charset', $_SESSION['language_charset']); 
+	$osTemplate->assign('oID', $oID);
 	$osTemplate->assign('DATE', os_date_short($order->info['date_purchased']));
-	$path = DIR_WS_CATALOG._THEMES_C;
-	$osTemplate->assign('tpl_path', $path);
-	$osTemplate->caching = false;
-	$osTemplate->display(CURRENT_TEMPLATE.'/module/schet.html');
-} 
-else 
+	$osTemplate->assign('ERROR', false);
+}
+else
 {
 	$osTemplate->assign('ERROR', 'You are not allowed to view this order!');
-	$osTemplate->display(CURRENT_TEMPLATE.'/module/error_message.html');
 }
+
+$osTemplate->caching = false;
+$osTemplate->assign('language', $_SESSION['language']);
+$osTemplate->display(CURRENT_TEMPLATE.'/module/schet.html');
 ?>
