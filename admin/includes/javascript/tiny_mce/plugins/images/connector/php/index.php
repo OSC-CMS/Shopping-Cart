@@ -280,7 +280,7 @@ class TinyImageManager {
 				$ret .= '</div>';
 			} else {
 				$soc = sizeof($currentDirArr);
-				if($soc>0 && $currentDirArr[$soc]==$v['name']) {
+				if($soc>0 && @$currentDirArr[$soc]==$v['name']) {
 					$folderAct = 'folderAct';
 				} else {
 					$folderAct = '';
