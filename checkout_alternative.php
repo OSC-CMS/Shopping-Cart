@@ -136,6 +136,7 @@ if (isset ($_POST['payment']))
 	$firstname = os_db_prepare_input($_POST['firstname']);
 	if (ACCOUNT_SECOND_NAME == 'true')
 	$secondname = os_db_prepare_input($_POST['secondname']);
+	if (ACCOUNT_LAST_NAME == 'true')
 	$lastname = os_db_prepare_input($_POST['lastname']);
 	if (ACCOUNT_DOB == 'true')
 		$dob = os_db_prepare_input($_POST['dob']);
@@ -185,10 +186,13 @@ if (isset ($_POST['payment']))
 		$messageStack->add('checkout_alternative', ENTRY_FIRST_NAME_ERROR.'<br>');
 	}
 
-	if (strlen($lastname) < ENTRY_LAST_NAME_MIN_LENGTH) {
-		$error = true;
+	if (ACCOUNT_LAST_NAME == 'true')
+	{
+		if (strlen($lastname) < ENTRY_LAST_NAME_MIN_LENGTH) {
+			$error = true;
 
-		$messageStack->add('checkout_alternative', ENTRY_LAST_NAME_ERROR.'<br>');
+			$messageStack->add('checkout_alternative', ENTRY_LAST_NAME_ERROR.'<br>');
+		}
 	}
 
 	if (ACCOUNT_DOB == 'true') {
@@ -475,8 +479,12 @@ if (ACCOUNT_SECOND_NAME == 'true') {
 	$osTemplate->assign('secondname', '1');
 $osTemplate->assign('INPUT_SECONDNAME', os_draw_input_fieldNote(array ('name' => 'secondname', 'text' => '&nbsp;'. (os_not_null(ENTRY_SECOND_NAME_TEXT) ? '<span class="Requirement">'.ENTRY_SECOND_NAME_TEXT.'</span>' : '')), '', 'id="secondname"'));
 }
-$osTemplate->assign('INPUT_LASTNAME', os_draw_input_fieldNote(array ('name' => 'lastname', 'text' => '&nbsp;'. (os_not_null(ENTRY_LAST_NAME_TEXT) ? '<span class="Requirement">'.ENTRY_LAST_NAME_TEXT.'</span>' : '')), '', 'id="lastname"'));
-$osTemplate->assign('ENTRY_LAST_NAME_ERROR', ENTRY_LAST_NAME_ERROR);
+if (ACCOUNT_LAST_NAME == 'true')
+{
+	$osTemplate->assign('INPUT_LASTNAME', os_draw_input_fieldNote(array ('name' => 'lastname', 'text' => '&nbsp;'. (os_not_null(ENTRY_LAST_NAME_TEXT) ? '<span class="Requirement">'.ENTRY_LAST_NAME_TEXT.'</span>' : '')), '', 'id="lastname"'));
+	$osTemplate->assign('ENTRY_LAST_NAME_ERROR', ENTRY_LAST_NAME_ERROR);
+	$osTemplate->assign('lastname', '1');
+}
 
 if (ACCOUNT_DOB == 'true') {
 	$osTemplate->assign('birthdate', '1');
