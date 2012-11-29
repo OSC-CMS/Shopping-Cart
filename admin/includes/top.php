@@ -31,6 +31,9 @@ if (!isset($PHP_SELF)) $PHP_SELF = $_SERVER['PHP_SELF'];
 
 include (dirname(dirname(dirname(__FILE__))).'/config.php');
 
+require_once (_INCLUDES.'api/osccms.class.php');
+$osccms = new OscCms();
+
 if (!defined("DB_PREFIX"))
 {
    define('DB_PREFIX', 'os_');
