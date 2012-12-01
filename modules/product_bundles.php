@@ -40,6 +40,7 @@ if ($products_bundles['total'] > 0)
 		(
 			'PLINK' => os_href_link(FILENAME_PRODUCT_INFO, os_product_link($bundle_data['products_id'], $bundle_data['products_name'])),
 			'IMAGE' => $image,
+			'PRODUCTS_ID' => $bundle_data['products_id'],
 			'QTY' => $bundle_data['subproduct_qty'],
 			'NAME' => $bundle_data['products_name'],
 			'PRICE' => $products_price['formated'],
