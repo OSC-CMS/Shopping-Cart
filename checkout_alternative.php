@@ -717,8 +717,6 @@ if (ACCOUNT_STREET_ADDRESS == 'true') {
 $module = new osTemplate;
 if (os_count_shipping_modules() > 0) {
 
-	$showtax = $_SESSION['customers_status']['customers_status_show_price_tax'];
-
 	$module->assign('FREE_SHIPPING', $free_shipping);
 
 	# free shipping or not...
