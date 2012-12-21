@@ -12,7 +12,8 @@ class OscCms
 {
 	private $aClasses = array
 	(
-		'orders' => 'apiOrders',
+		'orders'	=> 'apiOrders',
+		'order'		=> 'apiOrder',
 	);
 
 	private static $obj = array();

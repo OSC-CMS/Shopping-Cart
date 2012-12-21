@@ -84,46 +84,5 @@ class apiOrders extends OscCms
 		else
 			return false;
 	}
-
-
-public function confirmation()
-{
-	// скидка
-	if ($_SESSION['customers_status']['customers_status_ot_discount_flag'] == 1)
-		$discount = $_SESSION['customers_status']['customers_status_ot_discount'];
-	else
-		$discount = '0.00';
-
-	// ip покупателя
-	if ($_SERVER["HTTP_X_FORWARDED_FOR"])
-		$customers_ip = $_SERVER["HTTP_X_FORWARDED_FOR"];
-	else
-		$customers_ip = $_SERVER["REMOTE_ADDR"];
-
-
-
-
-
-
-
-
-
-}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 }
 ?>
