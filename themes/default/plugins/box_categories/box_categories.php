@@ -41,10 +41,17 @@ function box_categories_func()
 				$this_category = array_pop($category_path);
 
 				$active = '';
-				if ($this_category == $cat['cID']) 
-					$active = 'current active'; 
-				elseif ($in_path) 
-					$active = 'current-parent'; 
+				$current = '';
+				if ($this_category == $cat['cID'])
+				{
+					$active = 'active';
+					$current = 'current';
+				}
+				elseif ($in_path)
+				{
+					$active = 'current-parent';
+					$current = 'current';
+				}
 
 				if ($level != get_option('maxSubCategories'))
 				{
@@ -55,6 +62,7 @@ function box_categories_func()
 						'counts' => (get_option('countProducts') == 'true') ? os_count_products_in_category($cat['cID']) : '',
 						'level' => $level,
 						'active' => $active,
+						'current' => $current,
 						'childs' => (get_option('subCategories') == 'true') ? build_tree($cats, $cat['cID'], $level+1) : '',
 					);
 				}
