@@ -15,6 +15,7 @@ class osTemplate extends Smarty
 	function __construct()
 	{
 		parent::__construct();
+
 		$this->setTemplateDir(_THEMES);
 		$this->setCompileDir(_CACHE);
 		$this->setConfigDir(_LANG);
@@ -24,6 +25,7 @@ class osTemplate extends Smarty
 
 		$this->assign('index', http_path('catalog'));
 		$this->assign('tpl_dir', _THEMES.CURRENT_TEMPLATE);
+		$this->assign('tpl_path', _HTTP_THEMES_C);
 
 		if (is_file(_THEMES_C.'lang/'.$_SESSION['language_code'].'.conf'))
 		{
@@ -36,13 +38,10 @@ class osTemplate extends Smarty
 		$array = array(
 			'app_name' => 'osTemplate'
 		);
-		
 		$array = apply_filter('tpl_vars', $array);
-
 		$p->name = $name;
 		$p->group = $group;
 		$p->set_dir();
-
 		if (count($array) > 0)
 		{
 			foreach ($array as $name => $value)

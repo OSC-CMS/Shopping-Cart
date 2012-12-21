@@ -9,7 +9,6 @@
 */
 
 $box = new osTemplate;
-$box->assign('tpl_path', _HTTP_THEMES_C);
 $box_content = '';
 
 $box->assign('FORM_ACTION', os_draw_form('quick_find', os_href_link(FILENAME_ADVANCED_SEARCH_RESULT, '', 'NONSSL', false), 'get').os_hide_session_id());

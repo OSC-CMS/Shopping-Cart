@@ -65,7 +65,6 @@ if ($_GET['action'] == 'process') {
 		$gv_email_subject = sprintf(EMAIL_GV_TEXT_SUBJECT, stripslashes($_POST['send_name']));
 
 		$osTemplate->assign('language', $_SESSION['language']);
-		$osTemplate->assign('tpl_path', _HTTP_THEMES_C);
 		$osTemplate->assign('logo_path', _HTTP_THEMES_C.'img/');
 		$osTemplate->assign('GIFT_LINK', os_href_link(FILENAME_GV_REDEEM, 'gv_no='.$id1, 'NONSSL', false));
 		$osTemplate->assign('AMMOUNT', $osPrice->Format(str_replace(",", ".", $_POST['amount']), true));

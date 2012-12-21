@@ -10,7 +10,6 @@
 */
 
 $gift = new osTemplate;
-$gift->assign('tpl_path', _HTTP_THEMES_C);
 
 if (ACTIVATE_GIFT_SYSTEM == 'true') {
 	$gift->assign('ACTIVATE_GIFT', 'true');

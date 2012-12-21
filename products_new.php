@@ -31,7 +31,6 @@ if (!CacheCheck()) {
 }
 
 if (!$osTemplate->isCached(CURRENT_TEMPLATE . '/module/new_products_overview.html', $cache_id) || !$cache) {
-	$osTemplate->assign('tpl_path', _HTTP_THEMES_C);
 	$rebuild = true;
 
 	$products_new_array = array ();

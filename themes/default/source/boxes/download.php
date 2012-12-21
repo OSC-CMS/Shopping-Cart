@@ -10,7 +10,6 @@
 
 $box = new osTemplate;
 $box_content='';
-$box->assign('tpl_path', _HTTP_THEMES_C);
 
   if (!strstr($_SERVER['SCRIPT_NAME'], FILENAME_ACCOUNT_HISTORY_INFO) && isset($_SESSION['customer_id'])) 
   {

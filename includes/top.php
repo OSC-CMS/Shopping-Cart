@@ -583,7 +583,6 @@
 
     $osTemplate = new osTemplate;
 
-    $osTemplate->assign('tpl_path', _HTTP_THEMES_C);
     $default = new osTemplate;
 				
     if (isset($os_action['box']) && !empty($os_action['box']))
@@ -611,7 +610,6 @@
                 {
                     if (!empty($_box) && isset($_box['content']) && !empty($_box['title']) && !empty($_box['content']) )
                     {
-                        $default->assign('tpl_path', _HTTP_THEMES_C);
                         $default->assign('BOX_TITLE', $_box['title']);
                         $default->assign('BOX_CONTENT', $_box['content']);
                         $_box_value = $default->fetch(CURRENT_TEMPLATE.'/boxes/box.html');
@@ -643,9 +641,7 @@
                     $_box_array = $action_name_rewrite();
 
                     if (is_array($_box_array))
-                    { 
-
-                        $default->assign('tpl_path', _HTTP_THEMES_C);
+                    {
                         $default->assign('BOX_TITLE', $_box_array['title']);
                         $default->assign('BOX_CONTENT', $_box_array['content']);
                         $_box_value = $default->fetch(CURRENT_TEMPLATE.'/boxes/box.html');

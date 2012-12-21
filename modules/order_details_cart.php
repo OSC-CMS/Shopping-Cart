@@ -10,7 +10,6 @@
 */
 
 $module = new osTemplate;
-$module->assign('tpl_path', _HTTP_THEMES_C);
 
 $module_content = array ();
 $any_out_of_stock = '';

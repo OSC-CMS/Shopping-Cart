@@ -10,7 +10,6 @@
 
   $box = new osTemplate;
   $box_content='';
-  $box->assign('tpl_path', _HTTP_THEMES_C);
 
   $box->assign('FORM_ACTION','<form id="quick_add" method="post" action="' . os_href_link(basename($PHP_SELF), os_get_all_get_params(array('action')) . 'action=add_a_quickie', 'NONSSL') . '">');
   

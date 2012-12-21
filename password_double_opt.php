@@ -21,7 +21,6 @@ if (isset ($_GET['action']) && ($_GET['action'] == 'first_opt_in')) {
 	$link = os_href_link(FILENAME_PASSWORD_DOUBLE_OPT, 'action=verified&customers_id='.$check_customer['customers_id'].'&key='.$vlcode, 'NONSSL');
 
 	$osTemplate->assign('language', $_SESSION['language']);
-	$osTemplate->assign('tpl_path', _HTTP_THEMES_C);
 	$osTemplate->assign('logo_path', _HTTP_THEMES_C.'/img/');
 	$osTemplate->assign('EMAIL', $check_customer['customers_email_address']);
 	$osTemplate->assign('LINK', $link);
@@ -60,7 +59,6 @@ if (isset ($_GET['action']) && ($_GET['action'] == 'verified')) {
 		os_db_query("update ".TABLE_CUSTOMERS." set customers_password = '".$crypted_password."' where customers_email_address = '".$check_customer['customers_email_address']."'");
 		os_db_query("update ".TABLE_CUSTOMERS." set password_request_key = '' where customers_id = '".$check_customer['customers_id']."'");
 		$osTemplate->assign('language', $_SESSION['language']);
-		$osTemplate->assign('tpl_path',_HTTP_THEMES_C);
 		$osTemplate->assign('logo_path', HTTP_SERVER.DIR_WS_CATALOG.'themes/'.CURRENT_TEMPLATE.'/img/');
 		$osTemplate->assign('EMAIL', $check_customer['customers_email_address']);
 		$osTemplate->assign('NEW_PASSWORD', $newpass);

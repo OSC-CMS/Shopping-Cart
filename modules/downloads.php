@@ -50,7 +50,7 @@ if (os_db_num_rows($downloads_query) > 0) {
 }
 $module->assign('dl', $dl);
 $module->assign('language', $_SESSION['language']);
-$module->assign('tpl_path', _HTTP_THEMES_C);
+
 $module->caching = 0;
 $module = $module->fetch(CURRENT_TEMPLATE.'/module/downloads.html');
 $osTemplate->assign('downloads_content', $module);

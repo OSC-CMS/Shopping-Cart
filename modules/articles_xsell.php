@@ -22,7 +22,6 @@ $module_content = array ();
       }
 
 $module = new osTemplate;
-$module->assign('tpl_path', _HTTP_THEMES_C);
 //выводит Также рекомендуем следующие товары:
 if (sizeof($module_content) > 0) { 
     $module->assign('language', $_SESSION['language']);

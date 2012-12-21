@@ -26,7 +26,6 @@ if (!CacheCheck()) {
 
 if (!$box->isCached(CURRENT_TEMPLATE.'/boxes/box_manufacturers.html', @$cache_id) || !$cache) 
 {
-	$box->assign('tpl_path', _HTTP_THEMES_C);
 
 	$manufacturers_query = "select distinct m.manufacturers_id, m.manufacturers_name, m.manufacturers_page_url from ".TABLE_MANUFACTURERS." as m, ".TABLE_PRODUCTS." as p where m.manufacturers_id=p.manufacturers_id order by m.manufacturers_name";
 

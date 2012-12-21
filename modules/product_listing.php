@@ -13,7 +13,6 @@ do_action('action_products_listing');
 require_once (_FUNC.'params_filters.php');
 
 $module = new osTemplate;
-$module->assign('tpl_path', _HTTP_THEMES_C);
 $result = true;
 
 if (isset($_GET['on_page']) && is_numeric($_GET['on_page'])) {

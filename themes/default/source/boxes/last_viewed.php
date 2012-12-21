@@ -9,7 +9,6 @@
 */
 
 $box = new osTemplate;
-$box->assign('tpl_path', _HTTP_THEMES_C);
 $box_content='';
 
 if (isset ($_SESSION['tracking']['products_history'][0])) {

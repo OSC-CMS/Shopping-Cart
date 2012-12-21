@@ -8,9 +8,6 @@
 *---------------------------------------------------------
 */
 
-// Theme Path
-$osTemplate->assign('tpl_path', _HTTP_THEMES_C);
-
 // Boxes
 define('DIR_WS_BOXES', _THEMES_C.'source/boxes/');
 

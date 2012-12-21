@@ -45,7 +45,6 @@ if ($products_attributes['total'] > 0) {
 // assign language to template for caching
 $osTemplate->assign('language', $_SESSION['language']);
 $osTemplate->assign('charset', $_SESSION['language_charset']);
-$osTemplate->assign('tpl_path', _HTTP_THEMES_C);
 
 $extra_fields_query = osDBquery("
                       SELECT pef.products_extra_fields_status as status, pef.products_extra_fields_name as name, ptf.products_extra_fields_value as value

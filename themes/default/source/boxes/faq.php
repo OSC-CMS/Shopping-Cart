@@ -9,7 +9,6 @@
 */
 
 $box = new osTemplate;
-$box->assign('tpl_path', _HTTP_THEMES_C);
 
 $sql = "
     SELECT

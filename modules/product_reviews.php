@@ -9,7 +9,6 @@
 */
 
 $module = new osTemplate;
-$module->assign('tpl_path', _HTTP_THEMES_C);
 
 $info->assign('options', $products_options_data);
 if ($product->getReviewsCount() > 0) {

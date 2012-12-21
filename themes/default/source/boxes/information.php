@@ -25,7 +25,6 @@ if (!CacheCheck()) {
 }
 
 if (!$box->isCached(CURRENT_TEMPLATE.'/boxes/box_information.html', @$cache_id) || !$cache) {
-	$box->assign('tpl_path', _HTTP_THEMES_C);
 
 	if (GROUP_CHECK == 'true') {
 		$group_check = "and group_ids LIKE '%c_".$_SESSION['customers_status']['customers_status_id']."_group%'";

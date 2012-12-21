@@ -9,7 +9,6 @@
 */
 
 $default = new osTemplate;
-$default->assign('tpl_path', _HTTP_THEMES_C);
 $default->assign('session', session_id());
 $main_content = '';
 

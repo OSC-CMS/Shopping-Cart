@@ -25,7 +25,6 @@ $box_content = '';
 	}
 
 if (!$box->isCached(CURRENT_TEMPLATE.'/boxes/box_best_sellers.html', @$cache_id) || !$cache) {
-	$box->assign('tpl_path', _HTTP_THEMES_C);
 
 $fsk_lock = '';
 if ($_SESSION['customers_status']['customers_fsk18_display'] == '0') {

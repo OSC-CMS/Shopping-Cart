@@ -11,7 +11,6 @@
 $box = new osTemplate;
 $box_content = '';
 $id = '';
-$box->assign('tpl_path', _HTTP_THEMES_C);
 
 global $MaxLevel, $HideEmpty, $ShowAktSub;
 

@@ -10,7 +10,6 @@
 */
 
 $module = new osTemplate;
-$module->assign('tpl_path', _HTTP_THEMES_C);
 $module_content = array ();
 $fsk_lock = '';
 if ($_SESSION['customers_status']['customers_fsk18_display'] == '0')

@@ -9,7 +9,6 @@
 */
 
 $info = new osTemplate;
-$info->assign('tpl_path', _HTTP_THEMES_C);
 $group_check = '';
 
 

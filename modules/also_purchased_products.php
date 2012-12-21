@@ -10,7 +10,6 @@
 */
 
 $module = new osTemplate;
-$module->assign('tpl_path', _HTTP_THEMES_C);
 
 $data = $product->getAlsoPurchased();
 if (count($data) >= MIN_DISPLAY_ALSO_PURCHASED) {

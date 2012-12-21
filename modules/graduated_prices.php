@@ -10,7 +10,6 @@
 */
 
 $module = new osTemplate;
-$module->assign('tpl_path', _HTTP_THEMES_C);
 $module_content = array ();
 
 $staffel_data = $product->getGraduated();

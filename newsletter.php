@@ -16,7 +16,6 @@ if (isset ($_GET['action']) && ($_GET['action'] == 'process')) {
 	$vlcode = os_random_charcode(32);
 	$link = os_href_link(FILENAME_NEWSLETTER, 'action=activate&email='.os_db_input($_POST['email']).'&key='.$vlcode, 'NONSSL');
 	$osTemplate->assign('language', $_SESSION['language']);
-	$osTemplate->assign('tpl_path', _HTTP_THEMES_C);
 	$osTemplate->assign('logo_path', _HTTP_THEMES_C.'img/');
 	$osTemplate->assign('EMAIL', os_db_input($_POST['email']));
 	$osTemplate->assign('LINK', $link);

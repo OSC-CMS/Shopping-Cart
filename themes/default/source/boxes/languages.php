@@ -32,7 +32,6 @@ while (list($key, $value) = each($lng->catalog_languages))
 if ($count_lng > 1)
 {
 	$box = new osTemplate;
-	$box->assign('tpl_path', _HTTP_THEMES_C); 
 	$box_content='';
 	$box->assign('BOX_CONTENT', $languages_string);
 	$box->assign('language', $_SESSION['language']);

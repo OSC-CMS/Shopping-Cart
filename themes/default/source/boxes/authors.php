@@ -28,7 +28,6 @@ if (!CacheCheck()) {
 
 if (!$box->isCached(CURRENT_TEMPLATE.'/boxes/box_authors.html', @$cache_id) || !$cache) {
 
-	$box->assign('tpl_path', _HTTP_THEMES_C);
 
   $authors_query = "select authors_id, authors_name from " . TABLE_AUTHORS . " order by authors_name";
   $authors_query = osDBquery($authors_query);

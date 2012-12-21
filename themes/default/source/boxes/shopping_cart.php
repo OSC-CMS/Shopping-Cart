@@ -9,7 +9,6 @@
 */
 
 $box = new osTemplate;
-$box->assign('tpl_path', _HTTP_THEMES_C);
 
 if ($_SESSION['cart']->count_contents() > 0) {
 	$products = $_SESSION['cart']->get_products();

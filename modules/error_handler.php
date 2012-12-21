@@ -10,7 +10,6 @@
 */
 
   $module= new osTemplate;
-  $module->assign('tpl_path',_HTTP_THEMES_C);
 
   $module->assign('language', $_SESSION['language']);
   $module->assign('ERROR',$error);

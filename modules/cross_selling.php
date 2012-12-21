@@ -10,7 +10,6 @@
 */
 
 $module = new osTemplate;
-$module->assign('tpl_path', _HTTP_THEMES_C);
 $data = $product->getCrossSells();
 if (count($data) > 0) {
     $module->assign('language', $_SESSION['language']);

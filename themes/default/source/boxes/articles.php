@@ -26,8 +26,6 @@ if (!CacheCheck()) {
 
 if (!$box->isCached(CURRENT_TEMPLATE.'/boxes/box_articles.html', @$cache_id) || !$cache) {
 
-	$box->assign('tpl_path', _HTTP_THEMES_C);
-
   function os_show_topic($counter) {
     global $tree, $topics_string, $tPath_array;
 
