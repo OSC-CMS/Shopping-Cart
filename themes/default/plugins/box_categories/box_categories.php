@@ -95,6 +95,7 @@ function box_categories_func()
 
 	$box->assign('aCategories', build_tree($cats, 0, 0));
 	$box->assign('plugDir', dirname(__FILE__).'/themes');
+	$box->assign('language', $_SESSION['language']);
 	$box->template_dir = plugdir();
 
 	if (!CacheCheck())
