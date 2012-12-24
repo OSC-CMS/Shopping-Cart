@@ -132,6 +132,7 @@ define('ERROR_CATALOG_IMAGE_DIRECTORY_DOES_NOT_EXIST', 'Error: Catalog images di
 define('TEXT_PRODUCTS_DISCOUNT_ALLOWED','Discount allowed:');
 define('HEADING_PRICES_OPTIONS','<b>Price options</b>');
 define('HEADING_PRODUCT_IMAGES','<b>Products Images</b>');
+define('HEADING_PRODUCT_EXTRA_FIELDS','Product extra fields');
 define('TEXT_PRODUCTS_WEIGHT_INFO','<small>(kg)</small>');
 define('TEXT_PRODUCTS_SHORT_DESCRIPTION','Short description:');
 define('TEXT_PRODUCTS_KEYWORDS', 'Extra words for Search:');

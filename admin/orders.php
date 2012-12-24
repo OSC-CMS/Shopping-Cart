@@ -73,7 +73,7 @@ else
   }
 $orders_statuses = array ();
 $orders_status_array = array ();
-$orders_status_query = os_db_query("select orders_status_id, orders_status_name from ".TABLE_ORDERS_STATUS." where language_id = '".$lang."'");
+$orders_status_query = os_db_query("select orders_status_id, orders_status_name from ".TABLE_ORDERS_STATUS." where language_id = '".(int)$lang."'");
 while ($orders_status = os_db_fetch_array($orders_status_query)) {
 	$orders_statuses[] = array ('id' => $orders_status['orders_status_id'], 'text' => $orders_status['orders_status_name']);
 	$orders_status_array[$orders_status['orders_status_id']] = $orders_status['orders_status_name'];

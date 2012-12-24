@@ -127,7 +127,8 @@ define('ERROR_CATALOG_IMAGE_DIRECTORY_DOES_NOT_EXIST', 'Ошибка: Дирек
 
 define('TEXT_PRODUCTS_DISCOUNT_ALLOWED','Максимально возможная скидка:');
 define('HEADING_PRICES_OPTIONS','<b>Цены</b>');
-define('HEADING_PRODUCT_IMAGES','<b>Картинки товара</b>');
+define('HEADING_PRODUCT_IMAGES','<b>Изображения</b>');
+define('HEADING_PRODUCT_EXTRA_FIELDS','Доп. поля');
 define('TEXT_PRODUCTS_WEIGHT_INFO','<small>(кг.)</small>');
 define('TEXT_PRODUCTS_SHORT_DESCRIPTION','Краткое описание:');
 define('TEXT_PRODUCTS_KEYWORDS', 'Дополнительные слова для поиска:');

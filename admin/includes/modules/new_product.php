@@ -317,7 +317,7 @@ foreach (array('product_info', 'product_options') as $key) {
 <?php } ?>
 
         <div class="tabbertab">
-        <h3><?php echo strip_tags(BOX_PRODUCT_EXTRA_FIELDS);?></h3>
+        <h3><?php echo strip_tags(HEADING_PRODUCT_EXTRA_FIELDS);?></h3>
         <table border="0" class="main">
 
 <?php
