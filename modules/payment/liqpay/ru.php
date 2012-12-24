@@ -12,7 +12,7 @@ defined('_VALID_OS') or die('Direct Access to this location is not allowed.');
 
 define('MODULE_PAYMENT_LIQPAY_TEXT_TITLE', 'LiqPAY');
 define('MODULE_PAYMENT_LIQPAY_TEXT_PUBLIC_TITLE', 'LiqPAY');
-define('MODULE_PAYMENT_LIQPAY_TEXT_ADMIN_DESCRIPTION', 'Модуль оплаты LiqPAY');
+define('MODULE_PAYMENT_LIQPAY_TEXT_ADMIN_DESCRIPTION', 'Модуль оплаты LiqPAY<br /><br /><b>Как правильно настроить модули: <a href="http://osc-cms.com/docs" target="_blank"><u>здесь</u></a>.</b>');
 define('MODULE_PAYMENT_LIQPAY_TEXT_DESCRIPTION', 'После нажатия кнопки Подтвердить заказ Вы перейдёте на сайт платёжной системы для оплаты заказа, после оплаты Ваш заказ будет выполнен.');
 
 define('MODULE_PAYMENT_LIQPAY_STATUS_TITLE' , 'Разрешить модуль LiqPAY');
