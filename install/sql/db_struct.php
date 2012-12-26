@@ -961,6 +961,7 @@ os_db_query("CREATE TABLE ".DB_PREFIX."orders_products_attributes (
   products_options_values varchar(255) NOT NULL,
   options_values_price decimal(15,4) NOT NULL,
   price_prefix char(1) NOT NULL,
+  attributes_model varchar(255) NULL DEFAULT '',
   PRIMARY KEY (orders_products_attributes_id)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE utf8_general_ci;");
 

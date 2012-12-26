@@ -989,5 +989,14 @@ define('BUTTON_DEFAULT', 'По умолчанию');
 define('AVISOSMS_EMAIL_TITLE','AvisoSMS');
 define('AVISOSMS_EMAIL_DESC','Получить Email нужно в личном кабинете AvisoSMS, в разделе "Рассылки" – "Адреса отправителя". Для этого нужно добавить магазин и получить уникальный email адрес и ввести тут.');
 
+define('VIS_MAIN_NEWS_TITLE', 'Новости на главной');
+define('VIS_MAIN_NEWS_DESC', 'Выводить блок новостей на главной?');
+define('VIS_MAIN_FEATURES_TITLE', 'Рекомендуемые товары на главной');
+define('VIS_MAIN_FEATURES_DESC', 'Выводить блок рекомендуемых товаров на главной?');
+define('VIS_MAIN_NEW_TITLE', 'Новые товары на главной');
+define('VIS_MAIN_NEW_DESC', 'Выводить блок новых товаров на главной?');
+define('VIS_MAIN_UPCOMING_TITLE', 'Ожидаемые товары на главной');
+define('VIS_MAIN_UPCOMING_DESC', 'Выводить блок ожидаемых товаров на главной?');
+
 require_once(DIR_FS_ADMIN .'lang/'. $_SESSION['language_admin']. '/affiliate_configuration.php');
 ?>

@@ -1330,7 +1330,11 @@ os_db_query("INSERT INTO `".DB_PREFIX."configuration` VALUES
 (392, 'ENTRY_USERNAME_MIN_LENGTH', '3', 2, 3, NULL, '0000-00-00 00:00:00', NULL, NULL),
 (393, 'USE_IMAGE_SUBMIT', 'false', 17, 19, NULL, '0000-00-00 00:00:00', NULL, 'os_cfg_select_option(array(\'true\', \'false\'),'),
 (394, 'SKIP_SHIPPING', 'false', 17, 19, NULL, '0000-00-00 00:00:00', NULL, 'os_cfg_select_option(array(\'true\', \'false\'),'),
-(395, 'AVISOSMS_EMAIL', '', 17, 20, NULL, '0000-00-00 00:00:00', NULL, NULL);
+(395, 'AVISOSMS_EMAIL', '', 17, 20, NULL, '0000-00-00 00:00:00', NULL, NULL),
+(396, 'VIS_MAIN_NEWS', 'true', 30, 32, NULL, '0000-00-00 00:00:00', NULL, 'os_cfg_select_option(array(\'true\', \'false\'),'),
+(397, 'VIS_MAIN_FEATURES', 'true', 30, 33, NULL, '0000-00-00 00:00:00', NULL, 'os_cfg_select_option(array(\'true\', \'false\'),'),
+(398, 'VIS_MAIN_NEW', 'true', 30, 34, NULL, '0000-00-00 00:00:00', NULL, 'os_cfg_select_option(array(\'true\', \'false\'),'),
+(399, 'VIS_MAIN_UPCOMING', 'true', 30, 35, NULL, '0000-00-00 00:00:00', NULL, 'os_cfg_select_option(array(\'true\', \'false\'),');
 ");
 
 ?>

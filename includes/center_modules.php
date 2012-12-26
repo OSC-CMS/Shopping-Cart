@@ -8,9 +8,25 @@
 *---------------------------------------------------------
 */
 
-  require(_MODULES . FILENAME_NEW_PRODUCTS);
-  require(_MODULES . FILENAME_FEATURED);
-  require(_MODULES . FILENAME_NEWS);
-  require(_MODULES . FILENAME_UPCOMING_PRODUCTS);
-  return $module;
+if (VIS_MAIN_NEW == 'true')
+{
+	require(_MODULES.FILENAME_NEW_PRODUCTS);
+}
+
+if (VIS_MAIN_FEATURES == 'true')
+{
+	require(_MODULES.FILENAME_FEATURED);
+}
+
+if (VIS_MAIN_NEWS == 'true')
+{
+	require(_MODULES.FILENAME_NEWS);
+}
+
+if (VIS_MAIN_UPCOMING == 'true')
+{
+	require(_MODULES.FILENAME_UPCOMING_PRODUCTS);
+}
+
+return $module;
 ?>
