@@ -1262,7 +1262,6 @@
         while ($subcategories = os_db_fetch_array($subcategories_query,true)) 
         {
             $subcategories_array[sizeof($subcategories_array)] = $subcategories['categories_id'];
-            echo sizeof($subcategories_array);
 
             if ($subcategories['categories_id'] != $parent_id) 
             {
@@ -3304,7 +3303,7 @@
             $query = substr($query, 0, -2) . ') values (';
             reset($data);
             while (list(, $value) = each($data)) {
-                $value = (is_Float($value) & PHP4_3_10) ? sprintf("%.F",$value) : (string)($value);
+                $value = (is_Float($value)) ? sprintf("%.F",$value) : (string)($value);
                 switch ($value) {
                     case 'now()':
                         $query .= 'now(), ';
@@ -3321,7 +3320,7 @@
         } elseif ($action == 'update') {
             $query = 'update ' . $table . ' set ';
             while (list($columns, $value) = each($data)) {
-                $value = (is_Float($value) & PHP4_3_10) ? sprintf("%.F",$value) : (string)($value);
+                $value = (is_Float($value)) ? sprintf("%.F",$value) : (string)($value);
                 switch ($value) {
                     case 'now()':
                         $query .= $columns . ' = now(), ';
