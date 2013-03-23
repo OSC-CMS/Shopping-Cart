@@ -364,7 +364,7 @@ if ( is_file( dir_path('catalog').'VERSION' ) )
 	//ревизия
 	$_rev = $_var_array[2];
 	//версия
-    $_version = $_var_array[1];;
+    $_version = $_var_array[1];
 }
 else
 {

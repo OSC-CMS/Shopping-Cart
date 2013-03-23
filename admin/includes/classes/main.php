@@ -112,8 +112,8 @@
             global $os_action;
             global $PHP_SELF;
 
-            _e ('<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">');
-            _e ('<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="ru" lang="ru">');
+            _e ('<!DOCTYPE html>');
+            _e ('<html>');
             _e ('<head>');
             $this->favicon();
             _e ('<meta http-equiv="Content-Type" content="text/html; charset='.$_SESSION['language_charset'].'">');
@@ -214,7 +214,7 @@
             return true;
         }
 
-        function fly_menu ($url, $name, $target="_blank")
+        function fly_menu($url, $name, $target="_blank")
         {
             if (!empty($target))
             {
