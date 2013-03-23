@@ -2573,7 +2573,7 @@
                 $format=false,
                 $session['cart']->contents[$products_id]['qty'],
                 $products['products_tax_class_id'],
-                $products['products_price']);
+                $products['products_price'], 0, 0, $products['products_discount_allowed']);
 
 
                 $products_array[] = array('id' => $products_id,

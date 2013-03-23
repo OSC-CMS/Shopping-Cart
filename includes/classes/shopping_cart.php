@@ -258,7 +258,7 @@ class shoppingCart {
 			if ($product = get_cart_products_cache(os_get_prid($products_id))) 
 			{
 
-				$products_price = $osPrice->GetPrice($product['products_id'], $format = false, $qty, $product['products_tax_class_id'], $product['products_price']);
+				$products_price = $osPrice->GetPrice($product['products_id'], $format = false, $qty, $product['products_tax_class_id'], $product['products_price'], 0, 0, $product['products_discount_allowed']);
 				$this->total += $products_price * $qty;
 				$this->qty += $qty;
 				$this->weight += ($qty * $product['products_weight']);
@@ -359,19 +359,21 @@ class shoppingCart {
 			if ($products = get_products_cache(os_get_prid($products_id))) {
 				$prid = $products['products_id'];
 
-				$products_price = $osPrice->GetPrice($products['products_id'], $format = false, $this->contents[$products_id]['qty'], $products['products_tax_class_id'], $products['products_price']);
+				$products_price = $osPrice->GetPrice($products['products_id'], $format = false, $this->contents[$products_id]['qty'], $products['products_tax_class_id'], $products['products_price'], 0, 0, $products['products_discount_allowed']);
 
+				$productsPrice = $products_price + $this->attributes_price($products_id);
 				$products_array[] = array (
 				
 				'id' => $products_id, 
 				'name' => $products['products_name'], 
 				'model' => $products['products_model'], 
 				'image' => $products['products_image'], 
-				'price' => $products_price + $this->attributes_price($products_id), 
+				'real_price' => $products_price, 
+				'price' => $productsPrice, 
 				'quantity' => $this->contents[$products_id]['qty'], 
 				'weight' => $products['products_weight'],
 				'shipping_time' => $main->getShippingStatusName($products['products_shippingtime']), 
-				'final_price' => ($products_price + $this->attributes_price($products_id)), 
+				'final_price' => $productsPrice, 
 				'tax_class_id' => $products['products_tax_class_id'], 
 				'bundle' => $products['products_bundle'], 
 				'attributes' => @$this->contents[$products_id]['attributes'], 

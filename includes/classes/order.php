@@ -361,7 +361,7 @@ class order {
                                         $format=false,
                                         $products[$i]['quantity'],
                                         $products[$i]['tax_class_id'],
-                                        '')+$osPrice->Format($_SESSION['cart']->attributes_price($products[$i]['id']),false);
+                                        $products[$i]['real_price'])+$osPrice->Format($_SESSION['cart']->attributes_price($products[$i]['id']),false);
 
         $this->products[$index] = array('qty' => $products[$i]['quantity'],
                                         'name' => $products[$i]['name'],
