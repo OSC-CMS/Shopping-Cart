@@ -139,7 +139,7 @@ if (ACCOUNT_COUNTRY == 'true') {
      //buttons	
 	$_array = array('img' => 'button_update.gif', 
 	                                'href' => '', 
-									'alt' => IMAGE_BUTTON_UPDATE.'ssssss', 'code' => '');
+									'alt' => IMAGE_BUTTON_UPDATE, 'code' => '');
 									
 	$_array = apply_filter('button_update', $_array);	
 	
