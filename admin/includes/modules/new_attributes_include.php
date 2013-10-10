@@ -1,124 +1,170 @@
 <?php
 /*
-#####################################
-#  OSC-CMS: Shopping Cart Software.
-#  Copyright (c) 2011-2012
-#  http://osc-cms.com
-#  http://osc-cms.com/forum
-#  Ver. 1.0.0
-#####################################
+*---------------------------------------------------------
+*
+*	CartET - Open Source Shopping Cart Software
+*	http://www.cartet.org
+*
+*---------------------------------------------------------
 */
 
-defined('_VALID_OS') or die('Прямой доступ не допускается.');
+defined('_VALID_OS') or die('РџСЂСЏРјРѕР№ РґРѕСЃС‚СѓРї РЅРµ РґРѕРїСѓСЃРєР°РµС‚СЃСЏ.');
 
-   require(_CLASS.'price.php');
-   $osPrice = new osPrice(DEFAULT_CURRENCY,$_SESSION['customers_status']['customers_status_id']);
+if ($_GET['cpath'])
+{
+	$product_query = os_db_query("select *, date_format(p.products_date_available, '%Y-%m-%d') as products_date_available
+	from 
+		".TABLE_PRODUCTS." p, ".TABLE_PRODUCTS_DESCRIPTION." pd
+	where 
+		p.products_id = '".(int)$_GET['current_product_id']."' and p.products_id = pd.products_id and pd.language_id = '".(int)$_SESSION['languages_id']."'");
+
+	$product = os_db_fetch_array($product_query);
+	$breadcrumb->add(BOX_HEADING_PRODUCTS, './'.FILENAME_CATEGORIES.'?cPath='.$_GET['cpath']);
+	$breadcrumb->add($product['products_name'], './'.FILENAME_CATEGORIES.'?cPath='.$_GET['cpath'].'&pID='.$_GET['current_product_id'].'&action=new_product');
+}
+
+$breadcrumb->add(TITLE_EDIT);
+
+$main->head();
+$main->top_menu();
+
+require(_CLASS.'price.php');
+$osPrice = new osPrice(DEFAULT_CURRENCY,$_SESSION['customers_status']['customers_status_id']);
 ?>
-<form action="<?php echo $_SERVER['PHP_SELF']; ?>" method="post" name="SUBMIT_ATTRIBUTES" enctype="multipart/form-data"><input type="hidden" name="current_product_id" value="<?php echo $_POST['current_product_id']; ?>"><input type="hidden" name="action" value="change">
+
+<form action="<?php echo $_SERVER['PHP_SELF']; ?>" method="post" name="SUBMIT_ATTRIBUTES" enctype="multipart/form-data">
+<input type="hidden" name="current_product_id" value="<?php echo $_POST['current_product_id']; ?>">
+<input type="hidden" name="action" value="change">
+
 <?php
+
 echo os_draw_hidden_field(os_session_name(), os_session_id());
-  if ($cPath) echo '<input type="hidden" name="cPathID" value="' . $cPath . '">';
+if ($cPath)
+	echo '<input type="hidden" name="cPathID" value="'.$cPath.'">';
 
-  require(_MODULES_ADMIN . 'new_attributes_functions.php');
-  $tempTextID = '1999043';
-  $query = "SELECT * FROM ".TABLE_PRODUCTS_OPTIONS." where products_options_id LIKE '%' AND language_id = '" . $_SESSION['languages_id'] . "'";
-  $result = os_db_query($query);
-  $matches = os_db_num_rows($result);
+require(_MODULES_ADMIN . 'new_attributes_functions.php');
 
-  if ($matches) {
-    while ($line = os_db_fetch_array($result)) {
-      $current_product_option_name = $line['products_options_name'];
-      $current_product_option_id = $line['products_options_id'];
-      echo "<TR class=\"dataTableHeadingRow\">";
-      echo "<TD class=\"dataTableHeadingContent\"><B>" . $current_product_option_name . "</B></TD>";
-      echo "<TD class=\"dataTableHeadingContent\"><B>".SORT_ORDER."</B></TD>";
-      echo "<TD class=\"dataTableHeadingContent\"><B>".ATTR_MODEL."</B></TD>";
-      echo "<TD class=\"dataTableHeadingContent\"><B>".ATTR_STOCK."</B></TD>";
-      echo "<TD class=\"dataTableHeadingContent\"><B>".ATTR_WEIGHT."</B></TD>";
-      echo "<TD class=\"dataTableHeadingContent\"><B>".ATTR_PREFIXWEIGHT."</B></TD>";
-      echo "<TD class=\"dataTableHeadingContent\"><B>".ATTR_PRICE."</B></TD>";
-      echo "<TD class=\"dataTableHeadingContent\"><B>".ATTR_PREFIXPRICE."</B></TD>";
+$tempTextID = '1999043';
+$result = os_db_query("SELECT * FROM ".TABLE_PRODUCTS_OPTIONS." where products_options_id LIKE '%' AND language_id = '".(int)$_SESSION['languages_id']."'");
+$matches = os_db_num_rows($result);
 
-      echo "</TR>";
-
-      // Find all of the Current Option's Available Values
-      $query2 = "SELECT * FROM ".TABLE_PRODUCTS_OPTIONS_VALUES_TO_PRODUCTS_OPTIONS." povto
-	  LEFT JOIN ".TABLE_PRODUCTS_OPTIONS_VALUES." pov ON povto.products_options_values_id=pov.products_options_values_id 
-	  WHERE povto.products_options_id = '" . $current_product_option_id . "' AND language_id = '" . $_SESSION['languages_id'] . "' ORDER BY pov.products_options_values_name ASC";
-      $result2 = os_db_query($query2);
-      $matches2 = os_db_num_rows($result2);
-
-      if ($matches2) {
-        $i = '0';
-        while ($line = os_db_fetch_array($result2)) {
-          $i++;
-          $rowClass = rowClass($i);
-          $current_value_id = $line['products_options_values_id'];
-          $isSelected = checkAttribute($current_value_id, $_POST['current_product_id'], $current_product_option_id);
-          if ($isSelected) {
-            $CHECKED = ' CHECKED';
-          } else {
-            $CHECKED = '';
-          }
-
-          $query3 = "SELECT * FROM ".TABLE_PRODUCTS_OPTIONS_VALUES." WHERE products_options_values_id = '" . $current_value_id . "' AND language_id = '" . $_SESSION['languages_id'] . "'";
-          $result3 = os_db_query($query3);
-          while($line = os_db_fetch_array($result3)) {
-            $current_value_name = $line['products_options_values_name'];
-            echo "<TR class=\"" . $rowClass . "\">";
-            echo "<TD class=\"main\">";
-            echo "<input type=\"checkbox\" name=\"optionValues[]\" value=\"" . $current_value_id . "\"" . $CHECKED . ">&nbsp;&nbsp;" . $current_value_name . "&nbsp;&nbsp;";
-            echo "</TD>";
-            echo "<TD class=\"main\" align=\"left\"><input type=\"text\" name=\"" . $current_value_id . "_sortorder\" value=\"" . $sortorder . "\" size=\"4\"></TD>";
-            echo "<TD class=\"main\" align=\"left\"><input type=\"text\" name=\"" . $current_value_id . "_model\" value=\"" . $attribute_value_model . "\" size=\"15\"></TD>";
-            echo "<TD class=\"main\" align=\"left\"><input type=\"text\" name=\"" . $current_value_id . "_stock\" value=\"" . $attribute_value_stock . "\" size=\"4\"></TD>";
-            echo "<TD class=\"main\" align=\"left\"><input type=\"text\" name=\"" . $current_value_id . "_weight\" value=\"" . $attribute_value_weight . "\" size=\"10\"></TD>";
-            echo "<TD class=\"main\" align=\"left\"><SELECT name=\"" . $current_value_id . "_weight_prefix\"><OPTION value=\"+\"" . $posCheck_weight . ">+<OPTION value=\"-\"" . $negCheck_weight . ">-</SELECT></TD>";
-
-            if (PRICE_IS_BRUTTO=='true'){
-            $attribute_value_price_calculate = $osPrice->Format(os_round($attribute_value_price*((100+(os_get_tax_rate(os_get_tax_class_id($_POST['current_product_id']))))/100),PRICE_PRECISION),false);
-            } else {
-            $attribute_value_price_calculate = os_round($attribute_value_price,PRICE_PRECISION);
-            }
-            echo "<TD class=\"main\" align=\"left\"><input type=\"text\" name=\"" . $current_value_id . "_price\" value=\"" . $attribute_value_price_calculate . "\" size=\"10\">";
-            if (PRICE_IS_BRUTTO=='true'){
-             echo TEXT_NETTO .'<b>'.$osPrice->Format(os_round($attribute_value_price,PRICE_PRECISION),true).'</b>  ';
-            }
-
-            echo "</TD>";
-
-              echo "<TD class=\"main\" align=\"left\"><SELECT name=\"" . $current_value_id . "_prefix\"> <OPTION value=\"+\"" . $posCheck . ">+<OPTION value=\"-\"" . $negCheck . ">-</SELECT></TD>";
-
-
-
-            echo "</TR>";
-            if(DOWNLOAD_ENABLED == 'true') {
-
-                $file_list = os_array_merge(array('0' => array('id' => '', 'text' => SELECT_FILE)),os_getFiles(_DOWNLOAD));
-
-                echo "<tr>";
-                echo "<td colspan=\"2\" class=\"main\">&nbsp;" . DL_FILE . "<br>" . os_draw_pull_down_menu($current_value_id . '_download_file',$file_list,$attribute_value_download_filename)."</td>";                echo "<td class=\"main\">&nbsp;". DL_COUNT . "<br><input type=\"text\" name=\"" . $current_value_id . "_download_count\" value=\"" . $attribute_value_download_count . "\"></td>";
-                echo "<td class=\"main\">&nbsp;". DL_EXPIRE . "<br><input type=\"text\" name=\"" . $current_value_id . "_download_expire\" value=\"" . $attribute_value_download_expire . "\"></td>";
-                echo "</tr>";
-            }
-          }
-          if ($i == $matches2 ) $i = '0';
-        }
-      } else {
-        echo "<TR>";
-        echo "<TD class=\"main\"><SMALL>".OS_NO_VALUES."</SMALL></TD>";
-        echo "</TR>";
-      }
-    }
-  }
 ?>
-  <tr>
-    <td colspan="10" class="main"><br>
+
+	<table class="table table-condensed table-big-list">
 <?php
-echo os_button(BUTTON_SAVE) . '&nbsp;';
-echo os_button_link(BUTTON_CANCEL,'javascript:history.back()');
+if ($matches)
+{
+	while ($line = os_db_fetch_array($result))
+	{
+		$current_product_option_name = $line['products_options_name'];
+		$current_product_option_id = $line['products_options_id'];
+
+		// Find all of the Current Option's Available Values
+		$result2 = os_db_query("
+			SELECT
+				*
+			FROM
+				".TABLE_PRODUCTS_OPTIONS_VALUES_TO_PRODUCTS_OPTIONS." povto
+					LEFT JOIN ".TABLE_PRODUCTS_OPTIONS_VALUES." pov ON povto.products_options_values_id = pov.products_options_values_id
+			WHERE
+				povto.products_options_id = '".(int)$current_product_option_id."' AND
+				language_id = '".(int)$_SESSION['languages_id']."'
+			ORDER BY
+				pov.products_options_values_name ASC"
+		);
+		$matches2 = os_db_num_rows($result2);
+
+		if ($matches2)
+		{
+
+		echo '<tr><thead>';
+			echo '<th></th>';
+			echo '<th><span class="line"></span>'.$current_product_option_name.'</th>';
+			echo '<th><span class="line"></span>'.SORT_ORDER.'</th>';
+			echo '<th><span class="line"></span>'.ATTR_MODEL.'</th>';
+			echo '<th><span class="line"></span>'.ATTR_STOCK.'</th>';
+			echo '<th><span class="line"></span>'.ATTR_WEIGHT.'</th>';
+			echo '<th><span class="line"></span>'.ATTR_PREFIXWEIGHT.'</th>';
+			echo '<th><span class="line"></span>'.ATTR_PRICE.'</th>';
+			echo '<th><span class="line"></span>'.ATTR_PREFIXPRICE.'</th>';
+		echo '</thead></tr>';
+
+
+			$i = '0';
+			while ($line = os_db_fetch_array($result2))
+			{
+				$i++;
+				$current_value_id = $line['products_options_values_id'];
+
+				$isSelected = checkAttribute($current_value_id, $_POST['current_product_id'], $current_product_option_id);
+
+				if ($isSelected)
+					$checked = ' checked';
+				else
+					$checked = '';
+
+				$result3 = os_db_query("SELECT * FROM ".TABLE_PRODUCTS_OPTIONS_VALUES." WHERE products_options_values_id = '".(int)$current_value_id."' AND language_id = '".(int)$_SESSION['languages_id']."'");
+
+				while($line = os_db_fetch_array($result3))
+				{
+					$current_value_name = $line['products_options_values_name'];
+					echo '<tr>';
+
+					echo '<td><input type="checkbox" name="optionValues['.$current_value_id.']" value="1" '.$checked.'></td>';
+					echo '<td>'.$current_value_name.'</td>';
+					echo '<td>'.$cartet->html->input_text($current_value_id.'_sortorder', $sortorder, array('class' => 'width30')).'</td>';
+					echo '<td>'.$cartet->html->input_text($current_value_id.'_model', $attribute_value_model, array('class' => 'width90')).'</td>';
+					echo '<td>'.$cartet->html->input_text($current_value_id.'_stock', $attribute_value_stock, array('class' => 'width30')).'</td>';
+					echo '<td>'.$cartet->html->input_text($current_value_id.'_weight', $attribute_value_weight, array('class' => 'width30')).'</td>';
+					echo '<td><select name="'.$current_value_id.'_weight_prefix" class="width30"><option value="+"'.$posCheck_weight.'>+<option value="-"'.$negCheck_weight.'>-</select></td>';
+
+					if (PRICE_IS_BRUTTO=='true')
+						$attribute_value_price_calculate = $osPrice->Format(os_round($attribute_value_price*((100+(os_get_tax_rate(os_get_tax_class_id($_POST['current_product_id']))))/100),PRICE_PRECISION),false);
+					else
+						$attribute_value_price_calculate = os_round($attribute_value_price,PRICE_PRECISION);
+
+					echo '<td>'.$cartet->html->input_text($current_value_id.'_price', $attribute_value_price_calculate, array('class' => 'width90'));
+					if (PRICE_IS_BRUTTO == 'true')
+					{
+						echo TEXT_NETTO .' ('.$osPrice->Format(os_round($attribute_value_price,PRICE_PRECISION),true).')';
+					}
+					echo '</td>';
+
+					echo '<td><select name="'.$current_value_id.'_prefix" class="width30"> <option value="+" '.$posCheck.' >+<option value="-" '.$negCheck.' >-</select></td>';
+
+					echo '</tr>';
+
+					if (DOWNLOAD_ENABLED == 'true')
+					{
+						$file_list = os_array_merge(array('0' => array('id' => '', 'text' => SELECT_FILE)),os_getFiles(_DOWNLOAD));
+
+						echo '<tr>';
+						echo '<td colspan="2" class="main">'.DL_FILE.'<br />'.os_draw_pull_down_menu($current_value_id.'_download_file', $file_list,$attribute_value_download_filename).'</td>';
+						echo '<td colspan="2">'.DL_COUNT.'<br />'.$cartet->html->input_text($current_value_id.'_download_count', $attribute_value_download_count, array('class' => 'width90')).'</td>';
+						echo '<td colspan="2">'.DL_EXPIRE.'<br />'.$cartet->html->input_text($current_value_id.'_download_expire', $attribute_value_download_expire, array('class' => 'width90')).'</td>';
+						echo '<td colspan="2"></td>';
+						echo '</tr>';
+					}
+				}
+				if ($i == $matches2 ) $i = '0';
+			}
+		}
+		/*else
+		{
+			echo '<tr>';
+			echo '<td colspan="8"><small>'.OS_NO_VALUES.'</small></td>';
+			echo '</tr>';
+		}*/
+	}
+}
 ?>
-</td>
-  </tr>
-</form>
+
 </table>
+
+<hr>
+	<div class="tcenter footer-btn">
+		<input class="btn btn-success ajax_save_attr" type="submit" value="<?php echo BUTTON_SAVE; ?>" />
+		<a class="btn btn-link" href="javascript:history.back()"><?php echo BUTTON_CANCEL; ?></a>
+	</div>
+
+</form>

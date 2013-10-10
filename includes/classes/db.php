@@ -2,8 +2,8 @@
 /*
 *---------------------------------------------------------
 *
-*	OSC-CMS - Open Source Shopping Cart Software
-*	http://osc-cms.com
+*	CartET - Open Source Shopping Cart Software
+*	http://www.cartet.org
 *
 *---------------------------------------------------------
 */
@@ -398,7 +398,7 @@
 
                 while (list(, $value) = each($data)) 
                 {
-                    $value = (is_Float($value) & PHP4_3_10) ? sprintf("%.F",$value) : (string)($value);
+                    $value = (is_Float($value)) ? sprintf("%.F",$value) : (string)($value);
                     switch ($value) 
                     {
                         case 'now()':
@@ -419,7 +419,7 @@
                 $query = 'update ' . $table . ' set ';
                 while (list($columns, $value) = each($data)) 
                 {
-                    $value = (is_Float($value) & PHP4_3_10) ? sprintf("%.F",$value) : (string)($value);
+                    $value = (is_Float($value)) ? sprintf("%.F",$value) : (string)($value);
                     switch ($value) 
                     {
                         case 'now()':

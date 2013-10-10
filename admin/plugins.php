@@ -1,211 +1,357 @@
 <?php
 /*
-#####################################
-#  OSC-CMS: Shopping Cart Software.
-#  Copyright (c) 2011-2012
-#  http://osc-cms.com
-#  http://osc-cms.com/forum
-#  Ver. 1.0.0
-#####################################
+*---------------------------------------------------------
+*
+*	CartET - Open Source Shopping Cart Software
+*	http://www.cartet.org
+*
+*---------------------------------------------------------
 */
 
 require('includes/top.php');
 
-include( dir_path_admin('func') . 'plugin.php'); 
+include( dir_path_admin('func').'plugin.php'); 
 
-if (isset($_GET['action']) && $_GET['action']=='process_true')
+if (isset($_GET['plugin']) && !empty($_GET['plugin'])) 
 {
-    $messageStack->add('Плагин '.$_GET['modules'].' успешно выполнен', 'success');
+	$p->module = $_GET['plugin'];
+	$p->name = $_GET['plugin'];
 }
 
-if (isset($_GET['module']) && !empty($_GET['module'])) 
-{
-   $p->module = $_GET['module'];
-   $p->name = $_GET['module'];
-}
-
-$_plug_array =  $p->plug_array();
-
+$aPlugins = $p->plug_array();
 $plugins = $p->info;
+
+// Получаем кнопки
+$getReadonly = $p->getReadonly();
+// Получаем все опции плагинов
+$getAllOption = $p->getAllOption();
+
+if (isset($_GET['group']) && !empty($_GET['group'])) 
+{
+	$p->group = $_GET['group'];
+}
+
+// Фильтрация плагинов
+function sortPlugins($aPlugins = array(), $plugins = array(), $key, $val)
+{
+	$_plug_array = array();
+
+	if ($key == 'status')
+	{
+		foreach ($aPlugins as $_group => $_plug_value)
+		{
+			foreach ($_plug_value as $_value)
+			{
+				if (isset($plugins[$_value['name']][$key]) && ($plugins[$_value['name']][$key] == $val))
+				{
+					$_plug_array[$_group][] = $_value;
+				}
+			}
+		}
+	}
+	else
+	{
+		foreach ($aPlugins as $_group => $_plug_value)
+		{
+			if ($_group == $val)
+			{
+				foreach ($_plug_value as $_value)
+				{
+					$_plug_array[$_group][] = $_value;
+				}
+			}
+		}
+	}
+	return $_plug_array;
+}
+
+$url = '';
+
+// Фильтруем по статусу
+if (isset($_GET['status']))
+{
+	$_plug_array = sortPlugins($aPlugins, $plugins, 'status', $_GET['status']);
+	$url = '?status='.$_GET['status'];
+}
+// Фильтруем по группам
+elseif (isset($_GET['group']))
+{
+	$_plug_array = sortPlugins($aPlugins, $plugins, 'group', $_GET['group']);
+	$url = '?group='.$_GET['group'];
+}
+// Если нет фильтра
+else
+{
+	$_plug_array = $aPlugins;
+}
 
 if (isset($_GET['action']))
 {
-     switch ($_GET['action'])
-     {
-          case 'install': 
-		      $p->install();
-               os_redirect(FILENAME_PLUGINS.'?module='.$p->name.'&group='.$p->group);	  
-		  break; 
+	switch ($_GET['action'])
+	{
+		case 'install':
+			$p->install($_GET['plugin'], $_GET['group']);
+			os_redirect(FILENAME_PLUGINS.$url);
+		break;
 
-          case 'remove': 
-		       $p->remove(); 
-			    os_redirect(FILENAME_PLUGINS.'?module='.$p->name.'&group='.$p->group);
-		  break; 
+		case 'remove':
+			$p->remove();
+			os_redirect(FILENAME_PLUGINS.$url);
+		break;
 
-		  // TODO: добавить возможность выключать\включать плагины без удаления инфы из БД.
-          case 'update_status': 
-				$p->updatePluginStatus(); 
-				os_redirect(FILENAME_PLUGINS.'?module='.$p->name.'&group='.$p->group);
-		  break; 
+		// TODO: добавить возможность выключать\включать плагины без удаления инфы из БД.
+		case 'update_status':
+			$p->updatePluginStatus();
+			os_redirect(FILENAME_PLUGINS.$url);
+		break;
 
-	      case 'process': $p->process(); break; 	
-	      case 'save': $p->save_options(); break; 
-	      case 'multi_action': $p-> multi_action(); break;
-     }
-}
-
-add_action('head_admin', 'head_plugins');
-
-function head_plugins()
-{
-    global $main;
-    $main->style('plugins');
-}
-
-
-
-?>
-<?php $main->head(); ?>
-<?php $main->top_menu(); ?>
-<form name="multi_action_form" action="<?php echo FILENAME_PLUGINS; ?>?action=multi_action" method="post">
-<table border="0" width="100%" cellspacing="2" cellpadding="2">
-  <tr>
-    <td class="boxCenter" width="100%" valign="top">
-    <?php $main->heading('plugin.gif', HEADING_TITLE); ?>  
-
-	<?php
+		case 'process':
+			$p->process();
+			os_redirect(FILENAME_PLUGINS.$url);
+		break;
 	
-	echo "<div style=\"position:absolute;top:58px; right:30px;\"><a target=\"_blank\" style=\"color:#4378a1\" href=\"http://osc-cms.com/extend/plugins\">".MODULES_OTHER."</a></div>"; 
+		case 'save':
+			$p->save_options();
+			os_redirect(FILENAME_PLUGINS.'?act=setting&plugin='.$p->module.'&group='.$p->info[$p->module]['group']);
+		break;
 
-	
-	?>
-
-    <table border="0" width="100%" cellspacing="4" cellpadding="2" valign="top">
-      <tr>
-        <td  valign="top"><table border="0" width="100%" cellspacing="0" cellpadding="0"  valign="top">
-          <tr>
-            <td valign="top">
-			<table border="0" width="100%" cellspacing="2" cellpadding="2">
-              <tr class="dataTableHeadingRow">
-			    <td class="dataTableHeadingContent" width="20px"><input type="checkbox" name="plug_all" onClick="javascript:SwitchCheck();" /></td>
-			    <td class="dataTableHeadingContent" width="20px">&nbsp;</td>
-				<td class="dataTableHeadingContent" width="300px"><?php echo TABLE_HEADING_PLUGINS; ?></td>
-				<td class="dataTableHeadingContent"><?php echo TABLE_HEADING_FILENAME; ?></td>
-				<td class="dataTableHeadingContent" width="50px"><?php echo TABLE_HEADING_VERSION; ?></td>
-				<td class="dataTableHeadingContent" width="50px"><?php echo TABLE_HEADING_STATUS; ?></td>
-                <td class="dataTableHeadingContent" align="right" width="50"><?php echo TABLE_HEADING_ACTION; ?>&nbsp;</td>
-              </tr>		  
-<?php
-    
-
-
-	foreach ($_plug_array as $_group => $_plug_value)
-	{ 
-	   $p->group = $_group; 
-	   $i = 0;
-	   
-	   if ($_group == 'themes') 
-	   {  
-	       $_group = HEADING_TITLE_THEMES.' (<i>'.CURRENT_TEMPLATE.'</i>)';
-	   }
-	   
-	   if ($_group == 'update') $_group = PLUGINS_UPDATE;
-	   if ($_group != 'main') 
-	   {
-	       echo '<tr>';
-		   echo '<td class="dataTableHeadingContent" colspan="7" style="text-align:left;">&nbsp;&nbsp;'.$_group.'</td>'; 
-		   echo '</tr>';
-       }
-	   
-	   if (!empty($_plug_value))
-	   {
-
-	       foreach ($_plug_value as $_value)
-	       { 
-		        
-		        $color = $_value['color'];
-				$p->name = $_value['name'];
-
-				if (empty($p->module)) $p->module = $p->name;
-				$p->group = $p->info[$p->name]['group']; // текущая группа плагина -> main | themes | update
-				
-				//определяем обновление установлено уже или нет
-				if ($p->check_update()) $_through = ''; else $_through = ' text-decoration: line-through; ';
-				
-				
-		   	    if ($p->module == $p->name)
-		        {
-		              echo '<tr class="dataTableRowSelected"'.$_through .'>' . "\n";
-		        }
-		        else
-		        { 
-                      echo '<tr onmouseover="this.style.background=\'#e9fff1\';" onmouseout="this.style.background=\''.$color.'\';"  style="background-color:'.$color;
-		              echo ';" onmouseover="this.className=\'dataTableRowOver\';this.style.cursor=\'hand\'"'.$_through .'>' . "\n";
-	            }  
-				
-?>				
-<td align="center" valign="center"><input type="checkbox" name="plugins[]" value="<?php echo $p->name; ?>" /></td>
-<td <?php echo 'onclick="document.location.href=\'' . os_href_link(FILENAME_PLUGINS, 'module='.$p->name.'&group='.$p->group).'\'"';  ?> align="center" valign="center"><?php  echo $_value['icon'];?></td>
-<td <?php echo 'onclick="document.location.href=\'' . os_href_link(FILENAME_PLUGINS, 'module='.$p->name.'&group='.$p->group).'\'"'; ?> class="dataTableContent"><?php  echo $_value['title'];?></td>
-<td <?php echo 'onclick="document.location.href=\'' . os_href_link(FILENAME_PLUGINS, 'module='.$p->name.'&group='.$p->group).'\'"'; ?> class="dataTableContent"><?php echo $_value['name']; ?></td>
-<td <?php echo 'onclick="document.location.href=\'' . os_href_link(FILENAME_PLUGINS, 'module='.$p->name.'&group='.$p->group).'\'"'; ?> class="dataTableContent" align="center"><?php echo (!empty($_value['version'])? $_value['version'] : '1.0'); ?></td>
-<td class="dataTableContent" align="center"><?php $p->status();?></td>
-<td width="80px" class="dataTableContent" align="right" valign="center"><?php $p->action($p->name); ?></td> 
-</tr><?php
-	       }
-	   }
+		case 'multi_action':
+			$p->multi_action();
+			os_redirect(FILENAME_PLUGINS.$url);
+		break;
 	}
+}
 
-  plugins_switch();
-  
-//блоки из текущего шаблона
-echo '</table><br /><div style="width:100%;text-align:right;font-size:12px;"><i>/modules/plugins/</i>&nbsp;&nbsp;</div>';
+if (isset($_GET['action']) && $_GET['action'] == 'process_true')
+{
+	$messageStack->add_session('Плагин '.$_GET['module'].' успешно выполнен', 'success');
+	os_redirect(FILENAME_PLUGINS);
+}
 
+$breadcrumb->add(HEADING_TITLE, FILENAME_PLUGINS);
+
+if ($_GET['act'] == 'setting' && !empty($_GET['plugin']))
+{
+	$getOptions = $p->option();
+	$breadcrumb->add($p->info[$p->module]['title'], FILENAME_PLUGINS.'?act=setting&plugin='.$p->module.'&group='.$_GET['group']);
+}
+
+$main->head();
+$main->top_menu();
 ?>
-</td>
-    <td class="right_box" valign="top">
-<table class="contentTable" border="0" width="237px" cellspacing="0" cellpadding="0">
-  <tr>
-    <td class="infoBoxHeading">
-	<?php 
-		    if (!empty($p->info[$p->module]['title']))
-			{
-			  $_title = $p->info[$p->module]['title'];
-			}
-			else
-			{
-			     if (isset($p->info[$p->module]))
-				 {
-				      $_title =  ucfirst($p->module);
-				 }
-				 else
-				 {
-				      $_title = '-:-:-';
-				 }
-			 
-			}
-	
-			if (mb_strlen($_title) > 27)  
-			{
-				 $_title = _mb_substr($_title, 0, 27);
-				 $_title = $_title.'..';
-			}
-			echo $_title;
-	?></td>
-  </tr>
-</table>
-<?php $p->option($_plug_array); ?>
 
-	</td>
-  </tr>
-</table>
-            </td>
-          </tr>
-        </table></td>
-      </tr>
-    </table></td>
-  </tr>
-</table>
+<?php
+if ($_GET['act'] == 'setting' && !empty($_GET['plugin']))
+{
+	if ($getOptions)
+	{
+	?>
+	<form action="<?php echo FILENAME_PLUGINS.'?action=save&plugin='.$p->module.'&group='.$p->info[$p->module]['group']; ?>" method="post">
+		<?php
+		if ($getOptions['options'])
+		{
+			foreach ($getOptions['options'] AS $o)
+			{
+			?>
+				<div class="control-group">
+					<label class="control-label" for="<?php echo ($o['option']) ? $o['option'] : ''; ?>"><?php echo $o['name']; ?></label>
+					<div class="controls">
+						<?php echo $o['value']; ?>
+						<?php if ($o['desc']) { ?><span class="help-block"><?php echo $o['desc']; ?></span><?php } ?>
+					</div>
+				</div>
+			<?php
+			}
+		}
+		?>
 
-</div>
+		<hr>
+
+		<div class="tcenter footer-btn">
+			<input class="btn btn-success" type="submit" value="<?php echo PLUGINS_SAVE; ?>" />
+			<a class="btn btn-link" href="<?php echo os_href_link(FILENAME_PLUGINS); ?>"><?php echo BUTTON_BACK; ?></a>
+		</div>
+
+	</form>
+	<?php } ?>
+
+<?php } else { ?>
+
+	<ul class="nav nav-tabs">
+		<li <?php echo (!isset($_GET['status']) && !isset($_GET['group'])) ? 'class="active"' : ''; ?>><a href="<?php echo os_href_link(FILENAME_PLUGINS); ?>">Все</a></li>
+		<li <?php echo (isset($_GET['status']) && $_GET['status'] == '1') ? 'class="active"' : ''; ?>><a href="<?php echo os_href_link(FILENAME_PLUGINS, 'status=1'); ?>">Активные</a></li>
+		<li <?php echo (isset($_GET['status']) && $_GET['status'] == '0') ? 'class="active"' : ''; ?>><a href="<?php echo os_href_link(FILENAME_PLUGINS, 'status=0'); ?>">Неактивные</a></li>
+		
+		<li class="dropdown <?php echo (isset($_GET['group']) && !empty($_GET['group'])) ? 'active' : ''; ?>">
+			<a class="dropdown-toggle" data-toggle="dropdown" href="#">Группы <b class="caret"></b></a>
+			<ul class="dropdown-menu">
+				<?php
+				foreach ($aPlugins as $_group => $_plug_value)
+				{
+					echo '<li '.((isset($_GET['group']) && $_GET['group'] == $_group) ? 'class="active"' : '').'><a href="'.os_href_link(FILENAME_PLUGINS, 'group='.$_group).'">'.$_group.'</a></li>';
+				}
+				?>
+			</ul>
+		</li>
+		<li class="pull-right"><a href=""><i class="icon-plus"></i> Добавить</a></li>
+	</ul>
+
+	<form name="multi_action_form" action="<?php echo FILENAME_PLUGINS; ?>?action=multi_action" method="post">
+
+		<div class="row-fluid">
+			<div class="span6">
+				<input type="search" placeholder="Найти плагин..." id="find-plugin" tabindex="0"/>
+			</div>
+			<div class="span6">
+				<div class="pull-right">
+					<select name="action" dir="ltr" onchange="this.form.submit();">
+						<option value="<?php echo PLUGINS_SELECTED; ?>" selected="selected"><?php echo PLUGINS_SELECTED; ?></option>
+						<option value="install" ><?php echo PLUGINS_INSTALL;?></option>
+						<option value="remove" ><?php echo PLUGINS_REMOVE;?></option>
+					</select>
+				</div>
+			</div>
+		</div>
+
+		<table id="simple-filter-table" class="table table-condensed table-big-list">
+			<thead>
+				<tr>
+					<th width="40" class="tcenter"><input type="checkbox" name="plug_all" onClick="javascript:SwitchCheck();" title="<?php echo PLUGINS_SWITCH_ALL; ?>" /></th>
+					<th width="450" colspan="2"><span class="line"></span><?php echo TABLE_HEADING_PLUGINS; ?></th>
+					<th><span class="line"></span><?php echo TABLE_HEADING_FILENAME; ?></th>
+					<?php //echo TABLE_HEADING_STATUS; ?>
+					<?php //echo TABLE_HEADING_ACTION; ?>
+				</tr>
+			</thead>
+			<tbody>
+			<?php
+			$i = 0;
+			foreach ($_plug_array as $_group => $_plug_value)
+			{
+				$p->group = $_group;
+
+				if ($_group == 'themes')
+				{
+					$_group = HEADING_TITLE_THEMES.' ('.CURRENT_TEMPLATE.')';
+				}
+
+				if ($_group == 'update')
+					$_group = PLUGINS_UPDATE;
+
+				if (!isset($_GET['group']))
+				{
+					?>
+					<tr>
+						<td class="bold" colspan="6"><?php echo $_group; ?></td>
+					</tr>
+					<?php
+				}
+
+				if (!empty($_plug_value))
+				{
+
+					foreach ($_plug_value as $_value)
+					{
+						$p->name = $_value['name'];
+
+						if (empty($p->module)) $p->module = $p->name;
+						$p->group = $p->info[$p->name]['group']; // текущая группа плагина -> main | themes | update
+
+						//определяем обновление установлено уже или нет
+						if ($p->check_update()) $_through = ''; else $_through = ' text-decoration: line-through; ';
+
+						//if ($p->module == $p->name)
+						?>
+						<tr <?php if (isset($plugins[$p->name]['status']) && ($plugins[$p->name]['status'] == 1)) { ?>class="success"<?php } ?>>
+							<td class="tcenter"><input type="checkbox" name="plugins[]" value="<?php echo $p->name; ?>" /></td>
+							<td width="50"><?php echo $_value['icon'];?></td>
+							<td width="400">
+								<span class="bold"><?php echo $_value['title'];?></span><br />
+								<?php echo $_value['name']; ?>
+								<div class="pt10">
+									<?php if (isset($plugins[$p->name]['status']) && ($plugins[$p->name]['status'] == 1)) { ?>
+										<a class="btn btn-mini btn-danger" onclick="return confirm('Действительно хотите удалить плагин?');" href="<?php echo FILENAME_PLUGINS.'?action=remove&plugin='.$p->name.'&group='.$plugins[$p->name]['group']; ?>" title="<?php echo IMAGE_ICON_STATUS_RED_LIGHT; ?>">Удалить</a>
+									<?php } else { ?>
+										<a class="btn btn-mini" href="<?php echo FILENAME_PLUGINS.'?action=install&plugin='.$p->name.'&group='.$plugins[$p->name]['group']; ?>" title="<?php echo IMAGE_ICON_STATUS_GREEN_LIGHT; ?>">Установить</a>
+									<?php } ?>
+
+									<?php if (isset($plugins[$p->name]['process']) && count($plugins[$p->name]['process']) > 0 && $plugins[$p->name]['status'] == 1) { ?>
+										<a class="btn btn-mini" href="<?php echo FILENAME_PLUGINS.'?plugin='.$p->name; ?>&action=process" title="<?php echo PLUGINS_PROCESS; ?>"><?php echo PLUGINS_PROCESS; ?></a>
+									<?php } ?>
+
+									<?php if (isset($plugins[$p->name]['status']) && ($plugins[$p->name]['status'] == 1) && $getAllOption[$p->name]) { ?>
+										<a class="btn btn-mini" href="<?php echo os_href_link(FILENAME_PLUGINS, 'act=setting&plugin='.$p->name.'&group='.$p->group); ?>"><i class="icon-edit"></i></a>
+									<?php } ?>
+
+									<?php
+									if (isset($plugins[$p->name]['status']) && ($plugins[$p->name]['status'] == 1)) {
+										if ($getReadonly[$p->name])
+										{
+											if (is_array($getReadonly[$p->name]))
+											{
+												echo implode(' ', $getReadonly[$p->name]);
+											}
+											else
+												echo $getReadonly[$p->name];
+										}
+									}
+									?>
+								</div>
+							</td>
+							<td>
+								<?php if ($_value['desc']) { ?>
+								<?php echo $_value['desc']; ?><br />
+								<?php } ?>
+								<?php echo TABLE_HEADING_VERSION; ?>: <span class="label label-info"><?php echo (!empty($_value['version'])? $_value['version'] : '0'); ?></span> 
+								<?php echo PLUGINS_AUTHOR; ?>: <a href="<?php echo $_value['author_uri']; ?>" target="_blank"><?php echo $_value['author']; ?></a>
+							</td>
+						</tr>
+						<?php
+					}
+				}
+			}
+			?>
+			</tbody>
+		</table>
+
+		<hr>
+
+		<div class="row-fluid">
+			<div class="span6"></div>
+			<div class="span6">
+				<div class="pull-right">
+					<select name="action" dir="ltr" onchange="this.form.submit();">
+						<option value="<?php echo PLUGINS_SELECTED; ?>" selected="selected"><?php echo PLUGINS_SELECTED; ?></option>
+						<option value="install" ><?php echo PLUGINS_INSTALL;?></option>
+						<option value="remove" ><?php echo PLUGINS_REMOVE;?></option>
+					</select>
+				</div>
+			</div>
+		</div>
+
+	</form>
+	<script>
+		function filterTable(value){
+			if(value){
+				$('#simple-filter-table tbody tr:not(:contains("'+value+'"))').hide();
+				$('#simple-filter-table tbody  tr:contains("'+value+'")').show();
+			}
+			else {
+				$('#simple-filter-table tbody tr').show();
+			}
+		}
+		$('#find-plugin').bind({
+			keyup: function(){
+				filterTable($(this).val());
+			},
+			change: function(){
+				filterTable($(this).val());
+			},
+			clearFields: function(){
+				filterTable($(this).val());
+			}
+		});
+	</script>
+<?php } ?>
+
 <?php $main->bottom(); ?>

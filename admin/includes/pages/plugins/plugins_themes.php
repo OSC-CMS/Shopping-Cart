@@ -1,17 +1,16 @@
 <?php
 /*
-#####################################
-#  OSC-CMS: Shopping Cart Software.
-#  Copyright (c) 2011-2012
-#  http://osc-cms.com
-#  http://osc-cms.com/forum
-#  Ver. 1.0.0
-#####################################
+*---------------------------------------------------------
+*
+*	CartET - Open Source Shopping Cart Software
+*	http://www.cartet.org
+*
+*---------------------------------------------------------
 */
 
 defined( '_VALID_OS' ) or die( 'Прямой доступ  не допускается.' );
 
- $main->heading('plugin.gif', HEADING_TITLE_THEMES); 
+ echo HEADING_TITLE_THEMES; 
 ?> 
 		<table border="0" width="100%" cellspacing="0" cellpadding="0"  valign="top">
           <tr>

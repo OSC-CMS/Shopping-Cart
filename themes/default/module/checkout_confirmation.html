@@ -67,11 +67,11 @@
 			<span class="bold">{$p.pName}</span><br />
 			<small>{$p.pShippingTitle} {$p.pShipping}</small><br />
 			{foreach item=a from=$p.pAttributesArray}	
-				{$a.option}: {$a.value}<br />
+				{$a.option}: {$a.value} {$smarty.session.currencySymbol}<br />
 			{/foreach}
 			{$p.pBundle}
 		</td>
-		<td>{$p.pPrice}<br />{$p.pTax}</td>
+		<td>{$p.pPrice} {$smarty.session.currencySymbol}<br />{$p.pTax}</td>
 	</tr>
 {/foreach}
 </table>
@@ -79,7 +79,7 @@
 	{foreach item=t from=$totalArray}
 	<tr>
 		<td class="tright">{$t.title}</td>
-		<td style="width:150px;">{$t.text}</td>
+		<td style="width:150px;">{$t.text} {$smarty.session.currencySymbol}</td>
 	</tr>
 	{/foreach}
 </table>

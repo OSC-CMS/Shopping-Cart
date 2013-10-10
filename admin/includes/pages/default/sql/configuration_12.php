@@ -1,13 +1,14 @@
 <?php
 /*
---------------------------------------------------
-	OSC-CMS: Shopping Cart Software.
---------------------------------------------------
-	http://osc-cms.com
---------------------------------------------------
+*---------------------------------------------------------
+*
+*	CartET - Open Source Shopping Cart Software
+*	http://www.cartet.org
+*
+*---------------------------------------------------------
 */
 
-defined( '_VALID_OS' ) or die( 'Ïðÿìîé äîñòóï  íå äîïóñêàåòñÿ.' );
+defined( '_VALID_OS' ) or die( 'ÐŸÑ€ÑÐ¼Ð¾Ð¹ Ð´Ð¾ÑÑ‚ÑƒÐ¿  Ð½Ðµ Ð´Ð¾Ð¿ÑƒÑÐºÐ°ÐµÑ‚ÑÑ.' );
 
 $db->query("DELETE FROM ".DB_PREFIX."configuration WHERE configuration_group_id=12");
 
@@ -39,7 +40,7 @@ $db->query("INSERT INTO ".DB_PREFIX."configuration (configuration_key, configura
 
 # Constants for support system
 $db->query("INSERT INTO ".DB_PREFIX."configuration (configuration_key, configuration_value, configuration_group_id, sort_order, last_modified, date_added, use_function, set_function) VALUES   ('EMAIL_SUPPORT_ADDRESS', 'support@name.com', 12, 26, NULL, '', NULL, NULL);");
-$db->query("INSERT INTO ".DB_PREFIX."configuration (configuration_key, configuration_value, configuration_group_id, sort_order, last_modified, date_added, use_function, set_function) VALUES   ('EMAIL_SUPPORT_NAME', 'Íàçâàíèå ñëóæáû ïîääåðæêè',  12, 27, NULL, '', NULL, NULL);");
+$db->query("INSERT INTO ".DB_PREFIX."configuration (configuration_key, configuration_value, configuration_group_id, sort_order, last_modified, date_added, use_function, set_function) VALUES   ('EMAIL_SUPPORT_NAME', 'ÐÐ°Ð·Ð²Ð°Ð½Ð¸Ðµ ÑÐ»ÑƒÐ¶Ð±Ñ‹ Ð¿Ð¾Ð´Ð´ÐµÑ€Ð¶ÐºÐ¸',  12, 27, NULL, '', NULL, NULL);");
 $db->query("INSERT INTO ".DB_PREFIX."configuration (configuration_key, configuration_value, configuration_group_id, sort_order, last_modified, date_added, use_function, set_function) VALUES   ('EMAIL_SUPPORT_REPLY_ADDRESS',  '', 12, 28, NULL, '', NULL, NULL);");
 $db->query("INSERT INTO ".DB_PREFIX."configuration (configuration_key, configuration_value, configuration_group_id, sort_order, last_modified, date_added, use_function, set_function) VALUES   ('EMAIL_SUPPORT_REPLY_ADDRESS_NAME',  '', 12, 29, NULL, '', NULL, NULL);");
 $db->query("INSERT INTO ".DB_PREFIX."configuration (configuration_key, configuration_value, configuration_group_id, sort_order, last_modified, date_added, use_function, set_function) VALUES   ('EMAIL_SUPPORT_SUBJECT',  '', 12, 30, NULL, '', NULL, NULL);");
@@ -47,11 +48,11 @@ $db->query("INSERT INTO ".DB_PREFIX."configuration (configuration_key, configura
 
 # Constants for billing system
 $db->query("INSERT INTO ".DB_PREFIX."configuration (configuration_key, configuration_value, configuration_group_id, sort_order, last_modified, date_added, use_function, set_function) VALUES   ('EMAIL_BILLING_ADDRESS', 'billing@name.com', 12, 32, NULL, '', NULL, NULL);");
-$db->query("INSERT INTO ".DB_PREFIX."configuration (configuration_key, configuration_value, configuration_group_id, sort_order, last_modified, date_added, use_function, set_function) VALUES   ('EMAIL_BILLING_NAME', 'Ñëóæáó îáðàáîòêè ñ÷åòîâ',  12, 33, NULL, '', NULL, NULL);");
+$db->query("INSERT INTO ".DB_PREFIX."configuration (configuration_key, configuration_value, configuration_group_id, sort_order, last_modified, date_added, use_function, set_function) VALUES   ('EMAIL_BILLING_NAME', 'Ð¡Ð»ÑƒÐ¶Ð±Ñƒ Ð¾Ð±Ñ€Ð°Ð±Ð¾Ñ‚ÐºÐ¸ ÑÑ‡ÐµÑ‚Ð¾Ð²',  12, 33, NULL, '', NULL, NULL);");
 $db->query("INSERT INTO ".DB_PREFIX."configuration (configuration_key, configuration_value, configuration_group_id, sort_order, last_modified, date_added, use_function, set_function) VALUES   ('EMAIL_BILLING_REPLY_ADDRESS',  '', 12, 34, NULL, '', NULL, NULL);");
 $db->query("INSERT INTO ".DB_PREFIX."configuration (configuration_key, configuration_value, configuration_group_id, sort_order, last_modified, date_added, use_function, set_function) VALUES   ('EMAIL_BILLING_REPLY_ADDRESS_NAME',  '', 12, 35, NULL, '', NULL, NULL);");
 $db->query("INSERT INTO ".DB_PREFIX."configuration (configuration_key, configuration_value, configuration_group_id, sort_order, last_modified, date_added, use_function, set_function) VALUES   ('EMAIL_BILLING_SUBJECT',  '', 12, 36, NULL, '', NULL, NULL);");
 $db->query("INSERT INTO ".DB_PREFIX."configuration (configuration_key, configuration_value, configuration_group_id, sort_order, last_modified, date_added, use_function, set_function) VALUES   ('EMAIL_BILLING_FORWARDING_STRING',  '', 12, 37, NULL, '', NULL, NULL);");
-$db->query("INSERT INTO ".DB_PREFIX."configuration (configuration_key, configuration_value, configuration_group_id, sort_order, last_modified, date_added, use_function, set_function) VALUES   ('EMAIL_BILLING_SUBJECT_ORDER',  'Âàø çàêàç íîìåð {$nr}', 12, 38, NULL, '', NULL, NULL);");
+$db->query("INSERT INTO ".DB_PREFIX."configuration (configuration_key, configuration_value, configuration_group_id, sort_order, last_modified, date_added, use_function, set_function) VALUES   ('EMAIL_BILLING_SUBJECT_ORDER',  'Ð’Ð°Ñˆ Ð·Ð°ÐºÐ°Ð· Ð½Ð¾Ð¼ÐµÑ€ {$nr}', 12, 38, NULL, '', NULL, NULL);");
 
 ?>

@@ -2,33 +2,92 @@
 /*
 *---------------------------------------------------------
 *
-*	OSC-CMS - Open Source Shopping Cart Software
-*	http://osc-cms.com
+*	CartET - Open Source Shopping Cart Software
+*	http://www.cartet.org
 *
 *---------------------------------------------------------
 */
 
 require_once ('includes/top.php');
 
-if (isset($_POST["index"]))
+//sleep(50);
+
+/*print_r($_POST);
+print_r($_GET);
+die();*/
+
+// Файл для модального окна
+if (isset($_GET['ajax_page']) && !empty($_GET['ajax_page']))
 {
-	require_once(_FUNC_ADMIN.'trumbnails_add_funcs.php');
-
-	$i = (int)$_POST["index"];
-	$product_image = $_POST["product_image"]; 
-	$product_dir = $_POST["product_image"];
-	$product_subdir = $_POST["product_subdir"];
-
-	$upload_dir_image = "upload_dir_image_0";
-	$get_file_image = "get_file_image_0";
-
-	if($i > 0)
+	$loadPage = dirname(__FILE__).'/includes/ajax/'.$_GET['ajax_page'].'.ajax.php';
+	if (is_file($loadPage))
 	{
-		$upload_dir_image = "mo_pics_upload_dir_image_".($i-1);
-		$get_file_image = "mo_pics_get_file_image_".($i-1);
+		include $loadPage;
 	}
-	$file_list = os_array_merge(array('0' => array('id' => '', 'text' => '')), os_get_files_in_dir(dir_path('images_original').$product_subdir));
+}
 
-	echo os_draw_pull_down_menu($get_file_image, $file_list, $product_image);
+if (isset($_GET['ajax_action']) && !empty($_GET['ajax_action']))
+{
+	// Получаем параметр ajax_action
+	$getAction = ($_GET['ajax_action']) ? $_GET['ajax_action'] : $_POST['ajax_action'];
+	// Разбиваем параметр
+	$params = explode('_', $getAction);
+
+	if (is_array($params) && !empty($params))
+	{
+		// Название класса
+		$className = $params[0];
+		// Название метода
+		$methodName = $params[1];
+		// Тип запроса
+		$paramType = $params[2];
+		// Смотрим какой тип запроса
+		$setData = ($paramType == 'get') ? $_GET : $_POST;
+
+		// Есть ли файл класса
+		if (is_file(CLS_NEW.$className.'.class.php'))
+		{
+			require_once(CLS_NEW.$className.'.class.php');
+			$classObg = new $className();
+
+			// Проверяем существование класса
+			if (class_exists($className))
+			{
+				// Проверяем существование запрашиваемого метода
+				if (method_exists($classObg, $methodName))
+				{
+					$data = $classObg->$methodName($setData);
+					if ($data)
+					{
+						echo json_encode($data);
+						exit();
+					}
+				}
+			}
+		}
+		elseif (is_object($cartet->$className))
+		{
+			if (method_exists($cartet->$className, $methodName))
+			{
+				$data = $cartet->$className->$methodName($setData);
+				if ($data)
+				{
+					echo json_encode($data);
+					exit();
+				}
+			}
+		}
+	}
+}
+
+/********************************************************
+	В зависимости от категории выводим товары
+********************************************************/
+if (isset($_GET['ajax_action']) && $_GET['ajax_action'] == 'load_products')
+{
+	$cat_id = $_GET['this_id'];
+	$result = $cartet->products->getProductsByCategoryId($cat_id);
+	echo json_encode($result);
+	exit();
 }
 ?>

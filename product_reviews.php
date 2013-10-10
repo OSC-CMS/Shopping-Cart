@@ -2,8 +2,8 @@
 /*
 *---------------------------------------------------------
 *
-*	OSC-CMS - Open Source Shopping Cart Software
-*	http://osc-cms.com
+*	CartET - Open Source Shopping Cart Software
+*	http://www.cartet.org
 *
 *---------------------------------------------------------
 */
@@ -59,10 +59,9 @@ $osTemplate->assign('module_content', $data_reviews);
 $osTemplate->assign('BUTTON_BACK', $_array['code']);
 
 
-	$_array = array('img' => 'button_write_review.gif', 
+/*$_array = array('img' => 'button_write_review.gif', 
 	                                'href' => os_href_link(FILENAME_PRODUCT_REVIEWS_WRITE, $get_params), 
-									'alt' => IMAGE_BUTTON_WRITE_REVIEW,
-                  /* код готовой кнопки, по умолчанию пусто */									
+									'alt' => IMAGE_BUTTON_WRITE_REVIEW,								
 									'code' => ''
 	);
 	
@@ -73,7 +72,7 @@ $osTemplate->assign('BUTTON_BACK', $_array['code']);
 	   $_array['code'] = buttonSubmit($_array['img'], $_array['href'], $_array['alt']);
 	}
 	
-$osTemplate->assign('BUTTON_WRITE', $_array['code']);
+$osTemplate->assign('BUTTON_WRITE', $_array['code']);*/
 
 $osTemplate->assign('language', $_SESSION['language']);
 

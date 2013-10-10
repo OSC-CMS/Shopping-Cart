@@ -1,289 +1,252 @@
 <?php
 /*
-#####################################
-#  OSC-CMS: Shopping Cart Software.
-#  Copyright (c) 2011-2012
-#  http://osc-cms.com
-#  http://osc-cms.com/forum
-#  Ver. 1.0.0
-#####################################
+*---------------------------------------------------------
+*
+*	CartET - Open Source Shopping Cart Software
+*	http://www.cartet.org
+*
+*---------------------------------------------------------
 */
 
-  require('includes/top.php');
-  
-  add_action('head_admin', 'head_email_manager');
-  
-  function head_email_manager()
-  {
-    _e('<script type="text/javascript" src="includes/javascript/tabber.js"></script>');
-    _e('<link rel="stylesheet" href="includes/javascript/tabber.css" TYPE="text/css" MEDIA="screen">');
-    _e('<link rel="stylesheet" href="includes/javascript/tabber-print.css" TYPE="text/css" MEDIA="print">');
-  }
+require('includes/top.php');
+
+add_action('head_admin', 'headCodemirror');
+function headCodemirror()
+{
+	_e('<link rel="stylesheet" href="/jscript/codemirror/lib/codemirror.css">');
+	_e('<script src="/jscript/codemirror/lib/codemirror.js"></script>');
+	_e('<script src="/jscript/codemirror/mode/smarty/smarty.js"></script>');
+	_e('<script>
+		$(document).ready(function () {
+			var editor = CodeMirror.fromTextArea(document.getElementById("content"), {
+				lineNumbers: true,
+				mode: "smarty",
+				smartyVersion: 3
+			});
+		});
+		</script>');
+	_e('<style>
+		.CodeMirror {padding-bottom:20px; margin-bottom:10px; border:1px solid #c0c0c0; background-color: #ffffff; height: auto; min-height: 300px; width:100%;}
+		.activeline {background: #f0fcff !important;}
+	</style>');
+}
+
+$breadcrumb->add(HEADING_TITLE, FILENAME_EMAIL_MANAGER);
+
+$main->head();
+$main->top_menu();
 ?>
 
-<?php $main->head(); ?>
-<?php $main->top_menu(); ?>
+<?php
+$path_parts = pathinfo($_GET['file']);
+$file = _MAIL. $_SESSION['language_admin'].'/'.$path_parts['basename'];
 
-<table border="0" width="100%" cellspacing="2" cellpadding="2">
-  <tr>
-    <td class="boxCenter" width="100%" valign="top">
+if (is_writable($file))
+	$chmod = '<span class="label label-success">'.TEXT_YES.'</span>';
+else
+	$chmod = '<span class="label label-important">'.TEXT_NO.'</span>';
 
-    <?php os_header('portfolio_package.gif',HEADING_TITLE); ?> 
-      
+$st = 1;
+if (!empty($_GET['file']))
+{
+	$st =2;
+	if (file_exists($file))
+		$code = file_get_contents($file);
+	else
+		$code = TEXT_FILE_SELECT;
+}
 
-<br />
-<?php echo TEXT_CATALOG_TEMPLATES; ?>
-<br />
+
+//////////////////////////////////////////////
+
+
+$path_parts_admin = pathinfo($_GET['file_admin']);
+$file_admin = _MAIL.'admin/'.$_SESSION['language_admin'].'/'.$path_parts_admin['basename'];
+
+if (is_writable($file_admin))
+	$chmod_admin = '<span class="label label-success">'.TEXT_YES.'</span>';
+else
+	$chmod_admin = '<span class="label label-important">'.TEXT_NO.'</span>';
+
+if ((!empty($_GET['file_admin'])) and ($st ==1))
+{
+	if(file_exists($file_admin))
+		$code_admin = file_get_contents($file_admin);
+	else
+		$code_admin = TEXT_FILE_SELECT;
+}
+?>
+
+
+
+<div class="row-fluid">
+	<div class="span6">
+		<div class="page-header-small">
+			<h1><?php echo TEXT_CATALOG_TEMPLATES; ?></h1>
+		</div>
+		<form name="select" action="<?php echo FILENAME_EMAIL_MANAGER; ?>" method="get">
+			<select name="file" class="input-block-level">
+			<?php
+			$file_list = os_array_merge(array('0' => array('id' => '', 'text' => SELECT_FILE)), os_getFiles(_MAIL.$_SESSION['language_admin'].'/', array('.txt', '.html')));
+			foreach ($file_list AS $item)
+			{
+				echo '<option value="'.$item['id'].'">'.$item['text'].'</option>';
+			}
+			?>
+			</select>
+
+			<hr>
+
+			<div class="tcenter footer-btn">
+				<input class="btn" type="submit" value="<?php echo BUTTON_EDIT; ?>">
+			</div>
+		</form>
+	</div>
+	<div class="span6">
+		<div class="page-header-small">
+			<h1><?php echo TEXT_ADMIN_TEMPLATES; ?></h1>
+		</div>
+		<form name="select" action="<?php echo FILENAME_EMAIL_MANAGER; ?>" method="get">
+			<select name="file_admin" class="input-block-level">
+			<?php
+			$file_list_admin = os_array_merge(array('0' => array('id' => '', 'text' => SELECT_FILE)),os_getFiles(_MAIL.'admin/'.$_SESSION['language_admin'].'/',array('.txt','.html')));
+			foreach ($file_list_admin AS $item)
+			{
+				echo '<option value="'.$item['id'].'">'.$item['text'].'</option>';
+			}
+			?>
+			</select>
+
+			<hr>
+
+			<div class="tcenter footer-btn">
+				<input class="btn" type="submit" value="<?php echo BUTTON_EDIT; ?>">
+			</div>
+		</form>
+	</div>
+</div>
+
+
+
+
+
 
 <?php
+echo os_draw_form('edit', FILENAME_EMAIL_MANAGER, os_get_all_get_params(), 'post');
 
-$path_parts = pathinfo($_GET['file']);
-
-$file = _MAIL. $_SESSION['language_admin'] . '/' . $path_parts['basename'];
-
-if (is_writable($file)) 
+if($_POST['save'] && is_file($file))
 {
-  $chmod = '<font color="Green">' . TEXT_YES . '</font>';
+	echo '<div class="alert alert-success">'.TEXT_FILE_SAVED.' <a href="'.os_href_link(FILENAME_EMAIL_MANAGER).'">'.BUTTON_BACK.'</a></div>';
 }
 else
 {
-  $chmod = '<font color="Red">' . TEXT_NO . '</font>';
-}
-$st = 1;
-if (!empty($_GET['file'])) {
-$st =2;
-if(file_exists($file)) {
-	$code = file_get_contents($file);
-}else{
-  $code = TEXT_FILE_SELECT;
-}
-}
-?>
-<?php echo os_draw_form('select', FILENAME_EMAIL_MANAGER, '', 'get'); ?>
+	if (isset($_GET['file']))
+	{
+		echo '<div class="alert alert-block">';
+			echo TEXT_FILE.' '.$file.'. '.TEXT_FILE_WRITABLE.' '.$chmod;
+		echo '</div>';
 
-<?php
+		echo '<textarea name="code" id="content" class="input-block-level">'.$code.'</textarea>';
 
-$file_list = os_array_merge(array('0' => array('id' => '', 'text' => SELECT_FILE)),os_getFiles(_MAIL.$_SESSION['language_admin'] . '/',array('.txt','.html')));
-
-echo os_draw_pull_down_menu('file',$file_list,$_REQUEST['file']);
-
-echo '&nbsp;<span class="button"><button type="submit" onClick="this.blur();" value="' . BUTTON_EDIT . '"/>' . BUTTON_EDIT . '</button></span>';
-
-               
-?>
-<br /><br />
-</form>
-<?php echo os_draw_form('edit', FILENAME_EMAIL_MANAGER, os_get_all_get_params(), 'post'); ?>
-
-<?php if($_POST['save'] && is_file($file)){ ?>
-
-<table border="0" width="100%" cellspacing="0" cellpadding="0">
-
-<tr>
-    <td>
-
-<?php echo TEXT_FILE_SAVED; ?>
-<br />
-
-    </td>
-</tr>
-
-</table>
-
-<?php } else { ?>
-
-<?php if (isset($_GET['file'])) { ?>
-
-<table border="0" width="100%" cellspacing="0" cellpadding="0">
-<tr>
-    <td valign="top">
-
-		  <?php echo TEXT_FILE; ?> <b><?php echo $file ?></b><br /><?php echo TEXT_FILE_WRITABLE; ?> <b><?php echo $chmod ?></b><br />
-
-      <textarea name="code" rows="20" cols="80">
-      <?php echo $code ?>
-      </textarea>
-
-<br /><br />      
-      
-      <?php 
-  if (is_writable($file)) 
-  {
-	 echo '<span class="button"><button type="submit" name="save" onClick="this.blur();" value="' . BUTTON_SAVE . '"/>' . BUTTON_SAVE . '</button></span>'; 
-  }
-  ?>
-        
-    </td>
-</tr>
-
-</table>
-
-<?php } ?>
-
-<?php } ?>
-
-<?
-
-if($_POST['save'] && is_file($file)){
-
-if (is_writable($file)) {
-
-    if (!$handle = fopen($file, 'w')) {
-         echo TEXT_FILE_OPEN_ERROR . " ($file)";
-         exit;
-    }
-
-    if (fwrite($handle, stripslashes($_POST['code'])) === FALSE) {
-        echo TEXT_FILE_WRITE_ERROR . " ($file)";
-        exit;
-    }
-    
-//    echo TEXT_FILE_WRITE_SUCCESS;
-    
-    fclose($handle);
-
-} else {
-    echo TEXT_FILE_PERMISSION_ERROR;
+		if (is_writable($file))
+		{
+			echo '
+			<hr>
+			<div class="tcenter footer-btn">
+				<input class="btn btn-success" type="submit" name="save" value="'.BUTTON_SAVE.'">
+			</div>
+			';
+		}
+	}
 }
 
+if($_POST['save'] && is_file($file))
+{
+	if (is_writable($file))
+	{
+		if (!$handle = fopen($file, 'w'))
+		{
+			echo '<div class="alert alert-error">'.TEXT_FILE_OPEN_ERROR." ($file)</div>";
+			exit;
+		}
+
+		if (fwrite($handle, stripslashes($_POST['code'])) === FALSE)
+		{
+			echo '<div class="alert alert-error">'.TEXT_FILE_WRITE_ERROR." ($file)</div>";
+			exit;
+		}
+
+		fclose($handle);
+	}
+	else
+		echo '<div class="alert alert-error">'.TEXT_FILE_PERMISSION_ERROR.'</div>';
 }
 ?>
-
-<br /><br />
-
-<?php if($_POST['save'] && is_file($file)){ ?>
-
-<a class="button" onClick="this.blur();" href="<?php echo os_href_link(FILENAME_EMAIL_MANAGER); ?>"><span><?php echo BUTTON_BACK; ?></span></a>
-
-<?php } ?>
-
 </form>     
 
-<br />
-<?php echo TEXT_ADMIN_TEMPLATES; ?>
-<br />
-
-<?php
-
-$path_parts_admin = pathinfo($_GET['file_admin']);
-
-$file_admin = _MAIL.'admin/' . $_SESSION['language_admin'] . '/' . $path_parts_admin['basename'];
-
-if (is_writable($file_admin)) {
-  $chmod_admin = '<font color="Green">' . TEXT_YES . '</font>';
-}else{
-  $chmod_admin = '<font color="Red">' . TEXT_NO . '</font>';
-}
 
 
-if ((!empty($_GET['file_admin'])) and ($st ==1)) 
+
+
+
+
+
+
+
+
+
+
+
+<?php echo os_draw_form('edit_admin', FILENAME_EMAIL_MANAGER, os_get_all_get_params(), 'post');
+
+if ($_POST['save'] && is_file($file_admin))
 {
-if(file_exists($file_admin)) {
-	$code_admin = file_get_contents($file_admin);
-}else{
-  $code_admin = TEXT_FILE_SELECT;
+	echo '<div class="alert alert-success">'.TEXT_FILE_SAVED.' <a href="'.os_href_link(FILENAME_EMAIL_MANAGER).'">'.BUTTON_BACK.'</a></div>';
 }
+else
+{
+	if (isset($_GET['file_admin']))
+	{
+		echo '<div class="alert alert-block">';
+		echo TEXT_FILE.' '.$file_admin.'. '.TEXT_FILE_WRITABLE.' '.$chmod_admin;
+		echo '</div>';
+
+		echo '<textarea name="code_admin" id="content" class="input-block-level">'.$code_admin.'</textarea>';
+
+		if (is_writable($file_admin))
+		{
+			echo '
+			<hr>
+			<div class="tcenter footer-btn">
+				<input class="btn btn-success" type="submit" name="save" value="'.BUTTON_SAVE.'">
+			</div>
+			';
+		}
+	}
+}
+
+if ($_POST['save'] && is_file($file_admin))
+{
+	if (is_writable($file_admin))
+	{
+		if (!$handle = fopen($file_admin, 'w'))
+		{
+			echo '<div class="alert alert-error">'.TEXT_FILE_OPEN_ERROR." ($file_admin)</div>";
+			exit;
+		}
+
+		if (fwrite($handle, stripslashes($_POST['code_admin'])) === FALSE)
+		{
+			echo '<div class="alert alert-error">'.TEXT_FILE_WRITE_ERROR." ($file_admin)</div>";
+			exit;
+		}
+
+		fclose($handle);
+	}
+	else
+		echo '<div class="alert alert-error">'.TEXT_FILE_PERMISSION_ERROR."</div>";
 }
 ?>
-<?php echo os_draw_form('select_admin', FILENAME_EMAIL_MANAGER, '', 'get'); ?>
-
-<?php
-
-$file_list_admin = os_array_merge(array('0' => array('id' => '', 'text' => SELECT_FILE)),os_getFiles(_MAIL.'admin/' . $_SESSION['language_admin'] . '/',array('.txt','.html')));
-
-echo os_draw_pull_down_menu('file_admin',$file_list_admin,$_REQUEST['file_admin']);
-
-echo '&nbsp;<span class="button"><button type="submit" onClick="this.blur();" value="' . BUTTON_EDIT . '"/>' . BUTTON_EDIT . '</button></span>';
-
-               
-?>
-<br /><br />
 </form>
-<?php echo os_draw_form('edit_admin', FILENAME_EMAIL_MANAGER, os_get_all_get_params(), 'post'); ?>
 
-<?php if($_POST['save'] && is_file($file_admin)){ ?>
-
-<table border="0" width="100%" cellspacing="0" cellpadding="0">
-
-<tr>
-    <td>
-
-<?php echo TEXT_FILE_SAVED; ?>
-<br />
-
-    </td>
-</tr>
-
-</table>
-
-<?php } else { ?>
-
-<?php if (isset($_GET['file_admin'])) { ?>
-
-<table border="0" width="100%" cellspacing="0" cellpadding="0">
-<tr>
-    <td valign="top">
-
-		  <?php echo TEXT_FILE; ?> <b><?php echo $file_admin ?></b><br /><?php echo TEXT_FILE_WRITABLE; ?> <b><?php echo $chmod_admin ?></b><br />
-
-      <textarea name="code_admin" rows="20" cols="80">
-      <?php echo $code_admin ?>
-      </textarea>
-
-<br /><br />      
-      
-      <?php 
-  if (is_writable($file_admin)) {
-	echo '<span class="button"><button type="submit" name="save" onClick="this.blur();" value="' . BUTTON_SAVE . '"/>' . BUTTON_SAVE . '</button></span>'; 
-  }
-  ?>
-        
-    </td>
-</tr>
-
-</table>
-
-<?php } ?>
-
-<?php } ?>
-
-<?
-
-if($_POST['save'] && is_file($file_admin)){
-
-if (is_writable($file_admin)) {
-
-    if (!$handle = fopen($file_admin, 'w')) {
-         echo TEXT_FILE_OPEN_ERROR . " ($file_admin)";
-         exit;
-    }
-
-    if (fwrite($handle, stripslashes($_POST['code_admin'])) === FALSE) {
-        echo TEXT_FILE_WRITE_ERROR . " ($file_admin)";
-        exit;
-    }
-    
-//    echo TEXT_FILE_WRITE_SUCCESS;
-    
-    fclose($handle);
-
-} else {
-    echo TEXT_FILE_PERMISSION_ERROR;
-}
-
-}
-?>
-
-<br /><br />
-
-<?php if($_POST['save'] && is_file($file_admin)){ ?>
-
-<a class="button" onClick="this.blur();" href="<?php echo os_href_link(FILENAME_EMAIL_MANAGER); ?>"><span><?php echo BUTTON_BACK; ?></span></a>
-
-<?php } ?>
-
-</form>
-          </td>
-      </tr>
-    </table>
 <?php $main->bottom(); ?>

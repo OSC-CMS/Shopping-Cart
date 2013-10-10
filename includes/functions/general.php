@@ -2,8 +2,8 @@
 /*
 *---------------------------------------------------------
 *
-*	OSC-CMS - Open Source Shopping Cart Software
-*	http://osc-cms.com
+*	CartET - Open Source Shopping Cart Software
+*	http://www.cartet.org
 *
 *---------------------------------------------------------
 */
@@ -53,12 +53,17 @@ function add_button($tag, $name, $value = '')
       switch ($tag)
       {
           case 'page':
-	           return '<a class="button" href="'.FILENAME_PLUGINS_PAGE.'?page='.$name.'"><span>'.$value.'</span></a>';
+	           return '<a class="btn btn-mini" href="'.FILENAME_PLUGINS_PAGE.'?page='.$name.'"><span>'.$value.'</span></a>';
 		
 	      break;
 	  
 	      case 'main_page':
-	           return '<a class="button" href="'.FILENAME_PLUGINS_PAGE.'?main_page='.$name.'"><span>'.$value.'</span></a>';
+	           return '<a class="btn btn-mini" href="'.FILENAME_PLUGINS_PAGE.'?main_page='.$name.'"><span>'.$value.'</span></a>';
+	      break;
+	      break;
+	  
+	      case 'link':
+	           return '<a class="btn btn-mini" href="'.$name.'"><span>'.$value.'</span></a>';
 	      break;
       }
    }

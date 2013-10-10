@@ -1,23 +1,21 @@
 <?php
 /*
-#####################################
-#  OSC-CMS: Shopping Cart Software.
-#  Copyright (c) 2011-2012
-#  http://osc-cms.com
-#  http://osc-cms.com/forum
-#  Ver. 1.0.0
-#####################################
+*---------------------------------------------------------
+*
+*	CartET - Open Source Shopping Cart Software
+*	http://www.cartet.org
+*
+*---------------------------------------------------------
 */
 
-  require('includes/top.php');
-  $main->head();
-?>
-<?php $main->top_menu(); ?>
+require('includes/top.php');
 
- <table border="0" width="100%" cellspacing="2" cellpadding="2">
-  <tr>
-    <td class="boxCenter" width="100%" valign="top">
- 	<?php os_header('cache.png',HEADING_TITLE); ?> 
+$breadcrumb->add(HEADING_TITLE, '');
+
+$main->head();
+$main->top_menu();
+?>
+
 <?php
 
 $TEXT_DUMPER_SUBMIT = TEXT_DUMPER_SUBMIT;

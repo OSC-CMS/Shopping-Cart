@@ -2,8 +2,8 @@
 /*
 *---------------------------------------------------------
 *
-*	OSC-CMS - Open Source Shopping Cart Software
-*	http://osc-cms.com
+*	CartET - Open Source Shopping Cart Software
+*	http://www.cartet.org
 *
 *---------------------------------------------------------
 */
@@ -63,8 +63,8 @@ $breadcrumb->add(NAVBAR_TITLE_2_ACCOUNT_PASSWORD, os_href_link(FILENAME_ACCOUNT_
 
 require (dir_path('includes').'header.php');
 
-if ($messageStack->size('account_password') > 0)
-	$osTemplate->assign('error', $messageStack->output('account_password'));
+//if ($messageStack->size('account_password') > 0)
+//	$osTemplate->assign('error', $messageStack->output('account_password'));
 
 $osTemplate->assign('FORM_ACTION', os_draw_form('account_password', os_href_link(FILENAME_ACCOUNT_PASSWORD, '', 'SSL'), 'post', 'onsubmit="return checkform(this);"').os_draw_hidden_field('action', 'process') . os_draw_hidden_field('required', 'password_current,password_new,password_confirmation', 'id="required"'));
 

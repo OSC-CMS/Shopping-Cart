@@ -2,8 +2,8 @@
 /*
 *---------------------------------------------------------
 *
-*	OSC-CMS - Open Source Shopping Cart Software
-*	http://osc-cms.com
+*	CartET - Open Source Shopping Cart Software
+*	http://www.cartet.org
 *
 *---------------------------------------------------------
 */
@@ -50,7 +50,7 @@ else
     $_version = '3.0.0';
 }
 
-define('RSS_GENERATOR', 'OSC-CMS RSS '.$_version.' ('.$_rev.') Feed');
+define('RSS_GENERATOR', 'CartET RSS '.$_version.' ('.$_rev.') Feed');
 define('RSS_CONTENT_COPYRIGHT', 'Copyright &copy; ' . date('Y') . ' ' . STORE_OWNER);
 
 if (isset($_GET['limit']) && !empty($_GET['limit']))

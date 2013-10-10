@@ -2,8 +2,8 @@
 /*
 *---------------------------------------------------------
 *
-*	OSC-CMS - Open Source Shopping Cart Software
-*	http://osc-cms.com
+*	CartET - Open Source Shopping Cart Software
+*	http://www.cartet.org
 *
 *---------------------------------------------------------
 */
@@ -25,8 +25,6 @@ $ik_currency_exch = $_POST['ik_currency_exch'];
 $ik_fees_payer = $_POST['ik_fees_payer'];
 $ik_sign_hash = $_POST['ik_sign_hash'];
 
-///////////////////////////////////////////////////////
-
 // Проверка id магазина
 if(MODULE_PAYMENT_IK_SHOP_ID !== $ik_shop_id)
 	die('error: ik_shop_id');
@@ -36,8 +34,6 @@ $ik_sign_hash_str = $ik_shop_id.':'.$ik_payment_amount.':'.$ik_payment_id.':'.$i
 
 if (strtoupper($ik_sign_hash) !== strtoupper(md5($ik_sign_hash_str)))
 	die('error: ik_sign_hash');
-
-///////////////////////////////////////////////////////
 
 // данные заказа
 $order = new order((int)$ik_payment_id);

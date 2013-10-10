@@ -4,7 +4,7 @@
 	Plugin URI: http://osc-cms.com/extend/plugins
 	Version: 1.0
 	Description:
-	Author: OSC-CMS
+	Author: CartET
 	Author URI: http://osc-cms.com
 	Plugin Group: Updates
 */

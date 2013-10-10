@@ -11,6 +11,8 @@
 			<a class="brand" href="{$index}" title="{$smarty.const.STORE_OWNER}">{$smarty.const.STORE_NAME}</a>
 
 			<div class="nav-collapse">
+				{menu id="2" class="nav"}
+				{*
 				<ul class="nav">
 					<li class=""><a href="{$mainpage}">{#text_mainpage#}</a></li>
 					{if $account}{if $smarty.session.customer_id}
@@ -24,13 +26,14 @@
 					<li class=""><a href="{$login}">{#link_login#}</a></li>
 					{/if}{/if}
 				</ul>
+				*}
 
-				{$box_INFORMATION}
+				{if isset($box_INFORMATION)}{$box_INFORMATION}{/if}
 
 				<ul class="nav pull-right">
 					{if $account}{if $smarty.session.customer_id}
-						{$box_ACCOUNT}
-						{$box_ADMIN}
+						{if isset($box_ACCOUNT)}{$box_ACCOUNT}{/if}
+						{if isset($box_ADMIN)}{$box_ADMIN}{/if}
 					{else}
 						<li><a href="{$login}">{#link_login#}</a></li>
 						<li><a href="{$index}create_account.php">{#text_create_account#}</a></li>
@@ -44,53 +47,53 @@
 <div class="container">
 	<div class="row-fluid">
 		<div class="span3">
-			{$box_SEARCH}
+			{if isset($box_SEARCH)}{$box_SEARCH}{/if}
 		</div>
 		<div class="span9">
-			{$box_LANGUAGES}
-			{$box_CURRENCIES}
+			{if isset($box_LANGUAGES)}{$box_LANGUAGES}{/if}
+			{if isset($box_CURRENCIES)}{$box_CURRENCIES}{/if}
 		</div>
 	</div>
 
 	<div class="row-fluid">
 		<div class="span3">
-			{$box_COMPARE}
-			{$box_PRODUCT_FILTER}
-			{$box_CART}
-			{$box_CATEGORIES}
-			{$box_NEW_CATEGORIES}
-			{$box_CONTENT}
-			{$box_ADD_QUICKIE}
-			{$box_LAST_VIEWED}
-			{$box_REVIEWS}
-			{$box_SPECIALS}
-			{$box_FEATURED}
-			{$box_ARTICLES}
-			{$box_ARTICLESNEW}
-			{$box_AUTHORS}
-			{$box_HISTORY}
-			{$box_LOGIN}
-			{$box_DOWNLOADS}
-			{$box_AFFILIATE}
-			{$box_WHATSNEW}
-			{$box_NEWSLETTER}
-			{$box_BESTSELLERS}
-			{$box_INFOBOX}
-			{$box_LATESTNEWS}
-			{$box_MANUFACTURERS}
-			{$box_MANUFACTURERS_INFO}
-			{$box_FAQ}
+			{$box_BEST_PRODUCT}
+			{if isset($box_CART)}{$box_CART}{/if}
+			{if isset($box_COMPARE)}{$box_COMPARE}{/if}
+			{if isset($box_CATEGORIES)}{$box_CATEGORIES}{/if}
+			{if isset($box_NEW_CATEGORIES)}{$box_NEW_CATEGORIES}{/if}
+			{if isset($box_CONTENT)}{$box_CONTENT}{/if}
+			{if isset($box_ADD_QUICKIE)}{$box_ADD_QUICKIE}{/if}
+			{if isset($box_LAST_VIEWED)}{$box_LAST_VIEWED}{/if}
+			{if isset($box_REVIEWS)}{$box_REVIEWS}{/if}
+			{if isset($box_SPECIALS)}{$box_SPECIALS}{/if}
+			{if isset($box_FEATURED)}{$box_FEATURED}{/if}
+			{if isset($box_ARTICLES)}{$box_ARTICLES}{/if}
+			{if isset($box_ARTICLESNEW)}{$box_ARTICLESNEW}{/if}
+			{if isset($box_HISTORY)}{$box_HISTORY}{/if}
+			{if isset($box_DOWNLOADS)}{$box_DOWNLOADS}{/if}
+			{if isset($box_AFFILIATE)}{$box_AFFILIATE}{/if}
+			{if isset($box_WHATSNEW)}{$box_WHATSNEW}{/if}
+			{if isset($box_NEWSLETTER)}{$box_NEWSLETTER}{/if}
+			{if isset($box_BESTSELLERS)}{$box_BESTSELLERS}{/if}
+			{if isset($box_INFOBOX)}{$box_INFOBOX}{/if}
+			{if isset($box_LATESTNEWS)}{$box_LATESTNEWS}{/if}
+			{if isset($box_MANUFACTURERS)}{$box_MANUFACTURERS}{/if}
+			{if isset($box_MANUFACTURERS_INFO)}{$box_MANUFACTURERS_INFO}{/if}
+			{if isset($box_FAQ)}{$box_FAQ}{/if}
 		</div>
 		<div class="span9">
-			{if !$default}{$navtrail}{/if}
-			{$text}{$main_content}
+			{if !$default}{if isset($navtrail)}{$navtrail}{/if}{/if}
+			{if isset($message)}{$message}{/if}
+			{if isset($text)}{$text}{/if}
+			{if isset($main_content)}{$main_content}{/if}
 		</div><!--/span-->
 	</div><!--/row-->
 
 	<hr>
 
 	<footer>
-		<p>&copy; Company 2012</p>
+		<p>&copy; Company {$smarty.now|date_format:"%Y"}</p>
 	</footer>
 </div><!--/.fluid-container-->
-{$box_LOGIN}
+{if isset($box_LOGIN)}{$box_LOGIN}{/if}

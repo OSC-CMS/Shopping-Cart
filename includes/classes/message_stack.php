@@ -2,64 +2,65 @@
 /*
 *---------------------------------------------------------
 *
-*	OSC-CMS - Open Source Shopping Cart Software
-*	http://osc-cms.com
+*	CartET - Open Source Shopping Cart Software
+*	http://www.cartet.org
 *
 *---------------------------------------------------------
 */
 
-class messageStack {
+class messageStack
+{
+	var $size = 0;
 
-    function messageStack() {
-      $this->messages = array();
+	function messageStack()
+	{
+		$this->messages = array();
 
-      if (isset($_SESSION['messageToStack'])) {
-        $messageToStack = $_SESSION['messageToStack'];
-        for ($i=0, $n=sizeof($messageToStack); $i<$n; $i++) {
-          $this->add($messageToStack[$i]['class'], $messageToStack[$i]['text'], $messageToStack[$i]['type']);
-        }
-        unset($_SESSION['messageToStack']);
-      }
-    }
+		if (isset($_SESSION['messageToStack']))
+		{
+			$messageToStack = $_SESSION['messageToStack'];
 
-    function add($class, $message, $type = 'error') {
-      $this->messages[] = array('class' => $class, 'type' => $type, 'text' => $message);
-    }
-    
-    function add_session($class, $message, $type = 'error') {
+			for ($i=0, $n=sizeof($messageToStack); $i<$n; $i++)
+			{
+				$this->add($messageToStack[$i]['class'], $messageToStack[$i]['text'], $messageToStack[$i]['type']);
+			}
 
-      if (!isset($_SESSION['messageToStack'])) {
-        $_SESSION['messageToStack'] = array();
-      }
+			unset($_SESSION['messageToStack']);
+		}
+	}
 
-      $_SESSION['messageToStack'][] = array('class' => $class, 'text' => $message, 'type' => $type);
-    }
-    
-    function reset() {
-      $this->messages = array();
-    }
+	function add($class, $message, $type = 'error')
+	{
+		$this->messages[] = array('class' => $class, 'text' => $message, 'type' => $type);
+		$this->size++;
+	}
 
-    function output($class) {
-      for ($i=0, $n=sizeof($this->messages); $i<$n; $i++) {
-        if ($this->messages[$i]['class'] == $class) {
+	function add_session($class, $message, $type = 'error')
+	{
+		if (!isset($_SESSION['messageToStack']))
+		{
+			$_SESSION['messageToStack'] = array();
+		}
 
-          $messages .= $this->messages[$i]['text'];
-        }
-      }
+		$_SESSION['messageToStack'][] = array('class' => $class, 'text' => $message, 'type' => $type);
+	}
 
-      return $messages;
-    }
+	function output()
+	{
+		$tpl = new osTemplate;
 
-    function size($class) {
-      $count = 0;
+		$tpl->assign('aMessages', $this->messages);
 
-      for ($i=0, $n=sizeof($this->messages); $i<$n; $i++) {
-        if ($this->messages[$i]['class'] == $class) {
-          $count++;
-        }
-      }
+		$tpl->caching = 0;
+		$templateFile = $tpl->fetch(CURRENT_TEMPLATE.'/module/messages.html');
 
-      return $count;
-    }
-  }
+		return $templateFile;
+	}
+
+	function reset()
+	{
+		$this->messages = array();
+		$this->size = 0;
+	}
+}
 ?>

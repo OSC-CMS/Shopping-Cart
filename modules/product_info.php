@@ -2,8 +2,8 @@
 /*
 *---------------------------------------------------------
 *
-*	OSC-CMS - Open Source Shopping Cart Software
-*	http://osc-cms.com
+*	CartET - Open Source Shopping Cart Software
+*	http://www.cartet.org
 *
 *---------------------------------------------------------
 */
@@ -20,13 +20,91 @@ if (!is_object($product) || !$product->isProduct())
 } 
 else 
 {
+	// Если разрешено добавлять отзывы этой группе
+	if ($_SESSION['customers_status']['customers_status_write_reviews'] != 0)
+	{
+		$tplReviews = new osTemplate;
+
+		if (isset($_POST['action']) && $_POST['action'] == 'add_review')
+		{
+			$rating = os_db_prepare_input($_POST['rating']);
+			$review = os_db_prepare_input($_POST['review']);
+			$author = os_db_prepare_input($_POST['author']);
+
+			$error = false;
+
+			if ($_POST['captcha'] == '' or $_POST['captcha'] != $_SESSION['captcha_keystring'])
+			{
+				$error = true;
+				$messageStack->add('review', ENTRY_CAPTCHA_ERROR);
+			}
+
+			if (strlen($review) < REVIEW_TEXT_MIN_LENGTH)
+			{
+				$error = true;
+				$messageStack->add('review', JS_REVIEW_TEXT);
+			}
+
+			if (strlen($author) < 1)
+			{
+				$error = true;
+				$messageStack->add('review', JS_REVIEW_AUTHOR);
+			}
+
+			if (($rating < 1) || ($rating > 5))
+			{
+				$error = true;
+				$messageStack->add('review', JS_REVIEW_RATING);
+			}
+
+			if ($error == false)
+			{
+				os_db_perform(TABLE_REVIEWS, array(
+					'products_id' => (int)$product->data['products_id'],
+					'customers_id' => (int)$_SESSION['customer_id'],
+					'customers_name' => os_db_prepare_input($_POST['author']),
+					'reviews_rating' => $rating,
+					'date_added' => 'now()',
+					'status' => ((USE_REVIEWS_MODERATION == 'true') ? '0' : '1')
+				));
+				$insert_id = os_db_insert_id();
+
+				os_db_perform(TABLE_REVIEWS_DESCRIPTION, array(
+					'reviews_id' => $insert_id,
+					'languages_id' => (int)$_SESSION['languages_id'],
+					'reviews_text' => $review
+				));
+
+				$messageStack->add_session('review', JS_REVIEW_ADDED, 'success');
+
+				os_redirect(os_href_link(FILENAME_PRODUCT_INFO, os_product_link($product->data['products_id'], $product->data['products_name'])));
+			}
+		}
+
+		$tplReviews->assign('language', $_SESSION['language']);
+		$tplReviews->assign('FORM_ACTION', os_href_link(FILENAME_PRODUCT_INFO, os_product_link($product->data['products_id'], $product->data['products_name'])));
+		$tplReviews->assign('BUTTON_SUBMIT', button_continue_submit().os_draw_hidden_field('get_params', $get_params));
+		$tplReviews->assign('CAPTCHA_IMG', '<img src="'.os_href_link(FILENAME_DISPLAY_CAPTCHA).'" alt="captcha" name="captcha" />');
+
+		$tplReviews->caching = 0;
+		$tplReviewsFile = $tplReviews->fetch(CURRENT_TEMPLATE.'/module/product_reviews_write.html');
+		$info->assign('REVIEWS_FORM', $tplReviewsFile);
+	}
+	// Добавление отзыва
+
 	if (ACTIVATE_NAVIGATOR == 'true')
 		include (_MODULES.'product_navigator.php');
 
 	os_db_query("update ".TABLE_PRODUCTS_DESCRIPTION." set products_viewed = products_viewed+1 where products_id = '".$product->data['products_id']."' and language_id = '".$_SESSION['languages_id']."'");
 
-		$products_price = $osPrice->GetPrice($product->data['products_id'], $format = true, 1, $product->data['products_tax_class_id'], $product->data['products_price'], 1, 0, $product->data['products_discount_allowed']);
+	$products_price = $osPrice->GetPrice($product->data['products_id'], $format = true, 1, $product->data['products_tax_class_id'], $product->data['products_price'], 1, 0, $product->data['products_discount_allowed']);
 
+	$info->assign('price', $products_price);
+
+	if ($product->data['products_vpe_status'] == 1 && $product->data['products_vpe_value'] != 0.0 && $products_price['price']['plain'] > 0)
+	{
+		$info->assign('PRODUCTS_VPE', $osPrice->Format($products_price['price']['plain'] * (1 / $product->data['products_vpe_value']), true).TXT_PER.os_get_vpe_name($product->data['products_vpe']));
+	}
 
 		if ($_SESSION['customers_status']['customers_status_show_price'] != '0') 
 		{
@@ -66,11 +144,7 @@ else
 		
 		$info->assign('FORM_ACTION', $_fancy_js.os_draw_form('cart_quantity', os_href_link(FILENAME_PRODUCT_INFO, os_get_all_get_params(array ('action')).'action=add_product')));
 		$info->assign('FORM_END', '</form>');
-		$info->assign('PRODUCTS_PRICE', $products_price['formated']);
-		$info->assign('PRODUCTS_PRICE_PLAIN', $products_price['plain']);
-		
-		if ($product->data['products_vpe_status'] == 1 && $product->data['products_vpe_value'] != 0.0 && $products_price['plain'] > 0)
-			$info->assign('PRODUCTS_VPE', $osPrice->Format($products_price['plain'] * (1 / $product->data['products_vpe_value']), true).TXT_PER.os_get_vpe_name($product->data['products_vpe']));
+
 		$info->assign('PRODUCTS_ID', $product->data['products_id']);
 		$info->assign('PRODUCTS_NAME', $product->data['products_name']);
 		if ($_SESSION['customers_status']['customers_status_show_price'] != 0) {
@@ -235,26 +309,66 @@ if (!file_exists(dir_path('images_popup').$img['image_name'])) $products_mo_popu
 		if ($_SESSION['customers_status']['customers_status_graduated_prices'] == 1)
 			include (_MODULES.FILENAME_GRADUATED_PRICE);
 
-                      $extra_fields_query = osDBquery("
-                      SELECT pef.products_extra_fields_status as status, pef.products_extra_fields_name as name, ptf.products_extra_fields_value as value
-                      FROM ". TABLE_PRODUCTS_EXTRA_FIELDS ." pef
-             LEFT JOIN  ". TABLE_PRODUCTS_TO_PRODUCTS_EXTRA_FIELDS ." ptf
-            ON ptf.products_extra_fields_id=pef.products_extra_fields_id
-            WHERE ptf.products_id=". $product->data['products_id'] ." and ptf.products_extra_fields_value<>'' and (pef.languages_id='0' or pef.languages_id='".$_SESSION['languages_id']."')
-            ORDER BY products_extra_fields_order");
 
-  while ($extra_fields = os_db_fetch_array($extra_fields_query,true)) {
-        if (! $extra_fields['status'])  // show only enabled extra field
-           continue;
-  
-  $extra_fields_data[] = array (
-  'NAME' => $extra_fields['name'], 
-  'VALUE' => $extra_fields['value']
-  );
-  
-  }
+     $extra_fields_query = osDBquery("
+     SELECT
+         pef.products_extra_fields_name as name, pef.products_extra_fields_group, ptf.products_extra_fields_value as value
+     FROM
+         ".TABLE_PRODUCTS_EXTRA_FIELDS." pef
+            LEFT JOIN ".TABLE_PRODUCTS_TO_PRODUCTS_EXTRA_FIELDS." ptf ON ptf.products_extra_fields_id = pef.products_extra_fields_id
+     WHERE
+         ptf.products_id = ".$product->data['products_id']." AND
+         ptf.products_extra_fields_value <> '' AND
+         pef.products_extra_fields_status = 1 AND
+         (pef.languages_id = '0' or pef.languages_id = '".(int)$_SESSION['languages_id']."')
+     ORDER BY
+         products_extra_fields_order
+     ");
 
-  $info->assign('extra_fields_data', $extra_fields_data);
+	if (os_db_num_rows($extra_fields_query) > 0)
+	{
+		while ($extra_fields = os_db_fetch_array($extra_fields_query,true))
+		{
+			$extra_fields_data[$extra_fields['products_extra_fields_group']][] = array(
+				'NAME' => $extra_fields['name'],
+				'VALUE' => $extra_fields['value']
+			);
+		}
+
+		$groupsDescQuery = os_db_query("
+		SELECT
+			*, d.extra_fields_groups_name as group_name
+		FROM
+			".DB_PREFIX."products_extra_fields_groups g
+				LEFT JOIN ".DB_PREFIX."products_extra_fields_groups_desc d ON (g.extra_fields_groups_id = d.extra_fields_groups_id AND d.extra_fields_groups_languages_id = '".(int)$_SESSION['languages_id']."')
+		WHERE
+			g.extra_fields_groups_status = 1
+		ORDER BY
+			g.extra_fields_groups_order ASC
+		");
+		if (os_db_num_rows($groupsDescQuery) > 0)
+		{
+			while ($groups = os_db_fetch_array($groupsDescQuery))
+			{
+				$groupDescEdit[$groups['extra_fields_groups_id']] = $groups;
+			}
+		}
+
+		$efResult = array();
+		foreach($groupDescEdit AS $gId => $gValue)
+		{
+			foreach ($extra_fields_data as $fGId => $fValue)
+			{
+				if ($gId == $fGId)
+				{
+					$efResult[$gId] = $gValue;
+					$efResult[$gId]['values'] = $fValue;
+				}
+			}
+		}
+	}
+
+  $info->assign('extra_fields_data', $efResult);
 
 	include(_MODULES.FILENAME_PRODUCTS_MEDIA);
 	include(_MODULES.FILENAME_ALSO_PURCHASED_PRODUCTS);
@@ -294,7 +408,7 @@ $i = count($_SESSION['tracking']['products_history']);
 		$_SESSION['tracking']['products_history'][$i] = $product->data['products_id'];
 		$_SESSION['tracking']['products_history'] = array_unique($_SESSION['tracking']['products_history']);
 	}
-	
+
 	$info->assign('language', $_SESSION['language']);
 	
 		//plugins

@@ -1,13 +1,27 @@
 <?php
 /*
-#####################################
-#  OSC-CMS: Shopping Cart Software.
-#  Copyright (c) 2011-2012
-#  http://osc-cms.com
-#  http://osc-cms.com/forum
-#  Ver. 1.0.0
-#####################################
+*---------------------------------------------------------
+*
+*	CartET - Open Source Shopping Cart Software
+*	http://www.cartet.org
+*
+*---------------------------------------------------------
 */
+
+define('TEXT_COUPON_HEAD_NAME', 'Название');
+define('TEXT_COUPON_HEAD_AMOUNT', 'Номинал');
+define('TEXT_COUPON_HEAD_CODE', 'Код');
+define('TEXT_COUPON_HEAD_PRODUCTS', 'Товары');
+define('TEXT_COUPON_HEAD_CATEGORIES', 'Категории');
+define('TEXT_COUPON_HEAD_ORDER', 'Исп. при заказе');
+define('TEXT_COUPON_HEAD_CUSTOMER', 'Исп. клиент');
+define('TEXT_COUPON_HEAD_FROM', 'С');
+define('TEXT_COUPON_HEAD_TO', 'До');
+define('TEXT_COUPON_HEAD_DATE_ADDED', 'Создан');
+
+
+define('TABLE_HEADING_ORDER_ID', 'Заказ');
+
 
 define('TOP_BAR_TITLE', 'Статистика');
 define('HEADING_TITLE', 'Купоны');

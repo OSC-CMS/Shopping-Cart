@@ -2,31 +2,31 @@
 /*
 *---------------------------------------------------------
 *
-*	OSC-CMS - Open Source Shopping Cart Software
-*	http://osc-cms.com
+*	CartET - Open Source Shopping Cart Software
+*	http://www.cartet.org
 *
 *---------------------------------------------------------
 */
 
-class cash extends OscCms
+class cash extends CartET
 {
 	/**
-	 * Системный идентификатор модуля
+	 * РЎРёСЃС‚РµРјРЅС‹Р№ РёРґРµРЅС‚РёС„РёРєР°С‚РѕСЂ РјРѕРґСѓР»СЏ
 	 */
 	public $code;
 
 	/**
-	 * Название модуля
+	 * РќР°Р·РІР°РЅРёРµ РјРѕРґСѓР»СЏ
 	 */
 	public $title;
 
 	/**
-	 * Описание модуля
+	 * РћРїРёСЃР°РЅРёРµ РјРѕРґСѓР»СЏ
 	 */
 	public $description;
 
 	/**
-	 * Статус модуля
+	 * РЎС‚Р°С‚СѓСЃ РјРѕРґСѓР»СЏ
 	 */
 	public $enabled;
 

@@ -2,8 +2,8 @@
 /*
 *---------------------------------------------------------
 *
-*	OSC-CMS - Open Source Shopping Cart Software
-*	http://osc-cms.com
+*	CartET - Open Source Shopping Cart Software
+*	http://www.cartet.org
 *
 *---------------------------------------------------------
 */
@@ -104,11 +104,19 @@ add_js_code ('var SITE_WEB_DIR = "'._HTTP.'";', $HEAD, 'site_web_dir');
 add_js(_HTTP.'jscript/jquery/jquery.js', $HEAD,  'jquery');
 
 // jQuery Modal
-add_style(_HTTP.'jscript/jquery/plugins/jquery-modal/jquery.modal.css', $HEAD, 'jquery_modal');
-add_js(_HTTP.'jscript/jquery/plugins/jquery-modal/jquery.modal.min.js', $HEAD, 'jquery_modal');
+add_style(_HTTP.'jscript/jquery-modal/jquery.modal.css', $HEAD, 'jquery_modal');
+add_js(_HTTP.'jscript/jquery-modal/jquery.modal.min.js', $HEAD, 'jquery_modal');
+
+// jnotifier
+add_style(_HTTP.'jscript/jnotifier/css/jnotifier.css', $HEAD, 'jnotifier');
+add_js(_HTTP.'jscript/jnotifier/js/jnotifier.src.js', $HEAD, 'jnotifier');
 
 // Search and Auto Completer
-add_js(_HTTP.'jscript/jquery/plugins/autocomplete/jquery.autocomplete-min.js', $HEAD, 'autocomplete');
+add_js(_HTTP.'jscript/autocomplete/jquery.autocomplete-min.js', $HEAD, 'autocomplete');
+
+// Parsley
+add_js(_HTTP.'jscript/parsley/i18n/messages.'.$_SESSION['language'].'.js', $HEAD, 'parsley');
+add_js(_HTTP.'jscript/parsley/parsley.min.js', $HEAD, 'parsley');
 
 // System JS
 add_js(_HTTP.'jscript/jscript_JsHttpRequest.js', $HEAD, 'jshttprequest');
@@ -175,7 +183,8 @@ osc_head_print($_meta_array);
 do_action ('head');
 ?>
 </head>
-<body class="no-js"><?php
+<body class="no-js">
+<?php
 do_action ('body', '');	
 
 $osTemplate->assign('navtrail', $breadcrumb->trail());
@@ -215,6 +224,11 @@ $osTemplate->assign('error','
     </table>');
 
   }
+
+if ($messageStack->size > 0)
+{
+	$osTemplate->assign('message', $messageStack->output());
+}
 
 // Метки для закладок
 $link_array = array( 

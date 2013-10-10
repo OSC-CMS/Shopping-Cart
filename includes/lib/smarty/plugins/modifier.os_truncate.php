@@ -1,9 +1,16 @@
 <?php
-function smarty_modifier_os_truncate($string, $length = 80, $etc = '...',
-                                  $break_words = false, $middle = false)
-{
+/*
+*---------------------------------------------------------
+*
+*	CartET - Open Source Shopping Cart Software
+*	http://www.cartet.org
+*
+*---------------------------------------------------------
+*/
 
-$string = strip_tags($string); 
+function smarty_modifier_os_truncate($string, $length = 80, $etc = '...', $break_words = false, $middle = false)
+{
+	$string = strip_tags($string); 
 
     if ($length == 0)
         return '';
@@ -22,6 +29,4 @@ $string = strip_tags($string);
         return $string;
     }
 }
-
-
 ?>

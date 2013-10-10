@@ -1,12 +1,11 @@
 <?php
 /*
-#####################################
-#  OSC-CMS: Shopping Cart Software.
-#  Copyright (c) 2011-2012
-#  http://osc-cms.com
-#  http://osc-cms.com/forum
-#  Ver. 1.0.1
-#####################################
+*---------------------------------------------------------
+*
+*	CartET - Open Source Shopping Cart Software
+*	http://www.cartet.org
+*
+*---------------------------------------------------------
 */
 
 defined( '_VALID_OS' ) or die( 'Прямой доступ  не допускается.' );
@@ -105,44 +104,6 @@ function os_output_generated_topic_path($id, $from = 'topic')
     return $calculated_topic_path_string;
 }
 
-function os_get_topic_path($current_topic_id = '') 
-{
-    global $tPath_array;
-
-    if (os_not_null($current_topic_id)) {
-      $cp_size = sizeof($tPath_array);
-      if ($cp_size == 0) {
-        $tPath_new = $current_topic_id;
-      } else {
-        $tPath_new = '';
-        $last_topic_query = os_db_query("select parent_id from " . TABLE_TOPICS . " where topics_id = '" . (int)$tPath_array[($cp_size-1)] . "'");
-        $last_topic = os_db_fetch_array($last_topic_query);
-
-        $current_topic_query = os_db_query("select parent_id from " . TABLE_TOPICS . " where topics_id = '" . (int)$current_topic_id . "'");
-        $current_topic = os_db_fetch_array($current_topic_query);
-
-        if ($last_topic['parent_id'] == $current_topic['parent_id']) {
-          for ($i=0; $i<($cp_size-1); $i++) {
-            $tPath_new .= '_' . $tPath_array[$i];
-          }
-        } else {
-          for ($i=0; $i<$cp_size; $i++) {
-            $tPath_new .= '_' . $tPath_array[$i];
-          }
-        }
-        $tPath_new .= '_' . $current_topic_id;
-
-        if (substr($tPath_new, 0, 1) == '_') {
-          $tPath_new = substr($tPath_new, 1);
-        }
-      }
-    } else {
-      $tPath_new = implode('_', $tPath_array);
-    }
-
-    return 'tPath=' . $tPath_new;
-}
-
 function os_get_generated_topic_path_ids($id, $from = 'topic') 
 {
     $calculated_topic_path_string = '';
@@ -158,36 +119,6 @@ function os_get_generated_topic_path_ids($id, $from = 'topic')
     if (strlen($calculated_topic_path_string) < 1) $calculated_topic_path_string = TEXT_TOP;
 
     return $calculated_topic_path_string;
-}
-
-
-function os_get_author_url($author_id, $language_id) 
-{
-    $author_query = os_db_query("select authors_url from " . TABLE_AUTHORS_INFO . " where authors_id = '" . (int)$author_id . "' and languages_id = '" . (int)$language_id . "'");
-    $author = os_db_fetch_array($author_query);
-
-    return $author['authors_url'];
-}
-
-
-function os_get_author_description($author_id, $language_id) 
-{
-    $author_query = os_db_query("select authors_description from " . TABLE_AUTHORS_INFO . " where authors_id = '" . (int)$author_id . "' and languages_id = '" . (int)$language_id . "'");
-    $author = os_db_fetch_array($author_query);
-
-    return $author['authors_description'];
-}
-
-
-function os_set_article_status($articles_id, $status) 
-{
-    if ($status == '1') {
-      return os_db_query("update " . TABLE_ARTICLES . " set articles_status = '1', articles_last_modified = now() where articles_id = '" . (int)$articles_id . "'");
-    } elseif ($status == '0') {
-      return os_db_query("update " . TABLE_ARTICLES . " set articles_status = '0', articles_last_modified = now() where articles_id = '" . (int)$articles_id . "'");
-    } else {
-      return -1;
-    }
 }
 
 function os_get_articles_name($article_id, $language_id = 0) 
@@ -217,6 +148,13 @@ function os_get_articles_head_title_tag($article_id, $language_id = 0)
     $article = os_db_fetch_array($article_query);
 
     return $article['articles_description'];
+  }
+
+  function os_get_articles_description_short($article_id, $language_id) {
+    $article_query = os_db_query("select articles_description_short from " . TABLE_ARTICLES_DESCRIPTION . " where articles_id = '" . (int)$article_id . "' and language_id = '" . (int)$language_id . "'");
+    $article = os_db_fetch_array($article_query);
+
+    return $article['articles_description_short'];
   }
 
   function os_get_articles_head_desc_tag($article_id, $language_id) {

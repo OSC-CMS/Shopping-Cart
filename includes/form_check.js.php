@@ -2,8 +2,8 @@
 /*
 *---------------------------------------------------------
 *
-*	OSC-CMS - Open Source Shopping Cart Software
-*	http://osc-cms.com
+*	CartET - Open Source Shopping Cart Software
+*	http://www.cartet.org
 *
 *---------------------------------------------------------
 */
@@ -42,9 +42,8 @@ if (strstr($PHP_SELF, FILENAME_CHECKOUT_SHIPPING_ADDRESS ) OR strstr($PHP_SELF,F
 {
 	$form_id = 'checkout_address';
 }
-
 ?>
-<script type="text/javascript" src="<?php echo _HTTP; ?>jscript/jquery/plugins/validate/jquery.validate.pack.js"></script>
+<script type="text/javascript" src="<?php echo _HTTP; ?>jscript/validate/jquery.validate.pack.js"></script>
 <script type="text/javascript" src="<?php echo _HTTP; ?>jscript/modified.js"></script>
 <script type="text/javascript"><!--
 $(document).ready(function()

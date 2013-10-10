@@ -1,13 +1,12 @@
 <?php
 /*
-#####################################
-#  OSC-CMS: Shopping Cart Software
-#  Copyright (c) 2011-2012
-# http://osc-cms.com
-# Ver. 1.0.0
-#####################################
+*---------------------------------------------------------
+*
+*	CartET - Open Source Shopping Cart Software
+*	http://www.cartet.org
+*
+*---------------------------------------------------------
 */
-
 
 define('MODULE_SHIPPING_FREEAMOUNT_TEXT_TITLE', 'Free Shipping');
 define('MODULE_SHIPPING_FREEAMOUNT_TEXT_DESCRIPTION', 'Free Shipping w/ Minimum Order Amount');

@@ -2,8 +2,8 @@
 /*
 *---------------------------------------------------------
 *
-*	OSC-CMS - Open Source Shopping Cart Software
-*	http://osc-cms.com
+*	CartET - Open Source Shopping Cart Software
+*	http://www.cartet.org
 *
 *---------------------------------------------------------
 */
@@ -13,8 +13,8 @@ include ('includes/top.php');
 $breadcrumb->add(NAVBAR_TITLE_ACCOUNT, os_href_link(FILENAME_ACCOUNT, '', 'SSL'));
 require (dir_path('includes').'header.php');
 
-if ($messageStack->size('account') > 0)
-	$osTemplate->assign('error_message', $messageStack->output('account'));
+//if ($messageStack->size('account') > 0)
+//	$osTemplate->assign('error_message', $messageStack->output('account'));
 
 $i = 0;
 $max = count($_SESSION['tracking']['products_history']);

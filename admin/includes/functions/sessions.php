@@ -1,12 +1,11 @@
 <?php
 /*
-#####################################
-#  OSC-CMS: Shopping Cart Software.
-#  Copyright (c) 2011-2012
-#  http://osc-cms.com
-#  http://osc-cms.com/forum
-#  Ver. 1.0.0
-#####################################
+*---------------------------------------------------------
+*
+*	CartET - Open Source Shopping Cart Software
+*	http://www.cartet.org
+*
+*---------------------------------------------------------
 */
 
 defined( '_VALID_OS' ) or die( 'Прямой доступ  не допускается.' );
@@ -38,7 +37,7 @@ defined( '_VALID_OS' ) or die( 'Прямой доступ  не допускается.' );
 	   
 	   if (preg_match("/[^(\w)|(\x7F-\xFF)|(\s)]/", $key)) 
 	   {
-          die('OSC-CMS error: invalide session key');
+          die('CartET error: invalide session key');
        }
 	   
       $expiry = time() + SESSION_TIMEOUT_ADMIN;

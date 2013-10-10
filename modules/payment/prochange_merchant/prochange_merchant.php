@@ -2,13 +2,13 @@
 /*
 *---------------------------------------------------------
 *
-*	OSC-CMS - Open Source Shopping Cart Software
-*	http://osc-cms.com
+*	CartET - Open Source Shopping Cart Software
+*	http://www.cartet.org
 *
 *---------------------------------------------------------
 */
 
-class prochange_merchant extends OscCms
+class prochange_merchant extends CartET
 {
 	/**
 	 * Системный идентификатор модуля

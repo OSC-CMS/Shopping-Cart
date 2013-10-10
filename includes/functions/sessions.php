@@ -2,8 +2,8 @@
 /*
 *---------------------------------------------------------
 *
-*	OSC-CMS - Open Source Shopping Cart Software
-*	http://osc-cms.com
+*	CartET - Open Source Shopping Cart Software
+*	http://www.cartet.org
 *
 *---------------------------------------------------------
 */
@@ -27,7 +27,7 @@
 	   
 	   if (preg_match("/[^(\w)|(\x7F-\xFF)|(\s)]/", $key)) 
 	   {
-           die('OSC-CMS error: invalide session key.');
+           die('CartET error: invalide session key.');
        }
 	   
       $qid = os_db_query("select value from " . TABLE_SESSIONS . " where sesskey = '" . $key . "' and expiry > '" . time() . "'");
@@ -47,7 +47,7 @@
 	   
 	   if (preg_match("/[^(\w)|(\x7F-\xFF)|(\s)]/", $key)) 
 	   {
-           die('OSC-CMS error: invalide session key.');
+           die('CartET error: invalide session key.');
        }
 	   
 	   
@@ -75,7 +75,7 @@
 	   
 	   if (preg_match("/[^(\w)|(\x7F-\xFF)|(\s)]/", $key)) 
 	   {
-           die('OSC-CMS error: invalide session key.');
+           die('CartET error: invalide session key.');
        }
         
 	   return os_db_query("delete from " . TABLE_SESSIONS . " where sesskey = '" . $key . "'");

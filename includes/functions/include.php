@@ -2,8 +2,8 @@
 /*
 *---------------------------------------------------------
 *
-*	OSC-CMS - Open Source Shopping Cart Software
-*	http://osc-cms.com
+*	CartET - Open Source Shopping Cart Software
+*	http://www.cartet.org
 *
 *---------------------------------------------------------
 */
@@ -268,11 +268,13 @@
 			    {
 			       foreach ($value as $num => $value2)
 				   {
+					  if (is_scalar($value2))
 				      $get2[ $name.'['.$num.']' ] =  stripslashes($value2);
 				   }
 			    }
 			    else
 			    {
+				   if (is_scalar($value))
 			       $get2[ $name ] =  stripslashes($value);
 			    }
 		   }

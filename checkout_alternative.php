@@ -2,8 +2,8 @@
 /*
 *---------------------------------------------------------
 *
-*	OSC-CMS - Open Source Shopping Cart Software
-*	http://osc-cms.com
+*	CartET - Open Source Shopping Cart Software
+*	http://www.cartet.org
 *
 *---------------------------------------------------------
 */
@@ -457,10 +457,10 @@ if (!isset ($_SESSION['sendto'])) {
 	}
 }
 
-if ($messageStack->size('checkout_alternative') > 0) {
-	$osTemplate->assign('error', $messageStack->output('checkout_alternative'));
+//if ($messageStack->size('checkout_alternative') > 0) {
+//	$osTemplate->assign('error', $messageStack->output('checkout_alternative'));
 
-}
+//}
 
 if (ACCOUNT_GENDER == 'true') {
 	$osTemplate->assign('gender', '1');

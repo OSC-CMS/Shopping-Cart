@@ -2,8 +2,8 @@
 /*
 *---------------------------------------------------------
 *
-*	OSC-CMS - Open Source Shopping Cart Software
-*	http://osc-cms.com
+*	CartET - Open Source Shopping Cart Software
+*	http://www.cartet.org
 *
 *---------------------------------------------------------
 */
@@ -36,7 +36,7 @@
         return true;   
     }
 
-    function get_option ($_key)
+    function get_option($_key)
     {
         global $p;
 
@@ -65,7 +65,7 @@
         if ( is_file( dir_path('catalog').'VERSION' ) )
         {
             $_version = @ file_get_contents ( dir_path('catalog').'VERSION' );
-            $_version = str_replace('OSC-CMS/', '', $_version);
+            $_version = str_replace('CartET/', '', $_version);
         }
         else
         {
@@ -74,26 +74,4 @@
 
         return $_version;
     }
-
-    function plugins_switch()
-    {
-    ?>
-    <tr>
-        <td colspan="13" valign="bottom">
-            <img src="images/arrow_ltr.png" border="0" width="38" height="22"/>
-            <a href="#" onclick="javascript:SwitchCheck();"><?php echo PLUGINS_SWITCH_ALL; ?></a>&nbsp;&nbsp;&nbsp;/&nbsp;&nbsp;&nbsp;&nbsp;
-            <select name="action" dir="ltr" onchange="this.form.submit();">
-
-                <option value="<?php echo PLUGINS_SELECTED; ?>" selected="selected"><?php echo PLUGINS_SELECTED; ?></option>
-                <option value="install" ><?php echo PLUGINS_INSTALL;?></option>
-                <option value="remove" ><?php echo PLUGINS_REMOVE;?></option>
-
-            </select></form>
-        </td>
-    </tr>
-    <?php
-
-
-    }
-
 ?>

@@ -1,12 +1,11 @@
 <?php
 /*
-#####################################
-#  OSC-CMS: Shopping Cart Software.
-#  Copyright (c) 2011-2012
-#  http://osc-cms.com
-#  http://osc-cms.com/forum
-#  Ver. 1.0.2
-#####################################
+*---------------------------------------------------------
+*
+*	CartET - Open Source Shopping Cart Software
+*	http://www.cartet.org
+*
+*---------------------------------------------------------
 */
 /*
   (c) 2000-2001 The Exchange Project  (earlier name of osCommerce)
@@ -16,7 +15,7 @@
   (c) 2008	 VamShop (2008/01/01); vamshop.com
 */
   
-defined( '_VALID_OS' ) or die( 'OSC-CMS error' );
+defined( '_VALID_OS' ) or die( 'CartET error' );
 
   class upload {
     var $file, $filename, $destination, $permissions, $extensions, $tmp_filename;

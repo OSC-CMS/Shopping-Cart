@@ -1,3 +1,10 @@
+#---------------------------------------------------------
+#
+#	CartET - Open Source Shopping Cart Software
+#	http://www.cartet.org
+#
+#---------------------------------------------------------
+
 <Files *>
 	Order Deny,Allow
 	Deny from all

@@ -1,13 +1,12 @@
 <?php
 /*
-#####################################
-# OSC-CMS: Shopping Cart Software
-#  Copyright (c) 2011-2012
-# http://osc-cms.com
-# Ver. 1.0.0
-#####################################
+*---------------------------------------------------------
+*
+*	CartET - Open Source Shopping Cart Software
+*	http://www.cartet.org
+*
+*---------------------------------------------------------
 */
-
 
 define('MODULE_SHIPPING_DHL_TEXT_TITLE', 'DHL Austria');
 define('MODULE_SHIPPING_DHL_TEXT_DESCRIPTION', 'DHL WORLDWIDE EXPRESS Austria');

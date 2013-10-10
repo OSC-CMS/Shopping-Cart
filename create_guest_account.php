@@ -2,8 +2,8 @@
 /*
 *---------------------------------------------------------
 *
-*	OSC-CMS - Open Source Shopping Cart Software
-*	http://osc-cms.com
+*	CartET - Open Source Shopping Cart Software
+*	http://www.cartet.org
 *
 *---------------------------------------------------------
 */
@@ -323,10 +323,10 @@ $breadcrumb->add(NAVBAR_TITLE_CREATE_GUEST_ACCOUNT, os_href_link(FILENAME_CREATE
 
 require (dir_path('includes').'header.php');
 
-if ($messageStack->size('create_account') > 0) {
-	$osTemplate->assign('error', $messageStack->output('create_account'));
+//if ($messageStack->size('create_account') > 0) {
+//	$osTemplate->assign('error', $messageStack->output('create_account'));
 
-}
+//}
 $osTemplate->assign('FORM_ACTION', os_draw_form('create_account', os_href_link(FILENAME_CREATE_GUEST_ACCOUNT, '', 'SSL'), 'post', 'onsubmit="return checkform(this);"').os_draw_hidden_field('action', 'process') . os_draw_hidden_field('required', 'gender,firstname,lastname,dob,email,address,postcode,city,state,country,telephone', 'id="required"'));
 
 if (ACCOUNT_GENDER == 'true') {

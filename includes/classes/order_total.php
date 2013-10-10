@@ -2,8 +2,8 @@
 /*
 *---------------------------------------------------------
 *
-*	OSC-CMS - Open Source Shopping Cart Software
-*	http://osc-cms.com
+*	CartET - Open Source Shopping Cart Software
+*	http://www.cartet.org
 *
 *---------------------------------------------------------
 */
@@ -159,12 +159,11 @@ class order_total
 						if (os_not_null($GLOBALS[$class]->output[$i]['title']) && os_not_null($GLOBALS[$class]->output[$i]['text'])) {
 							$order_total_array[] = array (
 							
-							'code' => $GLOBALS[$class]->code, 
-							'title' => $GLOBALS[$class]->output[$i]['title'], 
-							'text' => $GLOBALS[$class]->output[$i]['text'], 
-							'value' => $GLOBALS[$class]->output[$i]['value'], 
+							'code' => $GLOBALS[$class]->code,
+							'title' => $GLOBALS[$class]->output[$i]['title'],
+							'text' => $GLOBALS[$class]->output[$i]['text'].' '.$_SESSION['currencySymbol'],
+							'value' => $GLOBALS[$class]->output[$i]['value'],
 							'sort_order' => $GLOBALS[$class]->sort_order
-							
 							);
 						}
 					}

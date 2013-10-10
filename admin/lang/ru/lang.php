@@ -1,12 +1,11 @@
 <?php
 /*
-#####################################
-#  OSC-CMS: Shopping Cart Software.
-#  Copyright (c) 2011-2012
-#  http://osc-cms.com
-#  http://osc-cms.com/forum
-#  Ver. 1.0.0
-#####################################
+*---------------------------------------------------------
+*
+*	CartET - Open Source Shopping Cart Software
+*	http://www.cartet.org
+*
+*---------------------------------------------------------
 */
 
 @setlocale(LC_TIME, 'en_US');
@@ -40,7 +39,6 @@ define('BOX_HEADING_OTHER','Система');
 define('BOX_HEADING_STATISTICS','Статистика');
 define('BOX_HEADING_TOOLS','Инструменты');
 define('BOX_HEADING_LOGOFF','Выйти');
-define('BOX_HEADING_HELP','Помощь');
 
 define('BOX_CONTENT','Информационные страницы');
 define('TEXT_ALLOWED', 'Разрешено');
@@ -129,11 +127,11 @@ define('BOX_IMPORT','CSV импорт/Экспорт');
 define('BOX_PRODUCTS_VPE','Единица упаковки');
 define('BOX_CAMPAIGNS_REPORT','Отчёт по кампаниям');
 define('BOX_ORDERS_XSELL_GROUP','Сопутствующие');
-define('BOX_SUPPORT_SITE','Сайт поддержки');
+define('BOX_VERSION','Версия');
 define('BOX_SUPPORT_FAQ','Вопросы и ответы');
 define('BOX_SUPPORT_DOC','Документация');
 define('BOX_SUPPORT_FORUM','Форум');
-define('BOX_HOSTING','Хостинг');
+define('BOX_THEMES','Шаблоны');
 
 define('TXT_GROUPS','<b>Группы</b>:');
 define('TXT_SYSTEM','Система');
@@ -227,6 +225,7 @@ define('ENTRY_MAIL','Отправить письмо с паролем клие�
 define('YES','Да');
 define('NO','Нет');
 define('TEXT_SELECT','Выберите');
+define('SAVE_ALL','Сохранить');
 
 define('ICON_CROSS', 'Недействительно');
 define('ICON_CURRENT_FOLDER', 'Текущая директория');
@@ -272,7 +271,7 @@ define('PREVNEXT_BUTTON_NEXT', 'Следующая');
 
 define('TEXT_DEFAULT', 'по умолчанию');
 define('TEXT_SET_DEFAULT', 'Установить по умолчанию');
-define('TEXT_FIELD_REQUIRED', '&nbsp;<span class="fieldRequired">* Обязательно</span>');
+define('TEXT_FIELD_REQUIRED', '<span class="help-inline">* Обязательно</span>');
 
 define('ERROR_NO_DEFAULT_CURRENCY_DEFINED', 'Ошибка: К настоящему времени ни одна валюта не была установлена по умолчанию. Пожалуйста, установите одну из них в: Локализация -> Валюта');
 
@@ -291,7 +290,6 @@ define('SUCCESS_FILE_SAVED_SUCCESSFULLY', 'Выполнено: Файл успе
 define('WARNING_NO_FILE_UPLOADED', 'Предупреждение: Ни одного файла не загружено.');
 
 define('DELETE_ENTRY','Удалить запись?');
-define('MENU_PRED','<br><b class="red">Предупреждение:</b><br />');
 //Исправить ссылку предупреждения
 
 define('TEXT_PAYMENT_ERROR','Активируйте модули оплаты');
@@ -366,10 +364,8 @@ define('BOX_CATALOG_LATEST_NEWS', 'Новости');
 define('IMAGE_NEW_NEWS_ITEM', 'Добавить новость');
 
 define('TABLE_HEADING_CUSTOMERS', 'Последние покупатели');
-define('TABLE_HEADING_NEWS', 'Последние новости');
-define('TABLE_HEADING_THEMES', 'Последние шаблоны');
 define('TABLE_HEADING_CACHE', 'Контроль кэша');
-define('TABLE_CACHE_SIZE', 'Общий размер кэша:');
+define('TABLE_CACHE_SIZE', 'Размер кэша:');
 define('TABLE_CACHE_CLEAN', 'Очистить кэш');
 
 define('TABLE_HEADING_LASTNAME', 'Фамилия');
@@ -381,10 +377,6 @@ define('TABLE_HEADING_CUSTOMER', 'Покупатель');
 define('TABLE_HEADING_NUMBER', 'Номер заказа');
 define('TABLE_HEADING_ORDER_TOTAL', 'Сумма');
 define('TABLE_HEADING_STATUS', 'Статус');
-
-define('TABLE_HEADING_SUMMARY_PRODUCTS', 'Последние товары');
-define('TABLE_HEADING_PRODUCT_NAME', 'Товары');
-define('TABLE_HEADING_PRODUCT_PRICE', 'Стоимость');
 
 define('BOX_TOOLS_RECOVER_CART', 'Незавершённые заказы');
 
@@ -402,12 +394,10 @@ define('BOX_CACHE_FILES', 'Контроль кэша');
 define('BOX_HEADING_ARTICLES', 'Статьи');
 define('BOX_TOPICS_ARTICLES', 'Статьи/Разделы');
 define('BOX_ARTICLES_CONFIG', 'Настройка');
-define('BOX_ARTICLES_AUTHORS', 'Авторы');
 define('BOX_ARTICLES_REVIEWS', 'Отзывы'); 
 define('BOX_ARTICLES_XSELL', 'Товары-Статьи');
 define('IMAGE_NEW_TOPIC', 'Новый раздел');
 define('IMAGE_NEW_ARTICLE', 'Новая статья');
-define('TEXT_DISPLAY_NUMBER_OF_AUTHORS', 'Показано <b>%d</b> - <b>%d</b> (всего <b>%d</b> авторов)'); 
 
 define('TEXT_SUMMARY_STAT','Статистика');
 define('TEXT_SUMMARY_STAT_TEXT','Статистика продаж');
@@ -417,6 +407,10 @@ define('TEXT_SUMMARY_ORDERS','Заказы');
 define('TEXT_SUMMARY_PRODUCTS','Товары');
 define('TEXT_SUMMARY_NEWS','Новости');
 define('TEXT_SUMMARY_CACHE','Кэш');
+define('TEXT_THEMES','Шаблоны');
+
+define('TEXT_TODAY_SUM','Сегодня продано');
+define('TEXT_TOTAL_SUM','Всего продано');
 
 define('TEXT_SUMMARY_MODULES','Модули');
 define('BOX_SALES_REPORT2','Статистика продаж 2');
@@ -424,8 +418,6 @@ define('BOX_SALES_REPORT2','Статистика продаж 2');
 define('TEXT_PHP_MAILER_ERROR','Не удалось отправить email.<br />');
 define('TEXT_PHP_MAILER_ERROR1','Ошибка: ');
 define('BOX_TOOLS_EMAIL_MANAGER','Шаблоны писем');
-define('BOX_CATEGORY_SPECIALS', 'Категории со скидками');
-define('TEXT_DISPLAY_NUMBER_OF_SPECIAL_CATEGORY', 'Показано <b>%d</b> - <b>%d</b> (всего <b>%d</b> категорий со скидками)');
 define('IMAGE_ICON_STATUS_GREEN', 'Активна');
 define('IMAGE_ICON_STATUS_GREEN_LIGHT', 'Активизировать');
 define('IMAGE_ICON_STATUS_RED', 'Неактивна');
@@ -440,7 +432,7 @@ define('BOX_MODULES_SHIP2PAY','Доставка-оплата');
 define('TEXT_DISPLAY_NUMBER_OF_PAYMENTS','Показано <b>%d</b> - <b>%d</b> (всего <b>%d</b> зависимостей)');
 
 define('BOX_PRODUCT_EXTRA_FIELDS','Дополнительные поля товаров');
-define('TEXT_EDIT_FIELDS','Редактировать дополнительные поля товаров.');
+define('TEXT_EDIT_FIELDS','Управление полями');
 define('TEXT_ADD_FIELDS','Добавить дополнительные поля товаров.');
 
 define('BOX_CATALOG_FAQ', 'Вопросы и ответы');
@@ -450,14 +442,16 @@ require_once(DIR_FS_ADMIN .'lang/'. $_SESSION['language_admin']. '/affiliate.php
 define('BOX_HEADING_CUSTOMER_EXTRA_FIELDS', 'Дополнительные поля покупателей');
 define('ENTRY_EXTRA_FIELDS_ERROR', 'Поле %s должно содержать как минимум %d символов');
 define('TEXT_DISPLAY_NUMBER_OF_FIELDS', 'Показано <b>%d</b> - <b>%d</b> (всего <b>%d</b> полей)');
-define('BOX_HELP','Помощь');
-define('BOX_THEMES','Шаблоны');
-define('BOX_THEMES_URL','Шаблоны');
+define('BOX_HELP','Документация');
+
+define('BOX_EXTEND','Расширения');
+
+
+
 define('BOX_THEMES_ADMIN','Админка');
 define('BOX_ORDERS_SEND','Проверка заказов');
 define('TEXT_THEMES_MENU','Шаблоны');
 define('BOX_THEMES_MENU','Шаблоны');
-define('TEXT_THEMES','Шаблоны');
 define('TEXT_CACHE','Кэш');
 
 define('TEXT_THEMES_EDIT','Редактор шаблонов');
@@ -507,5 +501,9 @@ define('TEXT_SAVE', 'Сохранить');
 define('TEXT_ERROR_PERMISSION', 'Доступ запрещен!');
 
 
+define('ON','Включить');
+define('OFF','Выключить');
+
+define('CATEGORIES_LIST','Список категорий');
 
 ?>

@@ -17,7 +17,7 @@
 		</table>
 
 		<div class="box-cart-total">
-			{$UST}{#text_total#} <span class="box-cart-total-price">{$TOTAL}</span>
+			{$UST}{#text_total#} <span class="box-cart-total-price">{$TOTAL} {$smarty.session.currencySymbol}</span>
 			{if $DISCOUNT}<div class="box-cart-discount">{#text_discount#} <span class="box-cart-total-discount">{$DISCOUNT}</span></div>{/if}
 		</div>
 		<a class="btn btn-success" href="{$LINK_CHECKOUT}"><i class="icon-shopping-cart icon-white"></i>{#text_checkout#}</a>

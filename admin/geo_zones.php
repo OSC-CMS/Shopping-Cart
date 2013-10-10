@@ -1,328 +1,316 @@
 <?php
 /*
-#####################################
-#  OSC-CMS: Shopping Cart Software.
-#  Copyright (c) 2011-2012
-#  http://osc-cms.com
-#  http://osc-cms.com/forum
-#  Ver. 1.0.0
-#####################################
+*---------------------------------------------------------
+*
+*	CartET - Open Source Shopping Cart Software
+*	http://www.cartet.org
+*
+*---------------------------------------------------------
 */
 
-  require('includes/top.php');
+require('includes/top.php');
 
-  switch ($_GET['saction']) {
-    case 'insert_sub':
-      $zID = os_db_prepare_input($_GET['zID']);
-      $zone_country_id = os_db_prepare_input($_POST['zone_country_id']);
-      $zone_id = os_db_prepare_input($_POST['zone_id']);
+switch ($_GET['action']) {
+	case 'insert_zone':
+	$geo_zone_name = os_db_prepare_input($_POST['geo_zone_name']);
+	$geo_zone_description = os_db_prepare_input($_POST['geo_zone_description']);
 
-      os_db_query("insert into " . TABLE_ZONES_TO_GEO_ZONES . " (zone_country_id, zone_id, geo_zone_id, date_added) values ('" . os_db_input($zone_country_id) . "', '" . os_db_input($zone_id) . "', '" . os_db_input($zID) . "', now())");
-      $new_subzone_id = os_db_insert_id();
+	os_db_query("insert into ".TABLE_GEO_ZONES." (geo_zone_name, geo_zone_description, date_added) values ('".os_db_input($geo_zone_name)."', '".os_db_input($geo_zone_description)."', now())");
+	$new_zone_id = os_db_insert_id();
 
-      os_redirect(os_href_link(FILENAME_GEO_ZONES, 'zpage=' . $_GET['zpage'] . '&zID=' . $_GET['zID'] . '&action=list&spage=' . $_GET['spage'] . '&sID=' . $new_subzone_id));
-      break;
+	os_redirect(os_href_link(FILENAME_GEO_ZONES, 'zpage='.$_GET['zpage'].'&zID='.$new_zone_id));
+	break;
 
-    case 'save_sub':
-      $sID = os_db_prepare_input($_GET['sID']);
-      $zID = os_db_prepare_input($_GET['zID']);
-      $zone_country_id = os_db_prepare_input($_POST['zone_country_id']);
-      $zone_id = os_db_prepare_input($_POST['zone_id']);
+	case 'save_zone':
+	$zID = os_db_prepare_input($_GET['zID']);
+	$geo_zone_name = os_db_prepare_input($_POST['geo_zone_name']);
+	$geo_zone_description = os_db_prepare_input($_POST['geo_zone_description']);
 
-      os_db_query("update " . TABLE_ZONES_TO_GEO_ZONES . " set geo_zone_id = '" . os_db_input($zID) . "', zone_country_id = '" . os_db_input($zone_country_id) . "', zone_id = " . ((os_db_input($zone_id)) ? "'" . os_db_input($zone_id) . "'" : 'null') . ", last_modified = now() where association_id = '" . os_db_input($sID) . "'");
+	os_db_query("update ".TABLE_GEO_ZONES." set geo_zone_name = '".os_db_input($geo_zone_name)."', geo_zone_description = '".os_db_input($geo_zone_description)."', last_modified = now() where geo_zone_id = '".os_db_input($zID)."'");
 
-      os_redirect(os_href_link(FILENAME_GEO_ZONES, 'zpage=' . $_GET['zpage'] . '&zID=' . $_GET['zID'] . '&action=list&spage=' . $_GET['spage'] . '&sID=' . $_GET['sID']));
-      break;
-
-    case 'deleteconfirm_sub':
-      $sID = os_db_prepare_input($_GET['sID']);
-
-      os_db_query("delete from " . TABLE_ZONES_TO_GEO_ZONES . " where association_id = '" . os_db_input($sID) . "'");
-
-      os_redirect(os_href_link(FILENAME_GEO_ZONES, 'zpage=' . $_GET['zpage'] . '&zID=' . $_GET['zID'] . '&action=list&spage=' . $_GET['spage']));
-      break;
-  }
-
-  switch ($_GET['action']) {
-    case 'insert_zone':
-      $geo_zone_name = os_db_prepare_input($_POST['geo_zone_name']);
-      $geo_zone_description = os_db_prepare_input($_POST['geo_zone_description']);
-
-      os_db_query("insert into " . TABLE_GEO_ZONES . " (geo_zone_name, geo_zone_description, date_added) values ('" . os_db_input($geo_zone_name) . "', '" . os_db_input($geo_zone_description) . "', now())");
-      $new_zone_id = os_db_insert_id();
-
-      os_redirect(os_href_link(FILENAME_GEO_ZONES, 'zpage=' . $_GET['zpage'] . '&zID=' . $new_zone_id));
-      break;
-
-    case 'save_zone':
-      $zID = os_db_prepare_input($_GET['zID']);
-      $geo_zone_name = os_db_prepare_input($_POST['geo_zone_name']);
-      $geo_zone_description = os_db_prepare_input($_POST['geo_zone_description']);
-
-      os_db_query("update " . TABLE_GEO_ZONES . " set geo_zone_name = '" . os_db_input($geo_zone_name) . "', geo_zone_description = '" . os_db_input($geo_zone_description) . "', last_modified = now() where geo_zone_id = '" . os_db_input($zID) . "'");
-
-      os_redirect(os_href_link(FILENAME_GEO_ZONES, 'zpage=' . $_GET['zpage'] . '&zID=' . $_GET['zID']));
-      break;
-
-    case 'deleteconfirm_zone':
-      $zID = os_db_prepare_input($_GET['zID']);
-
-      os_db_query("delete from " . TABLE_GEO_ZONES . " where geo_zone_id = '" . os_db_input($zID) . "'");
-      os_db_query("delete from " . TABLE_ZONES_TO_GEO_ZONES . " where geo_zone_id = '" . os_db_input($zID) . "'");
-
-      os_redirect(os_href_link(FILENAME_GEO_ZONES, 'zpage=' . $_GET['zpage']));
-      break;
-  }
-  
-  add_action('head_admin', 'head_zones');
-  
-  function head_zones ()
-  {
-  
-  if ($_GET['zID']  && (($_GET['saction'] == 'edit') || ($_GET['saction'] == 'new'))) {
-?>
-<script type="text/javascript"><!--
-function resetZoneSelected(theForm) {
-  if (theForm.state.value != '') {
-    theForm.zone_id.selectedIndex = '0';
-    if (theForm.zone_id.options.length > 0) {
-      theForm.state.value = '<?php echo JS_STATE_SELECT; ?>';
-    }
-  }
+	os_redirect(os_href_link(FILENAME_GEO_ZONES, 'zpage='.$_GET['zpage'].'&zID='.$_GET['zID']));
+	break;
 }
 
-function update_zone(theForm) {
-  var NumState = theForm.zone_id.options.length;
-  var SelectedCountry = "";
+add_action('head_admin', 'head_zones');
 
-  while(NumState > 0) {
-    NumState--;
-    theForm.zone_id.options[NumState] = null;
-  }         
+function head_zones ()
+{
+	if ($_GET['zID']  && (($_GET['saction'] == 'edit') || ($_GET['saction'] == 'new')))
+	{
+		?>
+		<script type="text/javascript"><!--
+		function resetZoneSelected(theForm)
+		{
+			if (theForm.state.value != '')
+			{
+				theForm.zone_id.selectedIndex = '0';
+				if (theForm.zone_id.options.length > 0)
+				{
+					theForm.state.value = '<?php echo JS_STATE_SELECT; ?>';
+				}
+			}
+		}
 
-  SelectedCountry = theForm.zone_country_id.options[theForm.zone_country_id.selectedIndex].value;
+		function update_zone(theForm)
+		{
+			var NumState = theForm.zone_id.options.length;
+			var SelectedCountry = "";
 
-<?php echo os_js_zone_list('SelectedCountry', 'theForm', 'zone_id'); ?>
-
+			while(NumState > 0)
+			{
+				NumState--;
+				theForm.zone_id.options[NumState] = null;
+			}
+			SelectedCountry = theForm.zone_country_id.options[theForm.zone_country_id.selectedIndex].value;
+			<?php echo os_js_zone_list('SelectedCountry', 'theForm', 'zone_id'); ?>
+		}
+		//--></script>
+		<?php
+	}
 }
-//--></script>
-<?php
-  }
 
-  }
-  ?>
-<?php $main->head(); ?>
-<?php $main->top_menu(); ?>
-<table border="0" width="100%" cellspacing="2" cellpadding="2">
-  <tr>
-    <td class="boxCenter" width="100%" valign="top">
-    
-    <?php os_header('portfolio_package.gif',HEADING_TITLE); ?> 
-    
-    <table border="0" width="100%" cellspacing="0" cellpadding="2">
-      <tr>
-        <td><table border="0" width="100%" cellspacing="0" cellpadding="0">
-          <tr>
-            <td valign="top">
-<?php
-  if ($_GET['action'] == 'list') {
+$breadcrumb->add(HEADING_TITLE, FILENAME_GEO_ZONES);
+
+if (isset($_GET['action']) && $_GET['action'] == 'list')
+{
+	$zones_query_raw = os_db_query("select * from ".TABLE_GEO_ZONES." WHERE geo_zone_id = '".(int)$_GET['zID']."'");
+	$zones = os_db_fetch_array($zones_query_raw);
+
+	$breadcrumb->add($zones['geo_zone_name'], os_href_link(FILENAME_GEO_ZONES, 'zpage='.$_GET['zpage'].'&zID='.$_GET['zID'].'&action=list'));
+}
+if (isset($_GET['saction']) && $_GET['saction'] == 'new')
+{
+	$breadcrumb->add(TEXT_INFO_HEADING_NEW_COUNTRY, os_href_link(FILENAME_GEO_ZONES, 'action=new'));
+	$zones2geo = array();
+}
+if (isset($_GET['saction']) && $_GET['saction'] == 'edit')
+{
+	$zones2geoQuery = os_db_query("select * from ".TABLE_ZONES_TO_GEO_ZONES." WHERE association_id = '".(int)$_GET['sID']."'");
+	$zones2geo = os_db_fetch_array($zones2geoQuery);
+
+	$breadcrumb->add(TEXT_INFO_HEADING_EDIT_ZONE, os_href_link(FILENAME_GEO_ZONES, 'action=new'));
+}
+
+if (isset($_GET['action']) && $_GET['action'] == 'new_zone')
+{
+	$breadcrumb->add(TEXT_INFO_HEADING_NEW_ZONE, os_href_link(FILENAME_GEO_ZONES, 'action=new_zone'));
+	$geoZone = array();
+}
+if (isset($_GET['action']) && $_GET['action'] == 'edit_zone')
+{
+	$geoZoneQuery = os_db_query("select * from ".TABLE_GEO_ZONES." WHERE geo_zone_id = '".(int)$_GET['zID']."'");
+	$geoZone = os_db_fetch_array($geoZoneQuery);
+
+	$breadcrumb->add($geoZone['geo_zone_name'], os_href_link(FILENAME_GEO_ZONES, 'zpage='.$_GET['zpage'].'&zID='.$_GET['zID'].'&action=edit_zone'));
+}
+
+$main->head();
+$main->top_menu();
 ?>
-            <table border="0" width="100%" cellspacing="2" cellpadding="2">
-              <tr class="dataTableHeadingRow">
-                <td class="dataTableHeadingContent"><?php echo TABLE_HEADING_COUNTRY; ?></td>
-                <td class="dataTableHeadingContent"><?php echo TABLE_HEADING_COUNTRY_ZONE; ?></td>
-                <td class="dataTableHeadingContent" align="right"><?php echo TABLE_HEADING_ACTION; ?>&nbsp;</td>
-              </tr>
-<?php
-    $rows = 0;
-    $zones_query_raw = "select a.association_id, a.zone_country_id, c.countries_name, a.zone_id, a.geo_zone_id, a.last_modified, a.date_added, z.zone_name from " . TABLE_ZONES_TO_GEO_ZONES . " a left join " . TABLE_COUNTRIES . " c on a.zone_country_id = c.countries_id left join " . TABLE_ZONES . " z on a.zone_id = z.zone_id where a.geo_zone_id = " . $_GET['zID'] . " order by association_id";
-    $zones_split = new splitPageResults($_GET['spage'], MAX_DISPLAY_ADMIN_PAGE, $zones_query_raw, $zones_query_numrows);
-    $zones_query = os_db_query($zones_query_raw);
-    while ($zones = os_db_fetch_array($zones_query)) {
-      $rows++;
-      if (((!$_GET['sID']) || (@$_GET['sID'] == $zones['association_id'])) && (!$sInfo) && (substr($_GET['saction'], 0, 3) != 'new')) {
-        $sInfo = new objectInfo($zones);
-      }
-      if ( (is_object($sInfo)) && ($zones['association_id'] == $sInfo->association_id) ) {
-        echo '                  <tr class="dataTableRowSelected" onmouseover="this.style.cursor=\'hand\'" onclick="document.location.href=\'' . os_href_link(FILENAME_GEO_ZONES, 'zpage=' . $_GET['zpage'] . '&zID=' . $_GET['zID'] . '&action=list&spage=' . $_GET['spage'] . '&sID=' . $sInfo->association_id . '&saction=edit') . '\'">' . "\n";
-      } else {
-        echo '<tr class="dataTableRow" onmouseover="this.className=\'dataTableRowOver\';this.style.cursor=\'hand\'" onmouseout="this.className=\'dataTableRow\'" onclick="document.location.href=\'' . os_href_link(FILENAME_GEO_ZONES, 'zpage=' . $_GET['zpage'] . '&zID=' . $_GET['zID'] . '&action=list&spage=' . $_GET['spage'] . '&sID=' . $zones['association_id']) . '\'">' . "\n";
-      }
-?>
-                <td class="dataTableContent"><?php echo (($zones['countries_name']) ? $zones['countries_name'] : TEXT_ALL_COUNTRIES); ?></td>
-                <td class="dataTableContent"><?php echo (($zones['zone_id']) ? $zones['zone_name'] : PLEASE_SELECT); ?></td>
-                <td class="dataTableContent" align="right"><?php if ( (is_object($sInfo)) && ($zones['association_id'] == $sInfo->association_id) ) { echo os_image(http_path('icons_admin') . 'icon_arrow_right.gif', ''); } else { echo '<a href="' . os_href_link(FILENAME_GEO_ZONES, 'zpage=' . $_GET['zpage'] . '&zID=' . $_GET['zID'] . '&action=list&spage=' . $_GET['spage'] . '&sID=' . $zones['association_id']) . '">' . os_image(http_path('icons_admin') . 'icon_info.gif', IMAGE_ICON_INFO) . '</a>'; } ?>&nbsp;</td>
-              </tr>
-<?php
-    }
-?>
-              <tr>
-                <td colspan="3"><table border="0" width="100%" cellspacing="2" cellpadding="2">
-                  <tr>
-                    <td class="smallText" valign="top"><?php echo $zones_split->display_count($zones_query_numrows, MAX_DISPLAY_ADMIN_PAGE, $_GET['spage'], TEXT_DISPLAY_NUMBER_OF_COUNTRIES); ?></td>
-                    <td class="smallText" align="right"><?php echo $zones_split->display_links($zones_query_numrows, MAX_DISPLAY_ADMIN_PAGE, MAX_DISPLAY_PAGE_LINKS, $_GET['spage'], 'zpage=' . $_GET['zpage'] . '&zID=' . $_GET['zID'] . '&action=list', 'spage'); ?></td>
-                  </tr>
-                </table></td>
-              </tr>
-              <tr>
-                <td align="right" colspan="3"><?php if (!$_GET['saction']) echo '<a class="button" onClick="this.blur();" href="' . os_href_link(FILENAME_GEO_ZONES, 'zpage=' . $_GET['zpage'] . '&zID=' . $_GET['zID']) . '"><span>' . BUTTON_BACK . '</span></a> <a class="button" onClick="this.blur();" href="' . os_href_link(FILENAME_GEO_ZONES, 'zpage=' . $_GET['zpage'] . '&zID=' . $_GET['zID'] . '&action=list&spage=' . $_GET['spage'] . '&sID=' . $sInfo->association_id . '&saction=new') . '"><span>' . BUTTON_INSERT . '</span></a>'; ?></td>
-              </tr>
-            </table>
-<?php
-  } else {
-?>
-            <table border="0" width="100%" cellspacing="2" cellpadding="2">
-              <tr class="dataTableHeadingRow">
-                <td class="dataTableHeadingContent"><?php echo TABLE_HEADING_TAX_ZONES; ?></td>
-                <td class="dataTableHeadingContent" align="right"><?php echo TABLE_HEADING_ACTION; ?>&nbsp;</td>
-              </tr>
-<?php
-    $zones_query_raw = "select geo_zone_id, geo_zone_name, geo_zone_description, last_modified, date_added from " . TABLE_GEO_ZONES . " order by geo_zone_name";
-    $zones_split = new splitPageResults($_GET['zpage'], MAX_DISPLAY_ADMIN_PAGE, $zones_query_raw, $zones_query_numrows);
-    $zones_query = os_db_query($zones_query_raw);
-    while ($zones = os_db_fetch_array($zones_query)) {
-      if (((!$_GET['zID']) || (@$_GET['zID'] == $zones['geo_zone_id'])) && (!$zInfo) && (substr($_GET['action'], 0, 3) != 'new')) {
-        $num_zones_query = os_db_query("select count(*) as num_zones from " . TABLE_ZONES_TO_GEO_ZONES . " where geo_zone_id = '" . $zones['geo_zone_id'] . "' group by geo_zone_id");
-        if (os_db_num_rows($num_zones_query) > 0) {
-          $num_zones = os_db_fetch_array($num_zones_query);
-          $zones['num_zones'] = $num_zones['num_zones'];
-        } else {
-          $zones['num_zones'] = 0;
-        }
-        $zInfo = new objectInfo($zones);
-      }
-	  $color = $color == '#f9f9ff' ? '#f0f1ff':'#f9f9ff';  
-      if ( (is_object($zInfo)) && ($zones['geo_zone_id'] == $zInfo->geo_zone_id) ) {
-        echo '                  <tr class="dataTableRowSelected" onmouseover="this.style.cursor=\'hand\'" onclick="document.location.href=\'' . os_href_link(FILENAME_GEO_ZONES, 'zpage=' . $_GET['zpage'] . '&zID=' . $zInfo->geo_zone_id . '&action=list') . '\'">' . "\n";
-      } else {
-        echo '                  <tr onmouseover="this.style.background=\'#e9fff1\';this.style.cursor=\'hand\';" onmouseout="this.style.background=\''.$color.'\';" style="background-color:'.$color.'" onclick="document.location.href=\'' . os_href_link(FILENAME_GEO_ZONES, 'zpage=' . $_GET['zpage'] . '&zID=' . $zones['geo_zone_id']) . '\'">' . "\n";
-      }
-?>
-                <td class="dataTableContent"><?php echo '<a href="' . os_href_link(FILENAME_GEO_ZONES, 'zpage=' . $_GET['zpage'] . '&zID=' . $zones['geo_zone_id'] . '&action=list') . '">' . os_image(http_path('icons_admin') . 'folder.gif', ICON_FOLDER) . '</a>&nbsp;' . $zones['geo_zone_name']; ?></td>
-                <td class="dataTableContent" align="right"><?php if ( (is_object($zInfo)) && ($zones['geo_zone_id'] == $zInfo->geo_zone_id) ) { echo os_image(http_path('icons_admin') . 'icon_arrow_right.gif'); } else { echo '<a href="' . os_href_link(FILENAME_GEO_ZONES, 'zpage=' . $_GET['zpage'] . '&zID=' . $zones['geo_zone_id']) . '">' . os_image(http_path('icons_admin') . 'icon_info.gif', IMAGE_ICON_INFO) . '</a>'; } ?>&nbsp;</td>
-              </tr>
-<?php
-    }
-?>
-              <tr>
-                <td colspan="2"><table border="0" width="100%" cellspacing="2" cellpadding="2">
-                  <tr>
-                    <td class="smallText"><?php echo $zones_split->display_count($zones_query_numrows, MAX_DISPLAY_ADMIN_PAGE, $_GET['zpage'], TEXT_DISPLAY_NUMBER_OF_TAX_ZONES); ?></td>
-                    <td class="smallText" align="right"><?php echo $zones_split->display_links($zones_query_numrows, MAX_DISPLAY_ADMIN_PAGE, MAX_DISPLAY_PAGE_LINKS, $_GET['zpage'], '', 'zpage'); ?></td>
-                  </tr>
-                </table></td>
-              </tr>
-              <tr>
-                <td align="right" colspan="2"><?php if (!$_GET['action']) echo '<a class="button" onClick="this.blur();" href="' . os_href_link(FILENAME_GEO_ZONES, 'zpage=' . $_GET['zpage'] . '&zID=' . $zInfo->geo_zone_id . '&action=new_zone') . '"><span>' . BUTTON_INSERT . '</span></a>'; ?></td>
-              </tr>
-            </table>
-<?php
-  }
-?>
-            </td>
-<?php
-  $heading = array();
-  $contents = array();
 
-  if ($_GET['action'] == 'list') {
-    switch ($_GET['saction']) {
-      case 'new':
-        $heading[] = array('text' => '<b>' . TEXT_INFO_HEADING_NEW_SUB_ZONE . '</b>');
+<?php if ($_GET['action'] == 'list') { ?>
 
-        $contents = array('form' => os_draw_form('zones', FILENAME_GEO_ZONES, 'zpage=' . $_GET['zpage'] . '&zID=' . $_GET['zID'] . '&action=list&spage=' . $_GET['spage'] . '&sID=' . $_GET['sID'] . '&saction=insert_sub'));
-        $contents[] = array('text' => TEXT_INFO_NEW_SUB_ZONE_INTRO);
-        $contents[] = array('text' => '<br />' . TEXT_INFO_COUNTRY . '<br />' . os_draw_pull_down_menu('zone_country_id', os_get_countries(TEXT_ALL_COUNTRIES), '', 'onChange="update_zone(this.form);"'));
-        $contents[] = array('text' => '<br />' . TEXT_INFO_COUNTRY_ZONE . '<br />' . os_draw_pull_down_menu('zone_id', os_prepare_country_zones_pull_down()));
-        $contents[] = array('align' => 'center', 'text' => '<br /><span class="button"><button type="submit" onClick="this.blur();" value="' . BUTTON_INSERT . '"/>' . BUTTON_INSERT . '</button></span> <a class="button" onClick="this.blur();" href="' . os_href_link(FILENAME_GEO_ZONES, 'zpage=' . $_GET['zpage'] . '&zID=' . $_GET['zID'] . '&action=list&spage=' . $_GET['spage'] . '&sID=' . $_GET['sID']) . '"><span>' . BUTTON_CANCEL . '</span></a>');
-        break;
+	<?php if ($_GET['saction'] == 'edit' OR $_GET['saction'] == 'new') { ?>
 
-      case 'edit':
-        $heading[] = array('text' => '<b>' . TEXT_INFO_HEADING_EDIT_SUB_ZONE . '</b>');
+		<form id="zones" name="zones" action="<?php echo os_href_link(FILENAME_GEO_ZONES); ?>" method="post">
 
-        $contents = array('form' => os_draw_form('zones', FILENAME_GEO_ZONES, 'zpage=' . $_GET['zpage'] . '&zID=' . $_GET['zID'] . '&action=list&spage=' . $_GET['spage'] . '&sID=' . $sInfo->association_id . '&saction=save_sub'));
-        $contents[] = array('text' => TEXT_INFO_EDIT_SUB_ZONE_INTRO);
-        $contents[] = array('text' => '<br />' . TEXT_INFO_COUNTRY . '<br />' . os_draw_pull_down_menu('zone_country_id', os_get_countries(TEXT_ALL_COUNTRIES), $sInfo->zone_country_id, 'onChange="update_zone(this.form);"'));
-        $contents[] = array('text' => '<br />' . TEXT_INFO_COUNTRY_ZONE . '<br />' . os_draw_pull_down_menu('zone_id', os_prepare_country_zones_pull_down($sInfo->zone_country_id), $sInfo->zone_id));
-        $contents[] = array('align' => 'center', 'text' => '<br /><span class="button"><button type="submit" onClick="this.blur();" value="' . BUTTON_UPDATE . '"/>' . BUTTON_UPDATE . '</button></span> <a class="button" onClick="this.blur();" href="' . os_href_link(FILENAME_GEO_ZONES, 'zpage=' . $_GET['zpage'] . '&zID=' . $_GET['zID'] . '&action=list&spage=' . $_GET['spage'] . '&sID=' . $sInfo->association_id) . '"><span>' . BUTTON_CANCEL . '</span></a>');
-        break;
+			<?php if (isset($_GET['sID']) && !empty($_GET['sID'])) { ?>
+				<input type="hidden" name="sID" value="<?php echo $_GET['sID']; ?>">
+			<?php } ?>
+			<input type="hidden" name="action" value="<?php echo $_GET['saction']; ?>">
+			<input type="hidden" name="zID" value="<?php echo $_GET['zID']; ?>">
 
-      case 'delete':
-        $heading[] = array('text' => '<b>' . TEXT_INFO_HEADING_DELETE_SUB_ZONE . '</b>');
+			<div class="control-group">
+				<label class="control-label" for="zone_country_id"><?php echo TEXT_INFO_COUNTRY; ?> <span class="input-required">*</span></label>
+				<div class="controls">
+					<?php echo os_draw_pull_down_menu('zone_country_id', os_get_countries(TEXT_ALL_COUNTRIES), $zones2geo['zone_country_id'], 'onChange="update_zone(this.form);"'); ?>
+				</div>
+			</div>
+			<div class="control-group">
+				<label class="control-label" for="zone_id"><?php echo TEXT_INFO_COUNTRY_ZONE; ?> <span class="input-required">*</span></label>
+				<div class="controls">
+					<?php echo os_draw_pull_down_menu('zone_id', os_prepare_country_zones_pull_down($zones2geo['zone_country_id']), $zones2geo['zone_id']); ?>
+				</div>
+			</div>
 
-        $contents = array('form' => os_draw_form('zones', FILENAME_GEO_ZONES, 'zpage=' . $_GET['zpage'] . '&zID=' . $_GET['zID'] . '&action=list&spage=' . $_GET['spage'] . '&sID=' . $sInfo->association_id . '&saction=deleteconfirm_sub'));
-        $contents[] = array('text' => TEXT_INFO_DELETE_SUB_ZONE_INTRO);
-        $contents[] = array('text' => '<br /><b>' . $sInfo->countries_name . '</b>');
-        $contents[] = array('align' => 'center', 'text' => '<br /><span class="button"><button type="submit" onClick="this.blur();" value="' . BUTTON_DELETE . '"/>' . BUTTON_DELETE . '</button></span> <a class="button" onClick="this.blur();" href="' . os_href_link(FILENAME_GEO_ZONES, 'zpage=' . $_GET['zpage'] . '&zID=' . $_GET['zID'] . '&action=list&spage=' . $_GET['spage'] . '&sID=' . $sInfo->association_id) . '"><span>' . BUTTON_CANCEL . '</span></a>');
-        break;
+			<hr>
 
-      default:
-        if (is_object($sInfo)) {
-          $heading[] = array('text' => '<b>' . $sInfo->countries_name . '</b>');
+			<div class="tcenter footer-btn">
+				<input class="btn btn-success ajax-save-form" data-form-action="customers_saveSubGeoZone" data-reload-page="1" type="submit" value="<?php echo BUTTON_UPDATE; ?>">
+				<a class="btn btn-link" href="<?php echo os_href_link(FILENAME_GEO_ZONES, 'zpage='.$_GET['zpage'].'&zID='.$_GET['zID'].'&action=list&spage='.$_GET['spage'].'&sID='.$sInfo->association_id); ?>"><?php echo BUTTON_CANCEL; ?></a>
+			</div>
+		</form>
 
-          $contents[] = array('align' => 'center', 'text' => '<a class="button" onClick="this.blur();" href="' . os_href_link(FILENAME_GEO_ZONES, 'zpage=' . $_GET['zpage'] . '&zID=' . $_GET['zID'] . '&action=list&spage=' . $_GET['spage'] . '&sID=' . $sInfo->association_id . '&saction=edit') . '"><span>' . BUTTON_EDIT . '</span></a> <a class="button" onClick="this.blur();" href="' . os_href_link(FILENAME_GEO_ZONES, 'zpage=' . $_GET['zpage'] . '&zID=' . $_GET['zID'] . '&action=list&spage=' . $_GET['spage'] . '&sID=' . $sInfo->association_id . '&saction=delete') . '"><span>' . BUTTON_DELETE . '</span></a>');
-          $contents[] = array('text' => '<br />' . TEXT_INFO_DATE_ADDED . ' ' . os_date_short($sInfo->date_added));
-          if (os_not_null($sInfo->last_modified)) $contents[] = array('text' => TEXT_INFO_LAST_MODIFIED . ' ' . os_date_short($sInfo->last_modified));
-        }
-        break;
-    }
-  } else {
-    switch ($_GET['action']) {
-      case 'new_zone':
-        $heading[] = array('text' => '<b>' . TEXT_INFO_HEADING_NEW_ZONE . '</b>');
+	<?php } else { ?>
 
-        $contents = array('form' => os_draw_form('zones', FILENAME_GEO_ZONES, 'zpage=' . $_GET['zpage'] . '&zID=' . $_GET['zID'] . '&action=insert_zone'));
-        $contents[] = array('text' => TEXT_INFO_NEW_ZONE_INTRO);
-        $contents[] = array('text' => '<br />' . TEXT_INFO_ZONE_NAME . '<br />' . os_draw_input_field('geo_zone_name'));
-        $contents[] = array('text' => '<br />' . TEXT_INFO_ZONE_DESCRIPTION . '<br />' . os_draw_input_field('geo_zone_description'));
-        $contents[] = array('align' => 'center', 'text' => '<br /><span class="button"><button type="submit" onClick="this.blur();" value="' . BUTTON_INSERT . '"/>' . BUTTON_INSERT . '</button></span> <a class="button" onClick="this.blur();" href="' . os_href_link(FILENAME_GEO_ZONES, 'zpage=' . $_GET['zpage'] . '&zID=' . $_GET['zID']) . '"><span>' . BUTTON_CANCEL . '</span></a>');
-        break;
+	<div class="second-page-nav">
+		<div class="row-fluid">
+			<div class="span6"></div>
+			<div class="span6">
+				<div class="btn-group pull-right">
+					<a class="btn btn-info btn-mini" href="<?php echo os_href_link(FILENAME_GEO_ZONES, 'zpage='.$_GET['zpage'].'&zID='.$_GET['zID'].'&action=list&spage='.$_GET['spage'].'&saction=new'); ?>"><?php echo BUTTON_INSERT; ?></a>
+					<a class="btn btn-info btn-mini" href="<?php echo os_href_link(FILENAME_GEO_ZONES, 'zpage='.$_GET['zpage'].'&zID='.$_GET['zID']); ?>"><?php echo BUTTON_BACK; ?></a>
+				</div>
+			</div>
+		</div>
+	</div>
 
-      case 'edit_zone':
-        $heading[] = array('text' => '<b>' . TEXT_INFO_HEADING_EDIT_ZONE . '</b>');
+	<table class="table table-condensed table-big-list">
+		<thead>
+			<tr>
+				<th><?php echo TABLE_HEADING_COUNTRY; ?></th>
+				<th><span class="line"></span><?php echo TABLE_HEADING_COUNTRY_ZONE; ?></th>
+				<th><span class="line"></span><?php echo TEXT_INFO_DATE_ADDED; ?></th>
+				<th class="tright"><span class="line"></span><?php echo TABLE_HEADING_ACTION; ?></th>
+			</tr>
+		</thead>
+	<?php
+	$zones_query_raw = "select * from ".TABLE_ZONES_TO_GEO_ZONES." a left join ".TABLE_COUNTRIES." c on a.zone_country_id = c.countries_id left join ".TABLE_ZONES." z on a.zone_id = z.zone_id where a.geo_zone_id = ".$_GET['zID']." order by association_id";
+	$zones_split = new splitPageResults($_GET['spage'], MAX_DISPLAY_ADMIN_PAGE, $zones_query_raw, $zones_query_numrows);
+	$zones_query = os_db_query($zones_query_raw);
+	while ($zones = os_db_fetch_array($zones_query))
+	{
+	?>
+		<tr>
+			<td><?php echo (($zones['countries_name']) ? $zones['countries_name'] : TEXT_ALL_COUNTRIES); ?></td>
+			<td><?php echo (($zones['zone_id']) ? $zones['zone_name'] : PLEASE_SELECT); ?></td>
+			<td class="tcenter">
+				<?php echo $zones['date_added']; ?>
+				<?php if ($zones['last_modified']) { ?>
+					<i class="icon-edit tt" title="<?php echo TEXT_INFO_LAST_MODIFIED; ?>: <?php echo $zones['last_modified']; ?>"></i>
+				<?php } ?>
+			</td>
+			<td width="100">
+				<div class="btn-group pull-right">
+					<a class="btn btn-mini" href="<?php echo os_href_link(FILENAME_GEO_ZONES, 'zpage='.$_GET['zpage'].'&zID='.$_GET['zID'].'&action=list&spage='.$_GET['spage'].'&sID='.$zones['association_id'].'&saction=edit'); ?>" title="<?php echo BUTTON_EDIT; ?>"><i class="icon-edit"></i></a>
+					<a class="btn btn-mini" href="#" data-action="customers_deleteSubGeoZone" data-remove-parent="tr" data-id="<?php echo $zones['association_id']; ?>" data-confirm="<?php echo TEXT_INFO_HEADING_DELETE_SUB_ZONE; ?>" title="<?php echo BUTTON_DELETE; ?>"><i class="icon-trash"></i></a>
+				</div>
+			</td>
+		</tr>
+	<?php } ?>
+	</table>
 
-        $contents = array('form' => os_draw_form('zones', FILENAME_GEO_ZONES, 'zpage=' . $_GET['zpage'] . '&zID=' . $zInfo->geo_zone_id . '&action=save_zone'));
-        $contents[] = array('text' => TEXT_INFO_EDIT_ZONE_INTRO);
-        $contents[] = array('text' => '<br />' . TEXT_INFO_ZONE_NAME . '<br />' . os_draw_input_field('geo_zone_name', $zInfo->geo_zone_name));
-        $contents[] = array('text' => '<br />' . TEXT_INFO_ZONE_DESCRIPTION . '<br />' . os_draw_input_field('geo_zone_description', $zInfo->geo_zone_description));
-        $contents[] = array('align' => 'center', 'text' => '<br /><span class="button"><button type="submit" onClick="this.blur();" value="' . BUTTON_UPDATE . '"/>' . BUTTON_UPDATE . '</button></span> <a class="button" onClick="this.blur();" href="' . os_href_link(FILENAME_GEO_ZONES, 'zpage=' . $_GET['zpage'] . '&zID=' . $zInfo->geo_zone_id) . '"><span>' . BUTTON_CANCEL . '</span></a>');
-        break;
+	<table border="0" width="100%" cellspacing="2" cellpadding="2">
+		<tr>
+			<td><?php echo $zones_split->display_count($zones_query_numrows, MAX_DISPLAY_ADMIN_PAGE, $_GET['spage'], TEXT_DISPLAY_NUMBER_OF_COUNTRIES); ?></td>
+			<td><?php echo $zones_split->display_links($zones_query_numrows, MAX_DISPLAY_ADMIN_PAGE, MAX_DISPLAY_PAGE_LINKS, $_GET['spage'], 'zpage='.$_GET['zpage'].'&zID='.$_GET['zID'].'&action=list', 'spage'); ?></td>
+		</tr>
+	</table>
+	<?php } ?>
 
-      case 'delete_zone':
-        $heading[] = array('text' => '<b>' . TEXT_INFO_HEADING_DELETE_ZONE . '</b>');
+<?php } else { ?>
 
-        $contents = array('form' => os_draw_form('zones', FILENAME_GEO_ZONES, 'zpage=' . $_GET['zpage'] . '&zID=' . $zInfo->geo_zone_id . '&action=deleteconfirm_zone'));
-        $contents[] = array('text' => TEXT_INFO_DELETE_ZONE_INTRO);
-        $contents[] = array('text' => '<br /><b>' . $zInfo->geo_zone_name . '</b>');
-        $contents[] = array('align' => 'center', 'text' => '<br /><span class="button"><button type="submit" onClick="this.blur();" value="' . BUTTON_DELETE . '"/>' . BUTTON_DELETE . '</button></span> <a class="button" onClick="this.blur();" href="' . os_href_link(FILENAME_GEO_ZONES, 'zpage=' . $_GET['zpage'] . '&zID=' . $zInfo->geo_zone_id) . '"><span>' . BUTTON_CANCEL . '</span></a>');
-        break;
+	<?php if ($_GET['action'] == 'edit_zone' OR $_GET['action'] == 'new_zone') { ?>
 
-      default:
-        if (is_object($zInfo)) {
-          $heading[] = array('text' => '<b>' . $zInfo->geo_zone_name . '</b>');
+		<form id="zones" name="zones" action="<?php echo os_href_link(FILENAME_GEO_ZONES); ?>" method="post">
 
-          $contents[] = array('align' => 'center', 'text' => '<a class="button" onClick="this.blur();" href="' . os_href_link(FILENAME_GEO_ZONES, 'zpage=' . $_GET['zpage'] . '&zID=' . $zInfo->geo_zone_id . '&action=edit_zone') . '"><span>' . BUTTON_EDIT . '</span></a> <a class="button" onClick="this.blur();" href="' . os_href_link(FILENAME_GEO_ZONES, 'zpage=' . $_GET['zpage'] . '&zID=' . $zInfo->geo_zone_id . '&action=delete_zone') . '"><span>' . BUTTON_DELETE . '</span></a>' . '<br> <a class="button" onClick="this.blur();" href="' . os_href_link(FILENAME_GEO_ZONES, 'zpage=' . $_GET['zpage'] . '&zID=' . $zInfo->geo_zone_id . '&action=list') . '"><span>' . BUTTON_DETAILS . '</span></a>');
-          $contents[] = array('text' => '<br />' . TEXT_INFO_NUMBER_ZONES . ' ' . $zInfo->num_zones);
-          $contents[] = array('text' => '<br />' . TEXT_INFO_DATE_ADDED . ' ' . os_date_short($zInfo->date_added));
-          if (os_not_null($zInfo->last_modified)) $contents[] = array('text' => TEXT_INFO_LAST_MODIFIED . ' ' . os_date_short($zInfo->last_modified));
-          $contents[] = array('text' => '<br />' . TEXT_INFO_ZONE_DESCRIPTION . '<br />' . $zInfo->geo_zone_description);
-        }
-        break;
-    }
-  }
+			<?php if (isset($_GET['zID']) && !empty($_GET['zID'])) { ?>
+				<input type="hidden" name="zID" value="<?php echo $_GET['zID']; ?>">
+			<?php } ?>
+			<input type="hidden" name="action" value="<?php echo $_GET['action']; ?>">
 
-  if ( (os_not_null($heading)) && (os_not_null($contents)) ) {
-    echo '            <td class="right_box" valign="top">' . "\n";
+			<div class="control-group">
+				<label class="control-label" for="geo_zone_name"><?php echo TEXT_INFO_ZONE_NAME; ?> <span class="input-required">*</span></label>
+				<div class="controls">
+					<input class="input-block-level" type="text" id="geo_zone_name" name="geo_zone_name" data-required="true" value="<?php echo $geoZone['geo_zone_name']; ?>">
+				</div>
+			</div>
+			<div class="control-group">
+				<label class="control-label" for="geo_zone_description"><?php echo TEXT_INFO_ZONE_DESCRIPTION; ?> <span class="input-required">*</span></label>
+				<div class="controls">
+					<input class="input-block-level" type="text" id="geo_zone_description" name="geo_zone_description" data-required="true" value="<?php echo $geoZone['geo_zone_description']; ?>">
+				</div>
+			</div>
 
-    $box = new box;
-    echo $box->infoBox($heading, $contents);
+			<hr>
 
-    echo '            </td>' . "\n";
-  }
-?>
-          </tr>
-        </table></td>
-      </tr>
-    </table></td>
-  </tr>
-</table>
+			<div class="tcenter footer-btn">
+				<input class="btn btn-success ajax-save-form" data-form-action="customers_saveGeoZone" data-reload-page="1" type="submit" value="<?php echo BUTTON_UPDATE; ?>">
+				<a class="btn btn-link" href="<?php echo os_href_link(FILENAME_GEO_ZONES, 'zpage='.$_GET['zpage'].'&zID='.$_GET['zID'].'&action=list&spage='.$_GET['spage'].'&sID='.$sInfo->association_id); ?>"><?php echo BUTTON_CANCEL; ?></a>
+			</div>
+		</form>
+
+	<?php } else { ?>
+
+		<div class="second-page-nav">
+			<div class="row-fluid">
+				<div class="span6"></div>
+				<div class="span6">
+					<div class="btn-group pull-right">
+						<a class="btn btn-info btn-mini" href="<?php echo os_href_link(FILENAME_GEO_ZONES, 'action=new_zone'); ?>"><?php echo BUTTON_INSERT; ?></a>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<table class="table table-condensed table-big-list">
+			<thead>
+				<tr>
+					<th><?php echo TABLE_HEADING_TAX_ZONES; ?></th>
+					<th><span class="line"></span><?php echo TEXT_INFO_ZONE_DESCRIPTION; ?></th>
+					<th><span class="line"></span><?php echo TEXT_INFO_NUMBER_ZONES; ?></th>
+					<th><span class="line"></span><?php echo TEXT_INFO_DATE_ADDED; ?></th>
+					<th class="tright"><span class="line"></span><?php echo TABLE_HEADING_ACTION; ?></th>
+				</tr>
+			</thead>
+		<?php
+		$zones_query_raw = "select * from ".TABLE_GEO_ZONES." order by geo_zone_name";
+		$zones_split = new splitPageResults($_GET['zpage'], MAX_DISPLAY_ADMIN_PAGE, $zones_query_raw, $zones_query_numrows);
+		$zones_query = os_db_query($zones_query_raw);
+
+		$aZones = array();
+		$aZonesId = array();
+		while ($zones = os_db_fetch_array($zones_query))
+		{
+			$aZonesId[$zones['geo_zone_id']] = $zones['geo_zone_id'];
+			$aZones[] = $zones;
+		}
+
+		if (!empty($aZonesId))
+		{
+		$num_zones_query = os_db_query("select geo_zone_id, count(*) as num_zones from ".TABLE_ZONES_TO_GEO_ZONES." where geo_zone_id IN (".implode(',', $aZonesId).") GROUP BY geo_zone_id");
+		$aZonesCount = array();
+		if (os_db_num_rows($num_zones_query) > 0)
+		{
+			while ($num_zones = os_db_fetch_array($num_zones_query))
+			{
+				$aZonesCount[$num_zones['geo_zone_id']] = $num_zones['num_zones'];
+			}
+		}
+
+		foreach ($aZones AS $zones)
+		{
+			?>
+			<tr>
+				<td><a href="<?php echo os_href_link(FILENAME_GEO_ZONES, 'zpage='.$_GET['zpage'].'&zID='.$zones['geo_zone_id'].'&action=list'); ?>"><i class="icon-folder-close"></i> <?php echo $zones['geo_zone_name']; ?></a></td>
+				<td><?php echo $zones['geo_zone_description']; ?></td>
+				<td><?php echo ($aZonesCount[$zones['geo_zone_id']]) ? $aZonesCount[$zones['geo_zone_id']] : 0; ?></td>
+				<td class="tcenter">
+					<?php echo $zones['date_added']; ?>
+					<?php if ($zones['last_modified']) { ?>
+						<i class="icon-edit tt" title="<?php echo TEXT_INFO_LAST_MODIFIED; ?>: <?php echo $zones['last_modified']; ?>"></i>
+					<?php } ?>
+				</td>
+				<td width="100">
+					<div class="btn-group pull-right">
+						<a class="btn btn-mini" href="<?php echo os_href_link(FILENAME_GEO_ZONES, 'page='.$_GET['page'].'&zID='.$zones['geo_zone_id'].'&action=edit_zone'); ?>" title="<?php echo BUTTON_EDIT; ?>"><i class="icon-edit"></i></a>
+						<a class="btn btn-mini" href="#" data-action="customers_deleteGeoZone" data-remove-parent="tr" data-id="<?php echo $zones['geo_zone_id']; ?>" data-confirm="<?php echo TEXT_INFO_DELETE_ZONE_INTRO; ?>" title="<?php echo BUTTON_DELETE; ?>"><i class="icon-trash"></i></a>
+					</div>
+				</td>
+			</tr>
+		<?php } } ?>
+		</table>
+
+		<table border="0" width="100%" cellspacing="2" cellpadding="2">
+			<tr>
+				<td><?php echo $zones_split->display_count($zones_query_numrows, MAX_DISPLAY_ADMIN_PAGE, $_GET['zpage'], TEXT_DISPLAY_NUMBER_OF_TAX_ZONES); ?></td>
+				<td><?php echo $zones_split->display_links($zones_query_numrows, MAX_DISPLAY_ADMIN_PAGE, MAX_DISPLAY_PAGE_LINKS, $_GET['zpage'], '', 'zpage'); ?></td>
+			</tr>
+		</table>
+
+	<?php } ?>
+
+<?php } ?>
+
 <?php $main->bottom(); ?>

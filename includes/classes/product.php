@@ -2,8 +2,8 @@
 /*
 *---------------------------------------------------------
 *
-*	OSC-CMS - Open Source Shopping Cart Software
-*	http://osc-cms.com
+*	CartET - Open Source Shopping Cart Software
+*	http://www.cartet.org
 *
 *---------------------------------------------------------
 */
@@ -111,10 +111,6 @@ class product {
 					$avatar = (!empty($reviews['customers_avatar'])) ? $reviews['customers_avatar'] : 'noavatar.gif';
 					$customers_avatar = http_path('images').'avatars/'.$avatar;
 				}
-
-
-
-
 
 				$data_reviews[] = array
 				(
@@ -405,7 +401,7 @@ class product {
 			    $tax_rate = $osPrice->TAX[$array['products_tax_class_id']];
 			}
 	
-    		$products_price = $osPrice->GetPrice($array['products_id'], $format = true, 1, $array['products_tax_class_id'], $array['products_price'], 1, 0, $array['products_discount_allowed']);
+    		$products_price = $osPrice->GetPrice($array['products_id'], true, 1, $array['products_tax_class_id'], $array['products_price'], 1, 0, $array['products_discount_allowed']);
 
 			if ($_SESSION['customers_status']['customers_status_show_price'] != '0') {
 			if ($_SESSION['customers_status']['customers_fsk18'] == '1') {
@@ -432,11 +428,12 @@ class product {
 				'COUNT'=> @$array['ID'],
 				'PRODUCTS_ID'=> @$array['products_id'],
 				'PRODUCTS_STOCK'=> @$array['stock'],
-				'PRODUCTS_VPE' => @$this->getVPEtext($array, $products_price['plain']), 
+				'PRODUCTS_VPE' => @$this->getVPEtext($array, $products_price['price']['plain']), 
 				'PRODUCTS_IMAGE' => @$this->productImage($array['products_image'], $image), 
 				'PRODUCTS_LINK' => os_href_link(FILENAME_PRODUCT_INFO, os_product_link($array['products_id'], $array['products_name'])), 
-				'PRODUCTS_PRICE' => @$products_price['formated'], 
-				'PRODUCTS_PRICE_PLAIN' => @$products_price['plain'], 
+				'PRODUCTS_PRICE' => @$products_price['price']['formated'], 
+				'price' => $products_price, 
+				'PRODUCTS_PRICE_PLAIN' => @$products_price['price']['plain'], 
 				'PRODUCTS_TAX_INFO' => @$main->getTaxInfo($tax_rate), 
 				'PRODUCTS_SHIPPING_LINK' => @$main->getShippingLink(), 
 				'PRODUCTS_BUTTON_BUY_NOW' => @$buy_now,

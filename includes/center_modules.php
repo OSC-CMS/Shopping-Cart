@@ -2,12 +2,13 @@
 /*
 *---------------------------------------------------------
 *
-*	OSC-CMS - Open Source Shopping Cart Software
-*	http://osc-cms.com
+*	CartET - Open Source Shopping Cart Software
+*	http://www.cartet.org
 *
 *---------------------------------------------------------
 */
 
+$module = '';
 if (VIS_MAIN_NEW == 'true')
 {
 	require(_MODULES.FILENAME_NEW_PRODUCTS);

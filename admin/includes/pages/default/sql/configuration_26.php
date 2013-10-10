@@ -1,12 +1,11 @@
 <?php
 /*
-#####################################
-#  OSC-CMS: Shopping Cart Software.
-#  Copyright (c) 2011-2012
-#  http://osc-cms.com
-#  http://osc-cms.com/forum
-#  Ver. 1.0.0
-#####################################
+*---------------------------------------------------------
+*
+*	CartET - Open Source Shopping Cart Software
+*	http://www.cartet.org
+*
+*---------------------------------------------------------
 */
 
 defined( '_VALID_OS' ) or die( 'Прямой доступ  не допускается.' );
@@ -21,9 +20,6 @@ $db->query("INSERT INTO ".DB_PREFIX."configuration (configuration_key, configura
 $db->query("INSERT INTO ".DB_PREFIX."configuration (configuration_key, configuration_value, configuration_group_id, sort_order, last_modified, date_added, use_function, set_function) VALUES ('DISPLAY_ALL_ARTICLES', 'true', '26', '4', now(), now(), NULL, 'os_cfg_select_option(array(\'true\', \'false\'),');");
 $db->query("INSERT INTO ".DB_PREFIX."configuration (configuration_key, configuration_value, configuration_group_id, sort_order, last_modified, date_added, use_function, set_function) VALUES ('MAX_ARTICLES_PER_PAGE', '10', '26', '5', now(), now(), NULL, NULL);");
 $db->query("INSERT INTO ".DB_PREFIX."configuration (configuration_key, configuration_value, configuration_group_id, sort_order, last_modified, date_added, use_function, set_function) VALUES ('SHOW_ARTICLE_COUNTS', 'true', '26', '11', now(), now(), NULL, 'os_cfg_select_option(array(\'true\', \'false\'),');");
-$db->query("INSERT INTO ".DB_PREFIX."configuration (configuration_key, configuration_value, configuration_group_id, sort_order, last_modified, date_added, use_function, set_function) VALUES ('MAX_DISPLAY_AUTHOR_NAME_LEN', '20', '26', '12', now(), now(), NULL, NULL);");
-$db->query("INSERT INTO ".DB_PREFIX."configuration (configuration_key, configuration_value, configuration_group_id, sort_order, last_modified, date_added, use_function, set_function) VALUES ('MAX_DISPLAY_AUTHORS_IN_A_LIST', '1', '26', '13', now(), now(), NULL, NULL);");
-$db->query("INSERT INTO ".DB_PREFIX."configuration (configuration_key, configuration_value, configuration_group_id, sort_order, last_modified, date_added, use_function, set_function) VALUES ('MAX_AUTHORS_LIST', '1', '26', '14', now(), now(), NULL, NULL);");
 $db->query("INSERT INTO ".DB_PREFIX."configuration (configuration_key, configuration_value, configuration_group_id, sort_order, last_modified, date_added, use_function, set_function) VALUES ('MAX_DISPLAY_ARTICLES_CONTENT', '150', 26, 15, 'NULL', '', NULL, NULL);");
 
 ?>

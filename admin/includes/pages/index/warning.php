@@ -1,66 +1,42 @@
 <?php
 /*
-#####################################
-#  OSC-CMS: Shopping Cart Software.
-#  Copyright (c) 2011-2012
-#  http://osc-cms.com
-#  http://osc-cms.com/forum
-#  Ver. 1.0.0
-#####################################
+*---------------------------------------------------------
+*
+*	CartET - Open Source Shopping Cart Software
+*	http://www.cartet.org
+*
+*---------------------------------------------------------
 */
 
 defined('_VALID_OS') or die('Direct Access to this location is not allowed.');
+//echo MENU_SYSTEM_ERRORS;
 ?>
-<table border="0" width="99%">
-         <tr>
-            <td valign="top"><table border="0" width="100%" cellspacing="0" cellpadding="2">
-				  <tr> 
-				    <td colspan="3" class="pageHeading" width="100%">
-				   <?php $main->heading('bug.png', MENU_SYSTEM_ERRORS); ?> 					
-				    </td>
-				  </tr>
-
-              <tr>
-                <td class="dataTableContentRss" valign="top">
 <?php
-
-	if ($file_warning != '') {
-		echo TEXT_FILE_WARNING;
-		echo '<font color="red">'.$file_warning.'</font><br>';
+	if ($file_warning != '')
+	{
+		echo '<div class="alert alert-block"><button type="button" class="close" data-dismiss="alert">&times;</button><h4>'.TEXT_FILE_WARNING.'</h4>'.$file_warning.'</div>';
 	}
 
-	if ($folder_warning != '') {
-		echo TEXT_FOLDER_WARNING;
-		echo '<b>'.$folder_warning.'</b>';
+	if ($folder_warning != '')
+	{
+		echo '<div class="alert alert-block"><button type="button" class="close" data-dismiss="alert">&times;</button><h4>'.TEXT_FOLDER_WARNING.'</h4>'.$folder_warning.'</div>';
 	}
-	
-	if ( ($installed_payment == '') or ($installed_shipping == '')){
-	       echo MENU_PRED.'<br>';
-		
-    	   if ($installed_payment == '') {
-	        	echo '<a href="modules.php?set=payment" target="_blank" style="padding-left:10px;">'.TEXT_PAYMENT_ERROR.'</a><br>';
-	       }
 
-	       if ($installed_shipping == '') {
-	            echo '<a href="modules.php?set=shipping" target="_blank"  style="padding-left:10px;">'.TEXT_SHIPPING_ERROR.'</a><br>';
-           }	
+	if ( ($installed_payment == '') or ($installed_shipping == ''))
+	{
+		if ($installed_payment == '') {
 
-     }
-	 
+		echo '<div class="alert alert-error"><a class="close" data-dismiss="alert" href="#">&times;</a><a href="modules.php?set=payment" target="_blank">'.TEXT_PAYMENT_ERROR.'</a></div>';
+		}
+
+		if ($installed_shipping == '') {
+
+		echo '<div class="alert alert-error"><a class="close" data-dismiss="alert" href="#">&times;</a><a href="modules.php?set=shipping" target="_blank">'.TEXT_SHIPPING_ERROR.'</a></div>';
+		}	
+	}
+ 
 	if (is_dir(_CATALOG.'install'))
-    {
-       echo "<br />".TEXT_INSTALL_ERROR;
-    }
-
-
+	{
+		echo '<div class="alert alert-error"><a class="close" data-dismiss="alert" href="#">&times;</a>'.TEXT_INSTALL_ERROR.'</div>';
+	}
 ?>
-
-
-				  
-              <br><br>  
-                </td>
-              </tr>
-
-                </table></td>
-              </tr>
-</table>

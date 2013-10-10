@@ -1,12 +1,11 @@
 <?php
 /*
-#####################################
-#  OSC-CMS: Shopping Cart Software.
-#  Copyright (c) 2011-2012
-#  http://osc-cms.com
-#  http://osc-cms.com/forum
-#  Ver. 1.0.0
-#####################################
+*---------------------------------------------------------
+*
+*	CartET - Open Source Shopping Cart Software
+*	http://www.cartet.org
+*
+*---------------------------------------------------------
 */
 
 define('HEADING_TITLE', 'Дополнительные поля для товаров');
@@ -21,5 +20,13 @@ define('IMAGE_ADD_FIELD', 'Добавить');
 define('IMAGE_UPDATE_FIELDS', 'Обновить');
 define('IMAGE_REMOVE_FIELDS', 'Удалить');
 
+define('EF_TITLE', 'Поля');
+define('EF_GROUP', 'Группы');
+define('EF_GROUP_NAME', 'Название группы');
+define('EF_GROUP_ORDER', 'Сортировка');
+define('EF_GROUP_STATUS', 'Статус');
+define('EF_GROUP_NEW', 'Новая группа');
+
 define ('TEXT_ALL_LANGUAGES', 'Все');
+define ('TEXT_ACTION', 'Действие');
 ?>

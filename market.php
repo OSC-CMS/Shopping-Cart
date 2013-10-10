@@ -132,12 +132,12 @@ while ($products = os_db_fetch_array($products_query)) {
   $products["yml_cbid"] = max((!isset($products["yml_cbid"]) ? 0 : $products["yml_cbid"]), $categories_cbid[$products["categories_id"]]);
   if($products["yml_cbid"] > 0) $cbid = ' cbid="' . $products["yml_cbid"] . '"';
   $price = $products['products_price'];
-  $price = $osPrice->GetPrice($products['products_id'], $format = false, 1, $products['products_tax_class_id'], $price);
+  $price = $osPrice->GetPrice($products['products_id'], false, 1, $products['products_tax_class_id'], $price);
   $url = os_href_link(FILENAME_PRODUCT_INFO, os_product_link($products['products_id'], $products['products_name']) . (isset($_GET['ref']) ? '&amp;ref=' . $_GET['ref'] : null) . $yml_referer, 'NONSSL', false);
   $available = ' available="' . $available . '"';
   os_yml_out('<offer id="' . $products['products_id'] . '"' . $available . $bid . $cbid . '>');
   os_yml_out('  <url>' . $url . '</url>');
-  os_yml_out('  <price>' . $price . '</price>');
+  os_yml_out('  <price>' . $price['price'] . '</price>');
   os_yml_out('  <currencyId>' . $current_currency . '</currencyId>');
 
   os_yml_out('  <categoryId>' . $products['categories_id'] . '</categoryId>');

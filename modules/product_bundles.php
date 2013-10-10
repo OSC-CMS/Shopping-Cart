@@ -2,8 +2,8 @@
 /*
 *---------------------------------------------------------
 *
-*	OSC-CMS - Open Source Shopping Cart Software
-*	http://osc-cms.com
+*	CartET - Open Source Shopping Cart Software
+*	http://www.cartet.org
 *
 *---------------------------------------------------------
 *
@@ -43,8 +43,8 @@ if ($products_bundles['total'] > 0)
 			'PRODUCTS_ID' => $bundle_data['products_id'],
 			'QTY' => $bundle_data['subproduct_qty'],
 			'NAME' => $bundle_data['products_name'],
-			'PRICE' => $products_price['formated'],
-			'PRICE_PLAIN' => $products_price['plain'],
+			'PRICE' => $products_price['price']['formated'],
+			'PRICE_PLAIN' => $products_price['price']['plain'],
 		);
 
 		// Считаем стоимость с кол. и считаем экономию
@@ -59,6 +59,6 @@ if ($products_bundles['total'] > 0)
 
 $info->assign('PRODUCTS_BUNDLE', $product->data['products_bundle']);
 $info->assign('PRODUCTS_BUNDLE_DATA', $products_bundle_data);
-$info->assign('PRODUCTS_BUNDLE_SUM', $bundle_sum['formated']);
-$info->assign('PRODUCTS_BUNDLE_SAVING', $bundle_saving['formated']);
+$info->assign('PRODUCTS_BUNDLE_SUM', $bundle_sum['price']['formated']);
+$info->assign('PRODUCTS_BUNDLE_SAVING', $bundle_saving['price']['formated']);
 ?>

@@ -1,12 +1,11 @@
 <?php
 /*
-#####################################
-#  OSC-CMS: Shopping Cart Software.
-#  Copyright (c) 2011-2012
-#  http://osc-cms.com
-#  http://osc-cms.com/forum
-#  Ver. 1.0.0
-#####################################
+*---------------------------------------------------------
+*
+*	CartET - Open Source Shopping Cart Software
+*	http://www.cartet.org
+*
+*---------------------------------------------------------
 */
 
 require('includes/top.php');
@@ -611,7 +610,7 @@ if ( @$_POST['download'] == 'stream' or @$_POST['download'] == 'tempfile' ){
     <td class="boxCenter" width="100%" valign="top">
    <a style="right:20px;position:absolute;" class="button" onclick="document.configuration.submit()" href="<?php echo FILENAME_CSV_BACKEND; ?>"><span><?php echo BOX_IMPORT;  ?></span></a>
       
-	<?php os_header('portfolio_package.gif',HEADING_TITLE); ?> 
+	<?php echo HEADING_TITLE; ?> 
     
 	
     <table border="0" width="100%" cellspacing="0" cellpadding="2">
@@ -1734,7 +1733,7 @@ function walk( $item1 ) {
 
 	// blow it into an array, splitting on the tabs
 	$items = explode($separator, $item1);
-    
+
 	// make sure all non-set things are set to '';
 	// and strip the quotes from the start and end of the stings.
 	// escape any special chars for the database.

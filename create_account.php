@@ -2,8 +2,8 @@
 /*
 *---------------------------------------------------------
 *
-*	OSC-CMS - Open Source Shopping Cart Software
-*	http://osc-cms.com
+*	CartET - Open Source Shopping Cart Software
+*	http://www.cartet.org
 *
 *---------------------------------------------------------
 */
@@ -425,6 +425,26 @@ if (isset ($_SESSION['tracking']['refID'])){
 
 		os_php_mail(EMAIL_SUPPORT_ADDRESS, EMAIL_SUPPORT_NAME, $email_address, $name, EMAIL_SUPPORT_FORWARDING_STRING, EMAIL_SUPPORT_REPLY_ADDRESS, EMAIL_SUPPORT_REPLY_ADDRESS_NAME, '', '', EMAIL_SUPPORT_SUBJECT, $html_mail, $txt_mail);
 
+	// СМС уведомления
+	$smsSetting = $cartet->sms->setting();
+
+	if ($smsSetting['sms_status'] == 1 && $smsSetting['sms_register'] == 1)
+	{
+		$getDefaultSms = $cartet->sms->getDefaultSms();
+
+		$osTemplate->assign('EMAIL', $email_address);
+
+		// шаблон смс письма
+		$osTemplate->caching = 0;
+		$smsText = $osTemplate->fetch(_MAIL.'admin/'.$_SESSION['language'].'/create_account_sms.txt');
+
+		// уведомление администратора
+		if ($getDefaultSms['phone'])
+		{
+			$cartet->sms->send($smsText);
+		}
+	}
+
 		if (!isset ($mail_error)) {
 			os_redirect(os_href_link(FILENAME_SHOPPING_CART, '', 'SSL'));
 		} else {
@@ -437,10 +457,10 @@ $breadcrumb->add(NAVBAR_TITLE_CREATE_ACCOUNT, os_href_link(FILENAME_CREATE_ACCOU
 
 require (_INCLUDES.'header.php');
 
-if ($messageStack->size('create_account') > 0) {
-	$osTemplate->assign('error', $messageStack->output('create_account'));
+//if ($messageStack->size('create_account') > 0) {
+//	$osTemplate->assign('error', $messageStack->output('create_account'));
 
-}
+//}
 $osTemplate->assign('FORM_ACTION', os_draw_form('create_account', os_href_link(FILENAME_CREATE_ACCOUNT, '', 'SSL'), 'post').os_draw_hidden_field('action', 'process'));
 
 if (ACCOUNT_GENDER == 'true') {

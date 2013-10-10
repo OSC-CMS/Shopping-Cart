@@ -1,69 +1,40 @@
 {config_load file="$language/lang.conf" section="reviews"}
-<div class="page-header">
-	<h1>{#heading_reviews_write#}</h1>
+
+<div class="well">
+	<div class="bold">{#heading_reviews_write#}</div>
+	<hr>
+	<form id="product_reviews_write" action="{$FORM_ACTION}" method="post">
+
+		<input type="hidden" name="action" value="add_review">
+
+		<div class="row-fluid">
+			<div class="span4">
+				<label for="author">{#text_author#}</label>
+				<input type="text" name="author" id="author" class="input-block-level" data-required="true" data-error-message="{$smarty.const.JS_REVIEW_AUTHOR}" value="{if $smarty.session.customer_id}{$smarty.session.customer_first_name} {$smarty.session.customer_last_name}{else}{$smarty.const.TEXT_GUEST}{/if}">
+
+				<label for="review">{#text_rating#}</label>
+				<font color="red">{#text_bad#}</font> 
+				<input type="radio" name="rating" value="1">
+				<input type="radio" name="rating" value="2">
+				<input type="radio" name="rating" value="3">
+				<input type="radio" name="rating" value="4">
+				<input type="radio" name="rating" value="5" checked> 
+				<font color="green">{#text_good#}</font>
+
+				<label>{#text_sec_code#}</label>
+				<a href="javascript:void(0)" title="{#text_captcha_update#}" onclick="reload_captcha()">{$CAPTCHA_IMG}</a>
+
+				<label for="captcha">{#text_sec_code_text#}</label>
+				<input type="text" name="captcha" id="captcha" class="input-block-level" data-required="true" data-error-message="{$smarty.const.ENTRY_CAPTCHA_ERROR}">
+			</div>
+			<div class="span8">
+				<label for="review">{#text_input#}</label>
+				<textarea name="review" id="review" class="input-block-level" rows="10" data-required="true" data-minlength="{$smarty.const.REVIEW_TEXT_MIN_LENGTH}" data-error-message="{$smarty.const.JS_REVIEW_TEXT}">{$smarty.post.review}</textarea>
+				<span class="help-block">{#text_note#}</span>
+			</div>
+		</div>
+
+		{*$BUTTON_SUBMIT*}
+		<input class="imgsub btn parsley-form" type="submit" value="Продолжить">
+	</form>
 </div>
-
-
-{if $captcha_error}
-<div class="alert alert-error fade in">
-	<a class="close" data-dismiss="alert" href="#">&times;</a>
-	{$captcha_error}
-</div>
-{/if}
-
-{if $error}
-<div class="alert alert-error fade in">
-	<a class="close" data-dismiss="alert" href="#">&times;</a>
-	{$error}
-</div>
-{/if}
-
-
-	<div class="form-horizontal">
-		{$FORM_ACTION}
-		<fieldset>
-			<div class="control-group">
-				<label class="control-label" for="">{#text_product#}</label>
-				<div class="controls">
-					{$PRODUCTS_NAME}
-				</div>
-			</div>
-			<div class="control-group">
-				<label class="control-label" for="">{#text_author#}</label>
-				<div class="controls">
-					{$AUTHOR}
-				</div>
-			</div>
-			<div class="control-group">
-				<label class="control-label" for="review">{#text_input#}</label>
-				<div class="controls textarea-xlarge">
-					{$INPUT_TEXT}
-					<p class="help-block">{#text_note#}</p>
-				</div>
-			</div>
-			<div class="control-group">
-				<label class="control-label" for="review">{#text_rating#}</label>
-				<div class="controls">
-					<font color="red">{#text_bad#}</font>
-					 {$INPUT_RATING} 
-					<font color="green">{#text_good#}</font>
-				</div>
-			</div>
-			<div class="control-group">
-				<label class="control-label" for="">{#text_sec_code#}</label>
-				<div class="controls">
-					<a href="javascript:void(0)" title="{#text_captcha_update#}" onclick="reload_captcha()">{$CAPTCHA_IMG}</a>
-				</div>
-			</div>
-			<div class="control-group">
-				<label class="control-label" for="captcha">{#text_sec_code_text#}</label>
-				<div class="controls">
-					{$CAPTCHA_INPUT}
-				</div>
-			</div>
-			<div class="form-actions">
-				{$BUTTON_BACK} {$BUTTON_SUBMIT}
-			</div>
-		</fieldset>
-		{$FORM_END}
-	</div>

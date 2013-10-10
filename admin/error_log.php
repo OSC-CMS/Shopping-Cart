@@ -1,66 +1,57 @@
 <?php
 /*
-#####################################
-#  OSC-CMS: Shopping Cart Software.
-#  Copyright (c) 2011-2012
-#  http://osc-cms.com
-#  http://osc-cms.com/forum
-#  Ver. 1.0.0
-#####################################
+*---------------------------------------------------------
+*
+*	CartET - Open Source Shopping Cart Software
+*	http://www.cartet.org
+*
+*---------------------------------------------------------
 */
 
-  require('includes/top.php');
-  
-  if(isset($_GET['action']) && $_GET['action']=='clean_log')  
-  {
-      $fp = @fopen(_TMP.'osc_db_error.log', "w");
-      @fclose($fp);
-	  
-      if (filesize(_TMP.'osc_db_error.log')==0)
-	  {
-          $messageStack->add('Лог-файл успешно очищен', 'success');
-	  } 
-  }
-  
-?>
-<?php $main->head(); ?>
-<?php $main->top_menu(); ?>
+require('includes/top.php');
 
-<table border="0" width="100%" cellspacing="2" cellpadding="2">
-  <tr>
-    <td class="boxCenter" width="100%" valign="top">
-    
-    <?php $main->heading('calculator_add.png', HEADING_TITLE); ?> 
-    
-    <table border="0" width="100%" cellspacing="0" cellpadding="2">
-	
-	  <?php 
-	  
-	    if (is_file(_TMP.'osc_db_error.log'))
+if(isset($_GET['action']) && $_GET['action']=='clean_log')
+{
+	$fp = @fopen(_TMP.'db_error.log', "w");
+	@fclose($fp);
+
+	if (filesize(_TMP.'db_error.log')==0)
+	{
+		$messageStack->add_session('Лог-файл успешно очищен', 'success');
+		os_redirect(FILENAME_ERROR_LOG);
+	}
+}
+
+$breadcrumb->add(HEADING_TITLE, FILENAME_ERROR_LOG);
+
+$main->head();
+$main->top_menu();
+?>
+
+<?php
+if (is_file(_TMP.'db_error.log'))
+{
+	$fp = @fopen(_TMP.'db_error.log', "rb");
+	if ($fp)
+	{
+		while (!feof($fp))
 		{
-		     $fp = @fopen(_TMP.'osc_db_error.log', "rb");
-             if ($fp) 
-	         {
-                   while (!feof($fp)) 
-	               {
-                       $st .= fread($fp, 4096);
-                   }
-             }
-			 //$st = explode("|", $st);
-			 echo '<p><textarea class="round" style="width:100%; height:400px" cols="60" name="text">'.$st.'</textarea></p';
-             @fclose($fp);
+			$st .= fread($fp, 4096);
 		}
-		else
-		{
-		   echo NO_ERRORS;
-		}
-	  ?>
-	
-	  </tr>
-        </table>
-		<div style="width:100%;text-align:right;"><a class="button" href="<?php echo os_href_link(FILENAME_ERROR_LOG, 'action=clean_log'); ?>"><span>Очистить</span></a></div>
-		</td>
-      </tr>
-    </table>
-	
+	}
+
+	echo '<p><textarea class="round" style="width:100%; height:400px" cols="60" name="text">'.$st.'</textarea></p>';
+
+	@fclose($fp);
+}
+else
+	echo NO_ERRORS;
+?>
+
+<hr>
+
+<div class="tcenter footer-btn">
+	<a class="btn btn-success" href="<?php echo os_href_link(FILENAME_ERROR_LOG, 'action=clean_log'); ?>">Очистить</a>
+</div>
+
 <?php $main->bottom(); ?>

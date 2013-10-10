@@ -1,15 +1,14 @@
 <?php
 /*
-#####################################
-#  OSC-CMS: Shopping Cart Software.
-#  Copyright (c) 2011-2012
-#  http://osc-cms.com
-#  http://osc-cms.com/forum
-#  Ver. 1.0.0
-#####################################
+*---------------------------------------------------------
+*
+*	CartET - Open Source Shopping Cart Software
+*	http://www.cartet.org
+*
+*---------------------------------------------------------
 */
 
-  define('HEADING_TITLE','Добро пожаловать в OSC-CMS');
+  define('HEADING_TITLE','Добро пожаловать в CartET');
   define('ATTENTION_TITLE','! Внимание !');
 
   define('TEXT_FILE_WARNING','<b class="red">Внимание:</b><br/><div style="margin-left:10px;">Следующие файлы не закрыты от записи. Установите права доступа <b>444</b> для юникса, или <b>read-only</b> для Windows.</div>');
@@ -53,5 +52,5 @@
   define('MENU_SYSTEM_ERROR','Сообщения');
   define('TEXT_MAIN_MENU','Главная');
   define('MENU_SYSTEM_ERRORS','Системные сообщения');
-  define('TEXT_INSTALL_ERROR','<font style="color: red"><b>!! Удалить папку install</b></font>');
+  define('TEXT_INSTALL_ERROR','Необходимо удалить папку install со всем содержимым!');
 ?>

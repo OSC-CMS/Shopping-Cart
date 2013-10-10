@@ -2,8 +2,8 @@
 /*
 *---------------------------------------------------------
 *
-*	OSC-CMS - Open Source Shopping Cart Software
-*	http://osc-cms.com
+*	CartET - Open Source Shopping Cart Software
+*	http://www.cartet.org
 *
 *---------------------------------------------------------
 */
@@ -57,7 +57,7 @@ class osPrice {
 		$customers_status_value = get_customers_status($this->actualGroup);
 		
 		$this->cStatus = array (
-		
+
 		'customers_status_id' => $this->actualGroup, 
 		'customers_status_name' => $customers_status_value['customers_status_name'], 
 		'customers_status_image' => $customers_status_value['customers_status_image'], 
@@ -116,14 +116,19 @@ class osPrice {
 		   }
 		   }
 		}
-		
-				
+
+		if ($this->currencies[$this->actualCurr]['symbol_right'])
+			$_SESSION['currencySymbol'] = $this->currencies[$this->actualCurr]['symbol_right'];
+		elseif ($this->currencies[$this->actualCurr]['symbol_left'])
+			$_SESSION['currencySymbol'] = $this->currencies[$this->actualCurr]['symbol_left'];
 	}
 
+	/**
+	 * Get Price
+	 */
 	function GetPrice($pID, $format = true, $qty, $tax_class, $pPrice, $vpeStatus = 0, $cedit_id = 0, $discountAllowed = 0) 
 	{
-
-	if ($this->cStatus['customers_status_show_price'] == '0')
+		if ($this->cStatus['customers_status_show_price'] == '0')
 			return $this->ShowNote($vpeStatus, $vpeStatus);
 
 		if ($cedit_id != 0) 
@@ -133,48 +138,83 @@ class osPrice {
 		} 
 		else 
 		{
-		    if (isset( $this->TAX[$tax_class])) $products_tax = $this->TAX[$tax_class]; else $products_tax = 0;
+			if (isset( $this->TAX[$tax_class]))
+				$products_tax = $this->TAX[$tax_class];
+			else
+				$products_tax = 0;
 		}
 
 		if ($this->cStatus['customers_status_show_price_tax'] == '0')
 			$products_tax = '';
 
-		if ($pPrice == 0) $pPrice = $this->getPprice($pID);
-		
+		if ($pPrice == 0)
+			$pPrice = $this->getPprice($pID);
+
+		// Цена с налогом
 		$pPrice = $this->AddTax($pPrice, $products_tax);
 
-		if ($sPrice = $this->CheckSpecial($pID)) 
-		{
-		   return $this->FormatSpecial($pID, $this->AddTax($sPrice, $products_tax), $pPrice, $format, $vpeStatus);
-		}
-
+		// индивидуальная скидка на товар для группы
+		$getFormatSpecialGraduated = '';
 		if ($this->cStatus['customers_status_graduated_prices'] == '1') 
 		{
-			
-			if ($sPrice = $this->GetGraduatedPrice($pID, $qty)) return $this->FormatSpecialGraduated($pID, $this->AddTax($sPrice, $products_tax), $pPrice, $format, $vpeStatus, $pID, $discountAllowed);
+			if ($sPrice = $this->GetGraduatedPrice($pID, $qty))
+			{
+				$getPrice = $this->FormatSpecialGraduated($pID, $this->AddTax($sPrice, $products_tax), $pPrice, $format, $vpeStatus, $pID, $discountAllowed);
+				$getFormatSpecialGraduated = $getPrice;
+			}
 		} 
 		else 
 		{
-			if ($sPrice = $this->GetGroupPrice($pID, 1)) return $this->FormatSpecialGraduated($pID, $this->AddTax($sPrice, $products_tax), $pPrice, $format, $vpeStatus, $pID, $discountAllowed);
+			if ($sPrice = $this->GetGroupPrice($pID, 1))
+			{
+				$getPrice = $this->FormatSpecialGraduated($pID, $this->AddTax($sPrice, $products_tax), $pPrice, $format, $vpeStatus, $pID, $discountAllowed);
+				$getFormatSpecialGraduated = $getPrice;
+			}
 		}
 
+		// скидка Специальная на отдельный товар или категорию
+		$getFormatSpecial = '';
+		if ($sPrice = $this->CheckSpecial($pID)) 
+		{
+			$getPrice = $this->FormatSpecial($pID, $this->AddTax($sPrice, $products_tax), $pPrice, $format, $vpeStatus);
+			$getFormatSpecial = $getPrice;
+		}
+
+		// скидка для группы пользователей
+		$getFormatSpecialDiscount = '';
 		if ($discount = $this->CheckDiscount($pID, $discountAllowed))
-			return $this->FormatSpecialDiscount($pID, $discount, $pPrice, $format, $vpeStatus);
+		{
+			$getPrice = $this->FormatSpecialDiscount($pID, $discount, $pPrice, $format, $vpeStatus);
+			$getFormatSpecialDiscount = $getPrice;
+		}
 
-		return $this->Format($pPrice, $format, 0, false, $vpeStatus, $pID);
+		// реальная цена без скидок
+		$getDefaultPrice = $this->Format($pPrice, $format, 0, false, $vpeStatus, $pID);
 
+		// цена которая упадет в корзину
+		$getPrice = (!empty($getPrice)) ? $getPrice : $getDefaultPrice;
+
+		return array(
+			'price' => $getPrice,
+			'default' => $getDefaultPrice,
+			'special' => $getFormatSpecial,
+			'specialGraduated' => $getFormatSpecialGraduated,
+			'specialDiscount' => $getFormatSpecialDiscount
+		);
 	}
 
-	function getPprice($pID) {
-		$pQuery = "SELECT products_price FROM ".TABLE_PRODUCTS." WHERE products_id='".$pID."'";
-		$pQuery = osDBquery($pQuery);
-		$pData = os_db_fetch_array($pQuery, true);
+	/**
+	 * Get Price By Id
+	 */
+	function getPprice($pID)
+	{
+		$pQuery = osDBquery("SELECT products_price FROM ".TABLE_PRODUCTS." WHERE products_id='".$pID."'");
+		$pData = os_db_fetch_array($pQuery);
 		return $pData['products_price'];
-
-
 	}
 
 	function AddTax($price, $tax) {
+		//if (is_array($price)) $sPrice = $price['price'];
 		$price = $price + $price / 100 * $tax;
 		$price = $this->CalculateCurr($price);
 		return round($price, $this->currencies[$this->actualCurr]['decimal_places']);
@@ -204,14 +244,16 @@ class osPrice {
 		
 		$pID = (int) $pID;
 		
-		if (empty($pID)) return;
+		if (empty($pID))
+			return;
 		
-		if (empty($this->actualGroup)) return;
-		
-		
+		if (empty($this->actualGroup))
+			return;
+
         $__products_array = $_products_array;
 		
-	    if (GRADUATED_ASSIGN == 'true') if (os_get_qty($pID) > $qty) $qty = os_get_qty($pID);
+	    if (GRADUATED_ASSIGN == 'true')
+			if (os_get_qty($pID) > $qty) $qty = os_get_qty($pID);
 		
 		if (!isset($_graduated_price[$this->actualGroup][$pID][$qty]))
 		{
@@ -220,75 +262,77 @@ class osPrice {
 			{
                 foreach ($__products_array as $val => $_val)
                 {
-		           if (empty($sql))  $sql .= $val; else $sql .= ','.$val;
-				   $vals[] = $val;            
+					if (empty($sql))
+						$sql .= $val;
+					else
+						$sql .= ','.$val;
+
+					$vals[] = $val;            
                 }
 				
 				if (!in_array($pID, $vals))
 				{
-				     if (empty($sql))  $sql .= $pID; else $sql .= ','.$pID;
-					 $vals[] = $pID;
+					if (empty($sql))
+						$sql .= $pID;
+					else
+						$sql .= ','.$pID;
+
+					$vals[] = $pID;
 				}
-				
+
 				$sql = 'products_id in ('.$sql.')';
 			}
 			else
-			{
 			    $sql = 'products_id in ('.$pID.')';
-			}
 
 			$product_query = osDBquery("SELECT products_id, max(quantity) as qty FROM ".TABLE_PERSONAL_OFFERS_BY.$this->actualGroup." WHERE ".$sql ." and quantity<='".$qty."' GROUP BY products_id");
-				 
-	         if (os_db_num_rows($product_query,true)) 
-	         {
-		           while ($products = os_db_fetch_array($product_query,true))  
-                   {
-	                    $_graduated_price[$this->actualGroup][$products['products_id']][$qty] = array('qty' => $products['qty']);
-                   } 
-	         }
-		     else
-		     {
-		          $_graduated_price[$this->actualGroup][$pID][$qty] = array('qty' => null);
-		     }
-			 
-			 if (!empty($vals))
-			 {
-			    foreach ($vals as $val)
-                {
-				    if (!isset($_graduated_price[$this->actualGroup][$val][$qty]))
+
+			if (os_db_num_rows($product_query,true)) 
+			{
+				while ($products = os_db_fetch_array($product_query,true))  
+				{
+					$_graduated_price[$this->actualGroup][$products['products_id']][$qty] = array('qty' => $products['qty']);
+				} 
+			}
+			else
+			{
+				$_graduated_price[$this->actualGroup][$pID][$qty] = array('qty' => null);
+			}
+
+			if (!empty($vals))
+			{
+				foreach ($vals as $val)
+				{
+					if (!isset($_graduated_price[$this->actualGroup][$val][$qty]))
 					{
-		                $_graduated_price[$this->actualGroup][$val][$qty] = array('qty' => null); 
-                    }					   
-                }
-			 }
+						$_graduated_price[$this->actualGroup][$val][$qty] = array('qty' => null); 
+					}					   
+				}
+			}
 		}
 		
 		$graduated_price_data = $_graduated_price[$this->actualGroup][$pID][$qty];
 
 		if (!empty($graduated_price_data['qty'])) 
 		{
-		    if (!isset($_graduated_personal_offer[$this->actualGroup][$pID][$graduated_price_data['qty']]))
+			if (!isset($_graduated_personal_offer[$this->actualGroup][$pID][$graduated_price_data['qty']]))
 			{
-			   $graduated_price_query = "SELECT personal_offer FROM ".TABLE_PERSONAL_OFFERS_BY.$this->actualGroup." WHERE products_id='".$pID."' AND quantity='".$graduated_price_data['qty']."'";
-			   $graduated_price_query = osDBquery($graduated_price_query);
-			   $_graduated_price_data = os_db_fetch_array($graduated_price_query, true);
-			   $_graduated_personal_offer[$this->actualGroup][$pID][$graduated_price_data['qty']] = $_graduated_price_data;
-            }
+				$graduated_price_query = "SELECT personal_offer FROM ".TABLE_PERSONAL_OFFERS_BY.$this->actualGroup." WHERE products_id='".$pID."' AND quantity='".$graduated_price_data['qty']."'";
+				$graduated_price_query = osDBquery($graduated_price_query);
+				$_graduated_price_data = os_db_fetch_array($graduated_price_query, true);
+				$_graduated_personal_offer[$this->actualGroup][$pID][$graduated_price_data['qty']] = $_graduated_price_data;
+			}
 			else
 			{
-			   $_graduated_price_data = $_graduated_personal_offer[$this->actualGroup][$pID][$graduated_price_data['qty']];
+				$_graduated_price_data = $_graduated_personal_offer[$this->actualGroup][$pID][$graduated_price_data['qty']];
 			}
-			
-			$sPrice = $_graduated_price_data['personal_offer'];
-			
-			if ($sPrice != 0.00) return $sPrice;
-		} 
-		else 
-		{
-			return;
-		}
 
-		
+			$sPrice = $_graduated_price_data['personal_offer'];
+
+			if ($sPrice != 0.00) return $sPrice;
+		}
+		else
+			return;
 	}
 
 	function GetGroupPrice($pID, $qty) 
@@ -479,16 +523,20 @@ class osPrice {
 		if ($curr)
 			$price = $this->CalculateCurr($price);
 
-		if ($tax_class != 0) {
+		if ($tax_class != 0)
+		{
 			$products_tax = $this->TAX[$tax_class];
 			if ($this->cStatus['customers_status_show_price_tax'] == '0')
 				$products_tax = '';
+
 			$price = $this->AddTax($price, $products_tax);
 		}
 
-		if ($format) {
+		if ($format)
+		{
 			$Pprice = number_format((double)$price, $this->currencies[$this->actualCurr]['decimal_places'], $this->currencies[$this->actualCurr]['decimal_point'], $this->currencies[$this->actualCurr]['thousands_point']);
-			$Pprice = $this->checkAttributes($pID).$this->currencies[$this->actualCurr]['symbol_left'].' <span class="pprice">'.$Pprice.'</span> '.$this->currencies[$this->actualCurr]['symbol_right'];
+			//$Pprice = $this->checkAttributes($pID).$this->currencies[$this->actualCurr]['symbol_left'].' <span class="pprice">'.$Pprice.'</span> '.$this->currencies[$this->actualCurr]['symbol_right'];
+			$Pprice = $this->checkAttributes($pID).$Pprice;
 			if ($vpeStatus == 0) {
 				return $Pprice;
 			} else {
@@ -502,52 +550,76 @@ class osPrice {
 
 	}
 
-	function FormatSpecialDiscount($pID, $discount, $pPrice, $format, $vpeStatus = 0) {
+	function FormatSpecialDiscount($pID, $discount, $pPrice, $format, $vpeStatus = 0)
+	{
 		$sPrice = $pPrice - ($pPrice / 100) * $discount;
-		if ($format) {
-			$price = '<span class="productOldPrice">'.INSTEAD.$this->Format($pPrice, $format).'</span><br />'.ONLY.$this->checkAttributes($pID).$this->Format($sPrice, $format).'<br />'.YOU_SAVE.$discount.'%';
-			if ($vpeStatus == 0) {
+		if ($format)
+		{
+			$price = $this->checkAttributes($pID).$this->Format($sPrice, $format);
+			if ($vpeStatus == 0)
+			{
 				return $price;
-			} else {
-				return array ('formated' => $price, 'plain' => $sPrice);
 			}
-		} else {
-			return round($sPrice, $this->currencies[$this->actualCurr]['decimal_places']);
+			else
+			{
+				return array (
+					'formated' => $price,
+					'plain' => $sPrice,
+					'discount' => $discount
+				);
+			}
 		}
+		else
+			return round($sPrice, $this->currencies[$this->actualCurr]['decimal_places']);
 	}
 
-	function FormatSpecial($pID, $sPrice, $pPrice, $format, $vpeStatus = 0) {
-		if ($format) {
-			$price = '<span class="productOldPrice">'.INSTEAD.$this->Format($pPrice, $format).'</span><br />'.ONLY.$this->checkAttributes($pID).$this->Format($sPrice, $format);
-			if ($vpeStatus == 0) {
+	function FormatSpecial($pID, $sPrice, $pPrice, $format, $vpeStatus = 0)
+	{
+		if ($format)
+		{
+			$price = $this->checkAttributes($pID).$this->Format($sPrice, $format);
+			if ($vpeStatus == 0)
+			{
 				return $price;
-			} else {
+			}
+			else
+			{
 				return array ('formated' => $price, 'plain' => $sPrice);
 			}
-		} else {
-			return round($sPrice, $this->currencies[$this->actualCurr]['decimal_places']);
 		}
+		else
+			return round($sPrice, $this->currencies[$this->actualCurr]['decimal_places']);
 	}
 
-	function FormatSpecialGraduated($pID, $sPrice, $pPrice, $format, $vpeStatus = 0, $pID, $discount_allowed) {
+	function FormatSpecialGraduated($pID, $sPrice, $pPrice, $format, $vpeStatus = 0, $pID, $discount_allowed)
+	{
 		if ($pPrice == 0)
 			return $this->Format($sPrice, $format, 0, false, $vpeStatus);
+
 		if ($discount = $this->CheckDiscount($pID, $discount_allowed))
 			$sPrice -= $sPrice / 100 * $discount;
-		if ($format) {
-			if ($sPrice != $pPrice) {
-				$price = '<span class="productOldPrice">'.MSRP.$this->Format($pPrice, $format).'</span><br />'.YOUR_PRICE.$this->checkAttributes($pID).$this->Format($sPrice, $format);
-			} else {
-				$price = FROM.$this->Format($sPrice, $format);
-			}
-			if ($vpeStatus == 0) {
+
+		if ($format)
+		{
+			if ($sPrice != $pPrice)
+				$price = $this->checkAttributes($pID).$this->Format($sPrice, $format);
+			else
+				$price = $this->Format($sPrice, $format);
+
+			if ($vpeStatus == 0)
+			{
 				return $price;
-			} else {
-				return array ('formated' => $price, 'plain' => $sPrice);
 			}
-		} else {
-			return round($sPrice, $this->currencies[$this->actualCurr]['decimal_places']);
+			else
+			{
+				return array (
+					'formated' => $price,
+					'plain' => $sPrice
+				);
+			}
 		}
+		else
+			return round($sPrice, $this->currencies[$this->actualCurr]['decimal_places']);
 	}
 
 	function get_decimal_places($code) {

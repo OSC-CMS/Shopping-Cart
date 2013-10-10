@@ -2,8 +2,8 @@
 /*
 *---------------------------------------------------------
 *
-*	OSC-CMS - Open Source Shopping Cart Software
-*	http://osc-cms.com
+*	CartET - Open Source Shopping Cart Software
+*	http://www.cartet.org
 *
 *---------------------------------------------------------
 */
@@ -78,16 +78,8 @@ else
 		$tmp_status = $order->info['order_status'];
 	}
 
-	// BMC CC Mod Start
-	if (strtolower(CC_ENC) == 'true')
-	{
-		$plain_data = $order->info['cc_number'];
-		$order->info['cc_number'] = changedatain($plain_data, CC_KEYCHAIN);
-	}
-	// BMC CC Mod End
-
 	// Формируем заказ
-	$aNewOrder = $osccms->order->newOrder($order, $order_totals, $order_total_modules);
+	$aNewOrder = $cartet->order->newOrder($order, $order_totals, $order_total_modules);
 
 	// redirect to payment service
 	if ($tmp)

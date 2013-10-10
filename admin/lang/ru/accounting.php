@@ -1,12 +1,11 @@
 <?php
 /*
-#####################################
-#  OSC-CMS: Shopping Cart Software.
-#  Copyright (c) 2011-2012
-#  http://osc-cms.com
-#  http://osc-cms.com/forum
-#  Ver. 1.0.0
-#####################################
+*---------------------------------------------------------
+*
+*	CartET - Open Source Shopping Cart Software
+*	http://www.cartet.org
+*
+*---------------------------------------------------------
 */
 
 define('HEADING_TITLE', 'Доступ админа');
@@ -69,14 +68,12 @@ define('ACCESS_QUICK_UPDATES', 'Система - Инструменты - Изм
 define('ACCESS_LATEST_NEWS', 'Система - Инструменты - Новости');
 define('ACCESS_RECOVER_CART_SALES', 'Система - Инструменты - Незавершённые заказы');
 define('ACCESS_FEATURED', 'Каталог - Рекомендуемые товары');
-define('ACCESS_AUTHORS', 'Система - Статьи - Авторы');
 define('ACCESS_ARTICLES', 'Система - Статьи - Статьи/Разделы');
 define('ACCESS_ARTICLES_CONFIG', 'Статьи - Настройка');
 define('ACCESS_STATS_SALES_REPORT2', 'Система - Статистика - Статистика продаж 2');
 define('ACCESS_CHART_DATA', 'Главная страница - Flash графики статистики');
 define('ACCESS_ARTICLES_XSELL', 'Статьи - Товары-Статьи');
 define('ACCESS_EMAIL_MANAGER', 'Система - Инструменты - Шаблоны писем');
-define('ACCESS_CATEGORY_SPECIALS', 'Каталог - Скидки');
 define('ACCESS_PRODUCTS_OPTIONS', 'Каталог - Атрибуты - Названия');
 define('ACCESS_PRODUCT_EXTRA_FIELDS', 'Система - Инструменты - Дополнительные поля товаров');
 define('ACCESS_SHIP2PAY', 'Модули - Доставка-Оплата');

@@ -2,8 +2,8 @@
 /*
 *---------------------------------------------------------
 *
-*	OSC-CMS - Open Source Shopping Cart Software
-*	http://osc-cms.com
+*	CartET - Open Source Shopping Cart Software
+*	http://www.cartet.org
 *
 *---------------------------------------------------------
 */
@@ -11,9 +11,11 @@
 setlocale(LC_ALL, "ru_RU.UTF-8");
 date_default_timezone_set('Europe/Moscow'); // See http://php.net/manual/en/timezones.php
 
+define('ADMIN_LOGIN_TITLE', 'Вход в панель управления');
+
 define('TITLE', STORE_NAME);
 define('LANG_VERSION', '1.0.1');
-define('HEADER_TITLE_TOP', 'Начало');     
+define('HEADER_TITLE_TOP', 'Начало');
 define('HEADER_TITLE_CATALOG', 'Главная');
 define('HTML_PARAMS','xmlns="http://www.w3.org/1999/xhtml" xml:lang="ru" lang="ru"');
 
@@ -47,8 +49,10 @@ define('PULL_DOWN_DEFAULT', 'Выберите');
 
 define('JS_ERROR', 'Не указана необходимая информация!\nПожалуйста, исправьте допущенные ошибки.\n\n');
 
-define('JS_REVIEW_TEXT', '* Поле Текст отзыва должно содержать не менее ' . REVIEW_TEXT_MIN_LENGTH . ' символов.\n');
-define('JS_REVIEW_RATING', '* Вы не указали рейтинг.\n');
+define('JS_REVIEW_TEXT', 'Поле Текст отзыва должно содержать не менее ' . REVIEW_TEXT_MIN_LENGTH . ' символов.');
+define('JS_REVIEW_RATING', 'Вы не указали рейтинг отзыва.');
+define('JS_REVIEW_AUTHOR', 'Необходимо указать имя автора отзыва.');
+define('JS_REVIEW_ADDED', 'Ваш отзыв успешно добавлен.');
 define('JS_ERROR_NO_PAYMENT_MODULE_SELECTED', '* Выберите способ оплаты для Вашего заказа.\n');
 define('JS_ERROR_SUBMITTED', 'Эта форма уже заполнена. Нажимайте Ok.');
 define('ERROR_NO_PAYMENT_MODULE_SELECTED', '* Выберите способ оплаты для Вашего заказа.');
@@ -405,11 +409,7 @@ define('BOX_ALL_ARTICLES', 'Все статьи');
 define('BOX_NEW_ARTICLES', 'Новые статьи');
 define('TEXT_DISPLAY_NUMBER_OF_ARTICLES', 'Показано <b>%d</b> - <b>%d</b> (всего <b>%d</b> статей)');
 define('TEXT_DISPLAY_NUMBER_OF_ARTICLES_NEW', 'Показано <b>%d</b> - <b>%d</b> (всего <b>%d</b> новых статей)');
-define('TABLE_HEADING_AUTHOR', 'Автор');
-define('TABLE_HEADING_ABSTRACT', 'Резюме');
-define('BOX_HEADING_AUTHORS', 'Авторы статей');
 define('NAVBAR_TITLE_DEFAULT', 'Статьи');
-define('ARTICLES_BY','Статьи автора ');
 
 define('MODULE_PAYMENT_SCHET_PRINT','Распечатать счёт для оплаты');
 define('MODULE_PAYMENT_PACKINGSLIP_PRINT','Распечатать накладную');
@@ -498,5 +498,8 @@ define('TEXT_BUTTON_CONTINUE', 'Продолжить');
 define('TEXT_BUTTON_LOGIN', 'Войти');
 define('TEXT_BUTTON_CONFIRM_ORDER', 'Подтвердить заказ');
 define('TEXT_BUTTON_ADD_ADDRESS', 'Добавить адрес');
+
+define('NEW_PRICE', 'Новая цена');
+define('OLD_PRICE', 'Старая цена');
 
 ?>

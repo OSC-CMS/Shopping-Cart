@@ -2,8 +2,8 @@
 /*
 *---------------------------------------------------------
 *
-*	OSC-CMS - Open Source Shopping Cart Software
-*	http://osc-cms.com
+*	CartET - Open Source Shopping Cart Software
+*	http://www.cartet.org
 *
 *---------------------------------------------------------
 */
@@ -56,7 +56,7 @@ $box_content='';
 
 	
    $admin_image = $_array['code'];
-   
+   $admin_link = '';
    if ($product->isProduct()) 
    {
    		$_array = array('img' => 'edit_product.gif', 
@@ -73,7 +73,7 @@ $box_content='';
 	   
     $admin_link = $_array['code'];
   }
-
+  $admin_link_article = '';
    if (isset($_GET['articles_id'])) 
    {
    

@@ -1,12 +1,11 @@
 <?php
 /*
-#####################################
-#  OSC-CMS: Shopping Cart Software.
-#  Copyright (c) 2011-2012
-#  http://osc-cms.com
-#  http://osc-cms.com/forum
-#  Ver. 1.0.0
-#####################################
+*---------------------------------------------------------
+*
+*	CartET - Open Source Shopping Cart Software
+*	http://www.cartet.org
+*
+*---------------------------------------------------------
 */
 
 defined( '_VALID_OS' ) or die( 'Прямой доступ  не допускается.' );
@@ -61,7 +60,6 @@ $db->query("INSERT INTO  ".DB_PREFIX."configuration (configuration_key, configur
 $db->query("INSERT INTO  ".DB_PREFIX."configuration (configuration_key, configuration_value, configuration_group_id, sort_order, last_modified, date_added, use_function, set_function) VALUES ('CATEGORIES_IMAGE_THUMBNAIL_DROP_SHADDOW', '', 4, 49, '2011-2012-12-15 13:15:14', '0000-00-00 00:00:00', NULL, NULL);");
 $db->query("INSERT INTO  ".DB_PREFIX."configuration (configuration_key, configuration_value, configuration_group_id, sort_order, last_modified, date_added, use_function, set_function) VALUES ('CATEGORIES_IMAGE_THUMBNAIL_MOTION_BLUR', '', 4, 50, '2011-2012-12-15 12:02:19', '0000-00-00 00:00:00', NULL, NULL);");
 $db->query("INSERT INTO  ".DB_PREFIX."configuration (configuration_key, configuration_value, configuration_group_id, sort_order, last_modified, date_added, use_function, set_function) VALUES ('USE_EP_IMAGE_MANIPULATOR', 'false', 4, 51, NULL, '', NULL, 'os_cfg_select_option(array(\'true\', \'false\'),');");
-$db->query("INSERT INTO  ".DB_PREFIX."configuration (configuration_key, configuration_value, configuration_group_id, sort_order, last_modified, date_added, use_function, set_function) VALUES ('MO_PICS', '0', '4', '3', '', '0000-00-00 00:00:00', NULL , NULL);");
 $db->query("INSERT INTO  ".DB_PREFIX."configuration (configuration_key, configuration_value, configuration_group_id, sort_order, last_modified, date_added, use_function, set_function) VALUES ('IMAGE_MANIPULATOR', 'image_manipulator_gd2.php', '4', '3', '', '0000-00-00 00:00:00', NULL , 'os_cfg_select_option(array(\'image_manipulator_gd2.php\', \'image_manipulator_gd1.php\'),');");
 
 $db->query("INSERT INTO  ".DB_PREFIX."configuration (configuration_key, configuration_value, configuration_group_id, sort_order, last_modified, date_added, use_function, set_function) VALUES ('MAX_THUMB_WIDTH', '120', 4, 52, '2011-2012-12-15 12:10:45', '0000-00-00 00:00:00', NULL, NULL);");

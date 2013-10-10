@@ -2,8 +2,8 @@
 /*
 *---------------------------------------------------------
 *
-*	OSC-CMS - Open Source Shopping Cart Software
-*	http://osc-cms.com
+*	CartET - Open Source Shopping Cart Software
+*	http://www.cartet.org
 *
 *---------------------------------------------------------
 *
@@ -16,7 +16,7 @@
 *---------------------------------------------------------
 */
 
-class qiwi extends OscCms
+class qiwi extends CartET
 {
 	/**
 	 * Системный идентификатор модуля

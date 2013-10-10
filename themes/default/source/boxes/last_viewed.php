@@ -2,8 +2,8 @@
 /*
 *---------------------------------------------------------
 *
-*	OSC-CMS - Open Source Shopping Cart Software
-*	http://osc-cms.com
+*	CartET - Open Source Shopping Cart Software
+*	http://www.cartet.org
 *
 *---------------------------------------------------------
 */
@@ -46,7 +46,7 @@ $random_last_viewed = os_rand(0,$max);
     $random_query = osDBquery($random_query);
     $random_product = os_db_fetch_array($random_query,true);
 
-    $random_products_price = $osPrice->GetPrice($random_product['products_id'],$format=true,1,$random_product['products_tax_class_id'],$random_product['products_price']);
+    //$random_products_price = $osPrice->GetPrice($random_product['products_id'], true,1,$random_product['products_tax_class_id'],$random_product['products_price']);
 
     $category_path = os_get_path($random_product['categories_id']);
 

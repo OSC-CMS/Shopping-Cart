@@ -2,8 +2,8 @@
 /*
 *---------------------------------------------------------
 *
-*	OSC-CMS - Open Source Shopping Cart Software
-*	http://osc-cms.com
+*	CartET - Open Source Shopping Cart Software
+*	http://www.cartet.org
 *
 *---------------------------------------------------------
 */
@@ -13,13 +13,12 @@ $module = new osTemplate;
 $info->assign('options', $products_options_data);
 if ($product->getReviewsCount() > 0) {
 
-if ($_SESSION['customers_status']['customers_status_write_reviews'] != 0) 
+/*if ($_SESSION['customers_status']['customers_status_write_reviews'] != 0) 
 {
 	$_array = array(
 		'img' => 'button_write_review.gif', 
 		'href' => os_href_link(FILENAME_PRODUCT_REVIEWS_WRITE, os_product_link($product->data['products_id'],$product->data['products_name'])), 
-		'alt' => IMAGE_BUTTON_WRITE_REVIEW,
-		/* код готовой кнопки, по умолчанию пусто */									
+		'alt' => IMAGE_BUTTON_WRITE_REVIEW,								
 		'code' => ''
 	);
 	
@@ -31,7 +30,7 @@ if ($_SESSION['customers_status']['customers_status_write_reviews'] != 0)
 	}
 	
 	$module->assign('BUTTON_WRITE', $_array['code']);
-}
+}*/
 
 	$module->assign('language', $_SESSION['language']);
 	$module->assign('module_content', $product->getReviews());
@@ -44,13 +43,12 @@ if ($_SESSION['customers_status']['customers_status_read_reviews'] != 0) {
 
 } else {
 
-if ($_SESSION['customers_status']['customers_status_write_reviews'] != 0) 
+/*if ($_SESSION['customers_status']['customers_status_write_reviews'] != 0) 
 {
 	$_array = array(
 		'img' => 'button_write_review.gif', 
 		'href' => os_href_link(FILENAME_PRODUCT_REVIEWS_WRITE, os_product_link($product->data['products_id'],$product->data['products_name'])), 
-		'alt' => IMAGE_BUTTON_WRITE_REVIEW,
-		/* код готовой кнопки, по умолчанию пусто */									
+		'alt' => IMAGE_BUTTON_WRITE_REVIEW,								
 		'code' => ''
 	);
 
@@ -63,7 +61,7 @@ if ($_SESSION['customers_status']['customers_status_write_reviews'] != 0)
 
 	$module->assign('BUTTON_WRITE', $_array['code']);
 	
-}
+}*/
 
 	$module->assign('TEXT_FIRST_REVIEW', TEXT_FIRST_REVIEW);
 

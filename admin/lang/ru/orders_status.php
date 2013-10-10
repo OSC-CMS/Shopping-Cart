@@ -1,12 +1,11 @@
 <?php
 /*
-#####################################
-#  OSC-CMS: Shopping Cart Software.
-#  Copyright (c) 2011-2012
-#  http://osc-cms.com
-#  http://osc-cms.com/forum
-#  Ver. 1.0.0
-#####################################
+*---------------------------------------------------------
+*
+*	CartET - Open Source Shopping Cart Software
+*	http://www.cartet.org
+*
+*---------------------------------------------------------
 */
 
 define('HEADING_TITLE', 'Статус заказов');
@@ -17,7 +16,7 @@ define('TABLE_HEADING_ACTION', 'Действие');
 define('TEXT_INFO_EDIT_INTRO', 'Пожалуйста, внесите необходимые изменения');
 define('TEXT_INFO_ORDERS_STATUS_NAME', 'Статус заказов:');
 define('TEXT_INFO_INSERT_INTRO', 'Введите, пожалуйста, новый статус заказа, на основе исходных данных');
-define('TEXT_INFO_DELETE_INTRO', 'Вы действительно хотите удалить статус этого заказа?');
+define('TEXT_INFO_DELETE_INTRO', 'Вы действительно хотите удалить статус');
 define('TEXT_INFO_HEADING_NEW_ORDERS_STATUS', 'Новый статус заказа');
 define('TEXT_INFO_HEADING_EDIT_ORDERS_STATUS', 'Редактировать статус заказа');
 define('TEXT_INFO_HEADING_DELETE_ORDERS_STATUS', 'Удалить статус заказа');

@@ -2,15 +2,15 @@
 /*
 *---------------------------------------------------------
 *
-*	OSC-CMS - Open Source Shopping Cart Software
-*	http://osc-cms.com
+*	CartET - Open Source Shopping Cart Software
+*	http://www.cartet.org
 *
 *---------------------------------------------------------
 *	Copyright (c) 2007 VaM Shop, http://vamshop.com
 *---------------------------------------------------------
 */
 
-class rbkmoney extends OscCms
+class rbkmoney extends CartET
 {
 	/**
 	 * Системный идентификатор модуля

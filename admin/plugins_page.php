@@ -1,13 +1,12 @@
 <?php
-    /*
-    #####################################
-    #  OSC-CMS: Shopping Cart Software.
-    #  Copyright (c) 2011-2012
-    #  http://osc-cms.com
-    #  http://osc-cms.com/forum
-    #  Ver. 1.0.0
-    #####################################
-    */
+/*
+*---------------------------------------------------------
+*
+*	CartET - Open Source Shopping Cart Software
+*	http://www.cartet.org
+*
+*---------------------------------------------------------
+*/
 
     require('includes/top.php');
     include( dir_path_admin('func') . 'plugin.php'); 
@@ -68,7 +67,7 @@
                         $_p = ''; 
                     }
                 ?>
-                <?php $main->heading('plugin.gif', $_p); ?>  
+                <?php echo $_p; ?>  
                 <?php $main->fly_menu(PLUGINS_URL, MODULES_OTHER);
 
                     if (isset($os_action['main_page_admin'][$_GET['main_page']]) && function_exists($_GET['main_page']))

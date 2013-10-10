@@ -2,8 +2,8 @@
 /*
 *---------------------------------------------------------
 *
-*	OSC-CMS - Open Source Shopping Cart Software
-*	http://osc-cms.com
+*	CartET - Open Source Shopping Cart Software
+*	http://www.cartet.org
 *
 *---------------------------------------------------------
 */
@@ -15,7 +15,7 @@ include ('includes/top.php');
 $product_info_query = os_db_query("select * FROM ".TABLE_PRODUCTS." p, ".TABLE_PRODUCTS_DESCRIPTION." pd where p.products_status = '1' and p.products_id = '".(int) $_GET['products_id']."' and pd.products_id = p.products_id and pd.language_id = '".(int) $_SESSION['languages_id']."'");
 $product_info = os_db_fetch_array($product_info_query);
 
-$products_price = $osPrice->GetPrice($product_info['products_id'], $format = true, 1, $product_info['products_tax_class_id'], $product_info['products_price'], 1);
+$products_price = $osPrice->GetPrice($product_info['products_id'], true, 1, $product_info['products_tax_class_id'], $product_info['products_price'], 1);
 
 $products_attributes_query = os_db_query("select count(*) as total from ".TABLE_PRODUCTS_OPTIONS." popt, ".TABLE_PRODUCTS_ATTRIBUTES." patrib where patrib.products_id='".(int) $_GET['products_id']."' and patrib.options_id = popt.products_options_id and popt.language_id = '".(int) $_SESSION['languages_id']."'");
 $products_attributes = os_db_fetch_array($products_attributes_query);
@@ -95,7 +95,7 @@ $osTemplate->assign('PRODUCTS_ORDERED', $product_info['products_ordered']);
 $osTemplate->assign('PRODUCTS_MODEL', $product_info['products_model']);
 $osTemplate->assign('PRODUCTS_DESCRIPTION', $product_info['products_description']);
 $osTemplate->assign('PRODUCTS_IMAGE', $image);
-$osTemplate->assign('PRODUCTS_PRICE', $products_price['formated']);
+$osTemplate->assign('PRODUCTS_PRICE', $products_price['price']['formated']);
 if (ACTIVATE_SHIPPING_STATUS == 'true') {
 	$osTemplate->assign('SHIPPING_NAME', $main->getShippingStatusName($product_info['products_shippingtime']));
 	if ($shipping_status['image'] != '')
@@ -114,8 +114,8 @@ if ($_SESSION['customers_status']['customers_status_public'] == 1 && $_SESSION['
 		$osTemplate->assign('PRODUCTS_DISCOUNT', $discount.'%');
 }
 
-if ($product_info['products_vpe_status'] == 1 && $product_info['products_vpe_value'] != 0.0 && $products_price['plain'] > 0)
-	$osTemplate->assign('PRODUCTS_VPE', $osPrice->Format($products_price['plain'] * (1 / $product_info['products_vpe_value']), true).TXT_PER.os_get_vpe_name($product_info['products_vpe']));
+if ($product_info['products_vpe_status'] == 1 && $product_info['products_vpe_value'] != 0.0 && $products_price['price']['plain'] > 0)
+	$osTemplate->assign('PRODUCTS_VPE', $osPrice->Format($products_price['price']['plain'] * (1 / $product_info['products_vpe_value']), true).TXT_PER.os_get_vpe_name($product_info['products_vpe']));
 $osTemplate->assign('module_content', $module_content);
 
 		$mo_images = os_get_products_mo_images($product_info['products_id']);

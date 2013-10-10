@@ -1,0 +1,5 @@
+﻿.autocomplete-w1 {background:url(shadow.png) no-repeat bottom right;position:absolute; top:0px; left:0px; margin:6px 0 0 6px;}
+.autocomplete {border:1px solid #999;background:#FFF;cursor:default;text-align:left;overflow-x:auto;min-width:300px;overflow-y:auto;margin:-6px 6px 6px -6px;}
+.autocomplete .selected {background:#F0F0F0;}
+.autocomplete div {padding:2px 5px;white-space:nowrap;}
+.autocomplete strong {font-weight:normal;color:#3399FF;}

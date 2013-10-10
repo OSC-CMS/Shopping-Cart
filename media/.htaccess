@@ -1,3 +1,10 @@
+#---------------------------------------------------------
+#
+#	CartET - Open Source Shopping Cart Software
+#	http://www.cartet.org
+#
+#---------------------------------------------------------
+
 <FilesMatch ".(php|php3|phtml|inc|c|htm|html|pl|cgi)$">
 Order Allow,Deny
 Deny from all

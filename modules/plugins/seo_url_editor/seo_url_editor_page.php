@@ -2,8 +2,8 @@
 /*
 *---------------------------------------------------------
 *
-*	OSC-CMS - Open Source Shopping Cart Software
-*	http://osc-cms.com
+*	CartET - Open Source Shopping Cart Software
+*	http://www.cartet.org
 *
 *---------------------------------------------------------
 */
@@ -142,7 +142,7 @@ $main->top_menu();
 
 	<div class="plugin-copy">
 		Редактор ЧПУ <?php echo SEO_URL_EDITOR_VERSION; ?><br />
-		Разработка - <a href="http://osc-cms.com" target="_blank" title="OSC-CMS - бесплатный скрипт интернет-магазина">OSC-CMS</a>
+		Разработка - <a href="http://osc-cms.com" target="_blank" title="CartET - бесплатный скрипт интернет-магазина">CartET</a>
 	</div>
 </div>
 <?php $main->bottom(); ?>

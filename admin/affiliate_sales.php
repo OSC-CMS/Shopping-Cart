@@ -1,12 +1,11 @@
 <?php
 /*
-#####################################
-#  OSC-CMS: Shopping Cart Software.
-#  Copyright (c) 2011-2012
-#  http://osc-cms.com
-#  http://osc-cms.com/forum
-#  Ver. 1.0.0
-#####################################
+*---------------------------------------------------------
+*
+*	CartET - Open Source Shopping Cart Software
+*	http://www.cartet.org
+*
+*---------------------------------------------------------
 */
 
   require('includes/top.php');
@@ -45,7 +44,7 @@
       <tr>
         <td class="main">
 
-    <?php os_header('connect.png',HEADING_TITLE); ?> 
+    <?php echo HEADING_TITLE; ?> 
         
         </td>
       </tr>

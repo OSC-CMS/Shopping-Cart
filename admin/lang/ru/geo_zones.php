@@ -1,12 +1,11 @@
 <?php
 /*
-#####################################
-#  OSC-CMS: Shopping Cart Software.
-#  Copyright (c) 2011-2012
-#  http://osc-cms.com
-#  http://osc-cms.com/forum
-#  Ver. 1.0.0
-#####################################
+*---------------------------------------------------------
+*
+*	CartET - Open Source Shopping Cart Software
+*	http://www.cartet.org
+*
+*---------------------------------------------------------
 */
 
 define('HEADING_TITLE', 'Географические зоны');
@@ -34,13 +33,13 @@ define('TEXT_INFO_EDIT_SUB_ZONE_INTRO', 'Сделайте необходимые
 define('TEXT_INFO_HEADING_DELETE_SUB_ZONE', 'Удалить суб зону');
 define('TEXT_INFO_DELETE_SUB_ZONE_INTRO', 'Вы действительно хотите удалить эту суб зону?');
 
-define('TEXT_INFO_DATE_ADDED', 'Дата добавления:');
-define('TEXT_INFO_LAST_MODIFIED', 'Последние изменения:'); 
-define('TEXT_INFO_ZONE_NAME', 'Название зоны:');
-define('TEXT_INFO_NUMBER_ZONES', 'Количество зон:');
-define('TEXT_INFO_ZONE_DESCRIPTION', 'Описание:');
-define('TEXT_INFO_COUNTRY', 'Страна:');
-define('TEXT_INFO_COUNTRY_ZONE', 'Регион:');
+define('TEXT_INFO_DATE_ADDED', 'Дата добавления');
+define('TEXT_INFO_LAST_MODIFIED', 'Последние изменения');
+define('TEXT_INFO_ZONE_NAME', 'Название зоны');
+define('TEXT_INFO_NUMBER_ZONES', 'Количество зон');
+define('TEXT_INFO_ZONE_DESCRIPTION', 'Описание');
+define('TEXT_INFO_COUNTRY', 'Страна');
+define('TEXT_INFO_COUNTRY_ZONE', 'Регион');
 define('TYPE_BELOW', 'Все регионы');
 define('PLEASE_SELECT', 'Все регионы');
 define('TEXT_ALL_COUNTRIES', 'Все страны');    

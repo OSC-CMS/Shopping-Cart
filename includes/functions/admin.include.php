@@ -2,11 +2,136 @@
 /*
 *---------------------------------------------------------
 *
-*	OSC-CMS - Open Source Shopping Cart Software
-*	http://osc-cms.com
+*	CartET - Open Source Shopping Cart Software
+*	http://www.cartet.org
 *
 *---------------------------------------------------------
 */
+
+	function downloadImage($image, $path, $name = '')
+	{
+		if (empty($image) OR empty($path)) return false;
+
+		$image = str_replace(' ', '%20', $image);
+
+		$file = pathinfo($image, PATHINFO_BASENAME);
+		$ext = pathinfo($file, PATHINFO_EXTENSION);
+
+		$cName = (!empty($name)) ? $name : '';
+		$cFile = $cName.'_'.translit(urldecode(pathinfo($file, PATHINFO_FILENAME)));
+
+		$new_file = $cFile.'.'.$ext;
+
+		while (file_exists($path.$new_file))
+		{
+			$new_base = pathinfo($new_file, PATHINFO_FILENAME);
+			if(preg_match('/_([0-9]+)$/', $new_base, $parts))
+				$new_file = $cFile.'_'.($parts[1]+1).'.'.$ext;
+			else
+				$new_file = $cFile.'_1.'.$ext;
+		}
+		copy($image, $path.$new_file);
+
+		return $new_file;
+	}
+
+	function translit($string, $strtolower = true)
+	{
+		$translit = array(
+			'а' => 'a',   'б' => 'b',   'в' => 'v',
+			'г' => 'g',   'д' => 'd',   'е' => 'e',
+			'ё' => 'e',   'ж' => 'zh',  'з' => 'z',
+			'и' => 'i',   'й' => 'y',   'к' => 'k',
+			'л' => 'l',   'м' => 'm',   'н' => 'n',
+			'о' => 'o',   'п' => 'p',   'р' => 'r',
+			'с' => 's',   'т' => 't',   'у' => 'u',
+			'ф' => 'f',   'х' => 'h',   'ц' => 'c',
+			'ч' => 'ch',  'ш' => 'sh',  'щ' => 'sch',
+			'ь' => "'",  'ы' => 'y',   'ъ' => "'",
+			'э' => 'e',   'ю' => 'yu',  'я' => 'ya',
+
+			'А' => 'A',   'Б' => 'B',   'В' => 'V', 'Г' => 'G',   'Д' => 'D',   'Е' => 'E',
+			'Ё' => 'E',   'Ж' => 'Zh',  'З' => 'Z', 'И' => 'I',   'Й' => 'Y',   'К' => 'K', 'Л' => 'L',   'М' => 'M',   'Н' => 'N',
+			'О' => 'O',   'П' => 'P',   'Р' => 'R', 'С' => 'S',   'Т' => 'T',   'У' => 'U', 'Ф' => 'F',   'Х' => 'H',   'Ц' => 'C',
+			'Ч' => 'Ch',  'Ш' => 'Sh',  'Щ' => 'Sch', 'Ь' => "'",  'Ы' => 'Y',   'Ъ' => "'", 'Э' => 'E',   'Ю' => 'Yu',  'Я' => 'Ya',
+
+			'@' => '', ',' => '-', ':' => '-', '%' => '-', '^' => '-', '&' => '-', '\\' => '-', '=' => '-', ']' => '-', "/"=> "-",
+			'!' => '-', '#' => '-', '$' => '-', '\'' => '-', '`' => '-', '{' => '-', '}' => '-', '|' => '-', '[' => '-', "."=> "",
+			'+' => '-', '<' => '-', '>' => '-', "\n" => '', "\r" => '', "\t" => '', ';' => '-', '*' => '-','~' => '-'," "=> "-",
+
+			'ä'=>'a', 'Ä'=>'A', 'á'=>'a',
+			'Á'=>'A', 'à'=>'a', 'À'=>'A', 'ã'=>'a', 'Ã'=>'A', 'â'=>'a', 'Â'=>'A', 'č'=>'c', 'Č'=>'C',
+			'ć'=>'c', 'Ć'=>'C', 'ď'=>'d', 'Ď'=>'D', 'ě'=>'e', 'Ě'=>'E', 'é'=>'e', 'É'=>'E', 'ë'=>'e',
+			'Ë'=>'E', 'è'=>'e', 'È'=>'E', 'ê'=>'e', 'Ê'=>'E', 'í'=>'i', 'Í'=>'I', 'ï'=>'i', 'Ï'=>'I',
+			'ì'=>'i', 'Ì'=>'I', 'î'=>'i', 'Î'=>'I', 'ľ'=>'l', 'Ľ'=>'L', 'ĺ'=>'l', 'Ĺ'=>'L', 'ń'=>'n',
+			'Ń'=>'N', 'ň'=>'n', 'Ň'=>'N', 'ñ'=>'n', 'Ñ'=>'N', 'ó'=>'o', 'Ó'=>'O', 'ö'=>'o', 'Ö'=>'O',
+			'ô'=>'o', 'Ô'=>'O', 'ò'=>'o', 'Ò'=>'O', 'õ'=>'o', 'Õ'=>'O', 'ő'=>'o', 'Ő'=>'O', 'ř'=>'r',
+			'Ř'=>'R', 'ŕ'=>'r', 'Ŕ'=>'R', 'š'=>'s', 'Š'=>'S', 'ś'=>'s', 'Ś'=>'S', 'ť'=>'t', 'Ť'=>'T',
+			'ú'=>'u', 'Ú'=>'U', 'ů'=>'u', 'Ů'=>'U', 'ü'=>'u', 'Ü'=>'U', 'ù'=>'u', 'Ù'=>'U', 'ũ'=>'u',
+			'Ũ'=>'U', 'û'=>'u', 'Û'=>'U', 'ý'=>'y', 'Ý'=>'Y', 'ž'=>'z', 'Ž'=>'Z', 'ź'=>'z', 'Ź'=>'Z',
+
+			'Æ'=>'AE', 'Ç'=>'C', 'Ð'=>'Eth', 'Ø'=>'O', 'å'=>'a', 'æ'=>'ae', 'ç'=>'c', 'ð'=>'eth', 'ø'=>'o',
+
+			'ß'=>'sz', 'þ'=>'thorn', 'ÿ'=>'y',
+
+			'Đ'=>'Dj', 'đ'=>'dj', 'Þ'=>'B'
+		);
+
+		$result = strtr($string, $translit);
+
+		if ($iconv = @iconv("UTF-8", "ISO-8859-1//IGNORE//TRANSLIT", $result))
+		{
+			$result = $iconv;
+		}
+
+		if (preg_match('/[^A-Za-z0-9_\-]/', $result))
+		{
+			$result = preg_replace('/[^A-Za-z0-9_\-]/', '', $result);
+			$result = preg_replace('/\-+/', '-', $result);
+		}
+
+		if ($strtolower)
+		{
+			$result = strtolower($result);
+		}
+		return $result;
+	}
+
+	function curl_get($url)
+	{
+		if(function_exists('curl_init'))
+		{
+			$ch = curl_init();
+
+			curl_setopt($ch, CURLOPT_URL, $url);
+			curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+			curl_setopt($ch, CURLOPT_HEADER, 1);
+			curl_setopt($ch, CURLOPT_REFERER, 'http://google.com');
+			curl_setopt($ch, CURLOPT_USERAGENT, "Opera/9.80 (Windows NT 5.1; U; ru) Presto/2.9.168 Version/11.51");
+			curl_setopt($ch, CURLOPT_TIMEOUT, 10);
+			curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+
+			do {
+				curl_setopt($ch, CURLOPT_URL, $url);
+				$header = curl_exec($ch);
+				$code = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+				if($code == 301 || $code == 302)
+				{
+					preg_match('/Location:(.*?)\n/', $header, $matches);
+					$url = trim(array_pop($matches));
+				}
+				else
+					$code = 0;
+			} while($code);
+
+			$page = curl_exec($ch);
+			curl_close($ch);
+		}
+		else
+			$page = file_get_contents($url);
+
+		return $page;
+	}
 
 	// Запрос на получение наборов товаров
 	function getBundleProducts($pid, $status = false)
@@ -26,12 +151,6 @@
 				pb.bundle_id = '".(int)$pid."' AND ".$status." pd.language_id = '".(int)$_SESSION['languages_id']."'
 		");
 		return $bundle_query;
-	}
-
-	// Обработка полей аккаунта или других
-	function accountFields($fields = array())
-	{
-	
 	}
 
 	/**
@@ -78,7 +197,7 @@
 	 */
 	function checkCustomerUserName($cun)
 	{
-		$query = os_db_query("SELECT customers_username FROM ".TABLE_CUSTOMERS." WHERE customers_username = '".$cun."'");
+		$query = os_db_query("SELECT customers_username FROM ".TABLE_CUSTOMERS." WHERE customers_username = '".os_db_prepare_input($cun)."'");
 		return (os_db_num_rows($query) > 0) ? true : false;
 	}
 
@@ -1075,26 +1194,22 @@
         if ( $results == $products_id )
         {
 		    $results = '';
-            $mo_query = "select image_id, image_nr, image_name, text from " . TABLE_PRODUCTS_IMAGES . " where products_id = '" . $products_id ."' ORDER BY image_nr";
+            $mo_query = "select * from " . TABLE_PRODUCTS_IMAGES . " where products_id = '" . $products_id ."' ORDER BY image_nr";
 
             $products_mo_images_query = osDBquery($mo_query);
 
             while ($row = os_db_fetch_array($products_mo_images_query,true))
             {
 	
-                $results[ ($row['image_nr']-1) ] = $row;
+                $results[] = $row;
             }
         }
 
 
-        if ( is_array( $results ) ) 
-        {
+        if (is_array($results))
             return $results;
-        } 
-        else 
-        {
+        else
             return false;
-        }
     }
 
     function os_get_short_description($product_id, $language = '') 
@@ -2566,24 +2681,18 @@
             if ($products = os_db_fetch_array($products_query)) {
                 $prid = $products['products_id'];
 
-
                 // dirty workaround
                 $osPrice = new osPrice($session['currency'],$session['customers_status']['customers_status_id']);
-                $products_price=$osPrice->GetPrice($products['products_id'],
-                $format=false,
-                $session['cart']->contents[$products_id]['qty'],
-                $products['products_tax_class_id'],
-                $products['products_price'], 0, 0, $products['products_discount_allowed']);
-
+                $products_price = $osPrice->GetPrice($products['products_id'], false, $session['cart']->contents[$products_id]['qty'], $products['products_tax_class_id'], $products['products_price'], 0, 0, $products['products_discount_allowed']);
 
                 $products_array[] = array('id' => $products_id,
                 'name' => $products['products_name'],
                 'model' => $products['products_model'],
                 'image' => $products['products_image'],
-                'price' => $products_price+attributes_price($products_id,$session),
+                'price' => $products_price['price']+attributes_price($products_id,$session),
                 'quantity' => $session['cart']->contents[$products_id]['qty'],
                 'weight' => $products['products_weight'],
-                'final_price' => ($products_price+attributes_price($products_id,$session)),
+                'final_price' => ($products_price['price']+attributes_price($products_id,$session)),
                 'tax_class_id' => $products['products_tax_class_id'],
                 'attributes' => $session['contents'][$products_id]['attributes']);
             }
@@ -4107,58 +4216,6 @@
             $plain_data=$plain_data.$p;
         }
         return $plain_data;
-    }
-
-
-    function changedatain($plain_data,$key)
-    {
-        $key_length=0; 
-        $all_bin_chars="";
-        $cipher_data="";
-
-        for($i=0;$i<strlen($plain_data);$i++)
-        {
-            $p=substr($plain_data,$i,1);   // p = plaintext
-            $k=substr($key,$key_length,1); // k = key
-            $key_length++;
-
-            if($key_length>=strlen($key))
-            {
-                $key_length=0;
-            }
-
-            $dec_chars=ord($p)^ord($k);
-            $dec_chars=$dec_chars + strlen($key);
-            $bin_chars=decbin($dec_chars);
-
-            while(strlen($bin_chars)<8)
-            {
-                $bin_chars="0".$bin_chars;
-            }
-
-            $all_bin_chars=$all_bin_chars.$bin_chars;
-        }
-
-        $m=0;
-
-        for($j=0;$j<strlen($all_bin_chars);$j=$j+4)
-        {
-            $four_bit=substr($all_bin_chars,$j,4); 
-            $four_bit_dec=bindec($four_bit);
-
-            $decimal_value=$four_bit_dec * 4 + $m;     //multiply by 4 plus m where m=0,1,2, or 3
-
-            $base64_value=dectobase64($decimal_value); //convert to base64 value
-            $cipher_data=$cipher_data.$base64_value;
-            $m++;
-
-            if($m>3)
-            {
-                $m=0;
-            }
-        }
-
-        return $cipher_data;
     }
 
     function base64todec($base64_value)

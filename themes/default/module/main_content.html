@@ -1,12 +1,12 @@
 {config_load file="$language/lang.conf" section="index"}
-{$MODULE_error}
+{if isset($MODULE_error)}{$MODULE_error}{/if}
 {if $text}
 <div class="hero-unit">
 	{if $title}<h1>{$title}</h1>{/if}
 	<p>{$text}</p>
 </div>
 {/if}
-{$MODULE_featured_products}
-{$MODULE_new_products}
-{$MODULE_upcoming_products}
-{$MODULE_latest_news}
+{if isset($MODULE_featured_products)}{$MODULE_featured_products}{/if}
+{if isset($MODULE_new_products)}{$MODULE_new_products}{/if}
+{if isset($MODULE_upcoming_products)}{$MODULE_upcoming_products}{/if}
+{if isset($MODULE_latest_news)}{$MODULE_latest_news}{/if}

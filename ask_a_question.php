@@ -2,8 +2,8 @@
 /*
 *---------------------------------------------------------
 *
-*	OSC-CMS - Open Source Shopping Cart Software
-*	http://osc-cms.com
+*	CartET - Open Source Shopping Cart Software
+*	http://www.cartet.org
 *
 *---------------------------------------------------------
 */
@@ -70,9 +70,9 @@ if (isset ($_GET['action']) && ($_GET['action'] == 'process')) {
 		$messageStack->add('ask_a_question', TEXT_MESSAGE_ERROR);
 	}
 
-	if ($messageStack->size('ask_a_question') > 0) {
-$osTemplate->assign('error', $messageStack->output('ask_a_question'));
-	}
+	//if ($messageStack->size('ask_a_question') > 0) {
+//$osTemplate->assign('error', $messageStack->output('ask_a_question'));
+	//}
 
 		if ($error == false) {
 		$osTemplate->assign('PRODUCTS_NAME', $product_info['products_name']);

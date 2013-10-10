@@ -2,12 +2,11 @@
 /*
 *---------------------------------------------------------
 *
-*	OSC-CMS - Open Source Shopping Cart Software
-*	http://osc-cms.com
+*	CartET - Open Source Shopping Cart Software
+*	http://www.cartet.org
 *
 *---------------------------------------------------------
 */
-
 
 define('MODULE_PAYMENT_WEBMONEY_TEXT_TITLE', 'WebMoney');
 define('MODULE_PAYMENT_WEBMONEY_TEXT_DESCRIPTION', 'Make payable to:<br /><br />Our WM ID: ' . MODULE_PAYMENT_WEBMONEY_WMID . '<br />WMZ number: ' . MODULE_PAYMENT_WEBMONEY_WMZ . '<br />WMR number: ' . MODULE_PAYMENT_WEBMONEY_WMR . '<br /><br />' . 'Your order will not ship until we receive payment!');

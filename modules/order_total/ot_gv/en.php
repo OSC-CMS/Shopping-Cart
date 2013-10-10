@@ -1,13 +1,12 @@
 <?php
 /*
-#####################################
-#  OSC-CMS: Shopping Cart Software
-#  Copyright (c) 2011-2012
-# http://osc-cms.com
-# Ver. 1.0.0
-#####################################
+*---------------------------------------------------------
+*
+*	CartET - Open Source Shopping Cart Software
+*	http://www.cartet.org
+*
+*---------------------------------------------------------
 */
-
 
   define('MODULE_ORDER_TOTAL_GV_TITLE', 'Gift Vouchers');
   define('MODULE_ORDER_TOTAL_GV_HEADER', 'Gift Vouchers');

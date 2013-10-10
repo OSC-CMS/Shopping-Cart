@@ -1,12 +1,11 @@
 <?php
 /*
-#####################################
-#  OSC-CMS: Shopping Cart Software.
-#  Copyright (c) 2011-2012
-#  http://osc-cms.com
-#  http://osc-cms.com/forum
-#  Ver. 1.0.0
-#####################################
+*---------------------------------------------------------
+*
+*	CartET - Open Source Shopping Cart Software
+*	http://www.cartet.org
+*
+*---------------------------------------------------------
 */
 /*
   (c) 2000-2001 The Exchange Project  (earlier name of osCommerce)
@@ -16,7 +15,7 @@
   (c) 2008	 VamShop (2008/01/01); vamshop.com
 */
   
-defined( '_VALID_OS' ) or die( 'Прямой доступ  не допускается.' );
+defined( '_VALID_OS' ) or die( 'пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ  пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ.' );
 
   class messageStack extends tableBlock {
     var $size = 0;
@@ -35,13 +34,13 @@ defined( '_VALID_OS' ) or die( 'Прямой доступ  не допускается.' );
 
     function add($message, $type = 'error') {
       if ($type == 'error') {
-        $this->errors[] = array('params' => 'class="messageStackError" id="messageStackError"', 'text' => os_image(get_path('icons_admin', 'http') . 'error.gif', ICON_ERROR) . '&nbsp;' . $message);
+        $this->errors[] = array('params' => 'error', 'text' =>  $message);
       } elseif ($type == 'warning') {
-        $this->errors[] = array('params' => 'class="messageStackWarning" id="messageStackWarning"', 'text' => os_image(get_path('icons_admin', 'http') . 'warning.gif', ICON_WARNING) . '&nbsp;' . $message);
+        $this->errors[] = array('params' => 'warning', 'text' => $message);
       } elseif ($type == 'success') {
-        $this->errors[] = array('params' => 'class="messageStackSuccess" id="messageStackSuccess"', 'text' => os_image(get_path('icons_admin', 'http') . 'success.png', ICON_SUCCESS) . '&nbsp;' . $message);
+        $this->errors[] = array('params' => 'ok', 'text' => $message);
       } else {
-        $this->errors[] = array('params' => 'class="messageStackError" id="messageStackError"', 'text' => $message);
+        $this->errors[] = array('params' => 'info', 'text' => $message);
       }
 
       $this->size++;
@@ -61,11 +60,20 @@ defined( '_VALID_OS' ) or die( 'Прямой доступ  не допускается.' );
     }
 
     function output() {
-      $this->table_data_parameters = 'class="messageBox"';
-      $this->table_class = 'contentTable1';
-      $this->table_id = 'messageStackWarning';
-	 
-      return $this->tableBlock($this->errors);
+
+	    $return = '<div id="notifier-box">';
+	  foreach($this->errors AS $error)
+	  {
+		  $return .= '
+		<div class="message-box '.$error['params'].'" style="">
+			<a class="message-close" href="#"></a>
+			<div class="message-body"><span>'.$error['text'].'</span></div>
+		</div>
+	';
+	  }
+	    $return .= '</div>';
+
+      return $return;
     }
   }
 ?>

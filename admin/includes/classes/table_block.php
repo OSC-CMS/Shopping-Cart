@@ -1,12 +1,11 @@
 <?php
 /*
-#####################################
-#  OSC-CMS: Shopping Cart Software.
-#  Copyright (c) 2011-2012
-#  http://osc-cms.com
-#  http://osc-cms.com/forum
-#  Ver. 1.0.1
-#####################################
+*---------------------------------------------------------
+*
+*	CartET - Open Source Shopping Cart Software
+*	http://www.cartet.org
+*
+*---------------------------------------------------------
 */
 /*
   (c) 2000-2001 The Exchange Project  (earlier name of osCommerce)
@@ -18,7 +17,7 @@
   
 class tableBlock {
     var $table_border = '0';
-    var $table_width = '237px';
+    var $table_width = '100%';
     var $table_cellspacing = '0';
     var $table_cellpadding = '2';
     var $table_parameters = '';

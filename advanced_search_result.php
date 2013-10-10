@@ -2,8 +2,8 @@
 /*
 *---------------------------------------------------------
 *
-*	OSC-CMS - Open Source Shopping Cart Software
-*	http://osc-cms.com
+*	CartET - Open Source Shopping Cart Software
+*	http://www.cartet.org
 *
 *---------------------------------------------------------
 */
@@ -182,7 +182,7 @@
             if (!empty($_where_filter) ) $_where_filter .=' and ';
         }
 
-        $where_str = " WHERE $_where_filter p.products_status = '1' "." AND pd.language_id = '".(int) $_SESSION['languages_id']."'".@$subcat_where.@$fsk_lock.@$manu_check.@$group_check.@$tax_where.@$pfrom_check.@$pto_check;
+        $where_str = " WHERE $_where_filter p.products_status = '1' AND p.products_search = '0' "." AND pd.language_id = '".(int) $_SESSION['languages_id']."'".@$subcat_where.@$fsk_lock.@$manu_check.@$group_check.@$tax_where.@$pfrom_check.@$pto_check;
 
         //go for keywords... this is the main search process
         if (isset ($_GET['keywords']) && os_not_null($_GET['keywords'])) {

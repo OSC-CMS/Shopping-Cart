@@ -1,12 +1,11 @@
 <?php
 /*
-#####################################
-#  OSC-CMS: Shopping Cart Software.
-#  Copyright (c) 2011-2012
-#  http://osc-cms.com
-#  http://osc-cms.com/forum
-#  Ver. 1.0.0
-#####################################
+*---------------------------------------------------------
+*
+*	CartET - Open Source Shopping Cart Software
+*	http://www.cartet.org
+*
+*---------------------------------------------------------
 */
 
 define('HEADING_TITLE', 'Настройки модуля статьи');
@@ -32,10 +31,6 @@ define('ENABLE_TELL_A_FRIEND_ARTICLE_TITLE', 'Разрешить функцию 
 define('MIN_DISPLAY_ARTICLES_XSELL_TITLE', 'Минимальное количество товара, выводимого в боксе связанные товары');
 define('MAX_DISPLAY_ARTICLES_XSELL_TITLE', 'Максимальное количество товара, выводимого в боксе связанные товары');
 define('SHOW_ARTICLE_COUNTS_TITLE', 'Показывать счётчик статей');
-define('MAX_DISPLAY_AUTHOR_NAME_LEN_TITLE', 'Максимальная длина поля автор');
-define('MAX_DISPLAY_AUTHORS_IN_A_LIST_TITLE', 'Формат вывода списка авторов');
-define('MAX_AUTHORS_LIST_TITLE', 'Авторы в виде развёрнутого меню');
-define('DISPLAY_AUTHOR_ARTICLE_LISTING_TITLE', 'Показывать автора в списке статей');
 define('DISPLAY_TOPIC_ARTICLE_LISTING_TITLE', 'Показывать раздел в списке статей');
 define('DISPLAY_ABSTRACT_ARTICLE_LISTING_TITLE', 'Показывать Meta Description в списке статей');
 define('DISPLAY_DATE_ADDED_ARTICLE_LISTING_TITLE', 'Показывать дату добавления в списке статей');
@@ -63,10 +58,6 @@ define('ENABLE_TELL_A_FRIEND_ARTICLE_DESC', 'Разрешить посетите
 define('MIN_DISPLAY_ARTICLES_XSELL_DESC', 'Минимальное количество товара, выводимого в боксе связанные товары.');
 define('MAX_DISPLAY_ARTICLES_XSELL_DESC', 'Максимальное количество товара, выводимого в боксе связанные товары.');
 define('SHOW_ARTICLE_COUNTS_DESC', 'Показывать количество статей в каждой разделе.');
-define('MAX_DISPLAY_AUTHOR_NAME_LEN_DESC', 'Максимальная количество символов, выводимых в боксе авторы.');
-define('MAX_DISPLAY_AUTHORS_IN_A_LIST_DESC', 'Если число авторов меньше указанной цифры, тогда в боксе авторы выводится простой список, если число авторов больше указанной цифры, тогра выводится drop-down список авторов.');
-define('MAX_AUTHORS_LIST_DESC', 'Данная опция используется для настройки бокса авторы, если указана цифра 1, то список авторов выводится в виде стандартного drop-down списка. Если указана любая другая цифра, то выводится только X производителей в виде развёрнутого меню.');
-define('DISPLAY_AUTHOR_ARTICLE_LISTING_DESC', 'Показывать автора в списке статей?');
 define('DISPLAY_TOPIC_ARTICLE_LISTING_DESC', 'Показывать раздел в списке статей?');
 define('DISPLAY_ABSTRACT_ARTICLE_LISTING_DESC', 'Показывать Meta Description в списке статей?');
 define('DISPLAY_DATE_ADDED_ARTICLE_LISTING_DESC', 'Показывать дату добавления в списке статей?');

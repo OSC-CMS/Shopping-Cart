@@ -1,280 +1,214 @@
 <?php
 /*
-#####################################
-#  OSC-CMS: Shopping Cart Software.
-#  Copyright (c) 2011-2012
-#  http://osc-cms.com
-#  http://osc-cms.com/forum
-#  Ver. 1.0.0
-#####################################
+*---------------------------------------------------------
+*
+*	CartET - Open Source Shopping Cart Software
+*	http://www.cartet.org
+*
+*---------------------------------------------------------
 */
 
-  require('includes/top.php');
-    require_once(_FUNC_ADMIN.'wysiwyg_tiny.php');
-  if (@$_GET['action']) {
-    switch ($_GET['action']) 
+require('includes/top.php');
+
+$breadcrumb->add(HEADING_TITLE, FILENAME_LATEST_NEWS);
+
+if ($_GET['action'] == 'edit' OR $_GET['action'] == 'new')
+{
+	set_news_url_cache();
+
+	if ($_GET['action'] == 'edit')
 	{
-      case 'setflag':
-        if ( ($_GET['flag'] == '0') || ($_GET['flag'] == '1') ) {
-          if ($_GET['latest_news_id']) {
-            os_db_query("update " . TABLE_LATEST_NEWS . " set status = '" . $_GET['flag'] . "' where news_id = '" . $_GET['latest_news_id'] . "'");
-          }
-        }
-		set_news_url_cache();
-        break;
+		$latest_news_query = os_db_query("select * from ".TABLE_LATEST_NEWS." where news_id = '".$_GET['id']."'");
+		$latest_news = os_db_fetch_array($latest_news_query);
 
-      case 'delete_latest_news_confirm':
-        if ($_POST['latest_news_id']) {
-          $latest_news_id = os_db_prepare_input($_POST['latest_news_id']);
-          os_db_query("delete from " . TABLE_LATEST_NEWS . " where news_id = '" . os_db_input($latest_news_id) . "'");
-        }
-         set_news_url_cache();
-        break;
-
-      case 'insert_latest_news': 
-        if ($_POST['headline']) {
-          $sql_data_array = array('headline'   => os_db_prepare_input($_POST['headline']),
-		                          'news_page_url'    => os_db_prepare_input($_POST['news_page_url']),
-                                  'content'    => os_db_prepare_input($_POST['content']),
-                                  'date_added' => 'now()',
-                                  'language'   => os_db_prepare_input($_POST['item_language']),
-                                  'status'     => '1' );
-          os_db_perform(TABLE_LATEST_NEWS, $sql_data_array);
-          $news_id = os_db_insert_id();
-		  set_news_url_cache();
-        }
-        break;
-
-      case 'update_latest_news': //user wants to modify a news article.
-        if($_GET['latest_news_id']) {
-          $sql_data_array = array('headline' => os_db_prepare_input($_POST['headline']),
-                                  'news_page_url'    => os_db_prepare_input($_POST['news_page_url']),
-                                  'content'  => os_db_prepare_input($_POST['content']),
-                                  'date_added'  => os_db_prepare_input($_POST['date_added']),
-                                  'language'   => os_db_prepare_input($_POST['item_language']),
-                                  );
-          os_db_perform(TABLE_LATEST_NEWS, $sql_data_array, 'update', "news_id = '" . os_db_prepare_input($_GET['latest_news_id']) . "'");
-        }
-		set_news_url_cache();
-  //      os_redirect(os_href_link(FILENAME_LATEST_NEWS));
-        break;
-    }
-  }
-  
-  add_action('head_admin', 'head_news');
-  
-  function head_news ()
-  {
-     $query=os_db_query("SELECT code FROM ". TABLE_LANGUAGES ." WHERE languages_id='".$_SESSION['languages_id']."'");
-     $data=os_db_fetch_array($query);
-     if (@$_GET['action']=='new_latest_news') echo os_wysiwyg_tiny('latest_news',$data['code']); 
-  }
-?>
-<?php $main->head(); ?>
-<?php $main->top_menu(); ?>
-
-<table border="0" width="100%" cellspacing="2" cellpadding="2">
-  <tr>
-    <td class="boxCenter" width="100%" valign="top">
-    
-    <?php os_header('portfolio_package.gif',HEADING_TITLE); ?> 
-    
-    <table border="0" width="100%" cellspacing="0" cellpadding="2">
-<?php
-  if (@$_GET['action'] == 'new_latest_news') 
-  { //insert or edit a news item
-     set_news_url_cache();
-    if ( isset($_GET['latest_news_id']) ) { //editing exsiting news item
-      $latest_news_query = os_db_query("select news_id, headline, news_page_url, language, date_added, content from " . TABLE_LATEST_NEWS . " where news_id = '" . $_GET['latest_news_id'] . "'");
-      $latest_news = os_db_fetch_array($latest_news_query);
-    } else { //adding new news item
-      $latest_news = array();
-    }
-	if (SEO_URL_NEWS_GENERATOR == 'true' && empty($latest_news['news_page_url'])) $seo_input_field = ' onKeyPress="onchange_news_url()"  onChange="onchange_news_url()"'; else $seo_input_field = '';
-?>
-      <tr><?php echo os_draw_form('new_latest_news', FILENAME_LATEST_NEWS, isset($_GET['latest_news_id']) ? 'latest_news_id=' . $_GET['latest_news_id'] . '&action=update_latest_news' : 'action=insert_latest_news', 'post', 'enctype="multipart/form-data"'); ?>
-        <td><table border="0" cellspacing="0" cellpadding="2" width="100%">
-          <tr>
-            <td class="main"><?php echo TEXT_LATEST_NEWS_HEADLINE; ?>:</td>
-            <td class="main"><?php echo '&nbsp;' . os_draw_input_field('headline', @$latest_news['headline'], 'size="60" id="headline" '.$seo_input_field, true); ?></td>
-          </tr>
-          <tr>
-            <td colspan="2">&nbsp;</td>
-          </tr>
-          <tr>
-            <td class="main"><?php echo TEXT_NEWS_PAGE_URL; ?>:</td>
-            <td class="main"><?php echo '&nbsp;' . os_draw_input_field('news_page_url', @$latest_news['news_page_url'], 'size="60" id="news_page_url"', true); ?></td>
-          </tr>
-		     <tr>
-            <td class="main">&nbsp;</td>
-          </tr>
-          <tr>
-            <td class="main"><?php echo TEXT_LATEST_NEWS_CONTENT; ?>:</td>
-            <td class="main"><?php echo '&nbsp;' . os_draw_textarea_field('content', '', '100%', '25', stripslashes(@$latest_news['content'])); ?><br /><a href="javascript:toggleHTMLEditor('content');" class="code"><?php echo TEXT_EDIT_E;?></a></td>
-          </tr>
-
-<?php
-if ( isset($_GET['latest_news_id']) ) {
-?>
-		   <tr>
-            <td class="main">&nbsp;</td>
-          </tr>
-          <tr>
-            <td class="main"><?php echo TEXT_LATEST_NEWS_DATE; ?>:</td>
-            <td class="main"><?php echo os_draw_input_field('date_added', $latest_news['date_added'], '', true); ?></td>
-          </tr>
-		   <tr>
-            <td class="main">&nbsp;</td>
-          </tr>
-
-<?php
+		$breadcrumb->add($latest_news['headline'], os_href_link(FILENAME_LATEST_NEWS, 'action=edit&id='.$_GET['id']));
+	}
+	else
+	{
+		$breadcrumb->add(BUTTON_INSERT, os_href_link(FILENAME_LATEST_NEWS, 'action=new'));
+		$latest_news = array();
+	}
 }
+
+
+$main->head();
+$main->top_menu();
 ?>
 
-          <tr>
-            <td class="main"><?php echo TEXT_LATEST_NEWS_LANGUAGE; ?>:</td>
-            <td class="main"><?php echo '&nbsp;'; ?>
 
 <?php
+if ($_GET['action'] == 'edit' OR $_GET['action'] == 'new')
+{
+	set_news_url_cache();
 
-  $languages = os_get_languages();
-  $languages_array = array();
+	if ($_GET['action'] == 'edit')
+	{
+		$latest_news_query = os_db_query("select * from ".TABLE_LATEST_NEWS." where news_id = '".$_GET['id']."'");
+		$latest_news = os_db_fetch_array($latest_news_query);
+	}
+	else
+		$latest_news = array();
 
-  for ($i = 0, $n = sizeof($languages); $i < $n; $i++) {
-                        
-  if ($languages[$i]['id']==@$latest_news['language']) {
-         $languages_selected=$languages[$i]['id'];
-         $languages_id=$languages[$i]['id'];
-        }               
-    $languages_array[] = array('id' => $languages[$i]['id'],
-               'text' => $languages[$i]['name']);
+	if (SEO_URL_NEWS_GENERATOR == 'true' && empty($latest_news['news_page_url'])) $seo_input_field = ' onKeyPress="onchange_news_url()"  onChange="onchange_news_url()"'; else $seo_input_field = '';
+	?>
 
-  } 
-  
-echo os_draw_pull_down_menu('item_language',@$languages_array,@$languages_selected); ?>
+	<form id="news" name="news" action="<?php echo os_href_link(FILENAME_LATEST_NEWS); ?>" method="post" enctype="multipart/form-data">
 
-</td>
-          </tr>
+		<?php if (isset($_GET['id']) && !empty($_GET['id'])) { ?>
+		<input type="hidden" name="id" value="<?php echo $_GET['id']; ?>">
+		<?php } ?>
+		<input type="hidden" name="action" value="<?php echo $_GET['action']; ?>">
 
+		<div class="control-group">
+			<label class="control-label" for="headline"><?php echo TEXT_LATEST_NEWS_HEADLINE; ?> <span class="input-required">*</span></label>
+			<div class="controls">
+				<input class="input-block-level" type="text" id="headline" name="headline" data-required="true" value="<?php echo $latest_news['headline']; ?>" <?php echo $seo_input_field; ?>>
+			</div>
+		</div>
+		<div class="control-group">
+			<label class="control-label" for="news_page_url"><?php echo TEXT_NEWS_PAGE_URL; ?></label>
+			<div class="controls">
+				<input class="input-block-level" type="text" id="news_page_url" name="news_page_url" value="<?php echo $latest_news['news_page_url']; ?>">
+			</div>
+		</div>
+		<div class="control-group">
+			<label class="control-label" for="content"><?php echo TEXT_LATEST_NEWS_CONTENT; ?> <span class="input-required">*</span></label>
+			<div class="controls">
+				<textarea class="input-block-level textarea_big" id="content" name="content" data-required="true"><?php echo stripslashes(@$latest_news['content']); ?></textarea>
+			</div>
+		</div>
+		<?php if (isset($_GET['id'])) { ?>
+		<div class="control-group">
+			<label class="control-label" for="date_added"><?php echo TEXT_LATEST_NEWS_DATE; ?> <span class="input-required">*</span></label>
+			<div class="controls">
+				<input class="input-block-level formDatetime" type="text" data-required="true" data-date-autoclose="true" data-date-format="yyyy-mm-dd hh:ii:ss" id="date_added" name="date_added" data-required="true" value="<?php echo $latest_news['date_added']; ?>">
+			</div>
+		</div>
+		<?php } ?>
+		<div class="row-fluid">
+			<div class="span6">
+				<div class="control-group">
+					<label class="control-label" for="item_language"><?php echo TEXT_LATEST_NEWS_LANGUAGE; ?></label>
+					<div class="controls">
+						<select class="input-block-level" name="item_language" id="item_language">
+							<?php
+							$languages = $cartet->language->get();
+							foreach($languages AS $lang)
+							{
+								$selected = ($latest_news['language'] == $lang['languages_id']) ? 'selected' : '';
+								echo '<option value="'.$lang['languages_id'].'" '.$selected.'>'.$lang['name'].'</option>';
+							}
+							?>
+						</select>
+					</div>
+				</div>
+			</div>
+			<div class="span6">
+				<div class="control-group">
+					<label class="control-label" for="status"><?php echo TABLE_HEADING_LATEST_NEWS_STATUS; ?></label>
+					<div class="controls">
+						<select class="input-block-level" name="status" id="status">
+							<option value="1" <?php echo ($latest_news['status'] == 1) ? 'selected' : ''; ?>><?php echo YES; ?></option>
+							<option value="0" <?php echo (isset($latest_news['status']) && $latest_news['status'] == 0) ? 'selected' : ''; ?>><?php echo NO; ?></option>
+						</select>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="row-fluid">
+			<div class="span6">
+				<div class="control-group">
+					<label class="control-label" for="news_image">Картинка</label>
+					<div class="controls">
+						<input type="file" id="news_image" name="news_image">
+						<?php if ($latest_news['news_image']) { ?>
+							<input type="hidden" name="news_image_current" value="<?php echo $latest_news['news_image']; ?>">
+							<br />
+							<img src="<?php echo http_path('images').'news/'.$latest_news['news_image']; ?>" alt="">
+						<?php } ?>
+					</div>
+				</div>
+			</div>
+			<div class="span6">
+				<div class="control-group">
+					<label class="control-label" for="images">Выбрать из существующих</label>
+					<div class="controls">
+						<select class="input-block-level" name="images" id="images">
+							<option value=""></option>
+							<?php
+							$images = os_getFiles(get_path('images').'news/');
+							if (is_array($images))
+							{
+								foreach($images AS $img)
+								{
+									echo '<option value="'.$img['id'].'">'.$img['text'].'</option>';
+								}
+							}
+							?>
+						</select>
+					</div>
+				</div>
+			</div>
+		</div>
 
-        </table></td>
-      </tr>
-      <tr>
-        <td class="main" align="right">
-          <?php
-            isset($_GET['latest_news_id']) ? $cancel_button = '&nbsp;&nbsp;<a class="button" href="' . os_href_link(FILENAME_LATEST_NEWS, 'latest_news_id=' . $_GET['latest_news_id']) . '"><span>' . BUTTON_CANCEL . '</span></a>' : $cancel_button = '';
-            echo '<span class="button"><button type="submit" value="' . BUTTON_INSERT .'">' . BUTTON_INSERT .'</button></span>' . $cancel_button;
-          ?>
-        </td>
-      </form></tr>
-<?php
+		<hr>
 
-  } else {
-?>
-      <tr>
-        <td><table border="0" width="100%" cellspacing="0" cellpadding="0">
-          <tr>
-            <td valign="top"><table border="0" width="100%" cellspacing="2" cellpadding="2">
-              <tr class="dataTableHeadingRow">
-                <td class="dataTableHeadingContent"><?php echo TABLE_HEADING_LATEST_NEWS_HEADLINE; ?></td>
-                <td class="dataTableHeadingContent" align="center"><?php echo TABLE_HEADING_LATEST_NEWS_STATUS; ?></td>
-                <td class="dataTableHeadingContent" align="right"><?php echo TABLE_HEADING_LATEST_NEWS_ACTION; ?>&nbsp;</td>
-              </tr>
-<?php
-    $rows = 0;
+		<div class="tcenter footer-btn">
+			<input class="btn btn-success ajax-save-form" data-form-action="news_save" data-reload-page="1" type="submit" value="<?php echo BUTTON_INSERT; ?>">
+			<a class="btn btn-link" href="<?php echo os_href_link(FILENAME_LATEST_NEWS); ?>"><?php echo BUTTON_CANCEL; ?></a>
+		</div>
+	</form>
+<?php } else { ?>
+	<div class="second-page-nav">
+		<div class="row-fluid">
+			<div class="span6">
 
-    $latest_news_count = 0;
-   $latest_news_query = os_db_query('select news_id, headline, news_page_url, content, status from ' . TABLE_LATEST_NEWS . ' order by date_added desc');
-    
-	$color = '';
-	
-    while ($latest_news = os_db_fetch_array($latest_news_query)) {
-      $latest_news_count++;
-      $rows++;
-      
-      if ( ((@!$_GET['latest_news_id']) || (@$_GET['latest_news_id'] == @$latest_news['news_id'])) && (@!$selected_item) && (substr(@$_GET['action'], 0, 4) != 'new_') ) {
-        $selected_item = $latest_news;
-      }
-	  $color = $color == '#f9f9ff' ? '#f0f1ff':'#f9f9ff';
-      if ( (@is_array($selected_item)) && (@$latest_news['news_id'] == @$selected_item['news_id']) ) {
-        echo '              <tr class="dataTableRowSelected" onmouseover="this.style.cursor=\'hand\'" onclick="document.location.href=\'' . os_href_link(FILENAME_LATEST_NEWS, 'latest_news_id=' . $latest_news['news_id']) . '\'">' . "\n";
-      } else {
-        echo '              <tr onmouseover="this.style.background=\'#e9fff1\';this.style.cursor=\'hand\';" onmouseout="this.style.background=\''.$color.'\';" style="background-color:'.$color.'" onclick="document.location.href=\'' . os_href_link(FILENAME_LATEST_NEWS, 'latest_news_id=' . $latest_news['news_id']) . '\'">' . "\n";
-      }
-?>
-                <td class="dataTableContent"><?php echo '&nbsp;' . $latest_news['headline']; ?></td>
-                <td class="dataTableContent" align="center">
-<?php
-      if ($latest_news['status'] == '1') {
-        echo os_image(http_path('icons_admin')  . 'icon_status_green.gif', IMAGE_ICON_STATUS_GREEN, 10, 10) . '&nbsp;&nbsp;<a href="' . os_href_link(FILENAME_LATEST_NEWS, 'action=setflag&flag=0&latest_news_id=' . $latest_news['news_id']) . '">' . os_image(http_path('icons_admin') . 'icon_status_red_light.gif', IMAGE_ICON_STATUS_RED_LIGHT, 10, 10) . '</a>';
-      } else {
-        echo '<a href="' . os_href_link(FILENAME_LATEST_NEWS, 'action=setflag&flag=1&latest_news_id=' . $latest_news['news_id']) . '">' . os_image(http_path('icons_admin') . 'icon_status_green_light.gif', IMAGE_ICON_STATUS_GREEN_LIGHT, 10, 10) . '</a>&nbsp;&nbsp;' . os_image(http_path('icons_admin') . 'icon_status_red.gif', IMAGE_ICON_STATUS_RED, 10, 10);
-      }
-?></td>
-                <td class="dataTableContent" align="right"><?php if (@$latest_news['news_id'] == @$_GET['latest_news_id']) { echo os_image(http_path('icons_admin') . 'icon_arrow_right.gif', ''); } else { echo '<a href="' . os_href_link(FILENAME_LATEST_NEWS, 'latest_news_id=' . $latest_news['news_id']) . '">' . os_image(http_path('icons_admin') . 'icon_info.gif', IMAGE_ICON_INFO) . '</a>'; } ?>&nbsp;</td>
-              </tr>
-<?php
-    }
+			</div>
+			<div class="span6">
+				<div class="pull-right">
+					<a class="btn btn-info btn-mini" href="<?php echo os_href_link(FILENAME_LATEST_NEWS, 'action=new'); ?>"><?php echo BUTTON_INSERT; ?></a>
+				</div>
+			</div>
+		</div>
+	</div>
 
-?>
-              <tr>
-                <td colspan="3"><table border="0" width="100%" cellspacing="0" cellpadding="2">
-                  <tr>
-                    <td class="smallText"><?php echo '<br>' . TEXT_NEWS_ITEMS . '&nbsp;' . $latest_news_count; ?></td>
-                    <td align="right" class="smallText"><?php echo '&nbsp;<a class="button" href="' . os_href_link(FILENAME_LATEST_NEWS, 'action=new_latest_news') . '"><span>' . BUTTON_INSERT . '</span></a>'; ?>&nbsp;</td>
-                  </tr>																																		  
-                </table></td>
-              </tr>
-            </table></td>
-<?php
-    $heading = array();
-    $contents = array();
-    switch (@$_GET['action']) {
-      case 'delete_latest_news': 
-        $heading[] = array('text'   => '<b>' . TEXT_INFO_HEADING_DELETE_ITEM . '</b>');
-        
-        $contents = array('form'    => os_draw_form('news', FILENAME_LATEST_NEWS, 'action=delete_latest_news_confirm') . os_draw_hidden_field('latest_news_id', $_GET['latest_news_id']));
-        $contents[] = array('text'  => TEXT_DELETE_ITEM_INTRO);
-        $contents[] = array('text'  => '<br><b>' . $selected_item['headline'] . '</b>');
-        
-        $contents[] = array('align' => 'center',
-                            'text'  => '<br><span class="button"><button type="submit" value="' . BUTTON_DELETE .'">' . BUTTON_DELETE .'</button></span><a class="button" href="' . os_href_link(FILENAME_LATEST_NEWS, 'latest_news_id=' . $selected_item['news_id']) . '"><span>' . BUTTON_CANCEL . '</span></a>');
-        break;
+	<table class="table table-condensed table-big-list">
+		<thead>
+			<tr>
+				<th colspan="2"><?php echo TABLE_HEADING_LATEST_NEWS_HEADLINE; ?></th>
+				<th><span class="line"></span><?php echo TABLE_HEADING_LATEST_NEWS_STATUS; ?></th>
+				<th><span class="line"></span><?php echo TEXT_LATEST_NEWS_DATE; ?></th>
+				<th><span class="line"></span><?php echo TABLE_HEADING_LATEST_NEWS_ACTION; ?></th>
+			</tr>
+		</thead>
+		<?php
+		$latest_news_query = os_db_query('select * from '.TABLE_LATEST_NEWS.' order by date_added ASC');
+		while ($latest_news = os_db_fetch_array($latest_news_query))
+		{
+			if (!empty($latest_news['news_image']))
+				$img = ' <i class="icon-camera"></i>';
+			else
+				$img = '';
+		?>
+		<tr>
+			<td class="tcenter" width="20"><?php echo $img; ?></td>
+			<td><?php echo $latest_news['headline']; ?></td>
+			<td class="tcenter">
+			<?php
+				echo '<a '.(($latest_news['status'] == 1) ? '' : 'style="display:none;"').' href="javascript:;" class="ajax-change-status status_'.$latest_news['news_id'].'_0_status" data-column="status" data-action="news_status" data-id="'.$latest_news['news_id'].'" data-status="0" data-show-status="1" title="'.IMAGE_ICON_STATUS_RED_LIGHT.'"><i class="icon-ok"></i></a>';
+				echo '<a '.(($latest_news['status'] == 0) ? '' : 'style="display:none;"').' href="javascript:;" class="ajax-change-status status_'.$latest_news['news_id'].'_1_status" data-column="status" data-action="news_status" data-id="'.$latest_news['news_id'].'" data-status="1" data-show-status="0" title="'.IMAGE_ICON_STATUS_GREEN_LIGHT.'"><i class="icon-remove"></i></a>';
+			?>
+			</td>
+			<td><?php echo $latest_news['date_added']; ?></td>
+			<td width="100">
+				<div class="btn-group pull-right">
+					<a class="btn btn-mini" href="<?php echo os_href_link(FILENAME_LATEST_NEWS, 'action=edit&id='.$latest_news['news_id']); ?>" title="<?php echo BUTTON_EDIT; ?>"><i class="icon-edit"></i></a>
+					<a class="btn btn-mini" href="#" data-action="news_delete" data-remove-parent="tr" data-id="<?php echo $latest_news['news_id']; ?>" data-confirm="<?php echo TEXT_DELETE_ITEM_INTRO; ?>" title="<?php echo BUTTON_DELETE; ?>"><i class="icon-trash"></i></a>
+				</div>
+			</td>
+		</tr>
+		<?php } ?>
+	</table>
+<?php } ?>
 
-      default:
-        if ($rows > 0) {
-          if (is_array($selected_item)) {
-            $heading[] = array('text' => '<b>' . $selected_item['headline'] . '</b>');
-
-            $contents[] = array('align' => 'center', 
-                                'text' => '<a class="button" href="' . os_href_link(FILENAME_LATEST_NEWS, 'latest_news_id=' . $selected_item['news_id'] . '&action=new_latest_news') . '"><span>' . BUTTON_EDIT . '</span></a> <a class="button" href="' . os_href_link(FILENAME_LATEST_NEWS, 'latest_news_id=' . $selected_item['news_id'] . '&action=delete_latest_news') . '"><span>' . BUTTON_DELETE . '</span></a>');
-
-            $contents[] = array('text' => '<br>' . $selected_item['content']);
-          }
-        } else {
-          $heading[] = array('text' => '<b>' . EMPTY_CATEGORY . '</b>');
-
-          $contents[] = array('text' => sprintf(TEXT_NO_CHILD_CATEGORIES_OR_PRODUCTS, $parent_categories_name));
-        }
-        break;
-    }
-
-    if ( (os_not_null($heading)) && (os_not_null($contents)) ) {
-      echo '            <td class="right_box" valign="top">' . "\n";
-
-      $box = new box;
-      echo $box->infoBox($heading, $contents);
-
-      echo '            </td>' . "\n";
-    }
-?>
-          </tr>
-        </table></td>
-      </tr>
-<?php
-  }
-?>
-    </table></td>
-  </tr>
-</table>
 <?php $main->bottom(); ?>

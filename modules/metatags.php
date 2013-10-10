@@ -1,14 +1,12 @@
 <?php
 /*
-#####################################
-#  OSC-CMS: Shopping Cart Software.
-#  Copyright (c) 2011-2012
-#  http://osc-cms.com
-#  http://osc-cms.com/forum
-#  Ver. 1.0.0
-#####################################
+*---------------------------------------------------------
+*
+*	CartET - Open Source Shopping Cart Software
+*	http://www.cartet.org
+*
+*---------------------------------------------------------
 */
-
 
 $HEAD[]['link'] = array('rel' => 'icon',
                         'href' => http_path('catalog') .'favicon.ico',
@@ -155,16 +153,10 @@ $content_meta = os_db_fetch_array($content_meta_query);
     break;
 
   case (isset($_GET['news_id'])):
-
-			$news_meta_query = osDBquery("SELECT headline
-			                                            FROM " . TABLE_LATEST_NEWS . "
-			                                            WHERE news_id='" . (int)$_GET['news_id'] . "' and
-			                                            language='" . (int)$_SESSION['languages_id'] . "'");
-			$news_meta = os_db_fetch_array($news_meta_query, true);
-   
+   $newsDataArray = $cartet->news->newsData;
    $_description  = $content_default_description;     
    $_keywords  = $content_default_keywords;    
-   $_title  = $news_meta['headline'] . ' - ' . TITLE;  		
+   $_title  = $newsDataArray['headline'] . ' - ' . TITLE;  		
    		
 
     break;
@@ -193,49 +185,38 @@ $content_meta = os_db_fetch_array($content_meta_query);
 
   case (isset($_GET['articles_id'])):
 
-			$articles_meta_query = osDBquery("SELECT articles_name, articles_head_title_tag, articles_head_desc_tag, articles_head_keywords_tag
+			/*$articles_meta_query = osDBquery("SELECT articles_name, articles_head_title_tag, articles_head_desc_tag, articles_head_keywords_tag
 			                                            FROM " . TABLE_ARTICLES_DESCRIPTION . "
 			                                            WHERE articles_id='" . (int)$_GET['articles_id'] . "' and
-			                                            language_id='" . (int)$_SESSION['languages_id'] . "'");
-			$articles_meta = os_db_fetch_array($articles_meta_query, true);
-
-		if ($articles_meta['articles_head_title_tag'] == '') {
-			$articles_title = $articles_meta['articles_name'];
-		} else {
-			$articles_title = $articles_meta['articles_head_title_tag'];
-		}
-
-		if ($articles_meta['articles_head_desc_tag'] == '') {
-			$articles_desc = $content_default_description;
-		} else {
-			$articles_desc = $articles_meta['articles_head_desc_tag'];
-		}
-
-		if ($articles_meta['articles_head_keywords_tag'] == '') 
+			                                            language_id='" . (int)$_SESSION['languages_id'] . "'");*/
+		$articles_meta = $cartet->articles->articlesData;
+		if (!empty($articles_meta))
 		{
-			$articles_key = $content_default_keywords;
-		} 
-		else 
-		{
-			$articles_key = $articles_meta['articles_head_keywords_tag'];
+			if ($articles_meta['articles_head_title_tag'] == '') {
+				$articles_title = $articles_meta['articles_name'];
+			} else {
+				$articles_title = $articles_meta['articles_head_title_tag'];
+			}
+
+			if ($articles_meta['articles_head_desc_tag'] == '') {
+				$articles_desc = $content_default_description;
+			} else {
+				$articles_desc = $articles_meta['articles_head_desc_tag'];
+			}
+
+			if ($articles_meta['articles_head_keywords_tag'] == '') 
+			{
+				$articles_key = $content_default_keywords;
+			}
+			else 
+			{
+				$articles_key = $articles_meta['articles_head_keywords_tag'];
+			}
 		}
    $_description  = $articles_desc;     
    $_keywords  = $articles_key;    
    $_title  = $articles_title . ' - ' . TITLE;  		
    
-    break;
-
-  case (isset($_GET['authors_id'])):
-
-			$authors_meta_query = osDBquery("SELECT authors_name
-			                                            FROM " . TABLE_AUTHORS . "
-			                                            WHERE authors_id='" . (int)$_GET['authors_id'] . "'");
-			$authors_meta = os_db_fetch_array($authors_meta_query, true);
-			
-   $_description  = $content_default_description;     
-   $_keywords  = $content_default_keywords;    
-   $_title  = $authors_meta['authors_name'] . ' - ' . TITLE;  		
-
     break;
 
 default:

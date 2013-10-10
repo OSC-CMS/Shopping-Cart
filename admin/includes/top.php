@@ -1,38 +1,35 @@
 <?php
 /*
-#####################################
-#  OSC-CMS: Shopping Cart Software.
-#  Copyright (c) 2011-2012
-#  http://osc-cms.com
-#  http://osc-cms.com/forum
-#  Ver. 1.0.0
-#####################################
+*---------------------------------------------------------
+*
+*	CartET - Open Source Shopping Cart Software
+*	http://www.cartet.org
+*
+*---------------------------------------------------------
 */
 
-@ header('Content-Type: text/html; charset=utf-8');
+header('Content-Type: text/html; charset=utf-8');
 
 define('PAGE_PARSE_START_TIME', microtime());
 define('_VALID_OS', true);
 
-
-@ error_reporting(E_ALL & ~E_NOTICE);
-
-$php4_3_10 = (0 == version_compare(phpversion(), "4.3.10"));
-define('PHP4_3_10', $php4_3_10);
+error_reporting(E_ALL & ~E_NOTICE);
 
 if (function_exists('ini_set')) 
 {
-   @ ini_set("max_execution_time", 0);
-   @ ini_set("short_open_tag", 1);
-   @ ini_set('session.use_trans_sid', 0);
+	ini_set("max_execution_time", 0);
+	ini_set("short_open_tag", 1);
+	ini_set('session.use_trans_sid', 0);
 }
 
 if (!isset($PHP_SELF)) $PHP_SELF = $_SERVER['PHP_SELF'];
 
+// Config
 include (dirname(dirname(dirname(__FILE__))).'/config.php');
 
-require_once (_INCLUDES.'api/osccms.class.php');
-$osccms = new OscCms();
+// Global Class
+require_once (_INCLUDES.'_classes/cartet.class.php');
+$cartet = new CartET();
 
 if (!defined("DB_PREFIX"))
 {
@@ -120,11 +117,13 @@ define('TABLE_CUSTOMERS_STATUS_ORDERS_STATUS', DB_PREFIX.'customers_status_order
 define('TABLE_MONEYBOOKERS',DB_PREFIX.'payment_moneybookers');
 define('TABLE_MONEYBOOKERS_COUNTRIES',DB_PREFIX.'payment_moneybookers_countries');
 define('TABLE_MONEYBOOKERS_CURRENCIES',DB_PREFIX.'payment_moneybookers_currencies');
-define('TABLE_BANKTRANSFER',DB_PREFIX.'banktransfer');
 define('TABLE_NEWSLETTER_TEMP',DB_PREFIX.'module_newsletter_temp_');
 define('TABLE_PERSONAL_OFFERS',DB_PREFIX.'personal_offers_by_customers_status_');
 define('TABLE_COMPANIES',DB_PREFIX.'companies');
 define('TABLE_PERSONS',DB_PREFIX.'persons');
+
+// Ð’Ñ€ÐµÐ¼ÐµÐ½Ð½Ð¾
+define('CLS_NEW', dirname(__FILE__).'/classes_new/');
 
 define('FILENAME_ACCOUNTING', 'accounting.php');
 define('FILENAME_FILE', 'file.php');
@@ -132,7 +131,6 @@ define('FILENAME_IMPORT', 'import.php');
 define('FILENAME_BACKUP', 'backup.php');
 define('FILENAME_BANNER_MANAGER', 'banner_manager.php');
 define('FILENAME_BANNER_STATISTICS', 'banner_statistics.php');
-define('FILENAME_CACHE', 'cache.php');
 define('FILENAME_CAMPAIGNS', 'campaigns.php');
 define('FILENAME_CATALOG_ACCOUNT_HISTORY_INFO', 'account_history_info.php');
 define('FILENAME_CATALOG_NEWSLETTER', 'newsletter.php');
@@ -157,7 +155,6 @@ define('FILENAME_ORDERS', 'orders.php');
 define('FILENAME_ORDERS_INVOICE', 'invoice.php');
 define('FILENAME_ORDERS_PACKINGSLIP', 'packingslip.php');
 define('FILENAME_ORDERS_STATUS', 'orders_status.php');
-define('FILENAME_ORDERS_EDIT', 'orders_edit.php');
 define('FILENAME_POPUP_IMAGE', 'popup_image.php');
 define('FILENAME_PRODUCTS_ATTRIBUTES', 'products_attributes.php');
 define('FILENAME_PRODUCTS_EXPECTED', 'products_expected.php');
@@ -178,10 +175,8 @@ define('FILENAME_NEW_ATTRIBUTES','new_attributes.php');
 define('FILENAME_PLUGINS','plugins.php');
 define('FILENAME_PLUGINS_PAGE','plugins_page.php');
 define('FILENAME_LOGOUT','../logoff.php');
-define('FILENAME_LOGIN','../login.php');
-define('FILENAME_CREATE_ACCOUNT','create_account.php');
+define('FILENAME_LOGIN','../login_admin.php');
 define('FILENAME_CREATE_ACCOUNT_SUCCESS','create_account_success.php');
-define('FILENAME_CUSTOMER_MEMO','customer_memo.php');
 define('FILENAME_CONTENT_MANAGER','content_manager.php');
 define('FILENAME_CONTENT_PREVIEW','content_preview.php');
 define('FILENAME_SECURITY_CHECK','security_check.php');
@@ -192,7 +187,6 @@ define('FILENAME_GV_QUEUE', 'gv_queue.php');
 define('FILENAME_GV_MAIL', 'gv_mail.php');
 define('FILENAME_GV_SENT', 'gv_sent.php');
 define('FILENAME_COUPON_ADMIN', 'coupon_admin.php');
-define('FILENAME_POPUP_MEMO', 'popup_memo.php');
 define('FILENAME_SHIPPING_STATUS', 'shipping_status.php');
 define('FILENAME_SALES_REPORT','stats_sales_report.php');
 define('FILENAME_MODULE_EXPORT','module_export.php');
@@ -214,9 +208,9 @@ if ( is_file( dir_path('catalog').'VERSION' ) )
 {
     $_version = @ file_get_contents (dir_path('catalog').'VERSION');
 	$_var_array = explode('/', $_version);
-	//ðåâèçèÿ
+	//Ã°Ã¥Ã¢Ã¨Ã§Ã¨Ã¿
 	$_rev = $_var_array[2];
-	//âåðñèÿ
+	//Ã¢Ã¥Ã°Ã±Ã¨Ã¿
     $_version = $_var_array[1];;
 }
 else
@@ -224,7 +218,7 @@ else
     $_version = '3.0.0';
 }
 
-define('PROJECT_VERSION', 'OSC-CMS '.$_version);
+define('PROJECT_VERSION', 'CartET '.$_version);
 define('SECURITY_CODE_LENGTH', '6');
 define('LOCAL_EXE_GZIP', '/usr/bin/gzip');
 define('LOCAL_EXE_GUNZIP', '/usr/bin/gunzip');
@@ -250,11 +244,11 @@ include (_FUNC.'general.php');
 include(_CLASS.'plugins.php');
 include (_FUNC.FILENAME_PLUGINS);
 
-$p = new plugins('activ'); // ïîëó÷åíèÿ ñïèñêà àêòèâíûõ ïëàãèíîâ
+$p = new plugins(); // Ã¯Ã®Ã«Ã³Ã·Ã¥Ã­Ã¨Ã¿ Ã±Ã¯Ã¨Ã±ÃªÃ  Ã ÃªÃ²Ã¨Ã¢Ã­Ã»Ãµ Ã¯Ã«Ã Ã£Ã¨Ã­Ã®Ã¢
 
 /* // plugins */
 
-$main = new main ();
+$main = new main();
 
 $configuration_query = os_db_query('select configuration_key as cfgKey, configuration_value as cfgValue from ' . TABLE_CONFIGURATION . '');
 while ($configuration = os_db_fetch_array($configuration_query)) 
@@ -297,7 +291,7 @@ require(_FUNC_ADMIN . 'html_output.php');
 
 session_name('sid');
 
-$p->require_plugins(); //ïîäêëþ÷åíèå àêòèâíûõ ïëàãèíîâ
+$p->require_plugins(); //Ã¯Ã®Ã¤ÃªÃ«Ã¾Ã·Ã¥Ã­Ã¨Ã¥ Ã ÃªÃ²Ã¨Ã¢Ã­Ã»Ãµ Ã¯Ã«Ã Ã£Ã¨Ã­Ã®Ã¢
 
 
 if (STORE_SESSIONS != 'mysql') session_save_path(DIR_FS_DOCUMENT_ROOT.SESSION_WRITE_DIRECTORY);
@@ -447,6 +441,12 @@ require(_CLASS_ADMIN . 'split_page_results.php');
 require(_CLASS_ADMIN . 'object_info.php');
 require(_CLASS_ADMIN . 'upload.php');
 
+// include the breadcrumb class and start the breadcrumb trail
+require (_CLASS.'breadcrumb.php');
+$breadcrumb = new breadcrumb;
+
+//$breadcrumb->add(HEADER_TITLE_TOP, HTTP_SERVER);
+$breadcrumb->add(HEADER_TITLE_TOP, FILENAME_START);
 
 if (isset($_GET['cPath'])) 
 {
@@ -504,14 +504,11 @@ else
 
 define('FILENAME_ARTICLES', 'articles.php');
 define('FILENAME_ARTICLES_CONFIG', 'articles_config.php');
-define('FILENAME_AUTHORS', 'authors.php');
 define('FILENAME_ARTICLES_XSELL', 'articles_xsell.php');
 
 define('TABLE_ARTICLES', DB_PREFIX.'articles');
 define('TABLE_ARTICLES_DESCRIPTION', DB_PREFIX.'articles_description');
 define('TABLE_ARTICLES_TO_TOPICS', DB_PREFIX.'articles_to_topics');
-define('TABLE_AUTHORS', DB_PREFIX.'authors');
-define('TABLE_AUTHORS_INFO', DB_PREFIX.'authors_info');
 define('TABLE_TOPICS', DB_PREFIX.'topics');
 define('TABLE_TOPICS_DESCRIPTION', DB_PREFIX.'topics_description');
 define('TABLE_ARTICLES_XSELL', DB_PREFIX.'articles_xsell');
@@ -542,7 +539,6 @@ define('FILENAME_EMAIL_MANAGER','email_manager.php');
 
 define('TABLE_SPECIAL_CATEGORY', DB_PREFIX.'special_category');
 define('TABLE_SPECIAL_PRODUCT', DB_PREFIX.'special_product');
-define('FILENAME_CATEGORY_SPECIALS', 'category_specials.php');
 
 define('FILENAME_PRODUCTS_OPTIONS', 'products_options.php');
 define('TABLE_PRODUCTS_OPTIONS_IMAGES',DB_PREFIX.'products_options_images');
@@ -608,5 +604,4 @@ define('FILENAME_EXTRA_FIELDS','customer_extra_fields.php');
      eval("@define(TITLES, TITLE.\" : \".BOX_CONFIGURATION_".$_GET['gID'].");"); 
      eval("@define(HEAD_T, BOX_CONFIGURATION_".$_GET['gID'].");"); 
    }
-
 ?>

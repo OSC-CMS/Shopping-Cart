@@ -2,8 +2,8 @@
 /*
 *---------------------------------------------------------
 *
-*	OSC-CMS - Open Source Shopping Cart Software
-*	http://osc-cms.com
+*	CartET - Open Source Shopping Cart Software
+*	http://www.cartet.org
 *
 *---------------------------------------------------------
 */
@@ -27,8 +27,8 @@
             {
 
                 if (function_exists($_GET['main_page']))
-                { 
-                    require (dir_path('includes').'header.php');
+                {
+	                require (dir_path('includes').'header.php');
                     $_main_page = $_GET['main_page'];
                     $_main_page = os_db_prepare_input($_main_page);
 

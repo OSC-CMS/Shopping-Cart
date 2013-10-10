@@ -2,8 +2,8 @@
 /*
 *---------------------------------------------------------
 *
-*	OSC-CMS - Open Source Shopping Cart Software
-*	http://osc-cms.com
+*	CartET - Open Source Shopping Cart Software
+*	http://www.cartet.org
 *
 *---------------------------------------------------------
 */
@@ -21,6 +21,7 @@ $searchQuery = os_db_query("
 	WHERE 
 		pd.products_name LIKE '%".mysql_real_escape_string($keyword)."%' AND 
 		p.products_status = '1' AND 
+		p.products_search = '0' AND 
 		pd.language_id = '".(int)$_SESSION['languages_id']."' 
 	ORDER BY 
 		pd.products_name DESC limit ".$limit."

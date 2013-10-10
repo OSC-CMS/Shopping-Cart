@@ -2,8 +2,8 @@
 /*
 *---------------------------------------------------------
 *
-*	OSC-CMS - Open Source Shopping Cart Software
-*	http://osc-cms.com
+*	CartET - Open Source Shopping Cart Software
+*	http://www.cartet.org
 *
 *---------------------------------------------------------
 */
@@ -213,10 +213,10 @@ $addresses_count = os_count_customer_address_book_entries();
 require (dir_path('includes').'header.php');
 $osTemplate->assign('FORM_ACTION', os_draw_form('checkout_address', os_href_link(FILENAME_CHECKOUT_SHIPPING_ADDRESS, '', 'SSL'), 'post', 'onsubmit="return checkform(this);"') . os_draw_hidden_field('required', 'gender,firstname,lastname,address,postcode,city,state,country', 'id="required"'));
 
-if ($messageStack->size('checkout_address') > 0) {
-	$osTemplate->assign('error', $messageStack->output('checkout_address'));
+//if ($messageStack->size('checkout_address') > 0) {
+//	$osTemplate->assign('error', $messageStack->output('checkout_address'));
 
-}
+//}
 
 if ($process == false) {
 	$osTemplate->assign('ADDRESS_LABEL', os_address_label($_SESSION['customer_id'], $_SESSION['sendto'], true, ' ', '<br />'));

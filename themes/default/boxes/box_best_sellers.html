@@ -11,8 +11,19 @@
 <td class="boxText"><a href="{$box_data.PRODUCTS_LINK}">{$box_data.PRODUCTS_NAME}</a> </td>
 </tr>
 <tr>
-<td class="boxTextPrice" align="right"><strong>{$box_data.PRODUCTS_PRICE}</strong>
-
+<td class="boxTextPrice" align="right">
+				{if $box_data.price.specialDiscount}
+					{$smarty.const.OLD_PRICE} <span class="pprice">{$box_data.price.default.formated}</span> {$smarty.session.currencySymbol}<br />
+					{$smarty.const.NEW_PRICE} <span class="pprice">{$box_data.price.specialDiscount.formated}</span> {$smarty.session.currencySymbol}
+				{else if $box_data.price.special}
+					{$smarty.const.OLD_PRICE} <span class="pprice">{$box_data.price.default.formated}</span> {$smarty.session.currencySymbol}<br />
+					{$smarty.const.NEW_PRICE} <span class="pprice">{$box_data.price.special.formated}</span> {$smarty.session.currencySymbol}
+				{else if $box_data.price.specialGraduated}
+					{$smarty.const.OLD_PRICE} <span class="pprice">{$box_data.price.default.formated}</span> {$smarty.session.currencySymbol}<br />
+					{$smarty.const.NEW_PRICE} <span class="pprice">{$box_data.price.specialGraduated.formated}</span> {$smarty.session.currencySymbol}
+				{else}
+					<span class="pprice">{$box_data.price.price.formated}</span> {$smarty.session.currencySymbol}
+				{/if}
 </td>
 </tr>               
 <tr>

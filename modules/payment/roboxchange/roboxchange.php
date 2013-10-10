@@ -2,13 +2,13 @@
 /*
 *---------------------------------------------------------
 *
-*	OSC-CMS - Open Source Shopping Cart Software
-*	http://osc-cms.com
+*	CartET - Open Source Shopping Cart Software
+*	http://www.cartet.org
 *
 *---------------------------------------------------------
 */
 
-class roboxchange extends OscCms
+class roboxchange extends CartET
 {
 	/**
 	 * Системный идентификатор модуля

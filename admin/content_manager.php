@@ -1,1125 +1,672 @@
 <?php
 /*
-#####################################
-#  OSC-CMS: Shopping Cart Software.
-#  Copyright (c) 2011-2012
-#  http://osc-cms.com
-#  http://osc-cms.com/forum
-#  Ver. 1.0.0
-#####################################
+*---------------------------------------------------------
+*
+*	CartET - Open Source Shopping Cart Software
+*	http://www.cartet.org
+*
+*---------------------------------------------------------
 */
 
- require('includes/top.php');
- require_once(_FUNC_ADMIN.'wysiwyg_tiny.php');
- 
-  set_content_url_cache(); 
-  
- $languages = os_get_languages();
+require('includes/top.php');
 
- 
- if ($_GET['special']=='delete') {
- 
- os_db_query("DELETE FROM ".TABLE_CONTENT_MANAGER." where content_id='".(int)$_GET['coID']."'");
- os_redirect(os_href_link(FILENAME_CONTENT_MANAGER));
-} 
+$languages = os_get_languages();
 
- if ($_GET['special']=='delete_product') {
- 
- os_db_query("DELETE FROM ".TABLE_PRODUCTS_CONTENT." where content_id='".(int)$_GET['coID']."'");
- os_redirect(os_href_link(FILENAME_CONTENT_MANAGER,'pID='.(int)$_GET['pID']));
-} 
+$breadcrumb->add(HEADING_TITLE, FILENAME_CONTENT_MANAGER);
 
-
-if(($_GET['status']=="true" || $_GET['status']=="false") && isset($_GET['coid'])) {
-    
-    $coID = $_GET['coid'];
-   if ($_GET['status'] == "true") $sql_data_array = array('content_status' => 1);
-   else $sql_data_array = array('content_status' => 0);
-   os_db_perform(TABLE_CONTENT_MANAGER, $sql_data_array, 'update', "content_id = '" . $coID . "'");
-   os_redirect(os_href_link(FILENAME_CONTENT_MANAGER));
-}
-
-
- if ($_GET['id']=='update' or $_GET['id']=='insert') {
-        
-        $group_ids='';
-        if(isset($_POST['groups'])) foreach($_POST['groups'] as $b){
-        $group_ids .= 'c_'.$b."_group ,";
-        }
-        $customers_statuses_array=os_get_customers_statuses();
-        if (strpos($group_ids,'c_all_group')) {
-        $group_ids='c_all_group,';
-         for ($i=0;$n=sizeof($customers_statuses_array),$i<$n;$i++) {
-            $group_ids .='c_'.$customers_statuses_array[$i]['id'].'_group,';
-         }
-        }
-        
-        $content_title=os_db_prepare_input($_POST['cont_title']);
-        $content_header=os_db_prepare_input($_POST['cont_heading']);
-        $content_url=os_db_prepare_input($_POST['cont_url']);
-        $content_page_url=os_db_prepare_input($_POST['cont_page_url']);
-        $content_text=os_db_prepare_input($_POST['cont']);
-        $coID=os_db_prepare_input($_POST['coID']);
-        $upload_file=os_db_prepare_input($_POST['file_upload']);
-        $content_status=os_db_prepare_input($_POST['status']);
-        $content_language=os_db_prepare_input($_POST['language']);
-        $select_file=os_db_prepare_input($_POST['select_file']);
-        $file_flag=os_db_prepare_input($_POST['file_flag']);
-        $parent_check=os_db_prepare_input($_POST['parent_check']);
-        $parent_id=os_db_prepare_input($_POST['parent']);
-        $group_id=os_db_prepare_input($_POST['content_group']);
-        $group_ids = $group_ids;
-        $sort_order=os_db_prepare_input($_POST['sort_order']);
-        $content_meta_title = os_db_prepare_input($_POST['cont_meta_title']);
-        $content_meta_description = os_db_prepare_input($_POST['cont_meta_description']);
-        $content_meta_keywords = os_db_prepare_input($_POST['cont_meta_keywords']);
-        
-        for ($i = 0, $n = sizeof($languages); $i < $n; $i++) {
-		    if ($languages[$i]['status']==1)
-			{
-                if ($languages[$i]['code']==$content_language) $content_language=$languages[$i]['id'];
-			}	
-        }
-        
-        $error=false;
-        if (strlen($content_title) < 1) {
-          $error = true;
-          $messageStack->add(ERROR_TITLE,'error');
-        }  
-
-        if ($content_status=='yes'){
-        $content_status=1;
-        } else{
-        $content_status=0;
-        } 
-
-        if ($parent_check=='yes'){
-        $parent_id=$parent_id;
-        } else{
-        $parent_id='0';
-        } 
-
-      if ($error == false) {
-      if ($select_file!='default') $content_file_name=$select_file;
-      
-      if ($content_file = &os_try_upload('file_upload', DIR_FS_CATALOG.'media/content/')) {
-        $content_file_name=$content_file->filename;
-      } 
-        
-          $sql_data_array = array(
-                                'languages_id' => $content_language,
-                                'content_title' => $content_title,
-                                'content_heading' => $content_header,
-                                'content_page_url' => $content_page_url,
-                                'content_url' => $content_url,
-                                'content_text' => $content_text,
-                                'content_file' => $content_file_name,
-                                'content_status' => $content_status,
-                                'parent_id' => $parent_id,
-                                'group_ids' => $group_ids,
-                                'content_group' => $group_id,
-                                'sort_order' => $sort_order,
-                                'file_flag' => $file_flag,
-         						     'content_meta_title' => $content_meta_title,
-                                'content_meta_description' => $content_meta_description,
-                                'content_meta_keywords' => $content_meta_keywords);
-         if ($_GET['id']=='update') {
-         os_db_perform(TABLE_CONTENT_MANAGER, $sql_data_array, 'update', "content_id = '" . $coID . "'");
-        } else {
-         os_db_perform(TABLE_CONTENT_MANAGER, $sql_data_array);
-        } 
-        os_redirect(os_href_link(FILENAME_CONTENT_MANAGER));
-        } 
-        }
- 
- if ($_GET['id']=='update_product' or $_GET['id']=='insert_product') {
-        
-        $group_ids='';
-        if(isset($_POST['groups'])) foreach($_POST['groups'] as $b){
-        $group_ids .= 'c_'.$b."_group ,";
-        }
-        $customers_statuses_array=os_get_customers_statuses();
-        if (strpos($group_ids,'c_all_group')) {
-        $group_ids='c_all_group,';
-         for ($i=0;$n=sizeof($customers_statuses_array),$i<$n;$i++) {
-            $group_ids .='c_'.$customers_statuses_array[$i]['id'].'_group,';
-         }
-        }
-        
-        $content_title=os_db_prepare_input($_POST['cont_title']);
-        $content_link=os_db_prepare_input($_POST['cont_link']);
-        $content_language=os_db_prepare_input($_POST['language']);
-        $product=os_db_prepare_input($_POST['product']);
-        $upload_file=os_db_prepare_input($_POST['file_upload']);
-        $filename=os_db_prepare_input($_POST['file_name']);
-        $coID=os_db_prepare_input($_POST['coID']);
-        $file_comment=os_db_prepare_input($_POST['file_comment']);
-        $select_file=os_db_prepare_input($_POST['select_file']);
-        $group_ids = $group_ids;
-        
-        $error=false;
-        
-        for ($i = 0, $n = sizeof($languages); $i < $n; $i++) 
-		{
-		   if ($languages[$i]['status']==1)
-		   {
-             if ($languages[$i]['code']==$content_language) $content_language=$languages[$i]['id'];
-		   }
-        }
-        
-        if (strlen($content_title) < 1) {
-          $error = true;
-          $messageStack->add(ERROR_TITLE,'error');
-        } 
-        
-        
-        if ($error == false) {
-        	
-// mkdir() wont work with php in safe_mode
-        if  (!is_dir(DIR_FS_CATALOG.'media/products/'.$product.'/')) {
-        
-        $old_umask = umask(0);
-	os_mkdirs(DIR_FS_CATALOG.'media/products/'.$product.'/',0777);
-        umask($old_umask);
-
-        }
-if ($select_file=='default') {
-        
-        if ($content_file = &os_try_upload('file_upload', DIR_FS_CATALOG.'media/products/')) {
-        $content_file_name=$content_file->filename;
-        $old_filename=$content_file->filename;
-        $timestamp=str_replace('.','',microtime());
-        $timestamp=str_replace(' ','',$timestamp);
-        $content_file_name=$timestamp.strstr($content_file_name,'.');
-        $rename_string=DIR_FS_CATALOG.'media/products/'.$content_file_name;
-        rename(DIR_FS_CATALOG.'media/products/'.$old_filename,$rename_string);
-        copy($rename_string,DIR_FS_CATALOG.'media/products/backup/'.$content_file_name);
-        } 
-        if ($content_file_name=='') $content_file_name=$filename;
- } else {
-  $content_file_name=$select_file;
-}     
-        $group_ids='';
-        if(isset($_POST['groups'])) foreach($_POST['groups'] as $b){
-        $group_ids .= 'c_'.$b."_group ,";
-        }
-        $customers_statuses_array=os_get_customers_statuses();
-        if (strpos($group_ids,'c_all_group')) {
-        $group_ids='c_all_group,';
-         for ($i=0;$n=sizeof($customers_statuses_array),$i<$n;$i++) {
-            $group_ids .='c_'.$customers_statuses_array[$i]['id'].'_group,';
-         }
-        }
-        
-          $sql_data_array = array(
-                                'products_id' => $product,
-                                'group_ids' => $group_ids, 
-                                'content_name' => $content_title,
-                                'content_file' => $content_file_name,
-                                'content_link' => $content_link,
-                                'file_comment' => $file_comment,
-                                'languages_id' => $content_language);
-        
-         if ($_GET['id']=='update_product') {
-         os_db_perform(TABLE_PRODUCTS_CONTENT, $sql_data_array, 'update', "content_id = '" . $coID . "'");
-         $content_id = os_db_insert_id();
-        } else {
-         os_db_perform(TABLE_PRODUCTS_CONTENT, $sql_data_array);
-         $content_id = os_db_insert_id();        
-        }  
-        os_redirect(os_href_link(FILENAME_CONTENT_MANAGER,'pID='.$product));
-        }
-
-        
-}
- 
-  add_action('head_admin', 'head_content');
-  
-  function head_content()
-  {
-     _e('<script type="text/javascript" src="includes/javascript/tabber.js"></script>');
-     _e('<link rel="stylesheet" href="includes/javascript/tabber.css" TYPE="text/css" MEDIA="screen">');
-     _e('<link rel="stylesheet" href="includes/javascript/tabber-print.css" TYPE="text/css" MEDIA="print">');
-
-     $query=os_db_query("SELECT code FROM ". TABLE_LANGUAGES ." WHERE languages_id='".$_SESSION['languages_id']."'");
-     $data=os_db_fetch_array($query);
-     if ($_GET['action']!='new_products_content' && $_GET['action']!='') echo os_wysiwyg_tiny('content_manager',$data['code']);
-     if ($_GET['action']=='new_products_content') echo os_wysiwyg_tiny('products_content',$data['code']);
-     if ($_GET['action']=='edit_products_content') echo os_wysiwyg_tiny('products_content',$data['code']); 
-  }
-?>
-
-<?php $main->head(); ?>
-<?php $main->top_menu(); ?>
-
-<table border="0" width="100%" cellspacing="2" cellpadding="2">
-  <tr>
-    <td class="boxCenter" width="100%" valign="top">
-    
-    <?php os_header('page_copy.png',HEADING_TITLE); ?> 
-    
-<?php
-if (!$_GET['action']) {
-?>
-<div class="main"><?php echo CONTENT_NOTE; ?></div>
- <?php
- os_spaceUsed(DIR_FS_CATALOG.'media/content/');
-echo '<div class="main">'.USED_SPACE.os_format_filesize($total).'</div>';
-?>
-
-<div class="tabber">
-<?php
-
-for ($i = 0, $n = sizeof($languages); $i < $n; $i++) 
+if (isset($_GET['act']) && $_GET['act'] == 'products')
 {
-    if ($languages[$i]['status']==1)
+	$breadcrumb->add(HEADING_PRODUCTS_CONTENT, FILENAME_CONTENT_MANAGER.'?act=products');
+
+	if ($_GET['action'] == 'new_products')
 	{
-        $content=array();
+		$breadcrumb->add(TEXT_NEW_FILE_TO_PRODUCT, FILENAME_CONTENT_MANAGER.'?action=new_products');
+	}
 
+	if ($_GET['action'] == 'edit_products')
+	{
+		$content_query = os_db_query("SELECT * FROM ".TABLE_PRODUCTS_CONTENT." WHERE content_id='".(int)$_GET['coID']."'");
+		$content = os_db_fetch_array($content_query);
 
-         $content_query=os_db_query("SELECT
-                                        content_id,
-                                        categories_id,
-                                        parent_id,
-                                        group_ids,
-                                        languages_id,
-                                        content_title,
-                                        content_heading,
-                                        content_url,
-                                        content_text,
-                                        sort_order,
-                                        file_flag,
-                                        content_file,
-                                        content_status,
-                                        content_group,
-                                        content_delete,
-             							       content_meta_title,
-                                        content_meta_description,
-                                        content_meta_keywords
-                                        FROM ".TABLE_CONTENT_MANAGER."
-                                        WHERE languages_id='".$languages[$i]['id']."'
-                                        order by sort_order 
-                                        ");
-        while ($content_data=os_db_fetch_array($content_query)) {
-        
-         $content[]=array(
-                        'CONTENT_ID' =>$content_data['content_id'] ,
-                        'PARENT_ID' => $content_data['parent_id'],
-                        'GROUP_IDS' => $content_data['group_ids'],
-                        'LANGUAGES_ID' => $content_data['languages_id'],
-                        'CONTENT_TITLE' => $content_data['content_title'],
-                        'CONTENT_HEADING' => $content_data['content_heading'],
-                        'CONTENT_URL' => $content_data['content_url'],
-                        'CONTENT_TEXT' => $content_data['content_text'],
-                        'SORT_ORDER' => $content_data['sort_order'],
-                        'FILE_FLAG' => $content_data['file_flag'],
-                        'CONTENT_FILE' => $content_data['content_file'],
-                        'CONTENT_DELETE' => $content_data['content_delete'],
-                        'CONTENT_GROUP' => $content_data['content_group'],
-                        'CONTENT_STATUS' => $content_data['content_status'],
-                        'CONTENT_META_TITLE' => $content_data['content_meta_title'],
-                        'CONTENT_META_DESCRIPTION' => $content_data['content_meta_description'],
-                        'CONTENT_META_KEYWORDS' => $content_data['content_meta_keywords']);
-                                
-        }
-        
-     
-?>
-        <div class="tabbertab"><h3><?php echo $languages[$i]['name']; ?></h3>
-		<table border="0" width="100%" cellspacing="2" cellpadding="2">
-              <tr class="dataTableHeadingRow" align="center">
-                <td class="dataTableHeadingContent" width="10" ><?php echo TABLE_HEADING_CONTENT_ID; ?></td>
-                <td class="dataTableHeadingContent" width="10" >&nbsp;</td>
-                <td class="dataTableHeadingContent" width="30%"><?php echo TABLE_HEADING_CONTENT_TITLE; ?></td>
-                <td class="dataTableHeadingContent" width="1%"><?php echo TABLE_HEADING_CONTENT_GROUP; ?></td>
-                <td class="dataTableHeadingContent" width="1%"><?php echo TABLE_HEADING_CONTENT_SORT; ?></td>
-                <td class="dataTableHeadingContent" class="right_box"><?php echo TABLE_HEADING_CONTENT_FILE; ?></td>
-                <td class="dataTableHeadingContent" nowrap width="5%"><?php echo TABLE_HEADING_CONTENT_STATUS; ?></td>
-                <td class="dataTableHeadingContent" nowrap width=""><?php echo TABLE_HEADING_CONTENT_BOX; ?></td>
-                <td class="dataTableHeadingContent" width="30%"><?php echo TABLE_HEADING_CONTENT_ACTION; ?>&nbsp;</td>
-              </tr>
-<?php 
+		$pinfo = $cartet->products->getProduct(array('product_id' => $content['products_id']));
 
-for ($ii = 0, $nn = sizeof($content); $ii < $nn; $ii++)
+		$breadcrumb->add($content['content_name'].' ('.$pinfo['products_name'].')', FILENAME_CONTENT_MANAGER.'?action=edit_products&coID='.$_GET['coID']);
+	}
+}
+
+if (isset($_GET['action']) && $_GET['action'] == 'new')
 {
-   $file_flag_sql = os_db_query("SELECT file_flag_name FROM " . TABLE_CM_FILE_FLAGS . " WHERE file_flag=" . $content[$ii]['FILE_FLAG']);
-   $file_flag_result = os_db_fetch_array($file_flag_sql);
-   $color = $color == '#f9f9ff' ? '#f0f1ff':'#f9f9ff';
-   echo '<tr onmouseover="this.style.background=\'#e9fff1\';this.style.cursor=\'hand\';" onmouseout="this.style.background=\''.$color.'\';" style="background-color:'.$color.'">' . "\n";
-   if ($content[$ii]['CONTENT_FILE']=='') $content[$ii]['CONTENT_FILE']='database';
-?>
- <td class="dataTableContent" align="left"><?php echo $content[$ii]['CONTENT_ID']; ?></td>
- <td bgcolor="<?php echo substr((6543216554/$content[$ii]['CONTENT_GROUP']),0,6); ?>" class="dataTableContent" align="left">&nbsp;</td>
- <td class="dataTableContent" align="left"><?php echo $content[$ii]['CONTENT_TITLE']; ?>
- <?php
- if ($content[$ii]['CONTENT_DELETE']=='0'){
- echo '<font color="ff0000">*</font>';
-} ?>
-</td>
-<td class="dataTableContent" align="middle"><?php echo $content[$ii]['CONTENT_GROUP']; ?></td>
-<td class="dataTableContent" align="middle"><?php echo $content[$ii]['SORT_ORDER']; ?>&nbsp;</td>
-<td class="dataTableContent" align="left"><?php echo $content[$ii]['CONTENT_FILE']; ?></td>
-<td class="dataTableContent" align="middle">
-<?php 
-   if ($content[$ii]['CONTENT_STATUS']==0) 
-   { 
-	   echo '<a href="content_manager.php?'.'status=true&coid='.$content[$ii]['CONTENT_ID'].'">' . os_image(http_path('icons_admin') . 'icon_status_green_light.gif', IMAGE_ICON_STATUS_GREEN_LIGHT, 10, 10) . '</a>&nbsp;&nbsp;' . os_image(http_path('icons_admin') . 'icon_status_red.gif', IMAGE_ICON_STATUS_RED, 10, 10);
-   } 
-   else 
-   { 
-	   echo os_image(http_path('icons_admin')  . 'icon_status_green.gif', IMAGE_ICON_STATUS_GREEN, 10, 10) . '&nbsp;&nbsp;<a href="content_manager.php?status=false&coid='.$content[$ii]['CONTENT_ID']. '">' . os_image(http_path('icons_admin') . 'icon_status_red_light.gif', IMAGE_ICON_STATUS_RED_LIGHT, 10, 10) . '</a>';	  
-		 
-   } 
-?>
-</td>
-<td class="dataTableContent" align="middle"><?php echo $file_flag_result['file_flag_name']; ?></td>
-<td class="dataTableContent" align="right">
-<a href="">
-<?php
- if ($content[$ii]['CONTENT_DELETE']=='1'){
-?>
- <a href="<?php echo os_href_link(FILENAME_CONTENT_MANAGER,'special=delete&coID='.$content[$ii]['CONTENT_ID']); ?>" onClick="return confirm('<?php echo CONFIRM_DELETE; ?>')">
- <?php echo os_image(http_path('icons_admin').'delete.gif','','','','style="cursor:pointer" onClick="return confirm(\''.DELETE_ENTRY.'\')"').'  '.TEXT_DELETE.'</a>&nbsp;&nbsp;';
-} // if content
-?>
- <a href="<?php echo os_href_link(FILENAME_CONTENT_MANAGER,'action=edit&coID='.$content[$ii]['CONTENT_ID']); ?>">
-<?php echo os_image(http_path('icons_admin').'icon_edit.gif','','','','style="cursor:pointer"').'  '.TEXT_EDIT.'</a>'; ?>
- <a style="cursor:pointer" onClick="javascript:window.open('<?php echo os_href_link(FILENAME_CONTENT_PREVIEW,'coID='.$content[$ii]['CONTENT_ID']); ?>', 'popup', 'toolbar=0, width=640, height=600')"><?php echo os_image(http_path('icons_admin').'preview.gif','','','','style="cursor:pointer"').'&nbsp;&nbsp;'.TEXT_PREVIEW.'</a>'; ?>
- </td>
- </tr>
- 
- <?php
- $content_1=array();
-         $content_1_query=os_db_query("SELECT
-                                        content_id,
-                                        categories_id,
-                                        parent_id,
-                                        group_ids,
-                                        languages_id,
-                                        content_title,
-                                        content_heading,
-                                        content_url,
-                                        content_text,
-                                        file_flag,
-                                        content_file,
-                                        content_status,
-                                        content_delete,
-             							       content_meta_title,
-                                        content_meta_description,
-                                        content_meta_keywords
-                                        FROM ".TABLE_CONTENT_MANAGER."
-                                        WHERE languages_id='".$i."'
-                                        AND parent_id='".$content[$ii]['CONTENT_ID']."'
-                                        order by sort_order
-                                         ");
-        while ($content_1_data=os_db_fetch_array($content_1_query)) {
-        
-         $content_1[]=array(
-                        'CONTENT_ID' =>$content_1_data['content_id'] ,
-                        'PARENT_ID' => $content_1_data['parent_id'],
-                        'GROUP_IDS' => $content_1_data['group_ids'],
-                        'LANGUAGES_ID' => $content_1_data['languages_id'],
-                        'CONTENT_TITLE' => $content_1_data['content_title'],
-                        'CONTENT_HEADING' => $content_1_data['content_heading'],
-                        'CONTENT_URL' => $content_1_data['content_url'],
-                        'CONTENT_TEXT' => $content_1_data['content_text'],
-                        'SORT_ORDER' => $content_1_data['sort_order'],
-                        'FILE_FLAG' => $content_1_data['file_flag'],
-                        'CONTENT_FILE' => $content_1_data['content_file'],
-                        'CONTENT_DELETE' => $content_1_data['content_delete'],
-                        'CONTENT_STATUS' => $content_data['content_status'],
-                        'CONTENT_META_TITLE' => $content_data['content_meta_title'],
-                        'CONTENT_META_DESCRIPTION' => $content_data['content_meta_description'],
-                        'CONTENT_META_KEYWORDS' => $content_data['content_meta_keywords']);
- }      
-for ($a = 0, $x = sizeof($content_1); $a < $x; $a++) {
-if ($content_1[$a]!='') {
- $file_flag_sql = os_db_query("SELECT file_flag_name FROM " . TABLE_CM_FILE_FLAGS . " WHERE file_flag=" . $content_1[$a]['FILE_FLAG']);
- $file_flag_result = os_db_fetch_array($file_flag_sql);
- echo '<tr class="dataTableRow" onmouseover="this.className=\'dataTableRowOver\'" onmouseout="this.className=\'dataTableRow\'">' . "\n";
- 
- if ($content_1[$a]['CONTENT_FILE']=='') $content_1[$a]['CONTENT_FILE']='database';
- ?>
- <td class="dataTableContent" align="left"><?php echo $content_1[$a]['CONTENT_ID']; ?></td>
- <td class="dataTableContent" align="left">--<?php echo $content_1[$a]['CONTENT_TITLE']; ?></td>
- <td class="dataTableContent" align="left"><?php echo $content_1[$a]['CONTENT_FILE']; ?></td>
- <td class="dataTableContent" align="middle"><?php if ($content_1[$a]['CONTENT_STATUS']==0) { echo TEXT_NO; } else { echo TEXT_YES; } ?></td>
- <td class="dataTableContent" align="middle"><?php echo $file_flag_result['file_flag_name']; ?></td>
- <td class="dataTableContent" align="right">
- <a href="">
-<?php
- if ($content_1[$a]['CONTENT_DELETE']=='1'){
-?>
- <a href="<?php echo os_href_link(FILENAME_CONTENT_MANAGER,'special=delete&coID='.$content_1[$a]['CONTENT_ID']); ?>" onClick="return confirm('<?php echo CONFIRM_DELETE; ?>')">
- <?php echo os_image(http_path('icons_admin').'delete.gif','','','','style="cursor:pointer" onClick="return confirm(\''.DELETE_ENTRY.'\')"').'  '.TEXT_DELETE.'</a>&nbsp;&nbsp;';
-} 
-?>
- <a href="<?php echo os_href_link(FILENAME_CONTENT_MANAGER,'action=edit&coID='.$content_1[$a]['CONTENT_ID']); ?>">
-<?php echo os_image(http_path('icons_admin').'icon_edit.gif','','','','style="cursor:pointer"').'  '.TEXT_EDIT.'</a>'; ?>
- <a style="cursor:pointer" onClick="javascript:window.open('<?php echo os_href_link(FILENAME_CONTENT_PREVIEW,'coID='.$content_1[$a]['CONTENT_ID']); ?>', 'popup', 'toolbar=0, width=640, height=600')"
- 
- 
- ><?php echo os_image(http_path('icons_admin').'preview.gif','','','','style="cursor:pointer"').'&nbsp;&nbsp;'.TEXT_PREVIEW.'</a>'; ?>
- </td>
- </tr> 
- 
- 
-<?php
-}}
+	$breadcrumb->add(BUTTON_NEW_CONTENT, FILENAME_CONTENT_MANAGER.'?action=new');
 }
+
+if (isset($_GET['action']) && $_GET['action'] == 'edit')
+{
+	$content_query = os_db_query("SELECT * FROM ".TABLE_CONTENT_MANAGER." WHERE content_id='".(int)$_GET['coID']."'");
+	$content = os_db_fetch_array($content_query);
+
+	$breadcrumb->add($content['content_title'], FILENAME_CONTENT_MANAGER.'?action=edit&coID='.$_GET['coID']);
 }
+
+$main->head();
+$main->top_menu();
 ?>
-</table>
+
+<div class="second-page-nav">
+	<div class="row-fluid">
+		<div class="span6">
+			<div class="btn-group">
+				<a class="btn btn-mini <?php echo (!isset($_GET['act'])) ? 'btn-info' : ''; ?>" href="<?php echo os_href_link(FILENAME_CONTENT_MANAGER); ?>">Страницы</a>
+				<a class="btn btn-mini <?php echo (isset($_GET['act']) && $_GET['act'] == 'products') ? 'btn-info' : ''; ?>" href="<?php echo os_href_link(FILENAME_CONTENT_MANAGER,'act=products'); ?>">Файлы</a>
+			</div>
+		</div>
+		<div class="span6">
+			<div class="btn-group pull-right">
+				<?php if (isset($_GET['act']) && $_GET['act'] == 'products') { ?>
+				<a class="btn btn-info btn-mini" href="<?php echo os_href_link(FILENAME_CONTENT_MANAGER,'act=products&action=new_products'); ?>"><?php echo TEXT_NEW_FILE_TO_PRODUCT; ?></a>
+				<? } else { ?>
+				<a class="btn btn-info btn-mini" href="<?php echo os_href_link(FILENAME_CONTENT_MANAGER,'action=new'); ?>"><?php echo BUTTON_NEW_CONTENT; ?></a>
+				<? } ?>
+			</div>
+		</div>
+	</div>
 </div>
 
-<?php
-}
-?>
-</div>
-<?php
-} else {
+<?php if (isset($_GET['act']) && $_GET['act'] == 'products') { ?>
 
-switch ($_GET['action']) {
- case 'new':    
- case 'edit':
- if ($_GET['action']!='new') {
+	<?php if ($_GET['action'] == 'edit_products' OR $_GET['action'] == 'new_products') { ?>
 
-        $content_query=os_db_query("SELECT
-                                        content_id,
-                                        categories_id,
-                                        parent_id,
-                                        group_ids,
-                                        languages_id,
-                                        content_title,
-                                        content_heading,
-                                        content_url,
-                                        content_page_url,
-                                        content_text,
-                                        sort_order,
-                                        file_flag,
-                                        content_file,
-                                        content_status,
-                                        content_group,
-                                        content_delete,
-                                        content_meta_title,
-                                        content_meta_description,
-                                        content_meta_keywords
-                                        FROM ".TABLE_CONTENT_MANAGER."
-                                        WHERE content_id='".(int)$_GET['coID']."'");
+		<?php
+			$products_query = os_db_query("SELECT products_id, products_name FROM ".TABLE_PRODUCTS_DESCRIPTION." WHERE language_id='".(int)$_SESSION['languages_id']."'");
+			$products_array = array();
 
-        $content=os_db_fetch_array($content_query);
-}
-        $languages_array = array();
+			while ($products_data=os_db_fetch_array($products_query))
+			{
+				$products_array[] = array(
+					'id' => $products_data['products_id'],
+					'text' => $products_data['products_name']
+				);
+			}
 
+			$languages_array = array();
 
-        
-  for ($i = 0, $n = sizeof($languages); $i < $n; $i++) 
-  {
-      if ($languages[$i]['status']==1)
-	  {                     
-  if ($languages[$i]['id']==$content['languages_id']) {
-         $languages_selected=$languages[$i]['code'];
-         $languages_id=$languages[$i]['id'];
-        }               
-    $languages_array[] = array('id' => $languages[$i]['code'],
-               'text' => $languages[$i]['name']);
-      }
-  } 
-  if ($languages_id!='') $query_string='languages_id='.$languages_id.' AND';
-    $categories_query=os_db_query("SELECT
-                                        content_id,
-                                        content_title
-                                        FROM ".TABLE_CONTENT_MANAGER."
-                                        WHERE ".$query_string." content_id!='".(int)$_GET['coID']."'");
-  while ($categories_data=os_db_fetch_array($categories_query)) {
-  
-  $categories_array[]=array(
-                        'id'=>$categories_data['content_id'],
-                        'text'=>$categories_data['content_title']);
- }   
-?>
-<br /><br />
-<?php
- 
-if ($_GET['action']!='new') 
-{
-   echo os_draw_form('edit_content',FILENAME_CONTENT_MANAGER,'action=edit&id=update&coID='.$_GET['coID'],'post','enctype="multipart/form-data"').os_draw_hidden_field('coID',$_GET['coID']);
-} 
-else 
-{
-   echo os_draw_form('edit_content',FILENAME_CONTENT_MANAGER,'action=edit&id=insert','post','enctype="multipart/form-data"').   os_draw_hidden_field('coID',$_GET['coID']);
-} ?>
-<table class="main" width="100%" border="0">
-   <tr> 
-      <td width="10%"><?php echo TEXT_LANGUAGE; ?></td>
-      <td width="90%"><?php echo os_draw_pull_down_menu('language',$languages_array,$languages_selected); ?></td>
-   </tr>
-<?php
-if ($content['content_delete']!=0 or $_GET['action']=='new') {
-?>   
-      <tr> 
-      <td width="10%"><?php echo TEXT_GROUP; ?></td>
-      <td width="90%"><?php echo os_draw_input_field('content_group',$content['content_group'],'size="5"'); ?><?php echo TEXT_GROUP_DESC; ?></td>
-   </tr>
-<?php
-} else {
-echo os_draw_hidden_field('content_group',$content['content_group']);
-?>
-      <tr>
-      <td width="10%"><?php echo TEXT_GROUP; ?></td>
-      <td width="90%"><?php echo $content['content_group']; ?></td>
-   </tr>
-<?php
-}
-$file_flag_sql = os_db_query("SELECT file_flag as id, file_flag_name as text FROM " . TABLE_CM_FILE_FLAGS);
-while($file_flag = os_db_fetch_array($file_flag_sql)) {
-	$file_flag_array[] = array('id' => $file_flag['id'], 'text' => $file_flag['text']);
-}
-?>	
-      <tr> 
-      <td width="10%"><?php echo TEXT_FILE_FLAG; ?></td>
-      <td width="90%"><?php echo os_draw_pull_down_menu('file_flag',$file_flag_array,$content['file_flag']); ?></td>
-   </tr>
+			for ($i = 0, $n = sizeof($languages); $i < $n; $i++)
+			{
+				if ($languages[$i]['status'] == 1)
+				{
+					if ($languages[$i]['id'] == $content['languages_id'])
+					{
+						$languages_selected = $languages[$i]['code'];
+						$languages_id = $languages[$i]['id'];
+					}
+					$languages_array[] = array(
+						'id' => $languages[$i]['code'],
+						'text' => $languages[$i]['name']
+					);
+				}
+			}
+			$content_files_query = os_db_query("SELECT DISTINCT content_name, content_file FROM ".TABLE_PRODUCTS_CONTENT." WHERE content_file!=''");
+			$content_files = array();
 
-      <tr>
-      <td width="10%"><?php echo TEXT_PARENT; ?></td>
-      <td width="90%"><?php echo os_draw_pull_down_menu('parent',$categories_array,$content['parent_id']); ?><?php echo os_draw_checkbox_field('parent_check', 'yes',false).' '.TEXT_PARENT_DESCRIPTION; ?></td>
-   </tr>
+			while ($content_files_data=os_db_fetch_array($content_files_query))
+			{
+				$content_files[] = array(
+					'id' => $content_files_data['content_file'],
+					'text' => $content_files_data['content_name']
+				);
+			}
 
-    <tr>
-      <td width="10%"><?php echo TEXT_SORT_ORDER; ?></td>
-      <td width="90%"><?php echo os_draw_input_field('sort_order',$content['sort_order'],'size="5"'); ?></td>
-    </tr>
+			$default_array[] = array('id' => 'default','text' => TEXT_SELECT);
+			$default_value = 'default';
+			$content_files = array_merge($default_array, $content_files);
+		?>
+		<form id="edit_content" name="edit_content" action="<?php echo os_href_link(FILENAME_CONTENT_MANAGER) ;?>" method="post" enctype="multipart/form-data">
 
-      <tr> 
-      <td valign="top" width="10%"><?php echo TEXT_STATUS; ?></td>
-      <td width="90%"><?php
-      if ($content['content_status']=='1') {
-      echo os_draw_checkbox_field('status', 'yes',true).' '.TEXT_STATUS_DESCRIPTION;
-      } else {
-      echo os_draw_checkbox_field('status', 'yes',false).' '.TEXT_STATUS_DESCRIPTION;
-      }
+			<?php if (isset($_GET['coID']) && !empty($_GET['coID'])) { ?>
+				<input type="hidden" name="coID" value="<?php echo $_GET['coID']; ?>">
+			<?php } ?>
+			<input type="hidden" name="action" value="<?php echo $_GET['action']; ?>">
 
-      ?><br /><br /></td>
-   </tr>
+			<div class="control-group">
+				<label class="control-label" for="categories_select"><?php echo TEXT_PRODUCT; ?></label>
+				<div class="controls">
+					<?php if (isset($_GET['coID']) && !empty($_GET['coID'])) { ?>
+						<span class="label label-success">
+					<?php
+					echo $pinfo['products_name'];
+					?>
+					</span>
+					<?php } else { ?>
+						<?php $allCategories = $cartet->products->getCategories(array(array('id' => '', 'text' => CATEGORIES_LIST))); ?>
+						<?php echo $cartet->html->select('categories_select', $allCategories, '', array('id' => 'categories_select', 'class' => 'ajax-change-select', 'data-ajax-action' => 'load_products', 'data-sub-select' => 'products_id', 'data-sub-select-value' => 'products_id', 'data-sub-select-title' => 'products_name')); ?>
+						<?php echo $cartet->html->select('products_id', array(), '', array('id' => 'products_id', 'disabled' => 'disabled')); ?>
+					<?php } ?>
+				</div>
+			</div>
+			<div class="control-group">
+				<label class="control-label" for="news_page_url"><?php echo TEXT_LANGUAGE; ?></label>
+				<div class="controls">
+					<?php echo os_draw_pull_down_menu('language',$languages_array,$languages_selected); ?>
+				</div>
+			</div>
+			<?php
+			if (GROUP_CHECK == 'true')
+			{
+				$aStatus = $cartet->customers->getStatus();
+				?>
+				<div class="control-group">
+					<label class="control-label" for="groups"><?php echo ENTRY_CUSTOMERS_STATUS; ?></label>
+					<div class="controls">
+						<label class="checkbox"><input type="checkbox" name="groups[]" value="all" <?php echo ($content['group_ids'] == 'all') ? 'checked' : ''; ?>> <?php echo TXT_ALL; ?></label>
+						<?php
+						foreach($aStatus AS $s)
+						{
+							$checked = ($content['group_ids'] == $s['value']) ? 'checked' : '';
+							?>
+							<label class="checkbox"><input type="checkbox" name="groups[]" value="<?php echo $s['value']; ?>" <?php echo $checked; ?>> <?php echo $s['text']; ?></label>
+						<?php
+						}
+						?>
+					</div>
+				</div>
+			<?php } ?>
+			<div class="control-group">
+				<label class="control-label" for="content_name"><?php echo TEXT_TITLE_FILE; ?></label>
+				<div class="controls">
+					<input class="input-block-level" type="text" id="content_name" name="content_name" value="<?php echo $content['content_name']; ?>">
+				</div>
+			</div>
+			<div class="control-group">
+				<label class="control-label" for="content_link"><?php echo TEXT_LINK; ?></label>
+				<div class="controls">
+					<input class="input-block-level" type="text" id="content_link" name="content_link" value="<?php echo $content['content_link']; ?>">
+				</div>
+			</div>
+			<div class="control-group">
+				<label class="control-label" for="file_comment"><?php echo TEXT_FILE_DESC; ?></label>
+				<div class="controls">
+					<textarea class="input-block-level textarea_big" id="file_comment" name="file_comment"><?php echo $content['file_comment']; ?></textarea>
+				</div>
+			</div>
+			<div class="row-fluid">
+				<div class="span6">
+					<div class="control-group">
+						<label class="control-label" for="file_comment"><?php echo TEXT_UPLOAD_FILE; ?> <?php echo TEXT_UPLOAD_FILE_LOCAL; ?></label>
+						<div class="controls">
+							<?php echo os_draw_file_field('file_upload'); ?>
+						</div>
+					</div>
+				</div>
+				<div class="span6">
+					<div class="control-group">
+						<label class="control-label" for="file_comment"><?php echo TEXT_CHOOSE_FILE; ?></label>
+						<div class="controls">
+							<?php
+							require_once(dir_path('func_admin').'file_system.php');
+							$files = os_get_filelist(DIR_FS_CATALOG.'media/products/','', array('index.html'));
+							unset ($default_array);
+							if ($content['content_file']=='')
+							{
+								$default_array[] = array('id' => 'default','text' => TEXT_SELECT);
+								$default_value = 'default';
+							}
+							else
+							{
+								$default_array[] = array('id' => 'default','text' => TEXT_NO_FILE);
+								$default_value = $content['content_file'];
+							}
+							$files = os_array_merge($default_array, $files);
 
-          <?php
-if (GROUP_CHECK=='true') {
-$customers_statuses_array = os_get_customers_statuses();
-$customers_statuses_array=array_merge(array(array('id'=>'all','text'=>TXT_ALL)),$customers_statuses_array);
-?>
-<tr>
-<td style="border-top: 1px solid; border-color: #ff0000;" valign="top" class="main" ><?php echo ENTRY_CUSTOMERS_STATUS; ?></td>
-<td style="border-top: 1px solid; border-left: 1px solid; border-color: #ff0000;" style="border-top: 1px solid; border-right: 1px solid; border-color: #ff0000;" style="border-top: 1px solid; border-bottom: 1px solid; border-color: #ff0000;" bgcolor="#FFCC33" class="main">
-<?php
+							echo os_draw_pull_down_menu('select_file',$files,$default_value);
+							?>
+							<br />
+							<?php
+							if ($content['content_file'] != '')
+							{
+								echo TEXT_CURRENT_FILE.' <b>'.$content['content_file'].'</b>';
+								echo os_draw_hidden_field('file_name', $content['content_file']);
+							}
+							?>
+							<span class="help-block"><?php echo TEXT_CHOOSE_FILE_SERVER_PRODUCTS; ?></span>
+						</div>
+					</div>
+				</div>
+			</div>
 
-for ($i=0;$n=sizeof($customers_statuses_array),$i<$n;$i++) 
-{
-   if (strstr($content['group_ids'],'c_'.$customers_statuses_array[$i]['id'].'_group')) 
-   {
-      $checked='checked ';
-   } 
-   else 
-   {
-      $checked=''; 
-   }
-   $check_all = '';
-   if ($customers_statuses_array[$i]['id'] == 'all') $check_all = 'onClick="javascript:CheckAllContent(this.checked);"';
-   echo '<input type="checkbox" name="groups[]" value="'.$customers_statuses_array[$i]['id'].'"'.$checked.'> '.          $customers_statuses_array[$i]['text'].'<br />';
-}
-?>
-</td>
-</tr>
-<?php
-}
-?>
+			<hr>
 
+			<div class="tcenter footer-btn">
+				<input class="btn btn-success ajax-save-form" data-form-action="content_saveProduct" data-reload-page="1" type="submit" value="<?php echo BUTTON_SAVE; ?>">
+				<a class="btn btn-link" href="<?php echo os_href_link(FILENAME_CONTENT_MANAGER); ?>"><?php echo BUTTON_BACK; ?></a>
+			</div>
 
-   <tr>
-      <td width="10%"><?php echo TEXT_TITLE; ?></td>
-      <td width="90%"><?php echo os_draw_input_field('cont_title',$content['content_title'],'size="60"'); ?></td>
-   </tr>
-   <tr>
-      <td width="10%"><?php echo TEXT_PAGE_URL; ?></td>
-      <td width="90%"><?php echo os_draw_input_field('cont_page_url',$content['content_page_url'],'size="60"'); ?></td>
-   </tr>
-   <tr> 
-      <td width="10%"><?php echo TEXT_HEADING; ?></td>
-      <td width="90%"><?php echo os_draw_input_field('cont_heading',$content['content_heading'],'size="60"'); ?></td>
-   </tr>
+		</form>
 
-   <tr>
-   	   <td width="10%"><?php echo TEXT_META_TITLE; ?></td>
-      <td width="90%"><?php echo os_draw_input_field('cont_meta_title',$content['content_meta_title'],'size="60"'); ?></td>
-   </tr>
+	<?php } else {?>
 
-   <tr> 
-      <td width="10%"><?php echo TEXT_META_DESCRIPTION; ?></td>
-      <td width="90%"><?php echo os_draw_input_field('cont_meta_description',$content['content_meta_description'],'size="60"'); ?></td>
-   </tr>
+		<?php
+		$products_id_query = os_db_query("SELECT DISTINCT pc.products_id, pd.products_name FROM ".TABLE_PRODUCTS_CONTENT." pc, ".TABLE_PRODUCTS_DESCRIPTION." pd WHERE pd.products_id=pc.products_id and pd.language_id='".(int)$_SESSION['languages_id']."'");
 
-   <tr> 
-      <td width="10%"><?php echo TEXT_META_KEYWORDS; ?></td>
-      <td width="90%"><?php echo os_draw_input_field('cont_meta_keywords',$content['content_meta_keywords'],'size="60"'); ?></td>
-   </tr>
-
-   <tr> 
-      <td width="10%" valign="top"><?php echo TEXT_UPLOAD_FILE; ?></td>
-      <td width="90%"><?php echo os_draw_file_field('file_upload').' '.TEXT_UPLOAD_FILE_LOCAL; ?></td>
-   </tr> 
-         <tr> 
-      <td width="10%" valign="top"><?php echo TEXT_CHOOSE_FILE; ?></td>
-      <td width="90%">
-<?php
-    require_once(dir_path('func_admin').'file_system.php');
-    $files = os_get_filelist(DIR_FS_CATALOG.'media/content/','', array('index.html'));
-
-if ($content['content_file']=='') {
-    $default_array[]=array('id' => 'default','text' => TEXT_SELECT);
-    $default_value='default';
-    if (count($files) == 0)
-    {
-    $files = $default_array;
-    }
-    else
-    {
-    $files=os_array_merge($default_array,$files);
-    }
-} else {
-$default_array[]=array('id' => 'default','text' => TEXT_NO_FILE);
-$default_value=$content['content_file'];
-    if (count($files) == 0)
-    {
-    $files = $default_array;
-    }
-    else
-    {
-    $files=array_merge($default_array,$files);
-    }
-}
-echo '<br />'.TEXT_CHOOSE_FILE_SERVER.'</br>';
-echo os_draw_pull_down_menu('select_file',$files,$default_value);
-      if ($content['content_file']!='') {
-        echo TEXT_CURRENT_FILE.' <b>'.$content['content_file'].'</b><br />';
-        }
-
-
-
-?>
-      </td>
-      </td>
-   </tr> 
-   <tr> 
-      <td width="10%" valign="top"></td>
-      <td colspan="90%" valign="top"><br /><?php echo TEXT_FILE_DESCRIPTION; ?></td>
-   </tr> 
-   <tr> 
-      <td width="10%" valign="top"><?php echo TEXT_CONTENT; ?></td>
-      
-      <td width="90%">
-   <?php
-echo os_draw_textarea_field('cont','','100%','35',$content['content_text']);
-?><br /><a href="javascript:toggleHTMLEditor('cont');" class="code"><?php echo TEXT_EDIT_E;?></a>
-      </td>
-   </tr>
-  
-     <tr> 
-      <td width="10%"><?php echo TEXT_URL; ?></td>
-      <td width="90%"><?php echo os_draw_input_field('cont_url',$content['content_url'],'size="60"'); ?></td>
-   </tr>
- 
-    <tr>
-        <td colspan="2" align="right" class="main"><?php echo '<span class="button"><button type="submit" onClick="this.blur();" value="' . BUTTON_SAVE . '"/>' . BUTTON_SAVE . '</button></span>'; ?><a class="button" onClick="this.blur();" href="<?php echo os_href_link(FILENAME_CONTENT_MANAGER); ?>"><span><?php echo BUTTON_BACK; ?></span></a></td>
-   </tr>
-</table>
-</form>
-<?php
- break;
- 
- case 'edit_products_content':
- case 'new_products_content':
- 
-  if ($_GET['action']=='edit_products_content') {
-        $content_query=os_db_query("SELECT
-                                        content_id,
-                                        products_id,
-                                        group_ids,
-                                        content_name,
-                                        content_file,
-                                        content_link,
-                                        languages_id,
-                                        file_comment,
-                                        content_read
-
-                                        FROM ".TABLE_PRODUCTS_CONTENT."
-                                        WHERE content_id='".(int)$_GET['coID']."'");
-
-        $content=os_db_fetch_array($content_query);
-}
- 
- $products_query=os_db_query("SELECT
-                                products_id,
-                                products_name
-                                FROM ".TABLE_PRODUCTS_DESCRIPTION."
-                                WHERE language_id='".(int)$_SESSION['languages_id']."'");
- $products_array=array();
-
- while ($products_data=os_db_fetch_array($products_query)) {
- 
- $products_array[]=array(
-                        'id' => $products_data['products_id'],  
-                        'text' => $products_data['products_name']);
-}
-
- $languages_array = array();
-
-
-        
-  for ($i = 0, $n = sizeof($languages); $i < $n; $i++) 
-  {
-     if ($languages[$i]['status']==1)
-     {	 
-        if ($languages[$i]['id']==$content['languages_id']) 
+		$products_ids = array();
+		while ($products_id_data = os_db_fetch_array($products_id_query))
 		{
-          $languages_selected=$languages[$i]['code'];
-          $languages_id=$languages[$i]['id'];
-        }               
-    $languages_array[] = array('id' => $languages[$i]['code'],
-               'text' => $languages[$i]['name']);
-     }
-  } 
-  $content_files_query=os_db_query("SELECT DISTINCT
-                                content_name,
-                                content_file
-                                FROM ".TABLE_PRODUCTS_CONTENT."
-                                WHERE content_file!=''");
- $content_files=array();
+			$products_ids[]=array(
+				'id' => $products_id_data['products_id'],
+				'name' => $products_id_data['products_name']
+			);
+		}
+		?>
+		<table class="table table-condensed table-big-list">
+			<thead>
+				<tr>
+					<th><?php echo TABLE_HEADING_PRODUCTS_ID; ?></th>
+					<th><span class="line"></span><?php echo TABLE_HEADING_PRODUCTS; ?></th>
+				</tr>
+			</thead>
+		<?php
+		for ($i=0, $n = sizeof($products_ids); $i<$n; $i++)
+		{
+			?>
+			<tr>
+				<td><?php echo $products_ids[$i]['id']; ?></td>
+				<td><a href="<?php echo os_href_link(FILENAME_CONTENT_MANAGER, 'act=products&pID='.$products_ids[$i]['id']);?>"><?php echo $products_ids[$i]['name']; ?></a></td>
+			</tr>
+			<?php
+			if ($_GET['pID'])
+			{
+				$content_query = os_db_query("SELECT * FROM ".TABLE_PRODUCTS_CONTENT." WHERE products_id = '".$_GET['pID']."' order by content_name");
+				$content_array = '';
+				while ($content_data=os_db_fetch_array($content_query))
+				{
+					$content_array[] = array(
+						'id'=> $content_data['content_id'],
+						'name'=> $content_data['content_name'],
+						'file'=> $content_data['content_file'],
+						'link'=> $content_data['content_link'],
+						'comment'=> $content_data['file_comment'],
+						'languages_id'=> $content_data['languages_id'],
+						'read'=> $content_data['content_read']
+					);
+				}
 
- while ($content_files_data=os_db_fetch_array($content_files_query)) {
+				if ($_GET['pID'] == $products_ids[$i]['id'])
+				{ ?>
+					<tr>
+					<td colspan="2">
+					<table border="0" width="100%" cellspacing="2" cellpadding="2">
+						<tr>
+							<td><?php echo TABLE_HEADING_PRODUCTS_CONTENT_ID; ?></td>
+							<td><?php echo TABLE_HEADING_LANGUAGE; ?></td>
+							<td><?php echo TABLE_HEADING_CONTENT_NAME; ?></td>
+							<td><?php echo TABLE_HEADING_CONTENT_FILE; ?></td>
+							<td><?php echo TABLE_HEADING_CONTENT_FILESIZE; ?></td>
+							<td><?php echo TABLE_HEADING_CONTENT_LINK; ?></td>
+							<td><?php echo TABLE_HEADING_CONTENT_HITS; ?></td>
+							<td><?php echo TABLE_HEADING_CONTENT_ACTION; ?></td>
+						</tr>
+					<?php
+					for ($ii=0,$nn=sizeof($content_array); $ii<$nn; $ii++)
+					{
+						?>
+						<tr>
+							<td><?php echo  $content_array[$ii]['id']; ?></td>
+							<?php
+								//if ($content_array[$ii]['file'] != '')
+									//echo os_image(http_path('catalog').'admin/images/icons/icon_'.str_replace('.','',strstr($content_array[$ii]['file'],'.')).'.gif');
+								//else
+									//echo os_image(http_path('catalog').'admin/images/icons/icon_link.gif');
 
-     $content_files[]=array(
-     'id' => $content_files_data['content_file'],
-     'text' => $content_files_data['content_name']);
- }
+								for ($xx = 0, $zz = sizeof($languages); $xx<$zz; $xx++)
+								{
+									if ($languages[$xx]['id'] == $content_array[$ii]['languages_id'])
+									{
+										$lang_dir = $languages[$xx]['directory'];
+										break;
+									}
+								}
+							?>
+							<td><?php echo os_image(http_path_admin('icons').'lang/'.$lang_dir.'.gif'); ?></td>
+							<td><?php echo $content_array[$ii]['name']; ?></td>
+							<td><?php echo $content_array[$ii]['file']; ?></td>
+							<td><?php echo os_filesize($content_array[$ii]['file']); ?></td>
+							<td><?php
+								if ($content_array[$ii]['link']!='')
+								{
+									echo '<a href="'.$content_array[$ii]['link'].'" target="new">'.$content_array[$ii]['link'].'</a>';
+								}
+								?></td>
+							<td><?php echo $content_array[$ii]['read']; ?></td>
+							<td width="100">
+								<div class="btn-group pull-right">
+									<?php if (preg_match('/.gif/i',$content_array[$ii]['file']) or preg_match('/.jpg/i',$content_array[$ii]['file']) or preg_match('/.png/i',$content_array[$ii]['file'])
+										or preg_match('/.html/i',$content_array[$ii]['file']) or preg_match('/.htm/i',$content_array[$ii]['file']) or
+										preg_match('/.txti/',$content_array[$ii]['file']) or preg_match('/.bmp/i',$content_array[$ii]['file'])
+									) { ?>
+										<a class="btn btn-mini" onClick="javascript:window.open('<?php echo os_href_link(FILENAME_CONTENT_PREVIEW,'pID=media&coID='.$content_array[$ii]['id']); ?>', 'popup', 'toolbar=0, width=640, height=600')" title="<?php echo TEXT_PREVIEW; ?>"><i class="icon-eye-open"></i></a>
+									<?php } ?>
+									<a class="btn btn-mini" href="<?php echo os_href_link(FILENAME_CONTENT_MANAGER, 'act=products&action=edit_products&coID='.$content_array[$ii]['id']); ?>" title="<?php echo TEXT_EDIT; ?>"><i class="icon-edit"></i></a>
+									<a class="btn btn-mini" href="#" data-action="content_deleteProduct" data-remove-parent="tr" data-id="<?php echo $content_array[$ii]['id']; ?>" data-confirm="<?php echo CONFIRM_DELETE_PRODUCT; ?>" title="<?php echo TEXT_DELETE; ?>"><i class="icon-trash"></i></a>
+								</div>
+							</td>
+						</tr>
+					<?php
+					} // for content_array
+					echo '</table>';
+				}
+			} // for
+		}
+		?>
+		</table>
 
- $default_array[]=array('id' => 'default','text' => TEXT_SELECT);
- $default_value='default';
- $content_files=array_merge($default_array,$content_files);
- 
-if ($_GET['action']!='new_products_content') 
-{
- ?>     
- <?php echo os_draw_form('edit_content',FILENAME_CONTENT_MANAGER,'action=edit_products_content&id=update_product&coID='.$_GET['coID'],'post','enctype="multipart/form-data"').os_draw_hidden_field('coID',$_GET['coID']); ?>
-<?php
-} 
-else
-{
-?>
-<?php echo os_draw_form('edit_content',FILENAME_CONTENT_MANAGER,'action=edit_products_content&id=insert_product','post','enctype="multipart/form-data"');   ?>
-<?php
-}
-?>
- <div class="main"><?php echo TEXT_CONTENT_DESCRIPTION; ?></div>
- <table class="main" width="100%" border="0">
-   <tr>
-      <td width="10%"><?php echo TEXT_PRODUCT; ?></td>
-      <td width="90%"><?php echo os_draw_pull_down_menu('product',$products_array,$content['products_id']); ?></td>
-   </tr>
-      <tr> 
-      <td width="10%"><?php echo TEXT_LANGUAGE; ?></td>
-      <td width="90%"><?php echo os_draw_pull_down_menu('language',$languages_array,$languages_selected); ?></td>
-   </tr>
+		<hr>
 
-          <?php
-if (GROUP_CHECK=='true') {
-$customers_statuses_array = os_get_customers_statuses();
-$customers_statuses_array=array_merge(array(array('id'=>'all','text'=>TXT_ALL)),$customers_statuses_array);
-?>
-<tr>
-<td style="border-top: 1px solid; border-color: #ff0000;" valign="top" class="main" ><?php echo ENTRY_CUSTOMERS_STATUS; ?></td>
-<td style="border-top: 1px solid; border-left: 1px solid; border-color: #ff0000;" style="border-top: 1px solid; border-right: 1px solid; border-color: #ff0000;" style="border-top: 1px solid; border-bottom: 1px solid; border-color: #ff0000;" bgcolor="#FFCC33" class="main">
-<?php
+		<div class="alert alert-info"><?php echo TEXT_CONTENT_DESCRIPTION; ?></div>
 
-for ($i=0;$n=sizeof($customers_statuses_array),$i<$n;$i++) {
-if (strstr($content['group_ids'],'c_'.$customers_statuses_array[$i]['id'].'_group')) {
+		<div class="alert alert-info">
+			<?php
+			os_spaceUsed(DIR_FS_CATALOG.'media/products/');
+			echo USED_SPACE.os_format_filesize($total);
+			?>
+		</div>
 
-$checked='checked ';
-} else {
-$checked='';
-}
-echo '<input type="checkbox" name="groups[]" value="'.$customers_statuses_array[$i]['id'].'"'.$checked.'> '.$customers_statuses_array[$i]['text'].'<br />';
-}
-?>
-</td>
-</tr>
-<?php
-}
-?>
+	<?php } ?>
 
-      <tr>
-      <td width="10%"><?php echo TEXT_TITLE_FILE; ?></td>
-      <td width="90%"><?php echo os_draw_input_field('cont_title',$content['content_name'],'size="60"'); ?></td>
-   </tr>
-      <tr> 
-      <td width="10%"><?php echo TEXT_LINK; ?></td>
-      <td width="90%"><?php  echo os_draw_input_field('cont_link',$content['content_link'],'size="60"'); ?></td>
-   </tr>
+<?php } else { ?>
 
-      <tr>
-      <td width="10%" valign="top"><?php echo TEXT_FILE_DESC; ?></td>
-      <td width="90%"><?php
-          echo os_draw_textarea_field('file_comment','','100','30',$content['file_comment']);
-?><br /><a href="javascript:toggleHTMLEditor('file_comment');" class="code"><?php echo TEXT_EDIT_E;?></a></td>
-   </tr>
-         <tr> 
-      <td width="10%" valign="top"><?php echo TEXT_CHOOSE_FILE; ?></td>
-      <td width="90%">
-<?php
-    require_once(dir_path('func_admin').'file_system.php');
-    $files = os_get_filelist(DIR_FS_CATALOG.'media/products/','', array('index.html'));
-    unset ($default_array);
-    if ($content['content_file']=='') {
-         $default_array[]=array('id' => 'default','text' => TEXT_SELECT);
-         $default_value='default';
-    } else {
-         $default_array[]=array('id' => 'default','text' => TEXT_NO_FILE);
-         $default_value=$content['content_file'];
-    }
-    $files=os_array_merge($default_array, $files);
- 
-    echo '<br />'.TEXT_CHOOSE_FILE_SERVER_PRODUCTS.'</br>';
-    echo os_draw_pull_down_menu('select_file',$files,$default_value);
-    if ($content['content_file']!='') {
-       echo TEXT_CURRENT_FILE.' <b>'.$content['content_file'].'</b><br />';
-    }
+	<?php if ($_GET['action'] == 'new' OR $_GET['action'] == 'edit') { ?>
 
-?>
-      </td>
-      </td>
-   </tr> 
-      <tr> 
-      <td width="10%" valign="top"><?php echo TEXT_UPLOAD_FILE; ?></td>
-      <td width="90%"><?php echo os_draw_file_field('file_upload').' '.TEXT_UPLOAD_FILE_LOCAL; ?></td>
-   </tr> 
- <?php
- if ($content['content_file']!='') {
- ?>
-    <tr> 
-      <td width="10%"><?php echo TEXT_FILENAME; ?></td>
-      <td width="90%" valign="top"><?php echo os_draw_hidden_field('file_name',$content['content_file']).os_image(DIR_WS_CATALOG.'admin/images/icons/icon_'.str_replace('.','',strstr($content['content_file'],'.')).'.gif').$content['content_file']; ?></td>
-    </tr>
-  <?php
-}
-?>
-       <tr>
-        <td colspan="2" align="right" class="main"><?php echo '<span class="button"><button type="submit" onClick="this.blur();" value="' . BUTTON_SAVE . '"/>' . BUTTON_SAVE . '</button></span>'; ?><a class="button" onClick="this.blur();" href="<?php echo os_href_link(FILENAME_CONTENT_MANAGER); ?>"><span><?php echo BUTTON_BACK; ?></span></a></td>
-   </tr>
-   </form>
-   </table>
- 
- <?php
- 
- break;
- 
+		<?php
+		if ($_GET['action'] == 'new')
+		{
+			$content = array();
+		}
+			
+		?>
+		<form id="edit_content" name="edit_content" action="<?php echo os_href_link(FILENAME_CONTENT_MANAGER) ;?>" method="post" enctype="multipart/form-data">
 
-}
-}
+		<?php if (isset($_GET['coID']) && !empty($_GET['coID'])) { ?>
+			<input type="hidden" name="coID" value="<?php echo $_GET['coID']; ?>">
+		<?php } ?>
+		<input type="hidden" name="action" value="<?php echo $_GET['action']; ?>">
 
-if (!$_GET['action']) {
-?>
-<a class="button" onClick="this.blur();" href="<?php echo os_href_link(FILENAME_CONTENT_MANAGER,'action=new'); ?>"><span><?php echo BUTTON_NEW_CONTENT; ?></span></a>
-<?php
-}
-?>
-</td>
-          </tr>                 
-        </table>
- <?php
- if (!$_GET['action']) {
- 
- $products_id_query=os_db_query("SELECT DISTINCT
-                                pc.products_id,
-                                pd.products_name
-                                FROM ".TABLE_PRODUCTS_CONTENT." pc, ".TABLE_PRODUCTS_DESCRIPTION." pd
-                                WHERE pd.products_id=pc.products_id and pd.language_id='".(int)$_SESSION['languages_id']."'");
- 
- $products_ids=array();
- while ($products_id_data=os_db_fetch_array($products_id_query)) {
-        
-        $products_ids[]=array(
-                        'id'=>$products_id_data['products_id'],
-                        'name'=>$products_id_data['products_name']);
-        
-        }
-        
-        
- ?>
- <div class="pageHeading"><br /><?php echo HEADING_PRODUCTS_CONTENT; ?><br /></div>
-  <?php
- os_spaceUsed(DIR_FS_CATALOG.'media/products/');
-echo '<div class="main">'.USED_SPACE.os_format_filesize($total).'</div></br>';
-?>      
- <table border="0" width="100%" cellspacing="2" cellpadding="2">
-    <tr class="dataTableHeadingRow">
-     <td class="dataTableHeadingContent" nowrap width="5%" ><?php echo TABLE_HEADING_PRODUCTS_ID; ?></td>
-     <td class="dataTableHeadingContent" width="95%" align="left"><?php echo TABLE_HEADING_PRODUCTS; ?></td>
-</tr>
-<?php
+		<?php if ($content['content_delete'] != 0 or $_GET['action'] == 'new') { ?>
+			<div class="control-group">
+				<label class="control-label" for="content_group"><?php echo TEXT_GROUP; ?> <span class="input-required">*</span></label>
+				<div class="controls">
+					<input class="input-block-level" type="text" id="content_group" name="content_group" data-required="true" value="<?php echo $content['content_group']; ?>">
+					<span class="help-block"><?php echo TEXT_GROUP_DESC; ?></span>
+				</div>
+			</div>
+		<?php } else { echo os_draw_hidden_field('content_group', $content['content_group']); ?>
+			<div class="control-group">
+				<label class="control-label" for="content_group"><?php echo TEXT_GROUP; ?></label>
+				<div class="controls">
+					<?php echo $content['content_group']; ?>
+				</div>
+			</div>
+		<?php } ?>
+		<div class="control-group">
+			<label class="control-label" for="content_title"><?php echo TEXT_TITLE; ?></label>
+			<div class="controls">
+				<input class="input-block-level" type="text" id="content_title" name="content_title" value="<?php echo $content['content_title']; ?>">
+			</div>
+		</div>
+		<div class="control-group">
+			<label class="control-label" for="content_page_url"><?php echo TEXT_PAGE_URL; ?></label>
+			<div class="controls">
+				<input class="input-block-level" type="text" id="content_page_url" name="content_page_url" value="<?php echo $content['content_page_url']; ?>">
+			</div>
+		</div>
+		<div class="control-group">
+			<label class="control-label" for="content_heading"><?php echo TEXT_HEADING; ?></label>
+			<div class="controls">
+				<input class="input-block-level" type="text" id="content_heading" name="content_heading" value="<?php echo $content['content_heading']; ?>">
+			</div>
+		</div>
+		<div class="control-group">
+			<label class="control-label" for="content_meta_title"><?php echo TEXT_META_TITLE; ?></label>
+			<div class="controls">
+				<input class="input-block-level" type="text" id="content_meta_title" name="content_meta_title" value="<?php echo $content['content_meta_title']; ?>">
+			</div>
+		</div>
+		<div class="control-group">
+			<label class="control-label" for="content_meta_description"><?php echo TEXT_META_DESCRIPTION; ?></label>
+			<div class="controls">
+				<input class="input-block-level" type="text" id="content_meta_description" name="content_meta_description" value="<?php echo $content['content_meta_description']; ?>">
+			</div>
+		</div>
+		<div class="control-group">
+			<label class="control-label" for="content_meta_keywords"><?php echo TEXT_META_KEYWORDS; ?></label>
+			<div class="controls">
+				<input class="input-block-level" type="text" id="content_meta_keywords" name="content_meta_keywords" value="<?php echo $content['content_meta_keywords']; ?>">
+			</div>
+		</div>
+		<div class="control-group">
+			<label class="control-label" for="languages_id"><?php echo TEXT_LANGUAGE; ?></label>
+			<div class="controls">
+				<select class="input-block-level" name="languages_id" id="languages_id">
+					<?php
+					$languages = $cartet->language->get();
+					foreach($languages AS $lang)
+					{
+						$selected = ($content['languages_id'] == $lang['languages_id']) ? 'selected' : '';
+						echo '<option value="'.$lang['languages_id'].'" '.$selected.'>'.$lang['name'].'</option>';
+					}
+					?>
+				</select>
+			</div>
+		</div>
+		<div class="control-group">
+			<label class="control-label" for="file_flag"><?php echo TEXT_FILE_FLAG; ?></label>
+			<div class="controls">
+				<select class="input-block-level" name="file_flag" id="file_flag">
+					<?php
+					foreach($cartet->content->getFlags() AS $flag)
+					{
+						$selected = ($flag['value'] == $content['file_flag']) ? 'selected' : '';
+						echo '<option value="'.$flag['value'].'" '.$selected.'>'.$flag['text'].'</option>';
+					}
+					?>
+				</select>
+			</div>
+		</div>
+		<div class="control-group">
+			<label class="control-label" for="parent_id"><?php echo TEXT_PARENT; ?></label>
+			<div class="controls">
+				<?php
+				$categories_query = os_db_query("SELECT content_id, content_title FROM ".TABLE_CONTENT_MANAGER." WHERE languages_id = '".$content['languages_id']."' AND content_id != '".(int)$_GET['coID']."'");
+				while ($categories_data = os_db_fetch_array($categories_query))
+				{
+					$categories_array[] = array(
+						'value' => $categories_data['content_id'],
+						'text' => $categories_data['content_title']
+					);
+				}
+				?>
+				<select class="input-block-level" name="parent_id" id="parent_id">
+					<?php
+					foreach($categories_array AS $category)
+					{
+						$selected = ($category['value'] == $content['parent_id']) ? 'selected' : '';
+						echo '<option value="'.$category['value'].'" '.$selected.'>'.$category['text'].'</option>';
+					}
+					?>
+				</select>
+				<span class="help-block"><label class="checkbox"><input type="checkbox" name="parent_check" value="yes"> <?php echo TEXT_PARENT_DESCRIPTION; ?></label></span>
+			</div>
+		</div>
+		<div class="control-group">
+			<label class="control-label" for="sort_order"><?php echo TEXT_SORT_ORDER; ?></label>
+			<div class="controls">
+				<input class="input-block-level" type="text" id="sort_order" name="sort_order" value="<?php echo $content['sort_order']; ?>">
+			</div>
+		</div>
+		<div class="control-group">
+			<label class="control-label" for="status"><?php echo TEXT_STATUS; ?></label>
+			<div class="controls">
+				<?php $checkedStatus = ($content['content_status'] == 1) ? 'checked' : ''; ?>
+				<label class="checkbox"><input type="checkbox" id="status" name="status" value="yes" <?php echo $checkedStatus; ?>> <?php echo TEXT_STATUS_DESCRIPTION; ?></label>
+			</div>
+		</div>
+		<?php
+		if (GROUP_CHECK == 'true')
+		{
+			$aStatus = $cartet->customers->getStatus();
+			?>
+			<div class="control-group">
+				<label class="control-label" for="groups"><?php echo ENTRY_CUSTOMERS_STATUS; ?></label>
+				<div class="controls">
+					<label class="checkbox"><input type="checkbox" name="groups[]" value="all" <?php echo ($content['group_ids'] == 'all') ? 'checked' : ''; ?>> <?php echo TXT_ALL; ?></label>
+					<?php
+					foreach($aStatus AS $s)
+					{
+						$checked = ($content['group_ids'] == $s['value']) ? 'checked' : '';
+						?>
+						<label class="checkbox"><input type="checkbox" name="groups[]" value="<?php echo $s['value']; ?>" <?php echo $checked; ?>> <?php echo $s['text']; ?></label>
+					<?php
+					}
+					?>
+				</div>
+			</div>
+		<?php } ?>
+		<div class="control-group">
+			<label class="control-label" for="file_upload"><?php echo TEXT_UPLOAD_FILE; ?> <?php echo TEXT_UPLOAD_FILE_LOCAL; ?></label>
+			<div class="controls">
+				<input type="file" id="file_upload" name="file_upload">
+			</div>
+		</div>
+		<div class="control-group">
+			<label class="control-label" for="select_file"><?php echo TEXT_CHOOSE_FILE; ?></label>
+			<div class="controls">
+				<?php
+				require_once(dir_path('func_admin').'file_system.php');
+				$files = os_get_filelist(DIR_FS_CATALOG.'media/content/', '', array('index.html'));
+				if ($content['content_file']=='')
+				{
+					$default_array[] = array('id' => 'default','text' => TEXT_SELECT);
+					$default_value = 'default';
+					$files = (count($files) == 0) ? $default_array : os_array_merge($default_array, $files);
+				}
+				else
+				{
+					$default_array[] = array('id' => 'default','text' => TEXT_NO_FILE);
+					$default_value = $content['content_file'];
+					$files = (count($files) == 0) ? $default_array : array_merge($default_array,$files);
+				}
+				?>
+				<select class="input-block-level" id="select_file" name="select_file">
+					<?php
+					foreach ($files as $f)
+					{
+						$selectedFile = ($default_value == $f['id']) ? 'selected' : '';
+						echo '<option value="'.$f['id'].'" '.$selectedFile.'>'.$f['text'].'</option>';
+					}
+					?>
+				</select>
+				<span class="help-block"><?php echo TEXT_CHOOSE_FILE_SERVER; ?></span>
+				<span class="help-block"><?php echo TEXT_FILE_DESCRIPTION; ?></span>
+			</div>
+		</div>
+		<div class="control-group">
+			<label class="control-label" for="content_text"><?php echo TEXT_CONTENT; ?></label>
+			<div class="controls">
+				<textarea class="input-block-level textarea_big" id="content_text" name="content_text" data-required="true"><?php echo $content['content_text']; ?></textarea>
+			</div>
+		</div>
+		<div class="control-group">
+			<label class="control-label" for="content_url"><?php echo TEXT_URL; ?></label>
+			<div class="controls">
+				<input class="input-block-level" type="text" id="content_url" name="content_url" value="<?php echo $content['content_url']; ?>">
+			</div>
+		</div>
 
-for ($i=0,$n=sizeof($products_ids); $i<$n; $i++) 
-{
-  $color = $color == '#f9f9ff' ? '#f0f1ff':'#f9f9ff';
- echo '<tr style="background-color:'.$color.'" class="dataTableRow" onmouseover="this.className=\'dataTableRowOver\';this.style.cursor=\'hand\'" >' . "\n";
- 
- ?>
- <td align="left"><?php echo $products_ids[$i]['id']; ?></td>
- <td align="left"><b><?php echo os_image(DIR_WS_CATALOG.'images/icons/arrow.gif'); ?><a href="<?php echo os_href_link(FILENAME_CONTENT_MANAGER,'pID='.$products_ids[$i]['id']);?>"><?php echo $products_ids[$i]['name']; ?></a></b></td>
- </tr>
-<?php
-if ($_GET['pID']) {
-        $content_query=os_db_query("SELECT
-                                        content_id,
-                                        content_name,
-                                        content_file,
-                                        content_link,
-                                        languages_id,
-                                        file_comment,
-                                        content_read
-                                        FROM ".TABLE_PRODUCTS_CONTENT."
-                                        WHERE products_id='".$_GET['pID']."' order by content_name");
-        $content_array='';
-        while ($content_data=os_db_fetch_array($content_query)) {
-                
-                $content_array[]=array(
-                                        'id'=> $content_data['content_id'],
-                                        'name'=> $content_data['content_name'],
-                                        'file'=> $content_data['content_file'],
-                                        'link'=> $content_data['content_link'],
-                                        'comment'=> $content_data['file_comment'],
-                                        'languages_id'=> $content_data['languages_id'],
-                                        'read'=> $content_data['content_read']);
-                                        
-                } // while content data
+		<hr>
 
-if ($_GET['pID']==$products_ids[$i]['id']){
-?>
+		<div class="tcenter footer-btn">
+			<input class="btn btn-success ajax-save-form" data-form-action="content_save" data-reload-page="1" type="submit" value="<?php echo BUTTON_SAVE; ?>">
+			<a class="btn btn-link" href="<?php echo os_href_link(FILENAME_CONTENT_MANAGER); ?>"><?php echo BUTTON_BACK; ?></a>
+		</div>
 
-<tr>
- <td class="dataTableContent" align="left"></td>
- <td class="dataTableContent" align="left">
+		</form>
 
- <table border="0" width="100%" cellspacing="2" cellpadding="2">
-    <tr class="dataTableHeadingRow">
-    <td class="dataTableHeadingContent" nowrap width="2%" ><?php echo TABLE_HEADING_PRODUCTS_CONTENT_ID; ?></td>
-    <td class="dataTableHeadingContent" nowrap width="2%" >&nbsp;</td>
-    <td class="dataTableHeadingContent" nowrap width="5%" ><?php echo TABLE_HEADING_LANGUAGE; ?></td>
-    <td class="dataTableHeadingContent" nowrap width="15%" ><?php echo TABLE_HEADING_CONTENT_NAME; ?></td>
-    <td class="dataTableHeadingContent" nowrap width="30%" ><?php echo TABLE_HEADING_CONTENT_FILE; ?></td>
-    <td class="dataTableHeadingContent" nowrap width="1%" ><?php echo TABLE_HEADING_CONTENT_FILESIZE; ?></td>
-    <td class="dataTableHeadingContent" nowrap align="middle" width="20%" ><?php echo TABLE_HEADING_CONTENT_LINK; ?></td>
-    <td class="dataTableHeadingContent" nowrap width="5%" ><?php echo TABLE_HEADING_CONTENT_HITS; ?></td>
-    <td class="dataTableHeadingContent" nowrap width="20%" ><?php echo TABLE_HEADING_CONTENT_ACTION; ?></td>
-    </tr>  
+	<?php } else { ?>
 
-<?php
- 
- for ($ii=0,$nn=sizeof($content_array); $ii<$nn; $ii++) {
+		<?php $languages = $cartet->language->get(); ?>
 
- echo '<tr class="dataTableRow" onmouseover="this.className=\'dataTableRowOver\'" onmouseout="this.className=\'dataTableRow\'">' . "\n";
- 
- ?>
- <td class="dataTableContent" align="left"><?php echo  $content_array[$ii]['id']; ?> </td>
- <td class="dataTableContent" align="left"><?php
- 
- 
- 
- if ($content_array[$ii]['file']!='') {
- 
- echo os_image(http_path('catalog').'admin/images/icons/icon_'.str_replace('.','',strstr($content_array[$ii]['file'],'.')).'.gif');
-} else {
-echo os_image(http_path('catalog').'admin/images/icons/icon_link.gif');
-}
+		<?php
+		$contentQuery = os_db_query("SELECT * FROM ".TABLE_CONTENT_MANAGER." c LEFT JOIN ".TABLE_CM_FILE_FLAGS." f ON (c.file_flag = f.file_flag) ORDER BY c.sort_order");
+		$aContent = array();
+		while ($c = os_db_fetch_array($contentQuery))
+		{
+			$aContent[$c['languages_id']][] = $c;
+		}
+		?>
 
-for ($xx=0,$zz=sizeof($languages); $xx<$zz;$xx++)
-{
-	if ($languages[$xx]['id']==$content_array[$ii]['languages_id']) {
-	$lang_dir=$languages[$xx]['directory'];	
-	break;
-}	
-}
+		<ul class="nav nav-tabs default-tabs">
+			<?php $i = 0; foreach ($languages as $lang) { $i++; ?>
+				<li <?php echo ($i == 1) ? 'class="active"' : ''; ?>><a href="#tab_lang_<?php echo $lang['languages_id']; ?>"><?php echo $lang['name']; ?></a></li>
+			<?php } ?>
+		</ul>
+		<div class="tab-content">
+			<?php $i = 0; foreach ($languages as $lang) { $i++; ?>
+				<div class="tab-pane <?php echo ($i == 1) ? 'active' : ''; ?>" id="tab_lang_<?php echo $lang['languages_id']; ?>">
+					<table class="table table-condensed table-big-list">
+						<thead>
+						<tr>
+							<th><?php echo TABLE_HEADING_CONTENT_ID; ?></th>
+							<th><span class="line"></span><?php echo TABLE_HEADING_CONTENT_TITLE; ?></th>
+							<th><span class="line"></span><?php echo TABLE_HEADING_CONTENT_GROUP; ?></th>
+							<th><span class="line"></span><?php echo TABLE_HEADING_CONTENT_SORT; ?></th>
+							<th><span class="line"></span><?php echo TABLE_HEADING_CONTENT_FILE; ?></th>
+							<th><span class="line"></span><?php echo TABLE_HEADING_CONTENT_STATUS; ?></th>
+							<th><span class="line"></span><?php echo TABLE_HEADING_CONTENT_BOX; ?></th>
+							<th class="tright"><span class="line"></span><?php echo TABLE_HEADING_CONTENT_ACTION; ?></th>
+						</tr>
+						</thead>
+						<?php
+						foreach($aContent[$lang['languages_id']] AS $c)
+						{
+							?>
+							<tr>
+								<td><?php echo $c['content_id']; ?></td>
+								<td><?php echo $c['content_title']; ?>
+									<?php
+									if ($c['content_delete'] == '0'){
+										echo ' <span class="input-required">*</span>';
+									} ?>
+								</td>
+								<td><?php echo $c['content_group']; ?></td>
+								<td><?php echo $c['sort_order']; ?>&nbsp;</td>
+								<td>
+									<a href="#" class="ae_select" data-type="select" data-value="<?php echo $c['content_file']; ?>" data-pk="<?php echo $c['content_id']; ?>" data-url="content_changeFile_get" data-action="content_getFiles" data-original-title="<?php echo TABLE_HEADING_CONTENT_FILE; ?>"><?php echo $c['content_file']; ?></a>
+								</td>
+								<td>
+									<?php
+									echo '<a '.(($c['content_status'] == 1) ? '' : 'style="display:none;"').' href="javascript:;" class="ajax-change-status status_'.$c['content_id'].'_0_content_status" data-column="content_status" data-action="content_status" data-id="'.$c['content_id'].'" data-status="0" data-show-status="1" title="'.IMAGE_ICON_STATUS_RED_LIGHT.'"><i class="icon-ok"></i></a>';
+									echo '<a '.(($c['content_status'] == 0) ? '' : 'style="display:none;"').' href="javascript:;" class="ajax-change-status status_'.$c['content_id'].'_1_content_status" data-column="content_status" data-action="content_status" data-id="'.$c['content_id'].'" data-status="1" data-show-status="0" title="'.IMAGE_ICON_STATUS_GREEN_LIGHT.'"><i class="icon-remove"></i></a>';
+									?>
+								</td>
+								<td><a href="#" class="ae_select" data-type="select" data-value="<?php echo $c['file_flag']; ?>" data-pk="<?php echo $c['content_id']; ?>" data-url="content_changeFlag_get" data-action="content_getFlags" data-original-title="<?php echo TABLE_HEADING_CONTENT_BOX; ?>"><?php echo $c['file_flag_name']; ?></a></td>
+								<td width="100">
+									<div class="btn-group pull-right">
+										<a class="btn btn-mini" href="#" onClick="javascript:window.open('<?php echo os_href_link(FILENAME_CONTENT_PREVIEW,'coID='.$c['content_id']); ?>', 'popup', 'toolbar=0, width=640, height=600')" title="<?php echo TEXT_PREVIEW; ?>"><i class="icon-eye-open"></i></a>
+										<a class="btn btn-mini" href="<?php echo os_href_link(FILENAME_CONTENT_MANAGER, 'action=edit&coID='.$c['content_id']); ?>" title="<?php echo BUTTON_EDIT; ?>"><i class="icon-edit"></i></a>
+										<?php if ($c['content_delete']=='1') { ?>
+											<a class="btn btn-mini" href="#" data-action="content_delete" data-remove-parent="tr" data-id="<?php echo $c['content_id']; ?>" data-confirm="<?php echo CONFIRM_DELETE; ?>" title="<?php echo BUTTON_DELETE; ?>"><i class="icon-trash"></i></a>
+										<?php } ?>
+									</div>
+								</td>
+							</tr>
+						<?php } ?>
+					</table>
+				</div>
+			<?php } ?>
+		</div>
 
-?>
-</td>
- <td class="dataTableContent" align="left"><?php echo os_image(http_path_admin('icons').'lang/'.$lang_dir.'.gif'); ?></td>
- <td class="dataTableContent" align="left"><?php echo $content_array[$ii]['name']; ?></td>
- <td class="dataTableContent" align="left"><?php echo $content_array[$ii]['file']; ?></td>
- <td class="dataTableContent" align="left"><?php echo os_filesize($content_array[$ii]['file']); ?></td>
- <td class="dataTableContent" align="left" align="middle"><?php
- if ($content_array[$ii]['link']!='') {
- echo '<a href="'.$content_array[$ii]['link'].'" target="new">'.$content_array[$ii]['link'].'</a>';
-} 
- ?>
-  &nbsp;</td>
- <td class="dataTableContent" align="left"><?php echo $content_array[$ii]['read']; ?></td>
- <td class="dataTableContent" align="left">
- 
-  <a href="<?php echo os_href_link(FILENAME_CONTENT_MANAGER,'special=delete_product&coID='.$content_array[$ii]['id']).'&pID='.$products_ids[$i]['id']; ?>" onClick="return confirm('<?php echo CONFIRM_DELETE; ?>')">
- <?php
- 
- echo os_image(http_path('icons_admin').'delete.gif','','','','style="cursor:pointer" onClick="return confirm(\''.DELETE_ENTRY.'\')"').'  '.TEXT_DELETE.'</a>&nbsp;&nbsp;';
+		<hr>
 
-?>
- <a href="<?php echo os_href_link(FILENAME_CONTENT_MANAGER,'action=edit_products_content&coID='.$content_array[$ii]['id']); ?>">
-<?php echo os_image(http_path('icons_admin').'icon_edit.gif','','','','style="cursor:pointer"').'  '.TEXT_EDIT.'</a>'; ?>
+		<div class="alert alert-info"><?php echo CONTENT_NOTE; ?></div>
 
-<?php
-if (	preg_match('/.gif/i',$content_array[$ii]['file'])
-	or
-	preg_match('/.jpg/i',$content_array[$ii]['file'])
-	or
-	preg_match('/.png/i',$content_array[$ii]['file'])
-	or
-	preg_match('/.html/i',$content_array[$ii]['file'])
-	or
-	preg_match('/.htm/i',$content_array[$ii]['file'])
-	or
-	preg_match('/.txti/',$content_array[$ii]['file'])
-	or
-	preg_match('/.bmp/i',$content_array[$ii]['file'])
-	) {
-?>
- <a style="cursor:pointer" onClick="javascript:window.open('<?php echo os_href_link(FILENAME_CONTENT_PREVIEW,'pID=media&coID='.$content_array[$ii]['id']); ?>', 'popup', 'toolbar=0, width=640, height=600')"
- 
- 
- ><?php echo os_image(http_path('icons_admin').'preview.gif','','','',' style="cursor:pointer"').'&nbsp;&nbsp;'.TEXT_PREVIEW.'</a>'; ?> 
-<?php
-}
-?> 
- 
- 
- 
- </td>
- </tr>
+	<?php } ?>
+<?php } ?>
 
-<?php 
-
-} // for content_array
-echo '</table></td></tr>';
-}
-} // for
-}
-?> 
-
-       
- </table>
- <a class="button" onClick="this.blur();" href="<?php echo os_href_link(FILENAME_CONTENT_MANAGER,'action=new_products_content'); ?>"><span><?php echo BUTTON_NEW_CONTENT; ?></span></a>                 
- <?php
-}
-?>       
-        
-        </td>
-      </tr>
-    </table></td>
-  </tr>
-</table>
 <?php $main->bottom(); ?>

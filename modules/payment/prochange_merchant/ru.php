@@ -1,18 +1,18 @@
 <?php
 /*
-#####################################
-#  OSC-CMS: Shopping Cart Software
-#  Copyright (c) 2011-2012
-# http://osc-cms.com
-# Ver. 1.0.0
-#####################################
+*---------------------------------------------------------
+*
+*	CartET - Open Source Shopping Cart Software
+*	http://www.cartet.org
+*
+*---------------------------------------------------------
 */
 
-  define('MODULE_PAYMENT_PROCHANGE_MERCHANT_TEXT_TITLE', 'Яндекс-деньги (Через ЯД Мерчант)');
-  define('MODULE_PAYMENT_PROCHANGE_MERCHANT_TEXT_PUBLIC_TITLE', 'Яндекс-деньги (Через ЯД Мерчант)');
-  define('MODULE_PAYMENT_PROCHANGE_MERCHANT_TEXT_DESCRIPTION', 'После нажатия кнопки Подтвердить заказ Вы перейдёте на сайт платёжной системы для оплаты заказа, после оплаты Ваш заказ будет выполнен.');
-  define('MODULE_PAYMENT_PROCHANGE_MERCHANT_TEXT_ADMIN_DESCRIPTION', 'Модуль оплаты Яндекс-деньги (Через ЯД Мерчант).');
-  
+define('MODULE_PAYMENT_PROCHANGE_MERCHANT_TEXT_TITLE', 'Яндекс-деньги (Через ЯД Мерчант)');
+define('MODULE_PAYMENT_PROCHANGE_MERCHANT_TEXT_PUBLIC_TITLE', 'Яндекс-деньги (Через ЯД Мерчант)');
+define('MODULE_PAYMENT_PROCHANGE_MERCHANT_TEXT_DESCRIPTION', 'После нажатия кнопки Подтвердить заказ Вы перейдёте на сайт платёжной системы для оплаты заказа, после оплаты Ваш заказ будет выполнен.');
+define('MODULE_PAYMENT_PROCHANGE_MERCHANT_TEXT_ADMIN_DESCRIPTION', 'Модуль оплаты Яндекс-деньги (Через ЯД Мерчант).');
+
 define('MODULE_PAYMENT_PROCHANGE_MERCHANT_STATUS_TITLE' , 'Разрешить модуль Яндекс-деньги');
 define('MODULE_PAYMENT_PROCHANGE_MERCHANT_STATUS_DESC' , 'Вы хотите разрешить использование модуля при оформлении заказов?');
 define('MODULE_PAYMENT_PROCHANGE_MERCHANT_ALLOWED_TITLE' , 'Разрешённые страны');

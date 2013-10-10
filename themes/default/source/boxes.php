@@ -2,8 +2,8 @@
 /*
 *---------------------------------------------------------
 *
-*	OSC-CMS - Open Source Shopping Cart Software
-*	http://osc-cms.com
+*	CartET - Open Source Shopping Cart Software
+*	http://www.cartet.org
 *
 *---------------------------------------------------------
 */
@@ -13,7 +13,6 @@ define('DIR_WS_BOXES', _THEMES_C.'source/boxes/');
 
 if (VIS_BOX_AFFILIATE			== 'true') { include(DIR_WS_BOXES.'affiliate.php'); }
 if (VIS_BOX_CATEGORIES			== 'true') { include(DIR_WS_BOXES.'categories.php'); }
-if (VIS_BOX_AUTHORS				== 'true') { include(DIR_WS_BOXES.'authors.php'); }
 if (VIS_BOX_ARTICLES			== 'true') { include(DIR_WS_BOXES.'articles.php'); }
 if (VIS_BOX_ARTICLES_NEW		== 'true') { include(DIR_WS_BOXES.'articles_new.php'); }
 if (VIS_BOX_LAST_VIEWED			== 'true') { include(DIR_WS_BOXES.'last_viewed.php'); }

@@ -2,15 +2,15 @@
 /*
 *---------------------------------------------------------
 *
-*	OSC-CMS - Open Source Shopping Cart Software
-*	http://osc-cms.com
+*	CartET - Open Source Shopping Cart Software
+*	http://www.cartet.org
 *
 *---------------------------------------------------------
 *	Copyright (c) 2012 VamShop
 *---------------------------------------------------------
 */
 
-class easypay extends OscCms
+class easypay extends CartET
 {
 	/**
 	 * Системный идентификатор модуля

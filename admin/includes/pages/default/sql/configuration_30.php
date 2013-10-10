@@ -1,12 +1,11 @@
 <?php
 /*
-#####################################
-#  OSC-CMS: Shopping Cart Software.
-#  Copyright (c) 2011-2012
-#  http://osc-cms.com
-#  http://osc-cms.com/forum
-#  Ver. 1.0.0
-#####################################
+*---------------------------------------------------------
+*
+*	CartET - Open Source Shopping Cart Software
+*	http://www.cartet.org
+*
+*---------------------------------------------------------
 */
 
 defined( '_VALID_OS' ) or die( 'Прямой доступ  не допускается.' );
@@ -34,7 +33,6 @@ $db->query("INSERT INTO ".DB_PREFIX."configuration (configuration_key, configura
 $db->query("INSERT INTO ".DB_PREFIX."configuration (configuration_key, configuration_value, configuration_group_id, sort_order, last_modified, date_added, use_function, set_function) VALUES ('VIS_BOX_CATEGORIES', 'true',30, 20, NULL, '', NULL, 'os_cfg_select_option(array(\'true\', \'false\'),');");
 $db->query("INSERT INTO ".DB_PREFIX."configuration (configuration_key, configuration_value, configuration_group_id, sort_order, last_modified, date_added, use_function, set_function) VALUES ('VIS_BOX_CART', 'true',30, 21, NULL, '', NULL, 'os_cfg_select_option(array(\'true\', \'false\'),');");
 $db->query("INSERT INTO ".DB_PREFIX."configuration (configuration_key, configuration_value, configuration_group_id, sort_order, last_modified, date_added, use_function, set_function) VALUES ('VIS_BOX_BEST_SELLERS', 'true',30, 22, NULL, '', NULL, 'os_cfg_select_option(array(\'true\', \'false\'),');");
-$db->query("INSERT INTO ".DB_PREFIX."configuration (configuration_key, configuration_value, configuration_group_id, sort_order, last_modified, date_added, use_function, set_function) VALUES ('VIS_BOX_AUTHORS', 'true',30, 23, NULL, '', NULL, 'os_cfg_select_option(array(\'true\', \'false\'),');");
 $db->query("INSERT INTO ".DB_PREFIX."configuration (configuration_key, configuration_value, configuration_group_id, sort_order, last_modified, date_added, use_function, set_function) VALUES ('VIS_BOX_ARTICLES_NEW', 'true',30, 24, NULL, '', NULL, 'os_cfg_select_option(array(\'true\', \'false\'),');");
 $db->query("INSERT INTO ".DB_PREFIX."configuration (configuration_key, configuration_value, configuration_group_id, sort_order, last_modified, date_added, use_function, set_function) VALUES ('VIS_BOX_ARTICLES', 'true',30, 25, NULL, '', NULL, 'os_cfg_select_option(array(\'true\', \'false\'),');");
 $db->query("INSERT INTO ".DB_PREFIX."configuration (configuration_key, configuration_value, configuration_group_id, sort_order, last_modified, date_added, use_function, set_function) VALUES ('VIS_BOX_AFFILIATE', 'false',30, 26, NULL, '', NULL, 'os_cfg_select_option(array(\'true\', \'false\'),');");

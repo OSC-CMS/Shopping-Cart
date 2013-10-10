@@ -1,12 +1,11 @@
 <?php
 /*
-#####################################
-#  OSC-CMS: Shopping Cart Software.
-#  Copyright (c) 2011-2012
-#  http://osc-cms.com
-#  http://osc-cms.com/forum
-#  Ver. 1.0.0
-#####################################
+*---------------------------------------------------------
+*
+*	CartET - Open Source Shopping Cart Software
+*	http://www.cartet.org
+*
+*---------------------------------------------------------
 */
 
 define('HEADING_TITLE', 'Валюты');
@@ -19,14 +18,14 @@ define('TABLE_HEADING_ACTION', 'Действие');
 define('TEXT_INFO_EDIT_INTRO', 'Пожалуйста, внесите необходимые изменения');
 define('TEXT_INFO_CURRENCY_TITLE', 'Название:');
 define('TEXT_INFO_CURRENCY_CODE', 'Код:');
-define('TEXT_INFO_CURRENCY_SYMBOL_LEFT', 'Символ слева:');
-define('TEXT_INFO_CURRENCY_SYMBOL_RIGHT', 'Символ справа:');
-define('TEXT_INFO_CURRENCY_DECIMAL_POINT', 'Десятичный знак:');
-define('TEXT_INFO_CURRENCY_THOUSANDS_POINT', 'Разделитель тысяч:');
-define('TEXT_INFO_CURRENCY_DECIMAL_PLACES', 'Десятичные порядки:');
-define('TEXT_INFO_CURRENCY_LAST_UPDATED', 'Последний раз скорректировано:');
-define('TEXT_INFO_CURRENCY_VALUE', 'Величина:');
-define('TEXT_INFO_CURRENCY_EXAMPLE', 'Пример:');
+define('TEXT_INFO_CURRENCY_SYMBOL_LEFT', 'Символ слева');
+define('TEXT_INFO_CURRENCY_SYMBOL_RIGHT', 'Символ справа');
+define('TEXT_INFO_CURRENCY_DECIMAL_POINT', 'Десятичный знак');
+define('TEXT_INFO_CURRENCY_THOUSANDS_POINT', 'Разделитель тысяч');
+define('TEXT_INFO_CURRENCY_DECIMAL_PLACES', 'Десятичные порядки');
+define('TEXT_INFO_CURRENCY_LAST_UPDATED', 'Изменено');
+define('TEXT_INFO_CURRENCY_VALUE', 'Величина');
+define('TEXT_INFO_CURRENCY_EXAMPLE', 'Пример');
 define('TEXT_INFO_INSERT_INTRO', 'Пожалуйста, введите данные для новой валюты');
 define('TEXT_INFO_DELETE_INTRO', 'Вы действительно хотите удалить эту валюту?');
 define('TEXT_INFO_HEADING_NEW_CURRENCY', 'Новая Валюта');

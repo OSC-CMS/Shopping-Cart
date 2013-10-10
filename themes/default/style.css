@@ -3,7 +3,7 @@
 	Theme URL: http://osc-cms.com
 	Version: 1.0
 	Description: Default theme
-	Author: OSC-CMS
+	Author: CartET
 	Author URL: http://osc-cms.com
 */
 
@@ -39,10 +39,10 @@ ul.subcat-nav li a.current {background:#08C;color:#fff;}
 .categories-list .caption h5 a {display:block;height:40px;line-height:14px;overflow:hidden;}
 .categories-list a.categories-image {display:block;text-align:center;min-height:130px;}
 .thumbnail.categories-list:hover {
-  border-color: #0088cc;
-  -webkit-box-shadow: 0 1px 4px rgba(0, 105, 214, 0.25);
-     -moz-box-shadow: 0 1px 4px rgba(0, 105, 214, 0.25);
-          box-shadow: 0 1px 4px rgba(0, 105, 214, 0.25);
+	border-color: #0088cc;
+	-webkit-box-shadow: 0 1px 4px rgba(0, 105, 214, 0.25);
+	-moz-box-shadow: 0 1px 4px rgba(0, 105, 214, 0.25);
+	box-shadow: 0 1px 4px rgba(0, 105, 214, 0.25);
 }
 
 .product-list {}
@@ -52,10 +52,10 @@ ul.subcat-nav li a.current {background:#08C;color:#fff;}
 .product-list a.product-image {display:block;text-align:center;min-height:190px;}
 .pprice {font-weight:bold;font-size:1.3em;color:#b33232;}
 .thumbnail.product-list:hover {
-  border-color: #0088cc;
-  -webkit-box-shadow: 0 1px 4px rgba(0, 105, 214, 0.25);
-     -moz-box-shadow: 0 1px 4px rgba(0, 105, 214, 0.25);
-          box-shadow: 0 1px 4px rgba(0, 105, 214, 0.25);
+	border-color: #0088cc;
+	-webkit-box-shadow: 0 1px 4px rgba(0, 105, 214, 0.25);
+	-moz-box-shadow: 0 1px 4px rgba(0, 105, 214, 0.25);
+	box-shadow: 0 1px 4px rgba(0, 105, 214, 0.25);
 }
 
 
@@ -177,17 +177,17 @@ p#vtip {display: none; position: absolute; padding: 10px; left: 5px; font-size: 
 
 #errormsg {border: 2px solid #c00;padding: 5px;width: 96%;}
 label.error {
-width:98%;
-line-height:14px;
-display: block;
-position: relative;
-padding:8px;
-background: #FEFEF1;
-color: #363636;
-margin-top:5px;
-border-radius: 3px;
--webkit-box-shadow: 0 1px 5px #E8E8C0 inset;
-box-shadow: 0 1px 5px #E8E8C0 inset;
+	width:98%;
+	line-height:14px;
+	display: block;
+	position: relative;
+	padding:8px;
+	background: #FEFEF1;
+	color: #363636;
+	margin-top:5px;
+	border-radius: 3px;
+	-webkit-box-shadow: 0 1px 5px #E8E8C0 inset;
+	box-shadow: 0 1px 5px #E8E8C0 inset;
 }
 .error {}
 
@@ -203,14 +203,7 @@ span.Requirement {color: red;}
 .autocomplete div {padding:2px 5px; white-space:nowrap;}
 .autocomplete strong {font-weight:normal;color:#B33232;}
 
-
-.popup-content-page-head {font-size:16px;padding:0;}
-.popup-content-page-body {padding-top:10px;}
-
-
-
 .moduleRow .label .pprice {color:#fff!important;font-size: 10.998px;}
-
 
 
 /*
@@ -219,102 +212,9 @@ span.Requirement {color: red;}
 .pagination li.active.current-page:last-child {-webkit-border-radius: 0 3px 3px 0;-moz-border-radius: 0 3px 3px 0;border-radius: 0 3px 3px 0;}
 */
 
-
-
-
-
-
-
-
-/*
-@charset "utf-8";
-
-* {margin:0;padding:0;}
-html, body, div, span, applet, object, iframe, h1, h2, h3, h4, h5, h6, p, blockquote, pre, a, abbr, acronym, address, big, cite, code, del, dfn, em, font, img, ins, kbd, q, s, samp, small, strike, strong, sub, sup, tt, var, b, u, i, center, dl, dt, dd, ol, ul, li, fieldset, form, label, legend, table, caption, tbody, tfoot, thead, tr, th, td {margin:0;padding:0;border:0;outline:0;font-size:100%;vertical-align:baseline;background:transparent;}
-ol, ul {list-style:none;}
-blockquote, q {quotes:none;}
-blockquote:before, blockquote:after, q:before, q:after {content:'';content:none;}
-input {vertical-align: middle;}
-:focus {outline:0;}
-ins {text-decoration:none;}
-del {text-decoration:line-through;}
-table {border-collapse:collapse;border-spacing:0;}
-html {height: 100%;}
-body {width: 100%;height: 100%;font: 12px/18px Tahoma, Helvetica, "Helvetica Neue", Verdana, sans-serif;color:#000;background:#fff;}
-h1, h2, h3, h4, h5, h6 {font-weight:normal;}
-a:link, a:active, a:visited {text-decoration:none;color:#297bbf;outline:none;}
-a:hover {text-decoration:none;color:#ff2525;}
-
-.hidden {display:none!important;}
-.clear {margin:0;padding:0;clear:both;display:block;font-size:0;height:0;line-height:0;width:100%;}
-.clearfix:before, .clearfix:after {content:'\0020';display:block;overflow:hidden;visibility:hidden;width:0;height:0;}
-.clearfix:after {clear:both;}
-.clearfix {zoom:1;}
-.relative {position:relative;}
-.absolute {position:absolute;}
-.overflow {overflow:hidden;}
-.tcenter {text-align:center;}
-.center {clear:both;display:block;margin-left:auto;margin-right:auto;}
-.tright {text-align:right;}
-.tleft {text-align:left;}
-.right {float:right;}
-.left {float:left;}
-.bold {font-weight:bold;}
-.upp {text-transform:uppercase;}
-
-.w48 {width:48%;}
-
-#wrapper {width: 960px;margin: 0 auto;min-height: 100%;height: auto !important;height: 100%;}
-#header {height: 120px;}
-#middle {width: 100%;padding: 0 0 100px;height: 1%;position: relative;}
-#middle:after {content: '.';display: block;clear: both;visibility: hidden;height: 0;}
-#container {width: 100%;float: left;overflow: hidden;}
-#content {padding: 0 190px 0 190px;}
-#sideLeft {float: left;width: 180px;margin-left: -100%;position: relative;}
-#sideRight {float: left;margin-right: -3px;width: 180px;margin-left: -180px;position: relative;}
-#footer {width: 960px;margin: -100px auto 0;height: 100px;position: relative;border-top:1px solid #D9E1E5;}
-.contentInner {padding:0 0 10px 0;}
-
-----------------------------------------------------------------
-	Header
-----------------------------------------------------------------*/
-
-
-
-
-
-
-
-
-
-/*-----------------------------------------------------------------------------
-	Forum
------------------------------------------------------------------------------
-.table-forum {width:100%;}
-.table-forum .tr-head {}
-.table-forum .tr-head td {padding:0 0 10px 0;border-bottom:3px solid #666;}
-.table-forum .tr-body.empty {padding:10px 0 10px 0;}
-.table-forum .tr-body.bg-grey {background:#f8f8f8;}
-.table-forum .tr-body.bg-sticky {background:#FFFAEE!important;}
-.table-forum .tr-body.bg-sticky td {border-bottom:1px solid #EBCC82!important;}
-.table-forum .tr-body.bg-sticky td .img_sticky {margin-right:5px;}
-.table-forum .tr-body td {padding: 12px 5px;border-bottom: 1px solid #ECEDF3;}
-.table-forum .tr-body .f-info {display:block;font-size:0.8em;}
-.table-forum .table-forum a.lb-gray {margin:10px 0 10px 0;}
-
-.add-new-post-link {margin:0 0 15px 0;}
-
-.table-forum .author-info {width:120px;}
-.table-forum .forum-post-info {font-size:0.8em;margin:0 0 10px 0;padding:0 0 10px 0;color:#9d9d9d;}
-.table-forum .post-content {line-height:20px;}
-.table-forum .first-post td {padding:0 0 50px 0;}
-.table-forum .replies td {padding:25px 0 25px 0;border-bottom: 1px solid #ECEDF3;}
-.forms.add-reply {margin:30px 0 0 0!important;}
-
-.bbcode-bar {margin:0 0 5px 0;padding:5px 5px 1px 5px;border: 1px solid #cfcfcf;background: #ebebeb;background-image: -webkit-linear-gradient(top,#ebebeb,#dadada);background-image: -moz-linear-gradient(top,#ebebeb,#dadada);background-image: -ms-linear-gradient(top,#ebebeb,#dadada);background-image: -o-linear-gradient(top,#ebebeb,#dadada);background-image: linear-gradient(top,#ebebeb,#dadada);}
-.bbcode-bar img {cursor:pointer;}
-
-.prettyprint {-moz-border-radius:2px;-webkit-border-radius:2px;border-radius:2px;}
+/* Parsley */
+.parsley-error-list {margin:0;padding:0;list-style:none;}
+.parsley-error-list .custom-error-message {color:#ff0000;}
 
 
 
@@ -334,34 +234,10 @@ a:hover {text-decoration:none;color:#ff2525;}
 
 
 
-#jm_stack_box {
-    position: fixed; top: 15px; right: 15px;
-    width: 220px;
-}
-#jm_stack_box .jm_message {
-    background-color: #000;
-    background: rgba(0, 0, 0, .7);
-    padding: 10px; margin: 0 0 15px 0;
-    font-family: Tahoma; font-size: 11px;
-    color: #fff;
-    cursor: pointer;
- 
-    border-radius: 3px;
-    -o-border-radius: 3px;
-    -moz-border-radius: 3px;
-    -webkit-border-radius: 3px;
-}
-#jm_stack_box .jm_message h3 {
-    font-size: 15px; font-weight: normal;
-    padding: 0; margin: 0 0 5px 0;
-}
 
-#jm_stack_box .jm_message_error {
-    background-color: #c00;
-    background: rgba(125, 0, 0, .5);
-}
-#jm_stack_box .jm_message_success {
-    background-color: #0c0;
-    background: rgba(0, 125, 0, .5);
-}
-*/
+
+
+
+
+
+

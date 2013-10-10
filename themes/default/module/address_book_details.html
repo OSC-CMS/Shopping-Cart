@@ -41,30 +41,6 @@
 			</div>
 		</div>
 		{/if}
-		{if $street_address == '1'}
-		<div class="control-group">
-			<label class="control-label" for="address">{#text_street#} <span class="myTooltip myTooltip-help" rel="tooltip" title="{$ENTRY_STREET_ADDRESS_ERROR}">?</span></label>
-			<div class="controls">
-				{$INPUT_STREET}
-			</div>
-		</div>
-		{/if}
-		{if $suburb == '1'}
-		<div class="control-group">
-			<label class="control-label" for="">{#text_suburb#}</label>
-			<div class="controls">
-				{$INPUT_SUBURB}
-			</div>
-		</div>
-		{/if}
-		{if $postcode == '1'}
-		<div class="control-group">
-			<label class="control-label" for="postcode">{#text_code#} <span class="myTooltip myTooltip-help" rel="tooltip" title="{$ENTRY_POST_CODE_ERROR}">?</span></label>
-			<div class="controls">
-				{$INPUT_CODE}
-			</div>
-		</div>
-		{/if}
 		{if $country == '1'}
 		<div class="control-group">
 			<label class="control-label" for="country">{#text_country#} <span class="myTooltip myTooltip-help" rel="tooltip" title="{$ENTRY_COUNTRY_ERROR}">?</span></label>
@@ -81,11 +57,35 @@
 			</div>
 		</div>
 		{/if}
+		{if $postcode == '1'}
+		<div class="control-group">
+			<label class="control-label" for="postcode">{#text_code#} <span class="myTooltip myTooltip-help" rel="tooltip" title="{$ENTRY_POST_CODE_ERROR}">?</span></label>
+			<div class="controls">
+				{$INPUT_CODE}
+			</div>
+		</div>
+		{/if}
 		{if $city == '1'}
 		<div class="control-group">
 			<label class="control-label" for="city">{#text_city#} <span class="myTooltip myTooltip-help" rel="tooltip" title="{$ENTRY_CITY_ERROR}">?</span></label>
 			<div class="controls">
 				{$INPUT_CITY}
+			</div>
+		</div>
+		{/if}
+		{if $suburb == '1'}
+		<div class="control-group">
+			<label class="control-label" for="">{#text_suburb#}</label>
+			<div class="controls">
+				{$INPUT_SUBURB}
+			</div>
+		</div>
+		{/if}
+		{if $street_address == '1'}
+		<div class="control-group">
+			<label class="control-label" for="address">{#text_street#} <span class="myTooltip myTooltip-help" rel="tooltip" title="{$ENTRY_STREET_ADDRESS_ERROR}">?</span></label>
+			<div class="controls">
+				{$INPUT_STREET}
 			</div>
 		</div>
 		{/if}

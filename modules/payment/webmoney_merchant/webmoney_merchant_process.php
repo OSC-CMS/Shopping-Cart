@@ -2,8 +2,8 @@
 /*
 *---------------------------------------------------------
 *
-*	OSC-CMS - Open Source Shopping Cart Software
-*	http://osc-cms.com
+*	CartET - Open Source Shopping Cart Software
+*	http://www.cartet.org
 *
 *---------------------------------------------------------
 */
@@ -49,7 +49,7 @@ if ($hash == $crc) {
 }
 else
 {
-   echo 'OSC-CMS error: payment is not confirmed.';
+   echo 'CartET error: payment is not confirmed.';
 }
 
 ?>

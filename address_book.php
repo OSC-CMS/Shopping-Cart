@@ -2,8 +2,8 @@
 /*
 *---------------------------------------------------------
 *
-*	OSC-CMS - Open Source Shopping Cart Software
-*	http://osc-cms.com
+*	CartET - Open Source Shopping Cart Software
+*	http://www.cartet.org
 *
 *---------------------------------------------------------
 */
@@ -18,8 +18,8 @@ $breadcrumb->add(NAVBAR_TITLE_2_ADDRESS_BOOK, os_href_link(FILENAME_ADDRESS_BOOK
 
 require (dir_path('includes').'header.php');
 
-if ($messageStack->size('addressbook') > 0)
-	$osTemplate->assign('error', $messageStack->output('addressbook'));
+//if ($messageStack->size('addressbook') > 0)
+//	$osTemplate->assign('error', $messageStack->output('addressbook'));
 
 $osTemplate->assign('ADDRESS_DEFAULT', os_address_label($_SESSION['customer_id'], $_SESSION['customer_default_address_id'], true, ' ', '<br />'));
 

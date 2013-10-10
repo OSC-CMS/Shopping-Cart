@@ -2,8 +2,8 @@
 /*
 *---------------------------------------------------------
 *
-*	OSC-CMS - Open Source Shopping Cart Software
-*	http://osc-cms.com
+*	CartET - Open Source Shopping Cart Software
+*	http://www.cartet.org
 *
 *---------------------------------------------------------
 */
@@ -75,9 +75,12 @@ $customer_info = os_db_fetch_array($customer_info_query);
 
 require (dir_path('includes').'header.php');
 
-if (!$product->isProduct()) {
+if (!$product->isProduct())
+{
 	$osTemplate->assign('error', ERROR_INVALID_PRODUCT);
-} else {
+}
+else
+{
 	$name = $customer_info['customers_firstname'].' '.$customer_info['customers_lastname'];
 	if ($name == ' ')
 		$customer_info['customers_lastname'] = TEXT_GUEST;
@@ -108,6 +111,7 @@ if (!$product->isProduct()) {
 	$osTemplate->assign('CAPTCHA_INPUT', os_draw_input_field('captcha', '', 'size="6" id="captcha"', 'text', false));
 	$osTemplate->assign('FORM_END', '</form>');
 }
+
 $osTemplate->assign('language', $_SESSION['language']);
 
 $osTemplate->caching = 0;

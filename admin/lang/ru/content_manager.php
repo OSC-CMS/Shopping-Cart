@@ -1,12 +1,11 @@
 <?php
 /*
-#####################################
-#  OSC-CMS: Shopping Cart Software.
-#  Copyright (c) 2011-2012
-#  http://osc-cms.com
-#  http://osc-cms.com/forum
-#  Ver. 1.0.0
-#####################################
+*---------------------------------------------------------
+*
+*	CartET - Open Source Shopping Cart Software
+*	http://www.cartet.org
+*
+*---------------------------------------------------------
 */
 
 define('HEADING_TITLE','Информационные страницы');
@@ -34,6 +33,7 @@ define('TEXT_DELETE','Удалить');
 define('TEXT_EDIT','Изменить');
 define('TEXT_PREVIEW','Просмотр');
 define('CONFIRM_DELETE','Удалить содержание?');
+define('CONFIRM_DELETE_PRODUCT','Вы уверены, что хотите удалить? Будет удален и файл, если он добавлен!');
 define('CONTENT_NOTE','Страницы, отмеченные <span class="red">*</span>, являются системными и не могут быть удалены!');
 
 
@@ -55,7 +55,7 @@ define('TEXT_NO_FILE','Удалить отмеченное');
 define('TEXT_CHOOSE_FILE_SERVER','Если Вы загрузили свои файлы через FTP в папку <i>media/content</i>, Вы можете выбрать здесь файл.');
 define('TEXT_CHOOSE_FILE_SERVER_PRODUCTS','Если Вы загрузили свои файлы через FTP в папку <i>media/products</i>, Вы можете выбрать здесь файл.');
 define('TEXT_CURRENT_FILE','Текущий файл:');
-define('TEXT_FILE_DESCRIPTION','<b>Информация:</b><br />Вы также можете загружать <b>.html</b> или <b>.htm</b> файлы и они будут отображаться при просмотре страницы.<br /> Если Вы выбрали какой-то файл или загружаете его, то текст в боксе будет проигнорирован.<br />');
+define('TEXT_FILE_DESCRIPTION','Вы также можете загружать <b>.html</b> или <b>.htm</b> файлы и они будут отображаться при просмотре страницы.<br /> Если Вы выбрали какой-то файл или загружаете его, то текст в боксе будет проигнорирован.');
 define('ERROR_FILE','Неверный формат файла (только .html или .htm)');
 define('ERROR_TITLE','Пожалуйста, введите название');
 define('ERROR_COMMENT','Пожалуйста, введите описание файла!');
@@ -68,7 +68,7 @@ define('TEXT_SORT_ORDER','Сортировка:');
 define('TEXT_GROUP','ID страницы:');
 define('TEXT_GROUP_DESC','С этим ID Вы можете связать одинаковые темы в разных языках.');
 
-define('TEXT_CONTENT_DESCRIPTION','Здесь Вы можете добавить к Вашему товару файл любого типа, например технические характеристики, описание товара, видео, фотографии товара. Всё это будет выведено на странице описания товара.<br /><br />');
+define('TEXT_CONTENT_DESCRIPTION','Здесь Вы можете добавить к Вашему товару файл любого типа, например технические характеристики, описание товара, видео, фотографии товара. Всё это будет выведено на странице описания товара.');
 define('TEXT_FILENAME','Использованный файл:');
 define('TEXT_FILE_DESC','Описание:');
 define('USED_SPACE','Использованное место: ');
@@ -80,5 +80,6 @@ define('TEXT_META_KEYWORDS','Meta Keywords: ');
 // Content URL begin
 define('TEXT_PAGE_URL', 'ЧПУ URL страницы:');
 // Content URL end
+define('TEXT_NEW_FILE_TO_PRODUCT', 'Добавить файл к товару');
 
- ?>
+?>

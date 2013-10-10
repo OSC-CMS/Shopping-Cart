@@ -2,18 +2,15 @@
 /*
 *---------------------------------------------------------
 *
-*	OSC-CMS - Open Source Shopping Cart Software
-*	http://osc-cms.com
+*	CartET - Open Source Shopping Cart Software
+*	http://www.cartet.org
 *
 *---------------------------------------------------------
 */
 
 require ('includes/top.php');
 
-$content_query = osDBquery("SELECT
- 					*
- 					FROM ".TABLE_CONTENT_MANAGER."
- 					WHERE content_group='".(int) $_GET['coID']."' and languages_id = '".$_SESSION['languages_id']."'");
+$content_query = osDBquery("SELECT * FROM ".TABLE_CONTENT_MANAGER." WHERE content_group='".(int)$_GET['coID']."' and languages_id = '".(int)$_SESSION['languages_id']."'");
 $content_data = os_db_fetch_array($content_query, true);
 ?>
 
@@ -27,8 +24,8 @@ $content_data = os_db_fetch_array($content_query, true);
 <link rel="stylesheet" type="text/css" href="<?php echo 'themes/'.CURRENT_TEMPLATE.'/style.css'; ?>" />
 </head>
 <body>
-<h2 class="popup-content-page-head"><?php echo $content_data['content_heading']; ?></h2>
-<div class="popup-content-page-body">
+<h2 class="modal-page-title"><?php echo $content_data['content_heading']; ?></h2>
+<div class="modal-page-body">
 <?php
 if ($content_data['content_file'] != '') {
 	if (strpos($content_data['content_file'], '.txt'))

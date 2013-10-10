@@ -1,12 +1,11 @@
 <?php
 /*
-#####################################
-#  OSC-CMS: Shopping Cart Software.
-#  Copyright (c) 2011-2012
-#  http://osc-cms.com
-#  http://osc-cms.com/forum
-#  Ver. 1.0.0
-#####################################
+*---------------------------------------------------------
+*
+*	CartET - Open Source Shopping Cart Software
+*	http://www.cartet.org
+*
+*---------------------------------------------------------
 */
 
 define('HEADING_TITLE', 'Доставка-Оплата');
@@ -19,10 +18,10 @@ define('TABLE_HEADING_SHIPMENT', 'Способ доставки');
 define('TABLE_HEADING_ZONE', 'Зона');
 define('TABLE_HEADING_PAYMENTS', 'Разрешённые способы оплаты');
 define('TABLE_HEADING_STATUS','Статус');
-define('TEXT_INFO_PAYMENTS_ALLOWED', 'При выборе способа доставки будут доступны следующие способы оплаты: ');
-define('TEXT_INFO_SHIPMENT', '<b>Способ доставки:</b>');
-define('TEXT_INFO_ZONE', '<b>Зона:</b>');
-define('TEXT_INFO_PAYMENTS', '<b>Разрешённые способы оплаты для выбранного выше способа доставки:</b>');
+define('TEXT_INFO_PAYMENTS_ALLOWED', 'При выборе способа доставки будут доступны следующие способы оплаты');
+define('TEXT_INFO_SHIPMENT', 'Способ доставки:');
+define('TEXT_INFO_ZONE', 'Зона');
+define('TEXT_INFO_PAYMENTS', 'Разрешённые способы оплаты для выбранного выше способа доставки');
 define('TEXT_INFO_HEADING_EDIT_SHP2PAY', 'Изменить');
 define('TEXT_INFO_HEADING_NEW_SHP2PAY', 'Добавить');
 define('TEXT_INFO_HEADING_DELETE_SHP2PAY', 'Удалить');

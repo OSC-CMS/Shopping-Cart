@@ -2,8 +2,8 @@
 /*
 *---------------------------------------------------------
 *
-*	OSC-CMS - Open Source Shopping Cart Software
-*	http://osc-cms.com
+*	CartET - Open Source Shopping Cart Software
+*	http://www.cartet.org
 *
 *---------------------------------------------------------
 */
@@ -21,6 +21,7 @@
         var $lang = array();
         var $options = array();
         var $_plug_array = array();
+        var $allOptions = array();
 
         var $name; //имя текущего плагина
         var $group; // main || themes || update
@@ -30,7 +31,7 @@
         var $type = 'admin';
 
         //Получение информации из языковых файлов
-        function lang ($name = '')
+        function lang()
         { 
             if ( !empty($this->module) )
             {
@@ -38,7 +39,7 @@
                 $this->group = $this->info[$this->name]['group'];
                 $this->set_dir();
             }
-            
+
             $plugin_dir = get_path('catalog').$this->dir;
 
             if (!empty($_SESSION['language']))
@@ -56,65 +57,38 @@
 
         }
 
-        function desc ($plugin_name)
+        function desc($plugin_name)
         {
             $len = 50;
 
             _e($plugin_name,'');
         }
 
-        function action ()
-        {
-            $info = '';
+        //сохранение полей
+		function save_options()
+		{
+			if (!empty($_POST))
+			{
+				foreach ($_POST as $_name => $_value)
+				{
+					if (is_array($_value))
+					{
+						$_value = implode("|", $_value);
+					}
 
-            if ($this->name == $this->module)
-            {   
-                _e( os_image( http_path('icons_admin') . 'icon_arrow_right.gif') );
-            }
-            else
-            {		
-                _e( '<a href="' . os_href_link(FILENAME_PLUGINS, 'module=' . $this->name) . '">'.os_image( http_path('icons_admin') . 'icon_info.gif').'</a>' );	
-            }
+					$plugins_value = $_value;
+					$plugins_name = $_name;
+					$plugins_key = $this->module;
 
-            _e($info);
-        }
+					if (!empty($plugins_name))
+					{
+						os_db_query("UPDATE ".DB_PREFIX."plugins SET plugins_value = '".$plugins_value."' where plugins_key = '".$plugins_key."' and plugins_name='".$plugins_name."'");
+					}
+				}
+			}
 
-        //сохранение полей 
-        function save_options ()
-        {
-            if (!empty($_POST))
-            {
-                foreach ($_POST as $_name => $_value)
-                {
-                    $plugins_value = $_value;
-                    $plugins_name = $_name;
-                    $plugins_key = $this->module;
-
-                    if (!empty($plugins_name))
-                    {
-                        os_db_query("UPDATE ".DB_PREFIX."plugins SET plugins_value='".$plugins_value."' where plugins_key = '".$plugins_key."' and plugins_name='".$plugins_name."'");
-                    }
-                }
-            }
-
-            return true;
-        }
-
-        //вывод статуса в cписки плагина вкл./выкл.
-        function status ()
-        {
-            if(isset($this->info[$this->name]['status']) && ($this->info[$this->name]['status'] == 1))
-            {
-                _e(os_image(http_path('icons_admin') . 'icon_status_green.gif', IMAGE_ICON_STATUS_GREEN, 10, 10) . '&nbsp;&nbsp;<a onclick="return confirm(\'Действительно хотите удалить плагин?\')" href="'.FILENAME_PLUGINS.'?action=remove&module='.$this->name.'&group='.$this->info[$this->name]['group'].'">'. os_image(http_path('icons_admin'). 'icon_status_red_light.gif', IMAGE_ICON_STATUS_RED_LIGHT, 10, 10) . '</a>');
-            }
-            else
-            {
-                _e('<a href="'.FILENAME_PLUGINS.'?action=install&module='.$this->name.'&group='.$this->info[$this->name]['group'].'">' . os_image(http_path('icons_admin').'icon_status_green_light.gif', IMAGE_ICON_STATUS_GREEN_LIGHT, 10, 10) . '</a>&nbsp;&nbsp;' . os_image(http_path('icons_admin'). 'icon_status_red.gif', IMAGE_ICON_STATUS_RED, 10, 10));
-
-            }
-
-            return true;
-        }
+			return true;
+		}
 
 		// TODO: добавить возможность выключать\включать плагины без удаления инфы из БД.
 		//вывод статуса в cписки плагина вкл./выкл.
@@ -152,162 +126,177 @@
 
             return false;
         }
+
         //вывод опций текущего плагина
-        function option ()
-        {
-            _e('<table class="contentTable2" border="0" width="100%" cellspacing="0" cellpadding="0"><tr><td class="infoBoxContent2">');
+		function option($plugin = '')
+		{
+			$module = ($plugin) ? $plugin : $this->module;
+			$this->name = $module;
+			$this->lang($module);
+			$_lang_array = $this->lang;
 
-            $this->lang( $this->module );
+			if ($this->info[$module]['status'] == 1)
+			{
+				//$option = $this->get_option($module);
+				$getAllOption = $this->getAllOption();
+				$option = $getAllOption[$module];//$this->get_option($module);
 
-            $_lang_array = $this->lang;
-            _e('<table width="100%" border="0" cellspacing="0" cellpadding="0" style="margin-top:5px;margin-bottom:5px;">');
+				if (!empty($option))
+				{
+					$optionsArray = array();
+					foreach ($option as $option_name => $option_values)
+					{
+						if (!empty($option_values['use_function']) && $option_values['use_function'] != 'NULL' && $option_values['use_function'] != 'readonly(')
+						{
+							$_func = '$returnEval = $this->'.$option_values['use_function'];
 
-            if( $this->info[$this->module]['status'] == 1 )
-            {
-                _e('<form action="'.FILENAME_PLUGINS.'?action=save&module='.$this->module.'&group='.$this->info[$this->module]['group'].'" method="post">');
+							if (isset($_lang_array[$module][$option_name]))
+							{
+								$_option_name = htmlspecialchars($_lang_array[$module][$option_name]);
+							}
+							else
+								$_option_name = $option_name;
 
-                $option = $this->get_option($this->module);
+							$_value_name = trim($option_name.'_desc');
+							if (isset($_lang_array[$module][ $_value_name ]))
+							{
+								$_option_name_desc = addslashes(htmlspecialchars($_lang_array[$module][ $_value_name ]));
+							}
 
-                if (!empty($option))
-                {
-                    //вывод опций
+							eval($_func.'\''.htmlspecialchars($option_values['value']).'\''.', \''.addslashes($option_name)."');");
 
-                    foreach ($option as $option_name => $option_values)
-                    {
-                        if (!empty($option_values['use_function']))
-                        {
-                            $_func = '$this->'.$option_values['use_function'];
+							$optionsArray[] = array(
+								'name' => $_option_name,
+								'option' => $option_name,
+								'desc' => $_option_name_desc,
+								'value' => $returnEval,
+							);
+						}
+					}
+				}
 
-                            if (isset($_lang_array[$this->module][$option_name]))
-                            {
-                                $_option_name = Htmlspecialchars($_lang_array[$this->module][$option_name]);
+				if (count($option) == 1)
+				{
+					foreach ($option as $_value_tmp)
+					{
+						if (isset($_value_tmp['use_function']) && $_value_tmp['use_function'] == 'readonly(')
+						{
+							$option = '';
+						}
+					}
+				}
+			}
+			else
+			{
+				if ($this->info[$module]['group'] == 'update' && !$this->check_update())
+				{
+					//echo '<center style="color:red;text-align:center; font-weight: bold; ">РћР±РЅРѕРІР»РµРЅРёРµ СѓР¶Рµ СѓСЃС‚Р°РЅРѕРІР»РµРЅРѕ!</center>';
+				}
+			}
 
-                                _e('<tr><td><b>'.$_option_name.'</b></td></tr>');
-                            }
-
-                            $_value_name = trim($option_name.'_desc');
-                            if (isset($_lang_array[$this->module][ $_value_name ]))
-                            { 
-                                $_option_name_desc = addslashes(Htmlspecialchars($_lang_array[$this->module][ $_value_name ]));
-                                _e('<tr><td><i>'.$_option_name_desc.'</i></td></tr>');
-                            }
-
-                            eval($_func.'\''.Htmlspecialchars($option_values['value']).'\''.', \''.addslashes($option_name)."');");
-                            _e('<tr><td></td></tr>');
-                            $_option_name = '';
-                        }
-                    }
-                }
-
-                if ($option['group']) unset($option['group']);				
-
-                if (isset($this->info[$this->module]['process']) && count($this->info[$this->module]['process'])>0)
-                {
-                    _e('<tr><td align="center"><a class="button" href="'.FILENAME_PLUGINS.'?module='.$this->module.'&action=process"><span>'.PLUGINS_PROCESS.'</span></a></td></tr>');
-
-                }
-
-
-                if (count($option) == 1)
-                {
-                    foreach ($option as $_value_tmp)
-                    {
-                        if ( isset($_value_tmp['use_function']) && $_value_tmp['use_function'] == 'readonly(')
-                        {
-                            $option = '';
-                        }
-                    }
-                }
-
-                //если нет опций - не выводится кнопка сохранить опции
-
-                if (!empty($option))
-                {
-                    _e('<tr><td align="center"><span class="button"><button type="submit" value="'.PLUGINS_SAVE.'">'.PLUGINS_SAVE.'</button></span></td></tr>');
-                }
-
-                _e('</form>');
-                //кнопка удалить плагин
-                _e('<tr><td align="center"><form onSubmit="return confirm(\'Действительно хотите удалить плагин?\')" action="'.FILENAME_PLUGINS.'?action=remove&group='.$this->group.'&module='.$this->module.'" method="post" name="plugin_delete"><span class="button"><button type="submit" value="'.PLUGINS_REMOVE.'">'.PLUGINS_REMOVE.'</button></span></form></td></tr>');		        
-            }
-            else
-            { 
-                if ($this->info[$this->module]['group'] == 'update' && !$this->check_update())
-                {
-                    echo '<center style="color:red;text-align:center; font-weight: bold; ">Обновление уже установлено!</center>';
-                }
-                else
-                {
-                    _e('<table border="0" width="100%">');
-                    _e('<tr><td align="center"><a class="button" href="'.FILENAME_PLUGINS.'?action=install&group='.$this->group.'&module='.$this->module.'"><span>'.PLUGINS_INSTALL.'</span></a></td></tr>'); 
-                }
-
-            }
-            _e('</table>');
-
-            _e('</td></tr></table>');
-
-            $this->option_desc($_lang_array);
-
-            return true;
-        }
+			return array(
+				'options' => $optionsArray,
+				'options_info' => $this->option_desc($_lang_array),
+			);
+		}
 
         function option_desc($_lang_array)
         {
-            $_content_start = '<table class="contentTable" border="0" width="237px" cellspacing="0" cellpadding="2" style="margin-top:10px;"><tr ><td class="infoBoxHeading">'.PLUGINS_DESCRIPTION.'</td></tr></table>';		
-            $_content_start .= '<table class="contentTable2" border="0" width="100%" cellspacing="0" cellpadding="2"><tr><td class="infoBoxContent2">';
-            $_content_start .= '<table width="100%" border="0">';
+            //$_content_start = '<table class="contentTable" border="0" width="237px" cellspacing="0" cellpadding="2" style="margin-top:10px;"><tr ><td class="infoBoxHeading">'.PLUGINS_DESCRIPTION.'</td></tr></table>';		
+           // $_content_start .= '<table class="contentTable2" border="0" width="100%" cellspacing="0" cellpadding="2"><tr><td class="infoBoxContent2">';
+          //  $_content_start = '<table width="100%" border="0">';
             //описание модуля
 
-            $_content = '';
+          //  $_content = '';
 
-            if (isset($this->info[$this->module]['title']) && !empty($this->info[$this->module]['title']))
-            {
-                $_content .= '<tr><td align="left"><b>Название</b>: '.$this->info[$this->module]['title'].'</td></tr>';		
-            }
+            //if (isset($this->info[$this->module]['title']) && !empty($this->info[$this->module]['title']))
+           // {
+           //     $_content .= '<tr><td align="left"><b>Название</b>: '.$this->info[$this->module]['title'].'</td></tr>';		
+           // }
 
-            if (isset($this->info[$this->module]['version']) && !empty($this->info[$this->module]['version']))
-            {
-                $_content .= '<tr><td align="left"><b>'.TABLE_HEADING_VERSION.'</b>: '.$this->info[$this->module]['version'].'</td></tr>';		
-            }
+           // if (isset($this->info[$this->module]['version']) && !empty($this->info[$this->module]['version']))
+           // {
+           //     $_content .= '<tr><td align="left"><b>'.TABLE_HEADING_VERSION.'</b>: '.$this->info[$this->module]['version'].'</td></tr>';		
+           // }
 
-            if (!empty($this->info[$this->module]['desc']))
-            {
-                $_content .= '<tr><td align="left"><b>'.PLUGINS_SHORT_DESCRIPTION.':</b></td></tr>';	
-                $_content .= '<tr><td align="center">'.$this->info[$this->module]['desc'] .'</td></tr>';		
-            }
+           // if (!empty($this->info[$this->module]['desc']))
+           // {
+           //     $_content .= '<tr><td align="left"><b>'.PLUGINS_SHORT_DESCRIPTION.':</b></td></tr>';	
+          //      $_content .= '<tr><td align="center">'.$this->info[$this->module]['desc'] .'</td></tr>';		
+           // }
 
-            if (isset($_lang_array[$this->module][$this->module.'_desc']))
-            {
-                $_content .= '<tr><td align="left"><b>'.PLUGINS_DESCRIPTION.':</b></td></tr>';	
-                $_content .= '<tr><td align="center">'.$_lang_array[$this->module][$this->module.'_desc'] .'</td></tr>';		
-            }
+           // if (isset($_lang_array[$this->module][$this->module.'_desc']))
+          //  {
+           //     $_content .= '<tr><td align="left"><b>'.PLUGINS_DESCRIPTION.':</b></td></tr>';	
+          //      $_content .= '<tr><td align="center">'.$_lang_array[$this->module][$this->module.'_desc'] .'</td></tr>';		
+           // }
 
-            if (isset($this->info[$this->module]['author']) && !empty($this->info[$this->module]['author']))
-            {
-                if (isset($this->info[$this->module]['author_uri']) && !empty($this->info[$this->module]['author_uri']))
-                {
-                    $_content .= '<tr><td align="left"><b>'.PLUGINS_AUTHOR.'</b>: <a href="'.$this->info[$this->module]['author_uri'].'" class="author_uri" target="_blank">'.$this->info[$this->module]['author'].'</a></td></tr>';	
-                }	
-                else
-                {
-                    $_content .= '<tr><td align="left"><b>'.PLUGINS_AUTHOR.'</b>: '.$this->info[$this->module]['author'].'</td></tr>';	
-                }				
-            }
+           // if (isset($this->info[$this->module]['author']) && !empty($this->info[$this->module]['author']))
+          //  {
+           //     if (isset($this->info[$this->module]['author_uri']) && !empty($this->info[$this->module]['author_uri']))
+           //     {
+           //         $_content .= '<tr><td align="left"><b>'.PLUGINS_AUTHOR.'</b>: <a href="'.$this->info[$this->module]['author_uri'].'" class="author_uri" target="_blank">'.$this->info[$this->module]['author'].'</a></td></tr>';	
+           //     }	
+          //      else
+          //      {
+           //         $_content .= '<tr><td align="left"><b>'.PLUGINS_AUTHOR.'</b>: '.$this->info[$this->module]['author'].'</td></tr>';	
+          //      }				
+          //  }
 
-            $_content_end = '</table>';	
-            $_content_end .= '</td></tr></table>';	
+           // $_content_end = '</table>';	
+          //  $_content_end .= '</td></tr></table>';	
 
-            if (!empty($_content))
-            {
-                _e($_content_start);
-                _e($_content);
-                _e($_content_end);
-            }
-
+           // if (!empty($_content))
+           // {
+           //     _e($_content_start);
+           //     _e($_content);
+          //      _e($_content_end);
+          //  }
+			return false;
         }
 
-        function get_option ($key)
+		function getReadonlyOption()
+		{
+            $options = array();
+
+            $plugins_query = os_db_query("select plugins_key, plugins_name, plugins_value, use_function from ".DB_PREFIX."plugins where use_function = 'readonly(' AND plugins_name <> 'show'");
+
+            while ($plugins_result = os_db_fetch_array($plugins_query))  
+            {
+                $options[$plugins_result['plugins_key']] = $plugins_result;
+            } 
+
+            return $options;
+		}
+		
+		function getReadonly()//use_function'] != 'readonly(
+		{
+			$option = $this->getReadonlyOption();
+
+			if (!empty($option))
+			{
+				$optionsArray = array();
+				foreach ($option as $option_name => $option_values)
+				{
+					//echo $option_values['plugins_name'].'<br />';
+					if (!empty($option_values['use_function']) && $option_values['use_function'] != 'NULL')
+					{
+						$_func = '$returnEval = $this->'.$option_values['use_function'];
+
+						eval($_func.'\''.htmlspecialchars($option_values['value']).'\''.', \''.addslashes($option_values['plugins_name'])."');");
+
+						if (!empty($returnEval))
+						{
+							$optionsArray[$option_name] = $returnEval;
+						}
+					}
+				}
+			}
+
+			return $optionsArray;
+		}
+
+        function get_option($key)
         {
             $options = array();
 
@@ -322,12 +311,40 @@
             return $options;
         }
 
+		/**
+		 * Получение всех опций плагинов
+		 */
+		function getAllOption($gorup = false)
+		{
+			if (!empty($this->allOptions)) return $this->allOptions;
+
+			$options = array();
+			$plugins_query = os_db_query("SELECT * FROM ".DB_PREFIX."plugins WHERE plugins_name <> 'show' AND use_function != 'readonly(' ORDER BY sort_order");
+
+			while ($plugins_result = os_db_fetch_array($plugins_query))  
+			{
+				$options[$plugins_result['plugins_key']][$plugins_result['plugins_name']]['value'] = $plugins_result['plugins_value'];
+				$options[$plugins_result['plugins_key']][$plugins_result['plugins_name']]['use_function'] = $plugins_result['use_function'];
+
+				if ($gorup == false) unset($options[$plugins_result['plugins_key']]['group']);
+			}
+
+			$this->allOptions = $options;
+
+            return $options;
+		}
+
+		function clearAllOptions()
+		{
+			$this->allOptions = array();
+		}
+
 		// TODO: добавить возможность выключать\включать плагины без удаления инфы из БД.
 		// Включение\выключение плагина БЕЗ удаления настроек из БД.
-		function updatePluginStatus($_plugin_name = '', $_group = 'main')
+		function updatePluginStatus($_plugin_name, $set_status)
 		{
 			//определяем получаемый статус
-			$status = $_GET['set_status'];
+			$status = $set_status;
 
 			if (is_numeric($status))
 			{
@@ -337,13 +354,7 @@
 				else
 					$this->name = $this->module;
 
-				//определяем группу устанавливаемого плагина
-				if (isset($_GET['group']) && !empty($_GET['group']))
-					$this->group = $_GET['group'];
-				else
-					$this->group = $_group;
-
-				os_db_query("UPDATE ".DB_PREFIX."plugins SET plugins_value = '".$status."' WHERE plugins_key = '".$this->name."' AND plugins_name = 'show'");
+				os_db_query("UPDATE ".DB_PREFIX."plugins SET plugins_value = '".$status."' WHERE plugins_key = '".os_db_prepare_input($this->name)."' AND plugins_name = 'show'");
 			}
 			else
 				return false;
@@ -418,6 +429,8 @@
                     break;
 
             }
+			
+			$this->clearAllOptions();
         }
 
         //установка плагина
@@ -425,17 +438,17 @@
         если нужно установить какой то конкретный модуль. 
         указываем параметр $_plugin_name, а не берем из $this->module
         */
-        function install ($_plugin_name = '', $_group = 'main' )
-        { 
+        function install($_plugin_name = '', $_group = 'main')
+        {
             //определяем имя устанавливаемого плагина
-            if (!empty($_plugin_name)) $this->name = $_plugin_name;
-            else $this->name = $this->module;
+            if (!empty($_plugin_name))
+				$this->name = $_plugin_name;
+            else
+				$this->name = $this->module;
 
-            
-            //определяем группу устанавливаемого плагина
-            if (isset($_GET['group']) && !empty($_GET['group'])) $this->group = $_GET['group']; else $this->group = $_group;
+            $this->group = $_group;
 
-            switch ($this->group)
+            switch($this->group)
             {
                  case 'themes':
                     if (is_file(_CATALOG.'themes/'.CURRENT_TEMPLATE.'/plugins/'.$this->name.'.php')) 
@@ -498,23 +511,23 @@
                     os_db_query("insert ".DB_PREFIX."plugins (plugins_key, plugins_name, plugins_value, sort_order, sort_plugins, use_function) VALUES ('".$this->name."', 'group','main',0,0, NULL);");
 
                     break;
-
-
-               
             }
+
+			$this->clearAllOptions();
         }
 
-
-        function process ($_plugin_name = '', $_group = 'main' )
+        function process($_plugin_name = '', $_group = 'main')
         {
             //определяем имя устанавливаемого плагина
-            if (!empty($_plugin_name)) $this->name = $_plugin_name;
-            else $this->name = $this->module;
+            if (!empty($_plugin_name))
+				$this->name = $_plugin_name;
+            else
+				$this->name = $this->module;
 
-            //определяем группу устанавливаемого плагина
-            if (isset($_GET['group']) && !empty($_GET['group'])) $this->group = $_GET['group']; else $this->group = $_group;
+            $this->group = $_group;
 
-            if (!isset($this->info[$this->name]['process']) or count($this->info[$this->name]['process'])==0)  return 0;
+            if (!isset($this->info[$this->name]['process']) or count($this->info[$this->name]['process'])==0)
+				return 0;
 
             switch ($this->group)
             {
@@ -551,10 +564,12 @@
 
                     os_redirect(FILENAME_PLUGINS.'?module='.$this->name.'&group='.$this->group);
                     break;
-            }   		
+            }
+
+			$this->clearAllOptions();
         }
 
-        function set_dir ()
+        function set_dir()
         {
             switch ($this->group)
             {
@@ -583,10 +598,11 @@
                     }
                     else break;
                     break;
+
             }   	
         }
 
-        function get_name () //возвращает список плагинов
+        function get_name() //возвращает список плагинов
         {
             $directory_array = array();
 
@@ -632,7 +648,7 @@
             return $directory_array;
         }
 
-        function get_plugins_theme ($themes = '') //возвращает список плагинов
+        function get_plugins_theme($themes = '') //возвращает список плагинов
         {
             if (empty($themes)) $themes = CURRENT_TEMPLATE;
 
@@ -686,7 +702,7 @@
             return $directory_array;
         }
 
-        function plugins ($param = '') // возвращает массив. информацию о всех плагинах
+        function plugins($param = '') // возвращает массив. информацию о всех плагинах
         { 
             $plugins_query = os_db_query('select plugins_key, plugins_name, plugins_value from '.DB_PREFIX.'plugins order by sort_order');
 
@@ -699,13 +715,9 @@
                     {
                         //статус плагина
                         if ((int)$plugins_result['plugins_value'] == 1)
-                        {
-                            $this->info[$plugins_result['plugins_key']]['status'] = 1;  
-                        }
+                            $this->info[$plugins_result['plugins_key']]['status'] = 1;
                         else
-                        {
                             $this->info[$plugins_result['plugins_key']]['status'] = 0;
-                        }
                     }
                     elseif ($plugins_result['plugins_name'] == 'group')
                     {
@@ -725,68 +737,112 @@
             return true;
         }
 
-        function textarea ($value, $name)
-        { 
-            $value = Htmlspecialchars($value);
-            _e ('<tr><td><textarea class="round plugin" name="'.$name.'" cols="26" rows="10">'.$value.'</textarea></td></tr>');
-        }   
+		// Textarea
+		function textarea($value, $name)
+		{
+			return '<textarea class="input-block-level" id="'.$name.'" name="'.$name.'">'.htmlspecialchars($value).'</textarea>';
+		}   
 
-        function readonly ($value, $name)
-        { 
-            $func = $name.'_readonly';
+		// Readonly
+		function readonly($value, $name)
+		{
+			$func = $name.'_readonly';
 
-            if (function_exists($func))
-            {
-                _e ('<tr><td>');
-                $func($value);
-                _e ('</td></tr>');
-            }
-            else
-            {
-                _e ('<tr><td>'.$value.'</td></tr>');
-            }  
-        }
+			return (function_exists($func)) ? $func($value) : $value;
+		}
 
-        function input ($value, $name)
-        {
-            $value = addslashes($value);
-            $size = 15;
-            if (mb_strlen($value) > 15) $size = 25;
+		// Input
+		function input($value, $name)
+		{
+			return '<input class="input-block-level" type="text" id="'.$name.'" name="'.$name.'" value="'.addslashes($value).'" />';
+		}	
 
-            _e ('<tr><td><input size="'.$size.'" class="round plugin" type="text" name="'.$name.'" value="'.$value.'"></td></tr>');
-        }	
+		// Radio
+		function radio($_array, $value, $name)
+		{
+			$_lang_array = $this->lang;
 
-        function radio ($_array, $value, $name)
-        {
-            $_lang_array = $this->lang;
+			if (!empty($_array) && is_array($_array))
+			{
+				$return = '';
+				foreach ($_array as $_val)
+				{
+					$__val = '';
 
-            _e('<tr><td>');
+					if (isset($_lang_array[$this->module][$_val]))
+						$__val = $_lang_array[$this->module][$_val];
+					else
+						$__val = $_val;
 
-            if (!empty($_array) && is_array($_array))
-            {
-                foreach ($_array as $_val)
-                {
-                    $__val = '';
-                    //локализация поля
-                    if (isset($_lang_array[$this->module][$_val])) $__val = $_lang_array[$this->module][$_val]; else $__val  = $_val;
-                    if (strtolower(trim($_val)) == 'true') $__val = YES;
-                    if (strtolower(trim($_val)) == 'false') $__val = NO;
+					if (strtolower(trim($_val)) == 'true') $__val = YES;
+					if (strtolower(trim($_val)) == 'false') $__val = NO;
 
-                    if ($_val == $value)
-                    {
-                        _e('<input type="radio" name="'.$name.'" checked value="'.$_val.'"> <b>'.$__val.'</b>');
-                    }
-                    else
-                    {
-                        _e('<input type="radio" name="'.$name.'" value="'.$_val.'"> <b>'.$__val.'</b>');	
-                    }
-                }
-            }
+					$checked = ($_val == $value) ? 'checked' : '';
+					$return .= '<label class="radio"><input type="radio" name="'.$name.'" value="'.$_val.'" '.$checked.'> '.$__val.'</label>';	
+				}
+			}
+			return $return;
+		}	
 
-            _e('</td></tr>');
+		// Checkbox
+		function checkbox($_array, $value, $name)
+		{
+			$_lang_array = $this->lang;
 
-            return true;
-        }	
+			$return = '';
+			$aValues = array();
+			if (!empty($_array) && is_array($_array))
+			{
+				$aValues = explode('|', $value);
+
+				foreach ($_array as $_val)
+				{
+					$__val = '';
+
+					if (isset($_lang_array[$this->module][$_val])) 
+						$__val = $_lang_array[$this->module][$_val]; 
+					else
+						$__val = $_val;
+
+					$checked = (in_array($_val, $aValues)) ? 'checked' : '';
+					$return .= '<label class="checkbox"><input type="checkbox" name="'.$name.'['.$_val.']" value="'.$_val.'" '.$checked.'> '.$__val.'</label>';
+				}
+
+				return $return;
+			}
+			else
+				return false;
+		}
+
+		// Select
+		function select($_array, $value, $name)
+		{
+			$_lang_array = $this->lang;
+
+			$return = '';
+			if (!empty($_array) && is_array($_array))
+			{
+				$return .= '<select class="input-block-level" id="'.$name.'" name="'.$name.'">';
+				foreach ($_array as $_val)
+				{
+					$__val = '';
+					if ($_val == 'true') $__val = YES;
+					if ($_val == 'false') $__val = NO;
+
+					if (isset($_lang_array[$this->module][$_val])) 
+						$__val = $_lang_array[$this->module][$_val]; 
+					else
+						$__val = $_val;
+
+					$selected = ($_val == $value) ? 'selected' : '';
+					$return .= '<option value="'.$_val.'" '.$selected.'>'.$__val.'</option>';	
+				}
+				$return .= '</select>';
+				return $return;
+			}
+			else
+				return false;
+		}
 
         //резервирование настроек плагина
         function set_reserve_setting( $param = array() )
@@ -794,51 +850,9 @@
 
         }
 
-        function checkbox ($_array, $value, $name)
+        function plug_array($themes = '')
         {
-            $_lang_array = $this->lang;
-            _e('<tr><td>');
-
-            if (!empty($_array) && is_array($_array))
-            {
-                _e('<select class="round plugin" name="'.$name.'">');
-                foreach ($_array as $_val)
-                {
-                    $__val = '';
-                    if ($_val == 'true') $__val = YES;
-                    if ($_val == 'false') $__val = NO;
-
-                    //локализация поля
-                    if (isset($_lang_array[$this->module][$_val])) 
-                    {  
-                        $__val = $_lang_array[$this->module][$_val]; 
-                    }
-                    else
-                    {
-                        $__val  = $_val;
-                    }
-
-                    if ($_val == $value)
-                    {
-                        _e('<option selected value="'.$_val.'">'.$__val.'</option>');
-                    }
-                    else
-                    {
-                        _e('<option value="'.$_val.'">'.$__val.'</option>');	
-                    }
-                }
-                _e('</select>');
-            }
-
-            _e('</td></tr>');
-
-        }	
-
-        function plug_array ( $themes = '' )
-        {
-            $plugins_file = array_merge($this->get_name (), $this->get_plugins_theme ($themes)); /* получения массива всех плагинов */
-
-            $color = '';
+            $plugins_file = array_merge($this->get_name(), $this->get_plugins_theme($themes)); /* получения массива всех плагинов */
 
             $this->_plug_array = array();
 
@@ -886,23 +900,20 @@
                 $this->info[$this->name]['version'] = $plugin_data['Version'];
 
                 //если не указан статус плагина, устанавливает статус в 0
-                if (!isset($this->info[$this->name]['status']))  $this->info[$this->name]['status'] = 0;
-
-                if ($_group == 'update') $color = '#bbffb0'; $color = $color == '#f9f9ff' ? '#f0f1ff':'#f9f9ff';
-
-                $this->_plug_array[$_group][$i]['color'] = $color;
+                if (!isset($this->info[$this->name]['status']))
+					$this->info[$this->name]['status'] = 0;
 
                 if (is_file(get_path('catalog').$this->dir.'icon.png') && !empty($plugins_file[$i][2]))
                 {
-                    $this->_plug_array[$_group][$i]['icon'] =  '<img width="16px" alt="" height="16px" src="'.$plugins_file[$i][2].'icon.png'.'" border="0" />';
+                    $this->_plug_array[$_group][$i]['icon'] =  '<img src="'.$plugins_file[$i][2].'icon.png'.'" border="0" alt="" />';
                 }
                 elseif (is_file(get_path('catalog').$this->dir.'icon.gif') && !empty($plugins_file[$i][2]))
                 {
-                    $this->_plug_array[$_group][$i]['icon'] =  '<img width="16px" alt="" height="16px" src="'.$plugins_file[$i][2].'icon.gif'.'" border="0" />';
+                    $this->_plug_array[$_group][$i]['icon'] =  '<img src="'.$plugins_file[$i][2].'icon.gif'.'" border="0" alt="" />';
                 }
                 else
                 {
-                    $this->_plug_array[$_group][$i]['icon'] = '<img width="16px" alt="" height="16px" src="'.http_path('icons_admin').'plugins/plugins_icons.png'.'" border="0" />';
+                    $this->_plug_array[$_group][$i]['icon'] = '<img src="'.http_path('icons_admin').'plugins/plugins_icons.png'.'" border="0" alt="" />';
                 }
 
             }
@@ -910,7 +921,7 @@
             return $this->_plug_array;
         }  
 
-        function multi_action ()
+        function multi_action()
         {
             if (isset($_POST['action']) && $_POST['action']=='install')
             {
@@ -924,7 +935,8 @@
                     os_redirect(FILENAME_PLUGINS);
                 }
                 //print_r($_POST);
-            }elseif (isset($_POST['action']) && $_POST['action']=='remove')
+            }
+			elseif (isset($_POST['action']) && $_POST['action']=='remove')
             {		     
                 if (!empty($_POST['plugins']))
                 { 
@@ -937,7 +949,6 @@
                 }
 
             }
-
         } 
 
         /* подключение активных плагинов */
@@ -1040,7 +1051,7 @@
         }
 
         /* установка всех модулей текущего шаблона */ 
-        function themes_install ( $themes = '')
+        function themes_install($themes = '')
         {
             $_array = $this->plug_array($themes);
 
@@ -1071,10 +1082,8 @@
                     os_db_query("insert ".DB_PREFIX."plugins (plugins_key, plugins_name, plugins_value, sort_order, sort_plugins, use_function) VALUES ('".$this->name."', 'show','1',0,0, NULL);");
                     os_db_query("insert ".DB_PREFIX."plugins (plugins_key, plugins_name, plugins_value, sort_order, sort_plugins, use_function) VALUES ('".$this->name."', 'group','themes',0,0, NULL);");
                 }
-
             }
         }
-
     }
 
 ?>

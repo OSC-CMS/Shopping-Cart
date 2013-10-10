@@ -2,8 +2,8 @@
 /*
 *---------------------------------------------------------
 *
-*	OSC-CMS - Open Source Shopping Cart Software
-*	http://osc-cms.com
+*	CartET - Open Source Shopping Cart Software
+*	http://www.cartet.org
 *
 *---------------------------------------------------------
 */
@@ -255,10 +255,10 @@ if (isset ($_GET['delete']) == false)
 	$action = os_draw_form('addressbook', os_href_link(FILENAME_ADDRESS_BOOK_PROCESS, (isset ($_GET['edit']) ? 'edit='.$_GET['edit'] : ''), 'SSL'), 'post', 'onsubmit="return checkform(this);"') . os_draw_hidden_field('required', 'gender,firstname,lastname,address,postcode,city,state,country', 'id="required"');
 
 $osTemplate->assign('FORM_ACTION', $action);
-if ($messageStack->size('addressbook') > 0) {
-	$osTemplate->assign('error', $messageStack->output('addressbook'));
+//if ($messageStack->size('addressbook') > 0) {
+//	$osTemplate->assign('error', $messageStack->output('addressbook'));
 
-}
+//}
 
 if (isset ($_GET['delete'])) {
 	$osTemplate->assign('delete', '1');

@@ -1,24 +1,24 @@
 <?php
 /*
-#####################################
-#  OSC-CMS: Shopping Cart Software.
-#  Copyright (c) 2011-2012
-#  http://osc-cms.com
-#  http://osc-cms.com/forum
-#  Ver. 1.0.0
-#####################################
+*---------------------------------------------------------
+*
+*	CartET - Open Source Shopping Cart Software
+*	http://www.cartet.org
+*
+*---------------------------------------------------------
 */
 
 define('TEXT_EDIT_STATUS', 'Статус');
-define('HEADING_TITLE', 'Категории / Товары');
-define('HEADING_TITLE_SEARCH', 'Поиск:');
-define('HEADING_TITLE_GOTO', 'Перейти в:');
+define('HEADING_TITLE', 'Категории и товары');
+define('HEADING_TITLE_SEARCH', 'Поиск');
+//define('HEADING_TITLE_GOTO', 'Перейти в:');
 
 define('TABLE_HEADING_ID', 'ID код');
 define('TABLE_HEADING_CATEGORIES_PRODUCTS', 'Категории / Товары');
 define('TABLE_HEADING_ACTION', 'Действие');
-define('TABLE_HEADING_STARTPAGE', 'На главной');
+define('TABLE_HEADING_STARTPAGE', 'Главная');
 define('TABLE_HEADING_STOCK','Склад');
+define('TABLE_HEADING_STOCKS','Наличие');
 define('TABLE_HEADING_MENU','Меню');
 define('TABLE_HEADING_SORT','Порядок');
 define('TABLE_HEADING_EDIT','');
@@ -44,7 +44,7 @@ define('TEXT_NO_CHILD_CATEGORIES_OR_PRODUCTS', 'Пожалуйста, добав
 define('TEXT_PRODUCT_MORE_INFORMATION', 'Для получения дополнительной информации, пожалуйста, посетите эту <a href="http://%s" target="blank"><u>страницу</u></a>.');
 define('TEXT_PRODUCT_DATE_ADDED', 'Этот товар добавлен в наш каталог %s.');
 define('TEXT_PRODUCT_DATE_AVAILABLE', 'Этот товар появится в продаже %s.');
-define('TEXT_CHOOSE_OPTIONS_TEMPLATE', 'Шаблон атрибутов товара:');
+define('TEXT_CHOOSE_OPTIONS_TEMPLATE', 'Шаблон атрибутов товара');
 
 define('TEXT_EDIT_INTRO', 'Пожалуйста, внесите необходимые изменения');
 define('TEXT_EDIT_CATEGORIES_ID', 'ID категории:');
@@ -71,11 +71,11 @@ define('TEXT_INFO_HEADING_DELETE_ELEMENTS', 'Удалить элементы');
 define('TEXT_DELETE_CATEGORY_INTRO', 'Вы согласны удалить эту категорию?');
 define('TEXT_DELETE_PRODUCT_INTRO', 'Отметьте Категории из которых надо удалить данный товар. Вы согласны навсегда удалить эти товары?');
 
-define('TEXT_DELETE_WARNING_CHILDS', '<b>ВНИМАНИЕ:</b> С данной категорий связано %s подкатегорий!');
-define('TEXT_DELETE_WARNING_PRODUCTS', '<b>ВНИМАНИЕ:</b> С данной категорий связано %s товаров!');
+define('TEXT_DELETE_WARNING_CHILDS', 'С данной категорий связано %s подкатегорий!');
+define('TEXT_DELETE_WARNING_PRODUCTS', 'С данной категорий связано %s товаров!');
 
-define('TEXT_MOVE_WARNING_CHILDS', '<b>Информация:</b> С данной категорий связано %s подкатегорий!');
-define('TEXT_MOVE_WARNING_PRODUCTS', '<b>Информация:</b> С данной категорий связано %s товаров!');
+define('TEXT_MOVE_WARNING_CHILDS', 'Подкатегори: %s');
+define('TEXT_MOVE_WARNING_PRODUCTS', 'Товаров: %s');
 
 define('TEXT_MOVE_PRODUCTS_INTRO', 'Выберите категорию, в которую Вы хотите переместить <b>%s</b>');
 define('TEXT_MOVE_CATEGORIES_INTRO', 'Выберите категорию, в которую Вы хотите переместить <b>%s</b>');
@@ -126,10 +126,10 @@ define('ERROR_CATALOG_IMAGE_DIRECTORY_NOT_WRITEABLE', 'Ошибка: Дирек�
 define('ERROR_CATALOG_IMAGE_DIRECTORY_DOES_NOT_EXIST', 'Ошибка: Директория картинок отсутствует: ');
 
 define('TEXT_PRODUCTS_DISCOUNT_ALLOWED','Максимально возможная скидка:');
-define('HEADING_PRICES_OPTIONS','<b>Цены</b>');
-define('HEADING_PRODUCT_IMAGES','<b>Изображения</b>');
+define('HEADING_PRICES_OPTIONS','Цены');
+define('HEADING_PRODUCT_IMAGES','Изображения');
 define('HEADING_PRODUCT_EXTRA_FIELDS','Доп. поля');
-define('TEXT_PRODUCTS_WEIGHT_INFO','<small>(кг.)</small>');
+define('TEXT_PRODUCTS_WEIGHT_INFO','(кг.)');
 define('TEXT_PRODUCTS_SHORT_DESCRIPTION','Краткое описание:');
 define('TEXT_PRODUCTS_KEYWORDS', 'Дополнительные слова для поиска:');
 define('TXT_STK','Количество: ');
@@ -149,6 +149,7 @@ define('TEXT_CHOOSE_INFO_TEMPLATE_CATEGORIE','Шаблон для списка �
 define('TEXT_CHOOSE_INFO_TEMPLATE_LISTING','Шаблон для списка товаров');
 define('TEXT_PRODUCTS_SORT','Порядок:');
 define('TEXT_PRODUCTS_REVIEWS','Включить отзывы:');
+define('TEXT_PRODUCTS_SEARCH','Исключить из поиска:');
 define('TEXT_EDIT_PRODUCT_SORT_ORDER','Сортировка товара');
 define('TXT_PRICES','Цена');
 define('TXT_NAME','Название товара');
@@ -164,9 +165,9 @@ define('TEXT_SINGLECOPY','Один');
 define('TEXT_SINGLECOPY_DESC','Копировать элементы в следующую категорию');
 define('TEXT_SINGLECOPY_CATEGORY','Категория:');
 
-define('TEXT_PRODUCTS_VPE','Единица: ');
-define('TEXT_PRODUCTS_VPE_VISIBLE','Показывать единицу упаковки: ');
-define('TEXT_PRODUCTS_VPE_VALUE',' Значение: ');
+define('TEXT_PRODUCTS_VPE','Единица');
+define('TEXT_PRODUCTS_VPE_VISIBLE','Показывать единицу упаковки');
+define('TEXT_PRODUCTS_VPE_VALUE',' Значение');
 
 define('CROSS_SELLING','Сопутствующие товары');
 define('CROSS_SELLING_SEARCH','Поиск товара:');
@@ -182,14 +183,14 @@ define('HEADING_GROUP','Группа');
 define('IMAGE_ICON_STATUS_GREEN_STOCK', 'единиц на складе');
 define('TABLE_HEADING_MAX_DISCOUNT', 'Максимально возможная скидка');
 
-define('TEXT_PRODUCTS_IMAGE_UPLOAD_DIRECTORY', 'Директория загрузки:');
-define('TEXT_PRODUCTS_IMAGE_GET_FILE', 'Использовать загруженный файл:');
+define('TEXT_PRODUCTS_IMAGE_UPLOAD_DIRECTORY', 'Директория загрузки');
+define('TEXT_PRODUCTS_IMAGE_GET_FILE', 'Использовать загруженный файл');
 define('TEXT_STANDART_IMAGE', 'Картинка');
 define('TEXT_SELECT_DIRECTORY', '-- Выберите поддиректорию --');
 define('TEXT_SELECT_IMAGE', '-- Выберите файл --');
 
 define('TABLE_HEADING_XML', 'XML');
-define('TEXT_PRODUCTS_TO_XML', 'Яндекс-маркет:');
+define('TEXT_PRODUCTS_TO_XML', 'Яндекс-маркет');
 define('TEXT_PRODUCT_AVAILABLE_TO_XML', 'Включить');
 define('TEXT_PRODUCT_NOT_AVAILABLE_TO_XML', 'Не включать');
 
@@ -203,35 +204,36 @@ define('TEXT_PAGES', 'Страницы: ');
 define('TEXT_TOTAL_PRODUCTS', 'Всего товаров: ');
 define('TEXT_TOTAL_SUM', 'На сумму: ');
 
-define('TEXT_YANDEX_MARKET','<br />Настройки для яндекс-маркет:<br />');
-define('TEXT_YANDEX_MARKET_BID','Основная ставка (bid):');
-define('TEXT_YANDEX_MARKET_CBID','Ставка для карточек (cbid):');
+define('TEXT_YANDEX_MARKET','Настройки для яндекс-маркет');
+define('TEXT_YANDEX_MARKET_BID','Основная ставка (bid)');
+define('TEXT_YANDEX_MARKET_CBID','Ставка для карточек (cbid)');
 define('TEXT_LAST_PAGE','Последняя &raquo;');
 define('TEXT_FIRST_PAGE','&laquo; Первая');
 
 // Categiries/Products URL begin
-define('TEXT_EDIT_CATEGORY_URL', 'ЧПУ URL категории:');
-define('TEXT_PRODUCTS_PAGE_URL', 'ЧПУ URL товара:');
+define('TEXT_EDIT_CATEGORY_URL', 'ЧПУ URL категории');
+define('TEXT_PRODUCTS_PAGE_URL', 'ЧПУ URL товара');
 // Categiries/Products URL end
 
-define('TABLE_HEADING_STOCK', 'Склад');
-
 // Bundle
-define('TABLE_HEADING_BANDLE', 'Набор');
-define('TABLE_USE_BANDLE', 'Использовать набор');
-define('TABLE_USE_BANDLE_NO', 'Нет');
-define('TABLE_USE_BANDLE_YES', 'Да');
-define('TABLE_USE_BANDLE_PRODUCT_NAME', 'Название товара');
-define('TABLE_USE_BANDLE_PRODUCT_ID', 'ID товара');
-define('TABLE_USE_BANDLE_PRODUCT_QTY', 'Кол-во в наборе');
-define('TABLE_USE_BANDLE_DEL', 'Удалить');
-define('TABLE_USE_BANDLE_QTY_DESC', '<b>Кол-во в наборе</b> - количество товара в наборе которое считается всё вместе в итоговую сумму.');
-define('TABLE_USE_BANDLE_ADD', 'Добавить вариант');
+define('TABLE_HEADING_BUNDLE', 'Набор');
+define('TABLE_USE_BUNDLE', 'Использовать набор');
+define('TABLE_USE_BUNDLE_PRODUCT_NAME', 'Название товара');
+define('TABLE_USE_BUNDLE_PRODUCT_ID', 'ID товара');
+define('TABLE_USE_BUNDLE_PRODUCT_QTY', 'Кол-во в наборе');
+define('TABLE_USE_BUNDLE_DEL', 'Удалить');
+define('TABLE_USE_BUNDLE_QTY_DESC', '<b>Кол-во в наборе</b> - количество товара в наборе которое считается всё вместе в итоговую сумму.');
+define('TABLE_USE_BUNDLE_ADD', 'Добавить вариант');
 
-
-
-
-
+define('TABLE_HEADING_CONTENT_FILES', 'Файлы');
+define('TABLE_HEADING_PRODUCTS_ID','ID');
+define('TABLE_HEADING_LANGUAGE','Язык');
+define('TABLE_HEADING_CONTENT_NAME','Название файла');
+define('TABLE_HEADING_CONTENT_LINK','Ссылка');
+define('TABLE_HEADING_CONTENT_HITS','Просмотрен:');
+define('TABLE_HEADING_CONTENT_FILE','Файл');
+define('TABLE_HEADING_CONTENT_FILESIZE','Размер:');
+define('TABLE_HEADING_CONTENT_ACTION','Действие');
 
 
 

@@ -1,15 +1,14 @@
 <?php
 /*
-#####################################
-#  OSC-CMS: Shopping Cart Software.
-#  Copyright (c) 2011-2012
-#  http://osc-cms.com
-#  http://osc-cms.com/forum
-#  Ver. 1.0.1
-#####################################
+*---------------------------------------------------------
+*
+*	CartET - Open Source Shopping Cart Software
+*	http://www.cartet.org
+*
+*---------------------------------------------------------
 */
 
-defined( '_VALID_OS' ) or die( 'Прямой доступ  не допускается.' );
+defined( '_VALID_OS' ) or die( 'РџСЂСЏРјРѕР№ РґРѕСЃС‚СѓРї  РЅРµ РґРѕРїСѓСЃРєР°РµС‚СЃСЏ.' );
 
   function os_href_link($page = '', $parameters = '', $connection = 'NONSSL') 
   {
@@ -218,7 +217,7 @@ defined( '_VALID_OS' ) or die( 'Прямой доступ  не допускается.' );
 
   function os_draw_textarea_field($name, $wrap, $width, $height, $text = '', $params = '', $reinsert_value = true) 
   {
-    $field = '<textarea class="round" id="'.$name.'" name="' . $name . '" wrap="' . $wrap . '" cols="' . $width . '" rows="' . $height . '"';
+    $field = '<textarea id="'.$name.'" name="' . $name . '" wrap="' . $wrap . '" cols="' . $width . '" rows="' . $height . '"';
     if ($params) $field .= ' ' . $params;
     $field .= '>';
 	
@@ -251,7 +250,7 @@ defined( '_VALID_OS' ) or die( 'Прямой доступ  не допускается.' );
 
 
   function os_draw_pull_down_menu($name, $values, $default = '', $params = '', $required = false) {
-    $field = '<select class="round" name="' . $name . '"';
+    $field = '<select name="' . $name . '"';
     if ($params) $field .= ' ' . $params;
     $field .= '>';
  	if(is_array($values))

@@ -1,13 +1,12 @@
 <?php
 /*
-#####################################
-#  OSC-CMS: Shopping Cart Software
-#  Copyright (c) 2011-2012
-# http://osc-cms.com
-# Ver. 1.0.0
-#####################################
+*---------------------------------------------------------
+*
+*	CartET - Open Source Shopping Cart Software
+*	http://www.cartet.org
+*
+*---------------------------------------------------------
 */
-
 
   define('MODULE_ORDER_TOTAL_TOTAL_TITLE', '<b>Total</b>');
   define('MODULE_ORDER_TOTAL_TOTAL_TITLE_NO_TAX', '<b>Total, no tax</b>');

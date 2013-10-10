@@ -2,8 +2,8 @@
 /*
 *---------------------------------------------------------
 *
-*	OSC-CMS - Open Source Shopping Cart Software
-*	http://osc-cms.com
+*	CartET - Open Source Shopping Cart Software
+*	http://www.cartet.org
 *
 *---------------------------------------------------------
 */
@@ -22,11 +22,11 @@ if (isset($_GET['payment']) && !empty($_GET['payment']))
   }
   else
   {
-      die ('OSC-CMS error: no payment_process file!');
+      die ('CartET error: no payment_process file!');
   }
 }
 else
 {
-    die ('OSC-CMS error: no payment_process file!');
+    die ('CartET error: no payment_process file!');
 }
 ?>

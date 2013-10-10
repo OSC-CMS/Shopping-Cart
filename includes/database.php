@@ -2,8 +2,8 @@
 /*
 *---------------------------------------------------------
 *
-*	OSC-CMS - Open Source Shopping Cart Software
-*	http://osc-cms.com
+*	CartET - Open Source Shopping Cart Software
+*	http://www.cartet.org
 *
 *---------------------------------------------------------
 */
@@ -86,8 +86,6 @@ define('TABLE_FEATURED', DB_PREFIX.'featured');
 define('TABLE_ARTICLES', DB_PREFIX.'articles');
 define('TABLE_ARTICLES_DESCRIPTION', DB_PREFIX.'articles_description');
 define('TABLE_ARTICLES_TO_TOPICS', DB_PREFIX.'articles_to_topics');
-define('TABLE_AUTHORS', DB_PREFIX.'authors');
-define('TABLE_AUTHORS_INFO', DB_PREFIX.'authors_info');
 define('TABLE_TOPICS', DB_PREFIX.'topics');
 define('TABLE_TOPICS_DESCRIPTION', DB_PREFIX.'topics_description');
 define('TABLE_ARTICLES_XSELL', DB_PREFIX.'articles_xsell');
@@ -95,7 +93,6 @@ define('TABLE_ARTICLES_XSELL', DB_PREFIX.'articles_xsell');
 define('TABLE_MONEYBOOKERS',DB_PREFIX.'payment_moneybookers');
 define('TABLE_MONEYBOOKERS_COUNTRIES',DB_PREFIX.'payment_moneybookers_countries');
 define('TABLE_MONEYBOOKERS_CURRENCIES',DB_PREFIX.'payment_moneybookers_currencies');
-define('TABLE_BANKTRANSFER',DB_PREFIX.'banktransfer');
 define('TABLE_NEWSLETTER_TEMP',DB_PREFIX.'module_newsletter_temp_');
 define('TABLE_PERSONAL_OFFERS',DB_PREFIX.'personal_offers_by_customers_status_');
 

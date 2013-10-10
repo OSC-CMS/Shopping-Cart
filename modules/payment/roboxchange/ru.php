@@ -1,12 +1,11 @@
 <?php
 /*
-#####################################
-#  OSC-CMS: Shopping Cart Software.
-#  Copyright (c) 2011-2012
-#  http://osc-cms.com
-#  http://osc-cms.com/forum
-#  Ver. 1.0.0
-#####################################
+*---------------------------------------------------------
+*
+*	CartET - Open Source Shopping Cart Software
+*	http://www.cartet.org
+*
+*---------------------------------------------------------
 */
 
   define('MODULE_PAYMENT_ROBOXCHANGE_TEXT_TITLE', 'Оплата "электронными деньгами" (WebMoney, Яндекс.Деньги, E-gold, MoneyMail, RuPay, INOCard)');

@@ -2,8 +2,8 @@
 /*
 *---------------------------------------------------------
 *
-*	OSC-CMS - Open Source Shopping Cart Software
-*	http://osc-cms.com
+*	CartET - Open Source Shopping Cart Software
+*	http://www.cartet.org
 *
 *---------------------------------------------------------
 */
@@ -53,7 +53,7 @@ if ($content_data['content_url'] != '') {
 	$link = '<li><a class="content" href="'.$content_data['content_url'].'" target="_blank">';
 } else {
 	if (strstr($PHP_SELF, FILENAME_CONTENT) && isset($_GET['coID']) && $_GET['coID'] == $content_data['content_id'])  {
-		$link = '<li class="current"><a href="'.os_href_link(FILENAME_CONTENT, 'coID='.$content_data['content_group'].$SEF_parameter).'">';
+		$link = '<li class="active"><a href="'.os_href_link(FILENAME_CONTENT, 'coID='.$content_data['content_group'].$SEF_parameter).'">';
 	} else {
 		$link = '<li><a href="'.os_href_link(FILENAME_CONTENT, 'coID='.$content_data['content_group'].$SEF_parameter).'">';
 	}

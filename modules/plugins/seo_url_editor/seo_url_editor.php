@@ -4,7 +4,7 @@
 	Plugin URI: http://osc-cms.com/extend/plugins
 	Version: 1.0
 	Description: Плагин реализует возможность редактировать, генерировать ЧПУ ссылки всех типов данных
-	Author: OSC-CMS
+	Author: CartET
 	Author URI: http://osc-cms.com
 	Plugin Group: SEO
 */
@@ -44,7 +44,7 @@ function seo_url_editor_install()
 
 function seo_url_editor_button_readonly()
 {
-	_e('<center>'.add_button('page', 'seo_url_editor_page', 'Управление' ).'</center>');
+	return add_button('page', 'seo_url_editor_page', 'Управление');
 }
 
 function seo_url_editor_remove()

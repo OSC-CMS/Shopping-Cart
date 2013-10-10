@@ -5,7 +5,7 @@
 <!-- select -->
 <p>
 <strong>{$options_data.NAME}:</strong>
-<select name="id[{$options_data.ID}]">
+<select name="id[{$options_data.ID}]" onchange="updateProductPrice()">
 {foreach key=key_data item=item_data from=$options_data.DATA}
 <option value="{$item_data.ID}">{$item_data.TEXT}   {if $item_data.MODEL}({$item_data.MODEL}){/if} {$item_data.PREFIX}{$item_data.PRICE}</option>
 {/foreach}
@@ -48,7 +48,7 @@
 <p>
 <strong>{$options_data.NAME}:</strong>
 {foreach key=key_data item=item_data from=$options_data.DATA}
-<input type="radio" name="id[{$options_data.ID}]" value="{$item_data.ID}" checked="checked" />
+<input type="radio" name="id[{$options_data.ID}]" value="{$item_data.ID}" checked="checked" onchange="updateProductPrice()" />
 {$item_data.TEXT} {$item_data.PREFIX}{$item_data.PRICE}
 {if $item_data.DESCRIPTION}<br />{$item_data.DESCRIPTION}<br />{/if}
 {if $item_data.SHORT_DESCRIPTION}{$item_data.SHORT_DESCRIPTION}<br />{/if}
@@ -64,7 +64,7 @@
 <p>
 <strong>{$options_data.NAME}:</strong>
 {foreach key=key_data item=item_data from=$options_data.DATA}
-<input type="checkbox" name="id[{$options_data.ID}]" value="{$item_data.ID}" />
+<input type="checkbox" name="id[{$options_data.ID}]" value="{$item_data.ID}" onchange="updateProductPrice()" />
 {$item_data.TEXT} {$item_data.PREFIX}{$item_data.PRICE}
 {if $item_data.DESCRIPTION}<br />{$item_data.DESCRIPTION}{/if}<br />
 {/foreach}

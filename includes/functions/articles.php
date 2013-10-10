@@ -2,8 +2,8 @@
 /*
 *---------------------------------------------------------
 *
-*	OSC-CMS - Open Source Shopping Cart Software
-*	http://osc-cms.com
+*	CartET - Open Source Shopping Cart Software
+*	http://www.cartet.org
 *
 *---------------------------------------------------------
 */
@@ -117,17 +117,6 @@
   }
 
 
-  function os_get_authors($authors_array = '') {
-    if (!is_array($authors_array)) $authors_array = array();
-
-    $authors_query = osDBquery("select authors_id, authors_name from " . TABLE_AUTHORS . " order by authors_name");
-    while ($authors = os_db_fetch_array($authors_query,true)) {
-      $authors_array[] = array('id' => $authors['authors_id'], 'text' => $authors['authors_name']);
-    }
-
-    return $authors_array;
-  }
-
 
   function os_get_subtopics(&$subtopics_array, $parent_id = 0) {
     $subtopics_query = osDBquery("select topics_id from " . TABLE_TOPICS . " where parent_id = '" . (int)$parent_id . "'");
@@ -192,25 +181,6 @@
       $cache_output = ob_get_contents();
       ob_end_clean();
       write_cache($cache_output, 'topics_box-' . $language . '.cache' . $tPath);
-    }
-
-    return $cache_output;
-  }
-
-  function os_cache_authors_box($auto_expire = false, $refresh = false) {
-    global $_GET, $language;
-
-    $authors_id = '';
-    if (isset($_GET['authors_id']) && os_not_null($_GET['authors_id'])) {
-      $authors_id = $_GET['authors_id'];
-    }
-
-    if (($refresh == true) || !read_cache($cache_output, 'authors_box-' . $language . '.cache' . $authors_id, $auto_expire)) {
-      ob_start();
-      include(DIR_WS_BOXES . 'authors.php');
-      $cache_output = ob_get_contents();
-      ob_end_clean();
-      write_cache($cache_output, 'authors_box-' . $language . '.cache' . $authors_id);
     }
 
     return $cache_output;

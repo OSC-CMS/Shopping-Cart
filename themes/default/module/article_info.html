@@ -1,20 +1,18 @@
 {config_load file="$language/lang.conf" section="articles"}
 <div class="page-header">
-	<h1>{$ARTICLE_NAME}</h1>
+	<h1><a href="{$aArticles.link_article}">{$aArticles.articles_name}</a></h1>
 </div>
 
 {if $no_article == 'true'}
 	<div class="well tcenter">{#text_no_article#}</div>
 {else}
 	<div class="news-block">
-		{if $ARTICLE_DESCRIPTION}<p>{$ARTICLE_DESCRIPTION}</p>{/if}
+		{if $aArticles.articles_description}<p>{$aArticles.articles_description}</p>{/if}
 		<hr>
 		<p>
-			{if $ARTICLE_DATE}{#text_date#} {$ARTICLE_DATE}<br />{/if}
-			{if $AUTHOR_NAME}{#text_author#} <a href="{$AUTHOR_LINK}">{$AUTHOR_NAME}</a><br />{/if}
-			{if $ARTICLE_CATEGORY_NAME}{#text_category#} <a href="{$ARTICLE_CATEGORY_LINK}">{$ARTICLE_CATEGORY_NAME}</a><br />{/if}
-			{if $ARTICLE_VIEWED}{#text_viewed#} {$ARTICLE_VIEWED}<br />{/if}
-			{if $ARTICLE_URL}{#text_url#} <a href="http://{$ARTICLE_URL}" target="_blank">http://{$ARTICLE_URL}</a>{/if}
+			{if $aArticles.articles_date_added}{#text_date#} {$aArticles.articles_date_added}<br />{/if}
+			{if $aArticles.articles_viewed}{#text_viewed#} {$aArticles.articles_viewed}<br />{/if}
+			{if $aArticles.articles_url}{#text_url#} <a href="http://{$aArticles.articles_url}" target="_blank">http://{$aArticles.articles_url}</a>{/if}
 		</p>
 	</div>
 {/if}

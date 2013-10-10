@@ -1,18 +1,18 @@
 /*
 *---------------------------------------------------------
 *
-*	OSC-CMS - Open Source Shopping Cart Software
-*	http://osc-cms.com
+*	CartET - Open Source Shopping Cart Software
+*	http://www.cartet.org
 *
 *---------------------------------------------------------
 */
 
 jQuery(document).ready(function($){
 
-	// ������� �����, ���� ������� ������������ JS
+	// Удаляем класс, если браузер поддерживает JS
 	$('body').removeClass('no-js');
 
-	// ������������� ���������� ������ �������� ��� ������
+	// Подсвечивание выбранного пункта доставки или оплаты
 	$('.selectMethodTable input[type=radio]').click(function()
 	{
 		$('.selectMethodTable input[type=radio]').parent().parent().filter('.selected').removeClass('selected');
@@ -20,7 +20,7 @@ jQuery(document).ready(function($){
 	});
 	$('.selectMethodTable input[type=radio]').filter(':checked').parent().parent().addClass('selected');
 
-	// ����� ������
+	// Выбор страны
 	$("#country").change(function()
 	{
 		var searchString = $(this).val();
@@ -41,21 +41,57 @@ jQuery(document).ready(function($){
 		serviceUrl: SITE_WEB_DIR+'index_ajax.php?ajax_page=autocompleter_search',
 		minChars: 1,
 		noCache: false,
-		onSelect:
-			function(value, data)
-			{
-				$("#quick_find_keyword").closest('form').submit();
-			},
-		fnFormatResult:
-			function(value, data, currentValue)
-			{
-				var reEscape = new RegExp('(\\' + ['/', '.', '*', '+', '?', '|', '(', ')', '[', ']', '{', '}', '\\'].join('|\\') + ')', 'g');
-				var pattern = '(' + currentValue.replace(reEscape, '\\$1') + ')';
-				return (data.products_image ? "<img align=\"absmiddle\" src='"+data.products_image+"'> " : '') + value.replace(new RegExp(pattern, 'gi'), '<strong>$1<\/strong>');
-			}
+		onSelect: function(value, data)
+		{
+			$("#quick_find_keyword").closest('form').submit();
+		},
+		fnFormatResult: function(value, data, currentValue)
+		{
+			var reEscape = new RegExp('(\\' + ['/', '.', '*', '+', '?', '|', '(', ')', '[', ']', '{', '}', '\\'].join('|\\') + ')', 'g');
+			var pattern = '(' + currentValue.replace(reEscape, '\\$1') + ')';
+			return (data.products_image ? "<img align=\"absmiddle\" src='"+data.products_image+"'> " : '') + value.replace(new RegExp(pattern, 'gi'), '<strong>$1<\/strong>');
+		}
 	});
 
+	// Валидация форм
+	$('.parsley-form').on('click', function()
+	{
+		// ID формы
+		var formId = $('.parsley-form').closest('form').attr('id');
+
+		// Проверка полей
+		$('#'+formId).parsley({
+			successClass: 'success',
+			errorClass: 'error'
+		});
+	});
+
+	// Обновление цены товара
+	updateProductPrice();
 });
+
+// Пересчет цены товара + цена атрибутов + количество
+function updateProductPrice()
+{
+	if ($("#cart_quantity").length)
+	{
+		$.ajax({
+			url: SITE_WEB_DIR+"index_ajax.php",
+			dataType: "json",
+			data: $('#cart_quantity').serialize(),
+			type: "POST",
+			success: function(result)
+			{
+				if (result)
+				{
+					$("#productDisplayPrice").html(result);
+				}
+			}
+		});
+	}
+	else
+		return false;
+}
 
 // Reload Captcha Image
 function reload_captcha()
@@ -73,40 +109,3 @@ function js_preload(load)
 	else
 		$("#js_preload").fadeIn(400).show();
 }
-
-// Simple Message
-(function($)
-{//$.jmessage('Text', 3000, 'cssStyle');//test_message
-	$.jmessage = function(message, lifetime, class_name)
-	{
-		var stack_box = $('#jm_stack_box');
-
-		if (!$(stack_box).length)
-		{
-			stack_box = $('<div id="jm_stack_box"></div>').prependTo(document.body);
-		}
-
-		var message_box = $('<div class="jm_message ' + class_name + '">' + message + '</div>');
-
-		$(message_box).css('opacity', 0).appendTo('#jm_stack_box').animate({opacity: 1}, 300);
-
-		$(message_box).click(function()
-		{
-			$(this).animate({opacity: 0}, 300, function()
-			{
-				$(this).remove();
-			});
-		});
-
-		if ((lifetime = parseInt(lifetime)) > 0)
-		{
-			setTimeout(function()
-			{
-				$(message_box).animate({opacity: 0}, 300, function()
-				{
-					$(this).remove();
-				});
-			}, lifetime);
-		}
-	};
-})(jQuery);

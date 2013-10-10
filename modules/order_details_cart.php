@@ -1,12 +1,11 @@
 <?php
 /*
-#####################################
-#  OSC-CMS: Shopping Cart Software.
-#  Copyright (c) 2011-2012
-#  http://osc-cms.com
-#  http://osc-cms.com/forum
-#  Ver. 1.0.0
-#####################################
+*---------------------------------------------------------
+*
+*	CartET - Open Source Shopping Cart Software
+*	http://www.cartet.org
+*
+*---------------------------------------------------------
 */
 
 $module = new osTemplate;
@@ -105,9 +104,9 @@ if ($_SESSION['customers_status']['customers_status_show_price'] == '1') {
 	if ($_SESSION['customers_status']['customers_status_show_price_tax'] == 0 && $_SESSION['customers_status']['customers_status_add_tax_ot'] == 0) $total-=$discount;
 	if ($_SESSION['customers_status']['customers_status_show_price_tax'] == 0 && $_SESSION['customers_status']['customers_status_add_tax_ot'] == 1) $total-=$discount;
 	if ($_SESSION['customers_status']['customers_status_show_price_tax'] == 1) @$total-=$discount;
-	$total_content .= SUB_TITLE_SUB_TOTAL.' ' .$osPrice->Format($total, true).'<br />';
+	$total_content .= SUB_TITLE_SUB_TOTAL.' ' .$osPrice->Format($total, true);
 } else {
-	$total_content .= TEXT_INFO_SHOW_PRICE_NO.'<br />';
+	$total_content .= TEXT_INFO_SHOW_PRICE_NO;
 }
 if (@$customer_status_value['customers_status_ot_discount'] != 0) {
 	$total_content .= TEXT_CART_OT_DISCOUNT.$customer_status_value['customers_status_ot_discount'].'%';

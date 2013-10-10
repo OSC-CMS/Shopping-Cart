@@ -1,14 +1,65 @@
 <?php
 /*
-#####################################
-#  OSC-CMS: Shopping Cart Software.
-#  Copyright (c) 2011-2012
-#  http://osc-cms.com
-#  http://osc-cms.com/forum
-#  Ver. 1.0.0
-#####################################
+*---------------------------------------------------------
+*
+*	CartET - Open Source Shopping Cart Software
+*	http://www.cartet.org
+*
+*---------------------------------------------------------
 */
   
+define('TABLE_HEADING_EDIT', 'Редактировать заказ');
+
+
+define('TEXT_EDIT_ADDRESS', 'Адреса');
+define('TEXT_EDIT_OTHER', 'Другие данные');
+
+
+define('TEXT_EDIT_COMPANY', 'Компания:');
+define('TEXT_EDIT_NAME', 'Имя:');
+define('TEXT_EDIT_STREET', 'Адрес');
+define('TEXT_EDIT_ZIP', 'Почтовый индекс:');
+define('TEXT_EDIT_CITY', 'Город:');
+define('TEXT_EDIT_STATE', 'Регион:');
+define('TEXT_EDIT_COUNTRY', 'Страна:');
+define('TEXT_EDIT_CUSTOMER_GROUP', 'Группа покупателя:');
+define('TEXT_EDIT_CUSTOMER_EMAIL', 'E-Mail:');
+define('TEXT_EDIT_CUSTOMER_TELEPHONE', 'Телефон:');
+define('TEXT_EDIT_CUSTOMER_UST', 'Vat ID:');
+define('TEXT_EDIT_INVOICE_ADDRESS', 'Клиент');
+define('TEXT_EDIT_SHIPPING_ADDRESS', 'Адрес доставки');
+define('TEXT_EDIT_BILLING_ADDRESS', 'Адрес плательщика');
+
+
+
+
+define('TEXT_PRODUCT_OPTION', 'Аттрибуты');
+define('TEXT_PRODUCT_OPTION_VALUE', 'Опция');
+define('TEXT_SMALL_NETTO', ' (Нетто)');
+define('TEXT_MODEL', 'Модель');
+define('TEXT_PRICE_PREFIX', 'Префикс цены');
+define('TEXT_PRODUCT_ID', 'ID код');
+define('TEXT_QUANTITY', 'Количество');
+define('TEXT_PRODUCT', 'Товар');
+
+define('TEXT_RECALCULATE', 'Пересчитать цену товара');
+define('TEXT_RECALCULATE_DESC', 'Пересчет исходя из актуальных цен на товары!');
+
+
+define('TEXT_PAYMENT', 'Способ оплаты:');
+define('TEXT_LANGUAGE', 'Язык:');
+define('TEXT_CURRENCIES', 'Валюта:');
+define('TEXT_ORDER_TOTAL', 'Всего:');
+define('TEXT_ACTUAL', 'Текущий: ');
+define('TEXT_NEW', 'Новый: ');
+define('TEXT_PRICE', 'Цена');
+define('TEXT_SHIPPING', 'Стоимость доставки');
+
+define('TEXT_EDIT_DESC','Описание');
+define('TEXT_EDIT_PRICE','Стоимость');
+
+
+
 define('TEXT_BANK', 'Список банков');
 define('TEXT_BANK_OWNER', 'Владелец счёта:');
 define('TEXT_BANK_NUMBER', 'Номер счёта:');
@@ -35,15 +86,17 @@ define('TABLE_HEADING_COMMENTS', 'Комментарий');
 define('TABLE_HEADING_DATE_PURCHASED', 'Дата покупки');
 define('TABLE_HEADING_ACTION', 'Действие');
 define('TABLE_HEADING_QUANTITY', 'Количество');
+define('TABLE_HEADING_QUANTITY_SHORT', 'Шт.');
 define('TABLE_HEADING_PRODUCTS_MODEL', 'Код товара');
+define('TABLE_HEADING_PRODUCTS_SHIPPING_TIME', 'Время доставки');
 define('TABLE_HEADING_PRODUCTS', 'Товары');
 define('TABLE_HEADING_TAX', 'Налог');
 define('TABLE_HEADING_TOTAL', 'Всего');
-define('TABLE_HEADING_PRICE_EXCLUDING_TAX', 'Цена (не включая налог)');
+define('TABLE_HEADING_PRICE_EXCLUDING_TAX', 'Цена (без налога)');
 define('TABLE_HEADING_PRICE_INCLUDING_TAX', 'Цена');
-define('TABLE_HEADING_TOTAL_EXCLUDING_TAX', 'Общая (не включая налог)');
+define('TABLE_HEADING_TOTAL_EXCLUDING_TAX', 'Общая (без налога)');
 define('TABLE_HEADING_TOTAL_INCLUDING_TAX', 'Всего');
-define('TABLE_HEADING_CUSTOMER_NOTIFIED', 'Клиент уведомлён');
+define('TABLE_HEADING_CUSTOMER_NOTIFIED', 'Уведомление');
 define('TABLE_HEADING_DATE_ADDED', 'Добавлен');
 
 define('ENTRY_CUSTOMER', 'Клиент:');
@@ -51,8 +104,8 @@ define('ENTRY_SOLD_TO', 'ПОКУПАТЕЛЬ:');
 define('ENTRY_TELEPHONE', 'Телефон:');
 define('ENTRY_DELIVERY_TO', 'Адрес:');
 define('ENTRY_SHIP_TO', 'АДРЕС ДОСТАВКИ:');
-define('ENTRY_SHIPPING_ADDRESS', 'Адрес доставки:');
-define('ENTRY_BILLING_ADDRESS', 'Адрес покупателя:');
+define('ENTRY_SHIPPING_ADDRESS', 'Адрес доставки');
+define('ENTRY_BILLING_ADDRESS', 'Адрес покупателя');
 define('ENTRY_PAYMENT_METHOD', 'Способ оплаты:');
 define('ENTRY_SHIPPING_METHOD', 'Способ доставки:');
 define('ENTRY_CREDIT_CARD_TYPE', 'Тип кредитной карточки:');
@@ -65,19 +118,19 @@ define('ENTRY_TAX', 'Налог:');
 define('ENTRY_SHIPPING', 'Доставка:');
 define('ENTRY_TOTAL', 'Всего:');
 define('ENTRY_DATE_PURCHASED', 'Дата покупки:');
-define('ENTRY_STATUS', 'Состояние:');
+define('ENTRY_STATUS', 'Состояние');
 define('ENTRY_DATE_LAST_UPDATED', 'Последнее изменение:');
-define('ENTRY_NOTIFY_CUSTOMER', 'Уведомить Клиента:'); 
-define('ENTRY_NOTIFY_COMMENTS', 'Добавить комментарии:');
+define('ENTRY_NOTIFY_CUSTOMER', 'Уведомить клиента'); 
+define('ENTRY_NOTIFY_COMMENTS', 'Добавить комментарии');
 define('ENTRY_PRINTABLE', 'Напечатать счёт');
 
 define('TEXT_INFO_HEADING_DELETE_ORDER', 'Удалить заказ');
 define('TEXT_INFO_DELETE_INTRO', 'Вы действительно хотите удалить этот заказ?');
 define('TEXT_INFO_RESTOCK_PRODUCT_QUANTITY', 'Пересчитать количество товара на складе');
 define('TEXT_DATE_ORDER_CREATED', 'Дата Создания:');
-define('TEXT_DATE_ORDER_LAST_MODIFIED', 'Последние Изменения:');
-define('TEXT_INFO_PAYMENT_METHOD', 'Способ Оплаты:');
-define('TEXT_INFO_SHIPPING_METHOD', 'Способ Доставки:');
+define('TEXT_DATE_ORDER_LAST_MODIFIED', 'Последние изменения:');
+define('TEXT_INFO_PAYMENT_METHOD', 'Способ оплаты:');
+define('TEXT_INFO_SHIPPING_METHOD', 'Способ доставки:');
 
 define('TEXT_ALL_ORDERS', 'Все заказы');
 define('TEXT_NO_ORDER_HISTORY', 'История заказа отсутствует');
@@ -85,7 +138,7 @@ define('TEXT_NO_ORDER_HISTORY', 'История заказа отсутству�
 define('EMAIL_SEPARATOR', '------------------------------------------------------');
 define('EMAIL_TEXT_SUBJECT', 'Статус Вашего заказа изменён');
 define('EMAIL_TEXT_ORDER_NUMBER', 'Номер заказа:');
-define('EMAIL_TEXT_INVOICE_URL', 'Информация о заказе:');
+define('EMAIL_TEXT_INVOICE_URL', 'Информация о заказе');
 define('EMAIL_TEXT_DATE_ORDERED', 'Дата заказа:');
 define('EMAIL_TEXT_STATUS_UPDATE', 'Статус Вашего заказа изменён.' . "\n\n" . 'Новый статус: %s' . "\n\n" . 'Если у Вас возникли вопросы, просто задайте нам их в ответном письме.' . "\n");
 define('EMAIL_TEXT_COMMENTS_UPDATE', 'Комментарии к Вашему заказу' . "\n\n%s\n\n");

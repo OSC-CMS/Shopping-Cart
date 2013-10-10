@@ -1,12 +1,11 @@
 <?php
 /*
-#####################################
-#  OSC-CMS: Shopping Cart Software.
-#  Copyright (c) 2011-2012
-#  http://osc-cms.com
-#  http://osc-cms.com/forum
-#  Ver. 1.0.0
-#####################################
+*---------------------------------------------------------
+*
+*	CartET - Open Source Shopping Cart Software
+*	http://www.cartet.org
+*
+*---------------------------------------------------------
 */
 
 define('HEADING_TITLE', 'Группы сопутствующих товаров');
@@ -22,5 +21,5 @@ define('TEXT_INFO_HEADING_NEW_XSELL_GROUP', 'Новая группа');
 define('TEXT_INFO_HEADING_EDIT_XSELL_GROUP', 'Редактировать группу');
 define('TEXT_INFO_HEADING_DELETE_XSELL_GROUP', 'Удалить группу');
 
-define('ERROR_STATUS_USED_IN_ORDERS', 'Ошибка: Данная группа уже используется в сопутствующих товарах в статьях.');
+define('ERROR_STATUS_USED_IN_ORDERS', 'Данная группа уже используется в сопутствующих товарах.');
 ?>

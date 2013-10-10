@@ -4,7 +4,7 @@
 	Plugin URI: http://osc-cms.com/extend/themes
 	Version: 1.0
 	Description: Плагин увеличения картинок используя FancyBox
-	Author: OSC-CMS
+	Author: CartET
 	Author URI: http://osc-cms.com
 	Plugin Group: Products
 */

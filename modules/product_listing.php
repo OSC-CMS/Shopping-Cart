@@ -2,8 +2,8 @@
 /*
 *---------------------------------------------------------
 *
-*	OSC-CMS - Open Source Shopping Cart Software
-*	http://osc-cms.com
+*	CartET - Open Source Shopping Cart Software
+*	http://www.cartet.org
 *
 *---------------------------------------------------------
 */
@@ -108,6 +108,7 @@ if (isset($_GET['status']))
 $listing_sql = get_params_listing_sql($listing_sql, @(int)($_GET['cat']), @$selectedGroups);
 
 $listing_split = new splitPageResults($listing_sql, @(int)$_GET['page'], $num_page, 'p.products_id');
+
 $module_content = array ();
 if ($listing_split->number_of_rows > 0) {
 

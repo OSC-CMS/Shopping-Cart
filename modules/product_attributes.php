@@ -1,13 +1,12 @@
 <?php
 /*
-#####################################
-#  OSC-CMS: Shopping Cart Software.
-#  Copyright (c) 2011-2012
-#  http://osc-cms.com
-#  http://osc-cms.com/forum
-#  Ver. 1.0.0
-#####################################
-*/  
+*---------------------------------------------------------
+*
+*	CartET - Open Source Shopping Cart Software
+*	http://www.cartet.org
+*
+*---------------------------------------------------------
+*/
 
 $module = new osTemplate;
 
@@ -76,16 +75,16 @@ if ($product->getAttributesCount() > 0) {
 				$full_price = '';
 			} else {
 				if ($products_options['options_values_price'] != '0.00') {
-//					$price = $osPrice->Format($products_options['options_values_price'], false, $product->data['products_tax_class_id']);
 					$price = $osPrice->GetOptionPrice($product->data['products_id'], $products_options_name['products_options_id'], $products_options['products_options_values_id']);
 					$price = $price['price'];
 				}
-				$products_price = $osPrice->GetPrice($product->data['products_id'], $format = false, 1, $product->data['products_tax_class_id'], $product->data['products_price'], 0, 0, $product->data['products_discount_allowed']);
+				$products_price = $osPrice->GetPrice($product->data['products_id'], false, 1, $product->data['products_tax_class_id'], $product->data['products_price'], 0, 0, $product->data['products_discount_allowed']);
+
 				if ($_SESSION['customers_status']['customers_status_discount_attributes'] == 1 && $products_options['price_prefix'] == '+')
 					$price -= $price / 100 * $discount;				
 					$attr_price=$price;
 					if ($products_options['price_prefix']=="-") $attr_price=$price*(-1);
-					$full_price = $products_price + $attr_price;
+					$full_price = $products_price['price']['plain'] + $attr_price;
 					$price_plain = $osPrice->Format($price, false);
 					$price = $osPrice->Format($price, true);
 					$full_price = $osPrice->Format($full_price, true);

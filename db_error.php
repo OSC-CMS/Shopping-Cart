@@ -6,7 +6,7 @@
 <meta name="keywords" content="" />
 <meta name="description" content="" />
 <meta name="robots" content="noindex, nofollow" />
-<meta name="generator" content="(c) by OSC-CMS , http://osc-cms.com" />
+<meta name="generator" content="(c) by CartET , http://osc-cms.com" />
 <style type="text/css">
 <!--
 body{

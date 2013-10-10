@@ -1,16 +1,15 @@
 <?php
 /*
-#####################################
-#  OSC-CMS: Shopping Cart Software.
-#  Copyright (c) 2011-2012
-#  http://osc-cms.com
-#  http://osc-cms.com/forum
-#  Ver. 1.0.0
-#####################################
+*---------------------------------------------------------
+*
+*	CartET - Open Source Shopping Cart Software
+*	http://www.cartet.org
+*
+*---------------------------------------------------------
 */
 
   require('includes/top.php');
-  require_once(_FUNC_ADMIN.'wysiwyg_tiny.php');
+  //require_once(_FUNC_ADMIN.'wysiwyg_tiny.php');
   require_once(_LIB.'phpmailer/class.phpmailer.php');
   if ( ($_GET['action'] == 'send_email_to_user') && ($_POST['customers_email_address']) && (!$_POST['back_x']) ) {
     switch ($_POST['customers_email_address']) {
@@ -90,7 +89,7 @@
   <tr>
     <td class="boxCenter" width="100%" valign="top">
     
-    <?php os_header('portfolio_package.gif',HEADING_TITLE); ?> 
+    <?php echo HEADING_TITLE; ?> 
     <table border="0" width="100%" cellspacing="0" cellpadding="2">
       <tr>
         <td><table border="0" width="100%" cellspacing="0" cellpadding="2">

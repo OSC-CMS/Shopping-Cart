@@ -4,7 +4,7 @@
 	Plugin URI: http://osc-cms.com/
 	Description: Нажмите выполнить для начала пакетной обработки изображений, этот процесс может длиться некоторое время, ничего не трогайте и не прерывайте!
 	Version: 1.0.0
-	Author: OSC-CMS
+	Author: CartET
 	Author URI: http://osc-cms.com
 	Plugin Group: Products
 */

@@ -2,8 +2,8 @@
 /*
 *---------------------------------------------------------
 *
-*	OSC-CMS - Open Source Shopping Cart Software
-*	http://osc-cms.com
+*	CartET - Open Source Shopping Cart Software
+*	http://www.cartet.org
 *
 *---------------------------------------------------------
 */
@@ -237,9 +237,9 @@ if ($_SESSION['customer_id'] == $order_check['customers_id'])
 	$osTemplate->assign('address_label_customer', os_address_format($order->customer['format_id'], $order->customer, 1, '', '<br />'));
 
 	// products
-	$osTemplate->assign('order_data', $osccms->orders->getOrderData($oID));
+	$osTemplate->assign('order_data', $cartet->orders->getProducts($oID));
 	// total
-	$order_total = $osccms->orders->getTotalData($oID);
+	$order_total = $cartet->orders->getTotal($oID);
 	$osTemplate->assign('order_total', $order_total['data']);
 
 	$osTemplate->assign('module_1', MODULE_PAYMENT_SCHET_1);

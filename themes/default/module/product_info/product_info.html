@@ -17,7 +17,24 @@
 	</div>
 	<div class="span6">
 		<ul class="unstyled product-info-ul">
-			<li>{$PRODUCTS_PRICE}</li>
+			<li>
+				{if $price.specialDiscount}
+					{$smarty.const.OLD_PRICE} <span class="pprice">{$price.default.formated}</span> {$smarty.session.currencySymbol}<br />
+					{$smarty.const.NEW_PRICE} <span class="pprice">{$price.specialDiscount.formated}</span> {$smarty.session.currencySymbol}
+				{else if $price.special}
+					{$smarty.const.OLD_PRICE} <span class="pprice">{$price.default.formated}</span> {$smarty.session.currencySymbol}<br />
+					{$smarty.const.NEW_PRICE} <span class="pprice">{$price.special.formated}</span> {$smarty.session.currencySymbol}
+				{else if $price.specialGraduated}
+					{$smarty.const.OLD_PRICE} <span class="pprice">{$price.default.formated}</span> {$smarty.session.currencySymbol}<br />
+					{$smarty.const.NEW_PRICE} <span class="pprice">{$price.specialGraduated.formated}</span> {$smarty.session.currencySymbol}
+				{else}
+					<span class="pprice">{$price.price.formated}</span> {$smarty.session.currencySymbol}
+				{/if}
+				<br />
+				<span class="pprice"><span id="productDisplayPrice">{$price.price.plain}</span></span> {$smarty.session.currencySymbol}
+				<input type="hidden" name="ajax_page" value="updateProductPrice">
+				
+				</li>
 			{if $PRODUCTS_TAX_INFO}<li>{$PRODUCTS_TAX_INFO}</li>{/if}
 			{if $PRODUCTS_SHIPPING_LINK}<li>{$PRODUCTS_SHIPPING_LINK}</li>{/if}
 			{if $PRODUCTS_VPE}<li>{$PRODUCTS_VPE}</li>{/if}
@@ -37,7 +54,7 @@
 			{if $PRODUCTS_STOCK eq 1}
 				<li>{#stock#} {$PRODUCTS_QUANTITY}</li>
 				<li>
-					<span class="pull-left product-info-qty">{$ADD_QTY}</span>
+					<span class="pull-left product-info-qty">{$ADD_QTY|replace:'name="products_qty"':'name="products_qty" onchange="updateProductPrice()"'}</span>
 					<span class="pull-left product-info-cart-button">{$ADD_CART_BUTTON}</span>
 					<div class="clear"></div>
 				</li>
@@ -92,14 +109,17 @@
 		</div>
 		{if $extra_fields_data}
 		<div class="tab-pane" id="extra_fields">
+			{foreach $extra_fields_data AS $g}
+			{$g.group_name}
 			<table class="table table-bordered">
-				{foreach name=aussen item=extra_fields from=$extra_fields_data}
-				<tr>
-					<td>{$extra_fields.NAME}</td>
-					<td>{$extra_fields.VALUE}</td>
-				</tr>
-				{/foreach}
+					{foreach $g.values AS $value}
+					<tr>
+						<td>{$value.NAME}</td>
+						<td>{$value.VALUE}</td>
+					</tr>
+					{/foreach}
 			</table>
+			{/foreach}
 		</div>
 		{/if}
 
@@ -114,13 +134,10 @@
 		</div>
 		{/if}
 
-		{if $MODULE_products_reviews != ''}
 		<div class="tab-pane" id="reviews">
-			<p>
-				{$MODULE_products_reviews}
-			</p>
+			{if $MODULE_products_reviews != ''}{$MODULE_products_reviews}{/if}
+			{$REVIEWS_FORM}
 		</div>
-		{/if}
 
 	</div>
 </div>
@@ -140,9 +157,7 @@
 
 <hr>
 
-{if $PRODUCT_NAVIGATOR}{$PRODUCT_NAVIGATOR}{/if}
-
-<hr>
+{if $PRODUCT_NAVIGATOR}{$PRODUCT_NAVIGATOR}<hr>{/if}
 
 {if $MODULE_tpt != ''}{$MODULE_tpt}{/if}
 {if $MODULE_products_media != ''}{$MODULE_products_media}{/if}

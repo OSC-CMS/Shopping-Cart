@@ -1,12 +1,11 @@
 <?php
 /*
-#####################################
-#  OSC-CMS: Shopping Cart Software.
-#  Copyright (c) 2011-2012
-#  http://osc-cms.com
-#  http://osc-cms.com/forum
-#  Ver. 1.0.0
-#####################################
+*---------------------------------------------------------
+*
+*	CartET - Open Source Shopping Cart Software
+*	http://www.cartet.org
+*
+*---------------------------------------------------------
 */
 
 defined( '_VALID_OS' ) or die( 'Прямой доступ  не допускается.' );
@@ -20,6 +19,7 @@ function clear_string($value)
     return $array;
 }
 
+// TODO: не используется. проверка наличия товара.
 function check_stock($products_id) 
 {
     unset ($stock_flag);
@@ -357,7 +357,7 @@ function os_values_name($values_id) {
 }
 
 function os_info_image($image, $alt, $width = '', $height = '') {
-    if (($image) && (file_exists(dir_path('images').$image))) {
+    if (($image) && (is_file(dir_path('images').$image))) {
         $image = os_image(http_path('images').$image, $alt, $width, $height);
     } else {
         $image = TEXT_IMAGE_NONEXISTENT;
@@ -864,28 +864,6 @@ function os_cfg_get_zone_name($zone_id) {
     }
 }
 
-function os_set_specials_status($specials_id, $status) {
-    if ($status == '1') {
-        return os_db_query("update ".TABLE_SPECIALS." set status = '1', expires_date = NULL, date_status_change = NULL where specials_id = '".$specials_id."'");
-    }
-    elseif ($status == '0') {
-        return os_db_query("update ".TABLE_SPECIALS." set status = '0', date_status_change = now() where specials_id = '".$specials_id."'");
-    } else {
-        return -1;
-    }
-}
-
-function os_set_featured_status($featured_id, $status) {
-    if ($status == '1') {
-        return os_db_query("update ".TABLE_FEATURED." set status = '1', expires_date = NULL, date_status_change = NULL where featured_id = '".$featured_id."'");
-    }
-    elseif ($status == '0') {
-        return os_db_query("update ".TABLE_FEATURED." set status = '0', date_status_change = now() where featured_id = '".$featured_id."'");
-    } else {
-        return -1;
-    }
-}
-
 function os_set_time_limit($limit) {
     if (!get_cfg_var('safe_mode')) {
         @ set_time_limit($limit);
@@ -895,24 +873,23 @@ function os_set_time_limit($limit) {
 
 function os_cfg_select_option($select_array, $key_value, $key = '') 
 {
-
     $bol="false";
     $string = '';
 
     for ($i = 0, $n = sizeof($select_array); $i < $n; $i ++) {
         $name = (($key) ? 'configuration['.$key.']' : 'configuration_value');
 
-        $string .= '<input type="radio" name="'.$name.'" value="'.$select_array[$i].'"';
+        $string .= '<label class="radio"><input type="radio" name="'.$name.'" value="'.$select_array[$i].'"';
 
         if ($key_value == $select_array[$i]) $string .= ' CHECKED';
 
         if (strtolower($select_array[$i]) == "true") $select_array[$i]=TEXT_YES;
         if (strtolower($select_array[$i]) == "false") $select_array[$i]=TEXT_NO;
 
-        $string .= '> '.$select_array[$i] . '&nbsp;&nbsp;&nbsp;';
+        $string .= '> '.$select_array[$i] . '</label>';
 
-        if ($select_array[$i] == "true") $select_array[$i]=TEXT_YES;
-        if ($select_array[$i] == "false") $select_array[$i]=TEXT_NO;
+        if ($select_array[$i] == "true") $select_array[$i] = TEXT_YES;
+        if ($select_array[$i] == "false") $select_array[$i] = TEXT_NO;
     }
 
     return $string;
@@ -923,10 +900,10 @@ function os_mod_select_option($select_array, $key_name, $key_value) {
     while (list ($key, $value) = each($select_array)) {
         if (is_int($key))
             $key = $value;
-        $string .= '<input type="radio" name="configuration['.$key_name.']" value="'.$key.'"';
+        $string .= '<label class="radio"><input type="radio" name="configuration['.$key_name.']" value="'.$key.'"';
         if ($key_value == $key)
             $string .= ' CHECKED';
-        $string .= '> '.$value . '<br>';
+        $string .= '> '.$value . '</label>';
     }
 
     return $string;
@@ -1944,8 +1921,8 @@ function os_get_extra_fields_order($customer_id,$languages_id){
             $extra_fields_string .= '
 
             <tr>
-            <td class="main"><b>' .$extra_fields['fields_name'] .':</b></td>
-            <td class="main">' .$value . '</td>
+            <td><strong>'.$extra_fields['fields_name'].':</strong></td>
+            <td>'.$value.'</td>
             </tr>';
 
         }
@@ -1961,20 +1938,6 @@ function os_get_customers_extra_fields_name($fields_id, $language_id)
     return $fields['fields_name'];
 }
 
-function os_header($img, $text)
-{
-    global $main;
-
-    $main->heading($img, $text);
-
-    return true;
-}
-
-function os_header_url($img, $text, $url)
-{
-    echo '<h1 class="contenttabber"><img border="0" height="16px" width="16px" src="'.http_path('icons_admin').$img.'" /><a href="'.$url.'">'.$text.'</a></h1>';
-}
-
 if (!function_exists('_e'))
 {
     function _e ($text, $_r = "\n")
@@ -1982,41 +1945,6 @@ if (!function_exists('_e'))
         echo $text.$_r;
         return true;
     }
-}
-
-function head_tabs()
-{
-
-    _e('<link type="text/css" href="../jscript/jquery/plugins/ui/css/smoothness/jquery-ui-1.7.2.custom.css" rel="stylesheet" />	
-    <script type="text/javascript" src="../jscript/jquery/plugins/ui/jquery-ui-1.7.2.custom.min.js"></script>
-    <script type="text/javascript">
-    $(function(){
-    $(\'#tabs\').tabs();
-    });
-
-    $(function(){
-    $(\'#tabs2\').tabs();
-    });
-
-    </script>
-
-    ');
-
-
-}
-
-function head_tabs_config()
-{
-
-    _e('<link type="text/css" href="../jscript/jquery/plugins/ui/css/smoothness/jquery-ui-config.custom.css" rel="stylesheet" />	
-    <script type="text/javascript" src="../jscript/jquery/plugins/ui/jquery-ui-1.7.2.custom.min.js"></script>
-    <script type="text/javascript">
-    $(function(){
-    $(\'#tabs\').tabs();
-    });	
-    </script>');
-
-
 }
 
 /*
@@ -2032,7 +1960,7 @@ function osc_pages_menu($numr, $max_count, $c_page, $param = '')
     if ( isset($param['page_name']) ) $page_name = $param['page_name'];
     else $page_name = 'page';
 
-    if (isset($param['param']) && count($param['param'])>0)
+    if (isset($param['param']) && count($param['param']) > 0)
     {
         $_one = 1;
 
@@ -2076,8 +2004,7 @@ function osc_pages_menu($numr, $max_count, $c_page, $param = '')
 
     if ($_num != 1) $stp .= '<li><a href="'.os_href_link($file_name, $page_name.'='.($_num-1).'&'.$_param).'" >&laquo;'.'</a></li>'."\n";;
 
-    $select .= '<select class="pages_menu_select" ONCHANGE="top.location.href =
-    \''.os_href_link($file_name, $_param).'\'+this.options[this.selectedIndex].value">';
+    $select .= '<select class="pages_menu_select" ONCHANGE="top.location.href = \''.os_href_link($file_name, $_param).'\'+this.options[this.selectedIndex].value">';
 
 
     for ($i=1; $i<=$page_num; $i++ )
@@ -2094,7 +2021,7 @@ function osc_pages_menu($numr, $max_count, $c_page, $param = '')
 
     $select .= '</select>';
 
-    $stp.= '<li class="current">'.$select."</li>";
+    $stp.= '<li>'.$select."</li>";
 
     if ($_num != $page_num) $stp .= '<li><a href="'.os_href_link($file_name, $page_name.'='.($_num+1).'&'.$_param).'" >&raquo;'.'</a></li>';
 

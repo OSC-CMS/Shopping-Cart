@@ -2,8 +2,8 @@
 /*
 *---------------------------------------------------------
 *
-*	OSC-CMS - Open Source Shopping Cart Software
-*	http://osc-cms.com
+*	CartET - Open Source Shopping Cart Software
+*	http://www.cartet.org
 *
 *---------------------------------------------------------
 *	Copyright (c) 2007 VamShop
@@ -12,7 +12,7 @@
 
 defined('_VALID_OS') or die('Direct Access to this location is not allowed.');
 
-class liqpay extends OscCms
+class liqpay extends CartET
 {
 	/**
 	 * Системный идентификатор модуля

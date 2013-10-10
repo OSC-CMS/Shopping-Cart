@@ -2,8 +2,8 @@
 /*
 *---------------------------------------------------------
 *
-*	OSC-CMS - Open Source Shopping Cart Software
-*	http://osc-cms.com
+*	CartET - Open Source Shopping Cart Software
+*	http://www.cartet.org
 *
 *---------------------------------------------------------
 */
@@ -59,13 +59,6 @@ class order {
       $this->info = array('currency' => $order['currency'],
                           'currency_value' => $order['currency_value'],
                           'payment_method' => $order['payment_method'],
-                          'cc_type' => $order['cc_type'],
-                          'cc_owner' => $order['cc_owner'],
-                          'cc_number' => $order['cc_number'],
-                          'cc_expires' => $order['cc_expires'],
-                          'cc_start' => $order['cc_start'],
-                          'cc_issue' => $order['cc_issue'],
-                          'cc_cvv' => $order['cc_cvv'],
                           'date_purchased' => $order['date_purchased'],
                           'orders_status' => $order_status['orders_status_name'],
                           'last_modified' => $order['last_modified'],
@@ -132,7 +125,7 @@ class order {
                                         'tax' => $orders_products['products_tax'],
 					                    'price'=>$orders_products['products_price'],
 					                    'shipping_time'=>$orders_products['products_shipping_time'],
-                                        'final_price' => $orders_products['final_price']);
+                                        'final_price' => $orders_products['final_price'], 'bundle' => $orders_products['bundle']);
 
         $subindex = 0;
         $attributes_query = os_db_query("SELECT * FROM " . TABLE_ORDERS_PRODUCTS_ATTRIBUTES . " where orders_id = '" . os_db_input($order_id) . "' and orders_products_id = '" . $orders_products['orders_products_id'] . "'");
@@ -282,13 +275,6 @@ class order {
                           'currency' => $_SESSION['currency'],
                           'currency_value' => $osPrice->currencies[$_SESSION['currency']]['value'],
                           'payment_method' => $_SESSION['payment'],
-                          'cc_type' => (isset($_SESSION['payment'])=='cc' && isset($_SESSION['ccard']['cc_type']) ? $_SESSION['ccard']['cc_type'] : ''),
-                          'cc_owner'=>(isset($_SESSION['payment'])=='cc' && isset($_SESSION['ccard']['cc_owner']) ? $_SESSION['ccard']['cc_owner'] : ''),
-                          'cc_number' => (isset($_SESSION['payment'])=='cc' && isset($_SESSION['ccard']['cc_number']) ? $_SESSION['ccard']['cc_number'] : ''),
-                          'cc_expires' => (isset($_SESSION['payment'])=='cc' && isset($_SESSION['ccard']['cc_expires']) ? $_SESSION['ccard']['cc_expires'] : ''),
-                          'cc_start' => (isset($_SESSION['payment'])=='cc' && isset($_SESSION['ccard']['cc_start']) ? $_SESSION['ccard']['cc_start'] : ''),
-                          'cc_issue' => (isset($_SESSION['payment'])=='cc' && isset($_SESSION['ccard']['cc_issue']) ? $_SESSION['ccard']['cc_issue'] : ''),
-                          'cc_cvv' => (isset($_SESSION['payment'])=='cc' && isset($_SESSION['ccard']['cc_cvv']) ? $_SESSION['ccard']['cc_cvv'] : ''),
                           'shipping_method' => $_SESSION['shipping']['title'],
                           'shipping_cost' => $_SESSION['shipping']['cost'],
                           'comments' => $_SESSION['comments'],
@@ -357,11 +343,8 @@ class order {
       $products = $_SESSION['cart']->get_products();
       for ($i=0, $n=sizeof($products); $i<$n; $i++) {
 
-        $products_price=$osPrice->GetPrice($products[$i]['id'],
-                                        $format=false,
-                                        $products[$i]['quantity'],
-                                        $products[$i]['tax_class_id'],
-                                        $products[$i]['real_price'])+$osPrice->Format($_SESSION['cart']->attributes_price($products[$i]['id']),false);
+        $products_price = $osPrice->GetPrice($products[$i]['id'], false, $products[$i]['quantity'], $products[$i]['tax_class_id'], $products[$i]['real_price']);
+		$resultPrice = $products_price['price']+$osPrice->Format($_SESSION['cart']->attributes_price($products[$i]['id']), false);
 
         $this->products[$index] = array('qty' => $products[$i]['quantity'],
                                         'name' => $products[$i]['name'],
@@ -369,8 +352,8 @@ class order {
                                         'tax_class_id'=> $products[$i]['tax_class_id'],
                                         'tax' => os_get_tax_rate($products[$i]['tax_class_id'], $tax_address['entry_country_id'], $tax_address['entry_zone_id']),
                                         'tax_description' => os_get_tax_description($products[$i]['tax_class_id'], $tax_address['entry_country_id'], $tax_address['entry_zone_id']),
-                                        'price' =>  $products_price ,
-                            		    'final_price' => $products_price*$products[$i]['quantity'],
+                                        'price' =>  $resultPrice,
+                            		    'final_price' => $resultPrice*$products[$i]['quantity'],
                             		    'shipping_time'=>$products[$i]['shipping_time'],
 					                    'weight' => $products[$i]['weight'],
                                         'bundle' => $products[$i]['bundle'],

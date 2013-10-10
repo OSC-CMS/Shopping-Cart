@@ -2,8 +2,8 @@
 /*
 *---------------------------------------------------------
 *
-*	OSC-CMS - Open Source Shopping Cart Software
-*	http://osc-cms.com
+*	CartET - Open Source Shopping Cart Software
+*	http://www.cartet.org
 *
 *---------------------------------------------------------
 */
@@ -332,8 +332,8 @@ $breadcrumb->add(NAVBAR_TITLE_2_ACCOUNT_EDIT, os_href_link(FILENAME_ACCOUNT_EDIT
 
 require(_INCLUDES.'header.php');
 
-if ($messageStack->size('account_edit') > 0)
-	$osTemplate->assign('error', $messageStack->output('account_edit'));
+//if ($messageStack->size('account_edit') > 0)
+//	$osTemplate->assign('error', $messageStack->output('account_edit'));
 
 if (ACCOUNT_GENDER == 'true')
 {

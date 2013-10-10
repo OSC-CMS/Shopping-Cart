@@ -2,8 +2,8 @@
 /*
 *---------------------------------------------------------
 *
-*	OSC-CMS - Open Source Shopping Cart Software
-*	http://osc-cms.com
+*	CartET - Open Source Shopping Cart Software
+*	http://www.cartet.org
 *
 *---------------------------------------------------------
 */
@@ -113,12 +113,28 @@ if ($_SESSION['customer_id'] == $order_check['customers_id'])
 	// send mail to customer
 	os_php_mail(EMAIL_BILLING_ADDRESS, EMAIL_BILLING_NAME, $order->customer['email_address'], $order->customer['firstname'].' '.$order->customer['lastname'], '', EMAIL_BILLING_REPLY_ADDRESS, EMAIL_BILLING_REPLY_ADDRESS_NAME, '', '', $order_subject, $html_mail, $txt_mail);
 
-	if (defined('AVISOSMS_EMAIL') && AVISOSMS_EMAIL != '')
+	// СМС уведомления
+	$smsSetting = $cartet->sms->setting();
+
+	if ($smsSetting['sms_status'] == 1)
 	{
-		$html_mail_sms = $osTemplate->fetch(_MAIL.$_SESSION['language'].'/order_mail_sms.html');
-		$txt_mail_sms = $osTemplate->fetch(_MAIL.$_SESSION['language'].'/order_mail_sms.txt');
-		// send mail to customer
-		os_php_mail(EMAIL_BILLING_ADDRESS, EMAIL_BILLING_NAME, AVISOSMS_EMAIL, $order->customer['firstname'].' '.$order->customer['lastname'], '', EMAIL_BILLING_REPLY_ADDRESS, EMAIL_BILLING_REPLY_ADDRESS_NAME, '', '', $order->customer['telephone'], $html_mail_sms, $txt_mail_sms);
+		$getDefaultSms = $cartet->sms->getDefaultSms();
+
+		// шаблон смс письма
+		$osTemplate->caching = 0;
+		$smsText = $osTemplate->fetch(_MAIL.$_SESSION['language'].'/order_mail_sms.txt');
+
+		// уведомление администратора
+		if ($getDefaultSms['phone'] && $smsSetting['sms_order_admin'] == 1)
+		{
+			$cartet->sms->send($smsText);
+		}
+
+		// уведомление покупателя
+		if ($order->customer['telephone'] && $smsSetting['sms_order'] == 1)
+		{
+			$cartet->sms->send($smsText, $order->customer['telephone']);
+		}
 	}
 
 	if (AFTERBUY_ACTIVATED == 'true')

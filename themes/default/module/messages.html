@@ -1,0 +1,1 @@
+{if $aMessages}	{foreach $aMessages AS $m}		<div class="alert alert-{$m.type} items-{$m.class}">			<button type="button" class="close" data-dismiss="alert">&times;</button>			{$m.text}		</div>	{/foreach}{/if}

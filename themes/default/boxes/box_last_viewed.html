@@ -5,7 +5,20 @@
 		{if $box_content.PRODUCTS_IMAGE}<a class="product-image" href="{$box_content.PRODUCTS_LINK}"><img src="{$box_content.PRODUCTS_IMAGE}" alt="{$box_content.PRODUCTS_NAME}" /></a>{/if}
 		<div class="caption">
 			<h5><a href="{$box_content.PRODUCTS_LINK}">{$box_content.PRODUCTS_NAME}</a></h5>
-			<p>{$box_content.PRODUCTS_PRICE}</p>
+			<p>
+				{if $box_content.price.specialDiscount}
+					{$smarty.const.OLD_PRICE} <span class="pprice">{$box_content.price.default.formated}</span> {$smarty.session.currencySymbol}<br />
+					{$smarty.const.NEW_PRICE} <span class="pprice">{$box_content.price.specialDiscount.formated}</span> {$smarty.session.currencySymbol}
+				{else if $box_content.price.special}
+					{$smarty.const.OLD_PRICE} <span class="pprice">{$box_content.price.default.formated}</span> {$smarty.session.currencySymbol}<br />
+					{$smarty.const.NEW_PRICE} <span class="pprice">{$box_content.price.special.formated}</span> {$smarty.session.currencySymbol}
+				{else if $box_content.price.specialGraduated}
+					{$smarty.const.OLD_PRICE} <span class="pprice">{$box_content.price.default.formated}</span> {$smarty.session.currencySymbol}<br />
+					{$smarty.const.NEW_PRICE} <span class="pprice">{$box_content.price.specialGraduated.formated}</span> {$smarty.session.currencySymbol}
+				{else}
+					<span class="pprice">{$box_content.price.price.formated}</span> {$smarty.session.currencySymbol}
+				{/if}
+			</p>
 			{if $box_content.PRODUCTS_VPE}<p>{$box_content.PRODUCTS_VPE}</p>{/if}
 			{if $box_content.PRODUCTS_TAX_INFO}<p>{$box_content.PRODUCTS_TAX_INFO}</p>{/if}
 			{if $box_content.PRODUCTS_SHIPPING_LINK}<p>{$box_content.PRODUCTS_SHIPPING_LINK}</p>{/if}

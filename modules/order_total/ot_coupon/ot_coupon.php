@@ -1,12 +1,11 @@
 <?php
 /*
-#####################################
-#  OSC-CMS: Shopping Cart Software.
-#  Copyright (c) 2011-2012
-#  http://osc-cms.com
-#  http://osc-cms.com/forum
-#  Ver. 1.0.0
-#####################################
+*---------------------------------------------------------
+*
+*	CartET - Open Source Shopping Cart Software
+*	http://www.cartet.org
+*
+*---------------------------------------------------------
 */
 
 class ot_coupon {
@@ -428,12 +427,14 @@ $order->info['tax'] -= $tod_amount;
 		if ($product = os_db_fetch_array($product_query)) {
 			$prid = $product['products_id'];
 
-
-			if ($this->include_tax == 'true') {
-$total_price += $qty * $osPrice->GetPrice($product['products_id'], $format = false, 1, $product['products_tax_class_id'], $product['products_price'], 1, 0, $product['products_discount_allowed']);
-$_SESSION['total_price']=$total_price;
+			if ($this->include_tax == 'true')
+			{
+				$tPrice = $osPrice->GetPrice($product['products_id'], false, 1, $product['products_tax_class_id'], $product['products_price'], 1, 0, $product['products_discount_allowed']);
+				$total_price += $qty * $tPrice['price'];
+				$_SESSION['total_price']=$total_price;
 			} else {
-$total_price += $qty * $osPrice->GetPrice($product['products_id'], $format = false, 1, 0, $product['products_price'], 1, 0, $product['products_discount_allowed']);
+				$tPrice = $osPrice->GetPrice($product['products_id'], false, 1, 0, $product['products_price'], 1, 0, $product['products_discount_allowed']);
+				$total_price += $qty * $tPrice['price'];
 			}
 
 			if (isset ($_SESSION['cart']->contents[$product_id]['attributes'])) {
