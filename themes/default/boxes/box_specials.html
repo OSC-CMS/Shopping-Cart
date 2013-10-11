@@ -20,7 +20,20 @@
 <td class="boxText" align="center" colspan="2">
 <table width="98%" border="0" cellpadding="0" cellspacing="0">
 <tr>
-<td class="boxTextBG" align="center"><strong>{$box_content.PRODUCTS_PRICE}</strong><br />{if $box_content.PRODUCTS_VPE}{$box_content.PRODUCTS_VPE}<br />{/if}{$box_content.PRODUCTS_TAX_INFO}{$box_content.PRODUCTS_SHIPPING_LINK}</td>
+<td class="boxTextBG" align="center">
+				{if $box_content.price.specialDiscount}
+					{$smarty.const.OLD_PRICE} <span class="pprice">{$box_content.price.default.formated}</span> {$smarty.session.currencySymbol}<br />
+					{$smarty.const.NEW_PRICE} <span class="pprice">{$box_content.price.specialDiscount.formated}</span> {$smarty.session.currencySymbol}
+				{else if $box_content.price.special}
+					{$smarty.const.OLD_PRICE} <span class="pprice">{$box_content.price.default.formated}</span> {$smarty.session.currencySymbol}<br />
+					{$smarty.const.NEW_PRICE} <span class="pprice">{$box_content.price.special.formated}</span> {$smarty.session.currencySymbol}
+				{else if $box_content.price.specialGraduated}
+					{$smarty.const.OLD_PRICE} <span class="pprice">{$box_content.price.default.formated}</span> {$smarty.session.currencySymbol}<br />
+					{$smarty.const.NEW_PRICE} <span class="pprice">{$box_content.price.specialGraduated.formated}</span> {$smarty.session.currencySymbol}
+				{else}
+					<span class="pprice">{$box_content.price.price.formated}</span> {$smarty.session.currencySymbol}
+				{/if}
+<br />{if $box_content.PRODUCTS_VPE}{$box_content.PRODUCTS_VPE}<br />{/if}{$box_content.PRODUCTS_TAX_INFO}{$box_content.PRODUCTS_SHIPPING_LINK}</td>
 </tr>
 </table>
 </td>
