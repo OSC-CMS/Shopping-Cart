@@ -28,5 +28,4 @@ if (isset($_POST['products_id']) && !empty($_POST['products_id']))
 	$result = $osPrice->Format($total, true);
 
 	echo json_encode($result);
-	exit();
 }

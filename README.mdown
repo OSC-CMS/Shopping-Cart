@@ -11,7 +11,7 @@
   * mod_rewrite
   * PHP 5.2+
   * MySQL 5+
-  * Компоненты: GD, XML, ZIP, GZIP, CURL, JSON, MBSTRING, SESSION
+  * Компоненты: GD, XML, ZIP, GZIP, CURL, JSON, MBSTRING
   * safe_mode = off
   * register_globals = off
 
