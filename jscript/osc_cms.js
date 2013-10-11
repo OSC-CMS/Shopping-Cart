@@ -94,8 +94,9 @@ function updateProductPrice()
 }
 
 // Пересчет цены товара в корзине
-/*function updateShoppingCart()
+function updateShoppingCart()
 {
+	$("#mainContent").css('opacity', '0.5');
 	$.ajax({
 		url: SITE_WEB_DIR+"index_ajax.php?ajax_page=updateShoppingCart",
 		dataType: "json",
@@ -105,11 +106,25 @@ function updateProductPrice()
 		{
 			if (result)
 			{
-				$("#div_shopping_cart").html(result);
+				$("#mainContent").html(result);
+				$("#mainContent").css('opacity', '1');
 			}
 		}
 	});
-}*/
+}
+
+// + и - количества товара в корзине
+function func_qty_count(id, type)
+{
+	var countQty = $('.sc_qty_'+id);
+
+	if (type == 'p')
+		countQty.val(parseInt(countQty.val())+1);
+	else if (type == 'm' && countQty.val() != 1)
+		countQty.val(parseInt(countQty.val())-1);
+
+	updateShoppingCart();
+}
 
 // Reload Captcha Image
 function reload_captcha()

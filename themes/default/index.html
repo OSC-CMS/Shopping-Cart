@@ -83,10 +83,12 @@
 			{if isset($box_FAQ)}{$box_FAQ}{/if}
 		</div>
 		<div class="span9">
-			{if !$default}{if isset($navtrail)}{$navtrail}{/if}{/if}
-			{if isset($message)}{$message}{/if}
-			{if isset($text)}{$text}{/if}
-			{if isset($main_content)}{$main_content}{/if}
+			
+				{if !$default}{if isset($navtrail)}{$navtrail}{/if}{/if}
+				{if isset($message)}{$message}{/if}
+				{if isset($text)}{$text}{/if}
+				<div id="mainContent">{if isset($main_content)}{$main_content}{/if}</div>
+			
 		</div><!--/span-->
 	</div><!--/row-->
 
