@@ -17,7 +17,7 @@ define('AJAX_APPLICATION_RUNNING', true);
 require('includes/top.php');
 #$JsHttpRequest->setEncoding($_SESSION['language_charset']);
 
-$axhandler = ($_SERVER['REQUEST_METHOD'] == 'GET') ? $_GET['ajax_page'] : $_POST['ajax_page'];
+$axhandler = ($_GET['ajax_page']) ? $_GET['ajax_page'] : $_POST['ajax_page'];
 
 if (!isset($axhandler) || !os_not_null($axhandler) || !is_file(_MODULES.'ajax/'.$axhandler.'.php'))
 	die('***ERROR*** Ajax page "'.$axhandler.'" not define or not exist!!!');

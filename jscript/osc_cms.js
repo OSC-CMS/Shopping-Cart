@@ -76,7 +76,7 @@ function updateProductPrice()
 	if ($("#cart_quantity").length)
 	{
 		$.ajax({
-			url: SITE_WEB_DIR+"index_ajax.php",
+			url: SITE_WEB_DIR+"index_ajax.php?ajax_page=updateProductPrice",
 			dataType: "json",
 			data: $('#cart_quantity').serialize(),
 			type: "POST",
@@ -92,6 +92,24 @@ function updateProductPrice()
 	else
 		return false;
 }
+
+// Пересчет цены товара в корзине
+/*function updateShoppingCart()
+{
+	$.ajax({
+		url: SITE_WEB_DIR+"index_ajax.php?ajax_page=updateShoppingCart",
+		dataType: "json",
+		data: $('#form_shopping_cart').serialize(),
+		type: "POST",
+		success: function(result)
+		{
+			if (result)
+			{
+				$("#div_shopping_cart").html(result);
+			}
+		}
+	});
+}*/
 
 // Reload Captcha Image
 function reload_captcha()

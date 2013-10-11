@@ -20,19 +20,17 @@
 			<li>
 				{if $price.specialDiscount}
 					{$smarty.const.OLD_PRICE} <span class="pprice">{$price.default.formated}</span> {$smarty.session.currencySymbol}<br />
-					{$smarty.const.NEW_PRICE} <span class="pprice">{$price.specialDiscount.formated}</span> {$smarty.session.currencySymbol}
+					{*{$smarty.const.NEW_PRICE} <span class="pprice">{$price.specialDiscount.formated}</span> {$smarty.session.currencySymbol}*}
 				{else if $price.special}
 					{$smarty.const.OLD_PRICE} <span class="pprice">{$price.default.formated}</span> {$smarty.session.currencySymbol}<br />
-					{$smarty.const.NEW_PRICE} <span class="pprice">{$price.special.formated}</span> {$smarty.session.currencySymbol}
+					{*{$smarty.const.NEW_PRICE} <span class="pprice">{$price.special.formated}</span> {$smarty.session.currencySymbol}*}
 				{else if $price.specialGraduated}
 					{$smarty.const.OLD_PRICE} <span class="pprice">{$price.default.formated}</span> {$smarty.session.currencySymbol}<br />
-					{$smarty.const.NEW_PRICE} <span class="pprice">{$price.specialGraduated.formated}</span> {$smarty.session.currencySymbol}
+					{*{$smarty.const.NEW_PRICE} <span class="pprice">{$price.specialGraduated.formated}</span> {$smarty.session.currencySymbol}*}
 				{else}
 					<span class="pprice">{$price.price.formated}</span> {$smarty.session.currencySymbol}
 				{/if}
-				<br />
 				<span class="pprice"><span id="productDisplayPrice">{$price.price.plain}</span></span> {$smarty.session.currencySymbol}
-				<input type="hidden" name="ajax_page" value="updateProductPrice">
 				
 				</li>
 			{if $PRODUCTS_TAX_INFO}<li>{$PRODUCTS_TAX_INFO}</li>{/if}
