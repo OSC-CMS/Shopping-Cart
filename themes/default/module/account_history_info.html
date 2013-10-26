@@ -85,6 +85,13 @@
 			<h3 class="bold">{#title_print#}</h3>
 			<p>{#text_print#}</p>
 			<p>{$BUTTON_PRINT} {$BUTTON_SCHET_PRINT} {$BUTTON_KVITANCIA_PRINT}</p>
+			<p>
+				{if $filterPrint}
+					{foreach $filterPrint as $link}
+						{$link}
+					{/foreach}
+				{/if}
+			</p>
 		</div>
 		<span class="right">{$BUTTON_BACK}</span>
 		<div class="clear"></div>

@@ -61,7 +61,7 @@ if (DOWNLOAD_ENABLED == 'true') include (_MODULES.'downloads.php');
 
 // Stuff
 
-if ($order->info['payment_method'] == 'schet') 
+/*if ($order->info['payment_method'] == 'schet') 
 {
 
    $_array = array('img' => 'button_print_schet.gif', 'href' => os_href_link(FILENAME_PRINT_SCHET, 'oID='.(int)$_GET['order_id']), 'alt' => MODULE_PAYMENT_SCHET_PRINT, 'code' => '');
@@ -74,11 +74,24 @@ if ($order->info['payment_method'] == 'schet')
 	}
 	
 $osTemplate->assign('BUTTON_SCHET_PRINT', $_array['code']);
-}
+}*/
 
+/*
 if ($order->info['payment_method'] == 'schet') {
 $osTemplate->assign('BUTTON_PACKINGSLIP_PRINT', '<img alt="' . MODULE_PAYMENT_PACKINGSLIP_PRINT . '" src="'.'themes/'.CURRENT_TEMPLATE.'/buttons/'.$_SESSION['language'].'/button_print_packingslip.gif" style="cursor:pointer" onclick="window.open(\''.os_href_link(FILENAME_PRINT_PACKINGSLIP, 'oID='.(int)$_GET['order_id']).'\', \'popup\', \'toolbar=0, scrollbars=yes, width=800, height=650\')" />');
 }
+*/
+
+// фильтр кнопок печати
+$array = array();
+$array['params'] = array('order_id' => $_GET['order_id'], 'payment_method' => $order->info['payment_method']);
+$array = apply_filter('print_menu', $array);
+if (is_array($array['link']) && !empty($array['link']))
+{
+	$osTemplate->assign('filterPrint', $array['link']);
+}
+// фильтр кнопок печати
+
 if ($order->info['payment_method'] == 'kvitancia') {
  $_array = array('img' => 'button_print_kvitancia.gif', 
  'href' => os_href_link(FILENAME_PRINT_KVITANCIA, 'oID='.(int)$_GET['order_id']), 
@@ -113,7 +126,6 @@ $osTemplate->assign('BILLING_ADDRESS_EDIT', os_href_link(FILENAME_CHECKOUT_PAYME
 	   }
 	   
 $osTemplate->assign('BUTTON_PRINT', $_array['code']);
-
 
 $from_history = preg_match("/page=/i", os_get_all_get_params()); // referer from account_history yes/no
 $back_to = $from_history ? FILENAME_ACCOUNT_HISTORY : FILENAME_ACCOUNT; // if from account_history => return to account_history
