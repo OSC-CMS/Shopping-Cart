@@ -220,7 +220,9 @@ $languages = $cartet->language->get();
 			<button class="btn btn-mini dropdown-toggle" data-toggle="dropdown"><span class="caret"></span></button>
 			<ul class="dropdown-menu">
 				<li><a href="menu.php?action=edit_group&group_id=<?php echo $id; ?>">Редактировать</a></li>
+				<?php if ($id != 1) { ?>
 				<li><a href="#" data-action="menu_deleteGroup" data-remove-parent="li" data-id="<?php echo $id; ?>" data-confirm="Вы уверены, что хотите удалить эту группу? Будут удалены все ее меню!">Удалить</a></li>
+				<?php } ?>
 			</ul>
 		</div>
 	<?php } ?>
@@ -263,7 +265,7 @@ $languages = $cartet->language->get();
 				<div class="menu-class">'.$row['menu_class_icon'].'</div>
 				<div class="menu-actions">
 					<a href="menu.php?action=edit_menu&group_id='.$row['menu_group_id'].'&menu_id='.$row['menu_id'].'"><i class="icon-edit"></i></a>
-					'.$delete2.'
+					'.$delete.'
 				</div>
 			</div><ul></ul>
 			';
