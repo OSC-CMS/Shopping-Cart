@@ -212,7 +212,8 @@ function update_101_to_110_install()
 	(105, 0, '', '', 'icon-group', 3, 1, 1),
 	(107, 0, 'shop_content.php?coID=4', '', '', 3, 2, 0),
 	(106, 53, 'plugins.php', '', '', 1, 1, 1),
-	(110, 55, 'sms.php', '', '', 1, 1, 1);");
+	(110, 55, 'sms.php', '', '', 1, 1, 1),
+	(111, 103, 'configuration.php?gID=32', '', '', 4, 1, 1);");
 
 	os_db_query("INSERT INTO ".DB_PREFIX."menu_group (`group_id`, `group_status`) VALUES
 	(1, 1),
@@ -328,7 +329,8 @@ function update_101_to_110_install()
 	(111, 'О магазине', 0, 107, 1),
 	(113, 'Главная', 0, 108, 1),
 	(115, 'Свяжитесь с нами', 0, 109, 1),
-	(117, 'СМС уведомления', 0, 110, 1);");
+	(117, 'СМС уведомления', 0, 110, 1),
+	(118, 'Быстрый заказ', 0, 111, 1);");
 
 	os_db_query("CREATE TABLE ".DB_PREFIX."sms (
 		`id` int(11) not null auto_increment,
@@ -353,6 +355,7 @@ function update_101_to_110_install()
 		`sms_order` int(1) not null,
 		`sms_order_change` int(1) not null,
 		`sms_register` int(1) not null,
+		`sms_fast_order` int(1) not null,
 		PRIMARY KEY (`sms_id`, `sms_default_id`)
 	) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE utf8_general_ci;");
 

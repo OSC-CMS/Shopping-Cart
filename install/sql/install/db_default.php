@@ -1479,7 +1479,8 @@ os_db_query("INSERT INTO ".DB_PREFIX."menu (`menu_id`, `menu_parent_id`, `menu_u
 (105, 0, '', '', 'icon-group', 3, 1, 1),
 (107, 0, 'shop_content.php?coID=4', '', '', 3, 2, 0),
 (106, 53, 'plugins.php', '', '', 1, 1, 1),
-(110, 55, 'sms.php', '', '', 1, 1, 1);");
+(110, 55, 'sms.php', '', '', 1, 1, 1),
+(111, 103, 'configuration.php?gID=32', '', '', 4, 1, 1);");
 
 os_db_query("INSERT INTO ".DB_PREFIX."menu_group (`group_id`, `group_status`) VALUES
 (1, 1),
@@ -1595,7 +1596,8 @@ os_db_query("INSERT INTO ".DB_PREFIX."menu_lang (`lang_id`, `lang_title`, `lang_
 (111, 'О магазине', 0, 107, 1),
 (113, 'Главная', 0, 108, 1),
 (115, 'Свяжитесь с нами', 0, 109, 1),
-(117, 'СМС уведомления', 0, 110, 1);");
+(117, 'СМС уведомления', 0, 110, 1),
+(118, 'Быстрый заказ', 0, 111, 1);");
 
 os_db_query("INSERT INTO `".DB_PREFIX."sms_setting` VALUES(1, 0, 0, 1, 1, 1, 0);");
 

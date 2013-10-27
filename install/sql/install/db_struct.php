@@ -1559,6 +1559,7 @@ os_db_query("CREATE TABLE ".DB_PREFIX."sms_setting (
 	`sms_order` int(1) not null,
 	`sms_order_change` int(1) not null,
 	`sms_register` int(1) not null,
+	`sms_fast_order` int(1) not null,
 	PRIMARY KEY (`sms_id`, `sms_default_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE utf8_general_ci;");
 ?>
