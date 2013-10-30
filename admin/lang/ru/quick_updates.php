@@ -11,14 +11,12 @@
 define('WARNING_MESSAGE','После внесения необходимых изменений нажмите кнопку Обновить для сохранения внесённых изменений.');
 define('TOP_BAR_TITLE', 'Изменение цен');
 define('HEADING_TITLE', 'Изменение цен');
-define('TEXT_MARGE_INFO','Массовое изменение цен, отметьте, если Вы хотите изменить цены сразу всех товаров.');
+define('TEXT_MARGE_INFO','Массовое изменение цен.');
 define('TEXT_PRODUCTS_UPDATED', 'цен обновлено!');
 define('TEXT_IMAGE_PREVIEW','Предварительный просмотр');
 define('TEXT_IMAGE_SWITCH_EDIT','Переключиться для завершения редактирования');
 define('TEXT_QTY_UPDATED', 'значений изменено!');
-define('TEXT_INPUT_SPEC_PRICE','<b>(+/-) Сумма или процент:</b>');
 define('TEXT_SPEC_PRICE_INFO1','Например: 10, 15%, -20, -25%');
-define('TEXT_SPEC_PRICE_INFO2','<b>Замечание: </b>Снимите выделение с тех товаров, цены которых Вы не хотите менять.');
 define('TEXT_MAXI_ROW_BY_PAGE', 'Количество товара на одной странице:');
 define('TEXT_SPECIALS_PRODUCTS', 'Специальная цена!');
 define('TEXT_ALL_MANUFACTURERS', 'Все производители');
@@ -44,4 +42,6 @@ define('TOTAL_COST', 'Цена');
 define('HEADING_TITLE_SEARCH', 'Поиск:');
 define('HEADING_TITLE_SEARCH_MODEL', 'Поиск по коду товара:');
 
+define('TEXT_LAST_PAGE','Последняя &raquo;');
+define('TEXT_FIRST_PAGE','&laquo; Первая');
 ?>
