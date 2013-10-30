@@ -275,22 +275,8 @@ defined( '_VALID_OS' ) or die( 'Прямой доступ  не допускае
 
   function os_sorting($page,$sort) {
 
-      switch ($page) {
-          case FILENAME_CUSTOMERS:
-
-          $nav='&nbsp;<a href="'.os_href_link(FILENAME_CUSTOMERS,'sorting='.$sort.'&'.os_get_all_get_params(array('action','sorting'))).'">&uarr;</a>';
-          $nav.='<a href="'.os_href_link(FILENAME_CUSTOMERS,'sorting='.$sort.'-desc&'.os_get_all_get_params(array('action','sorting'))).'">&darr;</a>&nbsp;';
-
-          break;
-          
-          case FILENAME_CATEGORIES:
-
-          $nav='&nbsp;<a href="'.os_href_link(FILENAME_CATEGORIES,'sorting='.$sort.'&'.os_get_all_get_params(array('action','sorting'))).'">&uarr;</a>';
-          $nav.='<a href="'.os_href_link(FILENAME_CATEGORIES,'sorting='.$sort.'-desc&'.os_get_all_get_params(array('action','sorting'))).'">&darr;</a>&nbsp;';
-
-          break;          
-
-      }
+	  $nav='&nbsp;<a href="'.os_href_link($page,'sorting='.$sort.'&'.os_get_all_get_params(array('action','sorting'))).'">&uarr;</a>';
+	  $nav.='<a href="'.os_href_link($page,'sorting='.$sort.'-desc&'.os_get_all_get_params(array('action','sorting'))).'">&darr;</a>&nbsp;';
 
       return $nav;
 

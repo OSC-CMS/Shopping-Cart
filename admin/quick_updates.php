@@ -14,22 +14,17 @@ if ($_GET['sorting'])
 {
 	switch ($_GET['sorting'])
 	{
-		case 'sort':
-			$prodsort = 'p.products_sort ASC';
+		case 'id':
+			$prodsort = 'p.products_id ASC';
 		break;
-		case 'sort-desc' :
-			$prodsort = 'p.products_sort DESC';
+		case 'id-desc':
+			$prodsort = 'p.products_id DESC';
+		break;
 		case 'name':
 			$prodsort = 'pd.products_name ASC';
 		break;
 		case 'name-desc':
 			$prodsort = 'pd.products_name DESC';
-		break;
-		case 'status':
-			$prodsort = 'p.products_status ASC';
-		break;
-		case 'status-desc':
-			$prodsort = 'p.products_status DESC';
 		break;
 		case 'price':
 			$prodsort = 'p.products_price ASC';
@@ -42,18 +37,6 @@ if ($_GET['sorting'])
 		break;
 		case 'stock-desc':
 			$prodsort = 'p.products_quantity DESC';
-		break;
-		case 'stocksort':
-			$prodsort = 'p.stock ASC';
-		break;
-		case 'stocksort-desc':
-			$prodsort = 'p.stock DESC';
-		break;
-		case 'discount':
-			$prodsort = 'p.products_discount_allowed ASC';
-		break;
-		case 'discount-desc':
-			$prodsort = 'p.products_discount_allowed DESC';
 		break;
 		default:
 			$prodsort = 'pd.products_name ASC';
@@ -149,6 +132,7 @@ $main->top_menu();
 				<input type="hidden" name="cPath" value="<?php echo $_GET['cPath']; ?>">
 				<input type="hidden" name="row_by_page" value="<?php echo $_GET['row_by_page']; ?>">
 				<input type="hidden" name="manufacturer" value="<?php echo $_GET['manufacturer']; ?>">
+				<input type="hidden" name="sorting" value="<?php echo $_GET['sorting']; ?>">
 				<fieldset>
 					<?php echo os_draw_input_field('search', '', 'placeholder="'.HEADING_TITLE_SEARCH.'…"'); ?>
 				</fieldset>
@@ -158,6 +142,7 @@ $main->top_menu();
 			<?php echo os_draw_form('manufacturers', FILENAME_QUICK_UPDATES, '', 'get'); ?>
 				<input type="hidden" name="cPath" value="<?php echo $_GET['cPath']; ?>">
 				<input type="hidden" name="row_by_page" value="<?php echo $_GET['row_by_page']; ?>">
+				<input type="hidden" name="sorting" value="<?php echo $_GET['sorting']; ?>">
 				<fieldset>
 					<?php echo manufacturers_list(); ?>
 				</fieldset>
@@ -167,6 +152,7 @@ $main->top_menu();
 			<?php echo os_draw_form('cPath', FILENAME_QUICK_UPDATES, '', 'get'); ?>
 				<input type="hidden" name="manufacturer" value="<?php echo $_GET['manufacturer']; ?>">
 				<input type="hidden" name="row_by_page" value="<?php echo $_GET['row_by_page']; ?>">
+				<input type="hidden" name="sorting" value="<?php echo $_GET['sorting']; ?>">
 				<fieldset>
 					<?php echo os_draw_pull_down_menu('cPath', os_get_category_tree(), $current_category_id, 'onChange="this.form.submit();"'); ?>
 				</fieldset>
@@ -177,6 +163,7 @@ $main->top_menu();
 				<?php echo os_draw_form('row_by_page', FILENAME_QUICK_UPDATES, '', 'get'); ?>
 					<input type="hidden" name="manufacturer" value="<?php echo $_GET['manufacturer']; ?>">
 					<input type="hidden" name="cPath" value="<?php echo $_GET['cPath']; ?>">
+					<input type="hidden" name="sorting" value="<?php echo $_GET['sorting']; ?>">
 					<fieldset>
 					<?php echo  os_draw_pull_down_menu('row_by_page', $row_bypage_array, $row_by_page, 'onChange="this.form.submit();"'); ?>
 					</fieldset>
@@ -191,12 +178,12 @@ $main->top_menu();
 	<table class="table table-condensed table-big-list">
 		<thead>
 			<tr>
-				<th>№</th>
-				<th><span class="line"></span><?php echo TABLE_HEADING_PRODUCTS; ?></th>
+				<th><?php echo '#'.os_sorting(FILENAME_QUICK_UPDATES, 'id'); ?></th>
+				<th><span class="line"></span><?php echo TABLE_HEADING_PRODUCTS.os_sorting(FILENAME_QUICK_UPDATES, 'name'); ?></th>
 				<?php if (STOCK_CHECK == 'true') { ?>
-				<th><span class="line"></span><?php echo TABLE_HEADING_QUANTITY; ?></th>
+				<th><span class="line"></span><?php echo TABLE_HEADING_QUANTITY.os_sorting(FILENAME_QUICK_UPDATES, 'stock'); ?></th>
 				<?php } ?>
-				<th><span class="line"></span><?php echo TABLE_HEADING_PRICE; ?></th>
+				<th><span class="line"></span><?php echo TABLE_HEADING_PRICE.os_sorting(FILENAME_QUICK_UPDATES, 'price'); ?></th>
 				<?php
 				if (is_array($group_data) && !empty($group_data))
 				{
@@ -332,6 +319,11 @@ $main->top_menu();
 				if (!empty($_GET['row_by_page']))
 				{
 					$_param['param']['row_by_page'] = $_GET['row_by_page'];
+				}
+
+				if (!empty($_GET['sorting']))
+				{
+					$_param['param']['sorting'] = $_GET['sorting'];
 				}
 				echo osc_pages_menu($numr, $max_count, $_GET['page'], $_param);
 			}
