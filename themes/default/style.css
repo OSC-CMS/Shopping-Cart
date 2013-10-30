@@ -75,8 +75,10 @@ ul.subcat-nav li a.current {background:#08C;color:#fff;}
 #modalLogin .form-actions {padding:0 0 0 160px;margin:0;background:none;border:none;}
 
 
-.cart-page-product-img {width:70px;}
-.cart-page-product-img img {max-width:70px;}
+.cart-page-product-img {width:25px;}
+.cart-page-product-img img {max-width:25px;}
+
+.cart-page-product-qty input {width:25px;text-align:center;}
 
 
 .myTooltip-help {position: relative;border:1px solid #29778e;display: inline-block;vertical-align: bottom;font-size: 11px;width:14px;line-height:14px;text-align:center;margin-left:2px;top:-2px;color:#fff;background:#2F96B4;-webkit-border-radius:16px;-moz-border-radius:16px;border-radius:16px;}

@@ -554,7 +554,7 @@ class apiProducts extends CartET
 		$sql_data_array = array();
 		foreach($product AS $k => $v)
 		{
-			if ($k != 'products_id')
+			if ($k != 'products_id' && $k != 'products_page_url')
 			{
 				$sql_data_array[$k] = $v;
 			}
@@ -1061,6 +1061,69 @@ class apiProducts extends CartET
 		}
 
 		return $result;
+	}
+
+	/**
+	 * Массовое редактирование товаров
+	 */
+	public function saveQuickUpdates($params)
+	{
+		if (empty($params)) return false;
+
+		$languages = os_get_languages();
+
+		$i = 0;
+		$group_query = os_db_query("SELECT customers_status_id FROM ".TABLE_CUSTOMERS_STATUS." WHERE language_id = '".(int) $_SESSION['languages_id']."' AND customers_status_id != '0'");
+		while ($group_values = os_db_fetch_array($group_query))
+		{
+			$i++;
+			$group_data[$i] = array('STATUS_ID' => $group_values['customers_status_id']);
+		}
+
+		if (is_array($params))
+		{
+			foreach ($params AS $prodId => $values)
+			{
+				$sqlDataCat = array
+				(
+					'products_price' => os_db_prepare_input($values['products_price']),
+					'products_sort' => (int)$values['products_sort'],
+				);
+				if (STOCK_CHECK == 'true')
+				{
+					$sqlDataCat['products_quantity'] = $values['products_quantity'];
+				}
+				os_db_perform(TABLE_PRODUCTS, $sqlDataCat, 'update', "products_id = '".(int)$prodId."'");
+
+				for ($col = 0, $n = sizeof($group_data); $col < $n +1; $col ++)
+				{
+					if (@$group_data[$col]['STATUS_ID'] != '')
+					{
+						$personal_price = os_db_prepare_input($values['products_price_'.$group_data[$col]['STATUS_ID']]);
+						if ($personal_price == '' || $personal_price == '0.0000')
+						{
+							$personal_price = '0.00';
+						}
+						else
+						{
+							if (PRICE_IS_BRUTTO == 'true')
+							{
+								$personal_price = ($personal_price / (os_get_tax_rate($values['products_tax_class_id']) + 100) * 100);
+							}
+							$personal_price = os_round($personal_price, PRICE_PRECISION);
+						}
+
+						os_db_query("UPDATE ".TABLE_PERSONAL_OFFERS.$group_data[$col]['STATUS_ID']." SET personal_offer = '".$personal_price."' WHERE products_id = '".(int)$prodId."' AND quantity = '1'");
+					}
+				}
+			}
+
+			$data = array('msg' => 'Успешно сохранено!', 'type' => 'ok');
+		}
+		else
+			$data = array('msg' => 'Произошла ошибка!', 'type' => 'error');
+
+		return $data;
 	}
 }
 ?>

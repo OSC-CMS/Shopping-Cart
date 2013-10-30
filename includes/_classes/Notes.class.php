@@ -11,7 +11,7 @@
 class apiNotes extends CartET
 {
 	/**
-	 * Сохранение новостей
+	 * Сохранение заметки
 	 */
 	public function save($params)
 	{
@@ -30,7 +30,7 @@ class apiNotes extends CartET
 	}
 
 	/**
-	 * Удаление новости
+	 * Удаление заметки
 	 */
 	public function delete($params)
 	{

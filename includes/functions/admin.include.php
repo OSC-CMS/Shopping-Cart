@@ -8,6 +8,14 @@
 *---------------------------------------------------------
 */
 
+	// Красивый print_r()
+	function _print_r($v)
+	{
+		echo '<pre>';
+		print_r($v);
+		echo '</pre>';
+	}
+
 	function downloadImage($image, $path, $name = '')
 	{
 		if (empty($image) OR empty($path)) return false;
@@ -210,14 +218,6 @@
 			return _HTTP.$c_username.'.html';
 		else
 			return _HTTP.'profile.php?id='.$c_id;
-	}
-
-	// Красивый print_r() ;)
-	function _print_r($v)
-	{
-		echo '<pre>';
-		print_r($v);
-		echo '</pre>';
 	}
 
     function my_sorting_products($sorting_data) 

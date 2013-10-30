@@ -36,7 +36,7 @@ class apiFaq extends CartET
 
 		os_db_query("DELETE FROM ".TABLE_FAQ." WHERE faq_id = '".(int)$faq_id."'");
 
-		set_news_url_cache();
+		set_faq_url_cache();
 
 		$data = array('msg' => 'Успешно удалено!', 'type' => 'ok');
 

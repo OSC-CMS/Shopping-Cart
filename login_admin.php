@@ -12,12 +12,12 @@ include ('includes/top.php');
 
 if (isset ($_SESSION['customer_id']))
 {
-	//os_redirect(os_href_link(FILENAME_START, '', 'SSL'));
+	os_redirect(os_href_link(FILENAME_START, '', 'SSL'));
 }
 
 if ($session_started == false)
 {
-	//os_redirect(os_href_link(FILENAME_COOKIE_USAGE));
+	os_redirect(os_href_link(FILENAME_COOKIE_USAGE));
 }
 
 $captcha = false;

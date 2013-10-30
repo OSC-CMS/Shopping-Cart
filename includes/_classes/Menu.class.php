@@ -330,7 +330,7 @@ class apiMenu extends CartET
 	}
 
 	/**
-	 * Удаление пункта меню
+	 * Удаление группы меню, включая мне пункты
 	 */
 	public function deleteGroup($params)
 	{

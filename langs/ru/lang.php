@@ -9,6 +9,7 @@
 */
 
 setlocale(LC_ALL, "ru_RU.UTF-8");
+setlocale(LC_NUMERIC, "C");
 date_default_timezone_set('Europe/Moscow'); // See http://php.net/manual/en/timezones.php
 
 define('ADMIN_LOGIN_TITLE', 'Вход в панель управления');
@@ -64,7 +65,8 @@ define('ENTRY_GENDER_ERROR', 'Вы должны указать свой пол.'
 define('ENTRY_GENDER_TEXT', '*');
 define('ENTRY_FIRST_NAME_ERROR', 'Поле Имя должно содержать как минимум ' . ENTRY_FIRST_NAME_MIN_LENGTH . ' символа.');
 define('ENTRY_FIRST_NAME_TEXT', '*');
-define('ENTRY_SECOND_NAME_TEXT', '');
+define('ENTRY_SECOND_NAME_TEXT', '*');
+define('ENTRY_SECOND_NAME_ERROR', 'Поле Отчество должно содержать как минимум ' . ENTRY_LAST_NAME_MIN_LENGTH . ' символа.');
 define('ENTRY_LAST_NAME_ERROR', 'Поле Фамилия должно содержать как минимум ' . ENTRY_LAST_NAME_MIN_LENGTH . ' символа.');
 define('ENTRY_LAST_NAME_TEXT', '*');
 define('ENTRY_DATE_OF_BIRTH_ERROR', 'Дату рождения необходимо вводить в следующем формате: DD/MM/YYYY (пример 21/05/1970)');
@@ -163,6 +165,7 @@ define('TEXT_NO_REVIEWS', 'К настоящему времени нет отз�
 define('TEXT_NO_NEW_PRODUCTS', 'На данный момент нет новых товаров.');
 define('TEXT_UNKNOWN_TAX_RATE', 'Неизвестная налоговая ставка');
 
+define('TEXT_NO_PRODUCTS', 'На данный момент нет товаров.');
 
 define('WARNING_INSTALL_DIRECTORY_EXISTS', 'Предупреждение: Не удалена директория установки магазина: ' . dirname($_SERVER['SCRIPT_FILENAME']) . '/install. Пожалуйста, удалите эту директорию в целях безопасности.');
 define('WARNING_CONFIG_FILE_WRITEABLE', 'Предупреждение: Файл конфигурации доступен для записи: ' . dirname($_SERVER['SCRIPT_FILENAME']) . '/config.php. Это - потенциальный риск безопасности - пожалуйста, установите необходимые права доступа к этому файлу.');

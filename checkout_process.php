@@ -45,8 +45,8 @@ if (isset($_SESSION['cart']->cartID) && isset($_SESSION['cartID']))
 require (_CLASS.'payment.php');
 $payment_modules = new payment($_SESSION['payment']);
 
-require (_CLASS.'shipping.php');
-$shipping_modules = new shipping($_SESSION['shipping']);
+//require (_CLASS.'shipping.php');
+//$shippingModules = new shipping($_SESSION['shipping']);
 
 require (_CLASS.'order.php');
 $order = new order();

@@ -48,6 +48,7 @@
 
 {$param_filter}
 
+{if $module_content}
 <ul class="thumbnails">
 	{foreach $module_content as $p}
 	<li class="span3">
@@ -82,6 +83,9 @@
 	{if $p@iteration % 4 == 0}</ul><div class="clear"></div><ul class="thumbnails">{/if}
 	{/foreach}
 </ul>
+{else}
+	{$smarty.const.TEXT_NO_PRODUCTS}
+{/if}
 
 <div class="page-navigation tcenter">
 	<p class="pn-nav">{$NAVIGATION}</p>

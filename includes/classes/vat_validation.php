@@ -22,6 +22,7 @@ class vat_validation
 		} 
 		else 
 		{
+
 			if ($guest) 
 			{
 				$this->vat_info = array ('status' => DEFAULT_CUSTOMERS_STATUS_ID_GUEST);

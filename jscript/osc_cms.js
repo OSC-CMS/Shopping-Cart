@@ -68,6 +68,12 @@ jQuery(document).ready(function($){
 
 	// Обновление цены товара
 	updateProductPrice();
+
+	// Обновление страницы корзины
+	if ($("#form_shopping_cart").length)
+	{
+		//updateShoppingCart();
+	}
 });
 
 // Пересчет цены товара + цена атрибутов + количество

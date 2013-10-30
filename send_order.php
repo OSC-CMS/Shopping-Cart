@@ -111,7 +111,8 @@ if ($_SESSION['customer_id'] == $order_check['customers_id'])
 	os_php_mail(EMAIL_BILLING_ADDRESS, EMAIL_BILLING_NAME, EMAIL_BILLING_ADDRESS, STORE_NAME, EMAIL_BILLING_FORWARDING_STRING, $order->customer['email_address'], $order->customer['firstname'], '', '', $order_subject, $html_mail, $txt_mail);
 
 	// send mail to customer
-	os_php_mail(EMAIL_BILLING_ADDRESS, EMAIL_BILLING_NAME, $order->customer['email_address'], $order->customer['firstname'].' '.$order->customer['lastname'], '', EMAIL_BILLING_REPLY_ADDRESS, EMAIL_BILLING_REPLY_ADDRESS_NAME, '', '', $order_subject, $html_mail, $txt_mail);
+	if ($order->customer['email_address'])
+		os_php_mail(EMAIL_BILLING_ADDRESS, EMAIL_BILLING_NAME, $order->customer['email_address'], $order->customer['firstname'].' '.$order->customer['lastname'], '', EMAIL_BILLING_REPLY_ADDRESS, EMAIL_BILLING_REPLY_ADDRESS_NAME, '', '', $order_subject, $html_mail, $txt_mail);
 
 	// СМС уведомления
 	$smsSetting = $cartet->sms->setting();
@@ -147,6 +148,7 @@ if ($_SESSION['customer_id'] == $order_check['customers_id'])
 }
 else
 {
+	$osTemplate->assign('language', $_SESSION['language']);
 	$osTemplate->assign('ERROR', 'You are not allowed to view this order!');
 	$osTemplate->display(CURRENT_TEMPLATE.'/module/error_message.html');
 }

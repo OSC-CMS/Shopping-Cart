@@ -85,8 +85,8 @@ if ((is_array($payment_modules->modules) && (sizeof($payment_modules->modules) >
 if (is_array($payment_modules->modules))
 	$payment_modules->pre_confirmation_check();
 
-require (_CLASS.'shipping.php');
-$shipping_modules = new shipping($_SESSION['shipping']);
+//require (_CLASS.'shipping.php');
+//$shippingModules = new shipping($_SESSION['shipping']);
 
 $any_out_of_stock = false;
 if (STOCK_CHECK == 'true')

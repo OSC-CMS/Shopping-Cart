@@ -406,6 +406,8 @@ if (os_not_null($cPath)) {
 	$current_category_id = 0;
 }
 
+require (dir_path('class').'shipping.php');
+$shippingModules = new shipping;
 
 // include the breadcrumb class and start the breadcrumb trail
 require (_CLASS.'breadcrumb.php');
@@ -661,4 +663,5 @@ if (!empty($os_rewrite_action['box']))
 }
 
 if(!defined('DIR_WS_ICONS')) define('DIR_WS_ICONS', HTTP_SERVER.DIR_WS_CATALOG.'media/icons/');
+
 ?>

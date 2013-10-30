@@ -343,8 +343,8 @@ class order {
       $products = $_SESSION['cart']->get_products();
       for ($i=0, $n=sizeof($products); $i<$n; $i++) {
 
-        $products_price = $osPrice->GetPrice($products[$i]['id'], false, $products[$i]['quantity'], $products[$i]['tax_class_id'], $products[$i]['real_price']);
-		$resultPrice = $products_price['price']+$osPrice->Format($_SESSION['cart']->attributes_price($products[$i]['id']), false);
+       // $products_price = $osPrice->GetPrice($products[$i]['id'], false, $products[$i]['quantity'], $products[$i]['tax_class_id'], $products[$i]['real_price']);
+		//$resultPrice = $products[$i]['real_price'] + $osPrice->Format($_SESSION['cart']->attributes_price($products[$i]['id']), false);
 
         $this->products[$index] = array('qty' => $products[$i]['quantity'],
                                         'name' => $products[$i]['name'],
@@ -352,9 +352,9 @@ class order {
                                         'tax_class_id'=> $products[$i]['tax_class_id'],
                                         'tax' => os_get_tax_rate($products[$i]['tax_class_id'], $tax_address['entry_country_id'], $tax_address['entry_zone_id']),
                                         'tax_description' => os_get_tax_description($products[$i]['tax_class_id'], $tax_address['entry_country_id'], $tax_address['entry_zone_id']),
-                                        'price' =>  $resultPrice,
-                            		    'final_price' => $resultPrice*$products[$i]['quantity'],
-                            		    'shipping_time'=>$products[$i]['shipping_time'],
+                                        'price' => $products[$i]['price'],
+                            		    'final_price' => $products[$i]['price']*$products[$i]['quantity'],
+                            		    'shipping_time' => $products[$i]['shipping_time'],
 					                    'weight' => $products[$i]['weight'],
                                         'bundle' => $products[$i]['bundle'],
                                         'id' => $products[$i]['id'],);
@@ -410,7 +410,7 @@ class order {
         }
         $index++;
       }
-
+//_print_r($this->info);
       if ($_SESSION['customers_status']['customers_status_show_price_tax'] == '0') {
         $this->info['total'] = $this->info['subtotal']  + $osPrice->Format($this->info['shipping_cost'], false,0,true);
         if ($_SESSION['customers_status']['customers_status_ot_discount_flag'] == '1') {

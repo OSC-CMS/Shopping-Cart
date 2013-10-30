@@ -11,14 +11,6 @@
 class apiCustomers extends CartET
 {
 	/**
-	 * Авторизован юзер как админ или нет
-	 */
-	public function isAdmin()
-	{
-		return ($_SESSION['customers_status']['customers_status_id'] == 0) ? true : false;
-	}
-
-	/**
 	 * Изменение статуса покупателя
 	 */
 	public function changeStatus($params = array())

@@ -99,8 +99,8 @@ if ($order->delivery['country']['iso_code_2'] != '')
 	$_SESSION['delivery_zone'] = $order->delivery['country']['iso_code_2'];
 }
 // load all enabled shipping modules
-require (dir_path('class').'shipping.php');
-$shipping_modules = new shipping;
+//require (dir_path('class').'shipping.php');
+//$shippingModules = new shipping;
 
 if (defined('MODULE_ORDER_TOTAL_SHIPPING_FREE_SHIPPING') && (MODULE_ORDER_TOTAL_SHIPPING_FREE_SHIPPING == 'true'))
 {
@@ -150,7 +150,7 @@ if (isset ($_POST['action']) && ($_POST['action'] == 'process'))
 					$quote[0]['methods'][0]['cost'] = '0';
 				}
 				else
-					$quote = $shipping_modules->quote($method, $module);
+					$quote = $shippingModules->quote($method, $module);
 
 				if (isset($quote['error']))
 				{
@@ -182,14 +182,14 @@ if (isset ($_POST['action']) && ($_POST['action'] == 'process'))
 }
 
 // get all available shipping quotes
-$quotes = $shipping_modules->quote();
+$quotes = $shippingModules->quote();
 
 // if no shipping method has been selected, automatically select the cheapest method.
 // if the modules status was changed when none were available, to save on implementing
 // a javascript force-selection method, also automatically select the cheapest shipping
 // method if more than one module is now enabled
 if (!isset($_SESSION['shipping']) || (isset ($_SESSION['shipping']) && ($_SESSION['shipping'] == false) && (os_count_shipping_modules() > 1)))
-	$_SESSION['shipping'] = $shipping_modules->cheapest();
+	$_SESSION['shipping'] = $shippingModules->cheapest();
 
 $breadcrumb->add(NAVBAR_TITLE_1_CHECKOUT_SHIPPING, os_href_link(FILENAME_CHECKOUT_SHIPPING, '', 'SSL'));
 $breadcrumb->add(NAVBAR_TITLE_2_CHECKOUT_SHIPPING, os_href_link(FILENAME_CHECKOUT_SHIPPING, '', 'SSL'));
