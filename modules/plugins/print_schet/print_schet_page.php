@@ -224,7 +224,7 @@ $oID = $_GET['oID'];
 $order_query_check = os_db_query("SELECT customers_id FROM ".TABLE_ORDERS." WHERE orders_id='".(int)$oID."'");
 $order_check = os_db_fetch_array($order_query_check);
 
-if ($_SESSION['customer_id'] == $order_check['customers_id']) 
+if (($_SESSION['customer_id'] == $order_check['customers_id']) OR ($_SESSION['customers_status']['customers_status_id'] == 0)) 
 {
 	// get order data
 	include (dir_path('class').'order.php');
