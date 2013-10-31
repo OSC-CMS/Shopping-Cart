@@ -987,5 +987,62 @@ define('VIS_MAIN_NEW_DESC', 'Выводить блок новых товаров
 define('VIS_MAIN_UPCOMING_TITLE', 'Ожидаемые товары на главной');
 define('VIS_MAIN_UPCOMING_DESC', 'Выводить блок ожидаемых товаров на главной?');
 
+// быстрое оформление
+define('BOX_CONFIGURATION_32', 'Быстрое оформление');
+
+define('FAST_ORDER_TITLE', 'Быстрое оформление');
+define('FAST_ORDER_DESC', 'Включить функцию быстрого оформления заказа на странице корзины');
+
+define('FAST_ORDER_SHIPPING_TITLE', 'Показывать модули доставки');
+define('FAST_ORDER_SHIPPING_DESC', 'Включить функцию вывода модулей доставки на странице быстрого оформления');
+
+define('FAST_ORDER_AGB_TITLE', 'Показывать условия при оформлении заказа?');
+define('FAST_ORDER_AGB_DESC', 'При оформлении заказа, клиенту будут показаны условия, которые необходимо будет подтвердить, иначе он не сможет оформить заказ.');
+
+define('FAST_ORDER_REVOCATION_TITLE', 'Показывать информацию о возврате заказа');
+define('FAST_ORDER_REVOCATION_DESC', 'Включить функцию вывода информации о возврате заказа');
+
+define('FAST_ORDER_COMMENT_TITLE', 'Комментарий к заказу');
+define('FAST_ORDER_COMMENT_DESC', 'Выводить возможность добавления комментария к заказу.');
+
+define('FAST_ORDER_CONFIRMATION_TITLE', 'Подтверждение заказа');
+define('FAST_ORDER_CONFIRMATION_DESC', 'Добавить шаг подтверждения заказа');
+
+define('FAST_ORDER_FIRSTNAME_TITLE', 'Показывать полей Имя');
+define('FAST_ORDER_FIRSTNAME_DESC', 'Показывать поле Имя при быстром оформлении заказа');
+
+define('FAST_ORDER_SECONDNAME_TITLE', 'Показывать полей Отчество');
+define('FAST_ORDER_SECONDNAME_DESC', 'Показывать поле Отчество при быстром оформлении заказа');
+
+define('FAST_ORDER_LASTNAME_TITLE', 'Показывать полей Фамилия');
+define('FAST_ORDER_LASTNAME_DESC', 'Показывать поле Фамилия при быстром оформлении заказа');
+
+define('FAST_ORDER_TELEPHONE_TITLE', 'Показывать полей Телефон');
+define('FAST_ORDER_TELEPHONE_DESC', 'Показывать поле Телефон при быстром оформлении заказа');
+
+define('FAST_ORDER_EMAIL_TITLE', 'Показывать полей Email');
+define('FAST_ORDER_EMAIL_DESC', 'Показывать поле Email при быстром оформлении заказа');
+
+define('FAST_ORDER_COUNTRY_TITLE', 'Показывать полей Страна');
+define('FAST_ORDER_COUNTRY_DESC', 'Показывать поле Страна при быстром оформлении заказа');
+
+define('FAST_ORDER_STATE_TITLE', 'Показывать полей Регион');
+define('FAST_ORDER_STATE_DESC', 'Показывать поле Регион при быстром оформлении заказа');
+
+define('FAST_ORDER_CITY_TITLE', 'Показывать полей Город');
+define('FAST_ORDER_CITY_DESC', 'Показывать поле Город при быстром оформлении заказа');
+
+define('FAST_ORDER_SUBURB_TITLE', 'Показывать полей Район');
+define('FAST_ORDER_SUBURB_DESC', 'Показывать поле Район при быстром оформлении заказа');
+
+define('FAST_ORDER_STREET_TITLE', 'Показывать полей Адрес');
+define('FAST_ORDER_STREET_DESC', 'Показывать поле Адрес при быстром оформлении заказа');
+
+define('FAST_ORDER_CODE_TITLE', 'Показывать полей Почтовый индекс');
+define('FAST_ORDER_CODE_DESC', 'Показывать поле Почтовый индекс при быстром оформлении заказа');
+
+define('FAST_ORDER_REGISTER_TITLE', 'Данные регистрации после бытсрого оформления заказа');
+define('FAST_ORDER_REGISTER_DESC', 'po_email - уведомление по email, po_sms - уведомление по СМС (необходимо, чтобы была включена отправка СМС и включено уведомление быстрого оформления)');
+
 require_once(DIR_FS_ADMIN .'lang/'. $_SESSION['language_admin']. '/affiliate_configuration.php');
 ?>

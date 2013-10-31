@@ -225,6 +225,16 @@ $main->top_menu();
 			</div>
 		</div>
 
+		<div class="control-group">
+			<label class="control-label" for="sms_fast_order">Данные регистрации после бытсрого оформления заказа</label>
+			<div class="controls">
+				<select name="sms[sms_fast_order]" id="sms_fast_order" class="input-block-level">
+					<option value="1" <?php echo ($getSetting['sms_fast_order'] == 1) ? 'selected' : ''; ?>>Да</option>
+					<option value="0" <?php echo ($getSetting['sms_fast_order'] == 0) ? 'selected' : ''; ?>>Нет</option>
+				</select>
+			</div>
+		</div>
+
 		<hr>
 
 		<div class="tcenter footer-btn">
