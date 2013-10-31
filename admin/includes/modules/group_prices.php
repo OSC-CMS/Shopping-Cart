@@ -44,7 +44,7 @@ while ($group_values = os_db_fetch_array($group_query))
 
 		if (PRICE_IS_BRUTTO == 'true')
 		{
-			echo TEXT_NETTO.'<b>'.$osPrice->Format($pInfo->products_price, false).'</b>sss  ';
+			echo TEXT_NETTO.'<b>'.$osPrice->Format($pInfo->products_price, false).'</b>  ';
 		}
 		?>
 	</div>
