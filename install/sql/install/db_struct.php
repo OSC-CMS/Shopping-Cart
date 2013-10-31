@@ -1009,6 +1009,7 @@ os_db_query("CREATE TABLE ".DB_PREFIX."products (
   products_to_xml tinyint(1) NOT NULL DEFAULT '1',
   yml_bid tinyint(1) NOT NULL DEFAULT '0',
   yml_cbid tinyint(1) NOT NULL DEFAULT '0',
+  yml_available tinyint(1) NOT NULL DEFAULT '1',
   products_page_url varchar(255),
   stock int(1) default '1',
   products_bundle tinyint(4) NOT NULL DEFAULT '0',

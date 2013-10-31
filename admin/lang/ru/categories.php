@@ -207,6 +207,11 @@ define('TEXT_TOTAL_SUM', 'На сумму: ');
 define('TEXT_YANDEX_MARKET','Настройки для яндекс-маркет');
 define('TEXT_YANDEX_MARKET_BID','Основная ставка (bid)');
 define('TEXT_YANDEX_MARKET_CBID','Ставка для карточек (cbid)');
+define('TEXT_YANDEX_MARKET_AVAILABLE','На заказ');
+define('TEXT_YANDEX_MARKET_AVAILABLE_0','Под заказ');
+define('TEXT_YANDEX_MARKET_AVAILABLE_1','В наличии');
+define('TEXT_YANDEX_MARKET_AVAILABLE_2','Определять по количеству');
+
 define('TEXT_LAST_PAGE','Последняя &raquo;');
 define('TEXT_FIRST_PAGE','&laquo; Первая');
 

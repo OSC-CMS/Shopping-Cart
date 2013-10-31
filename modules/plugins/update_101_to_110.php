@@ -48,6 +48,7 @@ function update_101_to_110_install()
 	os_db_query("ALTER TABLE `".DB_PREFIX."orders` DROP cc_cvv");
 
 	os_db_query("ALTER TABLE ".DB_PREFIX."products ADD products_search int(1) default '0';");
+	os_db_query("ALTER TABLE ".DB_PREFIX."products ADD yml_available int(1) default '1';");
 
 	os_db_query("ALTER TABLE  ".DB_PREFIX."latest_news ADD news_image VARCHAR( 255 ) NOT NULL DEFAULT '';");
 

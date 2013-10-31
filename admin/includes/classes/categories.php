@@ -229,6 +229,7 @@ class categories
 			'products_vpe' => os_db_prepare_input($products_data['products_vpe']),
 			'yml_bid' => os_db_prepare_input($products_data['yml_bid']),
 			'yml_cbid' => os_db_prepare_input($products_data['yml_cbid']),
+			'yml_available' => os_db_prepare_input($products_data['yml_available']),
 			'products_page_url' => os_db_prepare_input($products_data['products_page_url']),
 			'products_bundle' => os_db_prepare_input($products_data['products_bundle'])
 		);

@@ -75,7 +75,12 @@ $breadcrumb->add(os_get_products_name(@$pInfo->products_id, @$languages[$i]['id'
 $main->head();
 $main->top_menu();
 
-$fsk18_array = array(array('id'=>0, 'text'=>NO), array('id'=>1, 'text'=>YES));
+$fsk18_array = array(array('id' => 0, 'text' => NO), array('id' => 1, 'text' => YES));
+$ymlAvailable = array(
+	array('id' => 0, 'text' => TEXT_YANDEX_MARKET_AVAILABLE_0),
+	array('id' => 1, 'text' => TEXT_YANDEX_MARKET_AVAILABLE_1),
+	array('id' => 2, 'text' => TEXT_YANDEX_MARKET_AVAILABLE_2)
+);
 ?>
 
 <?php
@@ -439,6 +444,12 @@ echo os_draw_hidden_field('products_id', $pInfo->products_id);
 							<label class="control-label" for=""><?php echo TEXT_PRODUCTS_TO_XML; ?></label>
 							<div class="controls">
 								<?php echo os_draw_pull_down_menu('products_to_xml', $fsk18_array, (($pInfo->products_to_xml != '') ? $pInfo->products_to_xml : 1)); ?>
+							</div>
+						</div>
+						<div class="control-group">
+							<label class="control-label" for=""><?php echo TEXT_YANDEX_MARKET_AVAILABLE; ?></label>
+							<div class="controls">
+								<?php echo os_draw_pull_down_menu('yml_available', $ymlAvailable, (($pInfo->yml_available != '') ? $pInfo->yml_available : 1)); ?>
 							</div>
 						</div>
 						<div class="control-group">
