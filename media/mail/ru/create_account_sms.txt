@@ -1,0 +1,4 @@
+Вы успешно зарегистрировались в {$smarty.const.STORE_NAME}!
+
+Ваш логин {$login}
+Ваш пароль {$password}
