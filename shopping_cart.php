@@ -8,8 +8,8 @@
 *---------------------------------------------------------
 */
 
-$cart_empty = false;
 require ("includes/top.php");
+$cart_empty = false;
 
 $breadcrumb->add(NAVBAR_TITLE_SHOPPING_CART, os_href_link(FILENAME_SHOPPING_CART));
 

@@ -267,9 +267,9 @@ if ($_GET['action'] == 'delete_product_option')
 					<?php echo '<a href="'.os_href_link(FILENAME_PRODUCTS_OPTIONS, 'sort=desc&sort-type=name">&darr;</a>'); ?>
 				</th>
 				<th><?php echo TABLE_HEADING_OPT_TYPE; ?></th>
-				<th width="20"><span class="line"></span><?php echo TEXT_ROWS; ?></th>
-				<th width="20"><span class="line"></span><?php echo TEXT_SIZE; ?></th>
-				<th width="20"><span class="line"></span><?php echo TEXT_MAX_LENGTH; ?></th>
+				<th><span class="line"></span><?php echo TEXT_ROWS; ?></th>
+				<th><span class="line"></span><?php echo TEXT_SIZE; ?></th>
+				<th><span class="line"></span><?php echo TEXT_MAX_LENGTH; ?></th>
 				<th width="100"><span class="line"></span><?php echo TABLE_HEADING_ACTION; ?></th>
 			</tr>
 		</thead>

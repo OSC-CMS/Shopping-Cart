@@ -3,7 +3,7 @@
 	<h1>{#heading_cart#}</h1>
 </div>
 
-{if $info_message!=''}
+{if $info_message != ''}
 <div class="alert alert-error fade in">
 	<a class="close" data-dismiss="alert" href="#">&times;</a>
 	{$info_message}
@@ -18,14 +18,7 @@
 	</div>
 	<p>{$BUTTON_CONTINUE}</p>
 {else}
-	{$FORM_ACTION}
-	{$HIDDEN_OPTIONS}
-	{$MODULE_order_details}
 
-
-
-	
-	
 
 	{if $info_message_1!=''}
 	<div class="alert alert-error fade in">
@@ -34,7 +27,8 @@
 	</div>
 	{/if}
 
-	<span class="pull-left">{$BUTTON_RELOAD}</span>
-	<span class="pull-right">{$BUTTON_CHECKOUT}</span>
-	{$FORM_END}
+	{$MODULE_order_details}
+	
 {/if}
+
+
