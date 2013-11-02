@@ -8,20 +8,26 @@
 *---------------------------------------------------------
 */
 
-for ($i = 0, $n = sizeof($_POST['products_id']); $i < $n; $i++)
+if (isset($_POST['products_id']))
 {
-	if (in_array($_POST['products_id'][$i], (is_array($_POST['cart_delete']) ? $_POST['cart_delete'] : array ())))
+	// обновление товаров
+	for ($i = 0, $n = sizeof($_POST['products_id']); $i < $n; $i++)
 	{
-		$_SESSION['cart']->remove($_POST['products_id'][$i]);
+		if (in_array($_POST['products_id'][$i], (is_array($_POST['cart_delete']) ? $_POST['cart_delete'] : array ())))
+		{
+			$_SESSION['cart']->remove($_POST['products_id'][$i]);
+		}
+		else
+		{
+			if ((int)$_POST['cart_quantity'][$i] > MAX_PRODUCTS_QTY) $_POST['cart_quantity'][$i] = MAX_PRODUCTS_QTY;
+			$attributes = ($_POST['id'][$_POST['products_id'][$i]]) ? $_POST['id'][$_POST['products_id'][$i]] : '';
+			$_SESSION['cart']->add_cart($_POST['products_id'][$i], os_remove_non_numeric((int)$_POST['cart_quantity'][$i]), $attributes, false);
+		}
 	}
-	else
-	{
-		if ((int)$_POST['cart_quantity'][$i] > MAX_PRODUCTS_QTY) $_POST['cart_quantity'][$i] = MAX_PRODUCTS_QTY;
-		$attributes = ($_POST['id'][$_POST['products_id'][$i]]) ? $_POST['id'][$_POST['products_id'][$i]] : '';
-		$_SESSION['cart']->add_cart($_POST['products_id'][$i], os_remove_non_numeric((int)$_POST['cart_quantity'][$i]), $attributes, false);
-	}
+
+	$_SESSION['cartID'] = $_SESSION['cart']->cartID;
+
+	require (DIR_WS_MODULES.'order_details_cart.php');
+
+	echo json_encode($main_content);
 }
-
-require (DIR_WS_MODULES.'order_details_cart.php');
-
-echo json_encode($main_content);
