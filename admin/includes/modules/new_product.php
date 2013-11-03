@@ -767,7 +767,7 @@ echo os_draw_hidden_field('products_id', $pInfo->products_id);
 							<td width="40%"></td>
 							<td width="25%"><?php echo $cartet->html->input_text('bundles[id][]', '', array('class' => 'input-block-level')); ?></td>
 							<td width="25%"><?php echo $cartet->html->input_text('bundles[qty][]', '', array('class' => 'input-block-level')); ?></td>
-							<td width="10%"><a class="btn btn-mini btn-danger del_bundles" href="javascript:;"><i class="icon-remove icon-white"></i> <?php echo TABLE_USE_BUNDLE_DEL; ?></a></td>
+							<td width="10%"><a class="btn btn-mini btn-danger del_bundles_new" href="javascript:;"><i class="icon-remove icon-white"></i> <?php echo TABLE_USE_BUNDLE_DEL; ?></a></td>
 						</tr>
 					</table>
 					<a class="btn btn-mini btn-success" href="javascript:;" id="add-new-bundles"><?php echo TABLE_USE_BUNDLE_ADD; ?></a>

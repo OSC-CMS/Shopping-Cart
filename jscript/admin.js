@@ -296,6 +296,12 @@ function SwitchCategories ()
 $(function() {
 	// Удаление пункта набора
 	$('a.del_bundles').click(function() {
+		$(this).closest("tr").fadeOut(200, function() { $(this).remove(); });
+		return false;
+	});
+
+	// Удаление нового пункта набора
+	$('a.del_bundles_new').click(function() {
 		$(this).closest("table").fadeOut(200, function() { $(this).remove(); });
 		return false;
 	});
