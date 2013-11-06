@@ -8,12 +8,6 @@
 *---------------------------------------------------------
 */
 
-require (_CLASS.'payment.php');
-require (_CLASS.'order_total.php');
-require (_CLASS.'order.php');
-
-$order = new order();
-
 include (_MODULES.'gift_cart.php');
 
 $module = new osTemplate;
@@ -119,6 +113,7 @@ if ($_SESSION['cart']->count_contents() > 0)
 			'PRODUCTS_ID' => $productIds,
 			'PRODUCTS_SHIPPING_TIME'=>$products[$i]['shipping_time'], 
 			'PRODUCTS_TAX' => @number_format($products[$i]['tax'], TAX_DECIMAL_PLACES), 
+			'PRODUCTS_TAX_DESCRIPTION' => $products[$i]['tax_description'], 
 			'PRODUCTS_IMAGE' => $image, 
 			'IMAGE_ALT' => $products[$i]['name'], 
 			'BOX_DELETE' => os_draw_checkbox_field('cart_delete[]', $products[$i]['id'], '', 'onchange="updateShoppingCart()"'), 
