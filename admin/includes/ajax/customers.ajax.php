@@ -15,55 +15,48 @@ else
 
 if ($_GET['action'] == 'editstatus' && !empty($_GET['c_id'])) { ?>
 
-	<?php echo $cartet->html->form('customers_form', 'ajax.php', 'ajax_action=customers_changeStatus', 'post', array('id' => 'customers_form', 'class' => 'form-inline')); ?>
+	<div class="modal-header">
+		<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+		<h4>
+			<?php echo TEXT_INFO_HEADING_STATUS_CUSTOMER; ?>
+		</h4>
+	</div>
+	<div class="modal-body modal-body-mh500">
+		<?php
+		if ($_GET['c_id'] != 1)
+		{
+			$customers_statuses_array = os_get_customers_statuses();
 
-		<input type="hidden" name="customers_id" value="<?php echo $_GET['c_id']; ?>" />
-		<input type="hidden" name="customers_status" value="<?php echo $_GET['c_status']; ?>" />
+			$customers_history_query = os_db_query("select new_value, old_value, date_added, customer_notified from ".TABLE_CUSTOMERS_STATUS_HISTORY." where customers_id = '".(int)$_GET['c_id']."' order by customers_status_history_id desc");
 
-		<div class="modal-header">
-			<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-			<h4>
-				<?php echo TEXT_INFO_HEADING_STATUS_CUSTOMER; ?>
-			</h4>
-		</div>
-		<div class="modal-body modal-body-mh500">
-			<?php
-			if ($_GET['c_id'] != 1)
+			//echo '<p>'.os_draw_pull_down_menu('status', $customers_statuses_array, $_GET['c_status']).'</p>'; 
+			echo '
+				<table class="table table-condensed table-big-list">
+					<thead><tr>
+						<th>'.TABLE_HEADING_NEW_VALUE.'</th>
+						<th><span class="line"></span>'.TABLE_HEADING_DATE_ADDED.'</th>
+					</tr></thead>';
+
+			if (os_db_num_rows($customers_history_query))
 			{
-				$customers_statuses_array = os_get_customers_statuses();
-
-				$customers_history_query = os_db_query("select new_value, old_value, date_added, customer_notified from ".TABLE_CUSTOMERS_STATUS_HISTORY." where customers_id = '".(int)$_GET['c_id']."' order by customers_status_history_id desc");
-
-				//echo '<p>'.os_draw_pull_down_menu('status', $customers_statuses_array, $_GET['c_status']).'</p>'; 
-				echo '
-					<table class="table table-condensed table-big-list">
-						<thead><tr>
-							<th>'.TABLE_HEADING_NEW_VALUE.'</th>
-							<th><span class="line"></span>'.TABLE_HEADING_DATE_ADDED.'</th>
-						</tr></thead>';
-
-				if (os_db_num_rows($customers_history_query))
+				while ($customers_history = os_db_fetch_array($customers_history_query))
 				{
-					while ($customers_history = os_db_fetch_array($customers_history_query))
-					{
-						echo '<tr>';
-							echo '<td>'.$customers_statuses_array[$customers_history['new_value']]['text'].'</td>';
-							echo '<td>'.$customers_history['date_added'].'</td>';
-						echo '</tr>';
-					}
+					echo '<tr>';
+						echo '<td>'.$customers_statuses_array[$customers_history['new_value']]['text'].'</td>';
+						echo '<td>'.$customers_history['date_added'].'</td>';
+					echo '</tr>';
 				}
-				else
-					echo '<tr><td colspan="2">'.TEXT_NO_CUSTOMER_HISTORY.'</td></tr>';
-
-				echo '</table>';
 			}
-			?>
-		</div>
-		<div class="modal-footer">
-			<?php echo $cartet->html->input_submit('customers_savestatus', BUTTON_UPDATE, array('class' => 'btn btn btn-success save-form', 'data-form-action' => 'customers_changeStatus', 'data-reload-page' => 1)); ?>
-			<?php echo $cartet->html->input_submit('button_cancel', BUTTON_CANCEL, array('class' => 'btn', 'data-dismiss' => 'modal')); ?>
-		</div>
-	</form>
+			else
+				echo '<tr><td colspan="2">'.TEXT_NO_CUSTOMER_HISTORY.'</td></tr>';
+
+			echo '</table>';
+		}
+		?>
+	</div>
+	<div class="modal-footer">
+		<?php echo $cartet->html->input_submit('button_cancel', BUTTON_CANCEL, array('class' => 'btn', 'data-dismiss' => 'modal')); ?>
+	</div>
 
 <?php } elseif ($_GET['action'] == 'delete') { ?>
 
