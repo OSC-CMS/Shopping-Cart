@@ -491,6 +491,8 @@
     	{
 			global $order, $shipping_weight, $osPrice;
 
+			$getCartInfo = $_SESSION['cart']->getCartInfo();
+
    			$home = false;
 
 			$dest_country = $order->delivery['country']['iso_code_2'];
@@ -656,11 +658,11 @@
 						$delivery = $shipping+(($shipping/100)*$burden);
 
 					elseif($burden_method == 'products' && $burden_proc)
-						$delivery = $shipping+(($osPrice->RemoveCurr($_SESSION['cart']->show_total())/100)*$burden);
+						$delivery = $shipping+(($osPrice->RemoveCurr($getCartInfo['show_total'])/100)*$burden);
 
 					elseif($burden_method == 'all'  && $burden_proc)
                          $delivery = $shipping+
-                         			((($shipping+$_SESSION['cart']->show_total())/100)*$burden);
+                         			((($shipping+$getCartInfo['show_total'])/100)*$burden);
 
 					else $delivery = $shipping;
 
@@ -668,7 +670,7 @@
 					if(!$burden_proc)$delivery+= $burden;
 
 					//доставка + сумма заказа
-					$appraisal_price = $delivery + $_SESSION['cart']->show_total();
+					$appraisal_price = $delivery + $getCartInfo['show_total'];
 
 					//высчитываем страховую стоимость
 					$insurance_price = $this->insurance($appraisal_price, intval(constant('MODULE_SHIPPING_RUSSIANPOSTPREPAY_'.$mode.'_INSURANCE')));

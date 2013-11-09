@@ -8,7 +8,7 @@
 *---------------------------------------------------------
 */
 
-if ($_SESSION['install']['db'])
+if (isset($_SESSION['install']['db']))
 	define('DB_PREFIX', $_SESSION['install']['db']['prefix']);
 else
 	define('DB_PREFIX', 'os_');

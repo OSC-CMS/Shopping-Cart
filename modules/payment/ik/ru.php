@@ -9,7 +9,7 @@
 */
 
 define('MODULE_PAYMENT_IK_TEXT_TITLE', 'Интеркасса (interkassa.com)');
-define('MODULE_PAYMENT_IK_TEXT_DESCRIPTION', 'Оплата: Webmoney, RBKMoney, MoneyMail, WebCreds, НСМЭП, Приват24 и другие<br /><br /><b>Как правильно настроить модули: <a href="http://osc-cms.com/docs" target="_blank"><u>здесь</u></a>.</b>');
+define('MODULE_PAYMENT_IK_TEXT_DESCRIPTION', 'Оплата: Webmoney, RBKMoney, MoneyMail, WebCreds, НСМЭП, Приват24 и другие.');//<br /><br /><b>Как правильно настроить модули: <a href="http://osc-cms.com/docs" target="_blank"><u>здесь</u></a>.</b>
 define('MODULE_PAYMENT_IK_STATUS_TITLE', 'Разрешить модуль Интеркасса');
 define('MODULE_PAYMENT_IK_STATUS_DESC', 'Вы хотите разрешить использование модуля при оформлении заказов?');
 define('MODULE_PAYMENT_IK_ZONE_TITLE', 'Зона');

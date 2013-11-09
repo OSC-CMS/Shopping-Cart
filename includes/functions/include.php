@@ -537,7 +537,6 @@
 
     function os_href_link($page = '', $parameters = '', $connection = 'NONSSL', $add_session_id = true, $search_engine_safe = true)
     {
-
         $param_array = array();
         $params = '';
         $action = '';
@@ -555,9 +554,12 @@
         $matches = array();
 
         if ($page == FILENAME_DEFAULT) {
-            if (strpos($parameters, 'cat') === false) {
+            if (strpos($parameters, 'cat') === false)
+            {
                 return os_href_link_original($page, $parameters, $connection, $add_session_id, $search_engine_safe);
-            } else {
+            }
+            else
+            {
                 $categories_id = -1;
                 $param_array = explode('&', $parameters);
 

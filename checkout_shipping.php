@@ -12,18 +12,20 @@ include ('includes/top.php');
 
 require (_CLASS.'http_client.php');
 
+$getCartInfo = $_SESSION['cart']->getCartInfo();
+
 // check if checkout is allowed
-if ($_SESSION['cart']->show_total() > 0 )
+if ($getCartInfo['show_total'] > 0 )
 {
 	// если Итого меньше минимальной сыммы заказа группы покупателя
-	if ($_SESSION['cart']->show_total() < $_SESSION['customers_status']['customers_status_min_order'])
+	if ($getCartInfo['show_total'] < $_SESSION['customers_status']['customers_status_min_order'])
 	{
 		$_SESSION['allow_checkout'] = 'false';
 	}
 	if ($_SESSION['customers_status']['customers_status_max_order'] != 0)
 	{
 		// если Итого больше максимальной суммы заказа группы покупателя
-		if ($_SESSION['cart']->show_total() > $_SESSION['customers_status']['customers_status_max_order'])
+		if ($getCartInfo['show_total'] > $_SESSION['customers_status']['customers_status_max_order'])
 		{
 			$_SESSION['allow_checkout'] = 'false';
 		}
@@ -91,7 +93,7 @@ if ($order->content_type == 'virtual' || ($order->content_type == 'virtual_weigh
 	os_redirect(os_href_link(FILENAME_CHECKOUT_PAYMENT, '', 'SSL'));
 }
 
-$total_weight = $_SESSION['cart']->show_weight();
+$total_weight = $getCartInfo['show_weight'];
 $total_count = $_SESSION['cart']->count_contents();
 
 if ($order->delivery['country']['iso_code_2'] != '')

@@ -56,7 +56,10 @@ class freedownload extends CartET
 	function update_status()
 	{
 		global $order, $osPrice;
-		if ($_SESSION['cart']->get_content_type() != 'virtual' || $_SESSION['cart']->show_total() != 0)
+
+		$getCartInfo = $_SESSION['cart']->getCartInfo();
+
+		if ($_SESSION['cart']->get_content_type() != 'virtual' || $getCartInfo['show_total'] != 0)
 		{
 			$this->enabled = false;
 		}

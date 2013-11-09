@@ -28,7 +28,9 @@ if ($_SESSION['cart']->count_contents() < 1) {
 // create smarty elements
 //$osTemplate = new osTemplate;
 
-$total_weight = $_SESSION['cart']->show_weight();
+$getCartInfo = $_SESSION['cart']->getCartInfo();
+
+$total_weight = $getCartInfo['show_weight'];
 $total_count = $_SESSION['cart']->count_contents_virtual(); // GV Code ICW ADDED FOR CREDIT CLASS SYSTEM
 // include boxes
 

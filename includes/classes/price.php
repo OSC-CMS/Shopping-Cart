@@ -80,10 +80,11 @@ class osPrice {
 		if (!isset($default_cache['tax_class_id']))
 		{
 		$zones_query = osDBquery("SELECT tax_class_id as class FROM ".TABLE_TAX_CLASS);
-		while ($zones_data = os_db_fetch_array($zones_query,true)) 
+		while ($zones_data = os_db_fetch_array($zones_query)) 
 		{
 			if (isset($_SESSION['billto']) && isset($_SESSION['sendto'])) 
 			{
+			
 			    $tax_address_query = os_db_query("select ab.entry_country_id, ab.entry_zone_id from " . TABLE_ADDRESS_BOOK . " ab left join " . TABLE_ZONES . " z on (ab.entry_zone_id = z.zone_id) where ab.customers_id = '" . $_SESSION['customer_id'] . "' and ab.address_book_id = '" . ($this->content_type == 'virtual' ? $_SESSION['billto'] : $_SESSION['sendto']) . "'");
       		    $tax_address = os_db_fetch_array($tax_address_query);
 			    $this->TAX[$zones_data['class']]=os_get_tax_rate($zones_data['class'],$tax_address['entry_country_id'], $tax_address['entry_zone_id']);				
@@ -208,7 +209,7 @@ class osPrice {
 	 */
 	function getPprice($pID)
 	{
-		$pQuery = osDBquery("SELECT products_price FROM ".TABLE_PRODUCTS." WHERE products_id='".$pID."'");
+		$pQuery = osDBquery("SELECT products_price FROM ".TABLE_PRODUCTS." WHERE products_id = '".(int)$pID."'");
 		$pData = os_db_fetch_array($pQuery);
 		return $pData['products_price'];
 	}
@@ -340,7 +341,7 @@ class osPrice {
 	    global $_graduated_price;
 	    global $_graduated_personal_offer;
 		global $_products_array;
-		
+
         $pID = (int) $pID;
 
         $__products_array = $_products_array;
@@ -369,7 +370,7 @@ class osPrice {
 			    $sql = 'products_id in ('.$pID.')';
 			}
 
-			$product_query = osDBquery("SELECT products_id, max(quantity) as qty FROM ".TABLE_PERSONAL_OFFERS_BY.$this->actualGroup." WHERE ".$sql ." and quantity<='".$qty."' GROUP BY products_id");
+			$product_query = osDBquery("SELECT products_id, max(quantity) as qty FROM ".TABLE_PERSONAL_OFFERS_BY.$this->actualGroup." WHERE ".$sql ." and quantity <= '".$qty."' GROUP BY products_id");
 				 
 	         if (os_db_num_rows($product_query,true)) 
 	         {
@@ -403,14 +404,14 @@ class osPrice {
 			{
 			   $graduated_price_query = "SELECT personal_offer FROM ".TABLE_PERSONAL_OFFERS_BY.$this->actualGroup." WHERE products_id='".$pID."' AND quantity='".$graduated_price_data['qty']."'";
 			   $graduated_price_query = osDBquery($graduated_price_query);
-			   $_graduated_price_data = os_db_fetch_array($graduated_price_query, true);
+			   $_graduated_price_data = os_db_fetch_array($graduated_price_query);
 			   $_graduated_personal_offer[$this->actualGroup][$pID][$graduated_price_data['qty']] = $_graduated_price_data;
             }
 			else
 			{
 			   $_graduated_price_data = $_graduated_personal_offer[$this->actualGroup][$pID][$graduated_price_data['qty']];
 			}
-			
+			//_print_r($_graduated_price_data);
 			$sPrice = $_graduated_price_data['personal_offer'];
 			
 			if ($sPrice != 0.00) return $sPrice;
@@ -419,13 +420,13 @@ class osPrice {
 		{
 			return;
 		}
-
 	}
 
-	function GetOptionPrice($pID, $option, $value) {
+	function GetOptionPrice($pID, $option, $value)
+	{
 		$attribute_price_query = "select pd.products_discount_allowed,pd.products_tax_class_id, p.options_values_price, p.price_prefix, p.options_values_weight, p.weight_prefix from ".TABLE_PRODUCTS_ATTRIBUTES." p, ".TABLE_PRODUCTS." pd where p.products_id = '".$pID."' and p.options_id = '".$option."' and pd.products_id = p.products_id and p.options_values_id = '".$value."'";
 		$attribute_price_query = osDBquery($attribute_price_query);
-		$attribute_price_data = os_db_fetch_array($attribute_price_query, true);
+		$attribute_price_data = os_db_fetch_array($attribute_price_query);
 		$dicount = 0;
 		if ($this->cStatus['customers_status_discount_attributes'] == 1 && $this->cStatus['customers_status_discount'] != 0.00) {
 			$discount = $this->cStatus['customers_status_discount'];

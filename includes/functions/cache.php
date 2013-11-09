@@ -396,15 +396,11 @@
             if ($method == 'file')
             {
                 if (empty($cache))
-                {
                     $_cache = '0';
-                }
                 else
-                {
                     $_cache = serialize($cache);
-                }
 
-                $fp = @fopen(_CACHE.'system/'.$filename.'.php', "w"); //??????? ???????????? ???? ????
+                $fp = @fopen(_CACHE.'system/'.$filename.'.php', "w");
                 if ($fp) 
                 {
                     @fwrite($fp, $_cache);
@@ -564,7 +560,7 @@
 
     }
 
-    function get_cart_products_cache ($products_id)
+    function get_cart_products_cache($products_id)
     {
         global $get_cart_products_cache;
 

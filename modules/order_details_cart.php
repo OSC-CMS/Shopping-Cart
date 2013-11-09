@@ -14,6 +14,9 @@ $module = new osTemplate;
 
 if ($_SESSION['cart']->count_contents() > 0)
 {
+	$getCartInfo = $_SESSION['cart']->getCartInfo();
+	$showTotal = $getCartInfo['show_total'];
+	
 	$hidden_options = '';
 	$_SESSION['any_out_of_stock'] = 0;
 
@@ -171,7 +174,7 @@ if ($_SESSION['cart']->count_contents() > 0)
 
 	$total_content = '';
 
-	$total = $_SESSION['cart']->show_total();
+	$total = $showTotal;
 	if ($_SESSION['customers_status']['customers_status_ot_discount_flag'] == '1' && $_SESSION['customers_status']['customers_status_ot_discount'] != '0.00') {
 		if ($_SESSION['customers_status']['customers_status_show_price_tax'] == 0 && $_SESSION['customers_status']['customers_status_add_tax_ot'] == 1) {
 			$price = $total-$_SESSION['cart']->show_tax(false);
@@ -237,12 +240,12 @@ if ($_SESSION['cart']->count_contents() > 0)
 
 	// minimum/maximum order value
 	$checkout = true;
-	if ($_SESSION['cart']->show_total() > 0 )
+	if ($showTotal > 0 )
 	{
-		if ($_SESSION['cart']->show_total() < $_SESSION['customers_status']['customers_status_min_order'] )
+		if ($showTotal < $_SESSION['customers_status']['customers_status_min_order'] )
 		{
 			$_SESSION['allow_checkout'] = 'false';
-			$more_to_buy = $_SESSION['customers_status']['customers_status_min_order'] - $_SESSION['cart']->show_total();
+			$more_to_buy = $_SESSION['customers_status']['customers_status_min_order'] - $showTotal;
 			$order_amount = $osPrice->Format($more_to_buy, true);
 			$min_order = $osPrice->Format($_SESSION['customers_status']['customers_status_min_order'], true);
 			$osTemplate->assign('info_message_1', MINIMUM_ORDER_VALUE_NOT_REACHED_1);
@@ -253,10 +256,10 @@ if ($_SESSION['cart']->count_contents() > 0)
 
 		if  ($_SESSION['customers_status']['customers_status_max_order'] != 0)
 		{
-			if ($_SESSION['cart']->show_total() > $_SESSION['customers_status']['customers_status_max_order'] )
+			if ($showTotal > $_SESSION['customers_status']['customers_status_max_order'] )
 			{
 				$_SESSION['allow_checkout'] = 'false';
-				$less_to_buy = $_SESSION['cart']->show_total() - $_SESSION['customers_status']['customers_status_max_order'];
+				$less_to_buy = $showTotal - $_SESSION['customers_status']['customers_status_max_order'];
 				$max_order = $osPrice->Format($_SESSION['customers_status']['customers_status_max_order'], true);
 				$order_amount = $osPrice->Format($less_to_buy, true);
 				$osTemplate->assign('info_message_1', MAXIMUM_ORDER_VALUE_REACHED_1);

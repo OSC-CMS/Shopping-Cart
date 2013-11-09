@@ -82,7 +82,8 @@ $order = new order();
 require (_CLASS.'order_total.php'); // GV Code ICW ADDED FOR CREDIT CLASS SYSTEM
 $order_total_modules = new order_total(); // GV Code ICW ADDED FOR CREDIT CLASS SYSTEM
 
-$total_weight = $_SESSION['cart']->show_weight();
+$getCartInfo = $_SESSION['cart']->getCartInfo();
+$total_weight = $getCartInfo['show_weight'];
 
 //  $total_count = $_SESSION['cart']->count_contents();
 $total_count = $_SESSION['cart']->count_contents_virtual(); // GV Code ICW ADDED FOR CREDIT CLASS SYSTEM

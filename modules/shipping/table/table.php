@@ -48,7 +48,8 @@
       global $order, $shipping_weight, $shipping_num_boxes,$osPrice;
 
       if (MODULE_SHIPPING_TABLE_MODE == 'price') {
-        $order_total = $osPrice->RemoveCurr($_SESSION['cart']->show_total());
+		$getCartInfo = $_SESSION['cart']->getCartInfo();
+        $order_total = $osPrice->RemoveCurr($getCartInfo['show_total']);
       } else {
         $order_total = $shipping_weight;
       }

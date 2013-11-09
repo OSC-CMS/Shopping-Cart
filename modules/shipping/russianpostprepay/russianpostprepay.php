@@ -489,6 +489,8 @@
     	{
 			global $order, $shipping_weight, $osPrice;
 
+			$getCartInfo = $_SESSION['cart']->getCartInfo();
+
    			$home = false;
 
 			$dest_country = $order->delivery['country']['iso_code_2'];
@@ -650,7 +652,7 @@
 						{
 							//процент от суммы
 							if($appraisal_proc)
-								$appraisal_price = ($shipping + $_SESSION['cart']->show_total() / 100) * $appraisal;
+								$appraisal_price = ($shipping + $getCartInfo['show_total'] / 100) * $appraisal;
 							//фиксированная сумма
 							else
 								$appraisal_price = $appraisal;
@@ -659,7 +661,7 @@
 						//фактическая стоимость оценки
 						else
 							//доставка + сумма заказа
-							$appraisal_price = $shipping + $_SESSION['cart']->show_total();
+							$appraisal_price = $shipping + $getCartInfo['show_total'];
 
 						//высчитываем страховую стоимость
 						$insurance_price = $this->insurance($appraisal_price, intval(constant('MODULE_SHIPPING_RUSSIANPOSTPREPAY_'.$mode.'_INSURANCE')));
@@ -671,7 +673,7 @@
 						//БЕСПЛАТНАЯ ДОСТАВКА
 						if(intval(constant('MODULE_SHIPPING_RUSSIANPOSTPREPAY_'.$mode.'_FREE')) > 0)
 						{
-							if($_SESSION['cart']->show_total() >= intval(constant('MODULE_SHIPPING_RUSSIANPOSTPREPAY_'.$mode.'_FREE')))$shipping_cost = 0;
+							if($getCartInfo['show_total'] >= intval(constant('MODULE_SHIPPING_RUSSIANPOSTPREPAY_'.$mode.'_FREE')))$shipping_cost = 0;
 						}
 					}
 
@@ -684,7 +686,7 @@
 						//БЕСПЛАТНАЯ ДОСТАВКА
 						if(intval(constant('MODULE_SHIPPING_RUSSIANPOSTPREPAY_INTER_FREE')) > 0)
 						{
-							if($_SESSION['cart']->show_total() >= intval(constant('MODULE_SHIPPING_RUSSIANPOSTPREPAY_INTER_FREE')))$shipping_cost = 0;
+							if($getCartInfo['show_total'] >= intval(constant('MODULE_SHIPPING_RUSSIANPOSTPREPAY_INTER_FREE')))$shipping_cost = 0;
 						}
 					}
         		}

@@ -141,11 +141,12 @@ if ($listing_split->number_of_rows > 0) {
      while ($listing = os_db_fetch_array($listing_query, true)) {
         //$rows ++;
         $_products_array[$listing['products_id']] = $listing;
+
         //$module_content[] =  $product->buildDataArray($listing);		
 		
         //$ids[] = $module_content[sizeof($module_content) - 1]['PRODUCTS_ID'];
     }
-	
+
 	global $_products_array;
 	
 	if (!empty($_products_array))
@@ -158,7 +159,6 @@ if ($listing_split->number_of_rows > 0) {
 		}
 	}
 
-	
 	/*while ($listing = os_db_fetch_array($listing_query, true)) 
 	{
         $rows ++;

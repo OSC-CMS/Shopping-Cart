@@ -9,11 +9,11 @@
 */
 
 class shoppingCart {
-	var $contents, $total, $weight, $cartID, $content_type;
+	var $contents, $total, $weight, $cartID, $content_type, $_products, $cartInfo;
 
 	function shoppingCart() {
 		$this->reset();
-
+		$this->getCartInfo();
 	}
 
 	function restore_contents() {
@@ -171,6 +171,8 @@ class shoppingCart {
 
 	function cleanup() {
 
+		$this->_products = array();
+		$this->cartInfo = array();
 		reset($this->contents);
 		while (list ($key,) = each($this->contents)) {
 			if (@$this->contents[$key]['qty'] < 1) {
@@ -239,35 +241,67 @@ class shoppingCart {
 		return substr($product_id_list, 2);
 	}
 
-	function calculate() {
-		global $osPrice;
+	function calculate()
+	{
+		global $osPrice, $cartet;
 		$this->total = 0;
 		$this->qty = 0;
 		$this->weight = 0;
-		$this->tax = array ();
+		$this->tax = array();
+
 		if (!is_array($this->contents))
 			return 0;
 
 		reset($this->contents);
-		
-		while (list ($products_id,) = each($this->contents)) {
-			$qty = $this->contents[$products_id]['qty'];
 
+		$aProducts = array();
+		$aTaxClassIds = array();
+		$aAttributes = array();
+		while (list ($products_id, $params) = each($this->contents))
+		{
 			if ($product = get_cart_products_cache(os_get_prid($products_id))) 
 			{
+				$aTaxClassIds[] = $product['products_tax_class_id'];
+				$product['products_quantity'] = $params['qty'];
 
-				$products_price = $osPrice->GetPrice($product['products_id'], false, $qty, $product['products_tax_class_id'], $product['products_price'], 0, 0, $product['products_discount_allowed']);
 
-				$this->total += $products_price['price'] * $qty;
-				$this->qty += $qty;
-				$this->weight += ($qty * $product['products_weight']);
+				if (is_array($params['attributes']) && !empty($params['attributes']))
+				{
+					$product['attributes'] = $params['attributes'];
+					foreach($product['attributes'] AS $option => $value)
+					{
+						$aAttributes[] = array('products_id' => $product['products_id'], 'option' => $option, 'value' => $value);
+					}
+				}
 
-				$attribute_price = 0;
-			if (isset ($this->contents[$products_id]['attributes'])) {
-				reset($this->contents[$products_id]['attributes']);
-				while (list ($option, $value) = each($this->contents[$products_id]['attributes'])) {
+				$aProducts[] = $product;
+			}
+		}
 
-					$values = $osPrice->GetOptionPrice($product['products_id'], $option, $value);
+		$getTaxRate = $cartet->price->getTaxRate(array('tax_class_id' => $aTaxClassIds));
+
+		$GetOptionPrice = '';
+		if (is_array($aAttributes) && !empty($aAttributes))
+		{
+			$GetOptionPrice = $cartet->price->GetOptionPrice($aAttributes);
+		}
+
+		foreach($aProducts AS $product)
+		{
+			$qty = $product['products_quantity'];
+
+			$products_price = $osPrice->GetPrice($product['products_id'], false, $qty, $product['products_tax_class_id'], $product['products_price'], 0, 0, $product['products_discount_allowed']);
+
+			$this->total += $products_price['price'] * $qty;
+			$this->qty += $qty;
+			$this->weight += ($qty * $product['products_weight']);
+
+			$attribute_price = 0;
+			if (isset($product['attributes']) && !empty($product['attributes']))
+			{
+				foreach($product['attributes'] AS $option => $value)
+				{
+					$values = $GetOptionPrice[$product['products_id'].'_'.$option.'_'.$value];
 					$this->weight += $values['weight'] * $qty;
 					$this->total += $values['price'] * $qty;
 					$this->qty += $qty;
@@ -275,62 +309,76 @@ class shoppingCart {
 				}
 			}
 
-				if ($product['products_tax_class_id'] != 0) {
+			if ($product['products_tax_class_id'] != 0)
+			{
+				if ($_SESSION['customers_status']['customers_status_ot_discount_flag'] == 1)
+				{
+					$products_price_tax = $products_price['price'] - ($products_price['price'] / 100 * $_SESSION['customers_status']['customers_status_ot_discount']);
+					$attribute_price_tax = $attribute_price - ($attribute_price / 100 * $_SESSION['customers_status']['customers_status_ot_discount']);
+				}
 
-					if ($_SESSION['customers_status']['customers_status_ot_discount_flag'] == 1) {
-						$products_price_tax = $products_price['price'] - ($products_price['price'] / 100 * $_SESSION['customers_status']['customers_status_ot_discount']);
-						$attribute_price_tax = $attribute_price - ($attribute_price / 100 * $_SESSION['customers_status']['customers_status_ot_discount']);
+				$products_tax = $osPrice->TAX[$product['products_tax_class_id']];
+
+				$products_tax_description = $getTaxRate[$product['products_tax_class_id']]['taxName'];//os_get_tax_description($product['products_tax_class_id']);
+
+				if ($_SESSION['customers_status']['customers_status_show_price_tax'] == '1')
+				{
+					if ($_SESSION['customers_status']['customers_status_ot_discount_flag'] == 1)
+					{
+						$this->tax[$product['products_tax_class_id']]['value'] += ((($products_price_tax+$attribute_price_tax) / (100 + $products_tax)) * $products_tax)*$qty;
+						$this->tax[$product['products_tax_class_id']]['desc'] = TAX_ADD_TAX."$products_tax_description";
 					}
-
-					$products_tax = $osPrice->TAX[$product['products_tax_class_id']];
-
-					$products_tax_description = os_get_tax_description($product['products_tax_class_id']);
-
-
-					if ($_SESSION['customers_status']['customers_status_show_price_tax'] == '1') {
-						if ($_SESSION['customers_status']['customers_status_ot_discount_flag'] == 1) {
-							$this->tax[$product['products_tax_class_id']]['value'] += ((($products_price_tax+$attribute_price_tax) / (100 + $products_tax)) * $products_tax)*$qty;
-							$this->tax[$product['products_tax_class_id']]['desc'] = TAX_ADD_TAX."$products_tax_description";
-						} else {
-							$this->tax[$product['products_tax_class_id']]['value'] += ((($products_price['price']+$attribute_price) / (100 + $products_tax)) * $products_tax)*$qty;
-							$this->tax[$product['products_tax_class_id']]['desc'] = TAX_ADD_TAX."$products_tax_description";
-						}
-
+					else
+					{
+						$this->tax[$product['products_tax_class_id']]['value'] += ((($products_price['price']+$attribute_price) / (100 + $products_tax)) * $products_tax)*$qty;
+						$this->tax[$product['products_tax_class_id']]['desc'] = TAX_ADD_TAX."$products_tax_description";
 					}
-					if ($_SESSION['customers_status']['customers_status_show_price_tax'] == 0 && $_SESSION['customers_status']['customers_status_add_tax_ot'] == 1) {
-						if ($_SESSION['customers_status']['customers_status_ot_discount_flag'] == 1) {
-							$this->tax[$product['products_tax_class_id']]['value'] += (($products_price_tax+$attribute_price_tax) / 100) * ($products_tax)*$qty;
-							$this->total+=(($products_price_tax+$attribute_price_tax) / 100) * ($products_tax)*$qty;
-							$this->tax[$product['products_tax_class_id']]['desc'] = TAX_NO_TAX."$products_tax_description";
-						} else {
-							$this->tax[$product['products_tax_class_id']]['value'] += (($products_price['price']+$attribute_price) / 100) * ($products_tax)*$qty;
-							$this->total+= (($products_price['price']+$attribute_price) / 100) * ($products_tax)*$qty;
-							$this->tax[$product['products_tax_class_id']]['desc'] = TAX_NO_TAX."$products_tax_description";
-						}
+				}
+
+				if ($_SESSION['customers_status']['customers_status_show_price_tax'] == 0 && $_SESSION['customers_status']['customers_status_add_tax_ot'] == 1)
+				{
+					if ($_SESSION['customers_status']['customers_status_ot_discount_flag'] == 1)
+					{
+						$this->tax[$product['products_tax_class_id']]['value'] += (($products_price_tax+$attribute_price_tax) / 100) * ($products_tax)*$qty;
+						$this->total+=(($products_price_tax+$attribute_price_tax) / 100) * ($products_tax)*$qty;
+						$this->tax[$product['products_tax_class_id']]['desc'] = TAX_NO_TAX."$products_tax_description";
+					}
+					else
+					{
+						$this->tax[$product['products_tax_class_id']]['value'] += (($products_price['price']+$attribute_price) / 100) * ($products_tax)*$qty;
+						$this->total+= (($products_price['price']+$attribute_price) / 100) * ($products_tax)*$qty;
+						$this->tax[$product['products_tax_class_id']]['desc'] = TAX_NO_TAX."$products_tax_description";
 					}
 				}
 			}
-
 		}
-		if ($_SESSION['customers_status']['customers_status_ot_discount_flag'] != 0) {
-//			$this->total -= $this->total / 100 * $_SESSION['customers_status']['customers_status_ot_discount'];
-		}
-
 	}
 
 	function attributes_price($products_id) 
 	{
-		global $osPrice;
-		
+		global $osPrice, $cartet;
+
 		$attributes_price = '';
-		
-		if (isset ($this->contents[$products_id]['attributes'])) {
-			reset($this->contents[$products_id]['attributes']);
-			while (list ($option, $value) = each($this->contents[$products_id]['attributes'])) {
+		$attributes = $this->contents[$products_id]['attributes'];
+		if (isset($attributes))
+		{
+			$aAttributes = array();
+			reset($attributes);
+			while (list ($option, $value) = each($attributes))
+			{
+				$aAttributes[] = array('products_id' => $products_id, 'option' => $option, 'value' => $value);
+			}
 
-				$values = $osPrice->GetOptionPrice($products_id, $option, $value);
+			$GetOptionPrice = '';
+			if (is_array($aAttributes) && !empty($aAttributes))
+			{
+				$GetOptionPrice = $cartet->price->GetOptionPrice($aAttributes);
+			}
+
+			foreach ($aAttributes AS $attr)
+			{
+				$values = $GetOptionPrice[$products_id.'_'.$option.'_'.$value];
 				$attributes_price += $values['price'];
-
 			}
 		}
 		return $attributes_price;
@@ -338,6 +386,9 @@ class shoppingCart {
 
 	function get_products() 
 	{
+		if (isset($this->_products) && !empty($this->_products))
+			return $this->_products;
+
 		global $osPrice, $main;
 
 		if (!is_array($this->contents))
@@ -379,21 +430,41 @@ class shoppingCart {
 			}
 		}
 
+		$this->_products = $products_array;
 		return $products_array;
 	}
 
+	function getCartInfo()
+	{
+		if (!empty($this->cartInfo))
+			return $this->cartInfo;
+
+		$this->calculate();
+
+		$this->cartInfo = array(
+			'show_total' => $this->total,
+			'show_weight' => $this->weight,
+			'show_quantity' => $this->qty,
+		);
+		
+		return $this->cartInfo;
+	}
+
+	// TODO: на удаление
 	function show_total() {
 		$this->calculate();
 
 		return $this->total;
 	}
 
+	// TODO: на удаление
 	function show_weight() {
 		$this->calculate();
 
 		return $this->weight;
 	}
 
+	// TODO: на удаление
 	function show_quantity() {
 		$this->calculate();
 

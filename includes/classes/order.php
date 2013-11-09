@@ -255,7 +255,7 @@ class order {
     }
 
     function cart() {
-      global $currencies,$osPrice;
+      global $currencies, $osPrice, $cartet;
 
       $this->content_type = $_SESSION['cart']->get_content_type();
 
@@ -341,6 +341,19 @@ class order {
 
       $index = 0;
       $products = $_SESSION['cart']->get_products();
+	  
+	$aTaxClassIds = array();
+	foreach($products AS $prod)
+	{
+		$aTaxClassIds[] = $prod['tax_class_id'];
+	}
+
+	$getTaxRate = $cartet->price->getTaxRate(array(
+		'tax_class_id' => $aTaxClassIds,
+		'entry_country_id' => $tax_address['entry_country_id'],
+		'entry_zone_id' => $tax_address['entry_zone_id'],
+	));
+
       for ($i=0, $n=sizeof($products); $i<$n; $i++) {
 
        // $products_price = $osPrice->GetPrice($products[$i]['id'], false, $products[$i]['quantity'], $products[$i]['tax_class_id'], $products[$i]['real_price']);
@@ -350,8 +363,8 @@ class order {
                                         'name' => $products[$i]['name'],
                                         'model' => $products[$i]['model'],
                                         'tax_class_id'=> $products[$i]['tax_class_id'],
-                                        'tax' => os_get_tax_rate($products[$i]['tax_class_id'], $tax_address['entry_country_id'], $tax_address['entry_zone_id']),
-                                        'tax_description' => os_get_tax_description($products[$i]['tax_class_id'], $tax_address['entry_country_id'], $tax_address['entry_zone_id']),
+                                        'tax' => $getTaxRate[$products[$i]['tax_class_id']]['taxId'], //'tax' => os_get_tax_rate($products[$i]['tax_class_id'], $tax_address['entry_country_id'], $tax_address['entry_zone_id']),
+                                        'tax_description' => $getTaxRate[$products[$i]['tax_class_id']]['taxName'], //os_get_tax_description($products[$i]['tax_class_id'], $tax_address['entry_country_id'], $tax_address['entry_zone_id']),
                                         'price' => $products[$i]['price'],
                             		    'final_price' => $products[$i]['price']*$products[$i]['quantity'],
                             		    'shipping_time' => $products[$i]['shipping_time'],

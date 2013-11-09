@@ -244,7 +244,17 @@ $main->top_menu();
 		else
 			$products_query = os_db_query("SELECT * FROM ".TABLE_PRODUCTS." p, ".TABLE_PRODUCTS_DESCRIPTION." pd, ".TABLE_PRODUCTS_TO_CATEGORIES." p2c WHERE p.products_id = pd.products_id AND pd.language_id = '".(int)$_SESSION['languages_id']."' AND p.products_id = p2c.products_id ".$manufacturer." ORDER BY ".$prodsort." limit ".$page.",".$max_count);
 
+		$aProducts = array();
+		$aTaxIds = array();
 		while ($products = os_db_fetch_array($products_query))
+		{
+			$aTaxIds[$products['products_tax_class_id']] = $products['products_tax_class_id'];
+			$aProducts[] = $products;
+		}
+
+		$getTaxRate = $cartet->price->getTaxRate(array('tax_class_id' => $aTaxIds));
+
+		foreach($aProducts AS $products)
 		{
 			$products_count++;
 			$rows++;
@@ -261,7 +271,7 @@ $main->top_menu();
 				<td class="tcenter">
 					<?php
 					if (PRICE_IS_BRUTTO == 'true')
-						$products_price = os_round($products['products_price'] * ((100 + os_get_tax_rate($products['products_tax_class_id'])) / 100), PRICE_PRECISION);
+						$products_price = os_round($products['products_price'] * ((100 + $getTaxRate[$products['products_tax_class_id']]) / 100), PRICE_PRECISION);
 					else
 						$products_price = $products['products_price'];
 					?>
@@ -277,7 +287,7 @@ $main->top_menu();
 						if ($gdValue['STATUS_NAME'] != '')
 						{
 							if (PRICE_IS_BRUTTO == 'true')
-								$products_price = os_round(get_group_price($gdValue['STATUS_ID'], $products['products_id']) * ((100 + os_get_tax_rate($pInfo->products_tax_class_id)) / 100), PRICE_PRECISION);
+								$products_price = os_round(get_group_price($gdValue['STATUS_ID'], $products['products_id']) * ((100 + $getTaxRate[$products['products_tax_class_id']]) / 100), PRICE_PRECISION);
 							else
 								$products_price = os_round(get_group_price($gdValue['STATUS_ID'], $products['products_id']), PRICE_PRECISION);
 							?>

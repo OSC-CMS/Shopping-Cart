@@ -395,7 +395,7 @@ class product {
             $buy_now = '';
 			$buy_now_new = '';
 			$tax_rate = '';
-			
+
 		    if (isset($osPrice->TAX[$array['products_tax_class_id']]))
 			{
 			    $tax_rate = $osPrice->TAX[$array['products_tax_class_id']];

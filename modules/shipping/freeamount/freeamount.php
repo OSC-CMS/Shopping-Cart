@@ -24,13 +24,15 @@ class freeamount {
     function quote($method = '') {
     	global $osPrice;
 	
-	  if (( $osPrice->RemoveCurr($_SESSION['cart']->show_total()) < MODULE_SHIPPING_FREEAMOUNT_AMOUNT ) && MODULE_SHIPPING_FREEAMOUNT_DISPLAY == 'False')
+		$getCartInfo = $_SESSION['cart']->getCartInfo();
+
+	  if (( $osPrice->RemoveCurr($getCartInfo['show_total']) < MODULE_SHIPPING_FREEAMOUNT_AMOUNT ) && MODULE_SHIPPING_FREEAMOUNT_DISPLAY == 'False')
 	  return;
 
       $this->quotes = array('id' => $this->code,
                             'module' => MODULE_SHIPPING_FREEAMOUNT_TEXT_TITLE);
 
-      if ( $osPrice->RemoveCurr($_SESSION['cart']->show_total()) < MODULE_SHIPPING_FREEAMOUNT_AMOUNT )
+      if ( $osPrice->RemoveCurr($getCartInfo['show_total']) < MODULE_SHIPPING_FREEAMOUNT_AMOUNT )
         $this->quotes['error'] = sprintf(MODULE_SHIPPING_FREEAMOUNT_TEXT_WAY,$osPrice->Format(MODULE_SHIPPING_FREEAMOUNT_AMOUNT,true,0,true));
       else
  	$this->quotes['methods'] = array(array('id'    => $this->code,

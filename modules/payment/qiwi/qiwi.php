@@ -89,7 +89,7 @@ class qiwi extends CartET
 	}
 
 	function javascript_validation() {
-	return false;
+		return false;
 	}
 
 	function selection()

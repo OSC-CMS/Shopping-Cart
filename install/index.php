@@ -8,6 +8,8 @@
 *---------------------------------------------------------
 */
 
+error_reporting(0);
+
 session_start();
 
 define('DS', DIRECTORY_SEPARATOR);
