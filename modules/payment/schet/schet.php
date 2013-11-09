@@ -87,6 +87,23 @@ class schet extends CartET
 
 		if (os_not_null($this->icon)) $icon = os_image(http_path('payment').$this->code.'/'.$this->icon, $this->title);
 
+		if (isset($_SESSION['customer_id']))
+		{
+			$getOrderQuery = osDBquery("SELECT orders_id, customers_id FROM ".TABLE_ORDERS." WHERE customers_id = '".$_SESSION['customer_id']."' AND payment_method = 'schet' ORDER BY orders_id DESC LIMIT 1");
+			if (os_db_num_rows($getOrderQuery) > 0)
+			{
+				$getOrder = os_db_fetch_array($getOrderQuery);
+
+				$company_query = os_db_query("SELECT * FROM ".TABLE_COMPANIES." WHERE orders_id='".(int)$getOrder['orders_id']."'");
+				if (os_db_num_rows($company_query) > 0)
+					$company = os_db_fetch_array($company_query);
+				else
+					$company = array();
+			}
+		}
+		else
+			$company = array();
+
 		return array
 		(
 			'id' => $this->code,
@@ -101,34 +118,34 @@ class schet extends CartET
 				),
 				array(
 					'title' => MODULE_PAYMENT_SCHET_J_NAME,
-					'field' => os_draw_input_field('name') . MODULE_PAYMENT_SCHET_J_NAME_IP),
+					'field' => os_draw_input_field('name', $company['name']) . MODULE_PAYMENT_SCHET_J_NAME_IP),
 				array(
 					'title' => MODULE_PAYMENT_SCHET_J_INN,
-					'field' => os_draw_input_field('inn')),
+					'field' => os_draw_input_field('inn', $company['inn'])),
 				array(
 					'title' => MODULE_PAYMENT_SCHET_J_KPP,
-					'field' => os_draw_input_field('kpp')),
+					'field' => os_draw_input_field('kpp', $company['kpp'])),
 				array(
 					'title' => MODULE_PAYMENT_SCHET_J_OGRN,
-					'field' => os_draw_input_field('ogrn')),
+					'field' => os_draw_input_field('ogrn', $company['ogrn'])),
 				array(
 					'title' => MODULE_PAYMENT_SCHET_J_OKPO,
-					'field' => os_draw_input_field('okpo')),
+					'field' => os_draw_input_field('okpo', $company['okpo'])),
 				array(
 					'title' => MODULE_PAYMENT_SCHET_J_RS,
-					'field' => os_draw_input_field('rs')),
+					'field' => os_draw_input_field('rs', $company['rs'])),
 				array(
 					'title' => MODULE_PAYMENT_SCHET_J_BANK_NAME,
-					'field' => os_draw_input_field('bank_name') . MODULE_PAYMENT_SCHET_J_BANK_NAME_HELP),
+					'field' => os_draw_input_field('bank_name', $company['bank_name']) . MODULE_PAYMENT_SCHET_J_BANK_NAME_HELP),
 				array(
 					'title' => MODULE_PAYMENT_SCHET_J_BIK,
-					'field' => os_draw_input_field('bik')),
+					'field' => os_draw_input_field('bik', $company['bik'])),
 				array(
 					'title' => MODULE_PAYMENT_SCHET_J_KS,
-					'field' => os_draw_input_field('ks')),
+					'field' => os_draw_input_field('ks', $company['ks'])),
 				array(
 					'title' => MODULE_PAYMENT_SCHET_J_ADDRESS,
-					'field' => os_draw_input_field('address') . MODULE_PAYMENT_SCHET_J_ADDRESS_HELP),
+					'field' => os_draw_input_field('address', $company['address']) . MODULE_PAYMENT_SCHET_J_ADDRESS_HELP),
 				array(
 					'title' => MODULE_PAYMENT_SCHET_J_TELEPHONE,
 					'field' => os_draw_input_field('phone', $order->customer['telephone']))
@@ -224,23 +241,23 @@ class schet extends CartET
 
 	function install()
 	{
-		os_db_query("insert into ".TABLE_CONFIGURATION." ( configuration_key, configuration_value,  configuration_group_id, sort_order, date_added) values ('MODULE_PAYMENT_SCHET_ALLOWED', '', '6', '0', now())");
-		os_db_query("insert into ".TABLE_CONFIGURATION." (configuration_key, configuration_value,configuration_group_id, sort_order, set_function, date_added) values ('MODULE_PAYMENT_SCHET_STATUS', 'True', '6', '3', 'os_cfg_select_option(array(\'True\', \'False\'), ', now());");
-		os_db_query("insert into ".TABLE_CONFIGURATION." (configuration_key, configuration_value,configuration_group_id, sort_order, date_added) values ('MODULE_PAYMENT_SCHET_1', 'ООО \"Рога и копыта\"',  '6', '1', now());");
-		os_db_query("insert into ".TABLE_CONFIGURATION." (configuration_key, configuration_value,configuration_group_id, sort_order, date_added) values ('MODULE_PAYMENT_SCHET_2', 'Россия, 123456, г. Ставрополь, проспект Кулакова 8б, офис 130', '6', '1', now());");
-		os_db_query("insert into ".TABLE_CONFIGURATION." (configuration_key, configuration_value,configuration_group_id, sort_order, date_added) values ('MODULE_PAYMENT_SCHET_3', '(865)1234567',  '6', '1', now());");
-		os_db_query("insert into ".TABLE_CONFIGURATION." (configuration_key, configuration_value,configuration_group_id, sort_order, date_added) values ('MODULE_PAYMENT_SCHET_4', '(865)7654321',  '6', '1', now());");
-		os_db_query("insert into ".TABLE_CONFIGURATION." (configuration_key, configuration_value,configuration_group_id, sort_order, date_added) values ('MODULE_PAYMENT_SCHET_5', '1234567890',  '6', '1', now());");
-		os_db_query("insert into ".TABLE_CONFIGURATION." (configuration_key, configuration_value,configuration_group_id, sort_order, date_added) values ('MODULE_PAYMENT_SCHET_6', 'Росбанк',  '6', '1', now());");
-		os_db_query("insert into ".TABLE_CONFIGURATION." (configuration_key, configuration_value,configuration_group_id, sort_order, date_added) values ('MODULE_PAYMENT_SCHET_7', '0987654321',  '6', '1', now());");
-		os_db_query("insert into ".TABLE_CONFIGURATION." (configuration_key, configuration_value,configuration_group_id, sort_order, date_added) values ('MODULE_PAYMENT_SCHET_8', '123456',  '6', '1', now());");
-		os_db_query("insert into ".TABLE_CONFIGURATION." (configuration_key, configuration_value,configuration_group_id, sort_order, date_added) values ('MODULE_PAYMENT_SCHET_9', '87654321',  '6', '1', now());");
-		os_db_query("insert into ".TABLE_CONFIGURATION." (configuration_key, configuration_value,configuration_group_id, sort_order, date_added) values ('MODULE_PAYMENT_SCHET_10', '222222222',  '6', '1', now());");
-		os_db_query("insert into ".TABLE_CONFIGURATION." (configuration_key, configuration_value,configuration_group_id, sort_order, date_added) values ('MODULE_PAYMENT_SCHET_11', '11111111111111',  '6', '1', now());");
-		os_db_query("insert into ".TABLE_CONFIGURATION." (configuration_key, configuration_value,configuration_group_id, sort_order, date_added) values ('MODULE_PAYMENT_SCHET_12', '222222222222',  '6', '1', now());");
-		os_db_query("insert into ".TABLE_CONFIGURATION." (configuration_key, configuration_value,configuration_group_id, sort_order, date_added) values ('MODULE_PAYMENT_SCHET_SORT_ORDER', '0',  '6', '0', now())");
-		os_db_query("insert into ".TABLE_CONFIGURATION." ( configuration_key, configuration_value,  configuration_group_id, sort_order, use_function, set_function, date_added) values ('MODULE_PAYMENT_SCHET_ZONE', '0',  '6', '2', 'os_get_zone_class_title', 'os_cfg_pull_down_zone_classes(', now())");
-		os_db_query("insert into ".TABLE_CONFIGURATION." ( configuration_key, configuration_value,  configuration_group_id, sort_order, set_function, use_function, date_added) values ('MODULE_PAYMENT_SCHET_ORDER_STATUS_ID', '0', '6', '0', 'os_cfg_pull_down_order_statuses(', 'os_get_order_status_name', now())");
+		os_db_query("insert into ".TABLE_CONFIGURATION." (configuration_key, configuration_value, configuration_group_id, sort_order, date_added) values ('MODULE_PAYMENT_SCHET_ALLOWED', '', '6', '0', now())");
+		os_db_query("insert into ".TABLE_CONFIGURATION." (configuration_key, configuration_value, configuration_group_id, sort_order, set_function, date_added) values ('MODULE_PAYMENT_SCHET_STATUS', 'True', '6', '3', 'os_cfg_select_option(array(\'True\', \'False\'), ', now());");
+		os_db_query("insert into ".TABLE_CONFIGURATION." (configuration_key, configuration_value, configuration_group_id, sort_order, date_added) values ('MODULE_PAYMENT_SCHET_1', 'ООО \"Рога и копыта\"',  '6', '1', now());");
+		os_db_query("insert into ".TABLE_CONFIGURATION." (configuration_key, configuration_value, configuration_group_id, sort_order, date_added) values ('MODULE_PAYMENT_SCHET_2', 'Россия, 123456, г. Ставрополь, проспект Кулакова 8б, офис 130', '6', '1', now());");
+		os_db_query("insert into ".TABLE_CONFIGURATION." (configuration_key, configuration_value, configuration_group_id, sort_order, date_added) values ('MODULE_PAYMENT_SCHET_3', '(865)1234567',  '6', '1', now());");
+		os_db_query("insert into ".TABLE_CONFIGURATION." (configuration_key, configuration_value, configuration_group_id, sort_order, date_added) values ('MODULE_PAYMENT_SCHET_4', '(865)7654321',  '6', '1', now());");
+		os_db_query("insert into ".TABLE_CONFIGURATION." (configuration_key, configuration_value, configuration_group_id, sort_order, date_added) values ('MODULE_PAYMENT_SCHET_5', '1234567890',  '6', '1', now());");
+		os_db_query("insert into ".TABLE_CONFIGURATION." (configuration_key, configuration_value, configuration_group_id, sort_order, date_added) values ('MODULE_PAYMENT_SCHET_6', 'Росбанк',  '6', '1', now());");
+		os_db_query("insert into ".TABLE_CONFIGURATION." (configuration_key, configuration_value, configuration_group_id, sort_order, date_added) values ('MODULE_PAYMENT_SCHET_7', '0987654321',  '6', '1', now());");
+		os_db_query("insert into ".TABLE_CONFIGURATION." (configuration_key, configuration_value, configuration_group_id, sort_order, date_added) values ('MODULE_PAYMENT_SCHET_8', '123456',  '6', '1', now());");
+		os_db_query("insert into ".TABLE_CONFIGURATION." (configuration_key, configuration_value, configuration_group_id, sort_order, date_added) values ('MODULE_PAYMENT_SCHET_9', '87654321',  '6', '1', now());");
+		os_db_query("insert into ".TABLE_CONFIGURATION." (configuration_key, configuration_value, configuration_group_id, sort_order, date_added) values ('MODULE_PAYMENT_SCHET_10', '222222222',  '6', '1', now());");
+		os_db_query("insert into ".TABLE_CONFIGURATION." (configuration_key, configuration_value, configuration_group_id, sort_order, date_added) values ('MODULE_PAYMENT_SCHET_11', '11111111111111',  '6', '1', now());");
+		os_db_query("insert into ".TABLE_CONFIGURATION." (configuration_key, configuration_value, configuration_group_id, sort_order, date_added) values ('MODULE_PAYMENT_SCHET_12', '222222222222',  '6', '1', now());");
+		os_db_query("insert into ".TABLE_CONFIGURATION." (configuration_key, configuration_value, configuration_group_id, sort_order, date_added) values ('MODULE_PAYMENT_SCHET_SORT_ORDER', '0',  '6', '0', now())");
+		os_db_query("insert into ".TABLE_CONFIGURATION." (configuration_key, configuration_value, configuration_group_id, sort_order, use_function, set_function, date_added) values ('MODULE_PAYMENT_SCHET_ZONE', '0',  '6', '2', 'os_get_zone_class_title', 'os_cfg_pull_down_zone_classes(', now())");
+		os_db_query("insert into ".TABLE_CONFIGURATION." (configuration_key, configuration_value, configuration_group_id, sort_order, set_function, use_function, date_added) values ('MODULE_PAYMENT_SCHET_ORDER_STATUS_ID', '0', '6', '0', 'os_cfg_pull_down_order_statuses(', 'os_get_order_status_name', now())");
 	}
 
 	function remove()
