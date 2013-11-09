@@ -218,7 +218,8 @@ if ($result != false) {
 	$module->assign('param_filter', apply_filter('param_filter', '') );
 	
 	$module->assign('MANUFACTURER_DROPDOWN', @$manufacturer_dropdown);
-	$module->assign('MANUFACTURER_SORT', @$manufacturer_sort);
+	$module->assign('manufacturers', @$manufacturer_sort);
+	$module->assign('all_manufacturers', @$all_manufacturers);
 	$module->assign('language', $_SESSION['language']);
 
 	$module->assign('module_content', $module_content);

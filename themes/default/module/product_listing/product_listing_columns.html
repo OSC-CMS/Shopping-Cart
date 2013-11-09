@@ -16,7 +16,14 @@
 		</div>
 
 		{if $MANUFACTURERS_DESCRIPTION}<div class="category-info">{$MANUFACTURERS_DESCRIPTION}</div>{/if}
-		{if $MANUFACTURER_SORT}<div class="category-info">{$MANUFACTURER_SORT}</div>{/if}
+		{if $manufacturers}
+		<div class="category-info">
+			{foreach $manufacturers AS $m}
+				<a class="btn btn-mini {if $m.manufacturers_id == $smarty.get.filter_id}btn-success{/if}" href="{$m.manufacturers_link}">{$m.manufacturers_name}</a>
+			{/foreach}
+			<a class="btn btn-mini {if !$smarty.get.filter_id}btn-success{/if}" href="{$all_manufacturers.link}">{$all_manufacturers.name}</a>
+		</div>
+		{/if}
 
 		<p>
 			<div class="btn-group pull-left">

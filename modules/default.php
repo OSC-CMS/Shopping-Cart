@@ -447,22 +447,41 @@ ON t.product_id = p.products_id";
 				$manufacturer_dropdown .= os_draw_hidden_field('sort', $_GET['sort']);
 				$manufacturer_dropdown .= os_draw_hidden_field(os_session_name(), os_session_id());
 
-				while ($filterlist = os_db_fetch_array($filterlist_query, true)) {
-					$options[] = array ('id' => $filterlist['id'], 'text' => $filterlist['name']);
+				$aManufacturers = array();
+				while ($filterlist = os_db_fetch_array($filterlist_query, true))
+				{
+					$options[] = array(
+						'id' => $filterlist['id'],
+						'text' => $filterlist['name']
+					);
+
 					if (isset($_GET['manufacturers_id']))
 					{
-						$manufacturer_sort .= '<a href="'.os_href_link(FILENAME_DEFAULT, 'manufacturers_id='.$_GET['manufacturers_id'].'&filter_id='.$filterlist['id']).'">' . $filterlist['name'] . '</a> ';
+						$manufacturers_id = os_href_link(FILENAME_DEFAULT, 'manufacturers_id='.$_GET['manufacturers_id'].'&filter_id='.$filterlist['id']);
+						$manufacturers_link = os_href_link(FILENAME_DEFAULT, 'manufacturers_id='.$_GET['manufacturers_id'].'&filter_id='.$filterlist['id']);
 					}
 					else
-					{
-						$manufacturer_sort .= '<a href="'.os_href_link(FILENAME_DEFAULT, 'cat='.$current_category_id.'&filter_id='.$filterlist['id']).'">' . $filterlist['name'] . '</a> ';
+					{					
+						$manufacturers_link = os_href_link(FILENAME_DEFAULT, 'cat='.$current_category_id.'&filter_id='.$filterlist['id']);
 					}
 
+					$aManufacturers[] = array(
+						'manufacturers_id' => $filterlist['id'],
+						'manufacturers_name' => $filterlist['name'],
+						'manufacturers_link' => $manufacturers_link,
+					);
 				}
+
 				if (isset($_GET['cat']))
 				{
-					$manufacturer_sort .= '<a href="'.os_href_link(FILENAME_DEFAULT, 'cat='.$current_category_id).'">' . TEXT_ALL_MANUFACTURERS . '</a> ';
+					$all_manufacturers = array(
+						'name' => TEXT_ALL_MANUFACTURERS,
+						'link' => os_href_link(FILENAME_DEFAULT, 'cat='.$current_category_id),
+					);
 				}
+
+				$manufacturer_sort = $aManufacturers;
+
 				$manufacturer_dropdown .= os_draw_pull_down_menu('filter_id', $options, $_GET['filter_id'], 'onchange="this.form.submit()"');
 				$manufacturer_dropdown .= '</form>'."\n"; 
 			}
