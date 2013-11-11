@@ -353,7 +353,7 @@ os_db_query("CREATE TABLE ".DB_PREFIX."sms_setting (
 	PRIMARY KEY (`sms_id`, `sms_default_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE utf8_general_ci;");
 
-os_db_query("INSERT INTO `".DB_PREFIX."sms_setting` VALUES(1, 0, 0, 1, 1, 1, 0);");
+os_db_query("INSERT INTO `".DB_PREFIX."sms_setting` VALUES(1, 0, 0, 1, 1, 1, 0, 0);");
 
 os_db_query("INSERT INTO `".DB_PREFIX."sms` (`id`, `name`, `login`, `password`, `password_md5`, `api_id`, `api_key`, `title`, `phone`, `status`, `url`) VALUES
 (1, 'avisosms.ru', '', '', 0, '', '', 'cartet', '', '', 'api.avisosms.ru/sms/get/?username={login}&password={password}&destination_address={phone}&source_address={title}&message={text}'),
