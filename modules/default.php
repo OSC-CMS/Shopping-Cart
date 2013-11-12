@@ -252,6 +252,9 @@ else {
 				and pd.language_id = '".(int) $_SESSION['languages_id']."'
 				and p2c.categories_id = '".(int) $_GET['filter_id']."'".$sorting;
 			} else {
+
+				$manufacturerData = $cartet->product->manufacturerData;
+
 				// We show them all
 				if (GROUP_CHECK == 'true') {
 					$group_check = " and p.group_permission_".$_SESSION['customers_status']['customers_status_id']."=1 ";
@@ -282,9 +285,9 @@ else {
 				and pd.products_id = p.products_id
 				".$group_check."
 				".$fsk_lock."
-				and pd.language_id = '".(int) $_SESSION['languages_id']."'
+				and pd.language_id = '".(int)$_SESSION['languages_id']."'
 				and p.manufacturers_id = m.manufacturers_id
-				and m.manufacturers_id = '".(int) $_GET['manufacturers_id']."'";
+				and m.manufacturers_id = '".(int)$_GET['manufacturers_id']."'";
 
 			}
 		} else {
@@ -505,6 +508,10 @@ ON t.product_id = p.products_id";
 		}
 
 		//print_r($listing_sql);
+
+		//$listing_sql = apply_filter('products_listing', $listing_sql);
+		//echo $listing_sql;
+
 		include (DIR_WS_MODULES.FILENAME_PRODUCT_LISTING);
 
 	} else { // default page

@@ -1,9 +1,26 @@
 {config_load file="$language/lang.conf" section="index"}
-{if $CATEGORIES_NAME}
-<div class="page-header">
-	<h1>{$CATEGORIES_NAME}</h1>
-</div>
+{if isset($CATEGORIES_NAME) OR isset($manufacturer.manufacturers_name)}
+	<div class="page-header">
+		<h1>{if $CATEGORIES_NAME}{$CATEGORIES_NAME}{else}{$manufacturer.manufacturers_name}{/if}</h1>
+	</div>
+{/if}
 
+{if isset($manufacturer)}
+<div class="row-fluid">
+	<div class="span3">
+		{if $manufacturer.manufacturers_image}<img class="cat-image" src="{$manufacturer.manufacturers_image}" alt="{$manufacturer.manufacturers_name}" />{/if}
+	</div>
+	<div class="span9">
+		{if $manufacturer.manufacturers_description}{$manufacturer.manufacturers_description}{/if}
+		{if $manufacturer.manufacturers_url}<br />{$manufacturer.manufacturers_url}{/if}
+	</div>
+</div>
+<hr>
+{/if}
+
+{if $MANUFACTURERS_DESCRIPTION}<div class="category-info">{$MANUFACTURERS_DESCRIPTION}</div>{/if}
+
+{if $CATEGORIES_NAME}
 <div class="block">
 	<div class="block-content">
 		<div class="category-block">
@@ -15,7 +32,6 @@
 			<div class="clear"></div>
 		</div>
 
-		{if $MANUFACTURERS_DESCRIPTION}<div class="category-info">{$MANUFACTURERS_DESCRIPTION}</div>{/if}
 		{if $manufacturers}
 		<div class="category-info">
 			{foreach $manufacturers AS $m}
@@ -83,6 +99,7 @@
 					{if $p.PRODUCTS_TAX_INFO}<p>{$p.PRODUCTS_TAX_INFO}</p>{/if}
 					{if $p.PRODUCTS_SHIPPING_LINK}<p>{$p.PRODUCTS_SHIPPING_LINK}</p>{/if}
 					<p>{$p.PRODUCTS_BUTTON_BUY_NOW_NEW}</p>
+					<p>{$p.like}</p>
 				</div>
 			</div>
 		</div>

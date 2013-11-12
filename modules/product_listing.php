@@ -219,6 +219,7 @@ if ($result != false) {
 	
 	$module->assign('MANUFACTURER_DROPDOWN', @$manufacturer_dropdown);
 	$module->assign('manufacturers', @$manufacturer_sort);
+	$module->assign('manufacturer', $manufacturerData);
 	$module->assign('all_manufacturers', @$all_manufacturers);
 	$module->assign('language', $_SESSION['language']);
 
