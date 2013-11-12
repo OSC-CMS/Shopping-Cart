@@ -5,7 +5,7 @@
 	</div>
 {/if}
 
-{if isset($manufacturer)}
+{if isset($manufacturer) && !empty($manufacturer.manufacturers_description)}
 <div class="row-fluid">
 	<div class="span3">
 		{if $manufacturer.manufacturers_image}<img class="cat-image" src="{$manufacturer.manufacturers_image}" alt="{$manufacturer.manufacturers_name}" />{/if}
@@ -17,8 +17,6 @@
 </div>
 <hr>
 {/if}
-
-{if $MANUFACTURERS_DESCRIPTION}<div class="category-info">{$MANUFACTURERS_DESCRIPTION}</div>{/if}
 
 {if $CATEGORIES_NAME}
 <div class="block">

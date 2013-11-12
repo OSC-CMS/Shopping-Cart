@@ -507,11 +507,6 @@ ON t.product_id = p.products_id";
 			$image = $cat_array['categories_image'];
 		}
 
-		//print_r($listing_sql);
-
-		//$listing_sql = apply_filter('products_listing', $listing_sql);
-		//echo $listing_sql;
-
 		include (DIR_WS_MODULES.FILENAME_PRODUCT_LISTING);
 
 	} else { // default page

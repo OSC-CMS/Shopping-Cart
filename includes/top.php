@@ -440,6 +440,11 @@ if (isset ($cPath_array)) {
 			break;
 		}
 	}
+		if (isset($_GET['manufacturers_id']) OR isset($_GET['filter_id']))
+		{
+			$mID = (isset($_GET['filter_id']) ? $_GET['filter_id'] : $_GET['manufacturers_id']);
+			$getManufacturer = $cartet->product->getManufacturer($mID);
+		}
 }
 elseif (isset($_GET['manufacturers_id']) OR isset($_GET['filter_id']))
 {

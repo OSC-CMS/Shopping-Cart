@@ -105,14 +105,11 @@ else
 
 		if (isset($_GET['filter_id']) or isset($_GET['manufacturers_id']))
 		{
-			$mID = (isset($_GET['filter_id']) ? $_GET['filter_id'] : $_GET['manufacturers_id']);
+			$manufacturerData = $cartet->product->manufacturerData;
 
-			$manufacturer_query = osDBquery("select m.manufacturers_name, mi.manufacturers_meta_title, mi.manufacturers_meta_description, mi.manufacturers_meta_keywords from ".TABLE_MANUFACTURERS." m left join ".TABLE_MANUFACTURERS_INFO." mi on mi.manufacturers_id = m.manufacturers_id where m.manufacturers_id = '".$mID."'");
-			$manufacturer = os_db_fetch_array($manufacturer_query,true);
-
-			$mName = (isset($manufacturer['manufacturers_meta_title']) ? ' - '.$manufacturer['manufacturers_meta_title'] : ' - '.$manufacturer['manufacturers_name']);
-			$mDesc = (isset($manufacturer['manufacturers_meta_description']) ? ' '.$manufacturer['manufacturers_meta_description'] : null);
-			$mKey = (isset($manufacturer['manufacturers_meta_keywords']) ? ' '.$manufacturer['manufacturers_meta_keywords'] : null);
+			$mName = (isset($manufacturerData['manufacturers_meta_title']) ? ' - '.$manufacturerData['manufacturers_meta_title'] : ' - '.$manufacturerData['manufacturers_name']);
+			$mDesc = (isset($manufacturerData['manufacturers_meta_description']) ? ' '.$manufacturerData['manufacturers_meta_description'] : null);
+			$mKey = (isset($manufacturerData['manufacturers_meta_keywords']) ? ' '.$manufacturerData['manufacturers_meta_keywords'] : null);
 		}
 
 		$_description  = $categories_meta['categories_meta_description'].$mDesc;
@@ -210,15 +207,12 @@ else
 
 				if (isset($_GET['filter_id']) or isset($_GET['manufacturers_id']))
 				{
-					$mID = (isset($_GET['filter_id']) ? $_GET['filter_id'] : $_GET['manufacturers_id']);
+					$manufacturerData = $cartet->product->manufacturerData;
 
-					$manufacturer_query = osDBquery("select m.manufacturers_name, mi.manufacturers_meta_title, mi.manufacturers_meta_description, mi.manufacturers_meta_keywords from ".TABLE_MANUFACTURERS." m left join ".TABLE_MANUFACTURERS_INFO." mi on mi.manufacturers_id = m.manufacturers_id where m.manufacturers_id = '".$mID."'");
-					$manufacturer = os_db_fetch_array($manufacturer_query,true);
+					$mName = (isset($manufacturerData['manufacturers_meta_title']) ? ' - '.$manufacturerData['manufacturers_meta_title'] : ' - '.$manufacturerData['manufacturers_name']);
 
-					$mName = (isset($manufacturer['manufacturers_meta_title']) ? ' - '.$manufacturer['manufacturers_meta_title'] : ' - '.$manufacturer['manufacturers_name']);
-
-					$mDesc = (isset($manufacturer['manufacturers_meta_description']) ? $manufacturer['manufacturers_meta_description'] : null);
-					$mKey = (isset($manufacturer['manufacturers_meta_keywords']) ? $manufacturer['manufacturers_meta_keywords'] : null);
+					$mDesc = (isset($manufacturerData['manufacturers_meta_description']) ? $manufacturerData['manufacturers_meta_description'] : null);
+					$mKey = (isset($manufacturerData['manufacturers_meta_keywords']) ? $manufacturerData['manufacturers_meta_keywords'] : null);
 					$content_default_description = $mDesc;
 					$content_default_keywords = $mKey;
 					$content_default_title .= $mName;
