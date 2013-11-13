@@ -52,7 +52,7 @@ class apiNews extends CartET
 		$arr['date_added'] = os_date_short($arr['date_added']);
 		$arr['link'] = os_href_link(FILENAME_NEWS, 'news_id='.$arr['news_id'].$SEF_parameter, 'NONSSL');
 
-		return $arr;
+		return apply_filter('build_news', $arr);
 	}
 
 	/**
