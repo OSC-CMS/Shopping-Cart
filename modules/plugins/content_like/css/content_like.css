@@ -1,0 +1,11 @@
+.iLikeThis {}
+.iLikeThis a {float:left;display:block;padding:0 0 0 15px;text-decoration:none;}
+.iLikeThis a.i-like-it-add {background:url(../img/content-like.png) 0px 4px no-repeat;}
+.iLikeThis a.i-like-it-del {background:url(../img/content-like.png) 0px -12px no-repeat;color:#c00;}
+.iLikeThis a:hover {text-decoration:none;}
+.iLike-guest {float:left;display:block;padding:0 0 0 16px;background:url(../img/content-like.png) 0px 4px no-repeat;}
+
+.psb-like {margin-bottom:10px;}
+.psb-like .left {margin-right:10px;}
+.psb-like .iLikeThis {margin-left:10px;}
+

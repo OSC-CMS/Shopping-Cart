@@ -1,0 +1,10 @@
+<div id="like_box">
+	<div class="well well-small">
+		<h3>Закладки</h3>
+		{if $likeArray}
+			{foreach item=like from=$likeArray}
+				<span class="like-h"><a href="index.php?page=likes&like={$like.l_content}">{$like.content} {$like.cnt}</a></span><br />
+			{/foreach}
+		{/if}
+	</div>
+</div>
