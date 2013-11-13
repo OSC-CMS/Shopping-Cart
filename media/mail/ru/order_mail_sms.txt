@@ -1,4 +1,5 @@
 Вы оформили заказ в магазине {$smarty.const.STORE_NAME}!
+Номер заказа: {$oID}
 Наши контакты:
 {$smarty.const.STORE_OWNER_EMAIL_ADDRESS}
 {$smarty.const.STORE_TELEPHONE}
