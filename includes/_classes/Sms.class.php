@@ -50,14 +50,14 @@ class apiSms extends CartET
 		$getSms = os_db_fetch_array($getSmsQuery);
 
 		$url = $getSms['url'];
-		$password = ($getSms['password_md5'] == 1) ? md5(urldecode($getSms['password'])) : urldecode($getSms['password']);
+		$password = ($getSms['password_md5'] == 1) ? md5(urlencode($getSms['password'])) : urlencode($getSms['password']);
 
-		$url = str_replace('{login}', urldecode($getSms['login']), $url);
+		$url = str_replace('{login}', urlencode($getSms['login']), $url);
 		$url = str_replace('{password}', $password, $url);
-		$url = str_replace('{api_id}', urldecode($getSms['api_id']), $url);
-		$url = str_replace('{api_key}', urldecode($getSms['api_key']), $url);
-		$url = str_replace('{title}', urldecode($getSms['title']), $url);
-		$url = str_replace('{status}', urldecode($getSms['status']), $url);
+		$url = str_replace('{api_id}', urlencode($getSms['api_id']), $url);
+		$url = str_replace('{api_key}', urlencode($getSms['api_key']), $url);
+		$url = str_replace('{title}', urlencode($getSms['title']), $url);
+		$url = str_replace('{status}', urlencode($getSms['status']), $url);
 
 		$getSms['url'] = $url;
 
@@ -69,7 +69,7 @@ class apiSms extends CartET
 	/**
 	 * Отправка СМС сообщения
 	 */
-	public function send($text, $phone)
+	public function send($text, $phone = '')
 	{
 		if (!$text) return false;
 
@@ -78,10 +78,13 @@ class apiSms extends CartET
 		$phone = ($phone) ? $phone : $getDefaultSms['phone'];
 
 		$url = $getDefaultSms['url'];
-		$url = str_replace('{phone}', urldecode($phone), $url);
-		$url = str_replace('{text}', urldecode($text), $url);
+		$url = str_replace('{phone}', urlencode($phone), $url);
+		$url = str_replace('{text}', urlencode($text), $url);
+		$url = "http://".$url;
 
-		$result = file_get_contents("http://".$url);
+		if (strstr($url, 'http://sms.ru/')) { $url = $url.'&partner_id=30401' }
+
+		$result = file_get_contents($url);
 
 		return $result;
 	}
