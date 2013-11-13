@@ -82,7 +82,7 @@ class apiSms extends CartET
 		$url = str_replace('{text}', urlencode($text), $url);
 		$url = "http://".$url;
 
-		if (strstr($url, 'http://sms.ru/')) { $url = $url.'&partner_id=30401' }
+		if (strstr($url, 'http://sms.ru/')) { $url = $url.'&partner_id=30401'; }
 
 		$result = file_get_contents($url);
 
