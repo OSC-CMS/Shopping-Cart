@@ -271,7 +271,7 @@ $main->top_menu();
 				<td class="tcenter">
 					<?php
 					if (PRICE_IS_BRUTTO == 'true')
-						$products_price = os_round($products['products_price'] * ((100 + $getTaxRate[$products['products_tax_class_id']]) / 100), PRICE_PRECISION);
+						$products_price = os_round($products['products_price'] * ((100 + $getTaxRate[$products['products_tax_class_id']]['taxId']) / 100), PRICE_PRECISION);
 					else
 						$products_price = $products['products_price'];
 					?>
@@ -287,7 +287,7 @@ $main->top_menu();
 						if ($gdValue['STATUS_NAME'] != '')
 						{
 							if (PRICE_IS_BRUTTO == 'true')
-								$products_price = os_round(get_group_price($gdValue['STATUS_ID'], $products['products_id']) * ((100 + $getTaxRate[$products['products_tax_class_id']]) / 100), PRICE_PRECISION);
+								$products_price = os_round(get_group_price($gdValue['STATUS_ID'], $products['products_id']) * ((100 + $getTaxRate[$products['products_tax_class_id']]['taxId']) / 100), PRICE_PRECISION);
 							else
 								$products_price = os_round(get_group_price($gdValue['STATUS_ID'], $products['products_id']), PRICE_PRECISION);
 							?>
