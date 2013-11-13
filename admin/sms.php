@@ -55,7 +55,7 @@ $main->top_menu();
 		<?php } ?>
 
 		<div class="control-group">
-			<label class="control-label" for="name">Название (например: sms.ru) <span class="input-required">*</span></label>
+			<label class="control-label" for="name">Название (Важно использовать домен в качестве названия! Например: <b>sms.ru</b>) <span class="input-required">*</span></label>
 			<div class="controls">
 				<input type="text" name="sms[name]" id="name" value="<?php echo $getSms['name']; ?>" data-required="true" class="input-block-level">
 			</div>
@@ -247,7 +247,8 @@ $main->top_menu();
 	<table class="table table-condensed table-big-list">
 		<thead>
 			<tr>
-				<th>Название</th>
+				<th>Баланс</th>
+				<th><span class="line"></span>Название</th>
 				<th><span class="line"></span>Логин</th>
 				<th><span class="line"></span>Пароль</th>
 				<th><span class="line"></span>Пароль MD5</th>
@@ -260,6 +261,8 @@ $main->top_menu();
 			</tr>
 		</thead>
 		<?php
+		$getSetting = $cartet->sms->setting();
+
 		$getSmsQuery = os_db_query("SELECT * FROM ".DB_PREFIX."sms ORDER BY id DESC");
 		if (os_db_num_rows($getSmsQuery) > 0)
 		{
@@ -267,6 +270,22 @@ $main->top_menu();
 			{
 				?>
 				<tr>
+					<td>
+					<?php
+					if ($getSetting['sms_default_id'] == $sms['id'] && $sms['name'] == 'sms.ru' && !empty($sms['api_id']))
+					{
+						$body = file_get_contents("http://sms.ru/my/balance?api_id=".$sms['api_id']);
+
+						list($code, $balance) = explode("\n", $body);
+						if ($code == "100")
+							echo (strstr($balance, '-')) ? '<span class="badge badge-important">'.$balance.'</span>' : '<span class="badge badge-success">'.$balance.'</span>';
+						else
+							echo 'error: '.$code;
+					}
+					else
+						echo '-';
+					?>
+					</td>
 					<td><?php echo $sms['name']; ?></td>
 					<td><?php echo $sms['login']; ?></td>
 					<td><?php echo $sms['password']; ?></td>
