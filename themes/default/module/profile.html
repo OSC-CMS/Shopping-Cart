@@ -54,10 +54,11 @@
 	<div class="tabbable">
 		<ul class="nav nav-tabs">
 			<li class="active"><a href="#reviews" data-toggle="tab">Отзывы</a></li>
-			<li><a href="#wishlist" data-toggle="tab">Список желаний</a></li>
-			{foreach item=t from=$tProfileTabs}
-			<li><a href="#tab_{$t.count}" data-toggle="tab">{$t.tab_name}</a></li>
-			{/foreach}
+			{if isset($tProfileTabs)}
+				{foreach item=t from=$tProfileTabs}
+				<li><a href="#tab_{$t.count}" data-toggle="tab">{$t.tab_name}</a></li>
+				{/foreach}
+			{/if}
 		</ul>
 
 		<div class="tab-content">
@@ -87,32 +88,27 @@
 					{/if}
 
 			</div>
-			<div class="tab-pane" id="wishlist">
-				<p>
-					Список желаний
-				</p>
-			</div>
 
-			{foreach $tProfileTabs $t}
-			<div class="tab-pane" id="tab_{$t.count}">
-				<p>
-					{if $t.is_array == true}
-						<ul>
-						{foreach key=k item=v from=$t.tab_content}
-							<li>{$k}: {$v}</li>
-						{/foreach}
-						</ul>
-					{else}
-						{$t.tab_content}
-					{/if}
-				</p>
-			</div>
-			{/foreach}
+			{if isset($tProfileTabs)}
+				{foreach $tProfileTabs as $t}
+				<div class="tab-pane" id="tab_{$t.count}">
+					<p>
+						{if $t.is_array == true}
+							<ul>
+							{foreach $t.tab_content as $k => $v}
+								<li>{$k}: {$v}</li>
+							{/foreach}
+							</ul>
+						{else}
+							{$t.tab_content}
+						{/if}
+					</p>
+				</div>
+				{/foreach}
+			{/if}
 
 		</div>
 	</div>
-
-
 
 
 	{/if}

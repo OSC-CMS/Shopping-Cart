@@ -22,6 +22,7 @@
 			<h2><a href="{$n.link}">{$n.headline}</a></h2>
 			<p class="news-block-text">{$n.content|os_truncate:$smarty.const.MAX_DISPLAY_LATEST_NEWS_CONTENT:" ..."}</p>
 			<p>{$n.date_added}</p>
+			<p>{$n.like}</p>
 		</div>
 		{if $n@iteration % 3 == 0}</div><hr><div class="row-fluid">{/if}
 		{/foreach}
