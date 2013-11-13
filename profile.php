@@ -61,7 +61,9 @@ if (isset($_GET['id']) && is_numeric($_GET['id']))
 				pd.language_id = '".(int) $_SESSION['languages_id']."' AND 
 				rd.languages_id = '".(int) $_SESSION['languages_id']."' 
 			ORDER BY 
-				r.reviews_id DESC
+				r.reviews_id DESC 
+			LIMIT 
+				5
 		");
 
 		if (os_db_num_rows($reviews_query_raw, true))
