@@ -8,12 +8,13 @@
 *---------------------------------------------------------
 */
 
-error_reporting(0);
+error_reporting(1);
 
 session_start();
 
 define('DS', DIRECTORY_SEPARATOR);
 define('PATH', dirname(__FILE__).DS);
+define('ROOT_PATH', dirname(dirname(__FILE__)).DS);
 
 header("Content-type:text/html; charset=utf-8");
 mb_internal_encoding('UTF-8');
@@ -26,8 +27,7 @@ if (isset($_REQUEST['lang']))
 	header('Location: '.$_SERVER['SCRIPT_NAME']);
 }
 
-$is_lang_selected = isset($_SESSION['install']['lang']);
-$lang = $is_lang_selected ? $_SESSION['install']['lang'] : $default_lang;
+$lang = ($_SESSION['install']['lang']) ? $_SESSION['install']['lang'] : $default_lang;
 define('LANG', $lang);
 
 $_www_location = 'http://'.$_SERVER['HTTP_HOST'];
@@ -39,6 +39,18 @@ else
 
 $_www_location = substr($_www_location, 0, strpos($_www_location, 'install'));
 define('WWW_LOCATION', $_www_location);
+
+// пишем настройки БД в сессию
+if (isset($_POST['db']) && !empty($_POST['db']))
+{
+	unset($_SESSION['install']['db']);
+	$_SESSION['install']['db'] = $_POST['db'];
+}
+
+if (isset($_SESSION['install']['db']))
+	define('DB_PREFIX', $_SESSION['install']['db']['prefix']);
+else
+	define('DB_PREFIX', 'cet_');
 
 include PATH.DS.'languages'.DS.LANG.DS."language.php";
 include PATH."functions.php";

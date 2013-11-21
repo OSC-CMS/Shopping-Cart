@@ -24,6 +24,8 @@ function setSession()
 {
 	$error = !isset($_POST['type']);
 
+	unset($_SESSION['install']);
+
 	$_SESSION['install']['type'] = $_POST['type'];
 
 	return array(

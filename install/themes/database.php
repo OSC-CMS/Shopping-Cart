@@ -31,7 +31,7 @@
 
 			<div class="field">
 				<label><?php echo t('db_6'); ?></label>
-				<input type="text" class="input input-icon icon-db-prefix" name="db[prefix]" value="os_" />
+				<input type="text" class="input input-icon icon-db-prefix" name="db[prefix]" value="cet_" />
 			</div>
 		</fieldset>
 

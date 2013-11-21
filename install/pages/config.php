@@ -11,14 +11,13 @@
 function step($is_submit)
 {
     $root = $_SESSION['install']['paths']['root'];
-    $path = $_SERVER['DOCUMENT_ROOT'].$root.'/';
 
     if ($is_submit)
     {
-        return create_config($path);
+        return create_config(ROOT_PATH);
     }
 
-    $result = array('html' => display('config', array('path' => $path )) );
+    $result = array('html' => display('config', array('path' => ROOT_PATH)) );
 
     return $result;
 }

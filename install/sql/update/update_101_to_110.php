@@ -357,7 +357,7 @@ os_db_query("INSERT INTO `".DB_PREFIX."sms_setting` VALUES(1, 0, 0, 1, 1, 1, 0, 
 
 os_db_query("INSERT INTO `".DB_PREFIX."sms` (`id`, `name`, `login`, `password`, `password_md5`, `api_id`, `api_key`, `title`, `phone`, `status`, `url`) VALUES
 (1, 'avisosms.ru', '', '', 0, '', '', 'cartet', '', '', 'api.avisosms.ru/sms/get/?username={login}&password={password}&destination_address={phone}&source_address={title}&message={text}'),
-(2, 'sms.ru', '', '', 0, '', '', 'cartet', '', '', 'sms.ru/sms/send?api_id={api_id}&to={phone}&text={text}'),
+(2, 'sms.ru', '', '', 0, '', '', 'cartet', '', '', 'sms.ru/sms/send?api_id={api_id}&to={phone}&text={text}&from={title}'),
 (3, 'infosmska.ru', '', '', 0, '', '', 'cartet', '', '', 'api.infosmska.ru/interfaces/SendMessages.ashx?login={login}&pwd={password}&sender={title}&phones={phone}&message={text}'),
 (4, 'sms-sending.ru', '', '', 0, '', '', 'cartet', '', '', 'lcab.sms-sending.ru/lcabApi/sendSms.php?login={login}&password={password}&txt={text}&to={phone}'),
 (5, 'bytehand.com', '', '', 0, '', '', 'cartet', '', '', 'bytehand.com:3800/send?id={api_id}&key={api_key}&to={phone}&partner=cartet&from={title}&text={text}'),

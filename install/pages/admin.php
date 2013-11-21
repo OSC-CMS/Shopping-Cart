@@ -65,7 +65,7 @@ function create_admin()
 	$email_from = $email_address;
 	$company = t('admin_default_company');
 
-	os_db_perform(TABLE_CUSTOMERS, array(
+	os_db_perform(DB_PREFIX.'customers', array(
 			'customers_id' => '1',
 			'customers_status' => '0',
 			'customers_firstname' => $firstname,
@@ -79,14 +79,14 @@ function create_admin()
 			'customers_last_modified' => 'now()',)
 	);
 
-	os_db_perform(TABLE_CUSTOMERS_INFO, array(
+	os_db_perform(DB_PREFIX.'customers_info', array(
 			'customers_info_id' => '1',
 			'customers_info_number_of_logons' => '0',
 			'customers_info_date_account_created' => 'now()',
 			'customers_info_date_account_last_modified' => 'now()')
 	);
 
-	os_db_perform(TABLE_ADDRESS_BOOK, array(
+	os_db_perform(DB_PREFIX.'address_book', array(
 			'customers_id' => '1',
 			'entry_company' => ($company),
 			'entry_firstname' => ($firstname),
@@ -101,14 +101,14 @@ function create_admin()
 			'address_last_modified' => 'now()')
 	);
 
-	os_db_query("UPDATE " .TABLE_CONFIGURATION . " SET configuration_value='". ($email_address). "' WHERE configuration_key = 'STORE_OWNER_EMAIL_ADDRESS'");
-	os_db_query("UPDATE " .TABLE_CONFIGURATION . " SET configuration_value='". ($store_name). "' WHERE configuration_key = 'STORE_NAME'");
-	os_db_query("UPDATE " .TABLE_CONFIGURATION . " SET configuration_value='". ($email_from). "' WHERE configuration_key = 'EMAIL_FROM'");
-	os_db_query("UPDATE " .TABLE_CONFIGURATION . " SET configuration_value='". ($country). "' WHERE configuration_key = 'SHIPPING_ORIGIN_COUNTRY'");
-	os_db_query("UPDATE " .TABLE_CONFIGURATION . " SET configuration_value='". ($postcode). "' WHERE configuration_key = 'SHIPPING_ORIGIN_ZIP'");
-	os_db_query("UPDATE " .TABLE_CONFIGURATION . " SET configuration_value='". ($company). "' WHERE configuration_key = 'STORE_OWNER'");
-	os_db_query("UPDATE " .TABLE_CONFIGURATION . " SET configuration_value='". ($email_from). "' WHERE configuration_key = 'EMAIL_BILLING_FORWARDING_STRING'");
-	os_db_query("UPDATE " .TABLE_CONFIGURATION . " SET configuration_value='". ($email_from). "' WHERE configuration_key = 'EMAIL_BILLING_ADDRESS'");
-	os_db_query("UPDATE " .TABLE_CONFIGURATION . " SET configuration_value='". ($email_from). "' WHERE configuration_key = 'CONTACT_US_EMAIL_ADDRESS'");
-	os_db_query("UPDATE " .TABLE_CONFIGURATION . " SET configuration_value='". ($email_from). "' WHERE configuration_key = 'EMAIL_SUPPORT_ADDRESS'");
+	os_db_query("UPDATE ".DB_PREFIX."configuration SET configuration_value='".($email_address)."' WHERE configuration_key = 'STORE_OWNER_EMAIL_ADDRESS'");
+	os_db_query("UPDATE ".DB_PREFIX."configuration SET configuration_value='".($store_name)."' WHERE configuration_key = 'STORE_NAME'");
+	os_db_query("UPDATE ".DB_PREFIX."configuration SET configuration_value='".($email_from)."' WHERE configuration_key = 'EMAIL_FROM'");
+	os_db_query("UPDATE ".DB_PREFIX."configuration SET configuration_value='".($country)."' WHERE configuration_key = 'SHIPPING_ORIGIN_COUNTRY'");
+	os_db_query("UPDATE ".DB_PREFIX."configuration SET configuration_value='".($postcode)."' WHERE configuration_key = 'SHIPPING_ORIGIN_ZIP'");
+	os_db_query("UPDATE ".DB_PREFIX."configuration SET configuration_value='".($company)."' WHERE configuration_key = 'STORE_OWNER'");
+	os_db_query("UPDATE ".DB_PREFIX."configuration SET configuration_value='".($email_from)."' WHERE configuration_key = 'EMAIL_BILLING_FORWARDING_STRING'");
+	os_db_query("UPDATE ".DB_PREFIX."configuration SET configuration_value='".($email_from)."' WHERE configuration_key = 'EMAIL_BILLING_ADDRESS'");
+	os_db_query("UPDATE ".DB_PREFIX."configuration SET configuration_value='".($email_from)."' WHERE configuration_key = 'CONTACT_US_EMAIL_ADDRESS'");
+	os_db_query("UPDATE ".DB_PREFIX."configuration SET configuration_value='".($email_from)."' WHERE configuration_key = 'EMAIL_SUPPORT_ADDRESS'");
 }

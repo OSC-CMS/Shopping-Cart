@@ -19,8 +19,7 @@ function step($is_submit){
 
 function checkWritables()
 {
-	$dir = dirname(__FILE__).'/../../';
-	$_dir = str_replace('\\', '/', realpath($dir)).'/';
+	$_dir = ROOT_PATH;
 
 	$arr = array(
 		'admin/backups/' => $_dir.'admin/backups/',
