@@ -14,15 +14,16 @@ $languages = os_get_languages();
 require_once(CLS_NEW.'manufacturers.class.php');
 $manufacturers = new manufacturers();
 
+// Если редактируем производителя
+if (isset($_GET['m_id']) && !empty($_GET['m_id']))
+{
+	$manufacturer = $manufacturers->getById($_GET['m_id']);
+
+	$aManufacturersInfo = $manufacturers->getInfoById($manufacturer['manufacturers_id']);
+}
+
 if ($_GET['action'] == 'edit' OR $_GET['action'] == 'new')
 {
-	// Если редактируем производителя
-	if (isset($_GET['m_id']) && !empty($_GET['m_id']))
-	{
-		$manufacturer = $manufacturers->getById($_GET['m_id']);
-
-		$aManufacturersInfo = $manufacturers->getInfoById($manufacturer['manufacturers_id']);
-	}
 	?>
 
 	<?php echo $cartet->html->form('manufacturers_form', 'ajax.php', 'ajax_action=manufacturers_save', 'post', array('enctype' => 'multipart/form-data', 'id' => 'manufacturers_form', 'class' => 'form-inline')); ?>
