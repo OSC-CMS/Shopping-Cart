@@ -622,6 +622,7 @@ echo os_draw_hidden_field('products_id', $pInfo->products_id);
 					ORDER BY
 						g.extra_fields_groups_order ASC
 					");
+					$groupDescEdit = array();
 					if (os_db_num_rows($groupsDescQuery) > 0)
 					{
 						while ($groups = os_db_fetch_array($groupsDescQuery))
