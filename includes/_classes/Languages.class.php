@@ -42,7 +42,7 @@ class apiLanguages extends CartET
 
 		if ($params['default'] == 'on')
 		{
-			os_db_query("update ".TABLE_CONFIGURATION." set configuration_value = '".os_db_input($code)."' where configuration_key = 'DEFAULT_LANGUAGE'");
+			os_db_query("update ".TABLE_CONFIGURATION." set configuration_value = '".os_db_prepare_input($params['code'])."' where configuration_key = 'DEFAULT_LANGUAGE'");
 		}
 
 		set_default_cache();
@@ -175,6 +175,8 @@ class apiLanguages extends CartET
 		os_db_query("delete from ".TABLE_CONTENT_MANAGER." where languages_id = '".(int)$lID."'");
 		os_db_query("delete from ".TABLE_PRODUCTS_CONTENT." where languages_id = '".(int)$lID."'");
 		os_db_query("delete from ".TABLE_CUSTOMERS_STATUS." where language_id = '".(int)$lID."'");
+
+		set_default_cache();
 	}
 }
 ?>
