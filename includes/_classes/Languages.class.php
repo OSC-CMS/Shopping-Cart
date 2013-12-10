@@ -135,6 +135,19 @@ class apiLanguages extends CartET
 			os_db_query("insert into ".TABLE_PRODUCTS_XSELL_GROUPS." (products_xsell_grp_name_id,xsell_sort_order, language_id, groupname) values ('".$xsell_grp['products_xsell_grp_name_id']."','".$xsell_grp['xsell_sort_order']."', '".$insert_id."', '".os_db_input($xsell_grp['groupname'])."')");
 		}
 
+		$menu_query = os_db_query("SELECT * FROM ".DB_PREFIX."menu_lang");
+		while($menu = os_db_fetch_array($menu_query))
+		{
+			$menuLangArray = array(
+				'lang_title' => os_db_prepare_input($menu['lang_title']),
+				'lang_type' => $menu['lang_type'],
+				'lang_type_id' => (int)$menu['lang_type_id'],
+				'lang_lang' => (int)$insert_id
+
+			);
+			os_db_perform(DB_PREFIX.'menu_lang', $menuLangArray);
+		}
+
 		$customers_status_query = os_db_query("SELECT DISTINCT customers_status_id FROM ".TABLE_CUSTOMERS_STATUS);
 		while ($data=os_db_fetch_array($customers_status_query))
 		{
