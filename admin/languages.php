@@ -166,6 +166,6 @@ while ($languages = os_db_fetch_array($languages_query))
 </tr>
 </table>
 
-<? } ?>
+<?php } ?>
 
 <?php $main->bottom(); ?>

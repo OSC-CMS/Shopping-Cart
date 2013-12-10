@@ -117,7 +117,7 @@ $main->top_menu();
 </tr>
 </table>
 
-<? } ?>
+<?php } ?>
 
 </table>
 <?php $main->bottom(); ?>

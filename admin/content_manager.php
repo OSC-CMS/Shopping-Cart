@@ -65,7 +65,7 @@ $main->top_menu();
 				<a class="btn btn-info btn-mini" href="<?php echo os_href_link(FILENAME_CONTENT_MANAGER,'act=products&action=new_products'); ?>"><?php echo TEXT_NEW_FILE_TO_PRODUCT; ?></a>
 				<? } else { ?>
 				<a class="btn btn-info btn-mini" href="<?php echo os_href_link(FILENAME_CONTENT_MANAGER,'action=new'); ?>"><?php echo BUTTON_NEW_CONTENT; ?></a>
-				<? } ?>
+				<?php } ?>
 			</div>
 		</div>
 	</div>

@@ -141,6 +141,6 @@ $main->top_menu();
 	</tr>
 </table>
 
-<? } ?>
+<?php } ?>
 
 <?php $main->bottom(); ?>

@@ -131,6 +131,6 @@ while ($countries = os_db_fetch_array($countries_query))
 </tr>
 </table>
 
-<? } ?>
+<?php } ?>
 
 <?php $main->bottom(); ?>
