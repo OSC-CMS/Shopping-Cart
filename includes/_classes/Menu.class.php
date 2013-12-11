@@ -18,7 +18,7 @@ class apiMenu extends CartET
 		$lang = (is_array($arr) && isset($arr['lang'])) ? $arr['lang'] : $_SESSION['languages_id'];
 
 		$data = array();
-		$sql = os_db_query("SELECT group_id, lang_title FROM ".DB_PREFIX."menu_group LEFT JOIN os_menu_lang ON (lang_type = 1 AND lang_lang = '".(int)$lang."') WHERE lang_type_id = group_id");
+		$sql = os_db_query("SELECT group_id, lang_title FROM ".DB_PREFIX."menu_group LEFT JOIN ".DB_PREFIX."menu_lang ON (lang_type = 1 AND lang_lang = '".(int)$lang."') WHERE lang_type_id = group_id");
 		while ($row = os_db_fetch_array($sql))
 		{
 			$data[$row['group_id']] = $row['lang_title'];
