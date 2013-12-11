@@ -504,7 +504,7 @@ $main->top_menu();
 
 				if (is_array($array['link']) && !empty($array['link']))
 				{
-					foreach($array['link'] AS $item => $link)
+					foreach($array['link'] AS $link)
 					{
 						echo '<li><a href="Javascript:void()" onclick="window.open(\''.$link['href'].'\', \'popup\', \'toolbar=0, width=640, height=600\')">'.$link['name'].'</a></li>';
 					}
@@ -927,7 +927,7 @@ $main->top_menu();
 
 							if (is_array($array['link']) && !empty($array['link']))
 							{
-								foreach($array['link'] AS $item => $link)
+								foreach($array['link'] AS $link)
 								{
 									echo '<li><a href="Javascript:void()" onclick="window.open(\''.$link['href'].'\', \'popup\', \'toolbar=0, width=640, height=600\')">'.$link['name'].'</a></li>';
 								}
