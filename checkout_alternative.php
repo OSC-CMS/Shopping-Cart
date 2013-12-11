@@ -35,7 +35,7 @@ $total_count = $_SESSION['cart']->count_contents_virtual(); // GV Code ICW ADDED
 // include boxes
 
 
-require (_CLASS . 'shipping.php');
+//require (_CLASS . 'shipping.php');
 require (_CLASS . 'payment.php');
 
 $breadcrumb->add(TEXT_CHECKOUT_ALTERNATIVE);
@@ -67,7 +67,8 @@ if (isset($_POST['conditions'])) {
 
 $_SESSION['comments'] = os_db_prepare_input($_POST['comments']);
 
-$shipping_modules = new shipping;
+//$shipping_modules = new shipping;
+$shipping_modules = $shippingModules;
 
 if (defined('MODULE_ORDER_TOTAL_SHIPPING_FREE_SHIPPING') && (MODULE_ORDER_TOTAL_SHIPPING_FREE_SHIPPING == 'true')) {
 	switch (MODULE_ORDER_TOTAL_SHIPPING_DESTINATION) {
@@ -634,7 +635,8 @@ if (ACCOUNT_FAX == 'true') {
 // load all enabled shipping modules
 
 if (!isset ($_POST['action']) && ($_POST['action'] != 'process')) {
-$shipping_modules = new shipping;
+//$shipping_modules = new shipping;
+$shipping_modules = $shippingModules;
 }
 
 if (defined('MODULE_ORDER_TOTAL_SHIPPING_FREE_SHIPPING') && (MODULE_ORDER_TOTAL_SHIPPING_FREE_SHIPPING == 'true')) {
