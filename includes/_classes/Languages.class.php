@@ -188,6 +188,7 @@ class apiLanguages extends CartET
 		os_db_query("delete from ".TABLE_CONTENT_MANAGER." where languages_id = '".(int)$lID."'");
 		os_db_query("delete from ".TABLE_PRODUCTS_CONTENT." where languages_id = '".(int)$lID."'");
 		os_db_query("delete from ".TABLE_CUSTOMERS_STATUS." where language_id = '".(int)$lID."'");
+		os_db_query("delete from ".DB_PREFIX."menu_lang where lang_lang = '".(int)$lID."'");
 
 		set_default_cache();
 	}
