@@ -48,7 +48,7 @@
 			<p>{$HISTORY_BLOCK}</p>
 		</div>
 		<div class="sub-block">
-			<!-- {#heading_products#} - зачем два раза одно и то же слово(Товары) выводить? -->
+			<!-- {#heading_products#} -->
 			<h3 class="bold">{#text_products#}</h3>
 			<table class="table-products" width="100%">
 				<tr class="table-head bold"> 
@@ -77,7 +77,6 @@
 		</div>
 		{if $downloads_content neq ''}
 		<div class="sub-block">
-			<h3 class="bold">Загрузить</h3>
 			<p>{$downloads_content}</p>
 		</div>
 		{/if}
@@ -88,7 +87,7 @@
 			<p>
 				{if $filterPrint}
 					{foreach $filterPrint as $link}
-						{$link}
+						<a class="btn" href="Javascript:void()" onclick="window.open('{$link.href}', 'popup', 'toolbar=0, width=640, height=600')">{$link.name}</a>
 					{/foreach}
 				{/if}
 			</p>

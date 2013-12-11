@@ -11,7 +11,6 @@
 include ('includes/top.php');
 //$osTemplate = new osTemplate;
 
-
 //security checks
 if (!isset ($_SESSION['customer_id'])) { os_redirect(os_href_link(FILENAME_LOGIN, '', 'SSL')); }
 if (!isset ($_GET['order_id']) || (isset ($_GET['order_id']) && !is_numeric($_GET['order_id']))) { 

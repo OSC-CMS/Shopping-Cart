@@ -493,6 +493,7 @@ $main->top_menu();
 			<a class="btn ajax-load-page" href="#" data-container="1" data-load-page="orders&o_id=<?php echo $_GET['oID']; ?>&action=edit_other" data-toggle="modal"><?php echo TEXT_EDIT_OTHER; ?></a>
 			<a class="btn" href="<?php echo os_href_link(FILENAME_ORDERS, 'page='.$_GET['page'].'&oID='.$_GET['oID']); ?>"><?php echo BUTTON_BACK; ?></a>
 		</div>
+
 		<div class="btn-group pull-right" style="margin-right:5px;">
 			<button class="btn dropdown-toggle" data-toggle="dropdown"><i class="icon-print"></i> <span class="caret"></span></button>
 			<ul class="dropdown-menu">
@@ -500,11 +501,12 @@ $main->top_menu();
 				$array = array();
 				$array['params'] = array('order_id' => $_GET['oID'], 'payment_method' => $order->info['payment_method']);
 				$array = apply_filter('admin_print_menu', $array);
+
 				if (is_array($array['link']) && !empty($array['link']))
 				{
-					foreach($array['link'] AS $link)
+					foreach($array['link'] AS $item => $link)
 					{
-						echo $link;
+						echo '<li><a href="Javascript:void()" onclick="window.open(\''.$link['href'].'\', \'popup\', \'toolbar=0, width=640, height=600\')">'.$link['name'].'</a></li>';
 					}
 				}
 				?>
@@ -922,15 +924,16 @@ $main->top_menu();
 							$array = array();
 							$array['params'] = array('order_id' => $orders['orders_id'], 'payment_method' => $orders['payment_method']);
 							$array = apply_filter('admin_print_menu', $array);
+
 							if (is_array($array['link']) && !empty($array['link']))
 							{
-								foreach ($array['link'] AS $link)
+								foreach($array['link'] AS $item => $link)
 								{
-									echo $link;
+									echo '<li><a href="Javascript:void()" onclick="window.open(\''.$link['href'].'\', \'popup\', \'toolbar=0, width=640, height=600\')">'.$link['name'].'</a></li>';
 								}
 							}
 							?>
-							<li><a href="<?php echo os_href_link(FILENAME_PRINT_ORDER,'oID='.$orders['orders_id']); ?>" target="_blank"><?php echo BUTTON_INVOICE; ?></a></li>
+							<!--<li><a href="<?php echo os_href_link(FILENAME_PRINT_ORDER,'oID='.$orders['orders_id']); ?>" target="_blank"><?php echo BUTTON_INVOICE; ?></a></li>-->
 							<li><a href="<?php echo os_href_link(FILENAME_PRINT_PACKINGSLIP,'oID='.$orders['orders_id']); ?>" target="_blank"><?php echo BUTTON_PACKINGSLIP; ?></a></li>
 						</ul>
 					</div>

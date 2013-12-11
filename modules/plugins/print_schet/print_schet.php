@@ -24,7 +24,10 @@ function print_schet_admin_menu($value)
 {
 	if ($value['params']['payment_method'] == 'schet' && !empty($value['params']['order_id']))
 	{
-		$value['link'][] = '<li><a href="Javascript:void()" onclick="window.open(\''._HTTP.'index.php?page=print_schet_page&oID='.$value['params']['order_id'].'\', \'popup\', \'toolbar=0, width=640, height=600\')">Счет</a></li>';
+		$value['link'][] = array(
+			'name' => 'Счет',
+			'href' => _HTTP.'index.php?page=print_schet_page&oID='.$value['params']['order_id'],
+		);
 	}
 	return $value;
 }
@@ -34,7 +37,11 @@ function print_schet_menu($value)
 {
 	if ($value['params']['payment_method'] == 'schet' && !empty($value['params']['order_id']))
 	{
-		$value['link'][] = '<a class="btn" href="Javascript:void()" onclick="window.open(\''._HTTP.'index.php?page=print_schet_page&oID='.$value['params']['order_id'].'\', \'popup\', \'toolbar=0, width=640, height=600\')">Счет</a>';
+		$value['link'][] = array(
+			'name' => 'Счет',
+			'href' => _HTTP.'index.php?page=print_schet_page&oID='.$value['params']['order_id'],
+		);
+		//$value['link'][] = '<a class="btn" href="Javascript:void()" onclick="window.open(\''._HTTP.'index.php?page=print_schet_page&oID='.$value['params']['order_id'].'\', \'popup\', \'toolbar=0, width=640, height=600\')">Счет</a>';
 	}
 	return $value;
 }
