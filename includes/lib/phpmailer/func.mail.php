@@ -8,12 +8,11 @@
 *---------------------------------------------------------
 */
 
-//Îòïðàâêà e-mail
+//ÐžÑ‚Ð¿Ñ€Ð°Ð²ÐºÐ° e-mail
 function os_php_mail($from_email_address, $from_email_name, $to_email_address, $to_name, $forwarding_to, $reply_address, $reply_address_name, $path_to_attachement, $path_to_more_attachements, $email_subject, $message_body_html, $message_body_plain) 
 {
 	global $mail_error;
-	$mail = new PHPMailer();
-	$mail->PluginDir = _LIB.'phpmailer/';
+	$mail = new PHPMailer;
 
 	if (isset ($_SESSION['language_charset'])) 
 	{
@@ -27,18 +26,13 @@ function os_php_mail($from_email_address, $from_email_name, $to_email_address, $
 		$mail->CharSet = $lang_data['language_charset'];
 	}
 
-	if ($_SESSION['language'] == 'ru') 
-	{
+	if ($_SESSION['language'] == 'ru')
 		$mail->SetLanguage("ru", _LIB.'phpmailer/language/');
-	} 
-	else 
-	{
+	else
 		$mail->SetLanguage("en", _LIB.'phpmailer/language/');
-	}
 
 	if (EMAIL_TRANSPORT == 'smtp') 
 	{
-	
 		$mail->IsSMTP();
 		$mail->SMTPDebug = 0;  // debugging: 1 = errors and messages, 2 = messages only
 		$mail->Username = SMTP_USERNAME;

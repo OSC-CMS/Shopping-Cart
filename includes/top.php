@@ -14,11 +14,6 @@ define('PAGE_PARSE_START_TIME', microtime());
 @ini_set('display_errors', true);
 @ini_set('html_errors', false);
 
-//error_reporting(E_ALL);
-//ini_set('display_errors', 'on');
-
-
-//@ini_set('error_reporting', E_ALL ^ E_NOTICE);
 define('_VALID_OS', true);
 
 $_dir = dirname(dirname(__FILE__));
@@ -45,7 +40,7 @@ if (!isset($PHP_SELF))
 require_once (_INCLUDES.'filenames.php');
 require_once (_INCLUDES.'database.php');
 
-define('SQL_CACHEDIR', _CACHE);
+define('SQL_CACHEDIR', _CACHE.'database/');
 define('SECURITY_CODE_LENGTH', '10');
 define('GRADUATED_ASSIGN', 'true');
 
@@ -84,11 +79,12 @@ $p->require_plugins();
 get_cache_all();
 
 //удаляем action плагинов
-remove_action_array ();
+remove_action_array();
 
-require_once (_LIB . 'phpmailer/class.phpmailer.php');
-if (EMAIL_TRANSPORT == 'smtp')
-	require_once (_LIB . 'phpmailer/class.smtp.php');
+//require_once (_LIB . 'phpmailer/class.phpmailer.php');
+require _LIB . 'phpmailer/PHPMailerAutoload.php';
+//if (EMAIL_TRANSPORT == 'smtp')
+//	require_once (_LIB . 'phpmailer/class.smtp.php');
 
 function CacheCheck()
 {
