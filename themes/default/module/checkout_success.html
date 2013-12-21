@@ -27,9 +27,9 @@
 
 <p>
 {if $filterPrint}
-        {foreach $filterPrint as $link}
-                {$link}
-        {/foreach}
+    {foreach $filterPrint as $link}
+	<a class="btn" href="Javascript:void()" onclick="window.open('{$link.href}', 'popup', 'toolbar=0, width=640, height=600')">{$link.name}</a>
+    {/foreach}
 {/if}
 </p>
 
