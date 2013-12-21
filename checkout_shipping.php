@@ -255,28 +255,19 @@ if (os_count_shipping_modules() > 0)
 					# set the radio button to be checked if it is the method chosen
 					$quotes[$i]['methods'][$j]['radio_buttons'] = $radio_buttons;
 
-					$checked = (($quotes[$i]['id'].'_'.$quotes[$i]['methods'][$j]['id'] == $_SESSION['shipping']['id']) ? true : false);
+					$checked = ((($quotes[$i]['id'].'_'.$quotes[$i]['methods'][$j]['id'] == $_SESSION['shipping']['id']) OR ($n == 1 && $n2 == 1)) ? true : false);
 
 					if (($checked == true) || ($n == 1 && $n2 == 1))
 					{
 						$quotes[$i]['methods'][$j]['checked'] = 1;
 					}
 
-					if (($n > 1) || ($n2 > 1))
-					{
-						if ($_SESSION['customers_status']['customers_status_show_price_tax'] == 0)
-							$quotes[$i]['tax'] = 0;
-						$quotes[$i]['methods'][$j]['price'] = $osPrice->Format(os_add_tax($quotes[$i]['methods'][$j]['cost'], $quotes[$i]['tax']), true, 0, true);
-						$quotes[$i]['methods'][$j]['radio_field'] = os_draw_radio_field('shipping', $quotes[$i]['id'].'_'.$quotes[$i]['methods'][$j]['id'], $checked);
-						$quotes[$i]['methods'][$j]['id'] = $quotes[$i]['methods'][$j]['id'];
-					}
-					else
-					{
-						if ($_SESSION['customers_status']['customers_status_show_price_tax'] == 0)
-							$quotes[$i]['tax'] = 0;
+					if ($_SESSION['customers_status']['customers_status_show_price_tax'] == 0)
+						$quotes[$i]['tax'] = 0;
 
-						$quotes[$i]['methods'][$j]['price'] = $osPrice->Format(os_add_tax($quotes[$i]['methods'][$j]['cost'], $quotes[$i]['tax']), true, 0, true).os_draw_hidden_field('shipping', $quotes[$i]['id'].'_'.$quotes[$i]['methods'][$j]['id']);
-					}
+					$quotes[$i]['methods'][$j]['price'] = $osPrice->Format(os_add_tax($quotes[$i]['methods'][$j]['cost'], $quotes[$i]['tax']), true, 0, true);
+					$quotes[$i]['methods'][$j]['radio_field'] = os_draw_radio_field('shipping', $quotes[$i]['id'].'_'.$quotes[$i]['methods'][$j]['id'], $checked);
+
 					$radio_buttons++;
 				}
 			}
@@ -286,7 +277,6 @@ if (os_count_shipping_modules() > 0)
 	$module->caching = 0;
 	$shipping_block = $module->fetch(CURRENT_TEMPLATE.'/module/checkout_shipping_block.html');
 }
-
 
 $osTemplate->assign('language', $_SESSION['language']);
 $osTemplate->assign('SHIPPING_BLOCK', $shipping_block);
