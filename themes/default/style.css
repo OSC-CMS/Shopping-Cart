@@ -48,6 +48,7 @@ ul.subcat-nav li a.current {background:#08C;color:#fff;}
 .product-list {}
 .product-list-item {position:relative;width:100%;}
 .product-bundle-icon {position:absolute;top:5px;right:5px;}
+.like-div {position:absolute;top:5px;left:5px;}
 .product-list .caption h5 a {display:block;height:40px;line-height:14px;overflow:hidden;}
 .product-list a.product-image {display:block;text-align:center;min-height:190px;}
 .pprice {font-weight:bold;font-size:1.3em;color:#b33232;}

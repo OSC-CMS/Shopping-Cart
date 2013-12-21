@@ -49,7 +49,6 @@
 			{if $PRODUCTS_FSK18 == 'true'}<li class="bold">{#text_fsk18#}</li>{/if}
 			{if $PRODUCTS_DATE_AVIABLE != ''}<li class="bold">{$PRODUCTS_DATE_AVIABLE}</li>{/if}
 			{if $PRODUCTS_URL != ''}<li>{$PRODUCTS_URL}</li>{/if}
-			{if $like != ''}<li>{$like}</li>{/if}
 			{if $PRODUCTS_STOCK eq 1}
 				<li>{#stock#} {$PRODUCTS_QUANTITY}</li>
 				<li>
@@ -61,6 +60,7 @@
 				<li>{#text_stock#}</li>
 			{/if}
 			{if $alarm_quantity_link}<li>{$alarm_quantity_link}</li>{/if}
+			{if $like != ''}<li>{$like}<div class="clear"></div></li>{/if}
 		</ul>
 	</div>
 </div>

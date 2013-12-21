@@ -75,6 +75,7 @@
 	<li class="span3">
 		<div class="thumbnail product-list">
 			<div class="product-list-item">
+				{if $p.like}<div class="like-div">{$p.like}</div>{/if}
 				{if $p.PRODUCTS_BUNDLE == '1'}<img class="product-bundle-icon" src="{$tpl_path}img/set.png" />{/if}
 				{if $p.PRODUCTS_IMAGE}<a class="product-image" href="{$p.PRODUCTS_LINK}"><img src="{$p.PRODUCTS_IMAGE}" alt="{$p.PRODUCTS_NAME}" title="{$p.PRODUCTS_NAME}" /></a>{/if}
 				<div class="caption">
@@ -97,7 +98,6 @@
 					{if $p.PRODUCTS_TAX_INFO}<p>{$p.PRODUCTS_TAX_INFO}</p>{/if}
 					{if $p.PRODUCTS_SHIPPING_LINK}<p>{$p.PRODUCTS_SHIPPING_LINK}</p>{/if}
 					<p>{$p.PRODUCTS_BUTTON_BUY_NOW_NEW}</p>
-					<p>{$p.like}</p>
 				</div>
 			</div>
 		</div>
