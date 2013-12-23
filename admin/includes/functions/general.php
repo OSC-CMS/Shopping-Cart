@@ -1530,6 +1530,7 @@ function os_mkdirs($path, $perm) {
 
 function os_spaceUsed($dir) 
 {
+	$total = false;
     if (is_dir($dir)) 
     {
         if ($dh = opendir($dir)) 
@@ -1542,12 +1543,13 @@ function os_spaceUsed($dir)
                 } 
                 else 
                 {
-                    $GLOBALS['total'] += filesize($dir.$file);
+	                $total += filesize($dir.$file);
                 }
             }
             closedir($dh);
         }
     }
+	return $total;
 }
 
 function create_coupon_code($salt = "secret", $length = SECURITY_CODE_LENGTH) {

@@ -572,13 +572,7 @@ $main->head();
 $main->top_menu();
 ?>
 
-
-<a class="btn btn-mini pull-right" href="<?php echo FILENAME_CSV_BACKEND; ?>"><?php echo BOX_IMPORT;  ?></a>
-
-<table border="0" width="100%" cellspacing="0" cellpadding="2">
-<tr>
 <?php
-
 if (@$_POST['localfile'] or (is_uploaded_file(@$_FILES['usrfl']['tmp_name']) && @$_GET['split'] == 0))
 {
 	//*******************************
@@ -775,190 +769,201 @@ if (is_uploaded_file(@$_FILES['usrfl']['tmp_name']) && @$_GET['split'] == 1)
 }
 
 ?>
-</p>
-
-
-
-
 
 
 <hr>
 
 
+<div class="row-fluid">
+	<div class="span6">
+		<h4><?php echo EASY_LABEL_IMPORT;?></h4>
 
+		<form enctype="multipart/form-data" action="easypopulate.php?split=0" method="post">
+			<div class="control-group">
+				<label class="control-label" for=""><?PHP ECHO EASY_UPLOAD_EP_FILE;?></label>
+				<div class="controls">
+					<input name="usrfl" type="file" size="50">
+				</div>
+			</div>
+			<div class="control-group">
+				<label class="control-label" for=""><?php echo EASY_LABEL_IMPORT_CHARSET;?></label>
+				<div class="controls">
+					<select name="import_charset">
+						<option selected value ="cp1251" size="5">cp1251</option>
+						<option value="utf8" size="5">utf8</option>
+					</select>
+				</div>
+			</div>
+			<button class="btn" type="submit" name="buttoninsert" value="<?PHP ECHO EASY_INSERT;?>"><?PHP ECHO EASY_INSERT;?></button>
+		</form>
 
+		<hr>
 
+		<form enctype="multipart/form-data" action="easypopulate.php?split=1" method="post">
+			<input TYPE="hidden" name="MAX_FILE_SIZE" value="1000000000">
+			<div class="control-group">
+				<label class="control-label" for=""><?php echo EASY_SPLIT_EP_FILE;?></label>
+				<div class="controls">
+					<input name="usrfl" type="file" size="50">
+				</div>
+			</div>
+			<div class="control-group">
+				<label class="control-label" for=""><?php echo EASY_LABEL_IMPORT_CHARSET;?></label>
+				<div class="controls">
+					<select name="import_charset">
+						<option selected value ="cp1251" size="5">cp1251</option>
+						<option value="utf8" size="5">utf8</option>
+					</select>
+				</div>
+			</div>
+			<button class="btn" type="submit" name="buttonsplit" value="<?PHP ECHO EASY_SPLIT;?>"><?PHP ECHO EASY_SPLIT;?></button>
+		</form>
 
-<?php echo EASY_LABEL_IMPORT;?>
-<form enctype="multipart/form-data" action="easypopulate.php?split=0" method="post">
-	<?PHP ECHO EASY_UPLOAD_EP_FILE;?><br />
-	<input name="usrfl" type="file" size="50">
-	<button type="submit" name="buttoninsert" value="<?PHP ECHO EASY_INSERT;?>"><?PHP ECHO EASY_INSERT;?></button>
-	<br>
-	<br>
+		<hr>
 
-	<?php echo EASY_LABEL_IMPORT_CHARSET;?><br />
-	<select name="import_charset">
-		<option selected value ="cp1251" size="5">cp1251</option>
-		<option value="utf8" size="5">utf8</option>
-	</select>
-</form>
+		<form name="localfile_insert" enctype="multipart/form-data" action="easypopulate.php" method="post">
+			<div class="control-group">
+				<label class="control-label" for=""><?php echo sprintf(TEXT_IMPORT_TEMP, $tempdir); ?></label>
+				<div class="controls">
+					<?php
+					$dir = dir(DIR_FS_CATALOG.$tempdir);
+					$contents = array(array('id' => '', 'text' => TEXT_SELECT_ONE));
+					while ($file = $dir->read())
+					{
+						if (($file != '.') && ($file != 'CVS') && ($file != '..'))
+						{
+							//$file_size = filesize(DIR_FS_CATALOG.$tempdir.$file);
+							$contents[] = array('id' => $file, 'text' => $file);
+						}
+					}
+					echo os_draw_pull_down_menu('localfile', @$contents, @$_POST['localfile']);
+					?>
+				</div>
+			</div>
+			<div class="control-group">
+				<label class="control-label" for=""><?php echo EASY_LABEL_IMPORT_CHARSET;?></label>
+				<div class="controls">
+					<select name="import_charset">
+						<option selected value ="cp1251" size="5">cp1251</option>
+						<option value="utf8" size="5">utf8</option>
+					</select>
+				</div>
+			</div>
+			<button class="btn" type="submit" name="buttoninsert" value="<?php echo TEXT_INSERT_INTO_DB ; ?>"><?php echo TEXT_INSERT_INTO_DB ; ?></button>
+		</form>
+	</div>
 
+	<div class="span6">
+		<h4><?php echo EASY_LABEL_CREATE;?></h4>
 
-<hr>
+		<form enctype="multipart/form-data" action="easypopulate.php?action=export" method="post">
+			<div class="control-group">
+				<label class="control-label" for=""><?php echo EASY_LABEL_EXPORT_CHARSET;?></label>
+				<div class="controls">
+					<select name="export_charset">
+						<option selected value ="cp1251" size="5">cp1251</option>
+						<option value="utf8" size="5">utf8</option>
+					</select>
+				</div>
+			</div>
 
+			<div class="control-group">
+				<label class="control-label" for=""><?php echo EASY_LABEL_CREATE_SELECT;?></label>
+				<div class="controls">
+					<select name="download">
+						<option selected value ="stream" size="10"><?php echo EASY_LABEL_DOWNLOAD.'<b> ';?>
+						<option value="tempfile" size="10"><?php echo EASY_LABEL_CREATE_SAVE;?>
+					</select>
+				</div>
+			</div>
 
-<?php echo EASY_SPLIT_EP_FILE;?>
-<form enctype="multipart/form-data" action="easypopulate.php?split=1" method="post">
-	<input TYPE="hidden" name="MAX_FILE_SIZE" value="1000000000">
-	<input name="usrfl" type="file" size="50">
-	<select name="import_charset">
-	<option selected value ="cp1251" size="5">cp1251</option>
-	<option value="utf8" size="5">utf8</option>
-	</select>
-	<button type="submit" name="buttonsplit" value="<?PHP ECHO EASY_SPLIT;?>"><?PHP ECHO EASY_SPLIT;?></button>
-</form>
+			<div class="control-group">
+				<label class="control-label" for=""><?php echo EASY_LABEL_SELECT_DOWN;?></label>
+				<div class="controls">
+					<?php $_dltype_array = array(); ?>
+					<select name="dltype">
+						<option selected value="full" size="10"><?php echo EASY_LABEL_COMPLETE //full;?>
+						<option value="category" size="10"><?php echo EASY_LABEL_EP_MC //model category;?>
+						<option value="froogle" size="10"><?php echo EASY_LABEL_EP_FROGGLE //froggle;?>
+						<option value="attrib" size="10"><?php echo EASY_LABEL_EP_ATTRIB //attibutes;?>
+						<option value="extra_field" size="10"><?php echo EASY_LABEL_EXTRA_FIELDS //product extra fields;?>
+						<option value="params" size="10">Параметры</option>
+						<option value="label_ep_1" size="10"><?php echo EASY_LABEL_EP_1 //ID товара, цена, количество.;?>
+						<option value="label_ep_2" size="10"><?php echo EASY_LABEL_EP_2 //model, цена, количество.;?>
+					</select>
+				</div>
+			</div>
 
+			<h5><?php echo EASY_LIMIT ;?></h5>
 
-<hr>
+			<div class="control-group">
+				<label class="control-label" for=""><?php echo EASY_LABEL_LIMIT_CAT;?></label>
+				<div class="controls">
+					<?php
+					$categories_query = os_db_query("select c.categories_id, cd.categories_name, c.parent_id, c.sort_order from ".TABLE_CATEGORIES." c, ".TABLE_CATEGORIES_DESCRIPTION." cd where c.parent_id = '0' and c.categories_id = cd.categories_id and cd.language_id = '".@$languages_id."' order by c.sort_order, cd.categories_name");
+					$category = os_db_fetch_array($categories_query);
+					echo os_draw_pull_down_menu('limit_cat', os_get_category_tree(), 0);
+					?>
+				</div>
+			</div>
 
+			<div class="control-group">
+				<label class="control-label" for=""><?php echo EASY_LABEL_LIMIT_MAN;?></label>
+				<div class="controls">
+					<?php
+					$manufacturers_array = array();
+					$manufacturers_array[] = array('id' => '0', 'text' => PULL_DOWN_MANUFACTURES);
 
-<form name="localfile_insert" enctype="multipart/form-data" action="easypopulate.php" method="post">
-	<b><?php echo sprintf(TEXT_IMPORT_TEMP, $tempdir); ?></b><br>
-	<?php
-	$dir = dir(DIR_FS_CATALOG.$tempdir);
-	$contents = array(array('id' => '', 'text' => TEXT_SELECT_ONE));
-	while ($file = $dir->read())
-	{
-		if (($file != '.') && ($file != 'CVS') && ($file != '..'))
-		{
-			//$file_size = filesize(DIR_FS_CATALOG.$tempdir.$file);
-			$contents[] = array('id' => $file, 'text' => $file);
-		}
-	}
-	echo os_draw_pull_down_menu('localfile', @$contents, @$_POST['localfile']);
-	?>
+					$manufacturers_query = os_db_query("select manufacturers_id, manufacturers_name from ".TABLE_MANUFACTURERS." order by manufacturers_name");
+					while ($manufacturers = os_db_fetch_array($manufacturers_query))
+					{
+						$manufacturers_array[] = array(
+							'id' => $manufacturers['manufacturers_id'],
+							'text' => $manufacturers['manufacturers_name']
+						);
+					}
+					echo os_draw_pull_down_menu('limit_man', @$manufacturers_array, @$_POST['limit_man']);
+					?>
+				</div>
+			</div>
 
-	<select name="import_charset">
-	<option selected value ="cp1251" size="5">cp1251</option>
-	<option value="utf8" size="5">utf8</option>
-	</select>
-	<button type="submit" name="buttoninsert" value="<?php echo TEXT_INSERT_INTO_DB ; ?>"><?php echo TEXT_INSERT_INTO_DB ; ?></button>
-</form>
+			<div class="control-group">
+				<label class="control-label" for=""><?php echo EASY_LABEL_PRODUCT_RANGE;?></label>
+				<div class="controls">
+					<?php echo EASY_LABEL_PRODUCT_BEGIN;?><INPUT TYPE="text" name="rangebegin" size="12">
+					<?php echo EASY_LABEL_PRODUCT_END;?><INPUT TYPE="text" name="rangeend" size="12">
+				</div>
+			</div>
 
+			<?php // below are the queries to do the counts
+			//$totalrows = os_db_query("SELECT COUNT(*) FROM ".TABLE_PRODUCTS."");
+			$first_query = os_db_query("SELECT products_id FROM ".TABLE_PRODUCTS."  ORDER BY products_id ASC LIMIT 1");
+			while ($firstid = os_db_fetch_array($first_query))
+			{
+				$firstid1 =  $firstid['products_id'];
+			}
 
-<hr>
+			$first_query2 = os_db_query("SELECT products_id FROM ".TABLE_PRODUCTS."  ORDER BY products_id DESC LIMIT 1");
+			while ($firstid2 = os_db_fetch_array($first_query2))
+			{
+				$firstid2a =  $firstid2['products_id'];
+			}
 
+			$first_query3 = os_db_query("SELECT products_id FROM ".TABLE_PRODUCTS." ");
+			while ($firstid3 = os_db_fetch_array($first_query3))
+			{
+				@$total3 = @$total3 + 1;
+			}
+			?>
+			<div class="alert alert-info">
+				<?php echo EASY_LABEL_PRODUCT_AVAIL.EASY_LABEL_PRODUCT_FROM.$firstid1.EASY_LABEL_PRODUCT_TO.$firstid2a;?><br>
+				<?php echo EASY_LABEL_PRODUCT_RECORDS.$total3; ?>
+			</div>
 
-<?php echo EASY_LABEL_CREATE;?>
-<form enctype="multipart/form-data" action="easypopulate.php?action=export" method="post">
-
-	<?php echo EASY_LABEL_EXPORT_CHARSET;?><br />
-	<select name="export_charset">
-		<option selected value ="cp1251" size="5">cp1251</option>
-		<option value="utf8" size="5">utf8</option>
-	</select>
-
-<hr>
-
-	<?php echo EASY_LABEL_CREATE_SELECT;?><br />
-	<select name="download">
-		<option selected value ="stream" size="10"><?php echo EASY_LABEL_DOWNLOAD.'<b> ';?>
-		<option value="tempfile" size="10"><?php echo EASY_LABEL_CREATE_SAVE;?>
-	</select>
-
-<hr>
-
-	<?php echo EASY_LABEL_SELECT_DOWN;?><br />
-	<?php $_dltype_array = array(); ?>
-	<select name="dltype">
-		<option selected value="full" size="10"><?php echo EASY_LABEL_COMPLETE //full;?>
-		<option value="category" size="10"><?php echo EASY_LABEL_EP_MC //model category;?>
-		<option value="froogle" size="10"><?php echo EASY_LABEL_EP_FROGGLE //froggle;?>
-		<option value="attrib" size="10"><?php echo EASY_LABEL_EP_ATTRIB //attibutes;?>
-		<option value="extra_field" size="10"><?php echo EASY_LABEL_EXTRA_FIELDS //product extra fields;?>
-		<option value="params" size="10">Параметры</option>
-		<option value="label_ep_1" size="10"><?php echo EASY_LABEL_EP_1 //ID товара, цена, количество.;?>
-		<option value="label_ep_2" size="10"><?php echo EASY_LABEL_EP_2 //model, цена, количество.;?>
-	</select>
-
-<hr>
-
-	<?php echo EASY_LABEL_SORT;?><br />
-	<select name="catsort">
-		<option selected value ="none" size="10"><?php echo EASY_LABEL_NONE ;?>
-		<option value="category" size="10"><?php echo EASY_LABEL_CATEGORY ;?>
-		<option value="product" size="10"><?php echo EASY_LABEL_PRODUCT ;?>
-		<option value="manufacture" size="10"><?php echo EASY_LABEL_MANUFACTURE ;?>
-	</select>
-
-<hr>
-
-	<?php echo EASY_LIMIT ;?><br />
-	<?php echo EASY_LABEL_LIMIT_CAT;?><br />
-	<?php
-	$categories_query = os_db_query("select c.categories_id, cd.categories_name, c.parent_id, c.sort_order from ".TABLE_CATEGORIES." c, ".TABLE_CATEGORIES_DESCRIPTION." cd where c.parent_id = '0' and c.categories_id = cd.categories_id and cd.language_id = '".@$languages_id."' order by c.sort_order, cd.categories_name");
-	$category = os_db_fetch_array($categories_query);
-	echo os_draw_pull_down_menu('limit_cat', os_get_category_tree(), 0);
-	?>
-
-<hr>
-
-	<?php echo EASY_LABEL_LIMIT_MAN;?><br />
-	<?php
-	$manufacturers_array = array();
-	$manufacturers_array[] = array('id' => '0', 'text' => PULL_DOWN_MANUFACTURES);
-
-	$manufacturers_query = os_db_query("select manufacturers_id, manufacturers_name from ".TABLE_MANUFACTURERS." order by manufacturers_name");
-	while ($manufacturers = os_db_fetch_array($manufacturers_query))
-	{
-		$manufacturers_array[] = array(
-			'id' => $manufacturers['manufacturers_id'],
-			'text' => $manufacturers['manufacturers_name']
-		);
-	}
-	echo os_draw_pull_down_menu('limit_man', @$manufacturers_array, @$_POST['limit_man']);
-	?>
-
-	<?php // below are the queries to do the counts;?>
-
-
-	<?php echo EASY_LABEL_PRODUCT_RANGE;?><br />
-	<?php echo EASY_LABEL_PRODUCT_BEGIN;?><INPUT TYPE="text" name="rangebegin" size="12">
-	<?php echo EASY_LABEL_PRODUCT_END;?><INPUT TYPE="text" name="rangeend" size="12">
-
-<hr>
-
-	<?php // below are the queries to do the counts
-	//$totalrows = os_db_query("SELECT COUNT(*) FROM ".TABLE_PRODUCTS."");
-	$first_query = os_db_query("SELECT products_id FROM ".TABLE_PRODUCTS."  ORDER BY products_id ASC LIMIT 1");
-	while ($firstid = os_db_fetch_array($first_query))
-	{
-		$firstid1 =  $firstid['products_id'];
-	}
-
-	$first_query2 = os_db_query("SELECT products_id FROM ".TABLE_PRODUCTS."  ORDER BY products_id DESC LIMIT 1");
-	while ($firstid2 = os_db_fetch_array($first_query2))
-	{
-		$firstid2a =  $firstid2['products_id'];
-	}
-
-	$first_query3 = os_db_query("SELECT products_id FROM ".TABLE_PRODUCTS." ");
-	while ($firstid3 = os_db_fetch_array($first_query3))
-	{
-		@$total3 = @$total3 + 1;
-	}
-	?>
-	<span class="smallText">
-	<?php echo EASY_LABEL_PRODUCT_AVAIL.EASY_LABEL_PRODUCT_FROM.$firstid1.EASY_LABEL_PRODUCT_TO.$firstid2a;?><br>
-	<?php echo EASY_LABEL_PRODUCT_RECORDS.$total3; ?><br>
-	<br><span class="button"><button type="submit" name="buttoninsert" value="<?php echo EASY_LABEL_PRODUCT_START;?>"><?php echo EASY_LABEL_PRODUCT_START;?></button></span>
-	</span>
-</form>
-
-</td>
-</tr>
-</table>
+			<button class="btn" type="submit" name="buttoninsert" value="<?php echo EASY_LABEL_PRODUCT_START;?>"><?php echo EASY_LABEL_PRODUCT_START;?></button>
+		</form>
+	</div>
+</div>
 
 
 

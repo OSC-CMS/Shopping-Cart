@@ -30,18 +30,8 @@ include(get_path('modules_admin') . FILENAME_SECURITY_CHECK);
 
 <div class="page-content">
 	<?php if ($system_error == 1) { ?>
-	<div class="row-fluid">
-		<div class="well well-box well-black">
-			<div class="navbar navbar-inverse">
-				<div class="navbar-inner">
-				    <h4 class="title"><?php echo MENU_SYSTEM_ERRORS; ?></h4>
-				</div>
-			</div>
-			<div class="section-content section-content-alerts">
-				<?php include(get_path('page_admin').'index/warning.php'); ?>
-			</div>
-		</div>
-	</div>
+		<h5><?php echo MENU_SYSTEM_ERRORS; ?></h5>
+		<?php include(get_path('page_admin').'index/warning.php'); ?>
 	<?php } ?>
 
 	<div class="row-fluid">
@@ -57,6 +47,19 @@ include(get_path('modules_admin') . FILENAME_SECURITY_CHECK);
 				</div>
 				<div class="well-box-content well-max-height well-small-font">
 					<?php include(get_path('page_admin').'index/orders.php'); ?>
+				</div>
+			</div>
+			<div class="well well-box well-nice">
+				<div class="navbar">
+					<div class="navbar-inner">
+						<h4 class="title"><?php echo TEXT_SUMMARY_REVIEWS; ?></h4>
+						<div class="well-right-btn">
+							<a class="btn btn-success btn-mini pull-right" href="<?php echo os_href_link(FILENAME_REVIEWS, '', 'NONSSL'); ?>"><?php echo TEXT_SUMMARY_REVIEWS_ALL; ?></a>
+						</div>
+					</div>
+				</div>
+				<div class="well-box-content well-max-height well-small-font">
+					<?php include(get_path('page_admin').'index/reviews.php'); ?>
 				</div>
 			</div>
 			<div class="well well-box well-nice">

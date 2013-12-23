@@ -16,9 +16,9 @@ class osTemplate extends Smarty
 	{
 		parent::__construct();
 		$this->setTemplateDir(_THEMES);
-		$this->setCompileDir(_CACHE);
+		$this->setCompileDir(_CACHE.'compiled/');
+		$this->setCacheDir(_CACHE.'cache/');
 		$this->setConfigDir(_LANG);
-		$this->setCacheDir(_CACHE);
 		$this->compile_check   =  TEMPLATE_COMPILE_CHECK;
 		$this->setPluginsDir(_LIB.'smarty/plugins');
         $this->assign('app_name', 'osTemplate');

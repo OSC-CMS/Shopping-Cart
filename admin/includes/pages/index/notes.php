@@ -38,9 +38,12 @@ defined('_VALID_OS') or die('Прямой доступ  не допускает�
 				{
 					?>
 					<tr>
-						<td><?php echo $notes['customers_firstname']; ?> <?php echo $notes['customers_lastname']; ?><br /><?php echo nl2br($notes['note']); ?></td>
-						<td width="40"><i class="icon-time tt" rel="tooltip" data-placement="left" title="<?php echo $notes['date_added']; ?>"></i></td>
-						<td width="40"><span class="pull-right"><a href="javascript:;" data-action="notes_delete" data-remove-parent="tr" data-id="<?php echo $notes['id']; ?>" data-confirm="Вы действительно хотите удалить эту заметку?" title="Удалить"><i class="icon-trash"></i></a></span></td>
+						<td class="bold"><?php echo $notes['customers_firstname']; ?> <?php echo $notes['customers_lastname']; ?></td>
+						<td width="140"><?php echo $notes['date_added']; ?></td>
+						<td width="20"><span class="pull-right"><a class="btn btn-mini" href="javascript:;" data-action="notes_delete" data-remove-parent="tr" data-id="<?php echo $notes['id']; ?>" data-confirm="Вы действительно хотите удалить эту заметку?" title="Удалить"><i class="icon-trash"></i></a></span></td>
+					</tr>
+					<tr>
+						<td colspan="3"><div class="table-big-text"><?php echo nl2br($notes['note']); ?></div></td>
 					</tr>
 				<?php
 				}

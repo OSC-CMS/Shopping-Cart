@@ -606,7 +606,7 @@ echo os_draw_hidden_field('products_id', $pInfo->products_id);
 
 				if (os_db_num_rows($extra_fields_query) > 0)
 				{
-					while ($extra_fields = os_db_fetch_array($extra_fields_query,true))
+					while ($extra_fields = os_db_fetch_array($extra_fields_query))
 					{
 						$extra_fields_data[$extra_fields['products_extra_fields_group']][] = $extra_fields;
 					}
@@ -634,14 +634,17 @@ echo os_draw_hidden_field('products_id', $pInfo->products_id);
 					$efResult = array();
 					foreach($groupDescEdit AS $gId => $gValue)
 					{
-						foreach ($extra_fields_data as $fGId => $fValue)
-						{
-							if ($gId == $fGId)
+						//if (is_array($extra_fields_data))
+						//{
+							foreach ($extra_fields_data as $fGId => $fValue)
 							{
-								$efResult[$gId] = $gValue;
-								$efResult[$gId]['values'] = $fValue;
+								if ($gId == $fGId)
+								{
+									$efResult[$gId] = $gValue;
+									$efResult[$gId]['values'] = $fValue;
+								}
 							}
-						}
+						//}
 					}
 				}
 				?>

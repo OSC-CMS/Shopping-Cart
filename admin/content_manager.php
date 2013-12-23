@@ -363,7 +363,7 @@ $main->top_menu();
 
 		<div class="alert alert-info">
 			<?php
-			os_spaceUsed(DIR_FS_CATALOG.'media/products/');
+			$total = os_spaceUsed(DIR_FS_CATALOG.'media/products/');
 			echo USED_SPACE.os_format_filesize($total);
 			?>
 		</div>

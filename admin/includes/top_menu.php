@@ -41,16 +41,12 @@ global $os_remove_action;
 		<a class="head-logo" href="<?php echo os_href_link(FILENAME_DEFAULT, '', 'NONSSL'); ?>" title="<?php echo TEXT_HEADER_DEFAULT; ?>">CartET</a>
 		<ul class="nav full pull-left">
 			<li class="dropdown user-avatar">
-<?php
-if (is_file(dir_path('catalog').'VERSION'))
-{
-	$_version = @file_get_contents(dir_path('catalog').'VERSION');
-}
-else
-{
-	$_version = ' --- ';
-}
-?>
+				<?php
+				if (is_file(dir_path('catalog').'VERSION'))
+					$_version = @file_get_contents(dir_path('catalog').'VERSION');
+				else
+					$_version = ' --- ';
+				?>
 				<a href="#" class="dropdown-toggle" data-toggle="dropdown"><?php echo BOX_VERSION; ?> <?php echo $_version; ?> <i class="icon-caret-down"></i></span></span></a>
 				<ul class="dropdown-menu">
 					<li><a href="http://osc-cms.com" target="_blank" title="CartET">CartET</a></li>
@@ -59,8 +55,13 @@ else
 					<li><a href="http://osc-cms.com/forum" target="_blank"><?php echo BOX_SUPPORT_FORUM; ?></a></li>
 				</ul>
 			</li>
+			<?php $update = $this->service->checkUpdate(true); ?>
+			<?php if (!empty($update['version'])) { ?>
+				<li><a href="update.php">Доступно обновление <?php echo $update['version']; ?></a></li>
+			<?php } else { ?>
+				<li><a href="update.php">Проверить обновления</a></li>
+			<?php } ?>
 		</ul>
-
 
 		<div class="nav-collapse">
 			<?php

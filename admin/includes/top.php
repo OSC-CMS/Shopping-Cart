@@ -202,7 +202,7 @@ define('FILENAME_LATEST_NEWS', 'latest_news.php');
 define('FILENAME_RECOVER_CART_SALES', 'recover_cart_sales.php');
 define('FILENAME_FEATURED', 'featured.php');
 
-define('SQL_CACHEDIR', _CACHE);
+define('SQL_CACHEDIR', _CACHE.'database/');
 
 if ( is_file( dir_path('catalog').'VERSION' ) )
 {

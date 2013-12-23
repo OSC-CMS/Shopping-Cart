@@ -404,6 +404,8 @@ define('TEXT_SUMMARY_STAT_TEXT','Статистика продаж');
 
 define('TEXT_SUMMARY_CUSTOMERS','Покупатели');
 define('TEXT_SUMMARY_ORDERS','Заказы');
+define('TEXT_SUMMARY_REVIEWS','Отзывы');
+define('TEXT_SUMMARY_REVIEWS_ALL','Все отзывы');
 define('TEXT_SUMMARY_PRODUCTS','Товары');
 define('TEXT_SUMMARY_NEWS','Новости');
 define('TEXT_SUMMARY_CACHE','Кэш');
