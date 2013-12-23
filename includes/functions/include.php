@@ -536,553 +536,569 @@
     }
 
     function os_href_link($page = '', $parameters = '', $connection = 'NONSSL', $add_session_id = true, $search_engine_safe = true)
-    {
-        $param_array = array();
-        $params = '';
-        $action = '';
-        $products_id = '';
-        $sort = '';
-        $direction = '';
-        $filter_id = '';
-        $on_page = '';
-        $q = '';
-        $price_min = '';
-        $price_max = '';
-        $language = '';
-        $currency = '';
-        $page_num = '';
-        $matches = array();
-
-        if ($page == FILENAME_DEFAULT) {
-            if (strpos($parameters, 'cat') === false)
-            {
-                return os_href_link_original($page, $parameters, $connection, $add_session_id, $search_engine_safe);
-            }
-            else
-            {
-                $categories_id = -1;
-                $param_array = explode('&', $parameters);
-
-                for ($i = 0, $n = sizeof($param_array); $i < $n; $i++) {
-                    $parsed_param = explode('=', $param_array[$i]);
-                    if ($parsed_param[0] === 'cat') {
-                        $pos = strrpos($parsed_param[1], '_');
-                        if ($pos === false) {
-                            $categories_id = $parsed_param[1];
-                        } else {  
-                            if (preg_match('/^c(.*)_/', $parsed_param[1], $matches)) {
-                                $categories_id = $matches[1];
-                            }
-                        }
-                    } elseif ($parsed_param[0] === 'action') {
-                        $action = $parsed_param[1];
-                    } elseif ($parsed_param[0] === 'BUYproducts_id') {
-                        $products_id = $parsed_param[1];
-                    } elseif ($parsed_param[0] === 'sort') {
-                        $sort = $parsed_param[1];
-                    } elseif ($parsed_param[0] === 'direction') {
-                        $direction = $parsed_param[1];
-                    } elseif ($parsed_param[0] === 'filter_id') {
-                        $filter_id = $parsed_param[1];
-                    } elseif ($parsed_param[0] === 'language') {
-                        $language = $parsed_param[1];
-                    } elseif ($parsed_param[0] === 'currency') {
-                        $currency = $parsed_param[1];
-                    } elseif ($parsed_param[0] === 'q') {
-                        $q = $parsed_param[1];
-                    } elseif ($parsed_param[0] === 'price_min') {
-                        $price_min = $parsed_param[1];
-                    } elseif ($parsed_param[0] === 'price_max') {
-                        $price_max = $parsed_param[1];
-                    } elseif ($parsed_param[0] === 'on_page') {
-                        if (os_not_null($parsed_param[1])) {
-                            $on_page = $parsed_param[1];
-                        } else {
-                            $on_page = -1;
-                        }
-                    } elseif ($parsed_param[0] === 'page') {
-                        $page_num = $parsed_param[1];
-                    }
-                }
-
-                global $categories_url_cache;
-
-                $categories_url = '';
-                if (isset($categories_url_cache[$categories_id]))
-                {
-                    $categories_url = $categories_url_cache[$categories_id];
-                }
-
-                //$categories_url = os_db_query('select categories_url from ' . TABLE_CATEGORIES . ' where categories_id="' . $categories_id . '"');
-                //$categories_url = os_db_fetch_array($categories_url);
-                //$categories_url = $categories_url['categories_url'];
-
-
-                if ($categories_url == '') {
-                    return os_href_link_original($page, $parameters, $connection, $add_session_id, $search_engine_safe);
-                } else {
-
-                    if ($connection == 'NONSSL') {
-                        $link = HTTP_SERVER;
-                    } elseif ($connection == 'SSL') {
-                        if (ENABLE_SSL == 'true') {
-                            $link = HTTPS_SERVER ;
-                        } else {
-                            $link = HTTP_SERVER;
-                        }
-                    } else {
-                        die('</td></tr></table></td></tr></table><br /><br /><strong class="note">Error!<br /><br />Unable to determine connection method on a link!<br /><br />Known methods: NONSSL SSL</strong><br /><br />');
-                    }
-
-                    if ($connection == 'SSL' && ENABLE_SSL == 'true') {
-                        $link .= DIR_WS_HTTPS_CATALOG;
-                    } else {
-                        $link .= DIR_WS_CATALOG;
-                    }
-
-                    if (os_not_null($action)) {
-                        $params .= '&action=' . $action;
-                    }
-
-                    if (os_not_null($products_id)) {
-                        $params .= '&BUYproducts_id=' . $products_id;
-                    }
-
-                    if (os_not_null($sort)) {
-                        $params .= '&sort=' . $sort;
-                    }
-
-                    if (os_not_null($direction)) {
-                        $params .= '&direction=' . $direction;
-                    }
-
-                    if (os_not_null($filter_id)) {
-                        $params .= '&filter_id=' . $filter_id;
-                    }
-
-                    if (os_not_null($language)) {
-                        $params .= '&language=' . $language;
-                    }
-
-                    if (os_not_null($currency)) {
-                        $params .= '&currency=' . $currency;
-                    }
-
-                    if (os_not_null($q)) {
-                        $params .= '&q=' . $q;
-                    }
-
-                    if (os_not_null($price_min)) {
-                        $params .= '&price_min=' . $price_min;
-                    }
-
-                    if (os_not_null($price_max)) {
-                        $params .= '&price_max=' . $price_max;
-                    }
-
-                    if ($on_page === -1) {
-                        $params .= '&on_page=';
-                    } elseif ($on_page > 0) {
-                        $params .= '&on_page=' . $on_page;
-                    }
-
-                    if (os_not_null($page_num)) {
-                        $params .= '&page=' . $page_num;
-                    }
-
-
-                    if (os_not_null($params)) {
-                        if (strpos($params, '&') === 0) {
-                            $params = substr($params, 1);
-                        }
-
-                        $params = str_replace('&', '&amp;', $params);
-
-                        $categories_url .= '?' . $params;
-                    }
-
-                    $link_ajax = '';
-
-                    if (AJAX_CART == 'true') {
-                        if( os_not_null($parameters) && preg_match("/buy_now/i", $parameters) && $page != 'ajax_shopping_cart.php'){
-                            $link_ajax = '" onclick="doBuyNowGet(\'' . os_href_link( 'ajax_shopping_cart.php', $parameters, $connection, $add_session_id, $search_engine_safe) . '\'); return false;';
-
-                        }
-                    }
-
-
-                    return $link . $categories_url . $link_ajax;
-                }
-            }
-        } elseif ($page == FILENAME_PRODUCT_INFO) {
-
-            $products_id = -1;
-            $action = '';
-            $language = '';
-            $currency = '';
-            $param_array = explode('&', $parameters);
-
-            for ($i = 0, $n = sizeof($param_array); $i < $n; $i++) {
-                $parsed_param = explode('=', $param_array[$i]);
-                if ($parsed_param[0] === 'products_id') {
-                    $products_id = $parsed_param[1];
-                } elseif ($parsed_param[0] === 'action') {
-                    $action = $parsed_param[1];
-                } elseif ($parsed_param[0] === 'language') {
-                    $language = $parsed_param[1];
-                } elseif ($parsed_param[0] === 'currency') {
-                    $currency = $parsed_param[1];
-                } elseif ($parsed_param[0] === 'info') {
-                    if (preg_match('/^p(.*)_/', $parsed_param[1], $matches)) {
-                        $products_id = $matches[1];
-                    }
-                }
-            }
-
-            global $products_url_cache;
-
-            $products_page_url = '';
-            if (isset($products_url_cache[$products_id]))
-            {
-                $products_page_url = $products_url_cache[$products_id];
-            }
-
-            //$products_page_url = os_db_query('select products_page_url from ' . TABLE_PRODUCTS . ' where products_id="' . $products_id . '"');
-            //$products_page_url = os_db_fetch_array($products_page_url);
-            //$products_page_url = $products_page_url['products_page_url'];
-
-            if ($products_page_url == '') {
-                return os_href_link_original($page, $parameters, $connection, $add_session_id, $search_engine_safe);
-            } else {
-
-                if ($connection == 'NONSSL') {
-                    $link = HTTP_SERVER;
-                } elseif ($connection == 'SSL') {
-                    if (ENABLE_SSL == 'true') {
-                        $link = HTTPS_SERVER ;
-                    } else {
-                        $link = HTTP_SERVER;
-                    }
-                } else {
-                    die('</td></tr></table></td></tr></table><br /><br /><strong class="note">Error!<br /><br />Unable to determine connection method on a link!<br /><br />Known methods: NONSSL SSL</strong><br /><br />');
-                }
-
-                if ($connection == 'SSL' && ENABLE_SSL == 'true') {
-                    $link .= DIR_WS_HTTPS_CATALOG;
-                } else {
-                    $link .= DIR_WS_CATALOG;
-                }
-
-                if (os_not_null($action)) {
-                    $products_page_url .= '?action=' . $action;
-                }
-
-                if (os_not_null($language)) {
-                    $products_page_url .= '?language=' . $language;
-                }
-
-                if (os_not_null($currency)) {
-                    $products_page_url .= '?currency=' . $currency;
-                }
-
-                return $link . $products_page_url;
-            }
-
-        } elseif ($page == FILENAME_ARTICLE_INFO) {
-
-            $a_id = -1;
-            $param_array = explode('&', $parameters);
-
-            for ($i = 0, $n = sizeof($param_array); $i < $n; $i++) {
-                $parsed_param = explode('=', $param_array[$i]);
-                if ($parsed_param[0] === 'articles_id') {
-                    $a_id = $parsed_param[1];
-                } elseif ($parsed_param[0] === 'language') {
-                    $language = $parsed_param[1];
-                } elseif ($parsed_param[0] === 'currency') {
-                    $currency = $parsed_param[1];
-                } 
-            }
-
-            global $articles_url_cache;
-
-            $a_url = '';
-            if (isset($articles_url_cache[$a_id]))
-            {
-                $a_url = $articles_url_cache[$a_id];
-            }
-
-            //$a_url = os_db_query('select articles_page_url from ' . TABLE_ARTICLES . ' where articles_id="' . $a_id . '"');
-            //$a_url = os_db_fetch_array($a_url);
-            //$a_url = $a_url['articles_page_url'];
-
-            if ($a_url == '') {
-                return os_href_link_original($page, $parameters, $connection, $add_session_id, $search_engine_safe);
-            } else {
-
-                if ($connection == 'NONSSL') {
-                    $link = HTTP_SERVER;
-                } elseif ($connection == 'SSL') {
-                    if (ENABLE_SSL == 'true') {
-                        $link = HTTPS_SERVER ;
-                    } else {
-                        $link = HTTP_SERVER;
-                    }
-                } else {
-                    die('</td></tr></table></td></tr></table><br /><br /><strong class="note">Error!<br /><br />Unable to determine connection method on a link!<br /><br />Known methods: NONSSL SSL</strong><br /><br />');
-                }
-
-                if ($connection == 'SSL' && ENABLE_SSL == 'true') {
-                    $link .= DIR_WS_HTTPS_CATALOG;
-                } else {
-                    $link .= DIR_WS_CATALOG;
-                }
-
-                if (os_not_null($language)) {
-                    $a_url .= '?language=' . $language;
-                }
-
-                if (os_not_null($currency)) {
-                    $a_url .= '?currency=' . $currency;
-                }
-
-                return $link . $a_url;
-            }
-
-        } elseif ($page == FILENAME_NEWS) {
-
-            $n_id = -1;
-            $param_array = explode('&', $parameters);
-
-            for ($i = 0, $n = sizeof($param_array); $i < $n; $i++) {
-                $parsed_param = explode('=', $param_array[$i]);
-                if ($parsed_param[0] === 'news_id') {
-                    $n_id = $parsed_param[1];
-                } elseif ($parsed_param[0] === 'language') {
-                    $language = $parsed_param[1];
-                } elseif ($parsed_param[0] === 'currency') {
-                    $currency = $parsed_param[1];
-                } 
-            }
-
-            global $news_url_cache;
-            $n_url = '';
-
-            if (isset($news_url_cache[$n_id]))
-            {
-                $n_url = $news_url_cache[$n_id];
-            }
-
-            //$n_url = os_db_query('select news_page_url from ' . TABLE_LATEST_NEWS . ' where news_id="' . $n_id . '"');
-            //$n_url = os_db_fetch_array($n_url);
-            //$n_url = $n_url['news_page_url'];
-
-            if ($n_url == '') {
-                return os_href_link_original($page, $parameters, $connection, $add_session_id, $search_engine_safe);
-            } else {
-
-                if ($connection == 'NONSSL') {
-                    $link = HTTP_SERVER;
-                } elseif ($connection == 'SSL') {
-                    if (ENABLE_SSL == 'true') {
-                        $link = HTTPS_SERVER ;
-                    } else {
-                        $link = HTTP_SERVER;
-                    }
-                } else {
-                    die('</td></tr></table></td></tr></table><br /><br /><strong class="note">Error!<br /><br />Unable to determine connection method on a link!<br /><br />Known methods: NONSSL SSL</strong><br /><br />');
-                }
-
-                if ($connection == 'SSL' && ENABLE_SSL == 'true') {
-                    $link .= DIR_WS_HTTPS_CATALOG;
-                } else {
-                    $link .= DIR_WS_CATALOG;
-                }
-
-                if (os_not_null($language)) {
-                    $n_url .= '?language=' . $language;
-                }
-
-                if (os_not_null($currency)) {
-                    $n_url .= '?currency=' . $currency;
-                }
-
-                return $link . $n_url;
-            }
-
-        } elseif ($page == FILENAME_ARTICLES) {
-
-            $t_id = -1;
-            $page_num = '';
-            $param_array = explode('&', $parameters);
-
-            for ($i = 0, $n = sizeof($param_array); $i < $n; $i++) {
-                $parsed_param = explode('=', $param_array[$i]);
-                if ($parsed_param[0] === 'tPath') {
-                    $t_id = $parsed_param[1];
-                } 
-                if ($parsed_param[0] === 'page') {
-                    $page_num = $parsed_param[1];
-                } elseif ($parsed_param[0] === 'language') {
-                    $language = $parsed_param[1];
-                } elseif ($parsed_param[0] === 'currency') {
-                    $currency = $parsed_param[1];
-                } 
-            }
-
-            global $topics_url_cache;
-            $t_url = '';
-
-            if (isset($topics_url_cache[$t_id]))
-            {
-                $t_url = $topics_url_cache[$t_id];
-            }
-
-            //$t_url = os_db_query('select topics_page_url from ' . TABLE_TOPICS . ' where topics_id="' . $t_id . '"');
-            //$t_url = os_db_fetch_array($t_url);
-            // $t_url = $t_url['topics_page_url'];
-
-            if ($t_url == '') {
-                return os_href_link_original($page, $parameters, $connection, $add_session_id, $search_engine_safe);
-            } else {
-
-                if ($connection == 'NONSSL') {
-                    $link = HTTP_SERVER;
-                } elseif ($connection == 'SSL') {
-                    if (ENABLE_SSL == 'true') {
-                        $link = HTTPS_SERVER ;
-                    } else {
-                        $link = HTTP_SERVER;
-                    }
-                } else {
-                    die('</td></tr></table></td></tr></table><br /><br /><strong class="note">Error!<br /><br />Unable to determine connection method on a link!<br /><br />Known methods: NONSSL SSL</strong><br /><br />');
-                }
-
-                if ($connection == 'SSL' && ENABLE_SSL == 'true') {
-                    $link .= DIR_WS_HTTPS_CATALOG;
-                } else {
-                    $link .= DIR_WS_CATALOG;
-                }
-
-                if (os_not_null($page_num)) {
-                    $t_url .= '?page=' . $page_num;
-                }
-
-                if (os_not_null($language)) {
-                    $t_url .= '?language=' . $language;
-                }
-
-                if (os_not_null($currency)) {
-                    $t_url .= '?currency=' . $currency;
-                }
-
-                return $link . $t_url;
-            }
-
-        }elseif ($page == FILENAME_FAQ)
-        {
-            /////////	
-            $faq_id = -1;
-            $param_array = explode('&', $parameters);
-
-            for ($i = 0, $n = sizeof($param_array); $i < $n; $i++) {
-                $parsed_param = explode('=', $param_array[$i]);
-                if ($parsed_param[0] === 'faq_id') {
-                    $faq_id = $parsed_param[1];
-                } elseif ($parsed_param[0] === 'language') {
-                    $language = $parsed_param[1];
-                } elseif ($parsed_param[0] === 'currency') {
-                    $currency = $parsed_param[1];
-                } 
-            }
-            global $faq_url_cache;
-
-            if (isset($faq_url_cache[$faq_id]))
-            {
-                $faq_url = $faq_url_cache[$faq_id];
-            }
-
-            if (empty($faq_url))
-            {
-                return os_href_link_original($page, $parameters, $connection, $add_session_id, $search_engine_safe);
-            }
-            else
-            {
-                return  $faq_url ;
-            }
-        }
-
-        elseif ($page == FILENAME_CONTENT) {
-
-            $co_id = -1;
-            $param_array = explode('&', $parameters);
-
-            for ($i = 0, $n = sizeof($param_array); $i < $n; $i++) {
-                $parsed_param = explode('=', $param_array[$i]);
-                if ($parsed_param[0] === 'coID') {
-                    $co_id = $parsed_param[1];
-                } elseif ($parsed_param[0] === 'language') {
-                    $language = $parsed_param[1];
-                } elseif ($parsed_param[0] === 'action') {
-                    $action = $parsed_param[1];
-                } elseif ($parsed_param[0] === 'currency') {
-                    $currency = $parsed_param[1];
-                } 
-            }
-
-            global $content_url_cache;
-
-            $co_url = '';
-
-            if (isset($content_url_cache[$co_id]))
-            {
-                $co_url = $content_url_cache[$co_id];
-            }
-            //$co_url = os_db_query('select content_page_url from ' . TABLE_CONTENT_MANAGER . ' where content_id="' . $co_id . '"');
-            //$co_url = os_db_fetch_array($co_url);
-            //$co_url = $co_url['content_page_url'];
-
-            if ($co_url == '') {
-                return os_href_link_original($page, $parameters, $connection, $add_session_id, $search_engine_safe);
-            } else {
-
-                if ($connection == 'NONSSL') {
-                    $link = HTTP_SERVER;
-                } elseif ($connection == 'SSL') {
-                    if (ENABLE_SSL == 'true') {
-                        $link = HTTPS_SERVER ;
-                    } else {
-                        $link = HTTP_SERVER;
-                    }
-                } else {
-                    die('</td></tr></table></td></tr></table><br /><br /><strong class="note">Error!<br /><br />Unable to determine connection method on a link!<br /><br />Known methods: NONSSL SSL</strong><br /><br />');
-                }
-
-                if ($connection == 'SSL' && ENABLE_SSL == 'true') {
-                    $link .= DIR_WS_HTTPS_CATALOG;
-                } else {
-                    $link .= DIR_WS_CATALOG;
-                }
-
-                if (os_not_null($language)) {
-                    $co_url .= '?language=' . $language;
-                }
-
-                if (os_not_null($action)) {
-                    $co_url .= '?action=' . $action;
-                }
-
-                if (os_not_null($currency)) {
-                    $co_url .= '?currency=' . $currency;
-                }
-
-                return $link . $co_url;
-            } 
-        }
-        else {
-            return os_href_link_original($page, $parameters, $connection, $add_session_id, $search_engine_safe);
-        } 
-    }
+	{
+		$param_array = array();
+		$params = '';
+		$action = '';
+		$products_id = '';
+		$sort = '';
+		$direction = '';
+		$filter_id = '';
+		$on_page = '';
+		$q = '';
+		$price_min = '';
+		$price_max = '';
+		$language = '';
+		$currency = '';
+		$page_num = '';
+		$matches = array();
+
+		if ($page == FILENAME_DEFAULT)
+		{
+			if (strpos($parameters, 'cat') === false)
+			{
+				return os_href_link_original($page, $parameters, $connection, $add_session_id, $search_engine_safe);
+			}
+			else
+			{
+				$categories_id = -1;
+				$param_array = explode('&', $parameters);
+
+				for ($i = 0, $n = sizeof($param_array); $i < $n; $i++)
+				{
+					$parsed_param = explode('=', $param_array[$i]);
+					if ($parsed_param[0] === 'cat')
+					{
+						$pos = strrpos($parsed_param[1], '_');
+						if ($pos === false)
+						{
+							$categories_id = $parsed_param[1];
+						}
+						else
+						{
+							if (preg_match('/^c(.*)_/', $parsed_param[1], $matches))
+							{
+								$categories_id = $matches[1];
+							}
+						}
+					} elseif ($parsed_param[0] === 'action') {
+						$action = $parsed_param[1];
+					} elseif ($parsed_param[0] === 'BUYproducts_id') {
+						$products_id = $parsed_param[1];
+					} elseif ($parsed_param[0] === 'sort') {
+						$sort = $parsed_param[1];
+					} elseif ($parsed_param[0] === 'direction') {
+						$direction = $parsed_param[1];
+					} elseif ($parsed_param[0] === 'filter_id') {
+						$filter_id = $parsed_param[1];
+					} elseif ($parsed_param[0] === 'language') {
+						$language = $parsed_param[1];
+					} elseif ($parsed_param[0] === 'currency') {
+						$currency = $parsed_param[1];
+					} elseif ($parsed_param[0] === 'q') {
+						$q = $parsed_param[1];
+					} elseif ($parsed_param[0] === 'price_min') {
+						$price_min = $parsed_param[1];
+					} elseif ($parsed_param[0] === 'price_max') {
+						$price_max = $parsed_param[1];
+					}
+					elseif ($parsed_param[0] === 'on_page')
+					{
+						if (os_not_null($parsed_param[1]))
+							$on_page = $parsed_param[1];
+						else
+							$on_page = -1;
+					}
+					elseif ($parsed_param[0] === 'page')
+						$page_num = $parsed_param[1];
+				}
+
+				global $categories_url_cache;
+
+				$categories_url = '';
+				if (isset($categories_url_cache[$categories_id]))
+				{
+					$categories_url = $categories_url_cache[$categories_id];
+				}
+
+				if ($categories_url == '')
+				{
+					return os_href_link_original($page, $parameters, $connection, $add_session_id, $search_engine_safe);
+				}
+				else
+				{
+					if ($connection == 'NONSSL')
+					{
+						$link = HTTP_SERVER;
+					}
+					elseif ($connection == 'SSL')
+					{
+						if (ENABLE_SSL == 'true')
+							$link = HTTPS_SERVER ;
+						else
+							$link = HTTP_SERVER;
+					}
+					else
+					{
+						die('</td></tr></table></td></tr></table><br /><br /><strong class="note">Error!<br /><br />Unable to determine connection method on a link!<br /><br />Known methods: NONSSL SSL</strong><br /><br />');
+					}
+
+					if ($connection == 'SSL' && ENABLE_SSL == 'true')
+						$link .= DIR_WS_HTTPS_CATALOG;
+					else
+						$link .= DIR_WS_CATALOG;
+
+					if (os_not_null($action)) {
+						$params .= '&action=' . $action;
+					}
+
+					if (os_not_null($products_id)) {
+						$params .= '&BUYproducts_id=' . $products_id;
+					}
+
+					if (os_not_null($sort)) {
+						$params .= '&sort=' . $sort;
+					}
+
+					if (os_not_null($direction)) {
+						$params .= '&direction=' . $direction;
+					}
+
+					if (os_not_null($filter_id)) {
+						$params .= '&filter_id=' . $filter_id;
+					}
+
+					if (os_not_null($language)) {
+						$params .= '&language=' . $language;
+					}
+
+					if (os_not_null($currency)) {
+						$params .= '&currency=' . $currency;
+					}
+
+					if (os_not_null($q)) {
+						$params .= '&q=' . $q;
+					}
+
+					if (os_not_null($price_min)) {
+						$params .= '&price_min=' . $price_min;
+					}
+
+					if (os_not_null($price_max)) {
+						$params .= '&price_max=' . $price_max;
+					}
+
+					if ($on_page === -1)
+						$params .= '&on_page=';
+					elseif ($on_page > 0)
+						$params .= '&on_page=' . $on_page;
+
+					if (os_not_null($page_num)) {
+						$params .= '&page=' . $page_num;
+					}
+
+					if (os_not_null($params))
+					{
+						if (strpos($params, '&') === 0) {
+							$params = substr($params, 1);
+						}
+
+						$params = str_replace('&', '&amp;', $params);
+
+						$categories_url .= '?' . $params;
+					}
+
+					$link_ajax = '';
+
+					if (AJAX_CART == 'true')
+					{
+						if( os_not_null($parameters) && preg_match("/buy_now/i", $parameters) && $page != 'ajax_shopping_cart.php')
+						{
+							$link_ajax = '" onclick="doBuyNowGet(\'' . os_href_link( 'ajax_shopping_cart.php', $parameters, $connection, $add_session_id, $search_engine_safe) . '\'); return false;';
+						}
+					}
+
+					return $link . $categories_url . $link_ajax;
+				}
+			}
+		}
+		elseif ($page == FILENAME_PRODUCT_INFO)
+		{
+			$products_id = -1;
+			$action = '';
+			$language = '';
+			$currency = '';
+			$param_array = explode('&', $parameters);
+
+			for ($i = 0, $n = sizeof($param_array); $i < $n; $i++)
+			{
+				$parsed_param = explode('=', $param_array[$i]);
+				if ($parsed_param[0] === 'products_id') {
+					$products_id = $parsed_param[1];
+				} elseif ($parsed_param[0] === 'action') {
+					$action = $parsed_param[1];
+				} elseif ($parsed_param[0] === 'language') {
+					$language = $parsed_param[1];
+				} elseif ($parsed_param[0] === 'currency') {
+					$currency = $parsed_param[1];
+				}
+				elseif ($parsed_param[0] === 'info')
+				{
+					if (preg_match('/^p(.*)_/', $parsed_param[1], $matches)) {
+						$products_id = $matches[1];
+					}
+				}
+			}
+
+			global $products_url_cache;
+
+			$products_page_url = '';
+			if (isset($products_url_cache[$products_id]))
+			{
+				$products_page_url = $products_url_cache[$products_id];
+			}
+
+			if ($products_page_url == '')
+			{
+				return os_href_link_original($page, $parameters, $connection, $add_session_id, $search_engine_safe);
+			}
+			else
+			{
+				if ($connection == 'NONSSL')
+				{
+					$link = HTTP_SERVER;
+				}
+				elseif ($connection == 'SSL')
+				{
+					if (ENABLE_SSL == 'true')
+						$link = HTTPS_SERVER ;
+					else
+						$link = HTTP_SERVER;
+				}
+				else
+				{
+					die('</td></tr></table></td></tr></table><br /><br /><strong class="note">Error!<br /><br />Unable to determine connection method on a link!<br /><br />Known methods: NONSSL SSL</strong><br /><br />');
+				}
+
+				if ($connection == 'SSL' && ENABLE_SSL == 'true')
+					$link .= DIR_WS_HTTPS_CATALOG;
+				else
+					$link .= DIR_WS_CATALOG;
+
+				if (os_not_null($action)) {
+					$products_page_url .= '?action=' . $action;
+				}
+
+				if (os_not_null($language)) {
+					$products_page_url .= '?language=' . $language;
+				}
+
+				if (os_not_null($currency)) {
+					$products_page_url .= '?currency=' . $currency;
+				}
+
+				return $link . $products_page_url;
+			}
+		}
+		elseif ($page == FILENAME_ARTICLE_INFO)
+		{
+			$a_id = -1;
+			$param_array = explode('&', $parameters);
+
+			for ($i = 0, $n = sizeof($param_array); $i < $n; $i++)
+			{
+				$parsed_param = explode('=', $param_array[$i]);
+				if ($parsed_param[0] === 'articles_id') {
+					$a_id = $parsed_param[1];
+				} elseif ($parsed_param[0] === 'language') {
+					$language = $parsed_param[1];
+				} elseif ($parsed_param[0] === 'currency') {
+					$currency = $parsed_param[1];
+				}
+			}
+
+			global $articles_url_cache;
+
+			$a_url = '';
+			if (isset($articles_url_cache[$a_id]))
+			{
+				$a_url = $articles_url_cache[$a_id];
+			}
+
+			if ($a_url == '')
+			{
+				return os_href_link_original($page, $parameters, $connection, $add_session_id, $search_engine_safe);
+			}
+			else
+			{
+
+				if ($connection == 'NONSSL')
+				{
+					$link = HTTP_SERVER;
+				}
+				elseif ($connection == 'SSL')
+				{
+					if (ENABLE_SSL == 'true') {
+						$link = HTTPS_SERVER ;
+					} else {
+						$link = HTTP_SERVER;
+					}
+				}
+				else
+				{
+					die('</td></tr></table></td></tr></table><br /><br /><strong class="note">Error!<br /><br />Unable to determine connection method on a link!<br /><br />Known methods: NONSSL SSL</strong><br /><br />');
+				}
+
+				if ($connection == 'SSL' && ENABLE_SSL == 'true')
+					$link .= DIR_WS_HTTPS_CATALOG;
+				else
+					$link .= DIR_WS_CATALOG;
+
+				if (os_not_null($language)) {
+					$a_url .= '?language=' . $language;
+				}
+
+				if (os_not_null($currency)) {
+					$a_url .= '?currency=' . $currency;
+				}
+
+				return $link . $a_url;
+			}
+
+		} elseif ($page == FILENAME_NEWS) {
+
+		$n_id = -1;
+		$param_array = explode('&', $parameters);
+
+		for ($i = 0, $n = sizeof($param_array); $i < $n; $i++) {
+		$parsed_param = explode('=', $param_array[$i]);
+		if ($parsed_param[0] === 'news_id') {
+		$n_id = $parsed_param[1];
+		} elseif ($parsed_param[0] === 'language') {
+		$language = $parsed_param[1];
+		} elseif ($parsed_param[0] === 'currency') {
+		$currency = $parsed_param[1];
+		}
+		}
+
+		global $news_url_cache;
+		$n_url = '';
+
+		if (isset($news_url_cache[$n_id]))
+		{
+		$n_url = $news_url_cache[$n_id];
+		}
+
+		//$n_url = os_db_query('select news_page_url from ' . TABLE_LATEST_NEWS . ' where news_id="' . $n_id . '"');
+		//$n_url = os_db_fetch_array($n_url);
+		//$n_url = $n_url['news_page_url'];
+
+		if ($n_url == '') {
+		return os_href_link_original($page, $parameters, $connection, $add_session_id, $search_engine_safe);
+		} else {
+
+		if ($connection == 'NONSSL') {
+		$link = HTTP_SERVER;
+		} elseif ($connection == 'SSL') {
+		if (ENABLE_SSL == 'true') {
+		$link = HTTPS_SERVER ;
+		} else {
+		$link = HTTP_SERVER;
+		}
+		} else {
+		die('</td></tr></table></td></tr></table><br /><br /><strong class="note">Error!<br /><br />Unable to determine connection method on a link!<br /><br />Known methods: NONSSL SSL</strong><br /><br />');
+		}
+
+		if ($connection == 'SSL' && ENABLE_SSL == 'true') {
+		$link .= DIR_WS_HTTPS_CATALOG;
+		} else {
+		$link .= DIR_WS_CATALOG;
+		}
+
+		if (os_not_null($language)) {
+		$n_url .= '?language=' . $language;
+		}
+
+		if (os_not_null($currency)) {
+		$n_url .= '?currency=' . $currency;
+		}
+
+		return $link . $n_url;
+		}
+
+		} elseif ($page == FILENAME_ARTICLES) {
+
+		$t_id = -1;
+		$page_num = '';
+		$param_array = explode('&', $parameters);
+
+		for ($i = 0, $n = sizeof($param_array); $i < $n; $i++) {
+		$parsed_param = explode('=', $param_array[$i]);
+		if ($parsed_param[0] === 'tPath') {
+		$t_id = $parsed_param[1];
+		}
+		if ($parsed_param[0] === 'page') {
+		$page_num = $parsed_param[1];
+		} elseif ($parsed_param[0] === 'language') {
+		$language = $parsed_param[1];
+		} elseif ($parsed_param[0] === 'currency') {
+		$currency = $parsed_param[1];
+		}
+		}
+
+		global $topics_url_cache;
+		$t_url = '';
+
+		if (isset($topics_url_cache[$t_id]))
+		{
+		$t_url = $topics_url_cache[$t_id];
+		}
+
+		//$t_url = os_db_query('select topics_page_url from ' . TABLE_TOPICS . ' where topics_id="' . $t_id . '"');
+		//$t_url = os_db_fetch_array($t_url);
+		// $t_url = $t_url['topics_page_url'];
+
+		if ($t_url == '') {
+		return os_href_link_original($page, $parameters, $connection, $add_session_id, $search_engine_safe);
+		} else {
+
+		if ($connection == 'NONSSL') {
+		$link = HTTP_SERVER;
+		} elseif ($connection == 'SSL') {
+		if (ENABLE_SSL == 'true') {
+		$link = HTTPS_SERVER ;
+		} else {
+		$link = HTTP_SERVER;
+		}
+		} else {
+		die('</td></tr></table></td></tr></table><br /><br /><strong class="note">Error!<br /><br />Unable to determine connection method on a link!<br /><br />Known methods: NONSSL SSL</strong><br /><br />');
+		}
+
+		if ($connection == 'SSL' && ENABLE_SSL == 'true') {
+		$link .= DIR_WS_HTTPS_CATALOG;
+		} else {
+		$link .= DIR_WS_CATALOG;
+		}
+
+		if (os_not_null($page_num)) {
+		$t_url .= '?page=' . $page_num;
+		}
+
+		if (os_not_null($language)) {
+		$t_url .= '?language=' . $language;
+		}
+
+		if (os_not_null($currency)) {
+		$t_url .= '?currency=' . $currency;
+		}
+
+		return $link . $t_url;
+		}
+
+		}elseif ($page == FILENAME_FAQ)
+		{
+		/////////
+		$faq_id = -1;
+		$param_array = explode('&', $parameters);
+
+		for ($i = 0, $n = sizeof($param_array); $i < $n; $i++) {
+		$parsed_param = explode('=', $param_array[$i]);
+		if ($parsed_param[0] === 'faq_id') {
+		$faq_id = $parsed_param[1];
+		} elseif ($parsed_param[0] === 'language') {
+		$language = $parsed_param[1];
+		} elseif ($parsed_param[0] === 'currency') {
+		$currency = $parsed_param[1];
+		}
+		}
+		global $faq_url_cache;
+
+		if (isset($faq_url_cache[$faq_id]))
+		{
+		$faq_url = $faq_url_cache[$faq_id];
+		}
+
+		if (empty($faq_url))
+		{
+		return os_href_link_original($page, $parameters, $connection, $add_session_id, $search_engine_safe);
+		}
+		else
+		{
+		return  $faq_url ;
+		}
+		}
+
+		elseif ($page == FILENAME_CONTENT) {
+
+		$co_id = -1;
+		$param_array = explode('&', $parameters);
+
+		for ($i = 0, $n = sizeof($param_array); $i < $n; $i++) {
+		$parsed_param = explode('=', $param_array[$i]);
+		if ($parsed_param[0] === 'coID') {
+		$co_id = $parsed_param[1];
+		} elseif ($parsed_param[0] === 'language') {
+		$language = $parsed_param[1];
+		} elseif ($parsed_param[0] === 'action') {
+		$action = $parsed_param[1];
+		} elseif ($parsed_param[0] === 'currency') {
+		$currency = $parsed_param[1];
+		}
+		}
+
+		global $content_url_cache;
+
+		$co_url = '';
+
+		if (isset($content_url_cache[$co_id]))
+		{
+		$co_url = $content_url_cache[$co_id];
+		}
+		//$co_url = os_db_query('select content_page_url from ' . TABLE_CONTENT_MANAGER . ' where content_id="' . $co_id . '"');
+		//$co_url = os_db_fetch_array($co_url);
+		//$co_url = $co_url['content_page_url'];
+
+		if ($co_url == '') {
+		return os_href_link_original($page, $parameters, $connection, $add_session_id, $search_engine_safe);
+		} else {
+
+		if ($connection == 'NONSSL') {
+		$link = HTTP_SERVER;
+		} elseif ($connection == 'SSL') {
+		if (ENABLE_SSL == 'true') {
+		$link = HTTPS_SERVER ;
+		} else {
+		$link = HTTP_SERVER;
+		}
+		} else {
+		die('</td></tr></table></td></tr></table><br /><br /><strong class="note">Error!<br /><br />Unable to determine connection method on a link!<br /><br />Known methods: NONSSL SSL</strong><br /><br />');
+		}
+
+		if ($connection == 'SSL' && ENABLE_SSL == 'true') {
+		$link .= DIR_WS_HTTPS_CATALOG;
+		} else {
+		$link .= DIR_WS_CATALOG;
+		}
+
+		if (os_not_null($language)) {
+		$co_url .= '?language=' . $language;
+		}
+
+		if (os_not_null($action)) {
+		$co_url .= '?action=' . $action;
+		}
+
+		if (os_not_null($currency)) {
+		$co_url .= '?currency=' . $currency;
+		}
+
+		return $link . $co_url;
+		}
+		}
+		else {
+		return os_href_link_original($page, $parameters, $connection, $add_session_id, $search_engine_safe);
+		}
+	}
 
     // Categories/Products URL end
 

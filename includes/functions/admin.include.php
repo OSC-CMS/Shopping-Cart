@@ -107,7 +107,7 @@
 
 	function curl_get($url)
 	{
-		if(function_exists('curl_init'))
+		if (function_exists('curl_init'))
 		{
 			$ch = curl_init();
 
@@ -139,6 +139,50 @@
 			$page = file_get_contents($url);
 
 		return $page;
+	}
+
+	function files_remove_directory($directory, $clear = false)
+	{
+		if(substr($directory,-1) == '/')
+		{
+			$directory = substr($directory,0,-1);
+		}
+
+		if(!file_exists($directory) || !is_dir($directory) || !is_readable($directory))
+		{
+			return false;
+		}
+
+		$handle = opendir($directory);
+
+		while (false !== ($node = readdir($handle)))
+		{
+			if($node != '.' && $node != '..')
+			{
+				$path = $directory.'/'.$node;
+
+				if (is_dir($path))
+				{
+					if (!files_remove_directory($path)) { return false; }
+				}
+				else
+				{
+					if (!@unlink($path)) { return false; }
+				}
+			}
+		}
+
+		closedir($handle);
+
+		if ($clear == false)
+		{
+			if (!@rmdir($directory))
+			{
+				return false;
+			}
+		}
+
+		return true;
 	}
 
 	// Запрос на получение наборов товаров
@@ -988,7 +1032,7 @@
 
     }
 
-    function os_db_num_rows($db_query, $cq=false) 
+    function os_db_num_rows($db_query, $cq=false)
     {
         if (DB_CACHE=='true' && $cq) 
         {
@@ -3248,29 +3292,29 @@
         global $db;
         global $db_query;
         global $query_counts;
+	    global $cartet;
 
         // get HASH ID for filename
-        $id=md5($query);
-
+        $id = md5($query);
 
         // cache File Name
-        $file=SQL_CACHEDIR.$id.'.os';
+        $file = 'database/'.$id;
+        $fileCheck = DIR.'cache/'.$file.'.dat';
 
-        // file life time
-        $expire = DB_CACHE_EXPIRE; // 24 hours
-
-        if (STORE_DB_TRANSACTIONS == 'true') {
+        if (STORE_DB_TRANSACTIONS == 'true')
+        {
             error_log('QUERY ' . $query . "\n", 3, STORE_PAGE_PARSE_TIME_LOG);
         }
 
-        if (file_exists($file) && filemtime($file) > (time() - $expire)) {
-
-            // get cached resulst
-            $result = unserialize(implode('',file($file)));
-
-        } else {
-
-            if (file_exists($file)) @unlink($file);
+	    // get cached resulst
+        if (file_exists($fileCheck) && ($result = $cartet->cache->get($file)))
+        {
+	        return $result;
+        }
+        else
+        {
+            if (file_exists($fileCheck))
+	            @unlink($fileCheck);
 
             $mtime = microtime(); 
             $mtime = explode(" ",$mtime); 
@@ -3320,17 +3364,10 @@
             while ($record = os_db_fetch_array($result))
                 $records[]=$record;
 
+	        $cartet->cache->set('database.'.$id, $records, DB_CACHE_EXPIRE);
 
-            // safe result into file.
-            $stream = serialize($records);
-            $fp = fopen($file,"w");
-            fwrite($fp, $stream);
-            fclose($fp);
-            $result = unserialize(implode('',file($file)));
-
+	        return $records;
         }
-
-        return $result;
     }
 
     function os_db_query($query, $link = 'db_link') 
@@ -3341,8 +3378,6 @@
         global $db;
 
         $query_counts++; 
-
-        //echo $query.'<br>';
 
         if ( is_object($db) && $db->STORE_DB_TRANSACTIONS == 'true') 
         {

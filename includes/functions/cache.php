@@ -124,7 +124,7 @@
 
         $p = '';
 
-        if (os_db_num_rows($p_query,true)) 
+        if (os_db_num_rows($p_query, true))
         {
             while ($products = os_db_fetch_array($p_query,true))  
             {
@@ -194,11 +194,11 @@
         return true;
     }
 
-    function get_products_url_cache ()
+    /*function get_products_url_cache()
     {
-        if (is_file(_CACHE.'system/products_url.php'))
+        if (is_file(_CACHE.'url/products_url.php'))
         {
-            $fp = @fopen(_CACHE.'system/products_url.php', "rb");
+            $fp = @fopen(_CACHE.'url/products_url.php', "rb");
             if ($fp) 
             {
                 while (!feof($fp)) 
@@ -210,17 +210,17 @@
         }
 
         return unserialize ($st);
-    }
+    }*/
 
-    function get_cache ($filename)
+    function get_cache($filename)
     {
         if ($filename != 'configuration')
         {	
 
-            if (is_file(_CACHE.'system/'.$filename.'.php') && DB_CACHE_PRO == 'true')
+            if (is_file(_CACHE.'url/'.$filename.'.php') && DB_CACHE_PRO == 'true')
             {
 
-                if (filesize(_CACHE.'system/'.$filename.'.php')==1)
+                if (filesize(_CACHE.'url/'.$filename.'.php')==1)
                 {
                     $_val = $filename.'_cache';
                     global $$_val;
@@ -229,7 +229,7 @@
                 }
                 else
                 {
-                    $st = file_get_contents(_CACHE.'system/'.$filename.'.php'); 
+                    $st = file_get_contents(_CACHE.'url/'.$filename.'.php');
 
                     $_val = $filename.'_cache';
                     global $$_val;
@@ -400,7 +400,7 @@
                 else
                     $_cache = serialize($cache);
 
-                $fp = @fopen(_CACHE.'system/'.$filename.'.php', "w");
+                $fp = @fopen(_CACHE.'url/'.$filename.'.php', "w");
                 if ($fp) 
                 {
                     @fwrite($fp, $_cache);
@@ -785,7 +785,7 @@
     }
 
     //$category_cache
-    function flip_category_cache ()
+    function flip_category_cache()
     {
         global $_flip_category_cache;
         global $category_cache;
