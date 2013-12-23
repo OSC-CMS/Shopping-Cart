@@ -17,10 +17,11 @@
     }
 
     if (DISPLAY_PAGE_PARSE_TIME == 'true') {
+	    global $cartet;
         $time_start = explode(' ', PAGE_PARSE_START_TIME);
         $time_end = explode(' ', microtime());
         $parse_time = number_format(($time_end[1] + $time_end[0] - ($time_start[1] + $time_start[0])), 3);
-        echo '<center><font color="red">'.PARSE_TIME.' <b>'. $parse_time . '</b></font>, <font color="green">'.QUERIES.': <b>' . $query_counts . '</b></font></center>';
+        echo '<center><font color="red">'.PARSE_TIME.' <b>'. $parse_time . '</b></font>, <font color="green">'.QUERIES.': <b>' . $query_counts . '</b></font>, <font color="blue">cache: <b>' . $cartet->cache->query_count . '</b></font></center>';
     }
 
     if ((GZIP_COMPRESSION == 'true') && ($ext_zlib_loaded == true) && ($ini_zlib_output_compression < 1)) 
