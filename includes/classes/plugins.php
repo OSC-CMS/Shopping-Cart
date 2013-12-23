@@ -706,7 +706,7 @@
         { 
             $plugins_query = os_db_query('select plugins_key, plugins_name, plugins_value from '.DB_PREFIX.'plugins order by sort_order');
 
-            while ($plugins_result = os_db_fetch_array($plugins_query,true))  
+            while ($plugins_result = os_db_fetch_array($plugins_query))
             {
                 if (!empty($plugins_result['plugins_key']))
                 {   

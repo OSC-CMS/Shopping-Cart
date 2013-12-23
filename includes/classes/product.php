@@ -432,7 +432,7 @@ class product {
 				'PRODUCTS_STOCK'=> @$array['stock'],
 				'PRODUCTS_VPE' => @$this->getVPEtext($array, $products_price['price']['plain']), 
 				'PRODUCTS_IMAGE' => @$this->productImage($array['products_image'], $image), 
-				'PRODUCTS_LINK' => os_href_link(FILENAME_PRODUCT_INFO, os_product_link($array['products_id'], $array['products_name'])), 
+				'PRODUCTS_LINK' => os_href_link(FILENAME_PRODUCT_INFO, os_product_link($array['products_id'], $array['products_name'])),
 				'PRODUCTS_PRICE' => @$products_price['price']['formated'], 
 				'price' => $products_price, 
 				'PRODUCTS_PRICE_PLAIN' => @$products_price['price']['plain'], 
@@ -454,9 +454,8 @@ class product {
 				
 
 	}
-	
 
-	function productImage($name, $type) 
+	function productImage($name, $type)
 	{
 
 		switch ($type) 
