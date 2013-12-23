@@ -309,66 +309,13 @@ if (!file_exists(dir_path('images_popup').$img['image_name'])) $products_mo_popu
 		if ($_SESSION['customers_status']['customers_status_graduated_prices'] == 1)
 			include (_MODULES.FILENAME_GRADUATED_PRICE);
 
-
-     $extra_fields_query = osDBquery("
-     SELECT
-         pef.products_extra_fields_name as name, pef.products_extra_fields_group, ptf.products_extra_fields_value as value
-     FROM
-         ".TABLE_PRODUCTS_EXTRA_FIELDS." pef
-            LEFT JOIN ".TABLE_PRODUCTS_TO_PRODUCTS_EXTRA_FIELDS." ptf ON ptf.products_extra_fields_id = pef.products_extra_fields_id
-     WHERE
-         ptf.products_id = ".$product->data['products_id']." AND
-         ptf.products_extra_fields_value <> '' AND
-         pef.products_extra_fields_status = 1 AND
-         (pef.languages_id = '0' or pef.languages_id = '".(int)$_SESSION['languages_id']."')
-     ORDER BY
-         products_extra_fields_order
-     ");
-
-	if (os_db_num_rows($extra_fields_query) > 0)
+	// доп. поля товара
+	global $cartet;
+	$efResult = $cartet->product->getProductExtraFields($product->data['products_id']);
+	if ($efResult)
 	{
-		while ($extra_fields = os_db_fetch_array($extra_fields_query,true))
-		{
-			$extra_fields_data[$extra_fields['products_extra_fields_group']][] = array(
-				'NAME' => $extra_fields['name'],
-				'VALUE' => $extra_fields['value']
-			);
-		}
-
-		$groupsDescQuery = os_db_query("
-		SELECT
-			*, d.extra_fields_groups_name as group_name
-		FROM
-			".DB_PREFIX."products_extra_fields_groups g
-				LEFT JOIN ".DB_PREFIX."products_extra_fields_groups_desc d ON (g.extra_fields_groups_id = d.extra_fields_groups_id AND d.extra_fields_groups_languages_id = '".(int)$_SESSION['languages_id']."')
-		WHERE
-			g.extra_fields_groups_status = 1
-		ORDER BY
-			g.extra_fields_groups_order ASC
-		");
-		if (os_db_num_rows($groupsDescQuery) > 0)
-		{
-			while ($groups = os_db_fetch_array($groupsDescQuery))
-			{
-				$groupDescEdit[$groups['extra_fields_groups_id']] = $groups;
-			}
-		}
-
-		$efResult = array();
-		foreach($groupDescEdit AS $gId => $gValue)
-		{
-			foreach ($extra_fields_data as $fGId => $fValue)
-			{
-				if ($gId == $fGId)
-				{
-					$efResult[$gId] = $gValue;
-					$efResult[$gId]['values'] = $fValue;
-				}
-			}
-		}
+		$info->assign('extra_fields_data', $efResult);
 	}
-
-  $info->assign('extra_fields_data', $efResult);
 
 	include(_MODULES.FILENAME_PRODUCTS_MEDIA);
 	include(_MODULES.FILENAME_ALSO_PURCHASED_PRODUCTS);

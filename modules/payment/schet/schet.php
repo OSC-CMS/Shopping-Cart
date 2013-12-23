@@ -90,7 +90,7 @@ class schet extends CartET
 		if (isset($_SESSION['customer_id']))
 		{
 			$getOrderQuery = osDBquery("SELECT orders_id, customers_id FROM ".TABLE_ORDERS." WHERE customers_id = '".$_SESSION['customer_id']."' AND payment_method = 'schet' ORDER BY orders_id DESC LIMIT 1");
-			if (os_db_num_rows($getOrderQuery) > 0)
+			if (os_db_num_rows($getOrderQuery, true) > 0)
 			{
 				$getOrder = os_db_fetch_array($getOrderQuery);
 
