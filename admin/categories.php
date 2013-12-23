@@ -82,22 +82,26 @@ if (@$_GET['action'])
 		case 'update_category' :
 			$catfunc->insert_category($_POST, '', 'update');
 			set_categories_url_cache();
+			os_redirect(os_href_link(FILENAME_CATEGORIES, 'cPath='.$_GET['cPath']));
 		break;
 
 		case 'insert_category' :
 			$catfunc->insert_category($_POST, $current_category_id);
 			set_categories_url_cache();
 			set_category_cache();
+			os_redirect(os_href_link(FILENAME_CATEGORIES, 'cPath='.$_GET['cPath']));
 		break;
 
 		case 'update_product' :
 			$catfunc->insert_product($_POST, '', 'update');
 			set_products_url_cache();
+			os_redirect(os_href_link(FILENAME_CATEGORIES, 'cPath='.$_GET['cPath']));
 		break;
 
 		case 'insert_product' :
 			$catfunc->insert_product($_POST, $current_category_id);
 			set_products_url_cache();
+			os_redirect(os_href_link(FILENAME_CATEGORIES, 'cPath='.$_GET['cPath']));
 		break;
 
 		case 'edit_crossselling' :
