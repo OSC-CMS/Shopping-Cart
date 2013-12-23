@@ -60,24 +60,11 @@ if ($gv_result = os_db_fetch_array($gv_query)) {
 	include (dir_path('class').'order.php');
 	$order = new order($orders['orders_id']);
 
-/*if ($order->info['payment_method'] == 'schet') 
-{
-   $_array = array('img' => 'button_print_schet.gif', 'href' => os_href_link(FILENAME_PRINT_SCHET, 'oID='.$orders['orders_id']), 'alt' => MODULE_PAYMENT_SCHET_PRINT, 'code' => '');
-	
-	$_array = apply_filter('button_print_schet', $_array);
-	
-	if (empty($_array['code']))
-	{
-	   $_array['code'] = '<img alt="' . MODULE_PAYMENT_SCHET_PRINT . '" src="'.'themes/'.CURRENT_TEMPLATE.'/buttons/'.$_SESSION['language'].'/'. $_array['img'].'" style="cursor:pointer" onclick="window.open(\''.$_array['href'].'\', \'popup\', \'toolbar=0, scrollbars=yes, width=800, height=650\')" />';
-	}
-	
-$osTemplate->assign('BUTTON_SCHET_PRINT',  $_array['code']);
-}*/
-
 // фильтр кнопок печати
 $array = array();
 $array['params'] = array('order_id' => $orders['orders_id'], 'payment_method' => $order->info['payment_method']);
 $array = apply_filter('print_menu', $array);
+
 if (is_array($array['link']) && !empty($array['link']))
 {
 	$osTemplate->assign('filterPrint', $array['link']);

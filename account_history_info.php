@@ -60,27 +60,6 @@ if (DOWNLOAD_ENABLED == 'true') include (_MODULES.'downloads.php');
 
 // Stuff
 
-/*if ($order->info['payment_method'] == 'schet') 
-{
-
-   $_array = array('img' => 'button_print_schet.gif', 'href' => os_href_link(FILENAME_PRINT_SCHET, 'oID='.(int)$_GET['order_id']), 'alt' => MODULE_PAYMENT_SCHET_PRINT, 'code' => '');
-	
-	$_array = apply_filter('button_print_schet', $_array);
-	
-	if (empty($_array['code']))
-	{
-	   $_array['code'] = '<img alt="' . MODULE_PAYMENT_SCHET_PRINT . '" src="'.'themes/'.CURRENT_TEMPLATE.'/buttons/'.$_SESSION['language'].'/'. $_array['img'].'" style="cursor:pointer" onclick="window.open(\''.$_array['href'].'\', \'popup\', \'toolbar=0, scrollbars=yes, width=800, height=650\')" />';
-	}
-	
-$osTemplate->assign('BUTTON_SCHET_PRINT', $_array['code']);
-}*/
-
-/*
-if ($order->info['payment_method'] == 'schet') {
-$osTemplate->assign('BUTTON_PACKINGSLIP_PRINT', '<img alt="' . MODULE_PAYMENT_PACKINGSLIP_PRINT . '" src="'.'themes/'.CURRENT_TEMPLATE.'/buttons/'.$_SESSION['language'].'/button_print_packingslip.gif" style="cursor:pointer" onclick="window.open(\''.os_href_link(FILENAME_PRINT_PACKINGSLIP, 'oID='.(int)$_GET['order_id']).'\', \'popup\', \'toolbar=0, scrollbars=yes, width=800, height=650\')" />');
-}
-*/
-
 // фильтр кнопок печати
 $array = array();
 $array['params'] = array('order_id' => $_GET['order_id'], 'payment_method' => $order->info['payment_method']);
