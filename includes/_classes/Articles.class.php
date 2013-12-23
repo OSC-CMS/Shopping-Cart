@@ -36,10 +36,10 @@ class apiArticles extends CartET
 				ad.language_id = '".(int)$lang."'
 		");
 
-		if (os_db_num_rows($sql) > 0)
+		if (os_db_num_rows($sql, true) > 0)
 		{
 			// Обновляем количество просмотров
-			osDBquery("UPDATE ".TABLE_ARTICLES_DESCRIPTION." SET articles_viewed = articles_viewed+1 WHERE articles_id = '".(int)$articles_id."' AND language_id = '".(int)$lang."'");
+			os_db_query("UPDATE ".TABLE_ARTICLES_DESCRIPTION." SET articles_viewed = articles_viewed+1 WHERE articles_id = '".(int)$articles_id."' AND language_id = '".(int)$lang."'");
 
 			$result = os_db_fetch_array($sql);
 

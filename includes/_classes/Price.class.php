@@ -39,7 +39,7 @@ class apiPrice extends CartET
 				".$sql." 
 				
 		";
-		$attribute_price_query = osDBquery($attribute_price_query);
+		$attribute_price_query = os_db_query($attribute_price_query);
 
 		$discount = 0;
 		if ($osPrice->cStatus['customers_status_discount_attributes'] == 1 && $osPrice->cStatus['customers_status_discount'] != 0.00)
@@ -118,7 +118,7 @@ class apiPrice extends CartET
 				tr.tax_priority
 		");
 
-		if (os_db_num_rows($tax_query))
+		if (os_db_num_rows($tax_query, true))
 		{
 			$tax_multiplier = 1.0;
 			$return = array();

@@ -24,7 +24,7 @@ class apiSms extends CartET
 			return self::$aSetting;
 		}
 
-		$getSettingQuery = osDBquery("SELECT * FROM ".DB_PREFIX."sms_setting WHERE sms_id = 1");
+		$getSettingQuery = os_db_query("SELECT * FROM ".DB_PREFIX."sms_setting WHERE sms_id = 1");
 		$setting = os_db_fetch_array($getSettingQuery);
 
     	self::$aSetting = $setting;

@@ -33,7 +33,7 @@ class apiNews extends CartET
 
 		$sql = osDBquery("SELECT * FROM ".TABLE_LATEST_NEWS." WHERE status = '".(int)$status."' AND language = '".(int)$lang."' AND news_id = ".(int)$news_id." LIMIT 1");
 
-		if (os_db_num_rows($sql) > 0)
+		if (os_db_num_rows($sql, true) > 0)
 		{
 			$result = os_db_fetch_array($sql);
 

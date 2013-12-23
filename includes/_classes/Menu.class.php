@@ -66,7 +66,7 @@ class apiMenu extends CartET
 		$status = ($array['status'] == true) ? " AND menu_status = 1 " : '';
 
 		$data = array();
-		$sql = osDBquery("SELECT * FROM ".DB_PREFIX."menu LEFT JOIN ".DB_PREFIX."menu_lang ON (lang_type = '0' AND lang_type_id = menu_id AND lang_lang = '".(int)$lang."') WHERE menu_group_id = '".(int)$group_id."' ".$status." ORDER BY menu_position ASC");
+		$sql = os_db_query("SELECT * FROM ".DB_PREFIX."menu LEFT JOIN ".DB_PREFIX."menu_lang ON (lang_type = '0' AND lang_type_id = menu_id AND lang_lang = '".(int)$lang."') WHERE menu_group_id = '".(int)$group_id."' ".$status." ORDER BY menu_position ASC");
 		if (os_db_num_rows($sql) > 0)
 		{
 			while ($row = os_db_fetch_array($sql))
@@ -341,7 +341,7 @@ class apiMenu extends CartET
 		os_db_query("DELETE FROM ".DB_PREFIX."menu_group WHERE group_id = '".(int)$id."'");
 		os_db_query("DELETE FROM ".DB_PREFIX."menu_lang WHERE lang_type = '1' AND lang_type_id = '".(int)$id."'");
 
-		$sql = osDBquery("SELECT * FROM ".DB_PREFIX."menu LEFT JOIN ".DB_PREFIX."menu_lang ON (lang_type = '0' AND lang_type_id = menu_id) WHERE menu_group_id = '".(int)$id."'");
+		$sql = os_db_query("SELECT * FROM ".DB_PREFIX."menu LEFT JOIN ".DB_PREFIX."menu_lang ON (lang_type = '0' AND lang_type_id = menu_id) WHERE menu_group_id = '".(int)$id."'");
 		if (os_db_num_rows($sql) > 0)
 		{
 			while ($row = os_db_fetch_array($sql))

@@ -452,10 +452,10 @@ class apiProducts extends CartET
 	{
 		if (!(in_array($src_category_id, $_SESSION['copied'])))
 		{
-			$ccopy_query = osDBquery("SELECT * FROM ".TABLE_CATEGORIES." WHERE categories_id = '".(int)$src_category_id."'");
+			$ccopy_query = os_db_query("SELECT * FROM ".TABLE_CATEGORIES." WHERE categories_id = '".(int)$src_category_id."'");
 			$ccopy_values = os_db_fetch_array($ccopy_query);
 
-			$cdcopy_query = osDBquery("SELECT * FROM ".TABLE_CATEGORIES_DESCRIPTION." WHERE categories_id = '".(int)$src_category_id."'");
+			$cdcopy_query = os_db_query("SELECT * FROM ".TABLE_CATEGORIES_DESCRIPTION." WHERE categories_id = '".(int)$src_category_id."'");
 
 			$sql_data_array = array(
 				'parent_id' => (int)$dest_category_id,
@@ -482,7 +482,7 @@ class apiProducts extends CartET
 
 			$new_cat_id = os_db_insert_id();
 			$_SESSION['copied'][] = $new_cat_id;
-			$get_prod_query = osDBquery("SELECT products_id FROM ".TABLE_PRODUCTS_TO_CATEGORIES." WHERE categories_id = '".(int)$src_category_id."'");
+			$get_prod_query = os_db_query("SELECT products_id FROM ".TABLE_PRODUCTS_TO_CATEGORIES." WHERE categories_id = '".(int)$src_category_id."'");
 			while ($product = os_db_fetch_array($get_prod_query)) {
 				if ($ctype == 'link')
 					$this->linkProduct($product['products_id'], $new_cat_id);
@@ -499,15 +499,15 @@ class apiProducts extends CartET
 				$suffix = array_pop($get_suffix);
 				$dest_pic = $new_cat_id.'.'.$suffix;
 				@copy($src_pic, dir_path('images').'categories/'.$dest_pic);
-				osDBquery("UPDATE ".DB_PREFIX."categories SET categories_image = '".$dest_pic."' WHERE categories_id = '".(int)$new_cat_id."'");
+				os_db_query("UPDATE ".DB_PREFIX."categories SET categories_image = '".$dest_pic."' WHERE categories_id = '".(int)$new_cat_id."'");
 			}
 
 			while ($cdcopy_values = os_db_fetch_array($cdcopy_query))
 			{
-				osDBquery("INSERT INTO ".TABLE_CATEGORIES_DESCRIPTION." (categories_id, language_id, categories_name, categories_heading_title, categories_description, categories_meta_title, categories_meta_description, categories_meta_keywords) VALUES ('".(int)$new_cat_id."' , '".$cdcopy_values['language_id']."' , '".addslashes($cdcopy_values['categories_name'])."' , '".addslashes($cdcopy_values['categories_heading_title'])."' , '".addslashes($cdcopy_values['categories_description'])."' , '".addslashes($cdcopy_values['categories_meta_title'])."' , '".addslashes($cdcopy_values['categories_meta_description'])."' , '".addslashes($cdcopy_values['categories_meta_keywords'])."')");
+				os_db_query("INSERT INTO ".TABLE_CATEGORIES_DESCRIPTION." (categories_id, language_id, categories_name, categories_heading_title, categories_description, categories_meta_title, categories_meta_description, categories_meta_keywords) VALUES ('".(int)$new_cat_id."' , '".$cdcopy_values['language_id']."' , '".addslashes($cdcopy_values['categories_name'])."' , '".addslashes($cdcopy_values['categories_heading_title'])."' , '".addslashes($cdcopy_values['categories_description'])."' , '".addslashes($cdcopy_values['categories_meta_title'])."' , '".addslashes($cdcopy_values['categories_meta_description'])."' , '".addslashes($cdcopy_values['categories_meta_keywords'])."')");
 			}
 
-			$crcopy_query = osDBquery("SELECT categories_id FROM ".TABLE_CATEGORIES." WHERE parent_id = '".(int)$src_category_id."'");
+			$crcopy_query = os_db_query("SELECT categories_id FROM ".TABLE_CATEGORIES." WHERE parent_id = '".(int)$src_category_id."'");
 			while ($crcopy_values = os_db_fetch_array($crcopy_query))
 			{
 				$this->copyCategory($crcopy_values['categories_id'], $new_cat_id, $ctype);
@@ -548,7 +548,7 @@ class apiProducts extends CartET
 		$src_products_id = $params['product_id'];
 		$dest_categories_id = $params['categories_id'];
 
-		$product_query = osDBquery("SELECT * FROM ".TABLE_PRODUCTS." WHERE products_id = '".os_db_input($src_products_id)."'");
+		$product_query = os_db_query("SELECT * FROM ".TABLE_PRODUCTS." WHERE products_id = '".os_db_input($src_products_id)."'");
 		$product = os_db_fetch_array($product_query);
 
 		$sql_data_array = array();
@@ -568,7 +568,7 @@ class apiProducts extends CartET
 			$pname_arr = explode('.', $product['products_image']);
 			$nsuffix = array_pop($pname_arr);
 			$dup_products_image_name = $dup_products_id.'_0'.'.'.$nsuffix;
-			osDBquery("UPDATE ".TABLE_PRODUCTS." SET products_image = '".$dup_products_image_name."' WHERE products_id = '".$dup_products_id."'");
+			os_db_query("UPDATE ".TABLE_PRODUCTS." SET products_image = '".$dup_products_image_name."' WHERE products_id = '".$dup_products_id."'");
 
 			@copy(dir_path('images_original').'/'.$product['products_image'], dir_path('images_original').'/'.$dup_products_image_name);
 			@copy(dir_path('images_info').'/'.$product['products_image'], dir_path('images_info').'/'.$dup_products_image_name);

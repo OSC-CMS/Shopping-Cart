@@ -39,12 +39,12 @@ class CartET
 
 	public function __get($name)
 	{
-		if(isset(self::$obj[$name]))
+		if (isset(self::$obj[$name]))
 		{
 			return(self::$obj[$name]);
 		}
 
-		if(!array_key_exists($name, self::$aClasses))
+		if (!array_key_exists($name, self::$aClasses))
 		{
 			return null;
 		}
