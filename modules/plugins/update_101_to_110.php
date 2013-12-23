@@ -30,6 +30,8 @@ function update_101_to_110_install()
 	os_db_query("ALTER TABLE `".DB_PREFIX."admin_access` DROP cache");
 
 	os_db_query("ALTER TABLE ".DB_PREFIX."admin_access ADD sms int(1) NOT NULL default '1';");
+	os_db_query("ALTER TABLE ".DB_PREFIX."admin_access ADD cartet int(1) NOT NULL default '1';");
+	os_db_query("ALTER TABLE ".DB_PREFIX."admin_access ADD `update` int(1) NOT NULL default '1';");
 
 	os_db_query("DELETE FROM `".DB_PREFIX."configuration` WHERE `configuration_id` = 327;");
 	os_db_query("DELETE FROM `".DB_PREFIX."configuration` WHERE `configuration_id` = 328;");
@@ -214,7 +216,10 @@ function update_101_to_110_install()
 	(107, 0, 'shop_content.php?coID=4', '', '', 3, 2, 0),
 	(106, 53, 'plugins.php', '', '', 1, 1, 1),
 	(110, 55, 'sms.php', '', '', 1, 1, 1),
-	(111, 103, 'configuration.php?gID=32', '', '', 4, 1, 1);");
+	(111, 103, 'configuration.php?gID=32', '', '', 4, 1, 1),
+	(112, 115, 'cartet.php', '', '', 2, 1, 1),
+	(113, 115, 'update.php', '', '', 1, 1, 1),
+	(114, 0, '', '', 'icon-cog', 14, 1, 1);");
 
 	os_db_query("INSERT INTO ".DB_PREFIX."menu_group (`group_id`, `group_status`) VALUES
 	(1, 1),
@@ -331,7 +336,10 @@ function update_101_to_110_install()
 	(113, 'Главная', 0, 108, 1),
 	(115, 'Свяжитесь с нами', 0, 109, 1),
 	(117, 'СМС уведомления', 0, 110, 1),
-	(118, 'Быстрый заказ', 0, 111, 1);");
+	(118, 'Быстрый заказ', 0, 111, 1),
+	(119, 'О CartET', 0, 114, 1),
+	(120, 'Обновления', 0, 113, 1),
+	(121, 'О CartET', 0, 112, 1);");
 
 	os_db_query("CREATE TABLE ".DB_PREFIX."sms (
 		`id` int(11) not null auto_increment,
@@ -360,15 +368,16 @@ function update_101_to_110_install()
 		PRIMARY KEY (`sms_id`, `sms_default_id`)
 	) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE utf8_general_ci;");
 
-	os_db_query("INSERT INTO `".DB_PREFIX."sms_setting` VALUES(1, 0, 0, 1, 1, 1, 0);");
+	os_db_query("INSERT INTO `".DB_PREFIX."sms_setting` VALUES(1, 0, 0, 1, 1, 1, 0, 0);");
 
 	os_db_query("INSERT INTO `".DB_PREFIX."sms` (`id`, `name`, `login`, `password`, `password_md5`, `api_id`, `api_key`, `title`, `phone`, `status`, `url`) VALUES
 	(1, 'avisosms.ru', '', '', 0, '', '', 'cartet', '', '', 'api.avisosms.ru/sms/get/?username={login}&password={password}&destination_address={phone}&source_address={title}&message={text}'),
-	(2, 'sms.ru', '', '', 0, '', '', 'cartet', '', '', 'sms.ru/sms/send?api_id={api_id}&to={phone}&text={text}'),
+	(2, 'sms.ru', '', '', 0, '', '', 'cartet', '', '', 'sms.ru/sms/send?api_id={api_id}&to={phone}&text={text}&from={title}'),
 	(3, 'infosmska.ru', '', '', 0, '', '', 'cartet', '', '', 'api.infosmska.ru/interfaces/SendMessages.ashx?login={login}&pwd={password}&sender={title}&phones={phone}&message={text}'),
 	(4, 'sms-sending.ru', '', '', 0, '', '', 'cartet', '', '', 'lcab.sms-sending.ru/lcabApi/sendSms.php?login={login}&password={password}&txt={text}&to={phone}'),
 	(5, 'bytehand.com', '', '', 0, '', '', 'cartet', '', '', 'bytehand.com:3800/send?id={api_id}&key={api_key}&to={phone}&partner=cartet&from={title}&text={text}'),
-	(6, 'smsaero.ru', '', '', 1, '', '', 'cartet', '', '', 'gate.smsaero.ru/send/?user={login}&password={password}&to={phone}&text={text}&from={title}');");
+	(6, 'smsaero.ru', '', '', 1, '', '', 'cartet', '', '', 'gate.smsaero.ru/send/?user={login}&password={password}&to={phone}&text={text}&from={title}'),
+	(7, 'prostor-sms.ru', '', '', 0, '', '', 'cartet', '', '', 'api.prostor-sms.ru/messages/v2/send/?phone=%2B{phone}&text={text}&login={login}&password={password}&sender={title}');");
 
 	$messageStack->add_session('База успешно обновлена!<br />Выключите и удалите данный плагин!', 'success');
 	os_redirect(FILENAME_PLUGINS.'?module=update_101_to_110');

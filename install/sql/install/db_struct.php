@@ -412,6 +412,8 @@ os_db_query("CREATE TABLE `".DB_PREFIX."admin_access` (
   `error_log` int(1) NOT NULL,
   `ajax` int(1) NOT NULL default '1',
   `sms` int(1) NOT NULL default '1',
+  `cartet` int(1) NOT NULL default '1',
+  `update` int(1) NOT NULL default '1',
   PRIMARY KEY (`customers_id`)
 ) ENGINE=MyISAM /*!40101 DEFAULT CHARSET=utf8 */;
 ");

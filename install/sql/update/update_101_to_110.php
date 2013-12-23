@@ -23,6 +23,8 @@ os_db_query("ALTER TABLE `".DB_PREFIX."admin_access` DROP create_account");
 os_db_query("ALTER TABLE `".DB_PREFIX."admin_access` DROP cache");
 
 os_db_query("ALTER TABLE ".DB_PREFIX."admin_access ADD sms int(1) NOT NULL default '1';");
+os_db_query("ALTER TABLE ".DB_PREFIX."admin_access ADD cartet int(1) NOT NULL default '1';");
+os_db_query("ALTER TABLE ".DB_PREFIX."admin_access ADD `update` int(1) NOT NULL default '1';");
 
 os_db_query("DELETE FROM `".DB_PREFIX."configuration` WHERE `configuration_id` = 327;");
 os_db_query("DELETE FROM `".DB_PREFIX."configuration` WHERE `configuration_id` = 328;");
@@ -361,6 +363,6 @@ os_db_query("INSERT INTO `".DB_PREFIX."sms` (`id`, `name`, `login`, `password`, 
 (3, 'infosmska.ru', '', '', 0, '', '', 'cartet', '', '', 'api.infosmska.ru/interfaces/SendMessages.ashx?login={login}&pwd={password}&sender={title}&phones={phone}&message={text}'),
 (4, 'sms-sending.ru', '', '', 0, '', '', 'cartet', '', '', 'lcab.sms-sending.ru/lcabApi/sendSms.php?login={login}&password={password}&txt={text}&to={phone}'),
 (5, 'bytehand.com', '', '', 0, '', '', 'cartet', '', '', 'bytehand.com:3800/send?id={api_id}&key={api_key}&to={phone}&partner=cartet&from={title}&text={text}'),
-(6, 'smsaero.ru', '', '', 1, '', '', 'cartet', '', '', 'gate.smsaero.ru/send/?user={login}&password={password}&to={phone}&text={text}&from={title}');");
-
+(6, 'smsaero.ru', '', '', 1, '', '', 'cartet', '', '', 'gate.smsaero.ru/send/?user={login}&password={password}&to={phone}&text={text}&from={title}'),
+(7, 'prostor-sms.ru', '', '', 0, '', '', 'cartet', '', '', 'api.prostor-sms.ru/messages/v2/send/?phone=%2B{phone}&text={text}&login={login}&password={password}&sender={title}');");
 ?>
