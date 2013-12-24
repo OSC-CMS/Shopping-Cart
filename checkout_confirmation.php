@@ -10,11 +10,11 @@
 
 include ('includes/top.php');
 
-// если нет сессии покупателя
+// РµСЃР»Рё РЅРµС‚ СЃРµСЃСЃРёРё РїРѕРєСѓРїР°С‚РµР»СЏ
 if (!isset($_SESSION['customer_id']))
 	os_redirect(os_href_link(FILENAME_LOGIN, '', 'SSL'));
 
-// если товара в корзине 0
+// РµСЃР»Рё С‚РѕРІР°СЂР° РІ РєРѕСЂР·РёРЅРµ 0
 if ($_SESSION['cart']->count_contents() < 1)
 	os_redirect(os_href_link(FILENAME_SHOPPING_CART));
 
@@ -25,15 +25,15 @@ if (isset($_SESSION['cart']->cartID) && isset($_SESSION['cartID']))
 		os_redirect(os_href_link(FILENAME_CHECKOUT_SHIPPING, '', 'SSL'));
 }
 
-// если не выбрали доставку
+// РµСЃР»Рё РЅРµ РІС‹Р±СЂР°Р»Рё РґРѕСЃС‚Р°РІРєСѓ
 if (!isset($_SESSION['shipping']))
 	os_redirect(os_href_link(FILENAME_CHECKOUT_SHIPPING, '', 'SSL'));
 
-// выбранный метод оплаты
+// РІС‹Р±СЂР°РЅРЅС‹Р№ РјРµС‚РѕРґ РѕРїР»Р°С‚С‹
 if (isset($_POST['payment']))
 	$_SESSION['payment'] = os_db_prepare_input($_POST['payment']);
 
-// добавили комментариий
+// РґРѕР±Р°РІРёР»Рё РєРѕРјРјРµРЅС‚Р°СЂРёРёР№
 if ($_POST['comments_added'] != '')
 	$_SESSION['comments'] = os_db_prepare_input($_POST['comments']);
 
@@ -144,7 +144,7 @@ if ($_SESSION['sendto'] != false)
 	}
 }
 
-// написанное, остается загазкой...
+// РЅР°РїРёСЃР°РЅРЅРѕРµ, РѕСЃС‚Р°РµС‚СЃСЏ Р·Р°РіР°Р·РєРѕР№...
 if (sizeof($order->info['tax_groups']) > 1)
 {
 	if ($_SESSION['customers_status']['customers_status_show_price_tax'] == 0 && $_SESSION['customers_status']['customers_status_add_tax_ot'] == 1) {}
@@ -155,7 +155,7 @@ else
 $productsArray = array();
 for ($i = 0, $n = sizeof($order->products); $i < $n; $i++)
 {
-	// время доставки
+	// РІСЂРµРјСЏ РґРѕСЃС‚Р°РІРєРё
 	$shipping_time_title = '';
 	$shipping_time = '';
 	if (ACTIVATE_SHIPPING_STATUS == 'true')
@@ -164,7 +164,7 @@ for ($i = 0, $n = sizeof($order->products); $i < $n; $i++)
 		$shipping_time = $order->products[$i]['shipping_time'];
 	}
 
-	// атрибуты
+	// Р°С‚СЂРёР±СѓС‚С‹
 	if ((isset ($order->products[$i]['attributes'])) && (sizeof($order->products[$i]['attributes']) > 0))
 	{
 		$productAtrArray = array();
@@ -179,14 +179,14 @@ for ($i = 0, $n = sizeof($order->products); $i < $n; $i++)
 	}
 
 	$product_tax = '';
-	// налог
+	// РЅР°Р»РѕРі
 	if ($_SESSION['customers_status']['customers_status_show_price_tax'] == 0 && $_SESSION['customers_status']['customers_status_add_tax_ot'] == 1)
 	{
 		if (sizeof($order->info['tax_groups']) > 1)
 			$product_tax = os_display_tax_value($order->products[$i]['tax']).'%';
 	}
 
-	// Наборы
+	// РќР°Р±РѕСЂС‹
 	$products_bundle = '';
 	if ($order->products[$i]['bundle'] == 1)
 	{
@@ -201,7 +201,7 @@ for ($i = 0, $n = sizeof($order->products); $i < $n; $i++)
 		}
 		$products_bundle = (!empty($products_bundle_data)) ? $products_bundle_data : '';
 	}
-	//Наборы
+	//РќР°Р±РѕСЂС‹
 
 	$productsArray[] = array
 	(
@@ -218,7 +218,7 @@ for ($i = 0, $n = sizeof($order->products); $i < $n; $i++)
 
 $osTemplate->assign('productsArray', $productsArray);
 
-// метод оплаты
+// РјРµС‚РѕРґ РѕРїР»Р°С‚С‹
 if ($order->info['payment_method'] != 'no_payment' && $order->info['payment_method'] != '')
 {
 	include (_MODULES.'payment/'.$order->info['payment_method'].'/'.$_SESSION['language'].'.php');
@@ -226,7 +226,7 @@ if ($order->info['payment_method'] != 'no_payment' && $order->info['payment_meth
 }
 $osTemplate->assign('PAYMENT_EDIT', os_href_link(FILENAME_CHECKOUT_PAYMENT, '', 'SSL'));
 
-// итого
+// РёС‚РѕРіРѕ
 $totalArray = '';
 if (MODULE_ORDER_TOTAL_INSTALLED)
 {
@@ -235,7 +235,7 @@ if (MODULE_ORDER_TOTAL_INSTALLED)
 }
 $osTemplate->assign('totalArray', $totalArray);
 
-// Заполенные поля методов оплаты(если есть)
+// Р—Р°РїРѕР»РµРЅРЅС‹Рµ РїРѕР»СЏ РјРµС‚РѕРґРѕРІ РѕРїР»Р°С‚С‹(РµСЃР»Рё РµСЃС‚СЊ)
 if (is_array($payment_modules->modules))
 {
 	if ($confirmation = $payment_modules->confirmation())
@@ -252,23 +252,28 @@ if (is_array($payment_modules->modules))
 	}
 }
 
-// Комментарий к заказу
+// РљРѕРјРјРµРЅС‚Р°СЂРёР№ Рє Р·Р°РєР°Р·Сѓ
 if (os_not_null($order->info['comments']))
 {
 	$osTemplate->assign('ORDER_COMMENTS', nl2br(htmlspecialchars($order->info['comments'])) . os_draw_hidden_field('comments', $order->info['comments']));
 }
 
-// Если метод оплаты требует перехода на сайт сервиса, то посылаем на form_action_url,
-// в противном случае форма отправляет на окончательное формирование заказа
+// Р•СЃР»Рё РјРµС‚РѕРґ РѕРїР»Р°С‚С‹ С‚СЂРµР±СѓРµС‚ РїРµСЂРµС…РѕРґР° РЅР° СЃР°Р№С‚ СЃРµСЂРІРёСЃР°, С‚Рѕ РїРѕСЃС‹Р»Р°РµРј РЅР° form_action_url,
+// РІ РїСЂРѕС‚РёРІРЅРѕРј СЃР»СѓС‡Р°Рµ С„РѕСЂРјР° РѕС‚РїСЂР°РІР»СЏРµС‚ РЅР° РѕРєРѕРЅС‡Р°С‚РµР»СЊРЅРѕРµ С„РѕСЂРјРёСЂРѕРІР°РЅРёРµ Р·Р°РєР°Р·Р°
 if (isset ($$_SESSION['payment']->form_action_url) && !$$_SESSION['payment']->tmpOrders)
 	$form_action_url = $$_SESSION['payment']->form_action_url;
 else
 	$form_action_url = os_href_link(FILENAME_CHECKOUT_PROCESS, '', 'SSL');
 
-$osTemplate->assign('CHECKOUT_FORM', os_draw_form('checkout_confirmation', $form_action_url, 'post'));
+if (isset($$_SESSION['payment']->form_action_method) && !empty($$_SESSION['payment']->form_action_method))
+	$form_action_method = $$_SESSION['payment']->form_action_method;
+else
+	$form_action_method = 'post';
+
+$osTemplate->assign('CHECKOUT_FORM', os_draw_form('checkout_confirmation', $form_action_url, $form_action_method));
 $osTemplate->assign('CHECKOUT_FORM_END', '</form>');
 
-// метод класса оплаты process_button
+// РјРµС‚РѕРґ РєР»Р°СЃСЃР° РѕРїР»Р°С‚С‹ process_button
 $payment_button = '';
 if (is_array($payment_modules->modules))
 {
@@ -276,7 +281,7 @@ if (is_array($payment_modules->modules))
 }
 $osTemplate->assign('MODULE_BUTTONS', $payment_button);
 
-// Кнопка подтверждения заказа
+// РљРЅРѕРїРєР° РїРѕРґС‚РІРµСЂР¶РґРµРЅРёСЏ Р·Р°РєР°Р·Р°
 $_array = array
 (
 	'img' => 'button_confirm_order.gif',
@@ -291,7 +296,7 @@ if (empty($_array['code']))
 }
 $osTemplate->assign('CHECKOUT_BUTTON', $_array['code']);
 
-// информация о возврате заказа
+// РёРЅС„РѕСЂРјР°С†РёСЏ Рѕ РІРѕР·РІСЂР°С‚Рµ Р·Р°РєР°Р·Р°
 if (DISPLAY_REVOCATION_ON_CHECKOUT == 'true')
 {
 	if (GROUP_CHECK == 'true')
