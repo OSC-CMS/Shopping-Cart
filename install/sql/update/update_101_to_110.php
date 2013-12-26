@@ -209,7 +209,10 @@ os_db_query("INSERT INTO ".DB_PREFIX."menu (`menu_id`, `menu_parent_id`, `menu_u
 (107, 0, 'shop_content.php?coID=4', '', '', 3, 2, 0),
 (106, 53, 'plugins.php', '', '', 1, 1, 1),
 (110, 55, 'sms.php', '', '', 1, 1, 1),
-(111, 103, 'configuration.php?gID=32', '', '', 4, 1, 1);");
+(111, 103, 'configuration.php?gID=32', '', '', 4, 1, 1),
+(112, 114, 'cartet.php', '', '', 2, 1, 1),
+(113, 114, 'update.php', '', '', 1, 1, 1),
+(114, 0, '', '', 'icon-cog', 14, 1, 1);");
 
 os_db_query("INSERT INTO ".DB_PREFIX."menu_group (`group_id`, `group_status`) VALUES
 (1, 1),
@@ -326,7 +329,10 @@ os_db_query("INSERT INTO ".DB_PREFIX."menu_lang (`lang_id`, `lang_title`, `lang_
 (113, 'Главная', 0, 108, 1),
 (115, 'Свяжитесь с нами', 0, 109, 1),
 (117, 'СМС уведомления', 0, 110, 1),
-(118, 'Быстрый заказ', 0, 111, 1);");
+(118, 'Быстрый заказ', 0, 111, 1),
+(119, 'О CartET', 0, 114, 1),
+(120, 'Обновления', 0, 113, 1),
+(121, 'О CartET', 0, 112, 1);");
 
 os_db_query("CREATE TABLE ".DB_PREFIX."sms (
 	`id` int(11) not null auto_increment,

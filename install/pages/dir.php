@@ -24,7 +24,7 @@ function checkWritables()
 	$arr = array(
 		'admin/backups/' => $_dir.'admin/backups/',
 		'cache/' => $_dir.'cache/',
-		'cache/system/' => $_dir.'cache/system/',
+		//'cache/system/' => $_dir.'cache/system/',
 		'images/' => $_dir.'images/',
 		'images/articles/' => $_dir.'images/articles/',
 		'images/attribute_images/' => $_dir.'images/attribute_images/',

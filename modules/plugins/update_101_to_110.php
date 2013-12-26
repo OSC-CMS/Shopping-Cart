@@ -217,8 +217,8 @@ function update_101_to_110_install()
 	(106, 53, 'plugins.php', '', '', 1, 1, 1),
 	(110, 55, 'sms.php', '', '', 1, 1, 1),
 	(111, 103, 'configuration.php?gID=32', '', '', 4, 1, 1),
-	(112, 115, 'cartet.php', '', '', 2, 1, 1),
-	(113, 115, 'update.php', '', '', 1, 1, 1),
+	(112, 114, 'cartet.php', '', '', 2, 1, 1),
+	(113, 114, 'update.php', '', '', 1, 1, 1),
 	(114, 0, '', '', 'icon-cog', 14, 1, 1);");
 
 	os_db_query("INSERT INTO ".DB_PREFIX."menu_group (`group_id`, `group_status`) VALUES

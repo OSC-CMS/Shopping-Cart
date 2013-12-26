@@ -194,7 +194,7 @@
         return true;
     }
 
-    /*function get_products_url_cache()
+    function get_products_url_cache()
     {
         if (is_file(_CACHE.'url/products_url.php'))
         {
@@ -210,22 +210,19 @@
         }
 
         return unserialize ($st);
-    }*/
+    }
 
     function get_cache($filename)
     {
         if ($filename != 'configuration')
-        {	
-
+        {
             if (is_file(_CACHE.'url/'.$filename.'.php') && DB_CACHE_PRO == 'true')
             {
-
                 if (filesize(_CACHE.'url/'.$filename.'.php')==1)
                 {
                     $_val = $filename.'_cache';
                     global $$_val;
                     $$_val = 0;
-
                 }
                 else
                 {
