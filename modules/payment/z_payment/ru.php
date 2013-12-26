@@ -18,6 +18,8 @@ define('MODULE_PAYMENT_Z_PAYMENT_ALLOWED_TITLE' , 'Разрешённые стр
 define('MODULE_PAYMENT_Z_PAYMENT_ALLOWED_DESC' , 'Укажите коды стран, для которых будет доступен данный модуль (например RU,DE (оставьте поле пустым, если хотите что б модуль был доступен покупателям из любых стран))');
 define('MODULE_PAYMENT_Z_PAYMENT_ID_TITLE' , 'ID номер магазина в Z-Payment');
 define('MODULE_PAYMENT_Z_PAYMENT_ID_DESC' , 'Укажите id номер Вашего магазина.');
+define('MODULE_PAYMENT_Z_PAYMENT_SECRET_KEY_TITLE' , 'Ключ магазина Merchant Key');
+define('MODULE_PAYMENT_Z_PAYMENT_SECRET_KEY_DESC' , 'Укажите Ключ магазина Merchant Key');
 define('MODULE_PAYMENT_Z_PAYMENT_SORT_ORDER_TITLE' , 'Порядок сортировки');
 define('MODULE_PAYMENT_Z_PAYMENT_SORT_ORDER_DESC' , 'Порядок сортировки модуля.');
 define('MODULE_PAYMENT_Z_PAYMENT_ZONE_TITLE' , 'Зона');

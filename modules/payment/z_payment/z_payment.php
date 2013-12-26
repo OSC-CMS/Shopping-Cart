@@ -57,7 +57,7 @@ class z_payment extends CartET
 		if (is_object($order))
 			$this->update_status();
 
-		$this->form_action_url = 'http://www.z-payment.ru/merchant.php';
+		$this->form_action_url = 'https://z-payment.com/merchant.php';
 	}
 
 	// class methods
@@ -155,13 +155,12 @@ class z_payment extends CartET
 
 		$order_id = substr($_SESSION[$this->name], strpos($_SESSION[$this->name], '-')+1);
 
-		$process_button_string = 
-			os_draw_hidden_field('LMI_PAYMENT_NO', $order_id) .
-			os_draw_hidden_field('LMI_PAYEE_PURSE', $purse) .
-			os_draw_hidden_field('LMI_PAYMENT_DESC', os_cleanName('Заказ номер: ' . $order_id . ', покупатель номер: ' . $_SESSION['customer_id'])) .
-			os_draw_hidden_field('LMI_PAYMENT_AMOUNT', $order_sum) .
-			os_draw_hidden_field('CLIENT_MAIL', $order->customer['email_address']) .
-			os_draw_hidden_field('LMI_SIM_MODE', '0');
+		$process_button_string =
+			os_draw_hidden_field('LMI_PAYMENT_NO', $order_id).
+			os_draw_hidden_field('LMI_PAYEE_PURSE', $purse).
+			os_draw_hidden_field('LMI_PAYMENT_DESC', 'OrderId-'.$order_id).
+			os_draw_hidden_field('LMI_PAYMENT_AMOUNT', $order_sum).
+			os_draw_hidden_field('CLIENT_MAIL', $order->customer['email_address']);
 
 		return $process_button_string;
 	}
@@ -183,23 +182,25 @@ class z_payment extends CartET
 
 		$osTemplate->assign('address_label_customer', os_address_format($order->customer['format_id'], $order->customer, 1, '', '<br />'));
 		$osTemplate->assign('address_label_shipping', os_address_format($order->delivery['format_id'], $order->delivery, 1, '', '<br />'));
-		if ($_SESSION['credit_covers'] != '1') {
-		$osTemplate->assign('address_label_payment', os_address_format($order->billing['format_id'], $order->billing, 1, '', '<br />'));
+		if ($_SESSION['credit_covers'] != '1')
+		{
+			$osTemplate->assign('address_label_payment', os_address_format($order->billing['format_id'], $order->billing, 1, '', '<br />'));
 		}
 		$osTemplate->assign('csID', $order->customer['csID']);
 
 		$it=0;
 		$semextrfields = osDBquery("select * from " . TABLE_EXTRA_FIELDS . " where fields_required_email = '1'");
-		while($dataexfes = os_db_fetch_array($semextrfields,true)) {
-		$cusextrfields = osDBquery("select * from " . TABLE_CUSTOMERS_TO_EXTRA_FIELDS . " where customers_id = '" . (int)$_SESSION['customer_id'] . "' and fields_id = '" . $dataexfes['fields_id'] . "'");
-		$rescusextrfields = os_db_fetch_array($cusextrfields,true);
+		while($dataexfes = os_db_fetch_array($semextrfields,true))
+		{
+			$cusextrfields = osDBquery("select * from " . TABLE_CUSTOMERS_TO_EXTRA_FIELDS . " where customers_id = '" . (int)$_SESSION['customer_id'] . "' and fields_id = '" . $dataexfes['fields_id'] . "'");
+			$rescusextrfields = os_db_fetch_array($cusextrfields,true);
 
-		$extrfieldsinf = osDBquery("select fields_name from " . TABLE_EXTRA_FIELDS_INFO . " where fields_id = '" . $dataexfes['fields_id'] . "' and languages_id = '" . $_SESSION['languages_id'] . "'");
+			$extrfieldsinf = osDBquery("select fields_name from " . TABLE_EXTRA_FIELDS_INFO . " where fields_id = '" . $dataexfes['fields_id'] . "' and languages_id = '" . $_SESSION['languages_id'] . "'");
 
-		$extrfieldsres = os_db_fetch_array($extrfieldsinf,true);
-		$extra_fields .= $extrfieldsres['fields_name'] . ' : ' .
-		$rescusextrfields['value'] . "\n";
-		$osTemplate->assign('customer_extra_fields', $extra_fields);
+			$extrfieldsres = os_db_fetch_array($extrfieldsinf,true);
+			$extra_fields .= $extrfieldsres['fields_name'] . ' : ' .
+			$rescusextrfields['value'] . "\n";
+			$osTemplate->assign('customer_extra_fields', $extra_fields);
 		}
 
 		$order_total = $order->getTotalData($order_id);
@@ -210,13 +211,15 @@ class z_payment extends CartET
 		$osTemplate->assign('language', $_SESSION['language']);
 		$osTemplate->assign('logo_path', HTTP_SERVER.DIR_WS_CATALOG.'themes/'.CURRENT_TEMPLATE.'/img/');
 		$osTemplate->assign('oID', $order_id);
-		if ($order->info['payment_method'] != '' && $order->info['payment_method'] != 'no_payment') {
-		include (DIR_WS_LANGUAGES.$_SESSION['language'].'/modules/payment/'.$order->info['payment_method'].'.php');
-		$payment_method = constant(strtoupper('MODULE_PAYMENT_'.$order->info['payment_method'].'_TEXT_TITLE'));
+		if ($order->info['payment_method'] != '' && $order->info['payment_method'] != 'no_payment')
+		{
+			include (dirname(__FILE__).'/'.$_SESSION['language'].'.php');
+			$payment_method = constant(strtoupper('MODULE_PAYMENT_'.$order->info['payment_method'].'_TEXT_TITLE'));
 		}
 		$osTemplate->assign('PAYMENT_METHOD', $payment_method);
-		if ($order->info['shipping_method'] != '') {
-		$shipping_method = $order->info['shipping_method'];
+		if ($order->info['shipping_method'] != '')
+		{
+			$shipping_method = $order->info['shipping_method'];
 		}
 		$osTemplate->assign('SHIPPING_METHOD', $shipping_method);
 		$osTemplate->assign('DATE', os_date_long($order->info['date_purchased']));
@@ -255,6 +258,7 @@ class z_payment extends CartET
 		unset($_SESSION['shipping']);
 		unset($_SESSION['payment']);
 		unset($_SESSION['comments']);
+
 		unset($_SESSION[$this->name]);
 
 		os_redirect(os_href_link(FILENAME_CHECKOUT_SUCCESS, '', 'SSL'));
@@ -285,6 +289,7 @@ class z_payment extends CartET
 		os_db_query("insert into " . TABLE_CONFIGURATION . " (configuration_key, configuration_value, configuration_group_id, sort_order, set_function, date_added) values ('MODULE_PAYMENT_Z_PAYMENT_STATUS', 'True', '6', '3', 'os_cfg_select_option(array(\'True\', \'False\'), ', now())");
 		os_db_query("insert into " . TABLE_CONFIGURATION . " (configuration_key, configuration_value, configuration_group_id, sort_order, date_added) values ('MODULE_PAYMENT_Z_PAYMENT_ALLOWED', '', '6', '4', now())");
 		os_db_query("insert into " . TABLE_CONFIGURATION . " (configuration_key, configuration_value, configuration_group_id, sort_order, date_added) values ('MODULE_PAYMENT_Z_PAYMENT_ID', '', '6', '5', now())");
+		os_db_query("insert into " . TABLE_CONFIGURATION . " (configuration_key, configuration_value, configuration_group_id, sort_order, date_added) values ('MODULE_PAYMENT_Z_PAYMENT_SECRET_KEY', '', '6', '5', now())");
 		os_db_query("insert into " . TABLE_CONFIGURATION . " (configuration_key, configuration_value, configuration_group_id, sort_order, date_added) values ('MODULE_PAYMENT_Z_PAYMENT_SORT_ORDER', '0', '6', '6', now())");
 		os_db_query("insert into " . TABLE_CONFIGURATION . " (configuration_key, configuration_value, configuration_group_id, sort_order, use_function, set_function, date_added) values ('MODULE_PAYMENT_Z_PAYMENT_ZONE', '0', '6', '7', 'os_get_zone_class_title', 'os_cfg_pull_down_zone_classes(', now())");
 		os_db_query("insert into " . TABLE_CONFIGURATION . " (configuration_key, configuration_value, configuration_group_id, sort_order, set_function, use_function, date_added) values ('MODULE_PAYMENT_Z_PAYMENT_PREPARE_ORDER_STATUS_ID', '0', '6', '8', 'os_cfg_pull_down_order_statuses(', 'os_get_order_status_name', now())");
@@ -302,6 +307,7 @@ class z_payment extends CartET
 			'MODULE_PAYMENT_Z_PAYMENT_STATUS',
 			'MODULE_PAYMENT_Z_PAYMENT_ALLOWED',
 			'MODULE_PAYMENT_Z_PAYMENT_ID',
+			'MODULE_PAYMENT_Z_PAYMENT_SECRET_KEY',
 			'MODULE_PAYMENT_Z_PAYMENT_SORT_ORDER',
 			'MODULE_PAYMENT_Z_PAYMENT_ZONE',
 			'MODULE_PAYMENT_Z_PAYMENT_PREPARE_ORDER_STATUS_ID',
