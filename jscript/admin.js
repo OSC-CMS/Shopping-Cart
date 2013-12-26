@@ -1282,22 +1282,25 @@ jQuery(function(){
 			dataType: 'json',
 			success: function(returnData)
 			{
-				for(i = 0; i < Math.min(returnData.length, iNum); i++)
+				if (returnData)
 				{
-					$('<li class="added_new_img">'+
-					'<div class="title">'+
-					'</div>'+
-					'<span class="delete"><a href="javascript:;" class="delete_href"><i class="icon-trash"></i></a></span>'+
-					'<div class="product-image-thumb">'+
-					'<div class="product-image">'+
-					'<a href="'+returnData[i]+'" target="_blank"><img onerror="$(this).closest("li").remove();" src="'+returnData[i]+'" /></a>'+
-					'<input type="hidden" name="images_urls[]" value="'+returnData[i]+'">'+
-					'</div>'+
-					'</div>'+
-					'</li>').appendTo('.productImages ul');
-				}
+					for(i = 0; i < Math.min(returnData.length, iNum); i++)
+					{
+						$('<li class="added_new_img">'+
+						'<div class="title">'+
+						'</div>'+
+						'<span class="delete"><a href="javascript:;" class="delete_href"><i class="icon-trash"></i></a></span>'+
+						'<div class="product-image-thumb">'+
+						'<div class="product-image">'+
+						'<a href="'+returnData[i]+'" target="_blank"><img onerror="$(this).closest("li").remove();" src="'+returnData[i]+'" /></a>'+
+						'<input type="hidden" name="images_urls[]" value="'+returnData[i]+'">'+
+						'</div>'+
+						'</div>'+
+						'</li>').appendTo('.productImages ul');
+					}
 
-				iItem += iNum;
+					iItem += iNum;
+				}
 			}
 		});
 		return false;

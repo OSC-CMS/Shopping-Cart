@@ -10,13 +10,13 @@
 
 include ('includes/top.php');
 
-// Åñëè íåò ñåññèè ïîêóïàòåëÿ, òî ïåðåêèäûâàåì íà ñòðàíèöó âõîäà
+// Ð•ÑÐ»Ð¸ Ð½ÐµÑ‚ ÑÐµÑÑÐ¸Ð¸ Ð¿Ð¾ÐºÑƒÐ¿Ð°Ñ‚ÐµÐ»Ñ, Ñ‚Ð¾ Ð¿ÐµÑ€ÐµÐºÐ¸Ð´Ñ‹Ð²Ð°ÐµÐ¼ Ð½Ð° ÑÑ‚Ñ€Ð°Ð½Ð¸Ñ†Ñƒ Ð²Ñ…Ð¾Ð´Ð°
 if (!isset($_SESSION['customer_id']))
 {
 	os_redirect(os_href_link(FILENAME_LOGIN, '', 'SSL'));
 }
 
-// Åñëè ïîëüçîâàòåëþ íå âûâîäèò öåíû, òî ïåðåêèäûâàåì íà ãëàâíóþ
+// Ð•ÑÐ»Ð¸ Ð¿Ð¾Ð»ÑŒÐ·Ð¾Ð²Ð°Ñ‚ÐµÐ»ÑŽ Ð½Ðµ Ð²Ñ‹Ð²Ð¾Ð´Ð¸Ñ‚ Ñ†ÐµÐ½Ñ‹, Ñ‚Ð¾ Ð¿ÐµÑ€ÐµÐºÐ¸Ð´Ñ‹Ð²Ð°ÐµÐ¼ Ð½Ð° Ð³Ð»Ð°Ð²Ð½ÑƒÑŽ
 if ($_SESSION['customers_status']['customers_status_show_price'] != '1')
 {
 	os_redirect(os_href_link(FILENAME_DEFAULT, '', ''));
@@ -78,7 +78,7 @@ else
 		$tmp_status = $order->info['order_status'];
 	}
 
-	// Ôîðìèðóåì çàêàç
+	// Ð¤Ð¾Ñ€Ð¼Ð¸Ñ€ÑƒÐµÐ¼ Ð·Ð°ÐºÐ°Ð·
 	$aNewOrder = $cartet->order->newOrder($order, $order_totals, $order_total_modules);
 
 	// redirect to payment service
