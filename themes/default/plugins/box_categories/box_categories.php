@@ -59,6 +59,7 @@ function box_categories_func()
 						'id' => $cat['cID'],
 						'link' => os_href_link(FILENAME_DEFAULT, os_category_link($cat['cID'], $cat['categories_name'])),
 						'name' => $cat['categories_name'],
+						'image' => (get_option('showCatImages') == 'true') ? $cat['categories_image'] : '',
 						'counts' => (get_option('countProducts') == 'true') ? os_count_products_in_category($cat['cID']) : '',
 						'level' => $level,
 						'active' => $active,
@@ -78,7 +79,7 @@ function box_categories_func()
 
 	$categories_query = osDBquery("
 		SELECT 
-			c.categories_id as cID, cd.categories_name, c.parent_id 
+			c.categories_id as cID, cd.categories_name, c.parent_id, c.categories_image 
 		FROM 
 			".TABLE_CATEGORIES." c, ".TABLE_CATEGORIES_DESCRIPTION . " cd 
 		WHERE 
@@ -90,9 +91,15 @@ function box_categories_func()
 	$cats = array();
 	while($cat = os_db_fetch_array($categories_query, true))
 	{
+		if (is_file(dir_path('images').'categories/'.$cat['categories_image']))
+			$cat['categories_image'] = http_path('images').'categories/'.$cat['categories_image'];
+
 		$cats[$cat['parent_id']][] = $cat;
 	}
 
+	$box->assign('aCategories', build_tree($cats, 0, 0));
+	$box->assign('imageWidth', get_option('cImgWidth'));
+	$box->assign('imageHeight', get_option('cImgHeight'));
 	$box->assign('aCategories', build_tree($cats, 0, 0));
 	$box->assign('plugDir', dirname(__FILE__).'/themes');
 	$box->assign('language', $_SESSION['language']);
@@ -117,12 +124,12 @@ function box_categories_func()
 
 function box_categories_install()
 {
-	add_option('countProducts',		'false', 'checkbox', "array('true', 'false')");
-	add_option('subCategories',		'true', 'checkbox', "array('true', 'false')");
+	add_option('countProducts',		'false', 'radio', "array('true', 'false')");
+	add_option('subCategories',		'true', 'radio', "array('true', 'false')");
 	add_option('maxSubCategories',	'5', 'input');
-	add_option('showCatImages',		'false', 'checkbox', "array('true', 'false')");
+	add_option('showCatImages',		'false', 'radio', "array('true', 'false')");
 	add_option('cImgWidth',			'30', 'input');
 	add_option('cImgHeight',		'30', 'input');
-	add_option('menuJSType',		'none', 'checkbox', "array('none', 'accordion')");
+	add_option('menuJSType',		'none', 'radio', "array('none', 'accordion')");
 }
 ?>

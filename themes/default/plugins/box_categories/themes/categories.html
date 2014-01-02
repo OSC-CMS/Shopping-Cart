@@ -2,7 +2,10 @@
 <ul class="nav nav-tabs nav-stacked" id="box-categories">
 {foreach $aCategories as $item}
 	<li class="{$item.active} level-{$item.level}">
-	<a class="{$item.current} level-{$item.level}" href="{$item.link}">{$item.name}{if $item.counts}<span class="badge pull-right">{$item.counts}</span>{/if}</a>
+	<a class="{$item.current} level-{$item.level} clearfix" href="{$item.link}">
+		{if $item.image}<img class="pull-left" width="{$imageWidth}" height="{$imageHeight}" src="{$item.image}" alt="{$item.name}">{/if}
+		{$item.name}{if $item.counts}<span class="badge pull-right">{$item.counts}</span>{/if}
+	</a>
 	{if $item.childs}
 		{include file="$plugDir/sub_categories.html" aCategories=$item.childs}
 	{/if}
