@@ -10,7 +10,7 @@
 
 class apiService extends CartET
 {
-	private $api_url = 'http://cartet.org/api.php';
+	private $api_url = 'http://api.cartet.org/';
 
 	private $cache_file = 'update.dat';
 
