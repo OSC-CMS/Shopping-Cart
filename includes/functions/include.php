@@ -61,6 +61,7 @@
         $company = addslashes($address['company']);
         $firstname = addslashes($address['firstname']);
         $lastname = addslashes($address['lastname']);
+        $secondname = addslashes($address['secondname']);
         $street = addslashes($address['street_address']);
         $suburb = addslashes($address['suburb']);
         $city = addslashes($address['city']);
