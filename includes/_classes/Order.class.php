@@ -481,6 +481,115 @@ class apiOrder extends CartET
 	}
 
 	/**
+	 * Уведомление покупателей о завершении заказа
+	 */
+	public function beforeProcess($order_id, $order)
+	{
+		if (empty($order_id) OR !is_object($order)) return false;
+
+		$osTemplate = new osTemplate;
+
+		$osTemplate->assign('address_label_customer', os_address_format($order->customer['format_id'], $order->customer, 1, '', '<br />'));
+		$osTemplate->assign('address_label_shipping', os_address_format($order->delivery['format_id'], $order->delivery, 1, '', '<br />'));
+
+		if ($_SESSION['credit_covers'] != '1')
+		{
+			$osTemplate->assign('address_label_payment', os_address_format($order->billing['format_id'], $order->billing, 1, '', '<br />'));
+		}
+
+		$osTemplate->assign('csID', $order->customer['csID']);
+
+		$semextrfields = osDBquery("SELECT * FROM ".TABLE_EXTRA_FIELDS." WHERE fields_required_email = '1'");
+		$extra_fields = '';
+		while($dataexfes = os_db_fetch_array($semextrfields, true))
+		{
+			$cusextrfields = osDBquery("SELECT * FROM ".TABLE_CUSTOMERS_TO_EXTRA_FIELDS." WHERE customers_id = '".(int)$_SESSION['customer_id']."' and fields_id = '".$dataexfes['fields_id']."'");
+			$rescusextrfields = os_db_fetch_array($cusextrfields, true);
+
+			$extrfieldsinf = osDBquery("SELECT fields_name FROM ".TABLE_EXTRA_FIELDS_INFO." WHERE fields_id = '".$dataexfes['fields_id']."' and languages_id = '".$_SESSION['languages_id']."'");
+
+			$extrfieldsres = os_db_fetch_array($extrfieldsinf, true);
+			$extra_fields .= $extrfieldsres['fields_name'].' : '.
+			$rescusextrfields['value']."\n";
+
+			$osTemplate->assign('customer_extra_fields', $extra_fields);
+		}
+
+		$order_total = $order->getTotalData($order_id);
+		$osTemplate->assign('order_data', $order->getOrderData($order_id));
+		$osTemplate->assign('order_total', $order_total['data']);
+
+		$osTemplate->assign('language', $_SESSION['language']);
+		$osTemplate->assign('tpl_path',_HTTP_THEMES_C);
+		$osTemplate->assign('logo_path', HTTP_SERVER.DIR_WS_CATALOG.'themes/'.CURRENT_TEMPLATE.'/img/');
+		$osTemplate->assign('oID', $order_id);
+
+		if ($order->info['payment_method'] != '' && $order->info['payment_method'] != 'no_payment')
+		{
+			include (_MODULES.'payment/'.$order->info['payment_method'].'/'.$_SESSION['language'].'.php');
+			$payment_method = constant(strtoupper('MODULE_PAYMENT_'.$order->info['payment_method'].'_TEXT_TITLE'));
+		}
+		$osTemplate->assign('PAYMENT_METHOD', $payment_method);
+
+		if ($order->info['shipping_method'] != '')
+		{
+			$shipping_method = $order->info['shipping_method'];
+		}
+		$osTemplate->assign('SHIPPING_METHOD', $shipping_method);
+
+		$osTemplate->assign('DATE', os_date_long($order->info['date_purchased']));
+		$osTemplate->assign('NAME', $order->customer['firstname'] . ' ' . $order->customer['lastname']);
+		$osTemplate->assign('COMMENTS', $order->info['comments']);
+		$osTemplate->assign('EMAIL', $order->customer['email_address']);
+		$osTemplate->assign('PHONE',$order->customer['telephone']);
+
+		// dont allow cache
+		$osTemplate->caching = false;
+
+		$html_mail = $osTemplate->fetch(_MAIL.$_SESSION['language'].'/order_mail.html');
+		$txt_mail = $osTemplate->fetch(_MAIL.$_SESSION['language'].'/order_mail.txt');
+
+		// create subject
+		$order_subject = str_replace('{$nr}', $order_id, EMAIL_BILLING_SUBJECT_ORDER);
+		$order_subject = str_replace('{$date}', strftime(DATE_FORMAT_LONG), $order_subject);
+		$order_subject = str_replace('{$lastname}', $order->customer['lastname'], $order_subject);
+		$order_subject = str_replace('{$firstname}', $order->customer['firstname'], $order_subject);
+
+		// send mail to admin
+		os_php_mail(EMAIL_BILLING_ADDRESS, EMAIL_BILLING_NAME, EMAIL_BILLING_ADDRESS, STORE_NAME, EMAIL_BILLING_FORWARDING_STRING, $order->customer['email_address'], $order->customer['firstname'], '', '', $order_subject, $html_mail, $txt_mail);
+
+		// send mail to customer
+		if ($order->customer['email_address'])
+			os_php_mail(EMAIL_BILLING_ADDRESS, EMAIL_BILLING_NAME, $order->customer['email_address'], $order->customer['firstname'].' '.$order->customer['lastname'], '', EMAIL_BILLING_REPLY_ADDRESS, EMAIL_BILLING_REPLY_ADDRESS_NAME, '', '', $order_subject, $html_mail, $txt_mail);
+
+		// СМС уведомления
+		$smsSetting = $this->sms->setting();
+
+		if ($smsSetting['sms_status'] == 1)
+		{
+			$getDefaultSms = $this->sms->getDefaultSms();
+
+			// шаблон смс письма
+			$osTemplate->caching = 0;
+			$smsText = $osTemplate->fetch(_MAIL.$_SESSION['language'].'/order_mail_sms.txt');
+
+			// уведомление администратора
+			if ($getDefaultSms['phone'] && $smsSetting['sms_order_admin'] == 1)
+			{
+				$this->sms->send($smsText);
+			}
+
+			// уведомление покупателя
+			if ($order->customer['telephone'] && $smsSetting['sms_order'] == 1)
+			{
+				$this->sms->send($smsText, $order->customer['telephone']);
+			}
+		}
+
+		return true;
+	}
+
+	/**
 	 * Редактирование адресов заказа
 	 */
 	public function editAddress($post)
