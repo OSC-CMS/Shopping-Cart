@@ -1,8 +1,8 @@
 <?php
 /*
 	Plugin Name: TinyMCE
-	Plugin URI: http://osc-cms.com/extend/plugins
-	Version: 1.1
+	Plugin URI: http://osc-cms.com/store/plugins
+	Version: 1.2
 	Description: Редактор TinyMCE
 	Author: CartET
 	Author URI: http://osc-cms.com
@@ -15,6 +15,8 @@ function editor_tinymce_admin_head()
 {
 	if (isPageFunc('content_manager') OR isPageFunc('faq') OR isPageFunc('categories') OR isPageFunc('articles') OR isPageFunc('latest_news') OR isPageFunc('module_newsletter'))
 	{
+		$selector = get_option('editor_tinymce_selector');
+
 		_e('<script type="text/javascript" src="'.plugurl().'tinymce/tinymce.min.js"></script>
 		<link rel="stylesheet" type="text/css" media="screen" href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.18/themes/smoothness/jquery-ui.css">
 		<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.18/jquery-ui.min.js"></script>
@@ -26,7 +28,7 @@ function editor_tinymce_admin_head()
 
 		<script type="text/javascript">
 		tinymce.init({
-			selector: ".textarea_big",
+			selector: "'.$selector.'",
 			language : "'.$_SESSION['language'].'", // change language here
 			theme: "modern",
 			file_browser_callback : elFinderBrowser,
@@ -59,6 +61,7 @@ function editor_tinymce_admin_head()
 
 function editor_tinymce_install()
 {
+	add_option('editor_tinymce_selector', '.textarea_big', 'input');
 }
 
 function isPageFunc( $name )
