@@ -317,6 +317,10 @@ class apiOrder extends CartET
 		os_db_query('DELETE FROM '.TABLE_ORDERS_PRODUCTS.' WHERE orders_id = "'.(int)$oId.'"');
 		os_db_query('DELETE FROM '.TABLE_ORDERS_PRODUCTS_ATTRIBUTES.' WHERE orders_id = "'.(int)$oId.'"');
 		os_db_query('DELETE FROM '.TABLE_ORDERS_PRODUCTS_DOWNLOAD.' WHERE orders_id = "'.(int)$oId.'"');
+
+		$data = array('msg' => 'Успешно удалено!', 'type' => 'ok');
+
+		return $data;
 	}
 
 	/**
