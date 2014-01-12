@@ -48,8 +48,8 @@ class shipping {
             if (in_array($_SESSION['delivery_zone'], $unallowed_zones) == true || count($unallowed_zones) == 0) 
 			{
                 //$class =  substr($include_modules[$i]['file'], 0, strrpos($include_modules[$i]['file'], '.'));
-			  include (DIR_FS_DOCUMENT_ROOT.'/modules/shipping/'.substr($include_modules[$i]['file'], 0, strrpos($include_modules[$i]['file'], '.')).'/'.$_SESSION['language'].'.php');
-			  include (DIR_FS_DOCUMENT_ROOT.'/modules/shipping/'.substr($include_modules[$i]['file'], 0, strrpos($include_modules[$i]['file'], '.')).'/'.$include_modules[$i]['file']);
+			  include (DIR_FS_DOCUMENT_ROOT.'modules/shipping/'.substr($include_modules[$i]['file'], 0, strrpos($include_modules[$i]['file'], '.')).'/'.$_SESSION['language'].'.php');
+			  include (DIR_FS_DOCUMENT_ROOT.'modules/shipping/'.substr($include_modules[$i]['file'], 0, strrpos($include_modules[$i]['file'], '.')).'/'.$include_modules[$i]['file']);
               $GLOBALS[$include_modules[$i]['class']] = new $include_modules[$i]['class'];
             }
           }

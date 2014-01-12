@@ -1070,8 +1070,6 @@ class apiProducts extends CartET
 	{
 		if (empty($params)) return false;
 
-		$languages = os_get_languages();
-
 		$i = 0;
 		$group_query = os_db_query("SELECT customers_status_id FROM ".TABLE_CUSTOMERS_STATUS." WHERE language_id = '".(int) $_SESSION['languages_id']."' AND customers_status_id != '0'");
 		while ($group_values = os_db_fetch_array($group_query))
