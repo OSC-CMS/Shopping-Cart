@@ -11,6 +11,19 @@
 require('includes/top.php');
 require (_CLASS.'order.php');
 
+
+/*$fp = fopen('_ik.log', 'a+');
+$str=date('Y-m-d H:i:s').' - ';
+foreach ($_REQUEST as $vn=>$vv) {
+  $str.=$vn.'='.$vv.';';
+}
+fwrite($fp, $str."\n");
+fclose($fp);*/
+
+
+
+
+
 // Данные от интеркассы
 $ik_shop_id = $_POST['ik_shop_id'];
 $ik_payment_amount = $_POST['ik_payment_amount'];

@@ -6,11 +6,6 @@
 *	http://www.cartet.org
 *
 *---------------------------------------------------------
-*
-*	(c) 2005 Vetal (robox.php,v 1.48 2003/05/27); metashop.ru
-*	Copyright (c) 2012 VamShop
-*
-*---------------------------------------------------------
 */
 
 function get_var($name, $default = 'none')

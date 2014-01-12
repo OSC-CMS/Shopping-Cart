@@ -6,8 +6,6 @@
 *	http://www.cartet.org
 *
 *---------------------------------------------------------
-*	Copyright (c) 2007 VamShop
-*---------------------------------------------------------
 */
 
 defined('_VALID_OS') or die('Direct Access to this location is not allowed.');
@@ -15,27 +13,27 @@ defined('_VALID_OS') or die('Direct Access to this location is not allowed.');
 class liqpay extends CartET
 {
 	/**
-	 * Ñèñòåìíûé èäåíòèôèêàòîð ìîäóëÿ
+	 * Ð¡Ð¸ÑÑ‚ÐµÐ¼Ð½Ñ‹Ð¹ Ð¸Ð´ÐµÐ½Ñ‚Ð¸Ñ„Ð¸ÐºÐ°Ñ‚Ð¾Ñ€ Ð¼Ð¾Ð´ÑƒÐ»Ñ
 	 */
 	public $code;
 
 	/**
-	 * Íàçâàíèå ìîäóëÿ
+	 * ÐÐ°Ð·Ð²Ð°Ð½Ð¸Ðµ Ð¼Ð¾Ð´ÑƒÐ»Ñ
 	 */
 	public $title;
 
 	/**
-	 * Îïèñàíèå ìîäóëÿ
+	 * ÐžÐ¿Ð¸ÑÐ°Ð½Ð¸Ðµ Ð¼Ð¾Ð´ÑƒÐ»Ñ
 	 */
 	public $description;
 
 	/**
-	 * Ñòàòóñ ìîäóëÿ
+	 * Ð¡Ñ‚Ð°Ñ‚ÑƒÑ Ð¼Ð¾Ð´ÑƒÐ»Ñ
 	 */
 	public $enabled;
 
 	/**
-	 * Ñåññèîííàÿ ïåðåìåííàÿ ìîäóëÿ
+	 * Ð¡ÐµÑÑÐ¸Ð¾Ð½Ð½Ð°Ñ Ð¿ÐµÑ€ÐµÐ¼ÐµÐ½Ð½Ð°Ñ Ð¼Ð¾Ð´ÑƒÐ»Ñ
 	 */
 	public $name = 'cart_liqpay_id';
 
@@ -56,7 +54,7 @@ class liqpay extends CartET
 		$this->form_action_url = 'https://liqpay.com/?do=clickNbuy';
 	}
 
-	// Îáíîâëåíèå ñòàòóñà(?)
+	// ÐžÐ±Ð½Ð¾Ð²Ð»ÐµÐ½Ð¸Ðµ ÑÑ‚Ð°Ñ‚ÑƒÑÐ°(?)
 	function update_status()
 	{
 		global $order;
@@ -86,13 +84,13 @@ class liqpay extends CartET
 		}
 	}
 
-	// Âîçìîæíîñòü âàëèäàöèè ïîëå èñïîëüçóþ JS.
+	// Ð’Ð¾Ð·Ð¼Ð¾Ð¶Ð½Ð¾ÑÑ‚ÑŒ Ð²Ð°Ð»Ð¸Ð´Ð°Ñ†Ð¸Ð¸ Ð¿Ð¾Ð»Ðµ Ð¸ÑÐ¿Ð¾Ð»ÑŒÐ·ÑƒÑŽ JS.
 	function javascript_validation()
 	{
 		return false;
 	}
 
-	// Âûáîð ìåòîäà îïëàòû â ñïèñêå
+	// Ð’Ñ‹Ð±Ð¾Ñ€ Ð¼ÐµÑ‚Ð¾Ð´Ð° Ð¾Ð¿Ð»Ð°Ñ‚Ñ‹ Ð² ÑÐ¿Ð¸ÑÐºÐµ
 	function selection()
 	{
 		if (isset($_SESSION[$this->name]))
@@ -134,7 +132,7 @@ class liqpay extends CartET
 		}
 	}
 
-	// Ïîäòâåðæäåíèå çàêàçà è åãî ñîçäàíèå
+	// ÐŸÐ¾Ð´Ñ‚Ð²ÐµÑ€Ð¶Ð´ÐµÐ½Ð¸Ðµ Ð·Ð°ÐºÐ°Ð·Ð° Ð¸ ÐµÐ³Ð¾ ÑÐ¾Ð·Ð´Ð°Ð½Ð¸Ðµ
 	function confirmation()
 	{
 		global $cartID, $cart_liqpay_id, $customer_id, $languages_id, $order, $order_total_modules;
@@ -145,7 +143,7 @@ class liqpay extends CartET
 	}
 
 	/**
-	 * Ôîðìèðîâàíèå äàííû äëÿ çàïðîñà íà form_action_url
+	 * Ð¤Ð¾Ñ€Ð¼Ð¸Ñ€Ð¾Ð²Ð°Ð½Ð¸Ðµ Ð´Ð°Ð½Ð½Ñ‹ Ð´Ð»Ñ Ð·Ð°Ð¿Ñ€Ð¾ÑÐ° Ð½Ð° form_action_url
 	 */
 	function process_button()
 	{
@@ -184,85 +182,21 @@ class liqpay extends CartET
 
 	function before_process()
 	{
-		global $customer_id, $order, $osPrice, $order_totals, $sendto, $billto, $languages_id, $payment, $currencies, $cart, $cart_liqpay_id;
-		global $$payment;
+		global $order;
 
 		$order_id = substr($_SESSION[$this->name], strpos($_SESSION[$this->name], '-')+1);
 
-		// Îáíîâëÿåì êîëè÷åñòâî òîâàðîâ
+		// ÐžÐ±Ð½Ð¾Ð²Ð»ÑÐµÐ¼ ÐºÐ¾Ð»Ð¸Ñ‡ÐµÑÑ‚Ð²Ð¾ Ñ‚Ð¾Ð²Ð°Ñ€Ð¾Ð²
 		for ($i=0, $n=sizeof($order->products); $i<$n; $i++)
 		{
 			$this->order->updateQuantity($order->products[$i]);
 		}
 
-		$osTemplate = new osTemplate;
+		$this->orders->beforeProcess($order_id, $order);
 
-		$osTemplate->assign('address_label_customer', os_address_format($order->customer['format_id'], $order->customer, 1, '', '<br />'));
-		$osTemplate->assign('address_label_shipping', os_address_format($order->delivery['format_id'], $order->delivery, 1, '', '<br />'));
-		if ($_SESSION['credit_covers'] != '1') {
-		$osTemplate->assign('address_label_payment', os_address_format($order->billing['format_id'], $order->billing, 1, '', '<br />'));
-		}
-		$osTemplate->assign('csID', $order->customer['csID']);
-
-		$it=0;
-		$semextrfields = osDBquery("select * from " . TABLE_EXTRA_FIELDS . " where fields_required_email = '1'");
-		while($dataexfes = os_db_fetch_array($semextrfields,true)) {
-		$cusextrfields = osDBquery("select * from " . TABLE_CUSTOMERS_TO_EXTRA_FIELDS . " where customers_id = '" . (int)$_SESSION['customer_id'] . "' and fields_id = '" . $dataexfes['fields_id'] . "'");
-		$rescusextrfields = os_db_fetch_array($cusextrfields,true);
-
-		$extrfieldsinf = osDBquery("select fields_name from " . TABLE_EXTRA_FIELDS_INFO . " where fields_id = '" . $dataexfes['fields_id'] . "' and languages_id = '" . $_SESSION['languages_id'] . "'");
-
-		$extrfieldsres = os_db_fetch_array($extrfieldsinf,true);
-		$extra_fields .= $extrfieldsres['fields_name'] . ' : ' .
-		$rescusextrfields['value'] . "\n";
-		$osTemplate->assign('customer_extra_fields', $extra_fields);
-		}
-
-		$order_total = $order->getTotalData($order_id);
-		$osTemplate->assign('order_data', $order->getOrderData($order_id));
-		$osTemplate->assign('order_total', $order_total['data']);
-
-		// assign language to template for caching
-		$osTemplate->assign('language', $_SESSION['language']);
-		$osTemplate->assign('tpl_path', 'themes'.CURRENT_TEMPLATE.'/');
-		$osTemplate->assign('logo_path', HTTP_SERVER.DIR_WS_CATALOG.'themes/'.CURRENT_TEMPLATE.'/img/');
-		$osTemplate->assign('oID', $order_id);
-		if ($order->info['payment_method'] != '' && $order->info['payment_method'] != 'no_payment') {
-		include (_MODULES.'payment/'.$order->info['payment_method'].'/'.$_SESSION['language'].'.php');
-		$payment_method = constant(strtoupper('MODULE_PAYMENT_'.$order->info['payment_method'].'_TEXT_TITLE'));
-		}
-		$osTemplate->assign('PAYMENT_METHOD', $payment_method);
-		if ($order->info['shipping_method'] != '') {
-		$shipping_method = $order->info['shipping_method'];
-		}
-		$osTemplate->assign('SHIPPING_METHOD', $shipping_method);
-		$osTemplate->assign('DATE', os_date_long($order->info['date_purchased']));
-
-		$osTemplate->assign('NAME', $order->customer['firstname'] . ' ' . $order->customer['lastname']);
-		$osTemplate->assign('COMMENTS', $order->info['comments']);
-		$osTemplate->assign('EMAIL', $order->customer['email_address']);
-		$osTemplate->assign('PHONE',$order->customer['telephone']);
-
-		// dont allow cache
-		$osTemplate->caching = false;
-
-		$html_mail = $osTemplate->fetch(_MAIL.$_SESSION['language'].'/order_mail.html');
-		$txt_mail = $osTemplate->fetch(_MAIL.$_SESSION['language'].'/order_mail.txt');
-
-		// create subject
-		$order_subject = str_replace('{$nr}', $order_id, EMAIL_BILLING_SUBJECT_ORDER);
-		$order_subject = str_replace('{$date}', strftime(DATE_FORMAT_LONG), $order_subject);
-		$order_subject = str_replace('{$lastname}', $order->customer['lastname'], $order_subject);
-		$order_subject = str_replace('{$firstname}', $order->customer['firstname'], $order_subject);
-
-		// send mail to admin
-		os_php_mail(EMAIL_BILLING_ADDRESS, EMAIL_BILLING_NAME, EMAIL_BILLING_ADDRESS, STORE_NAME, EMAIL_BILLING_FORWARDING_STRING, $order->customer['email_address'], $order->customer['firstname'], '', '', $order_subject, $html_mail, $txt_mail);
-
-		// send mail to customer
-		os_php_mail(EMAIL_BILLING_ADDRESS, EMAIL_BILLING_NAME, $order->customer['email_address'], $order->customer['firstname'].' '.$order->customer['lastname'], '', EMAIL_BILLING_REPLY_ADDRESS, EMAIL_BILLING_REPLY_ADDRESS_NAME, '', '', $order_subject, $html_mail, $txt_mail);
-
-		// load the after_process function from the payment modules
 		$this->after_process();
+
+		require_once(DIR_WS_INCLUDES . 'affiliate_checkout_process.php');
 
 		$_SESSION['cart']->reset(true);
 

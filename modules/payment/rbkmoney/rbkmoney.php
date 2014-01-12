@@ -6,34 +6,32 @@
 *	http://www.cartet.org
 *
 *---------------------------------------------------------
-*	Copyright (c) 2007 VaM Shop, http://vamshop.com
-*---------------------------------------------------------
 */
 
 class rbkmoney extends CartET
 {
 	/**
-	 * Ñèñòåìíûé èäåíòèôèêàòîð ìîäóëÿ
+	 * Ð¡Ð¸ÑÑ‚ÐµÐ¼Ð½Ñ‹Ð¹ Ð¸Ð´ÐµÐ½Ñ‚Ð¸Ñ„Ð¸ÐºÐ°Ñ‚Ð¾Ñ€ Ð¼Ð¾Ð´ÑƒÐ»Ñ
 	 */
 	public $code;
 
 	/**
-	 * Íàçâàíèå ìîäóëÿ
+	 * ÐÐ°Ð·Ð²Ð°Ð½Ð¸Ðµ Ð¼Ð¾Ð´ÑƒÐ»Ñ
 	 */
 	public $title;
 
 	/**
-	 * Îïèñàíèå ìîäóëÿ
+	 * ÐžÐ¿Ð¸ÑÐ°Ð½Ð¸Ðµ Ð¼Ð¾Ð´ÑƒÐ»Ñ
 	 */
 	public $description;
 
 	/**
-	 * Ñòàòóñ ìîäóëÿ
+	 * Ð¡Ñ‚Ð°Ñ‚ÑƒÑ Ð¼Ð¾Ð´ÑƒÐ»Ñ
 	 */
 	public $enabled;
 
 	/**
-	 * Ñåññèîííàÿ ïåðåìåííàÿ ìîäóëÿ
+	 * Ð¡ÐµÑÑÐ¸Ð¾Ð½Ð½Ð°Ñ Ð¿ÐµÑ€ÐµÐ¼ÐµÐ½Ð½Ð°Ñ Ð¼Ð¾Ð´ÑƒÐ»Ñ
 	 */
 	public $name = 'cart_rbkmoney_id';
 
@@ -116,7 +114,7 @@ class rbkmoney extends CartET
 
 	function pre_confirmation_check()
 	{
-		global $cartID, $cart;
+		global $cartID;
 
 		if (empty($_SESSION['cart']->cartID))
 		{
@@ -131,7 +129,7 @@ class rbkmoney extends CartET
 
 	function confirmation()
 	{
-		global $cartID, $cart_rbkmoney_id, $customer_id, $languages_id, $order, $order_total_modules;
+		global $order, $order_total_modules;
 
 		$this->order->confirmation($this->name, $order, $order_total_modules);
 
@@ -140,14 +138,16 @@ class rbkmoney extends CartET
 
 	function process_button()
 	{
-		global $customer_id, $order, $sendto, $osPrice, $currencies, $cart_rbkmoney_id, $shipping;
+		global $order;
+
+		$order_id = substr($_SESSION[$this->name], strpos($_SESSION[$this->name], '-')+1);
 
 		$process_button_string = '';
 
 		$process_button_string = 
 			os_draw_hidden_field('eshopId', MODULE_PAYMENT_RBKMONEY_SHOP_ID) .
-			os_draw_hidden_field('orderId', substr($cart_rbkmoney_id, strpos($cart_rbkmoney_id, '-')+1)) .
-			os_draw_hidden_field('serviceName', substr($cart_rbkmoney_id, strpos($cart_rbkmoney_id, '-')+1)) .
+			os_draw_hidden_field('orderId', $order_id) .
+			os_draw_hidden_field('serviceName', $order_id) .
 			os_draw_hidden_field('recipientAmount', $order->info['total']) .
 			os_draw_hidden_field('recipientCurrency', 'RUR') .
 			os_draw_hidden_field('successUrl', os_href_link(FILENAME_CHECKOUT_PROCESS, '', 'SSL')) .
@@ -158,85 +158,21 @@ class rbkmoney extends CartET
 
 	function before_process()
 	{
-		global $customer_id, $order, $osPrice, $order_totals, $sendto, $billto, $languages_id, $payment, $currencies, $cart, $cart_rbkmoney_id;
-		global $$payment;
+		global $order;
 
 		$order_id = substr($_SESSION[$this->name], strpos($_SESSION[$this->name], '-')+1);
 
-		// Îáíîâëÿåì êîëè÷åñòâî òîâàðîâ
+		// ÐžÐ±Ð½Ð¾Ð²Ð»ÑÐµÐ¼ ÐºÐ¾Ð»Ð¸Ñ‡ÐµÑÑ‚Ð²Ð¾ Ñ‚Ð¾Ð²Ð°Ñ€Ð¾Ð²
 		for ($i=0, $n=sizeof($order->products); $i<$n; $i++)
 		{
 			$this->order->updateQuantity($order->products[$i]);
 		}
 
-		$osTemplate = new osTemplate;
+		$this->orders->beforeProcess($order_id, $order);
 
-		$osTemplate->assign('address_label_customer', os_address_format($order->customer['format_id'], $order->customer, 1, '', '<br />'));
-		$osTemplate->assign('address_label_shipping', os_address_format($order->delivery['format_id'], $order->delivery, 1, '', '<br />'));
-		if ($_SESSION['credit_covers'] != '1') {
-		$osTemplate->assign('address_label_payment', os_address_format($order->billing['format_id'], $order->billing, 1, '', '<br />'));
-		}
-		$osTemplate->assign('csID', $order->customer['csID']);
-
-		$it=0;
-		$semextrfields = osDBquery("select * from " . TABLE_EXTRA_FIELDS . " where fields_required_email = '1'");
-		while($dataexfes = os_db_fetch_array($semextrfields,true)) {
-		$cusextrfields = osDBquery("select * from " . TABLE_CUSTOMERS_TO_EXTRA_FIELDS . " where customers_id = '" . (int)$_SESSION['customer_id'] . "' and fields_id = '" . $dataexfes['fields_id'] . "'");
-		$rescusextrfields = os_db_fetch_array($cusextrfields,true);
-
-		$extrfieldsinf = osDBquery("select fields_name from " . TABLE_EXTRA_FIELDS_INFO . " where fields_id = '" . $dataexfes['fields_id'] . "' and languages_id = '" . $_SESSION['languages_id'] . "'");
-
-		$extrfieldsres = os_db_fetch_array($extrfieldsinf,true);
-		$extra_fields .= $extrfieldsres['fields_name'] . ' : ' .
-		$rescusextrfields['value'] . "\n";
-		$osTemplate->assign('customer_extra_fields', $extra_fields);
-		}
-
-		$order_total = $order->getTotalData($order_id);
-		$osTemplate->assign('order_data', $order->getOrderData($order_id));
-		$osTemplate->assign('order_total', $order_total['data']);
-
-		// assign language to template for caching
-		$osTemplate->assign('language', $_SESSION['language']);
-		$osTemplate->assign('tpl_path', http_path('themes_c'));
-		$osTemplate->assign('logo_path', http_path('themes_c').'/img/');
-		$osTemplate->assign('oID', $order_id);
-		if ($order->info['payment_method'] != '' && $order->info['payment_method'] != 'no_payment') {
-		include (DIR_WS_LANGUAGES.$_SESSION['language'].'/modules/payment/'.$order->info['payment_method'].'.php');
-		$payment_method = constant(strtoupper('MODULE_PAYMENT_'.$order->info['payment_method'].'_TEXT_TITLE'));
-		}
-		$osTemplate->assign('PAYMENT_METHOD', $payment_method);
-		if ($order->info['shipping_method'] != '') {
-		$shipping_method = $order->info['shipping_method'];
-		}
-		$osTemplate->assign('SHIPPING_METHOD', $shipping_method);
-		$osTemplate->assign('DATE', os_date_long($order->info['date_purchased']));
-
-		$osTemplate->assign('NAME', $order->customer['firstname'] . ' ' . $order->customer['lastname']);
-		$osTemplate->assign('COMMENTS', $order->info['comments']);
-		$osTemplate->assign('EMAIL', $order->customer['email_address']);
-		$osTemplate->assign('PHONE',$order->customer['telephone']);
-
-		// dont allow cache
-		$osTemplate->caching = false;
-
-		$html_mail = $osTemplate->fetch(CURRENT_TEMPLATE.'/mail/'.$_SESSION['language'].'/order_mail.html');
-		$txt_mail = $osTemplate->fetch(CURRENT_TEMPLATE.'/mail/'.$_SESSION['language'].'/order_mail.txt');
-
-		// create subject
-		$order_subject = str_replace('{$nr}', $order_id, EMAIL_BILLING_SUBJECT_ORDER);
-		$order_subject = str_replace('{$date}', strftime(DATE_FORMAT_LONG), $order_subject);
-		$order_subject = str_replace('{$lastname}', $order->customer['lastname'], $order_subject);
-		$order_subject = str_replace('{$firstname}', $order->customer['firstname'], $order_subject);
-
-		// send mail to admin
-		os_php_mail(EMAIL_BILLING_ADDRESS, EMAIL_BILLING_NAME, EMAIL_BILLING_ADDRESS, STORE_NAME, EMAIL_BILLING_FORWARDING_STRING, $order->customer['email_address'], $order->customer['firstname'], '', '', $order_subject, $html_mail, $txt_mail);
-
-		// send mail to customer
-		os_php_mail(EMAIL_BILLING_ADDRESS, EMAIL_BILLING_NAME, $order->customer['email_address'], $order->customer['firstname'].' '.$order->customer['lastname'], '', EMAIL_BILLING_REPLY_ADDRESS, EMAIL_BILLING_REPLY_ADDRESS_NAME, '', '', $order_subject, $html_mail, $txt_mail);
-
-		// load the after_process function from the payment modules
 		$this->after_process();
+
+		require_once(DIR_WS_INCLUDES . 'affiliate_checkout_process.php');
 
 		$_SESSION['cart']->reset(true);
 

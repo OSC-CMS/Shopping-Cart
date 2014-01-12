@@ -6,14 +6,6 @@
 *	http://www.cartet.org
 *
 *---------------------------------------------------------
-*
-*	(c) 2000-2001 The Exchange Project  (earlier name of osCommerce)
-*	(c) 2002-2003 osCommerce(moneyorder.php,v 1.8 2003/02/16); www.oscommerce.com 
-*	(c) 2003	 nextcommerce (moneyorder.php,v 1.4 2003/08/13); www.nextcommerce.org
-*	(c) 2004	 xt:Commerce (webmoney.php,v 1.4 2003/08/13); xt-commerce.com
-*	Copyright (c) 2012 VamShop
-*
-*---------------------------------------------------------
 */
 
 define('MODULE_PAYMENT_PAYMASTER_TEXT_TITLE', 'PayMaster');
