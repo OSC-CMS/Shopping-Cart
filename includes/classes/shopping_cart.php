@@ -286,6 +286,8 @@ class shoppingCart {
 			$GetOptionPrice = $cartet->price->GetOptionPrice($aAttributes);
 		}
 
+		$aProducts = apply_filter('cart_calculate', $aProducts);
+
 		foreach($aProducts AS $product)
 		{
 			$qty = $product['products_quantity'];
@@ -429,6 +431,8 @@ class shoppingCart {
 			}
 			}
 		}
+
+		$products_array = apply_filter('cart_get_products', $products_array);
 
 		$this->_products = $products_array;
 		return $products_array;
