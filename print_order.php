@@ -23,6 +23,7 @@ $order_check = os_db_fetch_array($order_query_check);
 if ($_SESSION['customer_id'] == $order_check['customers_id']) {
         include (_CLASS.'order.php');
         $order = new order($oID);
+
         $osTemplate->assign('address_label_customer', os_address_format($order->customer['format_id'], $order->customer, 1, '', '<br />'));
         $osTemplate->assign('address_label_shipping', os_address_format($order->delivery['format_id'], $order->delivery, 1, '', '<br />'));
         $osTemplate->assign('address_label_payment', os_address_format($order->billing['format_id'], $order->billing, 1, '', '<br />'));

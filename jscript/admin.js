@@ -84,7 +84,7 @@ var ru2en = {
   } 
 }
 
-function onchange_products_page_url ()
+function onchange_products_page_url()
 {
    str = ru2en.translit(document.getElementById('products_name').value); 
    str = str.toLowerCase();
@@ -1273,7 +1273,7 @@ jQuery(function(){
 
 	$('#image_auto').click(function()
 	{
-		productName = $('input[id=products_name_1]').val();
+		productName = $('input[id=products_name]').val();
 
 		$.ajax({
 			type: 'post',
@@ -1327,7 +1327,7 @@ jQuery(function(){
 
 	$('#extraFieldsData').click(function() {
 
-		productName = $('input[id=products_name_1]').val();
+		productName = $('input[id=products_name]').val();
 
 		$.ajax({
 			type: 'post',

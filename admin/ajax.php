@@ -10,12 +10,6 @@
 
 require_once ('includes/top.php');
 
-//sleep(50);
-
-/*print_r($_POST);
-print_r($_GET);
-die();*/
-
 // Файл для модального окна
 if (isset($_GET['ajax_page']) && !empty($_GET['ajax_page']))
 {

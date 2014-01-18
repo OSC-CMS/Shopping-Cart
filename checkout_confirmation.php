@@ -149,8 +149,6 @@ if (sizeof($order->info['tax_groups']) > 1)
 {
 	if ($_SESSION['customers_status']['customers_status_show_price_tax'] == 0 && $_SESSION['customers_status']['customers_status_add_tax_ot'] == 1) {}
 }
-else
-{}
 
 $productsArray = array();
 for ($i = 0, $n = sizeof($order->products); $i < $n; $i++)
