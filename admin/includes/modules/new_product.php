@@ -390,7 +390,7 @@ echo os_draw_hidden_field('products_id', $pInfo->products_id);
 								echo $cartet->html->input_text(
 									'products_date_available',
 									$pInfo->products_date_available,
-									array('class' => 'input-block-level')
+									array('class' => 'input-block-level formDatetime', 'data-date-autoclose' => 'true', 'data-date-format' => 'yyyy-mm-dd')
 								);
 								?>
 							</div>
