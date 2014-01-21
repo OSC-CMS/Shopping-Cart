@@ -18,9 +18,10 @@ if (@$_GET['sorting'])
 			$catsort = 'c.sort_order ASC';
 			$prodsort = 'p.products_sort ASC';
 		break;
-		case 'sort-desc' :
+		case 'sort-desc':
 			$catsort = 'c.sort_order DESC';
 			$prodsort = 'p.products_sort DESC';
+		break;
 		case 'name':
 			$catsort = 'cd.categories_name ASC';
 			$prodsort = 'pd.products_name ASC';
