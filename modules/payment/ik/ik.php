@@ -157,11 +157,18 @@ class ik extends CartET
 		$TotalAmount = number_format($osPrice->CalculateCurrEx($order->info['total'], MODULE_PAYMENT_IK_CURRENCY), 2, '.', '');
 
 		$result = array(
-			'ik_co_id' => MODULE_PAYMENT_IK_CO_ID, // Идентификатор кассы
-			'ik_pm_no' => $OrderID, // Номер платежа
 			'ik_am' => $TotalAmount, // Сумма платежа
-			'ik_desc' => 'Order-'.$OrderID.' Customer-'.$_SESSION['customer_id'], // Описание платежа
+			'ik_pm_no' => $OrderID, // Номер заказа
+			'ik_desc' => 'Order-'.$OrderID, // Описание платежа
+			'ik_cur' => MODULE_PAYMENT_IK_CURRENCY, // Валюта платежа
+			'ik_co_id' => MODULE_PAYMENT_IK_CO_ID, // Идентификатор кассы
 		);
+
+		if (MODULE_PAYMENT_IK_TEST == 'True')
+		{
+			$result['ik_act'] = 'process';
+			$result['ik_pw_via'] = 'test_interkassa_test_xts';
+		}
 
 		// Формируем подпись
 		$result['ik_sign'] = $this->getSign($result);
@@ -176,7 +183,7 @@ class ik extends CartET
 	}
 
 	// Формируем подпись
-	protected function getSign($aParams)
+	private function getSign($aParams)
 	{
 		ksort ($aParams, SORT_STRING);
 		array_push($aParams, MODULE_PAYMENT_IK_SECRET_KEY);

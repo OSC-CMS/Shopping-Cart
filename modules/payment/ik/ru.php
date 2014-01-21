@@ -23,6 +23,10 @@ define('MODULE_PAYMENT_IK_ALLOWED_DESC', 'Укажите коды стран, д
 define('MODULE_PAYMENT_IK_CO_ID_TITLE', 'Идентификатор кассы');
 define('MODULE_PAYMENT_IK_CO_ID_DESC', 'Идентификатор кассы (ik_co_id)');
 define('MODULE_PAYMENT_IK_SECRET_KEY_TITLE', 'Секретный ключ');
-define('MODULE_PAYMENT_IK_SECRET_KEY_DESC', 'Ваш текущий секретный ключ (secret_key)');
+define('MODULE_PAYMENT_IK_SECRET_KEY_DESC', 'Ваш текущий секретный ключ');
 define('MODULE_PAYMENT_IK_CURRENCY_TITLE', 'Валюта');
 define('MODULE_PAYMENT_IK_CURRENCY_DESC', 'Валюта, в которой магазин передает сумму плетежа на платежный шлюз "Интеркасса"');
+define('MODULE_PAYMENT_IK_TEST_TITLE', 'Тестирование');
+define('MODULE_PAYMENT_IK_TEST_DESC', '');
+define('MODULE_PAYMENT_IK_TEST_KEY_TITLE', 'Тестовый ключ');
+define('MODULE_PAYMENT_IK_TEST_KEY_DESC', 'Ваш текущий тестовый ключ');
