@@ -933,7 +933,6 @@ class apiOrder extends CartET
 
 		}
 
-
 		$data = array('msg' => 'Успешно удалено!', 'type' => 'ok');
 
 		return $data;
@@ -1093,6 +1092,54 @@ class apiOrder extends CartET
 			'final_price' => os_db_prepare_input($final_price)
 		);
 		os_db_perform(TABLE_ORDERS_PRODUCTS, $sql_data_array, 'update', "orders_products_id = '".(int)$array['op_id']."'");
+	}
+
+	/**
+	 * Отправка СМС
+	 */
+	public function addSms($params)
+	{
+		$smsSetting = $this->sms->setting();
+		if ($smsSetting['sms_status'] == 1)
+		{
+			$smsText = $params['sms_text'];
+			$smsPhone = $params['sms_phone'];
+
+			if ($smsPhone && $smsText && $params['order_id'])
+			{
+				$this->sms->send($smsText, $_POST['sms_phone']);
+
+				$sql_data_array = array (
+					'order_id' => (int)$params['order_id'],
+					'note' => os_db_prepare_input($smsText),
+					'phone' => os_db_prepare_input($smsPhone),
+					'date_added' => 'now()',
+				);
+				os_db_perform(DB_PREFIX."sms_notes", $sql_data_array);
+
+				$data = array('msg' => 'Успешно добавлено!', 'type' => 'ok');
+			}
+			else
+				$data = array('msg' => 'Произошла ошибка!', 'type' => 'error');
+		}
+
+		return $data;
+	}
+
+	/**
+	 * Удаление СМС
+	 */
+	public function deleteSms($params)
+	{
+		if (empty($params)) return false;
+
+		$id = (is_array($params)) ? $params['id'] : $params;
+
+		os_db_query("delete from ".DB_PREFIX."sms_notes where id = '".(int)$id."'");
+
+		$data = array('msg' => 'Успешно удалено!', 'type' => 'ok');
+
+		return $data;
 	}
 }
 ?>

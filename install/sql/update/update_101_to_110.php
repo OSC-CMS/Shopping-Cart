@@ -371,4 +371,13 @@ os_db_query("INSERT INTO `".DB_PREFIX."sms` (`id`, `name`, `login`, `password`, 
 (5, 'bytehand.com', '', '', 0, '', '', 'cartet', '', '', 'bytehand.com:3800/send?id={api_id}&key={api_key}&to={phone}&partner=cartet&from={title}&text={text}'),
 (6, 'smsaero.ru', '', '', 1, '', '', 'cartet', '', '', 'gate.smsaero.ru/send/?user={login}&password={password}&to={phone}&text={text}&from={title}'),
 (7, 'prostor-sms.ru', '', '', 0, '', '', 'cartet', '', '', 'api.prostor-sms.ru/messages/v2/send/?phone=%2B{phone}&text={text}&login={login}&password={password}&sender={title}');");
-?>
+
+os_db_query("CREATE TABLE ".DB_PREFIX."sms_notes (
+	id int NOT NULL auto_increment,
+	order_id int(11) NOT NULL,
+	note text NOT NULL default '',
+	phone varchar(255) NOT NULL default '',
+	date_added datetime NOT NULL default '0000-00-00 00:00:00',
+	PRIMARY KEY (id),
+	KEY order_id (order_id)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE utf8_general_ci;");

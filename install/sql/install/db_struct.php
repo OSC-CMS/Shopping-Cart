@@ -17,6 +17,16 @@ os_db_query("CREATE TABLE ".DB_PREFIX."admin_notes (
 	PRIMARY KEY (id)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE utf8_general_ci;");
 
+os_db_query("CREATE TABLE ".DB_PREFIX."sms_notes (
+	id int NOT NULL auto_increment,
+	order_id int(11) NOT NULL,
+	note text NOT NULL default '',
+	phone varchar(255) NOT NULL default '',
+	date_added datetime NOT NULL default '0000-00-00 00:00:00',
+	PRIMARY KEY (id),
+	KEY order_id (order_id)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE utf8_general_ci;");
+
 os_db_query("CREATE TABLE ".DB_PREFIX."address_book (
   address_book_id int NOT NULL auto_increment,
   customers_id int NOT NULL,

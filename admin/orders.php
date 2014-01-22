@@ -14,6 +14,9 @@ require_once(_LIB.'phpmailer/class.phpmailer.php');
 require (_CLASS_ADMIN.'currencies.php');
 $currencies = new currencies();
 
+// СМС уведомления
+$smsSetting = $cartet->sms->setting();
+
 if (isset($_GET['action']))
 {
 	if ((($_GET['action'] == 'edit') || ($_GET['action'] == 'update_order')) && ($_GET['oID']))
@@ -124,9 +127,6 @@ if (isset($_POST['submit']) && isset($_POST['multi_orders']))
 					}
 
 					os_php_mail(EMAIL_BILLING_ADDRESS, EMAIL_BILLING_NAME, $check_status['customers_email_address'], $check_status['customers_name'], '', EMAIL_BILLING_REPLY_ADDRESS, EMAIL_BILLING_REPLY_ADDRESS_NAME, '', '', EMAIL_BILLING_SUBJECT, $html_mail, $txt_mail);
-
-					// СМС уведомления
-					$smsSetting = $cartet->sms->setting();
 
 					if ($smsSetting['sms_status'] == 1)
 					{
@@ -326,9 +326,6 @@ if (isset($_POST['notify']) && $_POST['notify'] == 'on')
 
 	os_php_mail(EMAIL_BILLING_ADDRESS, EMAIL_BILLING_NAME, $check_status['customers_email_address'], $check_status['customers_name'], '', EMAIL_BILLING_REPLY_ADDRESS, EMAIL_BILLING_REPLY_ADDRESS_NAME, '', '', EMAIL_BILLING_SUBJECT, $html_mail, $txt_mail);
 
-	// СМС уведомления
-	$smsSetting = $cartet->sms->setting();
-
 	if ($smsSetting['sms_status'] == 1)
 	{
 		$getDefaultSms = $cartet->sms->getDefaultSms();
@@ -480,183 +477,305 @@ $main->top_menu();
 <?php if (isset($_GET['action']) && ($_GET['action'] == 'edit') && ($order_exists)) { ?>
 	<?php $osPrice = new osPrice($order->info['currency'], isset($order->info['status']) ? $order->info['status'] : ''); ?>
 
-	<div class="p10">
+	<div class="btn-group pull-right">
+		<?php
+		if (ACTIVATE_GIFT_SYSTEM == 'true')
+		{
+			echo '<a class="btn" href="'.os_href_link(FILENAME_GV_MAIL, os_get_all_get_params(array ('cID', 'action')).'cID='.$order->customer['ID']).'">'.BUTTON_SEND_COUPON.'</a>';
+		}
+		?>
+		<a class="btn ajax-load-page" href="#" data-container="1" data-load-page="orders&o_id=<?php echo $_GET['oID']; ?>&action=edit_address" data-toggle="modal"><?php echo TEXT_EDIT_ADDRESS; ?></a>
+		<a class="btn ajax-load-page" href="#" data-container="1" data-load-page="orders&o_id=<?php echo $_GET['oID']; ?>&action=edit_other" data-toggle="modal"><?php echo TEXT_EDIT_OTHER; ?></a>
+		<a class="btn" href="<?php echo os_href_link(FILENAME_ORDERS, 'page='.$_GET['page'].'&oID='.$_GET['oID']); ?>"><?php echo BUTTON_BACK; ?></a>
+	</div>
 
-		<div class="btn-group pull-right">
+	<div class="btn-group pull-right" style="margin-right:5px;">
+		<button class="btn dropdown-toggle" data-toggle="dropdown"><i class="icon-print"></i> <span class="caret"></span></button>
+		<ul class="dropdown-menu">
 			<?php
-			if (ACTIVATE_GIFT_SYSTEM == 'true')
+			$array = array();
+			$array['params'] = array('order_id' => $_GET['oID'], 'payment_method' => $order->info['payment_method']);
+			$array = apply_filter('admin_print_menu', $array);
+
+			if (is_array($array['link']) && !empty($array['link']))
 			{
-				echo '<a class="btn" href="'.os_href_link(FILENAME_GV_MAIL, os_get_all_get_params(array ('cID', 'action')).'cID='.$order->customer['ID']).'">'.BUTTON_SEND_COUPON.'</a>';
+				foreach($array['link'] AS $link)
+				{
+					echo '<li><a href="Javascript:void()" onclick="window.open(\''.$link['href'].'\', \'popup\', \'toolbar=0, width=640, height=600\')">'.$link['name'].'</a></li>';
+				}
 			}
 			?>
-			<a class="btn ajax-load-page" href="#" data-container="1" data-load-page="orders&o_id=<?php echo $_GET['oID']; ?>&action=edit_address" data-toggle="modal"><?php echo TEXT_EDIT_ADDRESS; ?></a>
-			<a class="btn ajax-load-page" href="#" data-container="1" data-load-page="orders&o_id=<?php echo $_GET['oID']; ?>&action=edit_other" data-toggle="modal"><?php echo TEXT_EDIT_OTHER; ?></a>
-			<a class="btn" href="<?php echo os_href_link(FILENAME_ORDERS, 'page='.$_GET['page'].'&oID='.$_GET['oID']); ?>"><?php echo BUTTON_BACK; ?></a>
-		</div>
+			<!--<li><a href="Javascript:void()" onclick="window.open('<?php echo os_href_link(FILENAME_PRINT_ORDER,'oID='.$_GET['oID']); ?>', 'popup', 'toolbar=0, width=640, height=600')"><?php echo BUTTON_INVOICE; ?></a></li>-->
+			<li><a href="Javascript:void()" onclick="window.open('<?php echo os_href_link(FILENAME_PRINT_PACKINGSLIP,'oID='.$_GET['oID']); ?>', 'popup', 'toolbar=0, width=640, height=600')"><?php echo BUTTON_PACKINGSLIP; ?></a></li>
+		</ul>
+	</div>
 
-		<div class="btn-group pull-right" style="margin-right:5px;">
-			<button class="btn dropdown-toggle" data-toggle="dropdown"><i class="icon-print"></i> <span class="caret"></span></button>
-			<ul class="dropdown-menu">
-				<?php
-				$array = array();
-				$array['params'] = array('order_id' => $_GET['oID'], 'payment_method' => $order->info['payment_method']);
-				$array = apply_filter('admin_print_menu', $array);
+	<div class="page-header nomargin-top">
+		<h1><?php echo ENTRY_ORDER_NUMBER; ?> #<?php echo $oID; ?></h1>
+	</div>
 
-				if (is_array($array['link']) && !empty($array['link']))
-				{
-					foreach($array['link'] AS $link)
-					{
-						echo '<li><a href="Javascript:void()" onclick="window.open(\''.$link['href'].'\', \'popup\', \'toolbar=0, width=640, height=600\')">'.$link['name'].'</a></li>';
-					}
-				}
-				?>
-				<!--<li><a href="Javascript:void()" onclick="window.open('<?php echo os_href_link(FILENAME_PRINT_ORDER,'oID='.$_GET['oID']); ?>', 'popup', 'toolbar=0, width=640, height=600')"><?php echo BUTTON_INVOICE; ?></a></li>-->
-				<li><a href="Javascript:void()" onclick="window.open('<?php echo os_href_link(FILENAME_PRINT_PACKINGSLIP,'oID='.$_GET['oID']); ?>', 'popup', 'toolbar=0, width=640, height=600')"><?php echo BUTTON_PACKINGSLIP; ?></a></li>
-			</ul>
-		</div>
+	<ul class="nav nav-tabs default-tabs">
+		<li class="active"><a href="#tab_main"><?php echo EMAIL_TEXT_INVOICE_URL; ?></a></li>
+		<li><a href="#tab_status"><?php echo TEXT_ORDER_STATUS; ?></a></li>
+		<li><a href="#tab_products"><?php echo TEXT_ORDER_PRODUCTS; ?></a></li>
+		<?php
+		$array = array();
+		$array['param'] = array('order_id' => @$_GET['oID']);
+		$array = apply_filter('tabs_order', $array);
+		if (isset($array['values']) && is_array($array['values']) )
+		{
+			$ip = 0;
+			foreach ($array['values'] as $num => $value)
+			{
+				$ip++;
+				echo '<li><a href="#tab_plugin_'.$ip.'">'.$value['tab_name'].'</a></li>';
+			}
+		}
+		?>
+	</ul>
 
-		<div class="page-header nomargin-top">
-			<h1><?php echo ENTRY_ORDER_NUMBER; ?> #<?php echo $oID; ?></h1>
-		</div>
+	<div class="tab-content">
+		<div class="tab-pane active" id="tab_main">
+			<div class="row-fluid">
+				<div class="span3">
+					<ul class="default-ul font-small">
+						<li><strong><?php echo TABLE_HEADING_DATE_PURCHASED; ?>:</strong> <?php echo $order->info['date_purchased']; ?></li>
+						<?php if (isset($order->customer['telephone']) && !empty($order->customer['telephone'])) { ?>
+							<li><strong><?php echo ENTRY_TELEPHONE; ?></strong> <?php echo $order->customer['telephone']; ?></li>
+						<?php } ?>
+						<li><strong><?php echo ENTRY_EMAIL_ADDRESS; ?></strong> <?php echo '<a href="mailto:'.$order->customer['email_address'].'">'.$order->customer['email_address'].'</a>'; ?></li>
+						<?php if (isset($order->customer['vat_id']) && !empty($order->customer['vat_id'])) { ?>
+							<li><strong><?php echo ENTRY_CUSTOMERS_VAT_ID; ?></strong> <?php echo $order->customer['vat_id']; ?></li>
+						<?php } ?>
+						<li><strong><?php echo IP; ?></strong> <?php echo isset($order->customer['cIP'])?$order->customer['cIP']:''; ?></li>
+						<?php if (isset($order->customer['orig_reference']) && !empty($order->customer['orig_reference'])) { ?>
+							<li><strong><?php echo ENTRY_ORIGINAL_REFERER; ?></strong> <?php echo $order->customer['orig_reference']; ?></li>
+						<?php } ?>
+						<li>
+							<strong><?php echo CUSTOMERS_MEMO; ?></strong>
+							<?php
+							if (isset($order->customer['ID']))
+							{
+								$memo_query = os_db_query("SELECT count(*) as count FROM ".TABLE_CUSTOMERS_MEMO." where customers_id='".$order->customer['ID']."'");
+								$memo_count = os_db_fetch_array($memo_query);
+							}
+							else
+								$memo_count = 0;
+							?>
+							<?php echo $memo_count['count'].'</strong>'; ?> <a style="cursor:pointer" onClick="javascript:window.open('<?php echo os_href_link(FILENAME_POPUP_MEMO,'ID='.@$order->customer['ID']); ?>', 'popup', 'scrollbars=yes, width=500, height=500')">(<?php echo DISPLAY_MEMOS; ?>)</a>
+						</li>
+						<?php if ($order->customer['csID']!='') { ?>
+							<li><strong><?php echo ENTRY_CID; ?></strong> <?php echo $order->customer['csID']; ?></li>
+						<?php } ?>
+						<?php echo os_get_extra_fields_order(isset($order->customer['ID'])?$order->customer['ID']:'', $_SESSION['languages_id']); ?>
+					</ul>
+				</div>
 
-		<div class="row-fluid">
-			<div class="span3">
-				<ul class="default-ul font-small">
-					<li><strong><?php echo TABLE_HEADING_DATE_PURCHASED; ?>:</strong> <?php echo $order->info['date_purchased']; ?></li>
-					<?php if (isset($order->customer['telephone']) && !empty($order->customer['telephone'])) { ?>
-					<li><strong><?php echo ENTRY_TELEPHONE; ?></strong> <?php echo $order->customer['telephone']; ?></li>
-					<?php } ?>
-					<li><strong><?php echo ENTRY_EMAIL_ADDRESS; ?></strong> <?php echo '<a href="mailto:'.$order->customer['email_address'].'">'.$order->customer['email_address'].'</a>'; ?></li>
-					<?php if (isset($order->customer['vat_id']) && !empty($order->customer['vat_id'])) { ?>
-					<li><strong><?php echo ENTRY_CUSTOMERS_VAT_ID; ?></strong> <?php echo $order->customer['vat_id']; ?></li>
-					<?php } ?>
-					<li><strong><?php echo IP; ?></strong> <?php echo isset($order->customer['cIP'])?$order->customer['cIP']:''; ?></li>
-					<?php if (isset($order->customer['orig_reference']) && !empty($order->customer['orig_reference'])) { ?>
-					<li><strong><?php echo ENTRY_ORIGINAL_REFERER; ?></strong> <?php echo $order->customer['orig_reference']; ?></li>
-					<?php } ?>
-					<li>
-						<strong><?php echo CUSTOMERS_MEMO; ?></strong> 
-						<?php
-						if (isset($order->customer['ID']))
-						{
-							$memo_query = os_db_query("SELECT count(*) as count FROM ".TABLE_CUSTOMERS_MEMO." where customers_id='".$order->customer['ID']."'");
-							$memo_count = os_db_fetch_array($memo_query);
-						}
-						else
-							$memo_count = 0;
-						?>
-						<?php echo $memo_count['count'].'</strong>'; ?> <a style="cursor:pointer" onClick="javascript:window.open('<?php echo os_href_link(FILENAME_POPUP_MEMO,'ID='.@$order->customer['ID']); ?>', 'popup', 'scrollbars=yes, width=500, height=500')">(<?php echo DISPLAY_MEMOS; ?>)</a>
-					</li>
-					<?php if ($order->customer['csID']!='') { ?>
-					<li><strong><?php echo ENTRY_CID; ?></strong> <?php echo $order->customer['csID']; ?></li>
-					<?php } ?>
-					<?php echo os_get_extra_fields_order(isset($order->customer['ID'])?$order->customer['ID']:'', $_SESSION['languages_id']); ?>
-				</ul>
+				<div class="span9 font-small">
+					<div class="row-fluid">
+						<div class="span4"><address><strong><?php echo ENTRY_SHIPPING_ADDRESS; ?></strong><br /><?php echo os_address_format($order->delivery['format_id'], $order->delivery, 1, '', '<br />'); ?></address></div>
+						<div class="span4"><address><strong><?php echo TEXT_EDIT_BILLING_ADDRESS; ?></strong><br /><?php echo os_address_format($order->billing['format_id'], $order->billing, 1, '', '<br />'); ?></address></div>
+						<div class="span4"><address><strong><?php echo ENTRY_BILLING_ADDRESS; ?></strong><br /><?php echo os_address_format($order->customer['format_id'], $order->customer, 1, '', '<br />'); ?></address></div>
+					</div>
+				</div>
 			</div>
 
-			<div class="span9 font-small">
-				<div class="row-fluid">
-					<div class="span4"><address><strong><?php echo ENTRY_SHIPPING_ADDRESS; ?></strong><br /><?php echo os_address_format($order->delivery['format_id'], $order->delivery, 1, '', '<br />'); ?></address></div>
-					<div class="span4"><address><strong><?php echo TEXT_EDIT_BILLING_ADDRESS; ?></strong><br /><?php echo os_address_format($order->billing['format_id'], $order->billing, 1, '', '<br />'); ?></address></div>
-					<div class="span4"><address><strong><?php echo ENTRY_BILLING_ADDRESS; ?></strong><br /><?php echo os_address_format($order->customer['format_id'], $order->customer, 1, '', '<br />'); ?></address></div>
+			<hr>
+
+			<div class="row-fluid">
+				<div class="span6">
+					<h6><?php echo TEXT_ORDER_PAYMENT; ?></h6>
+					<table class="table table-condensed table-big-list nomargin">
+						<tr>
+							<td class="width130px"><strong><?php echo ENTRY_LANGUAGE; ?></strong></td>
+							<td><?php echo isset($order->info['language'])?$order->info['language']:''; ?></td>
+						</tr>
+						<tr>
+							<td><strong><?php echo ENTRY_PAYMENT_METHOD; ?></strong></td>
+							<td><?php echo $order_payment_text; ?></td>
+						</tr>
+						<?php if (isset($order->info['shipping_class']) && $order->info['shipping_class'] != '') { ?>
+							<tr>
+								<td><strong><?php echo ENTRY_SHIPPING_METHOD; ?></strong></td>
+								<td><?php echo $order_shipping_text; ?></td>
+							</tr>
+						<?php } ?>
+					</table>
+				</div>
+				<div class="span6">
+					<h6>Итого</h6>
+					<table class="table table-condensed table-big-list nomargin">
+						<?php foreach ($order->totals as $total) { ?>
+							<tr>
+								<td class="tright"><?php echo $total['title']; ?></td>
+								<td class="tright width130px"><?php echo $total['text']; ?></td>
+							</tr>
+						<?php } ?>
+					</table>
 				</div>
 			</div>
 		</div>
 
-		<div class="page-header">
-			<h1><?php echo TEXT_ORDER_STATUS; ?></h1>
-		</div>
+		<div class="tab-pane" id="tab_status">
+			<div class="row-fluid">
+				<div class="span6">
+					<h5>Изменение статуса заказа</h5>
+					<table class="table table-condensed table-big-list nomargin">
+						<thead>
+						<tr>
+							<th><?php echo TABLE_HEADING_CUSTOMER_NOTIFIED; ?></th>
+							<th><span class="line"></span><?php echo TABLE_HEADING_STATUS; ?></th>
+							<th><span class="line"></span><?php echo TABLE_HEADING_COMMENTS; ?></th>
+							<th><span class="line"></span><?php echo TABLE_HEADING_DATE_ADDED; ?></th>
+						</tr>
+						</thead>
+						<?php
 
-		<table class="table table-condensed table-big-list nomargin">
-			<thead>
-				<tr>
-					<th><?php echo TABLE_HEADING_CUSTOMER_NOTIFIED; ?></th>
-					<th><span class="line"></span><?php echo TABLE_HEADING_STATUS; ?></th>
-					<th><span class="line"></span><?php echo TABLE_HEADING_COMMENTS; ?></th>
-					<th><span class="line"></span><?php echo TABLE_HEADING_DATE_ADDED; ?></th>
-				</tr>
-			</thead>
-		<?php
+						$orders_history_query = os_db_query("select orders_status_id, date_added, customer_notified, comments from ".TABLE_ORDERS_STATUS_HISTORY." where orders_id = '".os_db_input($oID)."' order by date_added DESC");
+						if (os_db_num_rows($orders_history_query))
+						{
+							$i = 0;
+							while ($orders_history = os_db_fetch_array($orders_history_query))
+							{
+								if ($orders_history['customer_notified'] == '1')
+									$customer_notified = '<i class="icon-envelope" title="'.ICON_TICK.'"></i>';
+								else
+									$customer_notified = '<i class="icon-remove" title="'.ICON_CROSS.'"></i>';
 
-		$orders_history_query = os_db_query("select orders_status_id, date_added, customer_notified, comments from ".TABLE_ORDERS_STATUS_HISTORY." where orders_id = '".os_db_input($oID)."' order by date_added DESC");
-		if (os_db_num_rows($orders_history_query))
-		{
-			$i = 0;
-			while ($orders_history = os_db_fetch_array($orders_history_query))
-			{
-				$i++;
-				if ($orders_history['customer_notified'] == '1')
-					$customer_notified = '<i class="icon-envelope" title="'.ICON_TICK.'"></i>';
-				else
-					$customer_notified = '<i class="icon-remove" title="'.ICON_CROSS.'"></i>';
+								if($orders_history['orders_status_id']!='0')
+									$orders_status = $orders_status_array[$orders_history['orders_status_id']];
+								else
+									$orders_status = '<font color="#FF0000">'.TEXT_VALIDATING.'</font>';
 
-				if($orders_history['orders_status_id']!='0')
-					$orders_status = $orders_status_array[$orders_history['orders_status_id']];
-				else
-					$orders_status = '<font color="#FF0000">'.TEXT_VALIDATING.'</font>';
+								$first = ($i == 0) ? ' class="warning"' : '';
+								$i++;
+								?>
+								<tr<?php echo $first; ?>>
+									<td><?php echo $customer_notified; ?></td>
+									<td><?php echo $orders_status; ?></td>
+									<td><?php echo nl2br(os_db_output($orders_history['comments'])); ?></td>
+									<td><?php echo $orders_history['date_added']; ?></td>
+								</tr>
+							<?php
+							}
+						} else {
+							echo '<tr><td colspan="4">'.TEXT_NO_ORDER_HISTORY.'</td></tr>';
+						}
+						?>
+					</table>
+					<hr>
+					<div class="p10 text-center"><button type="button" class="btn btn-mini btn-info" data-toggle="collapse" data-target="#send_status">Изменить статус заказа</button></div>
 
-				$first = ($i == 1) ? ' class="warning"' : '';
-
-				?>
-				<tr<?php echo $first; ?>>
-					<td><?php echo $customer_notified; ?></td>
-					<td><?php echo $orders_status; ?></td>
-					<td><?php echo nl2br(os_db_output($orders_history['comments'])); ?></td>
-					<td><?php echo $orders_history['date_added']; ?></td>
-				</tr>
-				<?php
-			}
-		} else {
-			echo '<tr><td colspan="4">'.TEXT_NO_ORDER_HISTORY.'</td></tr>';
-		}
-		?>
-		</table>
-
-		<div class="pt10"><button type="button" class="btn btn-mini btn-info" data-toggle="collapse" data-target="#change_status">Изменить статус</button></div>
-
-		<div id="change_status" class="collapse">
-			<div class="form-horizontal pt10">
-				<?php echo os_draw_form('status', FILENAME_ORDERS, os_get_all_get_params(array('action')).'action=update_order'); ?>
-					<div class="control-group">
-						<label class="control-label" for="comments"><?php echo TABLE_HEADING_COMMENTS; ?></label>
-						<div class="controls">
-							<?php echo $cartet->html->textarea('comments', '', array('id' => 'comments', 'class' => 'span6', 'rows' => '3')); ?>
+					<div id="send_status" class="collapse">
+						<div class="form-inline pt10">
+							<?php echo os_draw_form('status', FILENAME_ORDERS, os_get_all_get_params(array('action')).'action=update_order'); ?>
+							<div class="control-group">
+								<label class="control-label" for="comments"><?php echo TABLE_HEADING_COMMENTS; ?></label>
+								<div class="controls">
+									<?php echo $cartet->html->textarea('comments', '', array('id' => 'comments', 'class' => 'input-block-level', 'rows' => '5')); ?>
+								</div>
+							</div>
+							<div class="control-group">
+								<label class="control-label" for=""><?php echo ENTRY_STATUS; ?></label>
+								<div class="controls">
+									<?php echo os_draw_pull_down_menu('status', $orders_statuses, $order->info['orders_status'], 'class="input-block-level"'); ?>
+								</div>
+							</div>
+							<div class="control-group">
+								<label class="control-label" for=""></label>
+								<div class="controls">
+									<label class="checkbox">
+										<?php echo os_draw_checkbox_field('notify', '', true); ?>
+										<?php echo ENTRY_NOTIFY_CUSTOMER; ?>
+									</label>
+									<label class="checkbox">
+										<?php echo os_draw_checkbox_field('notify_comments', '', true); ?>
+										<?php echo ENTRY_NOTIFY_COMMENTS; ?>
+									</label>
+								</div>
+							</div>
+							<div class="control-group">
+								<label class="control-label" for=""></label>
+								<div class="controls">
+									<input class="btn" type="submit" value="<?php echo BUTTON_UPDATE; ?>" />
+								</div>
+							</div>
+							</form>
 						</div>
 					</div>
-					<div class="control-group">
-						<label class="control-label" for=""><?php echo ENTRY_STATUS; ?></label>
-						<div class="controls">
-							<?php echo os_draw_pull_down_menu('status', $orders_statuses, $order->info['orders_status']); ?>
+				</div>
+
+				<div class="span6">
+					<h5>СМС уведомление</h5>
+					<table class="table table-condensed table-big-list nomargin">
+						<thead>
+							<tr>
+								<th>Текст СМС</th>
+								<th width="100"><span class="line"></span>Телефон</th>
+								<th width="200"><span class="line"></span>Дата</th>
+								<th width="30"><span class="line"></span><i class="icon-trash" title="Удалить"></i></th>
+							</tr>
+						</thead>
+						<?php
+						$getSmsStatus = os_db_query("SELECT * FROM ".DB_PREFIX."sms_notes WHERE order_id = '".(int)$oID."' ORDER BY id DESC");
+						if (os_db_num_rows($getSmsStatus) > 0)
+						{
+							$i = 0;
+							while($smsStatus = os_db_fetch_array($getSmsStatus))
+							{
+								$first = ($i == 0) ? ' class="warning"' : '';
+								$i++;
+								?>
+								<tr<?php echo $first; ?>>
+									<td><?php echo $smsStatus['note']; ?></td>
+									<td ><?php echo $smsStatus['phone']; ?></td>
+									<td ><?php echo $smsStatus['date_added']; ?></td>
+									<td class="text-right"><a class="btn btn-mini" href="#" data-action="order_deleteSms" data-remove-parent="tr" data-id="<?php echo $smsStatus['id']; ?>" data-confirm="Вы уверены, что хотите удалить?"><i class="icon-trash"></i></a></td>
+								</tr>
+							<?php }
+						} else {?>
+							<tr>
+								<td colspan="3">Нет отправленых СМС</td>
+							</tr>
+						<?php } ?>
+					</table>
+					<?php if ($smsSetting['sms_status'] == 1) { ?>
+					<hr>
+					<div class="p10 text-center"><button type="button" class="btn btn-mini btn-info" data-toggle="collapse" data-target="#send_sms">Отправить СМС</button></div>
+
+					<div id="send_sms" class="collapse">
+						<div class="form-inline pt10">
+							<?php echo os_draw_form('sms', FILENAME_ORDERS, os_get_all_get_params(array('action')).'action=send_sms', 'post', 'id="sms"'); ?>
+							<div class="control-group">
+								<label class="control-label" for="sms_text">Текст СМС</label>
+								<div class="controls">
+									<?php echo $cartet->html->textarea('sms_text', '', array('id' => 'sms_text', 'class' => 'input-block-level', 'rows' => '2')); ?>
+								</div>
+							</div>
+							<div class="control-group">
+								<label class="control-label" for="sms_phone">Телефон</label>
+								<div class="controls">
+									<input type="text" class="input-block-level" id="sms_phone" name="sms_phone" value="<?php echo $order->customer['telephone']; ?>" />
+								</div>
+							</div>
+							<div class="control-group">
+								<label class="control-label" for=""></label>
+								<div class="controls">
+									<input type="hidden" name="order_id" value="<?php echo $oID; ?>" />
+									<input class="btn ajax-save-form" data-form-action="order_addSms" data-reload-page="1" type="submit" value="Отправить" />
+								</div>
+							</div>
+							</form>
 						</div>
 					</div>
-					<div class="control-group">
-						<label class="control-label" for=""></label>
-						<div class="controls">
-							<label class="checkbox">
-								<?php echo os_draw_checkbox_field('notify', '', true); ?>
-								<?php echo ENTRY_NOTIFY_CUSTOMER; ?>
-							</label>
-							<label class="checkbox">
-								<?php echo os_draw_checkbox_field('notify_comments', '', true); ?>
-								<?php echo ENTRY_NOTIFY_COMMENTS; ?>
-							</label>
-						</div>
-					</div>
-					<div class="control-group">
-						<label class="control-label" for=""></label>
-						<div class="controls">
-							<input class="btn" type="submit" value="<?php echo BUTTON_UPDATE; ?>" />
-						</div>
-					</div>
-				</form>
+					<?php } ?>
+				</div>
 			</div>
 		</div>
 
-		<div class="page-header">
-			<h1><?php echo TEXT_ORDER_PRODUCTS; ?></h1>
-		</div>
-		<table class="table table-condensed table-big-list nomargin">
-			<thead>
+		<div class="tab-pane" id="tab_products">
+			<table class="table table-condensed table-big-list nomargin">
+				<thead>
 				<tr>
 					<th class="tcenter"><?php echo TABLE_HEADING_QUANTITY_SHORT; ?></th>
 					<th><span class="line"></span><?php echo TABLE_HEADING_PRODUCTS; ?></th>
@@ -668,156 +787,124 @@ $main->top_menu();
 						<th><span class="line"></span><?php echo TABLE_HEADING_PRICE_INCLUDING_TAX; ?></th>
 					<?php } ?>
 					<th class="tright"><span class="line"></span>
-					<?php
+						<?php
 						echo TABLE_HEADING_TOTAL_INCLUDING_TAX;
 						if (isset($i) && isset($order->products[$i]) && $order->products[$i]['allow_tax'] == 1)
 						{
 							echo ' (excl.)';
 						}
-					?>
+						?>
 					</th>
 					<th><span class="line"></span></th>
 				</tr>
-			</thead>
+				</thead>
 
-			<?php foreach($cartet->orders->getProducts($_GET['oID']) AS $product) { ?>
-			<tr>
-				<td class="tcenter"><a href="#" class="ajax_editable" data-action="order_quickChangeProduct" data-name="products_quantity" data-pk="<?php echo $product['orders_products_id']; ?>" data-type="text"><?php echo $product['products_quantity']; ?></a></td>
-				<td>
-					<a href="<?php echo os_href_link(FILENAME_CATEGORIES, 'pID='.$product['products_id'].'&action=new_product'); ?>" target="_blank"><?php echo $product['products_name']; ?></a>
-					<?php
-					//Bundle
-					$products_bundle = '';
-					if ($product['bundle'] == 1)
-					{
-						$bundle_query = getBundleProducts($product['products_id']);
-
-						if (os_db_num_rows($bundle_query) > 0)
-						{
-							while($bundle_data = os_db_fetch_array($bundle_query))
+				<?php foreach($cartet->orders->getProducts($_GET['oID']) AS $product) { ?>
+					<tr>
+						<td class="tcenter"><a href="#" class="ajax_editable" data-action="order_quickChangeProduct" data-name="products_quantity" data-pk="<?php echo $product['orders_products_id']; ?>" data-type="text"><?php echo $product['products_quantity']; ?></a></td>
+						<td>
+							<a href="<?php echo os_href_link(FILENAME_CATEGORIES, 'pID='.$product['products_id'].'&action=new_product'); ?>" target="_blank"><?php echo $product['products_name']; ?></a>
+							<?php
+							//Bundle
+							$products_bundle = '';
+							if ($product['bundle'] == 1)
 							{
-								$products_bundle_data .= '- <a href="'.os_href_link(FILENAME_CATEGORIES, 'pID='.$bundle_data['products_id'].'&action=new_product').'">'.$bundle_data['products_name'].' ('.TEXT_QTY.$bundle_data['products_quantity'].TEXT_UNITS.')</a><br />';
+								$bundle_query = getBundleProducts($product['products_id']);
+
+								if (os_db_num_rows($bundle_query) > 0)
+								{
+									while($bundle_data = os_db_fetch_array($bundle_query))
+									{
+										$products_bundle_data .= '- <a href="'.os_href_link(FILENAME_CATEGORIES, 'pID='.$bundle_data['products_id'].'&action=new_product').'">'.$bundle_data['products_name'].' ('.TEXT_QTY.$bundle_data['products_quantity'].TEXT_UNITS.')</a><br />';
+									}
+								}
+								$products_bundle = (!empty($products_bundle_data)) ? '<div class="bundles-products-block">'.$products_bundle_data.'</div>' : '';
 							}
-						}
-						$products_bundle = (!empty($products_bundle_data)) ? '<div class="bundles-products-block">'.$products_bundle_data.'</div>' : '';
-					}
-					echo $products_bundle;
-					?>
-				</td>
-				<td><a href="#" class="ajax_editable" data-action="order_quickChangeProduct" data-name="products_model" data-pk="<?php echo $product['orders_products_id']; ?>" data-type="text"><?php echo $product['products_model']; ?></a></td>
-				<td><a href="#" class="ajax_editable" data-action="order_quickChangeProduct" data-name="products_shipping_time" data-pk="<?php echo $product['orders_products_id']; ?>" data-type="text"><?php echo $product['products_shipping_time']; ?></a></td>
-				<td><?php echo format_price($product['final_price'] / $product['products_quantity'], 1, $order->info['currency'], isset($product['allow_tax']) ? $product['allow_tax'] : '', $product['products_tax']); ?></td>
-				<?php if (isset($product['allow_tax']) && $product['allow_tax'] == 1) { ?>
-					<td><a href="#" class="ajax_editable" data-action="order_quickChangeProduct" data-name="products_tax" data-pk="<?php echo $product['orders_products_id']; ?>" data-type="text"><?php echo $product['products_tax']; ?></a></td>
-					<td><a href="#" class="ajax_editable" data-action="order_quickChangeProduct" data-name="products_price" data-pk="<?php echo $product['orders_products_id']; ?>" data-type="text"><?php echo $product['products_price']; ?></a></td>
-				<?php } ?>
-				<td class="tright"><a href="#" class="ajax_editable" data-action="order_quickChangeProduct" data-name="final_price" data-pk="<?php echo $product['orders_products_id']; ?>" data-type="text"><?php echo $product['final_price'] ; ?></a></td>
-				<td class="width80px">
-					<div class="btn-group pull-right">	
-						<a class="btn btn-mini ajax-load-page" href="#" data-container="1" data-load-page="orders&o_id=<?php echo $_GET['oID']; ?>&p_id=<?php echo $product['products_id']; ?>&op_id=<?php echo $product['orders_products_id']; ?>&action=edit_attributes" data-toggle="modal"><i class="icon-tasks"></i></a>
-						<a class="btn btn-mini" href="#" data-action="order_deleteProduct" data-remove-parent="tr" data-id="<?php echo $product['orders_products_id']; ?>" data-confirm="Вы уверены, что хотите удалить этот товар?"><i class="icon-trash"></i></a>
-					</div>
-				</td>
-			</tr>
-			<?php if (is_array($product['attributes']) && !empty($product['attributes'])) { ?>
-			<tr>
-				<td colspan="9">
-					<div class="table-big-text">
-					<?php foreach($product['attributes'] AS $attributes) { ?>
-					<span class="label label-gray">
-						<a href="#" data-action="order_deleteAttributes" data-remove-parent="span" data-id="<?php echo $attributes['orders_products_attributes_id']; ?>" data-confirm="Вы уверены, что хотите удалить этот атрибут?"><i class="icon-remove"></i></a> 
-						<?php echo $attributes['products_options']; ?>: <?php echo $attributes['products_options_values']; ?> | 
-						<?php echo $osPrice->Format($attributes['options_values_price'], true); ?>
-						<?php echo ($attributes['attributes_model']) ? '('.$attributes['attributes_model'].')' : ''; ?>
-					</span>
+							echo $products_bundle;
+							?>
+						</td>
+						<td><a href="#" class="ajax_editable" data-action="order_quickChangeProduct" data-name="products_model" data-pk="<?php echo $product['orders_products_id']; ?>" data-type="text"><?php echo $product['products_model']; ?></a></td>
+						<td><a href="#" class="ajax_editable" data-action="order_quickChangeProduct" data-name="products_shipping_time" data-pk="<?php echo $product['orders_products_id']; ?>" data-type="text"><?php echo $product['products_shipping_time']; ?></a></td>
+						<td><?php echo format_price($product['final_price'] / $product['products_quantity'], 1, $order->info['currency'], isset($product['allow_tax']) ? $product['allow_tax'] : '', $product['products_tax']); ?></td>
+						<?php if (isset($product['allow_tax']) && $product['allow_tax'] == 1) { ?>
+							<td><a href="#" class="ajax_editable" data-action="order_quickChangeProduct" data-name="products_tax" data-pk="<?php echo $product['orders_products_id']; ?>" data-type="text"><?php echo $product['products_tax']; ?></a></td>
+							<td><a href="#" class="ajax_editable" data-action="order_quickChangeProduct" data-name="products_price" data-pk="<?php echo $product['orders_products_id']; ?>" data-type="text"><?php echo $product['products_price']; ?></a></td>
+						<?php } ?>
+						<td class="tright"><a href="#" class="ajax_editable" data-action="order_quickChangeProduct" data-name="final_price" data-pk="<?php echo $product['orders_products_id']; ?>" data-type="text"><?php echo $product['final_price'] ; ?></a></td>
+						<td class="width80px">
+							<div class="btn-group pull-right">
+								<a class="btn btn-mini ajax-load-page" href="#" data-container="1" data-load-page="orders&o_id=<?php echo $_GET['oID']; ?>&p_id=<?php echo $product['products_id']; ?>&op_id=<?php echo $product['orders_products_id']; ?>&action=edit_attributes" data-toggle="modal"><i class="icon-tasks"></i></a>
+								<a class="btn btn-mini" href="#" data-action="order_deleteProduct" data-remove-parent="tr" data-id="<?php echo $product['orders_products_id']; ?>" data-confirm="Вы уверены, что хотите удалить этот товар?"><i class="icon-trash"></i></a>
+							</div>
+						</td>
+					</tr>
+					<?php if (is_array($product['attributes']) && !empty($product['attributes'])) { ?>
+						<tr>
+							<td colspan="9">
+								<div class="table-big-text">
+									<?php foreach($product['attributes'] AS $attributes) { ?>
+										<span class="label label-gray">
+											<a href="#" data-action="order_deleteAttributes" data-remove-parent="span" data-id="<?php echo $attributes['orders_products_attributes_id']; ?>" data-confirm="Вы уверены, что хотите удалить этот атрибут?"><i class="icon-remove"></i></a>
+											<?php echo $attributes['products_options']; ?>: <?php echo $attributes['products_options_values']; ?> |
+											<?php echo $osPrice->Format($attributes['options_values_price'], true); ?>
+											<?php echo ($attributes['attributes_model']) ? '('.$attributes['attributes_model'].')' : ''; ?>
+										</span>
+									<?php } ?>
+								</div>
+							</td>
+						</tr>
 					<?php } ?>
-					</div>
-				</td>
-			</tr>
-			<?php } ?>
-			<?php } ?>
-		</table>
-
-		<div class="pt10"><button type="button" class="btn btn-mini btn-info" data-toggle="collapse" data-target="#add_products">Добавить товар</button></div>
-
-		<div id="add_products" class="collapse">
-			<?php
-			//if ($_POST['new_product'])
-			//{
-				//$newProducts = array();
-				//foreach($_POST['new_product'] as $k => $v)
-				//	foreach($v as $item => $value)
-				//		$newProducts[$item][$k] = $value;
-
-					//_print_r($newProducts);
-			//}
-			?>
-			<form method="post" action="" class="pt10">
-
-			<div class="row-fluid">
-				<div class="span6"><input type="text" name="related" id="add_product" class="input_autocomplete" /></div>
-				<div class="span6 tright"><input class="btn" type="submit" value="Добавить товары" /></div>
-			</div>
-
-			<div id="products_app" class="mb20px"></div>
-
-			</form>
-
-			<table class="table table-condensed table-big-list nomargin" id="new_product" style='display:none; text-align:left;'>
-				<tr>
-					<td><a class="product_name" href="" target="_blank"></a></td>
-					<td width="150"><span class="products_model"></span></td>
-					<td width="60">
-						<input type="hidden" name="new_product[products_id][]" value="" />
-						<input type="hidden" name="new_product[orders_id][]" value="<?php echo $oID; ?>" />
-						<input type="hidden" name="new_product[allow_tax][]" value="<?php echo $order->products[0]['allow_tax']; ?>" />
-						<input type="hidden" name="new_product[products_model][]" value="" />
-						<input type="hidden" name="new_product[products_name][]" value="" />
-						<input class="width40px tcenter" type="number" name="new_product[product_qty][]" value="1" />
-					</td>
-					<td width="120"><input class="width100px" type="text" name="new_product[products_price][]" value="" /></td>
-					<td class="width40px tright"><a class="del_new_product" href="javascript:;"><i class="icon-trash"></i></a></td>
-				</tr>
+				<?php } ?>
 			</table>
-		</div>
 
-		<div class="page-header">
-			<h1><?php echo EMAIL_TEXT_INVOICE_URL; ?></h1>
-		</div>
+			<div class="pt10"><button type="button" class="btn btn-mini btn-info" data-toggle="collapse" data-target="#add_products">Добавить товар</button></div>
 
-		<div class="row-fluid">
-			<div class="span6">
-				<h5><?php echo TEXT_ORDER_PAYMENT; ?></h5>
-				<table class="table table-condensed table-big-list nomargin">
+			<div id="add_products" class="collapse">
+				<form method="post" action="" class="pt10">
+
+					<div class="row-fluid">
+						<div class="span6"><input type="text" name="related" id="add_product" class="input_autocomplete" /></div>
+						<div class="span6 tright"><input class="btn" type="submit" value="Добавить товары" /></div>
+					</div>
+
+					<div id="products_app" class="mb20px"></div>
+
+				</form>
+
+				<table class="table table-condensed table-big-list nomargin" id="new_product" style='display:none; text-align:left;'>
 					<tr>
-						<td class="width130px"><strong><?php echo ENTRY_LANGUAGE; ?></strong></td>
-						<td><?php echo isset($order->info['language'])?$order->info['language']:''; ?></td>
+						<td><a class="product_name" href="" target="_blank"></a></td>
+						<td width="150"><span class="products_model"></span></td>
+						<td width="60">
+							<input type="hidden" name="new_product[products_id][]" value="" />
+							<input type="hidden" name="new_product[orders_id][]" value="<?php echo $oID; ?>" />
+							<input type="hidden" name="new_product[allow_tax][]" value="<?php echo $order->products[0]['allow_tax']; ?>" />
+							<input type="hidden" name="new_product[products_model][]" value="" />
+							<input type="hidden" name="new_product[products_name][]" value="" />
+							<input class="width40px tcenter" type="number" name="new_product[product_qty][]" value="1" />
+						</td>
+						<td width="120"><input class="width100px" type="text" name="new_product[products_price][]" value="" /></td>
+						<td class="width40px tright"><a class="del_new_product" href="javascript:;"><i class="icon-trash"></i></a></td>
 					</tr>
-					<tr>
-						<td><strong><?php echo ENTRY_PAYMENT_METHOD; ?></strong></td>
-						<td><?php echo $order_payment_text; ?></td>
-					</tr>
-					<?php if (isset($order->info['shipping_class']) && $order->info['shipping_class'] != '') { ?>          
-					<tr>
-						<td><strong><?php echo ENTRY_SHIPPING_METHOD; ?></strong></td>
-						<td><?php echo $order_shipping_text; ?></td>
-					</tr>
-					<?php } ?>
-				</table>
-			</div>
-			<div class="span6">
-				<h5>Итого</h5>
-				<table class="table table-condensed table-big-list nomargin">
-				<?php foreach ($order->totals as $total) { ?>
-					<tr>
-						<td class="tright"><?php echo $total['title']; ?></td>
-						<td class="tright width130px"><?php echo $total['text']; ?></td>
-					</tr>
-				<?php } ?>
 				</table>
 			</div>
 		</div>
-	</div>     
+		<!-- ПЛАГИНЫ -->
+		<?php
+		if (isset($array['values']) && is_array($array['values']) )
+		{
+			$ip = 0;
+			foreach ($array['values'] as $num => $value)
+			{
+				$ip++;
+				echo '<div class="tab-pane" id="tab_plugin_'.$ip.'">';
+				echo $value['tab_content'];
+				echo '</div>';
+			}
+		}
+		?>
+		<!-- /ПЛАГИНЫ -->
+	</div>
 
 <?php } else { ?>
 
