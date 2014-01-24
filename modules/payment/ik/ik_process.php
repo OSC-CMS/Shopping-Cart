@@ -60,9 +60,10 @@ if ($ik_sign === $sign && $ik_inv_st == 'success')
 {
 	// данные заказа
 	$order = new order((int)$ik_pm_no);
+	$ikCurrency = (MODULE_PAYMENT_IK_CURRENCY == 'RUB') ? 'RUR' : MODULE_PAYMENT_IK_CURRENCY;
 
 	global $osPrice;
-	$orderTotal = number_format($osPrice->CalculateCurrEx($order->info['total'], MODULE_PAYMENT_IK_CURRENCY), 2, '.', '');
+	$orderTotal = number_format($osPrice->CalculateCurrEx($order->info['total'], $ikCurrency), 2, '.', '');
 
 	// Проверяем стоимость
 	if($ik_am != $orderTotal OR $ik_am <= 0)
