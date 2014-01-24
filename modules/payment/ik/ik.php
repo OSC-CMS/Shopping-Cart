@@ -162,7 +162,7 @@ class ik extends CartET
 			'ik_am' => $TotalAmount, // Сумма платежа
 			'ik_pm_no' => $OrderID, // Номер заказа
 			'ik_desc' => 'Order-'.$OrderID, // Описание платежа
-			'ik_cur' => $ikCurrency, // Валюта платежа
+			'ik_cur' => MODULE_PAYMENT_IK_CURRENCY, // Валюта платежа
 			'ik_co_id' => MODULE_PAYMENT_IK_CO_ID, // Идентификатор кассы
 		);
 
