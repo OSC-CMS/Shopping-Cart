@@ -23,6 +23,7 @@ os_db_query("ALTER TABLE `".DB_PREFIX."admin_access` DROP create_account");
 os_db_query("ALTER TABLE `".DB_PREFIX."admin_access` DROP cache");
 
 os_db_query("ALTER TABLE ".DB_PREFIX."admin_access ADD sms int(1) NOT NULL default '1';");
+os_db_query("ALTER TABLE ".DB_PREFIX."admin_access ADD menu int(1) NOT NULL default '1';");
 os_db_query("ALTER TABLE ".DB_PREFIX."admin_access ADD cartet int(1) NOT NULL default '1';");
 os_db_query("ALTER TABLE ".DB_PREFIX."admin_access ADD `update` int(1) NOT NULL default '1';");
 
