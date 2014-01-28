@@ -414,10 +414,6 @@ define('TEXT_DISPLAY_NUMBER_OF_ARTICLES', 'Показано <b>%d</b> - <b>%d</b
 define('TEXT_DISPLAY_NUMBER_OF_ARTICLES_NEW', 'Показано <b>%d</b> - <b>%d</b> (всего <b>%d</b> новых статей)');
 define('NAVBAR_TITLE_DEFAULT', 'Статьи');
 
-define('MODULE_PAYMENT_SCHET_PRINT','Распечатать счёт для оплаты');
-define('MODULE_PAYMENT_PACKINGSLIP_PRINT','Распечатать накладную');
-define('MODULE_PAYMENT_KVITANCIA_PRINT','Распечатать квитанцию для оплаты');
-
 define('ENTRY_CAPTCHA_ERROR','Вы указали неправильный код картинки.');
 
 define('TEXT_FIRST_REVIEW','Ваш отзыв может быть первым.');

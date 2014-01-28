@@ -70,22 +70,6 @@ if (is_array($array['link']) && !empty($array['link']))
 }
 // фильтр кнопок печати
 
-if ($order->info['payment_method'] == 'kvitancia') {
- $_array = array('img' => 'button_print_kvitancia.gif', 
- 'href' => os_href_link(FILENAME_PRINT_KVITANCIA, 'oID='.(int)$_GET['order_id']), 
- 'alt' => MODULE_PAYMENT_KVITANCIA_PRINT, 
- 'code' => '');
-	
-	$_array = apply_filter('button_print_kvitancia', $_array);
-	
-	if (empty($_array['code']))
-	{
-	   $_array['code'] = '<img alt="' . $_array['alt'] . '" src="'.'themes/'.CURRENT_TEMPLATE.'/buttons/'.$_SESSION['language'].'/'.$_array['img'].'" style="cursor:pointer" onclick="window.open(\''.$_array['href'].'\', \'popup\', \'toolbar=0, scrollbars=yes, width=640, height=600\')" />';
-	}
-	
-$osTemplate->assign('BUTTON_KVITANCIA_PRINT', $_array['code']);
-}
-
 $osTemplate->assign('ORDER_NUMBER', (int)$_GET['order_id']);
 $osTemplate->assign('ORDER_DATE', os_date_long($order->info['date_purchased']));
 $osTemplate->assign('ORDER_STATUS', $order->info['orders_status']);
@@ -93,17 +77,6 @@ $osTemplate->assign('BILLING_LABEL', os_address_format($order->billing['format_i
 $osTemplate->assign('PRODUCTS_EDIT', os_href_link(FILENAME_SHOPPING_CART, '', 'SSL'));
 $osTemplate->assign('SHIPPING_ADDRESS_EDIT', os_href_link(FILENAME_CHECKOUT_SHIPPING_ADDRESS, '', 'SSL'));
 $osTemplate->assign('BILLING_ADDRESS_EDIT', os_href_link(FILENAME_CHECKOUT_PAYMENT_ADDRESS, '', 'SSL'));
-
-    $_array = array('img' => 'button_print.gif', 'href' => os_href_link(FILENAME_PRINT_ORDER, 'oID='.(int)$_GET['order_id']), 'alt' => IMAGE_BUTTON_PRINT, 'code' => '');
-	
-	   $_array = apply_filter('button_print', $_array);	
-	
-	   if (empty($_array['code']))
- 	   {
-	       $_array['code'] =  '<a style="cursor:pointer" onclick="javascript:window.open(\''.$_array['href'].'\', \'popup\', \'toolbar=0, scrollbars=yes, width=640, height=600\')"><img src="'.'themes/'.CURRENT_TEMPLATE.'/buttons/'.$_SESSION['language'].'/'.$_array['img'].'" alt="' . $_array['alt'] . '" /></a>';
-	   }
-	   
-$osTemplate->assign('BUTTON_PRINT', $_array['code']);
 
 $from_history = preg_match("/page=/i", os_get_all_get_params()); // referer from account_history yes/no
 $back_to = $from_history ? FILENAME_ACCOUNT_HISTORY : FILENAME_ACCOUNT; // if from account_history => return to account_history

@@ -79,7 +79,6 @@ define('FILENAME_EDIT_PRODUCTS', 'admin/categories.php');
 define('FILENAME_GRADUATED_PRICE', 'graduated_prices.php');
 
 define('FILENAME_PRINT_PRODUCT_INFO', 'print_product_info.php');
-define('FILENAME_PRINT_ORDER', 'print_order.php');
 
 define('FILENAME_ERROR_HANDLER', 'error_handler.php');
 define('FILENAME_CONTENT', 'shop_content.php');
@@ -96,9 +95,6 @@ define('FILENAME_ARTICLE_INFO', 'article_info.php');
 define('FILENAME_ARTICLES', 'articles.php');
 define('FILENAME_ARTICLES_NEW', 'articles_new.php');
 define('FILENAME_ARTICLES_XSELL', 'articles_xsell.php');
-
-define('FILENAME_PRINT_SCHET', 'schet.php');
-define('FILENAME_PRINT_KVITANCIA', 'kvitancia.php');
 
 define('FILENAME_ASK_PRODUCT_QUESTION', 'ask_a_question.php');
 

@@ -81,11 +81,11 @@
 		</div>
 		{/if}
 		<div class="sub-block">
-			<h3 class="bold">{#title_print#}</h3>
-			<p>{#text_print#}</p>
-			<p>{$BUTTON_PRINT} {$BUTTON_SCHET_PRINT} {$BUTTON_KVITANCIA_PRINT}</p>
+
 			<p>
 				{if $filterPrint}
+					<h3 class="bold">{#title_print#}</h3>
+					{#text_print#}<br />
 					{foreach $filterPrint as $link}
 						<a class="btn" href="Javascript:void()" onclick="window.open('{$link.href}', 'popup', 'toolbar=0, width=640, height=600')">{$link.name}</a>
 					{/foreach}

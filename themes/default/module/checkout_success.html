@@ -22,15 +22,13 @@
 
 {$FORM_ACTION}
 
-<p><h3>{#text_printorder#}</h3></p>
-<p>{$BUTTON_PRINT} {$BUTTON_SCHET_PRINT} {$BUTTON_KVITANCIA_PRINT}</p>
-
 <p>
-{if $filterPrint}
-    {foreach $filterPrint as $link}
-	<a class="btn" href="Javascript:void()" onclick="window.open('{$link.href}', 'popup', 'toolbar=0, width=640, height=600')">{$link.name}</a>
-    {/foreach}
-{/if}
+	<h3>{#text_printorder#}</h3>
+	{if $filterPrint}
+	    {foreach $filterPrint as $link}
+		<a class="btn" href="Javascript:void()" onclick="window.open('{$link.href}', 'popup', 'toolbar=0, width=640, height=600')">{$link.name}</a>
+	    {/foreach}
+	{/if}
 </p>
 
 {if $GV_SEND_LINK}

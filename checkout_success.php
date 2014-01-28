@@ -37,18 +37,6 @@ $order_status = $orders['orders_status'];
 $osTemplate->assign('FORM_ACTION', os_draw_form('order', os_href_link(FILENAME_CHECKOUT_SUCCESS, 'action=update', 'SSL')));
 $osTemplate->assign('BUTTON_CONTINUE', button_continue_submit());
 
-       $_array = array('img' => 'button_print.gif', 'href' => os_href_link(FILENAME_PRINT_ORDER, 'oID='.$orders['orders_id']), 'alt' => IMAGE_BUTTON_PRINT, 'code' => '');
-	
-	   $_array = apply_filter('button_print', $_array);	
-	
-	   if (empty($_array['code']))
- 	   {
-	       $_array['code'] =  '<img src="'.'themes/'.CURRENT_TEMPLATE.'/buttons/'.$_SESSION['language'].'/'.$_array['img'].'" style="cursor:pointer" onclick="window.open(\''.$_array['href'].'\', \'popup\', \'toolbar=0, scrollbars=yes, width=640, height=600\')" />';
-	   }
-	     
-$osTemplate->assign('BUTTON_PRINT', $_array['code']);
-
-
 $osTemplate->assign('FORM_END', '</form>');
 $gv_query = os_db_query("select amount from ".TABLE_COUPON_GV_CUSTOMER." where customer_id='".$_SESSION['customer_id']."'");
 if ($gv_result = os_db_fetch_array($gv_query)) {
@@ -70,24 +58,6 @@ if (is_array($array['link']) && !empty($array['link']))
 	$osTemplate->assign('filterPrint', $array['link']);
 }
 // фильтр кнопок печати
-
-if ($order->info['payment_method'] == 'kvitancia') 
-{
-
- $_array = array('img' => 'button_print_kvitancia.gif', 
- 'href' => os_href_link(FILENAME_PRINT_KVITANCIA, 'oID='.$orders['orders_id']), 
- 'alt' => MODULE_PAYMENT_KVITANCIA_PRINT, 
- 'code' => '');
-	
-	$_array = apply_filter('button_print_kvitancia', $_array);
-	
-	if (empty($_array['code']))
-	{
-	   $_array['code'] = '<img alt="' . $_array['alt'] . '" src="'.'themes/'.CURRENT_TEMPLATE.'/buttons/'.$_SESSION['language'].'/'.$_array['img'].'" style="cursor:pointer" onclick="window.open(\''.$_array['href'].'\', \'popup\', \'toolbar=0, scrollbars=yes, width=640, height=600\')" />';
-	}
-	
-$osTemplate->assign('BUTTON_KVITANCIA_PRINT', $_array['code']);
-}
 
 do_action('checkout_success');
 
