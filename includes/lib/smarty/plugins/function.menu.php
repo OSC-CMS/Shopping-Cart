@@ -12,7 +12,7 @@ function smarty_function_menu($group)
 {
 	global $cartet;
 
-	$menu = $cartet->menu->getByGroupId(array('group_id' => $group['id']));
+	$menu = $cartet->menu->getByGroupId(array('group_id' => $group['id'], 'status' => true));
 	if ($menu)
 	{
 		foreach ($menu as $row)
