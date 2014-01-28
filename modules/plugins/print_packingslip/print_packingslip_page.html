@@ -1,0 +1,100 @@
+{config_load file="$language/lang.conf" section="print_order"}
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html>
+<head>
+	<title>{#title#} {$oID}</title>
+	<meta http-equiv="Content-Type" content="text/html; charset={$charset}">
+</head>
+
+<body onload="window.print()">
+<table width="100%" border="0">
+	<tr>
+		<td><table width="100%" border="0" cellpadding="0" cellspacing="0">
+			<tr>
+				<td><font size="1" face="Verdana, Arial, Helvetica, sans-serif">{$address_label_customer}<br />
+					<br />
+					{if $csID}<strong>{#csID#}</strong>{$csID}<br />{/if}
+					<strong>{#payment#}</strong> {$PAYMENT_METHOD}<br />
+					{if $SHIPPING_METHOD}<strong>{#shipping#}</strong> {$SHIPPING_METHOD}<br />{/if}
+					<strong>{#order#}</strong> {$oID}<br />
+					<strong>{#date#}</strong> {$DATE}<br />
+					<strong>{#phone#}</strong> {$phone}<br />
+					<strong>{#email#}</strong> {$email}<br />
+				</font></td>
+				<td width="1"><img src="{$logo_path}logo.gif"></td>
+			</tr>
+		</table>
+			<br />
+			<table style="border-top:1px solid; border-bottom:1px solid;" width="100%" border="0">
+				<tr bgcolor="#f1f1f1">
+					<td width="50%">
+						<p><font size="1" face="Verdana, Arial, Helvetica, sans-serif"><strong>
+							{#shipping_address#}
+						</strong><br />
+						</font></p></td>
+					<td>
+						<p><font size="1" face="Verdana, Arial, Helvetica, sans-serif"><strong>              </strong><strong>
+							{if $address_label_payment}{#payment_address#}{/if}
+						</strong><br />
+						</font> </p></td>
+				</tr>
+				<tr>
+					<td><font size="1" face="Verdana, Arial, Helvetica, sans-serif">            {$address_label_shipping}
+					</font></td>
+					<td><font size="1" face="Verdana, Arial, Helvetica, sans-serif">
+						{$address_label_payment}
+					</font></td>
+				</tr>
+			</table>
+			<p> </p></td>
+	</tr>
+</table>
+<table style="border-bottom:1px solid;" width="100%" border="0" cellpadding="0" cellspacing="0">
+	<tr>
+		<td><font size="1" face="Verdana, Arial, Helvetica, sans-serif"><strong>{#heading_products#}</strong></font></td>
+	</tr>
+	<tr>
+		<td>
+			<table width="100%" border="0" cellpadding="3" cellspacing="0" bgcolor="f1f1f1">
+				<tr>
+					<td><strong>№</strong></td>
+					<td><strong>{#head_artnr#}</strong></td>
+					<td><strong>{#head_products#}</strong></td>
+					<td><strong>{#head_units#}</strong></td>
+					<td><strong>Ед.</strong></td>
+					<td><strong>Цена</strong></td>
+					<td><strong>Сумма</strong></td>
+				</tr>
+				{foreach $order_data AS $o}
+				<tr>
+					<td>{counter}.</td>
+					<td>{$o.products_model}</td>
+					<td>
+						{$o.products_name}<br />
+						{if $o.attributes}
+						{foreach $o.attributes AS $a}
+						- {$a.products_options}: {$a.products_options_values}{if $a.attributes_model} ({$a.attributes_model}){/if}<br />
+						{/foreach}
+						{/if}
+					</td>
+					<td>{$o.products_quantity}</td>
+					<td>шт.</td>
+					<td>{$o.products_price|string_format:"%01.2f"}</td>
+					<td>{$o.final_price|string_format:"%01.2f"}</td>
+				</tr>
+				{/foreach}
+			</table>
+		</td>
+	</tr>
+</table>
+<table border="0" width="100%" cellpadding="1" cellspacing="1">
+	{foreach $order_total AS $o}
+	<tr>
+		<td style="font-weight:bold;text-align:right;">{$o.title}</td>
+		<td style="width:27mm;font-weight:bold;text-align:right;">{$o.value|string_format:"%01.2f"}</td>
+	</tr>
+	{/foreach}
+</table>
+
+</body>
+</html>
