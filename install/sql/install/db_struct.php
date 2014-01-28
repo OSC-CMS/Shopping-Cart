@@ -354,8 +354,6 @@ os_db_query("CREATE TABLE `".DB_PREFIX."admin_access` (
   `customers_status` int(1) NOT NULL DEFAULT '0',
   `orders` int(1) NOT NULL DEFAULT '0',
   `campaigns` int(1) NOT NULL DEFAULT '0',
-  `print_packingslip` int(1) NOT NULL DEFAULT '0',
-  `print_order` int(1) NOT NULL DEFAULT '0',
   `menu` int(1) NOT NULL DEFAULT '0',
   `coupon_admin` int(1) NOT NULL DEFAULT '0',
   `gv_queue` int(1) NOT NULL DEFAULT '0',
