@@ -71,8 +71,7 @@ $products_image = dir_path('images_thumbnail').$reviews['products_image'];
 if (!is_file($products_image)) $products_image = http_path('images_thumbnail').'../noimage.gif';
 else $products_image = http_path('images_thumbnail').$reviews['products_image'];
 
-$image = os_image($products_image, $reviews['products_name'], '', '', 'hspace="5" vspace="5"');
-$osTemplate->assign('IMAGE', $image);
+$osTemplate->assign('IMAGE', $products_image);
 
 $osTemplate->assign('language', $_SESSION['language']);
 
