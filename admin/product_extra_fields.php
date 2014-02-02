@@ -319,7 +319,11 @@ if (os_db_num_rows($getGroupsQuery) > 0)
 				</tr>
 			</thead>
 		<?php
-		$products_extra_fields_query = os_db_query("SELECT * FROM ".TABLE_PRODUCTS_EXTRA_FIELDS." ORDER BY products_extra_fields_order");
+		$products_extra_fields_query_raw = "select * from ".TABLE_PRODUCTS_EXTRA_FIELDS." order by products_extra_fields_order";
+
+		$products_extra_fields_split = new splitPageResults($_GET['page'], MAX_DISPLAY_ADMIN_PAGE, $products_extra_fields_query_raw, $customers_status_query_numrows);
+		$products_extra_fields_query = os_db_query($products_extra_fields_query_raw);
+
 		while ($extra_fields = os_db_fetch_array($products_extra_fields_query)) {
 		?>
 		<tr>
@@ -338,7 +342,6 @@ if (os_db_num_rows($getGroupsQuery) > 0)
 		</tr>
 		<?php } ?>
 		</table>
-
 		<hr>
 		<div class="tcenter footer-btn">
 			<input class="btn btn-success" type="submit" value="<?php echo BUTTON_UPDATE; ?>" />
@@ -346,7 +349,7 @@ if (os_db_num_rows($getGroupsQuery) > 0)
 		</div>
 
 	</form>
-
+	<?php echo $products_extra_fields_split->display_links($customers_status_query_numrows, MAX_DISPLAY_ADMIN_PAGE, MAX_DISPLAY_PAGE_LINKS, $_GET['page']); ?>
 <?php } ?>
 
 <?php $main->bottom(); ?>
