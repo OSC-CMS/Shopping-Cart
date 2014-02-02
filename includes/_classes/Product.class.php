@@ -26,7 +26,7 @@ class apiProduct extends CartET
    
 		if (os_db_num_rows($manufacturers_query, true) > 0)
 		{
-			$result = os_db_fetch_array($manufacturers_query);
+			$result = os_db_fetch_array($manufacturers_query, true);
 
 			if (os_not_null($result['manufacturers_image']))
 				$image = http_path('images').'manufacturers/'.$result['manufacturers_image'];
@@ -70,7 +70,7 @@ class apiProduct extends CartET
 		$efResult = array();
 		if (os_db_num_rows($extra_fields_query, true) > 0)
 		{
-			while ($extra_fields = os_db_fetch_array($extra_fields_query))
+			while ($extra_fields = os_db_fetch_array($extra_fields_query, true))
 			{
 				$extra_fields_data[$extra_fields['products_extra_fields_group']][] = array(
 					'NAME' => $extra_fields['name'],
@@ -92,7 +92,7 @@ class apiProduct extends CartET
 
 			if (os_db_num_rows($groupsDescQuery, true) > 0)
 			{
-				while ($groups = os_db_fetch_array($groupsDescQuery))
+				while ($groups = os_db_fetch_array($groupsDescQuery, true))
 				{
 					$groupDescEdit[$groups['extra_fields_groups_id']] = $groups;
 				}
