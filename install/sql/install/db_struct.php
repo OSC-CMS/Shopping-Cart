@@ -758,6 +758,7 @@ os_db_query("CREATE TABLE ".DB_PREFIX."latest_news (
    language int(11) NOT NULL default '1',
    status tinyint(1) NOT NULL default '0',
    news_page_url varchar(255) NOT NULL,
+   news_image varchar(255) NOT NULL default '',
    PRIMARY KEY (news_id)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE utf8_general_ci;");
 
