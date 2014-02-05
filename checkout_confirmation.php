@@ -330,7 +330,7 @@ if (DISPLAY_REVOCATION_ON_CHECKOUT == 'true')
 	$osTemplate->assign('AGB_LINK', $main->getContentLink(3, MORE_INFO));
 }
 
-do_action('send_order');
+do_action('checkout_confirmation');
 
 $osTemplate->assign('language', $_SESSION['language']);
 $osTemplate->caching = 0;

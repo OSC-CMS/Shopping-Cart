@@ -210,6 +210,8 @@ if (DISPLAY_CONDITIONS_ON_CHECKOUT == 'true')
 	// LUUPAY END
 }
 
+do_action('checkout_payment');
+
 $osTemplate->assign('language', $_SESSION['language']);
 $osTemplate->assign('PAYMENT_BLOCK', $payment_block);
 $osTemplate->caching = 0;

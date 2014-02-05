@@ -278,6 +278,8 @@ if (os_count_shipping_modules() > 0)
 	$shipping_block = $module->fetch(CURRENT_TEMPLATE.'/module/checkout_shipping_block.html');
 }
 
+do_action('checkout_shipping');
+
 $osTemplate->assign('language', $_SESSION['language']);
 $osTemplate->assign('SHIPPING_BLOCK', $shipping_block);
 $osTemplate->caching = 0;
