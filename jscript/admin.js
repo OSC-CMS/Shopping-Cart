@@ -186,7 +186,7 @@ function SwitchCheck ()
     for (var i = 0; i < len; i++) 
     {
       var e = maf.elements[i];
-      if (e.name == "plugins[]" || e.name == "access[]" || e.name == "multi_categories[]" || e.name == "multi_orders[]" || e.name == "groups[]")
+      if (e.name == "multi_products[]" || e.name == "plugins[]" || e.name == "access[]" || e.name == "multi_categories[]" || e.name == "multi_orders[]" || e.name == "groups[]")
       {
           if (e.checked == true) {
               e.checked = false;
@@ -323,21 +323,21 @@ $(document).ready(function()
 		$(this).tab('show');
 	});
 
-	$(':checkbox').live('click', function(event) {
-		$(this).parents('tr').toggleClass("selected-tr");
-	});
-	$('.selectAllCheckbox').click(function() {
+	$('.selectAllCheckbox').on('click', function() {
 		$('.table-big-list tr').toggleClass("selected-tr");
 	});
-	$('.selectAllCheckboxProducts').click(function() {
+	$('.selectAllCheckboxProducts').on('click', function() {
 		$('.products_tr').toggleClass("selected-tr");
 	});
-	$('.selectAllCheckboxCategories').click(function() {
+	$('.selectAllCheckboxCategories').on('click', function() {
 		$('.categories_tr').toggleClass("selected-tr");
+	});
+	$(':checkbox').on('click', function() {
+		$(this).parents('tr').toggleClass("selected-tr");
 	});
 
 	$('.btn-disabled').attr('disabled', 'disabled');
-	$('[type="checkbox"]').click(function() {
+	$('[type="checkbox"]').on('click', function() {
 		if ($('[type="checkbox"]:checked').length) {
 			$('.btn-disabled').removeAttr('disabled');
 		} else {

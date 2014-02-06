@@ -623,39 +623,42 @@ $main->top_menu();
 						</tr>
 						</thead>
 						<?php
-						foreach($aContent[$lang['languages_id']] AS $c)
+						if (is_array($aContent[$lang['languages_id']]))
 						{
-							?>
-							<tr>
-								<td><?php echo $c['content_id']; ?></td>
-								<td><?php echo $c['content_title']; ?>
-									<?php
-									if ($c['content_delete'] == '0'){
-										echo ' <span class="input-required">*</span>';
-									} ?>
-								</td>
-								<td><?php echo $c['content_group']; ?></td>
-								<td><?php echo $c['sort_order']; ?>&nbsp;</td>
-								<td>
-									<a href="#" class="ae_select" data-type="select" data-value="<?php echo $c['content_file']; ?>" data-pk="<?php echo $c['content_id']; ?>" data-url="content_changeFile_get" data-action="content_getFiles" data-original-title="<?php echo TABLE_HEADING_CONTENT_FILE; ?>"><?php echo $c['content_file']; ?></a>
-								</td>
-								<td>
-									<?php
-									echo '<a '.(($c['content_status'] == 1) ? '' : 'style="display:none;"').' href="javascript:;" class="ajax-change-status status_'.$c['content_id'].'_0_content_status" data-column="content_status" data-action="content_status" data-id="'.$c['content_id'].'" data-status="0" data-show-status="1" title="'.IMAGE_ICON_STATUS_RED_LIGHT.'"><i class="icon-ok"></i></a>';
-									echo '<a '.(($c['content_status'] == 0) ? '' : 'style="display:none;"').' href="javascript:;" class="ajax-change-status status_'.$c['content_id'].'_1_content_status" data-column="content_status" data-action="content_status" data-id="'.$c['content_id'].'" data-status="1" data-show-status="0" title="'.IMAGE_ICON_STATUS_GREEN_LIGHT.'"><i class="icon-remove"></i></a>';
-									?>
-								</td>
-								<td><a href="#" class="ae_select" data-type="select" data-value="<?php echo $c['file_flag']; ?>" data-pk="<?php echo $c['content_id']; ?>" data-url="content_changeFlag_get" data-action="content_getFlags" data-original-title="<?php echo TABLE_HEADING_CONTENT_BOX; ?>"><?php echo $c['file_flag_name']; ?></a></td>
-								<td width="100">
-									<div class="btn-group pull-right">
-										<a class="btn btn-mini" href="#" onClick="javascript:window.open('<?php echo os_href_link(FILENAME_CONTENT_PREVIEW,'coID='.$c['content_id']); ?>', 'popup', 'toolbar=0, width=640, height=600')" title="<?php echo TEXT_PREVIEW; ?>"><i class="icon-eye-open"></i></a>
-										<a class="btn btn-mini" href="<?php echo os_href_link(FILENAME_CONTENT_MANAGER, 'action=edit&coID='.$c['content_id']); ?>" title="<?php echo BUTTON_EDIT; ?>"><i class="icon-edit"></i></a>
-										<?php if ($c['content_delete']=='1') { ?>
-											<a class="btn btn-mini" href="#" data-action="content_delete" data-remove-parent="tr" data-id="<?php echo $c['content_id']; ?>" data-confirm="<?php echo CONFIRM_DELETE; ?>" title="<?php echo BUTTON_DELETE; ?>"><i class="icon-trash"></i></a>
-										<?php } ?>
-									</div>
-								</td>
-							</tr>
+							foreach($aContent[$lang['languages_id']] AS $c)
+							{
+								?>
+								<tr>
+									<td><?php echo $c['content_id']; ?></td>
+									<td><?php echo $c['content_title']; ?>
+										<?php
+										if ($c['content_delete'] == '0'){
+											echo ' <span class="input-required">*</span>';
+										} ?>
+									</td>
+									<td><?php echo $c['content_group']; ?></td>
+									<td><?php echo $c['sort_order']; ?>&nbsp;</td>
+									<td>
+										<a href="#" class="ae_select" data-type="select" data-value="<?php echo $c['content_file']; ?>" data-pk="<?php echo $c['content_id']; ?>" data-url="content_changeFile_get" data-action="content_getFiles" data-original-title="<?php echo TABLE_HEADING_CONTENT_FILE; ?>"><?php echo $c['content_file']; ?></a>
+									</td>
+									<td>
+										<?php
+										echo '<a '.(($c['content_status'] == 1) ? '' : 'style="display:none;"').' href="javascript:;" class="ajax-change-status status_'.$c['content_id'].'_0_content_status" data-column="content_status" data-action="content_status" data-id="'.$c['content_id'].'" data-status="0" data-show-status="1" title="'.IMAGE_ICON_STATUS_RED_LIGHT.'"><i class="icon-ok"></i></a>';
+										echo '<a '.(($c['content_status'] == 0) ? '' : 'style="display:none;"').' href="javascript:;" class="ajax-change-status status_'.$c['content_id'].'_1_content_status" data-column="content_status" data-action="content_status" data-id="'.$c['content_id'].'" data-status="1" data-show-status="0" title="'.IMAGE_ICON_STATUS_GREEN_LIGHT.'"><i class="icon-remove"></i></a>';
+										?>
+									</td>
+									<td><a href="#" class="ae_select" data-type="select" data-value="<?php echo $c['file_flag']; ?>" data-pk="<?php echo $c['content_id']; ?>" data-url="content_changeFlag_get" data-action="content_getFlags" data-original-title="<?php echo TABLE_HEADING_CONTENT_BOX; ?>"><?php echo $c['file_flag_name']; ?></a></td>
+									<td width="100">
+										<div class="btn-group pull-right">
+											<a class="btn btn-mini" href="#" onClick="javascript:window.open('<?php echo os_href_link(FILENAME_CONTENT_PREVIEW,'coID='.$c['content_id']); ?>', 'popup', 'toolbar=0, width=640, height=600')" title="<?php echo TEXT_PREVIEW; ?>"><i class="icon-eye-open"></i></a>
+											<a class="btn btn-mini" href="<?php echo os_href_link(FILENAME_CONTENT_MANAGER, 'action=edit&coID='.$c['content_id']); ?>" title="<?php echo BUTTON_EDIT; ?>"><i class="icon-edit"></i></a>
+											<?php if ($c['content_delete']=='1') { ?>
+												<a class="btn btn-mini" href="#" data-action="content_delete" data-remove-parent="tr" data-id="<?php echo $c['content_id']; ?>" data-confirm="<?php echo CONFIRM_DELETE; ?>" title="<?php echo BUTTON_DELETE; ?>"><i class="icon-trash"></i></a>
+											<?php } ?>
+										</div>
+									</td>
+								</tr>
+							<?php } ?>
 						<?php } ?>
 					</table>
 				</div>
