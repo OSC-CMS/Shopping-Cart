@@ -735,64 +735,46 @@ $avatar = http_path('images').'avatars/'.$avatarImg;
 	</div>
 </div>
 
-
-<table class="table table-condensed table-big-list">
-	<thead>
-		<tr>
-			<th><?php echo TABLE_HEADING_ACCOUNT_TYPE; ?></th>
-			<th><span class="line"></span><?php echo TABLE_HEADING_LASTNAME.os_sorting(FILENAME_CUSTOMERS,'customers_lastname'); ?></th>
-			<th><span class="line"></span><?php echo TABLE_HEADING_FIRSTNAME.os_sorting(FILENAME_CUSTOMERS,'customers_firstname'); ?></th>
-			<th><span class="line"></span><?php echo TEXT_INFO_COUNTRY; ?></th>
-			<th><span class="line"></span><?php echo TEXT_INFO_NUMBER_OF_REVIEWS; ?></th>
-			<th><span class="line"></span><?php echo HEADING_TITLE_STATUS; ?></th>
-			<?php if (ACCOUNT_COMPANY_VAT_CHECK == 'true') {?>
-			<th><span class="line"></span><?php echo HEADING_TITLE_VAT; ?></th>
-			<?php } ?>
-			<th><span class="line"></span><?php echo TABLE_HEADING_ACCOUNT_CREATED.os_sorting(FILENAME_CUSTOMERS,'date_account_created'); ?></th>
-			<th class="tright"><span class="line"></span><?php echo TABLE_HEADING_ACTION; ?></th>
-		</tr>
-	</thead>
 <?php
-
 $search = '';
-if ((isset($_GET['search'])) && (os_not_null($_GET['search']))) 
+if ((isset($_GET['search'])) && (os_not_null($_GET['search'])))
 {
 	$keywords = os_db_input(os_db_prepare_input($_GET['search']));
 	$search = "and (c.customers_lastname like '%".$keywords."%' or c.customers_firstname like '%".$keywords."%' or c.customers_email_address like '%".$keywords."%' or c.customers_telephone like '%".$keywords."%')";
 }
 
-if (isset($_GET['status']) && ($_GET['status'] != '100' or $_GET['status'] == '0')) 
+if (isset($_GET['status']) && ($_GET['status'] != '100' or $_GET['status'] == '0'))
 {
 	$search = "and c.customers_status = '".(int)$_GET['status']."'";
 }
 
-if (isset($_GET['sorting'])) 
+if (isset($_GET['sorting']))
 {
 	switch ($_GET['sorting'])
 	{
 		case 'customers_firstname' :
 			$sort = 'order by c.customers_firstname';
-		break;
+			break;
 
 		case 'customers_firstname-desc' :
 			$sort = 'order by c.customers_firstname DESC';
-		break;
+			break;
 
 		case 'customers_lastname' :
 			$sort = 'order by c.customers_lastname';
-		break;
+			break;
 
 		case 'customers_lastname-desc' :
 			$sort = 'order by c.customers_lastname DESC';
-		break;
+			break;
 
 		case 'date_account_created' :
 			$sort = 'order by ci.customers_info_date_account_created';
-		break;
+			break;
 
 		case 'date_account_created-desc' :
 			$sort = 'order by ci.customers_info_date_account_created DESC';
-		break;
+			break;
 	}
 }
 else
@@ -801,7 +783,7 @@ else
 		$sort = '';
 }
 
-$customers_query_raw = "select c.account_type, c.customers_id, c.customers_vat_id, c.customers_vat_id_status, c.customers_lastname, c.customers_firstname, c.customers_secondname, c.customers_email_address, a.entry_country_id, c.customers_status, c.member_flag, ci.customers_info_date_account_created from ".TABLE_CUSTOMERS." c , ".TABLE_ADDRESS_BOOK." a, ".TABLE_CUSTOMERS_INFO." ci WHERE c.customers_id = a.customers_id and c.customers_default_address_id = a.address_book_id and ci.customers_info_id = c.customers_id ".$search." group by c.customers_id ".$sort;
+$customers_query_raw = "select * from ".TABLE_CUSTOMERS." c , ".TABLE_ADDRESS_BOOK." a, ".TABLE_CUSTOMERS_INFO." ci WHERE c.customers_id = a.customers_id and c.customers_default_address_id = a.address_book_id and ci.customers_info_id = c.customers_id ".$search." group by c.customers_id ".$sort;
 
 $customers_split = new splitPageResults($_GET['page'], MAX_DISPLAY_ADMIN_PAGE, $customers_query_raw, $customers_query_numrows);
 $customers_query = os_db_query($customers_query_raw);
@@ -831,7 +813,38 @@ while ($reviews = os_db_fetch_array($reviews_query))
 {
 	$aReviewsCount[$reviews['customers_id']] = $reviews['number_of_reviews'];
 }
+?>
 
+<table class="table table-condensed table-big-list">
+	<thead>
+		<tr>
+			<th><?php echo TABLE_HEADING_ACCOUNT_TYPE; ?></th>
+			<th><span class="line"></span><?php echo TABLE_HEADING_LASTNAME.os_sorting(FILENAME_CUSTOMERS,'customers_lastname'); ?></th>
+			<th><span class="line"></span><?php echo TABLE_HEADING_FIRSTNAME.os_sorting(FILENAME_CUSTOMERS,'customers_firstname'); ?></th>
+			<th><span class="line"></span><?php echo TEXT_INFO_COUNTRY; ?></th>
+			<th><span class="line"></span><?php echo TEXT_INFO_NUMBER_OF_REVIEWS; ?></th>
+			<th><span class="line"></span><?php echo HEADING_TITLE_STATUS; ?></th>
+			<?php if (ACCOUNT_COMPANY_VAT_CHECK == 'true') {?>
+			<th><span class="line"></span><?php echo HEADING_TITLE_VAT; ?></th>
+			<?php } ?>
+			<th><span class="line"></span><?php echo TABLE_HEADING_ACCOUNT_CREATED.os_sorting(FILENAME_CUSTOMERS,'date_account_created'); ?></th>
+			<?php
+			$array = array();
+			$array['customers'] = $aCustomers;
+			$array = apply_filter('table_customers', $array);
+
+			if (isset($array['values']) && is_array($array['values']) )
+			{
+				foreach ($array['values'] as $num => $value)
+				{
+					echo '<th><span class="line"></span>'.$value['name'].'</th>';
+				}
+			}
+			?>
+			<th class="tright"><span class="line"></span><?php echo TABLE_HEADING_ACTION; ?></th>
+		</tr>
+	</thead>
+<?php
 // Покупатели
 foreach ($aCustomers AS $customers)
 {
@@ -867,7 +880,14 @@ foreach ($aCustomers AS $customers)
 		?>
 		</td>
 		<?php } ?>
-		<td><?php echo $customers['date_account_created']; ?></td>
+		<td><?php echo $customers['customers_date_added']; ?></td>
+		<?php if (isset($array['values']) && is_array($array['values']))
+		{
+			foreach ($array['values'] as $num => $value)
+			{
+				echo $value['content'][$customers['customers_id']];
+			}
+		} ?>
 		<td>
 			<div class="btn-group pull-right">
 				<a class="btn btn-mini dropdown-toggle" data-toggle="dropdown" href="#"><i class="icon-cog"></i> <span class="caret"></span></a>
