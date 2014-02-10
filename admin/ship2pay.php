@@ -105,6 +105,7 @@ $main->top_menu();
 		{
 			$ship_menu[] = array('id' => $file, 'text' => $title);
 		}
+
 		?>
 		<div class="control-group">
 			<label class="control-label" for="content_text"><?php echo TEXT_INFO_SHIPMENT; ?></label>
@@ -115,7 +116,7 @@ $main->top_menu();
 		<div class="control-group">
 			<label class="control-label" for="content_text"><?php echo TEXT_INFO_ZONE; ?></label>
 			<div class="controls">
-				<?php echo os_cfg_pull_down_zone_classes(0, 'zone_id'); ?>
+				<?php echo os_cfg_pull_down_zone_classes($getS2P['zones_id'], 'zone_id'); ?>
 			</div>
 		</div>
 		<div class="control-group">
