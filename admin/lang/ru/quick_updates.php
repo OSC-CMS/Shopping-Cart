@@ -26,6 +26,7 @@ define('TABLE_HEADING_CATEGORIES', 'Категория');
 define('TABLE_HEADING_MODEL', 'Код товара');
 define('TABLE_HEADING_PRODUCTS', 'Название');
 define('TABLE_HEADING_PRICE', 'Цена');
+define('TABLE_HEADING_SHIPPING', 'Время доставки');
 define('TABLE_HEADING_TAX', 'Статус налога');
 define('TABLE_HEADING_WEIGHT', 'Вес');
 define('TABLE_HEADING_QUANTITY', 'Количество');

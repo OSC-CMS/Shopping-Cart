@@ -54,8 +54,14 @@ if (isset($_GET['manufacturer']) && !empty($_GET['manufacturer']))
 	$manufacturer = "AND p.manufacturers_id = ".(int)$_GET['manufacturer']."";
 }
 
+$cat = '';
+if (isset($_GET['cPath']) && !empty($_GET['cPath']))
+{
+	$cat = "AND p2c.categories_id = ".(int)$_GET['cPath']."";
+}
+
 $i = 0;
-$group_query = os_db_query("SELECT customers_status_image, customers_status_id, customers_status_name FROM ".TABLE_CUSTOMERS_STATUS." WHERE language_id = '".$_SESSION['languages_id']."' AND customers_status_id != '0'");
+$group_query = os_db_query("SELECT customers_status_image, customers_status_id, customers_status_name FROM ".TABLE_CUSTOMERS_STATUS." WHERE language_id = '".(int)$_SESSION['languages_id']."' AND customers_status_id != '0'");
 while ($group_values = os_db_fetch_array($group_query))
 {
 	// load data into array
@@ -68,8 +74,8 @@ while ($group_values = os_db_fetch_array($group_query))
 	);
 }
 
-$breadcrumb->add(HEADING_TITLE, FILENAME_QUICK_UPDATES);
-
+$shipping_statuses = array ();
+$shipping_statuses = os_get_shipping_status();
 
 function manufacturers_list()
 {
@@ -111,6 +117,8 @@ if (isset($_GET['action']) && $_GET['action'] == 'multiup')
 	}
 	os_redirect(FILENAME_QUICK_UPDATES);
 }
+
+$breadcrumb->add(HEADING_TITLE, FILENAME_QUICK_UPDATES);
 
 $main->head();
 $main->top_menu();
@@ -193,13 +201,14 @@ $main->top_menu();
 					}
 				}
 				?>
+				<th><span class="line"></span><?php echo TABLE_HEADING_SHIPPING; ?></th>
 			</tr>
 		</thead>
 		<?php
 		if ($_GET['search'])
-			$products_query = os_db_query("SELECT * FROM ".TABLE_PRODUCTS." p, ".TABLE_PRODUCTS_DESCRIPTION." pd, ".TABLE_PRODUCTS_TO_CATEGORIES." p2c WHERE p.products_id = pd.products_id AND pd.language_id = '".$_SESSION['languages_id']."' AND p.products_id = p2c.products_id AND (pd.products_name like '%".os_db_prepare_input($_GET['search'])."%' OR p.products_model = '".os_db_prepare_input($_GET['search'])."') ".$manufacturer." ORDER BY ".$prodsort);
+			$products_query = os_db_query("SELECT * FROM ".TABLE_PRODUCTS." p, ".TABLE_PRODUCTS_DESCRIPTION." pd, ".TABLE_PRODUCTS_TO_CATEGORIES." p2c WHERE p.products_id = pd.products_id AND pd.language_id = '".$_SESSION['languages_id']."' AND p.products_id = p2c.products_id AND (pd.products_name like '%".os_db_prepare_input($_GET['search'])."%' OR p.products_model = '".os_db_prepare_input($_GET['search'])."') ".$manufacturer." ".$cat." ORDER BY ".$prodsort);
 		else
-			$products_query = os_db_query("SELECT * FROM ".TABLE_PRODUCTS." p, ".TABLE_PRODUCTS_DESCRIPTION." pd, ".TABLE_PRODUCTS_TO_CATEGORIES." p2c WHERE p.products_id = pd.products_id AND pd.language_id = '".(int)$_SESSION['languages_id']."' AND p.products_id = p2c.products_id ".$manufacturer." ORDER BY ".$prodsort);
+			$products_query = os_db_query("SELECT * FROM ".TABLE_PRODUCTS." p, ".TABLE_PRODUCTS_DESCRIPTION." pd, ".TABLE_PRODUCTS_TO_CATEGORIES." p2c WHERE p.products_id = pd.products_id AND pd.language_id = '".(int)$_SESSION['languages_id']."' AND p.products_id = p2c.products_id ".$manufacturer." ".$cat." ORDER BY ".$prodsort);
 
 		$numr = os_db_num_rows($products_query);
 		$products_count = 0;
@@ -240,9 +249,9 @@ $main->top_menu();
 		$page = ($page-1)*MAX_DISPLAY_ROW_BY_PAGE;
 
 		if ($_GET['search'])
-			$products_query = os_db_query("SELECT * FROM ".TABLE_PRODUCTS." p, ".TABLE_PRODUCTS_DESCRIPTION." pd, ".TABLE_PRODUCTS_TO_CATEGORIES." p2c WHERE p.products_id = pd.products_id AND pd.language_id = '".$_SESSION['languages_id']."' AND p.products_id = p2c.products_id AND (pd.products_name like '%".os_db_prepare_input($_GET['search'])."%' OR p.products_model = '".os_db_prepare_input($_GET['search'])."') ".$manufacturer." ORDER BY ".$prodsort." limit ".$page.",".$max_count);
+			$products_query = os_db_query("SELECT * FROM ".TABLE_PRODUCTS." p, ".TABLE_PRODUCTS_DESCRIPTION." pd, ".TABLE_PRODUCTS_TO_CATEGORIES." p2c WHERE p.products_id = pd.products_id AND pd.language_id = '".$_SESSION['languages_id']."' AND p.products_id = p2c.products_id AND (pd.products_name like '%".os_db_prepare_input($_GET['search'])."%' OR p.products_model = '".os_db_prepare_input($_GET['search'])."') ".$manufacturer." ".$cat." ORDER BY ".$prodsort." limit ".$page.",".$max_count);
 		else
-			$products_query = os_db_query("SELECT * FROM ".TABLE_PRODUCTS." p, ".TABLE_PRODUCTS_DESCRIPTION." pd, ".TABLE_PRODUCTS_TO_CATEGORIES." p2c WHERE p.products_id = pd.products_id AND pd.language_id = '".(int)$_SESSION['languages_id']."' AND p.products_id = p2c.products_id ".$manufacturer." ORDER BY ".$prodsort." limit ".$page.",".$max_count);
+			$products_query = os_db_query("SELECT * FROM ".TABLE_PRODUCTS." p, ".TABLE_PRODUCTS_DESCRIPTION." pd, ".TABLE_PRODUCTS_TO_CATEGORIES." p2c WHERE p.products_id = pd.products_id AND pd.language_id = '".(int)$_SESSION['languages_id']."' AND p.products_id = p2c.products_id ".$manufacturer." ".$cat." ORDER BY ".$prodsort." limit ".$page.",".$max_count);
 
 		$aProducts = array();
 		$aTaxIds = array();
@@ -299,47 +308,47 @@ $main->top_menu();
 					}
 				}
 				?>
+				<td><?php echo os_draw_pull_down_menu($products['products_id'].'[products_shippingtime]', $shipping_statuses, $products['products_shippingtime']); ?></td>
 			</tr>
 			<?php } ?>
 		<tbody>
 	</table>
 
+	<div class="pagination pagination-mini pagination-right">
+		<ul>
+		<?php
+		if ($numr > $max_count)
+		{
+			$_param = array(
+				'file_name' => FILENAME_QUICK_UPDATES,
+				'page_name' => 'page',
+				'param' => array('cPath' => $cPath)
+			);
 
-		<div class="pagination pagination-mini pagination-right">
-			<ul>
-			<?php
-			if ($numr > $max_count)
+			if (!empty($_GET['search']))
 			{
-				$_param = array(
-					'file_name' => FILENAME_QUICK_UPDATES,
-					'page_name' => 'page',
-					'param' => array('cPath' => $cPath)
-				);
-
-				if (!empty($_GET['search']))
-				{
-					$_param['param']['search'] = $_GET['search'];
-				}
-
-				if (!empty($_GET['manufacturer']))
-				{
-					$_param['param']['manufacturer'] = $_GET['manufacturer'];
-				}
-
-				if (!empty($_GET['row_by_page']))
-				{
-					$_param['param']['row_by_page'] = $_GET['row_by_page'];
-				}
-
-				if (!empty($_GET['sorting']))
-				{
-					$_param['param']['sorting'] = $_GET['sorting'];
-				}
-				echo osc_pages_menu($numr, $max_count, $_GET['page'], $_param);
+				$_param['param']['search'] = $_GET['search'];
 			}
-			?>
-			</ul>
-		</div>
+
+			if (!empty($_GET['manufacturer']))
+			{
+				$_param['param']['manufacturer'] = $_GET['manufacturer'];
+			}
+
+			if (!empty($_GET['row_by_page']))
+			{
+				$_param['param']['row_by_page'] = $_GET['row_by_page'];
+			}
+
+			if (!empty($_GET['sorting']))
+			{
+				$_param['param']['sorting'] = $_GET['sorting'];
+			}
+			echo osc_pages_menu($numr, $max_count, $_GET['page'], $_param);
+		}
+		?>
+		</ul>
+	</div>
 
 	<hr>
 
