@@ -180,7 +180,6 @@ define('FILENAME_CREATE_ACCOUNT_SUCCESS','create_account_success.php');
 define('FILENAME_CONTENT_MANAGER','content_manager.php');
 define('FILENAME_CONTENT_PREVIEW','content_preview.php');
 define('FILENAME_SECURITY_CHECK','security_check.php');
-define('FILENAME_PRINT_ORDER','print_order.php');
 define('FILENAME_MODULE_NEWSLETTER','module_newsletter.php');
 define('FILENAME_GV_QUEUE', 'gv_queue.php');
 define('FILENAME_GV_MAIL', 'gv_mail.php');

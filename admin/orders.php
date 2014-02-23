@@ -505,8 +505,6 @@ $main->top_menu();
 				}
 			}
 			?>
-			<!--<li><a href="Javascript:void()" onclick="window.open('<?php echo os_href_link(FILENAME_PRINT_ORDER,'oID='.$_GET['oID']); ?>', 'popup', 'toolbar=0, width=640, height=600')"><?php echo BUTTON_INVOICE; ?></a></li>-->
-			<li><a href="Javascript:void()" onclick="window.open('<?php echo os_href_link(FILENAME_PRINT_PACKINGSLIP,'oID='.$_GET['oID']); ?>', 'popup', 'toolbar=0, width=640, height=600')"><?php echo BUTTON_PACKINGSLIP; ?></a></li>
 		</ul>
 	</div>
 
@@ -1020,8 +1018,6 @@ $main->top_menu();
 								}
 							}
 							?>
-							<!--<li><a href="<?php echo os_href_link(FILENAME_PRINT_ORDER,'oID='.$orders['orders_id']); ?>" target="_blank"><?php echo BUTTON_INVOICE; ?></a></li>-->
-							<li><a href="<?php echo os_href_link(FILENAME_PRINT_PACKINGSLIP,'oID='.$orders['orders_id']); ?>" target="_blank"><?php echo BUTTON_PACKINGSLIP; ?></a></li>
 						</ul>
 					</div>
 					<div class="btn-group">
