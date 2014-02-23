@@ -1,0 +1,19 @@
+{$smarty.const.TEXT_RESULT_PAGE}
+<div class="pagination">
+	<ul>
+		{if !empty($prev)}<li><a href="{$prev.link}">{$prev.title}</a></li>{/if}
+		{if !empty($prev_cur)}<li><a href="{$prev_cur.link}">{$prev_cur.title}</a></li>{/if}
+		{if $pagination}
+			{foreach $pagination AS $p}
+				{if $p.link}
+					<li><a href="{$p.link}">{$p.title}</a></li>
+				{else}
+					<li class="active"><a href="javascript:;">{$p.title}</a></li>
+				{/if}
+			{/foreach}
+		{/if}
+		{if !empty($next_cur)}<li><a href="{$next_cur.link}">{$next_cur.title}</a></li>{/if}
+		{if !empty($next)}<li><a href="{$next.link}">{$next.title}</a></li>{/if}
+	</ul>
+</div>
+{$pages}
