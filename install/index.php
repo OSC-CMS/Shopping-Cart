@@ -49,7 +49,7 @@ if (isset($_POST['db']) && !empty($_POST['db']))
 
 if (isset($_SESSION['install']['db']))
 	define('DB_PREFIX', $_SESSION['install']['db']['prefix']);
-else
+elseif ($_SESSION['install']['type'] != 2)
 	define('DB_PREFIX', 'cet_');
 
 include PATH.DS.'languages'.DS.LANG.DS."language.php";
