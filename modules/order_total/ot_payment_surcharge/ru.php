@@ -1,10 +1,11 @@
 <?php
 /*
-  $Id: ot_payment_surcharge.php,v 1.0 2003/6/19 23:09:49 wib Exp $
-  osCommerce, Open Source E-Commerce Solutions
-  http://www.oscommerce.com
-  Copyright (c) 2008 osCommerce
-  Released under the GNU General Public License
+*---------------------------------------------------------
+*
+*	CartET - Open Source Shopping Cart Software
+*	http://www.cartet.org
+*
+*---------------------------------------------------------
 */
 
 define('MODULE_PAYMENT_SURCHARGE_TITLE', 'Комиссия на способ оплаты');

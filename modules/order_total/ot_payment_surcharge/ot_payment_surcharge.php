@@ -1,4 +1,13 @@
 <?php
+/*
+*---------------------------------------------------------
+*
+*	CartET - Open Source Shopping Cart Software
+*	http://www.cartet.org
+*
+*---------------------------------------------------------
+*/
+
 class ot_payment_surcharge
 {
 	var $title, $output;
