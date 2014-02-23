@@ -23,7 +23,17 @@ ul.subcat-nav {margin-left:0!important;list-style:none;border-right: 1px solid #
 ul.subcat-nav ul {border:none;margin-left:10px!important;}
 ul.subcat-nav li a {display:block;padding:3px 12px 3px 12px;}
 ul.subcat-nav li a:hover {text-decoration:none;background:#eee;}
+ul.subcat-nav li a.current-parent {background:#dddddd;}
 ul.subcat-nav li a.current {background:#08C;color:#fff;}
+
+
+.nav-tabs > .current-parent > a, .nav-tabs > .current-parent > a:hover {
+	color: #555555;
+	cursor: default;
+	background-color: #ffffff;
+	border: 1px solid #ddd;
+	border-bottom-color: transparent;
+}
 
 
 .hero-unit {padding: 20px!important;}
