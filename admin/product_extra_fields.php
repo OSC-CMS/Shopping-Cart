@@ -10,6 +10,8 @@
 
 require('includes/top.php');
 
+$page = ((isset($_GET['page'])) ? '?page='.$_GET['page'] : '');
+
 $action = (isset($_GET['action']) ? $_GET['action'] : '');
 if (isset($_POST['remove'])) $action='remove';
 
@@ -18,7 +20,7 @@ if (os_not_null($action)) {
 		case 'setflag':
 			$sql_data_array = array('products_extra_fields_status' => os_db_prepare_input($_GET['flag']));
 			os_db_perform(TABLE_PRODUCTS_EXTRA_FIELDS, $sql_data_array, 'update', 'products_extra_fields_id='.$_GET['id']);
-			os_redirect(os_href_link(FILENAME_PRODUCTS_EXTRA_FIELDS));
+			os_redirect(os_href_link(FILENAME_PRODUCTS_EXTRA_FIELDS.$page));
 		break;
 
 		case 'add':
@@ -30,7 +32,7 @@ if (os_not_null($action)) {
 			);
 			os_db_perform(TABLE_PRODUCTS_EXTRA_FIELDS, $sql_data_array, 'insert');
 
-			os_redirect(os_href_link(FILENAME_PRODUCTS_EXTRA_FIELDS));
+			os_redirect(os_href_link(FILENAME_PRODUCTS_EXTRA_FIELDS.$page));
 		break;
 
 		case 'update':
@@ -43,7 +45,7 @@ if (os_not_null($action)) {
 			);
 			os_db_perform(TABLE_PRODUCTS_EXTRA_FIELDS, $sql_data_array, 'update', 'products_extra_fields_id = '.$key);
 			}
-			os_redirect(os_href_link(FILENAME_PRODUCTS_EXTRA_FIELDS));
+			os_redirect(os_href_link(FILENAME_PRODUCTS_EXTRA_FIELDS.$page));
 		break;
 
 		case 'remove':
@@ -52,7 +54,7 @@ if (os_not_null($action)) {
 			os_db_query("DELETE FROM ".TABLE_PRODUCTS_EXTRA_FIELDS." WHERE products_extra_fields_id=".os_db_input($key));
 			os_db_query("DELETE FROM ".TABLE_PRODUCTS_TO_PRODUCTS_EXTRA_FIELDS." WHERE products_extra_fields_id=".os_db_input($key));
 			}
-			os_redirect(os_href_link(FILENAME_PRODUCTS_EXTRA_FIELDS));
+			os_redirect(os_href_link(FILENAME_PRODUCTS_EXTRA_FIELDS.$page));
 			}
 		break;
 	}
@@ -304,7 +306,7 @@ if (os_db_num_rows($getGroupsQuery) > 0)
 		</div>
 	</div>
 
-	<form name="extra_fields" action="<?php echo os_href_link(FILENAME_PRODUCTS_EXTRA_FIELDS,'action=update'); ?>" method="post">
+	<form name="extra_fields" action="<?php echo os_href_link(FILENAME_PRODUCTS_EXTRA_FIELDS,'action=update&page='.$_GET['page']); ?>" method="post">
 		<?php echo $action_message; ?>
 		<table class="table table-condensed table-big-list" id="tableList">
 			<thead>
