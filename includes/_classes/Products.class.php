@@ -289,6 +289,7 @@ class apiProducts extends CartET
 					);
 					os_db_perform(TABLE_CATEGORIES_DESCRIPTION, $sqlDataCatDesc, 'update', "categories_id = '".(int)$catId."' AND language_id = '".$_SESSION['languages_id']."'");
 				}
+				$this->product->updateCategoriesTree();
 			}
 			// сохраняем товары
 			if (is_array($params['products']))
@@ -362,6 +363,7 @@ class apiProducts extends CartET
 	{
 		os_db_query("UPDATE ".TABLE_CATEGORIES." SET parent_id = '".(int)$dest_category_id."', last_modified = now() WHERE categories_id = '".(int)$src_category_id."'");
 
+		$this->product->updateCategoriesTree();
 		do_action('move_category');
 	}
 
@@ -515,6 +517,7 @@ class apiProducts extends CartET
 
 		}
 
+		$this->product->updateCategoriesTree();
 		do_action('copy_category');
 	}
 
@@ -523,6 +526,8 @@ class apiProducts extends CartET
 	 */
 	public function linkProduct($src_products_id, $dest_categories_id)
 	{
+		if (empty($src_products_id)) return false;
+
 		$check_query = os_db_query("SELECT COUNT(*) AS total FROM ".TABLE_PRODUCTS_TO_CATEGORIES." WHERE products_id = '".(int)$src_products_id."' AND categories_id = '".(int)$dest_categories_id."'");
 		$check = os_db_fetch_array($check_query);
 
@@ -548,7 +553,7 @@ class apiProducts extends CartET
 		$src_products_id = $params['product_id'];
 		$dest_categories_id = $params['categories_id'];
 
-		$product_query = os_db_query("SELECT * FROM ".TABLE_PRODUCTS." WHERE products_id = '".os_db_input($src_products_id)."'");
+		$product_query = os_db_query("SELECT * FROM ".TABLE_PRODUCTS." WHERE products_id = '".(int)$src_products_id."'");
 		$product = os_db_fetch_array($product_query);
 
 		$sql_data_array = array();
@@ -580,7 +585,7 @@ class apiProducts extends CartET
 			unset($dup_products_image_name);
 		}
 
-		$description_query = os_db_query("SELECT * FROM ".TABLE_PRODUCTS_DESCRIPTION." WHERE products_id = '".os_db_input($src_products_id)."'");
+		$description_query = os_db_query("SELECT * FROM ".TABLE_PRODUCTS_DESCRIPTION." WHERE products_id = '".(int)$src_products_id."'");
 
 		$old_products_id = os_db_input($src_products_id);
 		while ($description = os_db_fetch_array($description_query))
@@ -771,6 +776,7 @@ class apiProducts extends CartET
 		global $categories_id;
 		$categories_id = os_db_input($category_id);
 
+		$this->product->updateCategoriesTree();
 		do_action('remove_category');
 	}
 
