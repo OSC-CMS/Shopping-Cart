@@ -1,4 +1,6 @@
 {config_load file="$language/lang.conf" section="categorie_listing"}
+{config_load file="$language/lang.conf" section="index"}
+
 <div class="page-header">
 	<h1>{$CATEGORIES_NAME}</h1>
 </div>
@@ -18,10 +20,10 @@
 </div>
 {/if}
 
-{if $module_content != ''}
+{if $categories_content != ''}
 <h3 class="block-cat-title">{#heading_more_categories#}</h3>
 <ul class="thumbnails">
-	{foreach $module_content as $c}
+	{foreach $categories_content as $c}
 	<li class="span3">
 		<div class="thumbnail categories-list">
 			<div class="categories-list-item">
@@ -38,5 +40,95 @@
 </ul>
 {/if}
 
-{$MODULE_featured_products}
-{$MODULE_new_products}
+
+
+<div class="tabbable">
+	<ul class="nav nav-tabs">
+		<li class="active"><a href="#products" data-toggle="tab">{#all_products#}</a></li>
+		<li><a href="#products_new" data-toggle="tab">{#new_products#}</a></li>
+		<li><a href="#products_featured" data-toggle="tab">{#featured_products#}</a></li>
+	</ul>
+
+	<div class="tab-content">
+		<div class="tab-pane active" id="products">
+			{if $CATEGORIES_NAME}
+			<div class="block">
+				<div class="block-content">
+					<div class="category-block">
+						{if $CATEGORIES_IMAGE}<img class="cat-image" src="{$CATEGORIES_IMAGE}" alt="{$CATEGORIES_NAME}" />{/if}
+						<p class="cat-description">
+							{if $CATEGORIES_HEADING_TITLE}<h3 class="cat-title">{$CATEGORIES_HEADING_TITLE}</h3>{/if}
+						{if $CATEGORIES_DESCRIPTION}{$CATEGORIES_DESCRIPTION}{/if}
+						</p>
+						<div class="clear"></div>
+					</div>
+
+					{if $manufacturers}
+					<div class="category-info">
+						{foreach $manufacturers AS $m}
+						<a class="btn btn-mini {if $m.manufacturers_id == $smarty.get.filter_id}btn-success{/if}" href="{$m.manufacturers_link}">{$m.manufacturers_name}</a>
+						{/foreach}
+						<a class="btn btn-mini {if !$smarty.get.filter_id}btn-success{/if}" href="{$all_manufacturers.link}">{$all_manufacturers.name}</a>
+					</div>
+					{/if}
+
+					<p>
+					<div class="btn-group pull-left">
+						<a class="btn dropdown-toggle" data-toggle="dropdown" href="#">{#text_sort#}<span class="caret"></span></a>
+						<ul class="dropdown-menu">
+							<li><a href="{$LINK_sort_name_asc}">{#text_sort_name_asc#}</a></li>
+							<li><a href="{$LINK_sort_name_desc}">{#text_sort_name_desc#}</a></li>
+							<li><a href="{$LINK_sort_price_asc}">{#text_sort_price_asc#}</a></li>
+							<li><a href="{$LINK_sort_price_desc}">{#text_sort_price_desc#}</a></li>
+						</ul>
+					</div>
+
+					<div class="btn-group pull-left">
+						<a class="btn dropdown-toggle" data-toggle="dropdown" href="#">{#text_products_per_page#}<span class="caret"></span></a>
+						<ul class="dropdown-menu">
+							<li><a href="{$LINK_PAGE}5">5</a></li>
+							<li><a href="{$LINK_PAGE}10">10</a></li>
+							<li><a href="{$LINK_PAGE}20">20</a></li>
+							<li><a href="{$LINK_PAGE}50">50</a></li>
+							<li><a href="{$LINK_PAGE}100">100</a></li>
+							<li><a href="{$LINK_PAGE}200">200</a></li>
+						</ul>
+					</div>
+					<div class="clearfix"></div>
+					</p>
+				</div>
+			</div>
+			{/if}
+
+			{$param_filter}
+
+			<hr>
+
+			<ul class="thumbnails">
+				{foreach $module_content as $p}
+				<li class="span3">
+					<div class="thumbnail product-list">
+						<div class="product-list-item">
+							{if $p.PRODUCTS_BUNDLE == '1'}<img class="product-bundle-icon" src="{$tpl_path}img/set.png" />{/if}
+							{if $p.PRODUCTS_IMAGE}<a class="product-image" href="{$p.PRODUCTS_LINK}"><img src="{$p.PRODUCTS_IMAGE}" alt="{$p.PRODUCTS_NAME}" title="{$p.PRODUCTS_NAME}" /></a>{/if}
+							<div class="caption">
+								<h5><a href="{$p.PRODUCTS_LINK}">{$p.PRODUCTS_NAME}</a></h5>
+								<p>{$p.PRODUCTS_PRICE}</p>
+								{if $p.PRODUCTS_VPE}<p>{$p.PRODUCTS_VPE}</p>{/if}
+								{if $p.PRODUCTS_TAX_INFO}<p>{$p.PRODUCTS_TAX_INFO}</p>{/if}
+								{if $p.PRODUCTS_SHIPPING_LINK}<p>{$p.PRODUCTS_SHIPPING_LINK}</p>{/if}
+								<p>{$p.PRODUCTS_BUTTON_BUY_NOW_NEW}</p>
+							</div>
+						</div>
+					</div>
+				</li>
+				{if $p@iteration % 4 == 0}</ul><div class="clear"></div><ul class="thumbnails">{/if}
+				{/foreach}
+			</ul>
+
+			<div class="page-navigation tcenter">{$PAGINATION}</div>
+		</div>
+		<div class="tab-pane" id="products_new">{$MODULE_new_products}</div>
+		<div class="tab-pane" id="products_featured">{$MODULE_featured_products}</div>
+	</div>
+</div>
