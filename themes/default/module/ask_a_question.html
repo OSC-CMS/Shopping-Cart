@@ -1,11 +1,5 @@
 {config_load file="$language/lang.conf" section="ask_a_question"}
-{if $error!=''}
-<table width="100%" border="0" cellspacing="0" cellpadding="0">
-  <tr>
-    <td class="main" style="border: 1 px solid; border-color: #000000;" bgcolor="#FFCCCC" align="center">{$error}</td>
-  </tr>
-</table>
-{/if}
+{if $message!=''}{$message}{/if}
 <br />
 {$FORM_ACTION}
     <table width="100%" border="0" cellspacing="2" cellpadding="0">

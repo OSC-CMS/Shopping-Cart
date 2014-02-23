@@ -10,7 +10,7 @@
 
 include ('includes/top.php');
 //$osTemplate = new osTemplate;
-include ('includes/header.php');
+
 
 $product_info_query = os_db_query("select * FROM ".TABLE_PRODUCTS." p, ".TABLE_PRODUCTS_DESCRIPTION." pd where p.products_status = '1' and p.products_id = '".(int)$_GET['products_id']."' and pd.products_id = p.products_id and pd.language_id = '".(int)$_SESSION['languages_id']."'");
 $product_info = os_db_fetch_array($product_info_query);
@@ -73,7 +73,7 @@ if (isset ($_GET['action']) && ($_GET['action'] == 'process')) {
 	//if ($messageStack->size('ask_a_question') > 0) {
 //$osTemplate->assign('error', $messageStack->output('ask_a_question'));
 	//}
-
+include ('includes/header.php');
 		if ($error == false) {
 		$osTemplate->assign('PRODUCTS_NAME', $product_info['products_name']);
 		$osTemplate->assign('PRODUCTS_MODEL', $product_info['products_model']);
@@ -139,7 +139,7 @@ $osTemplate->assign('BUTTON_SUBMIT', button_continue_submit());
 	}
 	
 $osTemplate->assign('BUTTON_CONTINUE', $_array['code']);
-
+include ('includes/header.php');
 // set cache ID
  if (!CacheCheck()) {
 	$osTemplate->caching = 0;
@@ -191,7 +191,7 @@ $osTemplate->assign('BUTTON_SUBMIT', button_continue_submit() );
 	}
 	
 $osTemplate->assign('BUTTON_CONTINUE', $_array['code']);
-
+include ('includes/header.php');
 // set cache ID
  if (!CacheCheck()) {
 	$osTemplate->caching = 0;
