@@ -35,6 +35,7 @@ function ship2pay() {
 		$modules = $mods['payments_allowed'];
 	else
 		$modules = MODULE_PAYMENT_INSTALLED;
+
 	$modules = explode(';', $modules);
 	return($modules);
 }

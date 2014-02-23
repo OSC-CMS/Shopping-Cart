@@ -10,8 +10,52 @@
 
 class apiRequest extends CartET
 {
+	private $data = array();
+
+	public function __construct()
+	{
+		$this->data = $_REQUEST;
+	}
+
+	/**
+	 * Проверяет ajax запрос
+	 */
 	public function isAjax()
 	{
 		return (isset($_SERVER['HTTP_X_REQUESTED_WITH']) && $_SERVER['HTTP_X_REQUESTED_WITH'] == 'XMLHttpRequest') ? true : false;
+	}
+
+	/**
+	 * Проверяет существование параметра в запросе
+	 */
+	public function has($param)
+	{
+		return isset($this->data[$param]);
+	}
+
+	/**
+	 * Возвращает значение параметра запроса
+	 */
+	public function get($param, $default = false)
+	{
+		if (!$this->has($param)) return $default;
+
+		return $this->data[$param];
+	}
+
+	/**
+	 * Устанавливает параметр и значение
+	 */
+	public function set($name, $value)
+	{
+		$this->data[$name] = $value;
+	}
+
+	/**
+	 * Возвращает все параметры
+	 */
+	public function getAll()
+	{
+		return $this->data;
 	}
 }

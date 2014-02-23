@@ -429,6 +429,7 @@ class product {
 		      'PRODUCTS_QUANTITY'=> @$array['products_quantity'],
 				'COUNT'=> @$array['ID'],
 				'PRODUCTS_ID'=> @$array['products_id'],
+				'PRODUCTS_EAN'=> @$array['products_ean'],
 				'PRODUCTS_STOCK'=> @$array['stock'],
 				'PRODUCTS_VPE' => @$this->getVPEtext($array, $products_price['price']['plain']), 
 				'PRODUCTS_IMAGE' => @$this->productImage($array['products_image'], $image), 

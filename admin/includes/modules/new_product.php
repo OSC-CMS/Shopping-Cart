@@ -134,8 +134,13 @@ echo os_draw_hidden_field('products_id', $pInfo->products_id);
 		{
 			if($languages[$i]['status'] == 1)
 			{
-				if (SEO_URL_PRODUCT_GENERATOR == 'true' && empty($pInfo->products_page_url) && $i == 0)
-					$prodParams = array('id' => 'products_name', 'class' => 'input-block-level', 'onKeyPress' => 'onchange_products_page_url()', 'onChange' =>'onchange_products_page_url()');
+				if ($i == 0)
+					$aProductName = array('id' => 'products_name');
+				else
+					$aProductName = array();
+
+				if (SEO_URL_PRODUCT_GENERATOR == 'true' && empty($pInfo->products_page_url))
+					$prodParams = array('class' => 'input-block-level', 'onKeyPress' => 'onchange_products_page_url()', 'onChange' =>'onchange_products_page_url()');
 				else
 					$prodParams = array('class' => 'input-block-level');
 		?>
@@ -148,7 +153,7 @@ echo os_draw_hidden_field('products_id', $pInfo->products_id);
 						echo $cartet->html->input_text(
 							'products_name['.$languages[$i]['id'].']',
 							htmlspecialchars(os_get_products_name($pInfo->products_id, $languages[$i]['id'])),
-							$prodParams
+							array_merge($prodParams, $aProductName)
 						);
 						?>
 					</div>

@@ -746,7 +746,7 @@
                 $group_check = " and c.group_permission_".$_SESSION['customers_status']['customers_status_id']."=1 ";
             }
 
-            $cat_query = "select 
+            $cat_query = "select
             c.categories_id,
             c.categories_image,
             c.products_sorting,

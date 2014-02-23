@@ -37,6 +37,7 @@ $specials_query_raw = "select p.products_id,
                                 ".$fsk_lock."
                                 and pd.language_id = '".(int) $_SESSION['languages_id']."'
                                 and s.status = '1' order by s.specials_date_added DESC";
+
 $specials_split = new splitPageResults($specials_query_raw, $_GET['page'], MAX_DISPLAY_SPECIAL_PRODUCTS);
 
 $module_content = '';
@@ -47,9 +48,7 @@ while ($specials = os_db_fetch_array($specials_query)) {
 }
 
 if (($specials_split->number_of_rows > 0)) {
-	$osTemplate->assign('NAVBAR', TEXT_RESULT_PAGE.' '.$specials_split->display_links(MAX_DISPLAY_PAGE_LINKS, os_get_all_get_params(array ('page', 'info', 'x', 'y'))));
-	$osTemplate->assign('NAVBAR_PAGES', $specials_split->display_count(TEXT_DISPLAY_NUMBER_OF_SPECIALS));
-
+	$osTemplate->assign('PAGINATION', $specials_split->display_links(MAX_DISPLAY_PAGE_LINKS, os_get_all_get_params(array ('page', 'info', 'x', 'y'))));
 }
 
 $osTemplate->assign('language', $_SESSION['language']);

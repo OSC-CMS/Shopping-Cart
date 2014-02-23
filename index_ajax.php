@@ -19,12 +19,12 @@ require('includes/top.php');
 
 $axhandler = ($_GET['ajax_page']) ? $_GET['ajax_page'] : $_POST['ajax_page'];
 
-if (!isset($axhandler) || !os_not_null($axhandler) || !is_file(_MODULES.'ajax/'.$axhandler.'.php'))
+if (!isset($axhandler) || !os_not_null($axhandler) || !is_file(dirname(__FILE__).'/modules/ajax/'.$axhandler.'.php'))
 	die('***ERROR*** Ajax page "'.$axhandler.'" not define or not exist!!!');
 
 if(is_file(DIR_WS_LANGUAGES.$_SESSION['language'].'/'.$axhandler.'.php'))
 	require(DIR_WS_LANGUAGES.$_SESSION['language'].'/'.$axhandler.'.php');
 
-require(_MODULES.'ajax/'.$axhandler.'.php');
+require(dirname(__FILE__).'/modules/ajax/'.$axhandler.'.php');
 exit;
 ?>
