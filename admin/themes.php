@@ -10,45 +10,6 @@
 
 require('includes/top.php');
 
-if ( isset($_GET['action']))
-{
-	switch ($_GET['action'])
-	{
-		case 'themes_remove':
-		//установка новых плагинов
-		$themes_name = $_GET['themes_name'];
-		$themes_plug_array = $p->get_plugins_theme();
-
-		if (!empty($themes_plug_array))
-		{
-			$col = 0;
-			$_plug = array();
-			foreach($themes_plug_array as $_value)
-			{
-				//устанавливаем все плагины шаблона
-				@ $p->install($_value[0], 'themes');
-				$_plug[] = $_value[0];
-				$col ++;
-			}
-		}
-
-		if ($col > 0)
-		{
-			if ($col == 1)
-			{
-				$messageStack->add_session('Плагин шаблона успешно установлен ('.$_plug[0].').', 'success');
-			}
-			else
-			{
-				$messageStack->add_session('Плагины шаблона успешно установлены.', 'success');
-				$messageStack->add_session( '<font color="red">('.$col.') '. implode(', ', $_plug).'</font>', 'success');
-			}
-		}
-		os_redirect(FILENAME_THEMES);
-		break;
-	}
-}
-
 if(!empty($_SERVER['QUERY_STRING']))
 {
 	if (!empty($_GET['c_templates']))

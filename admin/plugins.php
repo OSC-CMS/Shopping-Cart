@@ -66,6 +66,7 @@ function sortPlugins($aPlugins = array(), $plugins = array(), $key, $val)
 }
 
 $url = '';
+$urlGroup = (isset($_GET['group'])) ? '&group='.$_GET['group'] : '';
 
 // Фильтруем по статусу
 if (isset($_GET['status']))
@@ -90,7 +91,7 @@ if (isset($_GET['action']))
 	switch ($_GET['action'])
 	{
 		case 'install':
-			$p->install($_GET['plugin'], $_GET['group']);
+			$p->install($_GET['plugin']);
 			os_redirect(FILENAME_PLUGINS.$url);
 		break;
 
@@ -112,7 +113,7 @@ if (isset($_GET['action']))
 	
 		case 'save':
 			$p->save_options();
-			os_redirect(FILENAME_PLUGINS.'?act=setting&plugin='.$p->module.'&group='.$p->info[$p->module]['group']);
+			os_redirect(FILENAME_PLUGINS.'?act=setting&plugin='.$p->module);//.'&group='.$p->info[$p->module]['group']
 		break;
 
 		case 'multi_action':
@@ -133,7 +134,7 @@ $breadcrumb->add(HEADING_TITLE, FILENAME_PLUGINS);
 if ($_GET['act'] == 'setting' && !empty($_GET['plugin']))
 {
 	$getOptions = $p->option();
-	$breadcrumb->add($p->info[$p->module]['title'], FILENAME_PLUGINS.'?act=setting&plugin='.$p->module.'&group='.$_GET['group']);
+	$breadcrumb->add($p->info[$p->module]['title'], FILENAME_PLUGINS.'?act=setting&plugin='.$p->module);
 }
 
 $main->head();
@@ -146,7 +147,7 @@ if ($_GET['act'] == 'setting' && !empty($_GET['plugin']))
 	if ($getOptions)
 	{
 	?>
-	<form action="<?php echo FILENAME_PLUGINS.'?action=save&plugin='.$p->module.'&group='.$p->info[$p->module]['group']; ?>" method="post">
+	<form action="<?php echo FILENAME_PLUGINS.'?action=save&plugin='.$p->module; ?>" method="post">
 		<?php
 		if ($getOptions['options'])
 		{
@@ -270,9 +271,9 @@ if ($_GET['act'] == 'setting' && !empty($_GET['plugin']))
 								<?php echo $_value['name']; ?>
 								<div class="pt10">
 									<?php if (isset($plugins[$p->name]['status']) && ($plugins[$p->name]['status'] == 1)) { ?>
-										<a class="btn btn-mini btn-danger" onclick="return confirm('Действительно хотите удалить плагин?');" href="<?php echo FILENAME_PLUGINS.'?action=remove&plugin='.$p->name.'&group='.$plugins[$p->name]['group']; ?>" title="<?php echo IMAGE_ICON_STATUS_RED_LIGHT; ?>">Удалить</a>
+										<a class="btn btn-mini btn-danger" onclick="return confirm('Действительно хотите удалить плагин?');" href="<?php echo FILENAME_PLUGINS.'?action=remove&plugin='.$p->name.$urlGroup; ?>" title="<?php echo IMAGE_ICON_STATUS_RED_LIGHT; ?>">Удалить</a>
 									<?php } else { ?>
-										<a class="btn btn-mini" href="<?php echo FILENAME_PLUGINS.'?action=install&plugin='.$p->name.'&group='.$plugins[$p->name]['group']; ?>" title="<?php echo IMAGE_ICON_STATUS_GREEN_LIGHT; ?>">Установить</a>
+										<a class="btn btn-mini" href="<?php echo FILENAME_PLUGINS.'?action=install&plugin='.$p->name.$urlGroup; ?>" title="<?php echo IMAGE_ICON_STATUS_GREEN_LIGHT; ?>">Установить</a>
 									<?php } ?>
 
 									<?php if (isset($plugins[$p->name]['process']) && count($plugins[$p->name]['process']) > 0 && $plugins[$p->name]['status'] == 1) { ?>
@@ -280,7 +281,7 @@ if ($_GET['act'] == 'setting' && !empty($_GET['plugin']))
 									<?php } ?>
 
 									<?php if (isset($plugins[$p->name]['status']) && ($plugins[$p->name]['status'] == 1) && $getAllOption[$p->name]) { ?>
-										<a class="btn btn-mini" href="<?php echo os_href_link(FILENAME_PLUGINS, 'act=setting&plugin='.$p->name.'&group='.$p->group); ?>"><i class="icon-edit"></i></a>
+										<a class="btn btn-mini" href="<?php echo os_href_link(FILENAME_PLUGINS, 'act=setting&plugin='.$p->name.$urlGroup); ?>"><i class="icon-edit"></i></a>
 									<?php } ?>
 
 									<?php
@@ -302,8 +303,11 @@ if ($_GET['act'] == 'setting' && !empty($_GET['plugin']))
 								<?php if ($_value['desc']) { ?>
 								<?php echo $_value['desc']; ?><br />
 								<?php } ?>
-								<?php echo TABLE_HEADING_VERSION; ?>: <span class="label label-info"><?php echo (!empty($_value['version'])? $_value['version'] : '0'); ?></span> 
+								<?php echo TABLE_HEADING_VERSION; ?>: <span class="label label-info"><?php echo (!empty($_value['version'])? $_value['version'] : '0'); ?></span>
 								<?php echo PLUGINS_AUTHOR; ?>: <a href="<?php echo $_value['author_uri']; ?>" target="_blank"><?php echo $_value['author']; ?></a>
+								<?php if ($_value['plugin_uri']) { ?>
+									 | <a href="<?php echo $_value['plugin_uri']; ?>" target="_blank">Страница плагина</a><br />
+								<?php } ?>
 							</td>
 						</tr>
 						<?php

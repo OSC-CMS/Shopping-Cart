@@ -210,7 +210,6 @@ class main extends CartET
 
 							$p->name = $os_action_plug[$val];
 							$p->group = $p->info[$p->name]['group'];
-							$p->set_dir();
 							$val();
 						}
 						else

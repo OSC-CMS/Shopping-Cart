@@ -162,6 +162,7 @@ else
 		$info->assign('PRODUCTS_ORDERED', $product->data['products_ordered']);
       $info->assign('PRODUCTS_PRINT', '<img src="'._HTTP_THEMES_C.'buttons/'.$_SESSION['language'].'/print.gif"  style="cursor:pointer" onclick="javascript:window.open(\''.os_href_link(FILENAME_PRINT_PRODUCT_INFO, 'products_id='.$product->data['products_id']).'\', \'popup\', \'toolbar=0, scrollbars=yes, width=640, height=600\')" alt="" />');
 		$info->assign('PRODUCTS_DESCRIPTION', stripslashes($product->data['products_description']));
+		$info->assign('PRODUCTS_SHORT_DESCRIPTION', stripslashes($product->data['products_short_description']));
 		$image = '';
 
 		$info->assign('ASK_PRODUCT_QUESTION', '<img src="'._HTTP_THEMES_C.'buttons/'.$_SESSION['language'].'/button_ask_a_question.gif" style="cursor:pointer" onclick="javascript:window.open(\''.os_href_link(FILENAME_ASK_PRODUCT_QUESTION, 'products_id='.$product->data['products_id']).'\', \'popup\', \'toolbar=0, width=640, height=600\')" alt="" />');
@@ -367,7 +368,7 @@ $i = count($_SESSION['tracking']['products_history']);
 		  {
 		  	 $p->name = $os_action_plug[$_info];	
 			 $p->group = $p->info[$p->name]['group'];
-			 $p->set_dir();
+			 //$p->set_dir();
 			 
 		     $_products_info_val = $_info();
 			 

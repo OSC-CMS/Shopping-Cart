@@ -20,7 +20,7 @@ class osTemplate extends Smarty
 		$this->setCacheDir(_CACHE.'cache/');
 		$this->setCompileDir(_CACHE.'compiled/');
 		$this->setConfigDir(_LANG);
-		$this->compile_check   =  TEMPLATE_COMPILE_CHECK;
+		$this->compile_check = TEMPLATE_COMPILE_CHECK;
 		$this->setPluginsDir(_LIB.'smarty/plugins');
 
 		$this->assign('index', http_path('catalog'));
@@ -41,7 +41,7 @@ class osTemplate extends Smarty
 		$array = apply_filter('tpl_vars', $array);
 		$p->name = $name;
 		$p->group = $group;
-		$p->set_dir();
+
 		if (count($array) > 0)
 		{
 			foreach ($array as $name => $value)
