@@ -467,7 +467,7 @@ class apiCustomers extends CartET
 			if ($params['action'] == 'new')
 				os_db_perform(DB_PREFIX."customers_profile", $sqlDataArray);
 			else
-				os_db_perform(DB_PREFIX."customers_profile", $sqlDataArray, 'update', "customers_id = '".(int)$array['customers_id']."'");
+				os_db_perform(DB_PREFIX."customers_profile", $sqlDataArray, 'update', "customers_id = '".(int)$customers_id."'");
 			// Profile
 
 			if ($entry_zone_id > 0)
