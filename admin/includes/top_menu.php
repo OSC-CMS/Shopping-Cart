@@ -47,7 +47,7 @@ global $os_remove_action;
 				else
 					$_version = ' --- ';
 				?>
-				<a href="#" class="dropdown-toggle" data-toggle="dropdown"><?php echo BOX_VERSION; ?> <?php echo $_version; ?> <i class="icon-caret-down"></i></span></span></a>
+				<a href="#" class="dropdown-toggle" data-toggle="dropdown"><?php echo BOX_VERSION; ?> <?php echo $this->service->getVersion(); ?> <i class="icon-caret-down"></i></span></span></a>
 				<ul class="dropdown-menu">
 					<li><a href="http://osc-cms.com" target="_blank" title="CartET">CartET</a></li>
 					<li><a href="http://osc-cms.com/docs" target="_blank"><?php echo BOX_HELP; ?></a></li>

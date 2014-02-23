@@ -19,9 +19,19 @@ class apiService extends CartET
 		$this->cache_file = DIR.DIR_FS_CACHE.'/system/'.$this->cache_file;
 	}
 
+	public function getVersion()
+	{
+		if (is_file(dir_path('catalog').'VERSION'))
+			$_version = @file_get_contents(dir_path('catalog').'VERSION');
+		else
+			$_version = ' --- ';
+
+		return $_version;
+	}
+
 	public function checkUpdate($cached = false)
 	{
-		$current_version = '1.1.0';
+		$current_version = $this->getVersion();
 
 		$aUpdateInfo = $this->getData($current_version, $cached);
 
