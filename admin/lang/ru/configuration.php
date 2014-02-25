@@ -931,9 +931,6 @@ define('VIS_BOX_CURRENCIES_DESC','Показывать блок валют (BOX_
 define('VIS_BOX_CONTENT_TITLE','Информационные страницы (content)');
 define('VIS_BOX_CONTENT_DESC','Показывать блок с информационными страницами content (BOX_CONTENT).');
 
-define('VIS_BOX_CATEGORIES_TITLE','Список категорий');
-define('VIS_BOX_CATEGORIES_DESC','Показывать список категорий магазина (BOX_CATEGORIES).');
-
 define('VIS_BOX_CART_TITLE','Корзина');
 define('VIS_BOX_CART_DESC','Показывать корзину (BOX_CART).');
 
