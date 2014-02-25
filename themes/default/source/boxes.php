@@ -9,6 +9,8 @@
 */
 
 // Boxes
+define('VIS_BOX_CATEGORIES', 'false');
+
 define('DIR_WS_BOXES', _THEMES_C.'source/boxes/');
 
 if (VIS_BOX_AFFILIATE			== 'true') { include(DIR_WS_BOXES.'affiliate.php'); }
