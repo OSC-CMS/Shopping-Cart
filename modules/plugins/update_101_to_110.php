@@ -43,6 +43,7 @@ function update_101_to_110_install()
 	os_db_query("DELETE FROM `".DB_PREFIX."configuration` WHERE `configuration_id` = 22;");
 	os_db_query("DELETE FROM `".DB_PREFIX."configuration` WHERE `configuration_id` = 395;");
 	os_db_query("DELETE FROM `".DB_PREFIX."configuration` WHERE `configuration_id` = 122;");
+	os_db_query("DELETE FROM `".DB_PREFIX."configuration` WHERE `configuration_id` = 368;");
 
 	os_db_query("ALTER TABLE `".DB_PREFIX."orders` DROP cc_type");
 	os_db_query("ALTER TABLE `".DB_PREFIX."orders` DROP cc_owner");
