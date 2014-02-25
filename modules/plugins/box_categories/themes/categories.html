@@ -1,0 +1,20 @@
+{config_load file="$language/lang.conf" section="boxes"}
+{if $aCategories}
+	<h3>{#heading_categories#}</h3>
+
+	<ul class="nav nav-tabs nav-stacked" id="box-categories">
+		{foreach $aCategories as $item}
+			{if $item.menu == 1 && $item.categories_status == 1}
+				<li class="{if $current == $item.categories_id}active{/if} {if in_array($item.categories_id, $current_in)}current-parent{/if}">
+				<a class="{if $current == $item.categories_id}active{/if} {if in_array($item.categories_id, $current_in)}current-parent{/if} clearfix" href="{$item.categories_link}">
+					{if $item.categories_image && $image == 'true'}<img class="pull-left" width="{$imageWidth}" height="{$imageHeight}" src="{$item.categories_image}" alt="{$item.name}">{/if}
+					{$item.categories_name}{if $counts == 'true'}<span class="badge pull-right">{$item.categories_count}</span>{/if}
+				</a>
+				{if $item.children}
+					{include file="$plugDir/sub_categories.html" aCategories=$item.children}
+				{/if}
+				</li>
+			{/if}
+		{/foreach}
+	</ul>
+{/if}
