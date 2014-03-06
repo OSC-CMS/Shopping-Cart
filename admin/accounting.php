@@ -23,10 +23,10 @@ if ($_GET['action'])
 
 			for ($i = 0; $i < $columns; $i++)
 			{
-				$field=mysql_field_name($fields, $i);
-				if ($field!='customers_id')
+				$field = mysql_field_name($fields, $i);
+				if ($field != 'customers_id')
 				{
-					os_db_query("UPDATE ".TABLE_ADMIN_ACCESS." SET ".$field."=0 where customers_id='".(int)$_GET['cID']."'");
+					os_db_query("UPDATE ".TABLE_ADMIN_ACCESS." SET `".$field."` = 0 where customers_id = '".(int)$_GET['cID']."'");
 				}
 			}
 
@@ -35,7 +35,7 @@ if ($_GET['action'])
 			{
 				foreach($_POST['access'] as $key)
 				{
-					os_db_query("UPDATE ".TABLE_ADMIN_ACCESS." SET ".$key."=1 where customers_id='".(int)$_GET['cID']."'");
+					os_db_query("UPDATE ".TABLE_ADMIN_ACCESS." SET `".$key."` = 1 where customers_id = '".(int)$_GET['cID']."'");
 				}
 			}
 
@@ -94,7 +94,7 @@ $main->top_menu();
 
 <hr/>
 
-<form name="accounting" action="<?php echo FILENAME_ACCOUNTING, 'cID='.$_GET['cID'].'&action=save'; ?>" method="post" enctype="multipart/form-data">
+<form name="accounting" action="<?php echo os_href_link(FILENAME_ACCOUNTING, 'cID='.$_GET['cID'].'&action=save'); ?>" method="post" enctype="multipart/form-data">
 	<table class="table table-condensed table-big-list">
 		<thead>
 			<tr>
