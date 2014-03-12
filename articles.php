@@ -82,9 +82,7 @@ require (dir_path('includes').'header.php');
 $articles_split = new splitPageResults($listing_sql, $_GET['page'], MAX_ARTICLES_PER_PAGE);
 
 if (($articles_split->number_of_rows > 0)) {
-	$osTemplate->assign('NAVIGATION_BAR', TEXT_RESULT_PAGE.' '.$articles_split->display_links(MAX_DISPLAY_PAGE_LINKS, os_get_all_get_params(array ('page', 'info', 'x', 'y'))));
-	$osTemplate->assign('NAVIGATION_BAR_PAGES', $articles_split->display_count(TEXT_DISPLAY_NUMBER_OF_ARTICLES));
-
+	$osTemplate->assign('PAGINATION', $articles_split->display_links(MAX_DISPLAY_PAGE_LINKS, os_get_all_get_params(array ('page', 'info', 'x', 'y'))));
 }
 
 $module_content = '';

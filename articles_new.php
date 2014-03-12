@@ -21,8 +21,7 @@ require (dir_path('includes').'header.php');
 $articles_new_split = new splitPageResults($articles_new_query_raw, $_GET['page'], MAX_NEW_ARTICLES_PER_PAGE);
 
 if (($articles_new_split->number_of_rows > 0)) {
-	$osTemplate->assign('NAVIGATION_BAR', TEXT_RESULT_PAGE.' '.$articles_new_split->display_links(MAX_DISPLAY_PAGE_LINKS, os_get_all_get_params(array ('page', 'info', 'x', 'y'))));
-	$osTemplate->assign('NAVIGATION_BAR_PAGES', $articles_new_split->display_count(TEXT_DISPLAY_NUMBER_OF_ARTICLES_NEW));
+	$osTemplate->assign('PAGINATION', $articles_new_split->display_links(MAX_DISPLAY_PAGE_LINKS, os_get_all_get_params(array ('page', 'info', 'x', 'y'))));
 
 }
 

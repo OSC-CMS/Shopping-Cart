@@ -65,8 +65,7 @@ require(dir_path('includes') . 'header.php');
       $split = new splitPageResults($all_sql, $_GET['page'], MAX_DISPLAY_FAQ_PAGE, 'faq_id');
       $query = os_db_query($split->sql_query);
       if (($split->number_of_rows > 0)) {
-          $osTemplate->assign('NAVIGATION_BAR', TEXT_RESULT_PAGE.' '.$split->display_links(MAX_DISPLAY_PAGE_LINKS, os_get_all_get_params(array ('page', 'info', 'x', 'y'))));
-          $osTemplate->assign('NAVIGATION_BAR_PAGES', $split->display_count(TEXT_DISPLAY_NUMBER_OF_FAQ));
+          $osTemplate->assign('PAGINATION', $split->display_links(MAX_DISPLAY_PAGE_LINKS, os_get_all_get_params(array ('page', 'info', 'x', 'y'))));
       }
       $osTemplate->assign('ONE', false);
   } else {
@@ -88,8 +87,6 @@ require(dir_path('includes') . 'header.php');
               'FAQ_LINK_MORE'    => os_href_link(FILENAME_FAQ, 'faq_id='.$one['faq_id'] . $SEF_parameter, 'NONSSL'),
               );
       }
-  } else {
-      $osTemplate->assign('NAVIGATION_BAR', TEXT_NO_FAQ);
   }
 
   $osTemplate->assign('FAQ_LINK', os_href_link(FILENAME_FAQ));

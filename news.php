@@ -31,8 +31,7 @@ elseif (empty($cartet->news->newsData) && !isset($_GET['news_id']))
 	
 	if (($split->number_of_rows > 0))
 	{
-		$osTemplate->assign('NAVIGATION_BAR', TEXT_RESULT_PAGE.' '.$split->display_links(MAX_DISPLAY_PAGE_LINKS, os_get_all_get_params(array ('page', 'info', 'x', 'y'))));
-		$osTemplate->assign('NAVIGATION_BAR_PAGES', $split->display_count(TEXT_DISPLAY_NUMBER_OF_LATEST_NEWS));
+		$osTemplate->assign('PAGINATION', $split->display_links(MAX_DISPLAY_PAGE_LINKS, os_get_all_get_params(array ('page', 'info', 'x', 'y'))));
 	}
 
 	// массив новостей
@@ -44,11 +43,6 @@ elseif (empty($cartet->news->newsData) && !isset($_GET['news_id']))
 
 	$aNews = apply_filter('news_content', $newsDataArray);
 	$osTemplate->assign('ONE', false);
-}
-// Нет новостей
-else
-{
-	$osTemplate->assign('NAVIGATION_BAR', TEXT_NO_NEWS);
 }
 
 $osTemplate->assign('NEWS_LINK', os_href_link(FILENAME_NEWS));
