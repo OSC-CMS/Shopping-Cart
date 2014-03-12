@@ -57,8 +57,7 @@ if (($orders_total = os_count_customer_orders()) > 0) {
 }
 
 if ($orders_total > 0) {
-	$osTemplate->assign('SPLIT_BAR', TEXT_RESULT_PAGE.' '.$history_split->display_links(MAX_DISPLAY_PAGE_LINKS, os_get_all_get_params(array ('page', 'info', 'x', 'y')))); 
-	$osTemplate->assign('SPLIT_BAR_PAGES', $history_split->display_count(TEXT_DISPLAY_NUMBER_OF_ORDERS)); 
+	$osTemplate->assign('PAGINATION', $history_split->display_links(MAX_DISPLAY_PAGE_LINKS, os_get_all_get_params(array ('page', 'info', 'x', 'y'))));
 }
 $osTemplate->assign('order_content', $module_content);
 $osTemplate->assign('language', $_SESSION['language']);

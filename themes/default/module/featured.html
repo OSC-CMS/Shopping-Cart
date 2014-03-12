@@ -4,7 +4,7 @@
 	<h1>{#heading_text#}</h1>
 </div>
 
-{if $module_content}
+{if isset($module_content) && !empty($module_content)}
 <ul class="thumbnails">
 	{foreach $module_content as $p}
 	<li class="span3">
@@ -39,11 +39,11 @@
 	{if $p@iteration % 4 == 0}</ul><div class="clear"></div><ul class="thumbnails">{/if}
 	{/foreach}
 </ul>
-{else}
-	{$smarty.const.TEXT_NO_PRODUCTS}
-{/if}
 
 <div class="page-navigation tcenter">
 	<p class="pn-nav">{$NAVBAR}</p>
 	<p class="pn-desc">{$NAVBAR_PAGES}</p>
 </div>
+{else}
+	{$smarty.const.TEXT_NO_PRODUCTS}
+{/if}

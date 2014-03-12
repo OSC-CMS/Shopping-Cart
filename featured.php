@@ -46,8 +46,7 @@ while ($featured = os_db_fetch_array($featured_query)) {
 }
 
 if (($featured_split->number_of_rows > 0)) {
-	$osTemplate->assign('NAVBAR', TEXT_RESULT_PAGE.' '.$featured_split->display_links(MAX_DISPLAY_PAGE_LINKS, os_get_all_get_params(array ('page', 'info', 'x', 'y'))));
-	$osTemplate->assign('NAVBAR_PAGES', $featured_split->display_count(TEXT_DISPLAY_NUMBER_OF_FEATURED));
+	$osTemplate->assign('PAGINATION', $featured_split->display_links(MAX_DISPLAY_PAGE_LINKS, os_get_all_get_params(array ('page', 'info', 'x', 'y'))));
 
 }
 

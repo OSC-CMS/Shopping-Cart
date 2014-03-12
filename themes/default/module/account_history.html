@@ -3,6 +3,7 @@
 	<h1>{#heading_history#}</h1>
 </div>
 
+{if isset($order_content) && !empty($order_content)}
 <table class="table table-striped">
 	<thead>
 	<tr>
@@ -28,8 +29,6 @@
 	</tbody>
 </table>
 
-<div class="page-navigation tcenter">
-	<p class="pn-nav">{$SPLIT_BAR}</p>
-	<p class="pn-desc">{$SPLIT_BAR_PAGES}</p>
-</div>
+<div class="page-navigation tcenter">{$PAGINATION}</div>
+{/if}
 {$BUTTON_BACK}

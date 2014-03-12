@@ -3,6 +3,7 @@
 	<h1>{#heading_reviews#}</h1>
 </div>
 
+{if isset($module_content) && !empty($module_content)}
 <ul class="new-reviews-page">
 	{foreach $module_content AS $module_data} 
 	<li class="nrp-item">
@@ -22,7 +23,7 @@
 	{/foreach}
 </ul>
 
-<div class="page-navigation tcenter">
-	<p class="pn-nav">{$NAVBAR}</p>
-	<p class="pn-desc">{$NAVBAR_PAGES}</p>
-</div>
+<div class="page-navigation tcenter">{$PAGINATION}</div>
+{else}
+	{$smarty.const.TEXT_NO_REVIEWS}
+{/if}
