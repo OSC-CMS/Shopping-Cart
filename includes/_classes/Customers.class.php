@@ -255,7 +255,7 @@ class apiCustomers extends CartET
 
 		if ($params['entry_password'] == '' && $params['action'] == 'new')
 		{
-			$password =  os_RandomString(8);
+			$password = os_RandomString(8);
 		}
 		else
 			$password = $params['entry_password'];

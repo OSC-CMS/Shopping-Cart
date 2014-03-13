@@ -111,7 +111,7 @@ class shoppingCart {
                 $option = $option_2[0];
                 $attr_value = htmlspecialchars(stripslashes($value), ENT_QUOTES);
                 $value = $option_2[1];
-                $this->contents[$products_id]['attributes_values'][$option] = $attr_value;
+                $this->contents[$products_id]['attributes_values'][$option] = String_RusCharsDeCode($attr_value);
               }
             }
 

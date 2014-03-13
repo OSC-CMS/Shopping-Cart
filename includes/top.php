@@ -30,6 +30,7 @@ $cartet = new CartET();
 require_once (_CLASS.'db.php');
 
 require_once (_FUNC.'admin.include.php');
+include_once (_FUNC.'os_check.php');
 require_once (_FUNC.'include.php');
 
 $request_type = (getenv('HTTPS') == '1' || getenv('HTTPS') == 'on') ? 'SSL' : 'NONSSL';
@@ -83,6 +84,7 @@ remove_action_array();
 
 //require_once (_LIB . 'phpmailer/class.phpmailer.php');
 require _LIB . 'phpmailer/PHPMailerAutoload.php';
+include_once (_LIB.'phpmailer/func.mail.php');
 //if (EMAIL_TRANSPORT == 'smtp')
 //	require_once (_LIB . 'phpmailer/class.smtp.php');
 
@@ -669,4 +671,4 @@ if (!empty($os_rewrite_action['box']))
 
 if(!defined('DIR_WS_ICONS')) define('DIR_WS_ICONS', HTTP_SERVER.DIR_WS_CATALOG.'media/icons/');
 
-?>
+do_action('top');

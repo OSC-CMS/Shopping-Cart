@@ -296,7 +296,7 @@ if (isset ($_GET['action']) && ($_GET['action'] == 'process'))
 
 	<div id="login">
 		<div class="center">
-			<a target="_blank" href="http://osc-cms.com"><img src="/images/logo_login.gif" alt="CartET"/></a>
+			<a target="_blank" href="http://osc-cms.com"><img src="<?php echo _HTTP; ?>images/logo_login.gif" alt="CartET"/></a>
 			<h1><?php echo ADMIN_LOGIN_TITLE; ?></h1>
 		</div>
 		<form name="login" action="<?php echo os_href_link('login_admin.php', 'action=process', 'SSL'); ?>" method="post">

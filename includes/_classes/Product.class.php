@@ -124,16 +124,16 @@ class apiProduct extends CartET
 				{
 					$groupDescEdit[$groups['extra_fields_groups_id']] = $groups;
 				}
-			}
 
-			foreach($groupDescEdit AS $gId => $gValue)
-			{
-				foreach ($extra_fields_data as $fGId => $fValue)
+				foreach($groupDescEdit AS $gId => $gValue)
 				{
-					if ($gId == $fGId)
+					foreach ($extra_fields_data as $fGId => $fValue)
 					{
-						$efResult[$gId] = $gValue;
-						$efResult[$gId]['values'] = $fValue;
+						if ($gId == $fGId)
+						{
+							$efResult[$gId] = $gValue;
+							$efResult[$gId]['values'] = $fValue;
+						}
 					}
 				}
 			}
@@ -293,7 +293,7 @@ class apiProduct extends CartET
 
 		// Лимит
 		if ($params['limit'])
-			$limit = " LIMIT ".$params['limit'];
+			$limit = " LIMIT ".(int)$params['limit'];
 
 		// Проверка прав
 		$group_check = (GROUP_CHECK == 'true' && !$params['admin']) ? " AND p.group_permission_".$_SESSION['customers_status']['customers_status_id']." = 1 " : '';
@@ -336,7 +336,6 @@ class apiProduct extends CartET
 			".$category."
 			".$status."
 			".$manufacturer."
-			GROUP BY p.products_id
 			ORDER BY
 				".$sorting."
 			".$limit."

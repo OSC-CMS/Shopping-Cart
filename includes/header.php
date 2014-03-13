@@ -178,7 +178,13 @@ unset($HEAD);
 $_meta_array = apply_filter('head_array', $_meta_array);
 
 //формирует метатеги из массива
-osc_head_print($_meta_array);
+if (!empty($_meta_array))
+{
+	foreach ($_meta_array as $_value)
+	{
+		_e($_value);
+	}
+}
 
 do_action ('head');
 ?>

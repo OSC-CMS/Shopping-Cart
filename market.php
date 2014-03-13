@@ -114,7 +114,7 @@ os_yml_out('  <offers>');
 
 $products_sql = "
 	SELECT distinct 
-		p.products_id, p2c.categories_id, p.products_model, p.products_quantity, p.products_image, 
+		p.products_id, p2c.categories_id, p.products_model, p.products_quantity, p.products_image,
 		IF(s.status, s.specials_new_products_price, p.products_price) AS products_price, 
 		p.products_tax_class_id, p.manufacturers_id, p.products_sort, pd.products_name, m.manufacturers_name, pd.products_description, 
 		pd.products_short_description, p.yml_bid, p.yml_cbid, p.yml_available 

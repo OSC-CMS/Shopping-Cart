@@ -178,9 +178,13 @@
 define('GROUP_ICONS_PATH', DIR_FS_DOCUMENT_ROOT.'images/groups/');
 define('GROUP_ICONS_HTTP', _HTTP.'images/groups/');
 
-
-
 function http_path($name)
+{
+	global $PATH;
+
+	return $PATH[$name]['http'];
+}
+
 {
    global $PATH;
    
