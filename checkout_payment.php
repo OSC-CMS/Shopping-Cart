@@ -165,7 +165,7 @@ for ($i = 0, $n = sizeof($selection); $i < $n; $i++)
 		$radio_buttons++;
 }
 
-$module->assign('module_content', $selection);
+$module->assign('module_content', apply_filter('checkout_payment_selection', $selection));
 
 if (ACTIVATE_GIFT_SYSTEM == 'true')
 {
