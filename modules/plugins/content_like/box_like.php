@@ -28,6 +28,6 @@ $tpl->assign('likeArray', $likeArray);
 
 $tpl->caching = 0;
 $tpl->cache_lifetime = 0;
-$box_value = $tpl->fetch('themes/default/box_like.html');
+$box_value = $tpl->fetch(dirname(__FILE__).'/themes/default/box_like.html');
 $osTemplate->assign('box_like', $box_value);
 ?>
