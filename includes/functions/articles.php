@@ -22,43 +22,6 @@
     return $tmp_array;
   }
 
-  function os_get_topic_path($current_topic_id = '') {
-    global $tPath_array;
-
-    if (os_not_null($current_topic_id)) {
-      $cp_size = sizeof($tPath_array);
-      if ($cp_size == 0) {
-        $tPath_new = $current_topic_id;
-      } else {
-        $tPath_new = '';
-        $last_topic_query = osDBquery("select parent_id from " . TABLE_TOPICS . " where topics_id = '" . (int)$tPath_array[($cp_size-1)] . "'");
-        $last_topic = os_db_fetch_array($last_topic_query,true);
-
-        $current_topic_query = osDBquery("select parent_id from " . TABLE_TOPICS . " where topics_id = '" . (int)$current_topic_id . "'");
-        $current_topic = os_db_fetch_array($current_topic_query,true);
-
-        if ($last_topic['parent_id'] == $current_topic['parent_id']) {
-          for ($i=0; $i<($cp_size-1); $i++) {
-            $tPath_new .= '_' . $tPath_array[$i];
-          }
-        } else {
-          for ($i=0; $i<$cp_size; $i++) {
-            $tPath_new .= '_' . $tPath_array[$i];
-          }
-        }
-        $tPath_new .= '_' . $current_topic_id;
-
-        if (substr($tPath_new, 0, 1) == '_') {
-          $tPath_new = substr($tPath_new, 1);
-        }
-      }
-    } else {
-      $tPath_new = implode('_', $tPath_array);
-    }
-
-    return 'tPath=' . $tPath_new;
-  }
-
   function os_count_articles_in_topic($topic_id, $include_inactive = false) {
     $articles_count = 0;
 	
@@ -98,36 +61,6 @@
       return false;
     }
   }
-  function os_get_topics($topics_array = '', $parent_id = '0', $indent = '') {
-    global $languages_id;
-
-    if (!is_array($topics_array)) $topics_array = array();
-
-    $topics_query = osDBquery("select t.topics_id, td.topics_name from " . TABLE_TOPICS . " t, " . TABLE_TOPICS_DESCRIPTION . " td where parent_id = '" . (int)$parent_id . "' and t.topics_id = td.topics_id and td.language_id = '" . (int)$_SESSION['languages_id'] . "' order by sort_order, td.topics_name");
-    while ($topics = os_db_fetch_array($topics_query,true)) {
-      $topics_array[] = array('id' => $topics['topics_id'],
-                                  'text' => $indent . $topics['topics_name']);
-
-      if ($topics['topics_id'] != $parent_id) {
-        $topics_array = os_get_topics($topics_array, $topics['topics_id'], $indent . '&nbsp;&nbsp;');
-      }
-    }
-
-    return $topics_array;
-  }
-
-
-
-  function os_get_subtopics(&$subtopics_array, $parent_id = 0) {
-    $subtopics_query = osDBquery("select topics_id from " . TABLE_TOPICS . " where parent_id = '" . (int)$parent_id . "'");
-    while ($subtopics = os_db_fetch_array($subtopics_query,true)) {
-      $subtopics_array[sizeof($subtopics_array)] = $subtopics['topics_id'];
-      if ($subtopics['topics_id'] != $parent_id) {
-        os_get_subtopics($subtopics_array, $subtopics['topics_id']);
-      }
-    }
-  }
-
 
   function os_get_parent_topics(&$topics, $topics_id) {
     $parent_topics_query = osDBquery("select parent_id from " . TABLE_TOPICS . " where topics_id = '" . (int)$topics_id . "'");
@@ -170,20 +103,6 @@
     $article = os_db_fetch_array($article_query,true);
 
     return $article['articles_name'];
-  }
-
-  function os_cache_topics_box($auto_expire = false, $refresh = false) {
-    global $tPath, $language, $languages_id, $tree, $tPath_array, $topics_string;
-
-    if (($refresh == true) || !read_cache($cache_output, 'topics_box-' . $language . '.cache' . $tPath, $auto_expire)) {
-      ob_start();
-      include(DIR_WS_BOXES . 'articles.php');
-      $cache_output = ob_get_contents();
-      ob_end_clean();
-      write_cache($cache_output, 'topics_box-' . $language . '.cache' . $tPath);
-    }
-
-    return $cache_output;
   }
 
 ?>

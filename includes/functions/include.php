@@ -1275,7 +1275,8 @@
         }
 
         header('Location: ' . preg_replace("/[\r\n]+(.*)$/i", "", $url));
-        os_exit(); 
+	    os_session_close();
+	    exit();
     }
 
 
