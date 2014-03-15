@@ -20,27 +20,38 @@
 </div>
 {/if}
 
-{if $categories_content != ''}
-<h3 class="block-cat-title">{#heading_more_categories#}</h3>
-<ul class="thumbnails">
-	{foreach $categories_content as $c}
-	<li class="span3">
-		<div class="thumbnail categories-list">
-			<div class="categories-list-item">
-				{if $c.CATEGORIES_IMAGE}<a class="categories-image" href="{$c.CATEGORIES_LINK}"><img src="{$c.CATEGORIES_IMAGE}" alt="{$c.CATEGORIES_NAME}" /></a>{/if}
-				<div class="caption">
-					<h5><a href="{$c.CATEGORIES_LINK}">{$c.CATEGORIES_NAME}</a></h5>
-					<p>{$c.CATEGORIES_DESCRIPTION}</p>
-				</div>
-			</div>
-		</div>
-	</li>
-	{if $c@iteration % 4 == 0}</ul><div class="clear"></div><ul class="thumbnails">{/if}
-	{/foreach}
-</ul>
+{if isset($categories_content) && !empty($categories_content)}
+	<h3 class="block-cat-title">{#heading_more_categories#}</h3>
+	{function name=tree level=0}
+		{if $categories}
+			<ul class="{if $level == 0}thumbnails{else}sub_cat_items{/if}">
+				{foreach $categories as $item}
+					{if $item.categories_status == 1}
+						<li class="{if $level == 0}span4{/if}">
+							{if $level == 0}<div class="thumbnail categories-list">{/if}
+								{if $level == 0}
+									<div class="categories-list-item">
+										{if $item.categories_image}<a class="categories-image" href="{$item.categories_link}"><img src="{$item.categories_image}" alt="{$item.categories_name}" /></a>{/if}
+										<div class="caption">
+											<h5><a href="{$item.categories_link}">{$item.categories_name}</a></h5>
+											<p>{$item.categories_description}</p>
+											{tree categories=$item.children level=$level+1}
+										</div>
+									</div>
+								{else}
+									<a href="{$item.categories_link}">{$item.categories_name}</a>
+									{tree categories=$item.children level=$level+1}
+								{/if}
+							{if $level == 0}</div>{/if}
+						</li>
+						{if $item@iteration % 3 == 0 && $level == 0}</ul><div class="clear"></div><ul class="thumbnails">{/if}
+					{/if}
+				{/foreach}
+			</ul>
+		{/if}
+	{/function}
+	{tree categories=$categories_content}
 {/if}
-
-
 
 <div class="tabbable">
 	<ul class="nav nav-tabs">

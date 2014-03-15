@@ -143,17 +143,32 @@ class apiProduct extends CartET
 	}
 
 	/**
-	 * Возвращает заданную категорию
+	 * Возвращает заданную категорию и\или ее подкатегории в виде дерева
 	 */
-	public function getCategory($id)
+	public function getCategory($id, $tree = false)
 	{
 		if (empty($id)) return false;
 
-		if(!isset($this->categories))
-			$this->getTree();
+		if ($tree == false)
+		{
+			if (!isset($this->categories))
+				$this->getTree();
 
-		if (array_key_exists($id, $this->categories))
-			return $this->categories[$id];
+			if (array_key_exists($id, $this->categories))
+				return $this->categories[$id];
+			else
+				return false;
+		}
+		elseif ($tree == true)
+		{
+			if(!isset($this->categories_tree))
+				$this->getTree();
+
+			if (array_key_exists($id, $this->categories_tree))
+				return array($this->categories_tree[$id]);
+			else
+				return false;
+		}
 		else
 			return false;
 	}
@@ -173,6 +188,28 @@ class apiProduct extends CartET
 		}
 		else
 			return false;
+	}
+
+	/**
+	 * Возвращает id всех подкатегорий категории
+	 */
+	public function getSubcategoriesId($categories)
+	{
+		if (empty($categories)) return false;
+
+		$result = array();
+		if (is_array($categories))
+		{
+			foreach ($categories as $c)
+			{
+				$result[] = $c['categories_id'];
+				if (is_array($c['children']))
+				{
+					$result = array_merge($result, $this->getSubcategoriesId($c['children']));
+				}
+			}
+		}
+		return $result;
 	}
 
 	/**
@@ -216,9 +253,9 @@ class apiProduct extends CartET
 			foreach ($copy as $id => $item)
 			{
 				if ($item['parent_id'])
-					$copy[$item['parent_id']]['children'][] = &$copy[$id];
+					$copy[$item['parent_id']]['children'][$id] = &$copy[$id];
 				else
-					$tree[] = &$copy[$id];
+					$tree[$id] = &$copy[$id];
 			}
 		}
 
@@ -275,7 +312,7 @@ class apiProduct extends CartET
 				$category = " AND p2c.categories_id = '".(int)$params['categories_id']."' ";
 		}
 
-		// Фильтруем в категории по производителю
+		// Фильтруем по производителю
 		if ($params['manufacturers_id'])
 			$manufacturer = " AND p.manufacturers_id = '".(int)$params['manufacturers_id']."'  AND m.manufacturers_id = '".(int)$params['manufacturers_id']."' ";
 

@@ -22,8 +22,6 @@ else
 
 $module->assign('LINK_PAGE', os_href_link(basename($PHP_SELF), os_get_all_get_params(array('page','on_page','sort', 'direction', 'info','x','y')).'on_page='));
 
-$listing_sql = str_replace("where p.products_status = '1'", "where ".@$search_by_params_ids." p.products_status = '1'", $listing_sql);
-
 if (isset($_GET['status']))
 {
 	if ('all' === $_GET['status'])
@@ -36,8 +34,6 @@ if (isset($_GET['status']))
 		$listing_sql = str_replace("p.products_status = '1'", "p.products_status = '".$_GET['status']."'", $listing_sql);
 	}
 }
-
-$listing_sql = get_params_listing_sql($listing_sql, @(int)($_GET['cat']), @$selectedGroups);
 
 $listing_split = new splitPageResults($listing_sql, @(int)$_GET['page'], $num_page, 'p.products_id');
 
@@ -102,11 +98,12 @@ if ($listing_split->number_of_rows > 0)
 		}
 
 		$p_list = array();
-
 		foreach($module_content as $k => $m)
 		{
 			if (isset($m['PRODUCTS_ID']))
-				$_PRODUCTS_ID = $m['PRODUCTS_ID']; else $_PRODUCTS_ID= 0;
+				$_PRODUCTS_ID = $m['PRODUCTS_ID'];
+			else
+				$_PRODUCTS_ID= 0;
 
 			if (isset($p_list[$_PRODUCTS_ID]))
 				$module_content[$k]['params'] = $p_list[$_PRODUCTS_ID];

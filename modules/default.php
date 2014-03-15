@@ -60,52 +60,15 @@ else
 				}
 			}
 		}
+		// ПОДКАТЕГОРИИ
 		else
 		{
-			if (GROUP_CHECK == 'true')
+			$getCategoryArray = $cartet->product->getCategory($current_category_id, true);
+
+			foreach($getCategoryArray AS $c)
 			{
-				$group_check = "and c.group_permission_".$_SESSION['customers_status']['customers_status_id']."=1 ";
+				$categories_content = $c['children'];
 			}
-
-			$recursive_check = "";
-			$categories_query = "select cd.categories_description,
-			c.categories_id,
-			cd.categories_name,
-			cd.categories_heading_title,
-			c.categories_image,
-			c.parent_id from ".TABLE_CATEGORIES." c, ".TABLE_CATEGORIES_DESCRIPTION." cd
-			where c.categories_status = '1'
-			and c.parent_id = '".$current_category_id."'
-			and c.categories_id = cd.categories_id
-			".$recursive_check."
-			".$group_check."
-			and cd.language_id = '".(int) $_SESSION['languages_id']."'
-			order by sort_order, cd.categories_name";
-
-			$categories_query = osDBquery($categories_query);
-		}
-
-		$rows = 0;
-		while ($categories = os_db_fetch_array($categories_query, true))
-		{
-			$rows ++;
-			$cPath_new = os_category_link($categories['categories_id'],$categories['categories_name']);
-
-			$image = '';
-
-			if ($categories['categories_image'] != '' && is_file( dir_path('images').'categories/'.$categories['categories_image'] ) )
-				$image = http_path('images').'categories/'.$categories['categories_image'];
-			else
-				$image = http_path('images').'product_images/noimage.gif';
-
-			$catIds[] = $categories['categories_id'];
-			$categories_content[] = array(
-				'CATEGORIES_NAME' => $categories['categories_name'],
-				'CATEGORIES_HEADING_TITLE' => $categories['categories_heading_title'],
-				'CATEGORIES_IMAGE' => $image,
-				'CATEGORIES_LINK' => os_href_link(FILENAME_DEFAULT, $cPath_new),
-				'CATEGORIES_DESCRIPTION' => $categories['categories_description']
-			);
 		}
 
 		$new_products_category_id = $current_category_id;
@@ -151,9 +114,11 @@ else
 			$category['categories_template'] = $files[0];
 		}
 
+		$getSubcategoriesIds = $cartet->product->getSubcategoriesId($getCategoryArray);
+
 		$listing_sql = $cartet->product->getList(array(
 			'categories_id' => $current_category_id,
-			'subcategories' => $catIds,
+			'subcategories' => $getSubcategoriesIds, //$catIds,
 			'products_status' => 1,
 		));
 
