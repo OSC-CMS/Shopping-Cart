@@ -37,7 +37,7 @@ global $attribute_options_select;
 global $froogle_product_info_path;
 $froogle_product_info_path =  HTTP_SERVER . DIR_WS_CATALOG . "product_info.php";
 global $froogle_image_path;
-$froogle_image_path =   HTTP_SERVER . DIR_WS_CATALOG . "images/";
+$froogle_image_path = http_path('images_info');
 global $froogle_SEF_urls;
 $froogle_SEF_urls = true;
 ?>
