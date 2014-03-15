@@ -26,6 +26,8 @@ ul.subcat-nav li a:hover {text-decoration:none;background:#eee;}
 ul.subcat-nav li a.current-parent {background:#dddddd;}
 ul.subcat-nav li a.current {background:#08C;color:#fff;}
 
+.sub_cat_items {margin:0 0 0 0;padding:0;list-style: none;}
+.sub_cat_items ul {margin:0 0 0 15px;padding:0;list-style: none;}
 
 .nav-tabs > .current-parent > a, .nav-tabs > .current-parent > a:hover {
 	color: #555555;

@@ -14,7 +14,20 @@ class apiRequest extends CartET
 
 	public function __construct()
 	{
+		parent::__construct();
+
 		$this->data = $_REQUEST;
+	}
+
+	/**
+	 * Определение метода запроса
+	 */
+	public function method($method = '')
+	{
+		if (!empty($method))
+			return strtolower($_SERVER['REQUEST_METHOD']) == strtolower($method);
+
+		return $_SERVER['REQUEST_METHOD'];
 	}
 
 	/**

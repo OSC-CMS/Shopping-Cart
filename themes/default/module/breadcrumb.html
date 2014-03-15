@@ -1,9 +1,13 @@
-<ul class="breadcrumb">
-	{foreach $aBreadCrumbs as $b}
-		{if !$b@last}
-			<li><a href="{$b.link}"><span>{$b.title}</span></a><span class="divider">/</span></li>
-		{else}
-			<li><span>{$b.title}</span></li>
-		{/if}
-	{/foreach}
-</ul>
+{if isset($aBreadCrumbs)}
+	<ul class="breadcrumb">
+		{foreach $aBreadCrumbs as $b}
+			{if isset($b.title)}
+				{if !$b@last}
+					<li><a href="{$b.link}"><span>{$b.title}</span></a><span class="divider">/</span></li>
+				{else}
+					<li><span>{$b.title}</span></li>
+				{/if}
+			{/if}
+		{/foreach}
+	</ul>
+{/if}
