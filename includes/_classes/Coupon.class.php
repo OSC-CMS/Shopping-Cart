@@ -33,7 +33,8 @@ class apiCoupon extends CartET
 		if (!isset($params)) return false;
 
 		include 'lang/'.$_SESSION['language_admin'].'/coupon_admin.php';
-		require_once(_LIB.'phpmailer/class.phpmailer.php');
+		require _LIB . 'phpmailer/PHPMailerAutoload.php';
+		include_once (_LIB.'phpmailer/func.mail.php');
 		$osTemplate = new osTemplate;
 
 		switch ($params['customers_email_address'])
@@ -162,7 +163,9 @@ class apiCoupon extends CartET
 		if (!isset($params)) return false;
 
 		include 'lang/'.$_SESSION['language_admin'].'/coupon_admin.php';
-		require_once(_LIB.'phpmailer/class.phpmailer.php');
+		require _LIB . 'phpmailer/PHPMailerAutoload.php';
+		include_once (_LIB.'phpmailer/func.mail.php');
+
 		$osTemplate = new osTemplate;
 
 		require(get_path('class_admin').'currencies.php');
@@ -266,7 +269,8 @@ class apiCoupon extends CartET
 
 		$gid = (is_array($params)) ? $params['id'] : $params;
 
-		require_once(_LIB.'phpmailer/class.phpmailer.php');
+		require _LIB . 'phpmailer/PHPMailerAutoload.php';
+		include_once (_LIB.'phpmailer/func.mail.php');
 		$osTemplate = new osTemplate;
 		require(get_path('class_admin').'currencies.php');
 		$currencies = new currencies();

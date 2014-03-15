@@ -11,7 +11,8 @@
 require('includes/top.php');
 //$osTemplate = new osTemplate;
 
-require_once(_LIB.'phpmailer/class.phpmailer.php');
+require _LIB . 'phpmailer/PHPMailerAutoload.php';
+include_once (_LIB.'phpmailer/func.mail.php');
 
 if (isset($_POST['action'])) {
     $a_gender = os_db_prepare_input($_POST['a_gender']);

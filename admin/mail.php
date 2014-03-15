@@ -10,7 +10,8 @@
 
   require('includes/top.php');
   //require_once(_FUNC_ADMIN.'wysiwyg_tiny.php');
-  require_once(_LIB.'phpmailer/class.phpmailer.php');
+require _LIB . 'phpmailer/PHPMailerAutoload.php';
+include_once (_LIB.'phpmailer/func.mail.php');
   if ( ($_GET['action'] == 'send_email_to_user') && ($_POST['customers_email_address']) && (!$_POST['back_x']) ) {
     switch ($_POST['customers_email_address']) {
       case '***':

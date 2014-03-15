@@ -12,8 +12,9 @@
 
   require(_CLASS_ADMIN . 'currencies.php');
   $currencies = new currencies();
-  
-  require_once(_LIB.'phpmailer/class.phpmailer.php');
+
+require _LIB . 'phpmailer/PHPMailerAutoload.php';
+include_once (_LIB.'phpmailer/func.mail.php');
 
   $payments_statuses = array();
   $payments_status_array = array();
