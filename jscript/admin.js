@@ -91,7 +91,7 @@ function onchange_products_page_url()
    str = str + '.html';
    
    str = str.replace(/\s+/g,"-");
-   str = str.replace(/[!;$,'":*^%#@\[\]&{}]+/g,"");
+   str = str.replace(/[!;$,'":*^%«»#@\[\]&{}]+/g,"");
 
    document.getElementById('products_page_url').value = str;
 }

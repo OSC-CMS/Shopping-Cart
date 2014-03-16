@@ -10,7 +10,8 @@
 
 require ('includes/top.php');
 $osTemplate = new osTemplate;
-require_once(_LIB.'phpmailer/class.phpmailer.php');
+require _LIB . 'phpmailer/PHPMailerAutoload.php';
+include_once (_LIB.'phpmailer/func.mail.php');
 require (_CLASS_ADMIN.'currencies.php');
 $currencies = new currencies();
 
