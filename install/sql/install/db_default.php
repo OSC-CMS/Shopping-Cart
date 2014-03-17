@@ -1566,7 +1566,6 @@ os_db_query("INSERT INTO `".DB_PREFIX."configuration` VALUES
 (365, 'VIS_BOX_FAQ', 'false', 30, 16, NULL, '0000-00-00 00:00:00', NULL, 'os_cfg_select_option(array(\'true\', \'false\'),'),
 (366, 'VIS_BOX_CURRENCIES', 'true', 30, 18, NULL, '0000-00-00 00:00:00', NULL, 'os_cfg_select_option(array(\'true\', \'false\'),'),
 (367, 'VIS_BOX_CONTENT', 'true', 30, 19, NULL, '0000-00-00 00:00:00', NULL, 'os_cfg_select_option(array(\'true\', \'false\'),'),
-(368, 'VIS_BOX_CATEGORIES', 'true', 30, 20, NULL, '0000-00-00 00:00:00', NULL, 'os_cfg_select_option(array(\'true\', \'false\'),'),
 (369, 'VIS_BOX_CART', 'true', 30, 21, NULL, '0000-00-00 00:00:00', NULL, 'os_cfg_select_option(array(\'true\', \'false\'),'),
 (370, 'VIS_BOX_BEST_SELLERS', 'true', 30, 22, NULL, '0000-00-00 00:00:00', NULL, 'os_cfg_select_option(array(\'true\', \'false\'),'),
 (372, 'VIS_BOX_ARTICLES_NEW', 'true', 30, 24, NULL, '0000-00-00 00:00:00', NULL, 'os_cfg_select_option(array(\'true\', \'false\'),'),
