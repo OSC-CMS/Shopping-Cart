@@ -228,6 +228,7 @@ define('CURRENCY_SERVER_PRIMARY', 'cbr');
 define('CURRENCY_SERVER_BACKUP', 'xe');
 
 include (_FUNC.'admin.include.php');
+include_once (_FUNC.'os_check.php');
 include (_CLASS_ADMIN.'main.php');
 
 include (_CLASS.'db.php');
