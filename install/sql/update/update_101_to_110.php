@@ -28,6 +28,7 @@ os_db_query("ALTER TABLE ".DB_PREFIX."admin_access ADD sms int(1) NOT NULL defau
 os_db_query("ALTER TABLE ".DB_PREFIX."admin_access ADD menu int(1) NOT NULL default '1';");
 os_db_query("ALTER TABLE ".DB_PREFIX."admin_access ADD cartet int(1) NOT NULL default '1';");
 os_db_query("ALTER TABLE ".DB_PREFIX."admin_access ADD `update` int(1) NOT NULL default '1';");
+os_db_query("ALTER TABLE ".DB_PREFIX."admin_access ADD `content` int(1) NOT NULL default '1';");
 
 os_db_query("DELETE FROM `".DB_PREFIX."configuration` WHERE `configuration_id` = 327;");
 os_db_query("DELETE FROM `".DB_PREFIX."configuration` WHERE `configuration_id` = 328;");

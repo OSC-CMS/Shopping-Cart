@@ -127,9 +127,11 @@ os_db_query("INSERT INTO `".DB_PREFIX."admin_access` (
 	`ajax`,
 	`sms`,
 	`cartet`,
-	`update`
+	`update`,
+	`content`
 ) VALUES (
 	'1',
+	1,
 	1,
 	1,
 	1,
@@ -272,6 +274,7 @@ os_db_query("INSERT INTO `".DB_PREFIX."admin_access` (
 	2,
 	2,
 	2,
+	1,
 	1,
 	1,
 	1,
