@@ -155,8 +155,15 @@ class categories
 	{
 		global $cartet;
 
-		/*_print_r($_FILES);
-		die();*/
+		// Пересчет цены товара в валюту по умолчанию по текущему курсу
+		if ($products_data['price_currency'] != DEFAULT_CURRENCY)
+		{
+			require (_CLASS.'price.php');
+			$osPrice = new osPrice(DEFAULT_CURRENCY, $_SESSION['customers_status']['customers_status_id']);
+
+			$convert_price = $osPrice->ConvertCurr($products_data['products_price'], $products_data['price_currency'], DEFAULT_CURRENCY);
+			$products_data['products_price'] = $convert_price['plain'];
+		}
 
 		$products_id = os_db_prepare_input($products_data['products_id']);
         $products_page_url = os_db_prepare_input($products_data['products_page_url']);

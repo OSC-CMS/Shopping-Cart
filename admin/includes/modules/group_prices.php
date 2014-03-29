@@ -51,6 +51,28 @@ while ($group_values = os_db_fetch_array($group_query))
 </div>
 
 <?php
+$currencies = $osPrice->currencies;
+if (is_array($currencies)) { ?>
+	<div class="control-group">
+		<label class="control-label" for=""><?php echo TEXT_PRODUCTS_PRICE_CURRENCY; ?></label>
+		<div class="controls">
+			<?php
+			$curArray = array();
+			while (list($key, $value) = each($currencies))
+			{
+				$curArray[] = array(
+					'id' => $key,
+					'text' => $value['title'],
+				);
+			}
+			?>
+			<?php echo os_draw_pull_down_menu('price_currency', $curArray, DEFAULT_CURRENCY); ?>
+			<span class="help-block"><?php echo TEXT_PRODUCTS_PRICE_CURRENCY_DESC; ?></span>
+		</div>
+	</div>
+<?php } ?>
+
+<?php
 for ($col = 0, $n = sizeof($group_data); $col < $n +1; $col ++)
 {
 	if ($group_data[$col]['STATUS_NAME'] != '')

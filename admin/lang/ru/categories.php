@@ -109,6 +109,8 @@ define('TEXT_PRODUCTS_IMAGE', 'Картинка товара');
 define('TEXT_PRODUCTS_URL', 'URL товара:');
 define('TEXT_PRODUCTS_URL_WITHOUT_HTTP', '(без http://)');
 define('TEXT_PRODUCTS_PRICE', 'Цена товара:');
+define('TEXT_PRODUCTS_PRICE_CURRENCY', 'Валюта цены:');
+define('TEXT_PRODUCTS_PRICE_CURRENCY_DESC', 'Цена будет автоматически пересчитана по курсу в валюту по умолчанию.');
 define('TEXT_PRODUCTS_WEIGHT', 'Вес товара:');
 define('TEXT_PRODUCTS_EAN','Штрих-код:');
 define('TEXT_PRODUCT_LINKED_TO','Ссылается на:');
