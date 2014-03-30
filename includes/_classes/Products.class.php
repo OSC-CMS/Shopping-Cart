@@ -996,35 +996,37 @@ class apiProducts extends CartET
 	 */
 	public function getImages($params)
 	{
-		$product_name = $params['product_name'];
-		$product_name = str_replace(' ', '+', $product_name);
+		$params['product_name'] = str_replace(' ', '+', $params['product_name']);
 
-		$start = '';
+		$start = 0;
 		if (isset($params['start']))
 		{
 			$start = intval($params['start']);
 		}
 
-		$url = "http://images.google.com/search?tbm=isch&tbs=isz:lt,islt:qsvga,itp:photo&start=$start&q=$product_name";
+		$url = 'http://ajax.googleapis.com/ajax/services/search/images?v=1.0&q='.urlencode($params['product_name']).'&start='.$start.'&rsz=8';
 
 		if (function_exists('curl_init'))
 		{
 			$ch = curl_init();
 			curl_setopt($ch, CURLOPT_URL, $url);
 			curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-
+			curl_setopt($ch, CURLOPT_TIMEOUT, 20);
 			$page = curl_exec($ch);
 			curl_close($ch);
 		}
 		else
 			$page = file_get_contents($url);
 
-		preg_match_all('/imgurl=(http:\/\/[^\\\]*(jpg|png|gif|jpeg))/U', $page, $matches, PREG_SET_ORDER);
+		$result = json_decode($page);
+
 		$images = array();
-		foreach($matches as $m)
+		if ($result)
 		{
-			$image = str_replace('%2520', '%20', $m[1]);
-			$images[] = urldecode($image);
+			foreach($result->responseData->results as $m)
+			{
+				$images[] = urldecode(str_replace('%2520', '%20', $m->url));
+			}
 		}
 
 		return $images;
@@ -1050,7 +1052,7 @@ class apiProducts extends CartET
 
 		if (preg_match_all('/<ul class="b-vlist b-vlist_type_mdash b-vlist_type_friendly">(.*?)/ui', $url, $matches))
 		{
-			if (preg_match_all('/<p class="b-model-friendly__title"><a href="(.*?)">все характеристики<\/a><\/p>/ui', $url, $matches))
+			if (preg_match_all('/<p class="b-model-friendly__title"><a href="(.*?)">/ui', $url, $matches))
 			{
 				$options_url = 'http://market.yandex.ru'.reset($matches[1]);
 
