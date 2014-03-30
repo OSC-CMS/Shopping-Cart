@@ -359,7 +359,8 @@ class apiProduct extends CartET
 			pd.products_short_description,
 			pd.products_description,
 			m.manufacturers_id,
-			m.manufacturers_name
+			m.manufacturers_name,
+			m.manufacturers_image
 		FROM
 			".TABLE_PRODUCTS." p
 				LEFT JOIN ".TABLE_PRODUCTS_DESCRIPTION." pd ON (pd.products_id = p.products_id)
