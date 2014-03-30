@@ -77,16 +77,9 @@ else
 		$featured_products_category_id = $current_category_id;
 		include (DIR_WS_MODULES.FILENAME_FEATURED);
 
-		$image = '';
-
-		if ($category['categories_image'] != '' &&  is_file( dir_path('images').'categories/'.$category['categories_image'] ) )
-		{
-			$image = http_path('images').'categories/'.$category['categories_image'];
-		}
-
 		$default->assign('CATEGORIES_NAME', $category['categories_name']);
 		$default->assign('CATEGORIES_HEADING_TITLE', $category['categories_heading_title']);
-		$default->assign('CATEGORIES_IMAGE', $image);
+		$default->assign('CATEGORIES_IMAGE', $category['categories_image']);
 		$default->assign('CATEGORIES_DESCRIPTION', $category['categories_description']);
 		$default->assign('language', $_SESSION['language']);
 
@@ -302,7 +295,7 @@ else
 					$_plug_name = $os_action_plug[ $_tag ];
 					$p->name = $os_action_plug[ $_tag ];
 					$p->group = $p->info[$p->name]['group'];
-					//$p->set_dir();
+					$p->set_dir();
 					$_box = $_tag();
 
 					if (!isset($_box['template']))

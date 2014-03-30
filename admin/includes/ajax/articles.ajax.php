@@ -10,19 +10,16 @@
 
 include 'lang/'.$_SESSION['language_admin'].'/articles.php';
 
-require_once(CLS_NEW.'articles.class.php');
-$articles = new articles();
-
 // Получаем данные категории статей
 if (isset($_GET['action']) && $_GET['action'] == 'topic_move')
 {
-	$articlesData = $articles->getTopicById($_GET['t_id']);
+	$articlesData = $cartet->articles->getTopicById($_GET['t_id']);
 }
 
 // Получаем данные статьи
 if (isset($_GET['action']) && ($_GET['action'] == 'article_move' OR $_GET['action'] == 'article_copy'))
 {
-	$articlesData = $articles->getArticleById($_GET['a_id']);
+	$articlesData = $cartet->articles->getArticleById($_GET['a_id']);
 }
 
 if ($_GET['action'] == 'topic_move') { ?>

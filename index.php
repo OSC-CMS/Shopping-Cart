@@ -17,7 +17,7 @@ if (isset($_GET['page']) && !isset($_GET['cat']) && !isset($_GET['manufacturers_
 		$_plug_name = $os_action_plug[$_GET['page']];
 		$p->name = $_plug_name;
 		$p->group = $p->info[$p->name]['group'];
-		//$p->set_dir();
+		$p->set_dir();
 		$_page = $_GET['page'];
 		$_page = os_db_prepare_input($_page);
 		$_page();

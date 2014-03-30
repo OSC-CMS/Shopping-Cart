@@ -18,16 +18,12 @@ $action = (isset($_GET['action']) ? $_GET['action'] : '');
 
 if (isset($action) && $action == 'update_topic' OR isset($action) && $action == 'insert_topic')
 {
-	include CLS_NEW.'articles.class.php';
-	$articlesData = new articles();
-	$articlesData->saveCategory($_POST);
+	$cartet->articles->saveCategory($_POST);
 	os_redirect(os_href_link(FILENAME_ARTICLES, 'tPath='.$_GET['tPath']));
 }
 elseif (isset($action) && $action == 'update_article' OR isset($action) && $action == 'insert_article')
 {
-	include CLS_NEW.'articles.class.php';
-	$articlesData = new articles();
-	$articlesData->saveArticle($_POST);
+	$cartet->articles->saveArticle($_POST);
 	os_redirect(os_href_link(FILENAME_ARTICLES, 'tPath='.$_GET['tPath']));
 }
 

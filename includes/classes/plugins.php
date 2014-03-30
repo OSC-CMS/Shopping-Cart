@@ -25,10 +25,22 @@ class plugins
 
     var $name; //имя текущего плагина
     var $group; // main || themes || update
-    var $dir = 'modules/'; // текущее располодение плагина
+    var $dir; // текущее располодение плагина
 
     var $module; //$_GET['modules']
     var $type = 'admin';
+
+	function set_dir ()
+	{
+		if (is_file(get_path('plug').$this->name.'/'.$this->name.'.php'))
+		{
+			$this->dir = 'modules/plugins/'.$this->name.'/';
+		}
+		elseif (is_file(get_path('plug').$this->name.'.php'))
+		{
+			$this->dir = 'modules/plugins/';
+		}
+	}
 
     //Получение информации из языковых файлов
     function lang()
@@ -37,9 +49,10 @@ class plugins
         {
             $this->name = $this->module;
             $this->group = $this->info[$this->name]['group'];
+	        $this->set_dir();
         }
 
-        $plugin_dir = get_path('catalog').'modules/plugins/'.$this->name.'/';
+	    $plugin_dir = get_path('catalog').$this->dir;
 
         if (!empty($_SESSION['language']))
         {
@@ -439,6 +452,8 @@ class plugins
         if (!isset($this->info[$this->name]['process']) or count($this->info[$this->name]['process'])==0)
 			return 0;
 
+	    $this->set_dir();
+
         require_once (get_path('catalog').$this->dir.$this->name.'.php');
 
         $_pocess = $this->info[$this->name]['process'][0];
@@ -669,7 +684,7 @@ class plugins
 
             $this->group = $_group;
 
-           // $this->set_dir();
+			$this->set_dir();
 
             // echo $this->name.'<br>';
             // echo plugdir().'<br>'	;

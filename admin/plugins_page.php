@@ -24,7 +24,7 @@ if (isset($_GET['main_page']))
 	{
 		$p->name = $os_action_plug[$_GET['main_page']];
 		$p->group = $p->info[$p->name]['group'];
-		//$p->set_dir();
+		$p->set_dir();
 
 		foreach ($plugins_file as $_val)
 		{
@@ -52,7 +52,7 @@ if (isset($_GET['main_page']))
 	{
 		$p->name = $os_action_plug[ $_GET['main_page'] ];
 		$p->group = $p->info[$p->name]['group'];
-		//$p->set_dir();
+		$p->set_dir();
 		$_GET['main_page']();
 	}
 	else
@@ -66,7 +66,7 @@ else
 	{
 		$p->name = $os_action_plug[$_GET['page']];
 		$p->group = $p->info[$p->name]['group'];
-		//$p->set_dir();
+		$p->set_dir();
 		$_GET['page']();
 	}
 	else

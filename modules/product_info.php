@@ -368,7 +368,7 @@ $i = count($_SESSION['tracking']['products_history']);
 		  {
 		  	 $p->name = $os_action_plug[$_info];	
 			 $p->group = $p->info[$p->name]['group'];
-			 //$p->set_dir();
+			 $p->set_dir();
 			 
 		     $_products_info_val = $_info();
 			 

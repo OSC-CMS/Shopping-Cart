@@ -280,6 +280,7 @@ function apply_filter ($tag, $value)
 	              { 
 		              $p->name  = $os_filter_name[ $_filter_func ];
 			          $p->group = $p->info[ $p->name ]['group'];
+		              $p->set_dir();
 
 	                  $value = $_filter_func ($value);
 					  
@@ -336,7 +337,7 @@ function rewrite_action ($tag, $function, $function_to_add)
 function plugurl()
 {
    	global $p; //class plugins
-		
+
     return http_path('catalog').$p->dir;
 }
 
@@ -376,6 +377,7 @@ function do_action ($tag, $separator = '')
 	          {
 			        $p->name = $os_action_plug[$_tag];
 					$p->group = $p->info[$p->name]['group'];
+		            $p->set_dir();
 
 	                $_tag();
 			        echo $separator;

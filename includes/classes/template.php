@@ -41,6 +41,7 @@ class osTemplate extends Smarty
 		$array = apply_filter('tpl_vars', $array);
 		$p->name = $name;
 		$p->group = $group;
+		$p->set_dir();
 
 		if (count($array) > 0)
 		{

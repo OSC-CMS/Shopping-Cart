@@ -146,6 +146,7 @@ if ($_SESSION['cart']->count_contents() > 0)
 
 					$module_content[$i]['ATTRIBUTES'][] = array(
 						'ID' => $products[$i][$option]['products_attributes_id'],
+						'PRICE' => $osPrice->Format($products[$i][$option]['options_values_price'], true),
 						'MODEL' => os_get_attributes_model(os_get_prid($products[$i]['id']), $products[$i][$option]['products_options_values_name'],$products[$i][$option]['products_options_name']),
 						'NAME' => $products[$i][$option]['products_options_name'],
 						'VALUE_NAME' => $products[$i][$option]['products_options_values_name'].$attribute_stock_check

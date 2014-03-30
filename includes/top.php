@@ -615,6 +615,7 @@ if (isset($os_action['box']) && !empty($os_action['box']))
 			$_plug_name = $os_action_plug[$_tag];
 			$p->name = $os_action_plug[$_tag];
 			$p->group = $p->info[$p->name]['group'];
+			$p->set_dir();
 
 			if ($p->info[$p->name]['status'] == '1')
 			{

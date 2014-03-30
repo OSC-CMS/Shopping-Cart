@@ -569,7 +569,7 @@ $main->top_menu();
 		<div class="control-group">
 			<label class="control-label" for="content_text"><?php echo TEXT_CONTENT; ?></label>
 			<div class="controls">
-				<textarea class="input-block-level textarea_big" id="content_text" name="content_text" data-required="true"><?php echo $content['content_text']; ?></textarea>
+				<textarea class="input-block-level textarea_big" id="content_text" name="content_text"><?php echo $content['content_text']; ?></textarea>
 			</div>
 		</div>
 		<div class="control-group">

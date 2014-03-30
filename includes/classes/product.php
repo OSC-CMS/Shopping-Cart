@@ -421,9 +421,13 @@ class product {
 		
 			$shipping_status_name = @$main->getShippingStatusName($array['products_shippingtime']);
 			$shipping_status_image = @$main->getShippingStatusImage($array['products_shippingtime']);
-		
-	
-		
+
+	    $manufacturers_image = '';
+		if (!empty($array['manufacturers_image']))
+		{
+			$manufacturers_image = _HTTP.'manufacturers/'.$array['manufacturers_image'];
+		}
+
 		return apply_filter ('build_products', array ('PRODUCTS_NAME' => @$array['products_name'], 
 		      'PRODUCTS_MODEL'=> @$array['products_model'],
 		      'PRODUCTS_QUANTITY'=> @$array['products_quantity'],
@@ -448,6 +452,7 @@ class product {
 				'PRODUCTS_CATEGORY_URL'=> @$array['cat_url'],
 				'PRODUCTS_SHORT_DESCRIPTION' => @$array['products_short_description'], 
 				'PRODUCTS_FSK18' => @$array['products_fsk18'],
+				'PRODUCTS_MANUFACTURER_IMAGE' => @$manufacturers_image,
 				'PRODUCTS_MANUFACTURER_NAME' => @$array['manufacturers_name'],
 				'PRODUCTS_MANUFACTURER_ID' => @$array['manufacturers_id'],
 				'PRODUCTS_BUNDLE' => @$array['products_bundle'])
