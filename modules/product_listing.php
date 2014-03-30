@@ -10,8 +10,6 @@
 
 do_action('action_products_listing');
 
-require_once (_FUNC.'params_filters.php');
-
 $module = new osTemplate;
 $result = true;
 
@@ -49,13 +47,9 @@ if ($listing_split->number_of_rows > 0)
 
 	$category = $cartet->product->getCategory($current_category_id);
 
-	$image = '';
-	if ($category['categories_image'] != '')
-		$image = http_path('images').'categories/'.$category['categories_image'];
-
 	$module->assign('CATEGORIES_NAME', $category['categories_name']);
 	$module->assign('CATEGORIES_HEADING_TITLE', $category['categories_heading_title']);
-	$module->assign('CATEGORIES_IMAGE', $image);
+	$module->assign('CATEGORIES_IMAGE', $category['categories_image']);
 	$module->assign('CATEGORIES_DESCRIPTION', $category['categories_description']);
 
 	$rows = 0;

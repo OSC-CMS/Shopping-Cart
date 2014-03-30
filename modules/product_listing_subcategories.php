@@ -10,8 +10,6 @@
 
 do_action('action_products_listing');
 
-require_once (_FUNC.'params_filters.php');
-
 $result = true;
 
 if (isset($_GET['on_page']) && is_numeric($_GET['on_page'])) {
