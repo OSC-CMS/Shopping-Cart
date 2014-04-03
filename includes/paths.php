@@ -185,12 +185,6 @@ function http_path($name)
 	return $PATH[$name]['http'];
 }
 
-{
-   global $PATH;
-   
-   return $PATH[$name]['http'];
-}
-
 function dir_path ($name)
 {
    global $PATH;
