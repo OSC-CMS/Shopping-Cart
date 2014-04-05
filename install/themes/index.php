@@ -13,7 +13,7 @@
     <div id="layout">
         <div id="header" class="wrapp">
             <div class="logo">
-                <span>1.1.0.beta</span>
+                <span>1.1.1 (RC 2)</span>
                 <div class="langs">
                     <?php foreach($langs as $id){ ?>
                         <a <?php if (isset($lang) && $id == $lang) { ?>class="selected"<?php } ?> style="background-image:url('languages/<?php echo $id; ?>/flag.png')" href="?lang=<?php echo $id; ?>"><?php echo mb_strtoupper($id); ?></a>
