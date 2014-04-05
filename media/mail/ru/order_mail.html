@@ -132,6 +132,13 @@
 				/*@editable*/ background-color:#FFFFFF;
 				/*@editable*/ border-bottom:1px solid #DDDDDD;
 				/*@editable*/ padding:2px 0 2px 0;
+				/*@editable*/ font-size:12px;
+			}
+			.templateDataTable tr.bg1 td{
+				/*@editable*/ background:#f3f3f3;
+			}
+			.templateDataTable tr.bg2 td{
+				/*@editable*/ background:#fff;
 			}
 			{/literal}
 		</style>
@@ -248,7 +255,7 @@
 		<td width="110">Всего</td>
 	</tr>
 	{foreach name=aussen item=order_values from=$order_data}
-	<tr>
+	<tr class="{if $smarty.foreach.aussen.iteration % 2 == 1}bg2{else}bg1{/if}">
 		<td>{$order_values.PRODUCTS_QTY}</td>
 		<td>
 			<strong>{$order_values.PRODUCTS_NAME}</strong>
