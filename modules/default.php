@@ -111,7 +111,7 @@ else
 
 		$listing_sql = $cartet->product->getList(array(
 			'categories_id' => $current_category_id,
-			'subcategories' => $getSubcategoriesIds, //$catIds,
+			'subcategories' => $getSubcategoriesIds,
 			'products_status' => 1,
 		));
 

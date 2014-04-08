@@ -162,18 +162,7 @@ class product {
 			$group_check = " and p.group_permission_".$_SESSION['customers_status']['customers_status_id']."=1 ";
 		}
 
-		$orders_query = "select
-														                                  p.products_fsk18,
-														                                  p.products_id,
-														                                  p.products_price,
-														                                  p.products_tax_class_id,
-														                                  p.products_image,
-														                                  pd.products_name,
-														                                  p.products_vpe,
-						                           										  p.products_vpe_status,
-						                           										  p.products_vpe_value,
-														                                  pd.products_short_description,
-																							p.products_bundle FROM ".TABLE_ORDERS_PRODUCTS." opa, ".TABLE_ORDERS_PRODUCTS." opb, ".TABLE_ORDERS." o, ".TABLE_PRODUCTS." p, ".TABLE_PRODUCTS_DESCRIPTION." pd
+		$orders_query = "select * FROM ".TABLE_ORDERS_PRODUCTS." opa, ".TABLE_ORDERS_PRODUCTS." opb, ".TABLE_ORDERS." o, ".TABLE_PRODUCTS." p, ".TABLE_PRODUCTS_DESCRIPTION." pd
 														                                  where opa.products_id = '".$this->pID."'
 														                                  and opa.orders_id = opb.orders_id
 														                                  and opb.products_id != '".$this->pID."'
@@ -196,52 +185,47 @@ class product {
 
 	}
 
-	function getCrossSells() {
-		global $osPrice;
+	function getCrossSells()
+	{
+		$cs_groups = osDBquery("SELECT products_xsell_grp_name_id FROM ".TABLE_PRODUCTS_XSELL." WHERE products_id = '".$this->pID."' GROUP BY products_xsell_grp_name_id");
 
-		$cs_groups = "SELECT products_xsell_grp_name_id FROM ".TABLE_PRODUCTS_XSELL." WHERE products_id = '".$this->pID."' GROUP BY products_xsell_grp_name_id";
-		$cs_groups = osDBquery($cs_groups);
 		$cross_sell_data = array ();
-		if (os_db_num_rows($cs_groups, true)>0) {
-		while ($cross_sells = os_db_fetch_array($cs_groups, true)) {
+		if (os_db_num_rows($cs_groups, true)>0)
+		{
+			while ($cross_sells = os_db_fetch_array($cs_groups, true))
+			{
+				$fsk_lock = '';
+				if ($_SESSION['customers_status']['customers_fsk18_display'] == '0')
+				{
+					$fsk_lock = ' and p.products_fsk18!=1';
+				}
+				$group_check = "";
+				if (GROUP_CHECK == 'true')
+				{
+					$group_check = " and p.group_permission_".$_SESSION['customers_status']['customers_status_id']."=1 ";
+				}
 
-			$fsk_lock = '';
-			if ($_SESSION['customers_status']['customers_fsk18_display'] == '0') {
-				$fsk_lock = ' and p.products_fsk18!=1';
+				$cross_query = osDBquery("select * from ".TABLE_PRODUCTS_XSELL." xp, ".TABLE_PRODUCTS." p, ".TABLE_PRODUCTS_DESCRIPTION." pd
+				where xp.products_id = '".$this->pID."' and xp.xsell_id = p.products_id ".$fsk_lock.$group_check."
+				and p.products_id = pd.products_id and xp.products_xsell_grp_name_id='".$cross_sells['products_xsell_grp_name_id']."'
+				and pd.language_id = '".$_SESSION['languages_id']."'
+				and p.products_status = '1'
+				order by xp.sort_order asc");
+
+				if (os_db_num_rows($cross_query, true) > 0)
+				{
+					$cross_sell_data[$cross_sells['products_xsell_grp_name_id']] = array(
+						'GROUP' => os_get_cross_sell_name($cross_sells['products_xsell_grp_name_id']),
+						'PRODUCTS' => array ()
+					);
+
+					while ($xsell = os_db_fetch_array($cross_query, true))
+					{
+						$cross_sell_data[$cross_sells['products_xsell_grp_name_id']]['PRODUCTS'][] = $this->buildDataArray($xsell);
+					}
+				}
 			}
-			$group_check = "";
-			if (GROUP_CHECK == 'true') {
-				$group_check = " and p.group_permission_".$_SESSION['customers_status']['customers_status_id']."=1 ";
-			}
-
-				$cross_query = "select p.products_fsk18,
-																														 p.products_tax_class_id,
-																								                                                 p.products_id,
-																								                                                 p.products_image,
-																								                                                 pd.products_name,
-																														 						pd.products_short_description,
-																								                                                 p.products_fsk18,p.products_price,p.products_vpe,
-						                           																									p.products_vpe_status,
-						                           																									p.products_vpe_value,
-																								                                                 xp.sort_order,
-																								                                                 p.products_bundle from ".TABLE_PRODUCTS_XSELL." xp, ".TABLE_PRODUCTS." p, ".TABLE_PRODUCTS_DESCRIPTION." pd
-																								                                            where xp.products_id = '".$this->pID."' and xp.xsell_id = p.products_id ".$fsk_lock.$group_check."
-																								                                            and p.products_id = pd.products_id and xp.products_xsell_grp_name_id='".$cross_sells['products_xsell_grp_name_id']."'
-																								                                            and pd.language_id = '".$_SESSION['languages_id']."'
-																								                                            and p.products_status = '1'
-																								                                            order by xp.sort_order asc";
-
-			$cross_query = osDBquery($cross_query);
-			if (os_db_num_rows($cross_query, true) > 0)
-				$cross_sell_data[$cross_sells['products_xsell_grp_name_id']] = array ('GROUP' => os_get_cross_sell_name($cross_sells['products_xsell_grp_name_id']), 'PRODUCTS' => array ());
-
-			while ($xsell = os_db_fetch_array($cross_query, true)) {
-
-				$cross_sell_data[$cross_sells['products_xsell_grp_name_id']]['PRODUCTS'][] = $this->buildDataArray($xsell);
-			}
-
-		}
-		return $cross_sell_data;
+			return $cross_sell_data;
 		}
 	}
 	
@@ -449,6 +433,7 @@ class product {
 				'PRODUCTS_SHIPPING_IMAGE'=> @$shipping_status_image, 
 				'PRODUCTS_DESCRIPTION' => @$array['products_description'],
 				'PRODUCTS_EXPIRES' => @$array['expires_date'],
+				'PRODUCTS_SPECIALS_QUANTITY' => @$array['specials_quantity'],
 				'PRODUCTS_CATEGORY_URL'=> @$array['cat_url'],
 				'PRODUCTS_SHORT_DESCRIPTION' => @$array['products_short_description'], 
 				'PRODUCTS_FSK18' => @$array['products_fsk18'],

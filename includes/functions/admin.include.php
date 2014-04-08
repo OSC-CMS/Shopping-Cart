@@ -3104,3 +3104,5 @@ function osc_head_array($HEAD)
 
     return $_meta_array;
 }
+
+require 'helpers/html.helper.php';

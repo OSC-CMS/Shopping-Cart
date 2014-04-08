@@ -22,6 +22,8 @@ define('TABLE_HEADING_STOCKS','Наличие');
 define('TABLE_HEADING_MENU','Меню');
 define('TABLE_HEADING_SORT','Порядок');
 define('TABLE_HEADING_EDIT','');
+define('TABLE_HEADING_SHIPPING_TIME','Время доставки');
+define('TABLE_HEADING_MODEL','Модель');
 
 define('TEXT_ACTIVE_ELEMENT','Активный элемент');
 define('TEXT_INFORMATIONS','Информация');

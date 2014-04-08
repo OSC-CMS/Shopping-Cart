@@ -20,8 +20,41 @@ class apiProduct extends CartET
 	 */
 	private $categories_tree;
 
+	/**
+	 * Массив товара текущей страницы
+	 */
+	private $products_data = array();
+
+	/**
+	 * Массив времени доставки
+	 */
+	private $shipping_status;
+
 	public function __construct()
 	{
+	}
+
+	/**
+	 * Статусы доставки товара
+	 */
+	public function getShippingStatus()
+	{
+		if (!isset($this->shipping_status))
+		{
+			$shipping_status_array = array ();
+			$shipping_status_query = os_db_query("select shipping_status_id, shipping_status_name from ".TABLE_SHIPPING_STATUS." where language_id = '".$_SESSION['languages_id']."' order by shipping_status_id");
+			if (os_db_num_rows($shipping_status_query) > 0)
+			{
+				while ($shipping_status = os_db_fetch_array($shipping_status_query))
+				{
+					$shipping_status_array[$shipping_status['shipping_status_id']] = $shipping_status['shipping_status_name'];
+				}
+			}
+
+			$this->shipping_status = $shipping_status_array;
+		}
+
+		return $this->shipping_status;
 	}
 
 	/**
@@ -229,7 +262,7 @@ class apiProduct extends CartET
 	private function getTree()
 	{
 		$group_check = (GROUP_CHECK == 'true') ? " AND c.group_permission_".$_SESSION['customers_status']['customers_status_id']." = 1 " : '';
-		$cat_query = osDBquery("SELECT * FROM ".TABLE_CATEGORIES." c, ".TABLE_CATEGORIES_DESCRIPTION." cd WHERE c.categories_id = cd.categories_id ".$group_check." AND cd.language_id = '".(int)$_SESSION['languages_id']."'");
+		$cat_query = osDBquery("SELECT * FROM ".TABLE_CATEGORIES." c, ".TABLE_CATEGORIES_DESCRIPTION." cd WHERE c.categories_id = cd.categories_id ".$group_check." AND cd.language_id = '".(int)$_SESSION['languages_id']."' ORDER BY c.sort_order ASC, cd.categories_name ASC");
 
 		$items = array();
 		if (os_db_num_rows($cat_query, true))
@@ -267,7 +300,7 @@ class apiProduct extends CartET
 
 	private function sorting($sorting_data)
 	{
-		$sortingTypes = array('name', 'price');
+		$sortingTypes = array('name', 'price', 'model', 'date_added');
 		$directionTypes = array('asc', 'desc');
 
 		$sort = ($this->request->get('sort')) ? $this->request->get('sort') : '';
@@ -287,14 +320,19 @@ class apiProduct extends CartET
 	public function getList($params = array())
 	{
 		// Опции
-		$categoryInfo = array();
-		$sorting = 'pd.products_name ASC';
+		$order_by = 'pd.products_name ASC';
 		$category = '';
 		$manufacturer = '';
 		$status = '';
 		$distinct = '';
 		$limit = '';
 		$language = $_SESSION['languages_id'];
+		$where = array();
+
+		// Дополнительные условия выборки
+		if (isset($params['where']) && !empty($params['where']))
+			foreach($params['where'] AS $w)
+				$where[] = (count($where) == 0 ? " AND " : "").os_db_prepare_input($w);
 
 		// Если есть категория
 		if ($params['categories_id'])
@@ -303,7 +341,7 @@ class apiProduct extends CartET
 
 			// Сортировка товара
 			$sorting_data = $this->sorting($categoryInfo);
-			$sorting = ' '.$sorting_data['products_sorting'].' '.$sorting_data['products_sorting2'].' ';
+			$order_by = ' '.$sorting_data['products_sorting'].' '.$sorting_data['products_sorting2'].' ';
 
 			// Выборка товара по определенной категории
 			if (is_array($params['subcategories']))
@@ -314,7 +352,7 @@ class apiProduct extends CartET
 
 		// Фильтруем по производителю
 		if ($params['manufacturers_id'])
-			$manufacturer = " AND p.manufacturers_id = '".(int)$params['manufacturers_id']."'  AND m.manufacturers_id = '".(int)$params['manufacturers_id']."' ";
+			$manufacturer = " AND p.manufacturers_id = '".(int)$params['manufacturers_id']."' AND m.manufacturers_id = '".(int)$params['manufacturers_id']."' ";
 
 		// Статус товара
 		if ($params['products_status'])
@@ -338,29 +376,7 @@ class apiProduct extends CartET
 
 		$listing_sql = "
 		SELECT ".$distinct."
-			p.products_fsk18,
-			p.products_shippingtime,
-			p.products_model,
-			p.products_ean,
-			p.products_quantity,
-			p.products_image,
-			p.products_weight,
-			p.stock,
-			p.products_id,
-			p.manufacturers_id,
-			p.products_price,
-			p.products_vpe,
-			p.products_vpe_status,
-			p.products_vpe_value,
-			p.products_discount_allowed,
-			p.products_tax_class_id,
-			p.products_bundle,
-			pd.products_name,
-			pd.products_short_description,
-			pd.products_description,
-			m.manufacturers_id,
-			m.manufacturers_name,
-			m.manufacturers_image
+			*
 		FROM
 			".TABLE_PRODUCTS." p
 				LEFT JOIN ".TABLE_PRODUCTS_DESCRIPTION." pd ON (pd.products_id = p.products_id)
@@ -369,16 +385,39 @@ class apiProduct extends CartET
 				LEFT JOIN ".TABLE_PRODUCTS_TO_CATEGORIES." p2c ON (p.products_id = p2c.products_id AND pd.products_id = p2c.products_id)
 		WHERE
 			pd.language_id = '".(int)$language."'
+			".join(' AND ', $where)."
 			".$group_check."
+			".$status."
 			".$fsk_lock."
 			".$category."
-			".$status."
 			".$manufacturer."
 			ORDER BY
-				".$sorting."
+				".$order_by."
 			".$limit."
-		";
+		";//
+
+		/*$listing_query = osDBquery($listing_sql);
+
+		if (os_db_num_rows($listing_query, true) > 0)
+		{
+			while($product = os_db_fetch_array($listing_query, true))
+			{
+				$this->products_data['list'][$product['products_id']] = $product;
+			}
+
+			return $this->getProducts();
+		}
+		else
+			return false;*/
 
 		return $listing_sql;
+	}
+
+	/**
+	 * Возвращает массив товаров текущей страницы
+	 */
+	public function getProducts($type = 'list')
+	{
+		return ($this->products_data[$type]) ? apply_filter('products_data_'.$type, $this->products_data[$type]) : false;
 	}
 }

@@ -74,8 +74,7 @@ while ($group_values = os_db_fetch_array($group_query))
 	);
 }
 
-$shipping_statuses = array ();
-$shipping_statuses = os_get_shipping_status();
+$products_shippingtime = $cartet->product->getShippingStatus();
 
 function manufacturers_list()
 {
@@ -308,7 +307,19 @@ $main->top_menu();
 					}
 				}
 				?>
-				<td><?php echo os_draw_pull_down_menu($products['products_id'].'[products_shippingtime]', $shipping_statuses, $products['products_shippingtime']); ?></td>
+				<td>
+					<select class="width100px" name="<?php echo $products['products_id']; ?>[products_shippingtime]">
+						<?php
+						if (is_array($products_shippingtime))
+						{
+							foreach($products_shippingtime AS $id => $text)
+							{
+								$selected = ($products['products_shippingtime'] == $id) ? 'selected' : '';
+								echo '<option value="'.$id.'" '.$selected.'>'.$text.'</option>';
+							}
+						}
+						?>
+					</select>
 			</tr>
 			<?php } ?>
 		<tbody>

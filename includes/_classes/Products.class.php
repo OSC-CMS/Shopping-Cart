@@ -300,6 +300,8 @@ class apiProducts extends CartET
 					(
 						'products_price' => os_db_prepare_input($values['products_price']),
 						'products_sort' => (int)$values['products_sort'],
+						'products_shippingtime' => (int)$values['products_shippingtime'],
+						'products_model' => os_db_prepare_input($values['products_model']),
 					);
 					if (STOCK_CHECK == 'true')
 					{
@@ -637,7 +639,6 @@ class apiProducts extends CartET
 				os_db_perform(TABLE_PRODUCTS_TO_PRODUCTS_EXTRA_FIELDS, $sql_data_array);
 			}
 		}
-
 
 		$i = 0;
 		$group_query = os_db_query("SELECT customers_status_id FROM ".TABLE_CUSTOMERS_STATUS." WHERE language_id = '".(int)$_SESSION['languages_id']."' AND customers_status_id != '0'");
@@ -1133,4 +1134,3 @@ class apiProducts extends CartET
 		return $data;
 	}
 }
-?>

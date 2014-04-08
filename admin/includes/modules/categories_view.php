@@ -145,7 +145,7 @@ $main->top_menu();
 	<thead>
 		<tr>
 			<th width="5%" class="tcenter"><?php echo TABLE_HEADING_EDIT; ?><input type="checkbox" class="selectAllCheckbox" onClick="javascript:SwitchCheck();"></th>
-			<th width="40%"><span class="line"></span><?php echo TABLE_HEADING_CATEGORIES_PRODUCTS.os_sorting(FILENAME_CATEGORIES,'name'); ?></th>
+			<th width="25%"><span class="line"></span><?php echo TABLE_HEADING_CATEGORIES_PRODUCTS.os_sorting(FILENAME_CATEGORIES,'name'); ?></th>
 			<th width="5%"><span class="line"></span><?php echo TABLE_HEADING_STATUS.os_sorting(FILENAME_CATEGORIES,'status'); ?></th>
 			<th width="5%"><span class="line"></span><?php echo TABLE_HEADING_STARTPAGE.os_sorting(FILENAME_CATEGORIES,'startpage'); ?></th>
 			<th width="5%"><span class="line"></span><?php echo TABLE_HEADING_STOCKS.os_sorting(FILENAME_CATEGORIES,'stocksort');?></th>
@@ -154,7 +154,9 @@ $main->top_menu();
 			<th width="5%"><span class="line"></span><?php echo TABLE_HEADING_XML.os_sorting(FILENAME_CATEGORIES,'yandex'); ?></th>
 			<th width="10%"><span class="line"></span><?php echo TABLE_HEADING_PRICE.os_sorting(FILENAME_CATEGORIES,'price'); ?></th>
 			<th width="5%"><span class="line"></span><?php echo TABLE_HEADING_SORT.os_sorting(FILENAME_CATEGORIES,'sort'); ?></th>
-			<th width="10%" class="tright"><span class="line"></span><?php echo TABLE_HEADING_ACTION; ?></th>
+			<th width="10%"><span class="line"></span><?php echo TABLE_HEADING_SHIPPING_TIME; ?></th>
+			<th width="10%"><span class="line"></span><?php echo TABLE_HEADING_MODEL; ?></th>
+			<th width="5%" class="tright"><span class="line"></span><?php echo TABLE_HEADING_ACTION; ?></th>
 		</tr>
 	</thead>
 	<tbody>
@@ -201,6 +203,8 @@ while ($categories = os_db_fetch_array($categories_query))
 		</td>
 		<td class="tcenter">--</td>
 		<td class="tcenter"><input class="width40px tcenter" type="text" name="categories[<?php echo $categories['categories_id']; ?>][sort_order]" value="<?php echo $categories['sort_order']; ?>" /></td>
+		<td class="tcenter">--</td>
+		<td class="tcenter">--</td>
 		<td><div class="btn-group pull-right">
 		<?php
 		echo '<a class="btn btn-mini" href="'.os_href_link(FILENAME_CATEGORIES, os_get_all_get_params(array('cPath', 'action', 'pID', 'cID')).os_get_path($categories['categories_id'])) .'"><i class="icon-folder-open"></i></a>';
@@ -254,10 +258,12 @@ if ( (isset($product_id)) and ($numr>0) )
 $page = $page == 0 ? 1 : $page;
 $page = ($page-1)*MAX_DISPLAY_ADMIN_PAGE;
 
+$products_shippingtime = $cartet->product->getShippingStatus();
+
 if (@$_GET['search'])
-	$products_query = os_db_query("SELECT p.products_tax_class_id,p.products_id,pd.products_name,p.products_sort,p.stock, p.products_quantity,p.products_to_xml,p.products_image,p.products_price,p.products_discount_allowed,p.products_date_added,p.products_last_modified,p.products_date_available,p.products_status,p.products_startpage,p.products_startpage_sort,p2c.categories_id FROM ".TABLE_PRODUCTS." p, ".TABLE_PRODUCTS_DESCRIPTION." pd, ".TABLE_PRODUCTS_TO_CATEGORIES." p2c WHERE p.products_id = pd.products_id AND pd.language_id = '".$_SESSION['languages_id']."' AND p.products_id = p2c.products_id AND (pd.products_name like '%".$_GET['search']."%' OR p.products_model = '".$_GET['search']."') ORDER BY ".$prodsort." limit ".$page.",".$max_count);
+	$products_query = os_db_query("SELECT p.products_tax_class_id,p.products_id,pd.products_name,p.products_sort,p.stock, p.products_quantity,p.products_to_xml,p.products_image,p.products_price,p.products_discount_allowed,p.products_date_added,p.products_last_modified,p.products_date_available,p.products_status,p.products_startpage,p.products_startpage_sort,p.products_shippingtime,p.products_model,p2c.categories_id FROM ".TABLE_PRODUCTS." p, ".TABLE_PRODUCTS_DESCRIPTION." pd, ".TABLE_PRODUCTS_TO_CATEGORIES." p2c WHERE p.products_id = pd.products_id AND pd.language_id = '".$_SESSION['languages_id']."' AND p.products_id = p2c.products_id AND (pd.products_name like '%".$_GET['search']."%' OR p.products_model = '".$_GET['search']."') ORDER BY ".$prodsort." limit ".$page.",".$max_count);
 else
-	$products_query = os_db_query("SELECT p.products_tax_class_id,p.products_sort, p.products_id, p.stock, pd.products_name, p.products_quantity, p.products_to_xml,p.products_image, p.products_price, p.products_discount_allowed, p.products_date_added, p.products_last_modified, p.products_date_available, p.products_status,p.products_startpage,p.products_startpage_sort, p2c.categories_id FROM ".TABLE_PRODUCTS." p, ".TABLE_PRODUCTS_DESCRIPTION." pd, ".TABLE_PRODUCTS_TO_CATEGORIES." p2c WHERE p.products_id = pd.products_id AND pd.language_id = '".(int)$_SESSION['languages_id']."' AND p.products_id = p2c.products_id AND p2c.categories_id = '".$current_category_id."' ORDER BY ".$prodsort." limit ".$page.",".$max_count);
+	$products_query = os_db_query("SELECT p.products_tax_class_id,p.products_sort, p.products_id, p.stock, pd.products_name, p.products_quantity, p.products_to_xml,p.products_image, p.products_price, p.products_discount_allowed, p.products_date_added, p.products_last_modified, p.products_date_available, p.products_status,p.products_startpage,p.products_startpage_sort,p.products_shippingtime,p.products_model, p2c.categories_id FROM ".TABLE_PRODUCTS." p, ".TABLE_PRODUCTS_DESCRIPTION." pd, ".TABLE_PRODUCTS_TO_CATEGORIES." p2c WHERE p.products_id = pd.products_id AND pd.language_id = '".(int)$_SESSION['languages_id']."' AND p.products_id = p2c.products_id AND p2c.categories_id = '".$current_category_id."' ORDER BY ".$prodsort." limit ".$page.",".$max_count);
 
 while ($products = os_db_fetch_array($products_query))
 {
@@ -269,7 +275,7 @@ while ($products = os_db_fetch_array($products_query))
 	?>
 	<tr class="products_tr">
 		<td class="tcenter"><input type="checkbox" name="multi_products[]" value="<?php echo @$products['products_id']; ?>" /></td>
-		<td><input class="width90" type="text" name="products[<?php echo $products['products_id']; ?>][products_name]" value="<?php echo $products['products_name']; ?>" /></td>
+		<td><input class="width90" type="text" name="products[<?php echo $products['products_id']; ?>][products_name]" value="<?php echo html($products['products_name']); ?>" /></td>
 		<td class="tcenter">
 			<?php
 				echo '<a '.(($products['products_status'] == 1) ? '' : 'style="display:none;"').' href="javascript:;" class="ajax-change-status status_'.$products['products_id'].'_0_products_status" data-column="products_status" data-action="products_changeProductStatus" data-id="'.$products['products_id'].'" data-status="0" data-show-status="1" title="'.IMAGE_ICON_STATUS_RED_LIGHT.'"><i class="icon-ok"></i></a>';
@@ -317,12 +323,31 @@ while ($products = os_db_fetch_array($products_query))
 			echo '<input class="width40px tcenter" type="text" name="products['.$products['products_id'].'][products_sort]" value="'.$products['products_sort'].'" />';
 		?>
 		</td>
+		<td class="tcenter">
+			<select class="width100px" name="products[<?php echo $products['products_id']; ?>][products_shippingtime]">
+				<?php
+					if (is_array($products_shippingtime))
+					{
+						foreach($products_shippingtime AS $id => $text)
+						{
+							$selected = ($products['products_shippingtime'] == $id) ? 'selected' : '';
+							echo '<option value="'.$id.'" '.$selected.'>'.$text.'</option>';
+						}
+					}
+				?>
+			</select>
+		</td>
+		<td class="tcenter"><input class="width100px" type="text" name="products[<?php echo $products['products_id']; ?>][products_model]" value="<?php echo html($products['products_model']); ?>" /></td>
 		<td>
 			<div class="btn-group pull-right">
-				<a class="btn btn-mini ajax-action" data-reload-page="1" data-action="products_duplicateProduct_get&product_id=<?php echo $products['products_id']; ?>&categories_id=<?php echo $cPath; ?>" href="javascript:;"  title="<?php echo BUTTON_COPY; ?>"><i class="icon-copy"></i></a>
-				<a class="btn btn-mini" href="<?php echo os_href_link(FILENAME_NEW_ATTRIBUTES.'?action=edit&current_product_id='.$products['products_id'].'&cpath='.$cPath); ?>" title="<?php echo BUTTON_EDIT_ATTRIBUTES; ?>"><i class="icon-tasks"></i></a>
-				<a class="btn btn-mini" href="<?php echo os_href_link(FILENAME_CATEGORIES, os_get_all_get_params(array('cPath', 'action', 'pID', 'cID')).'action=edit_crossselling&current_product_id='.$products['products_id'].'&cpath='.$cPath); ?>" title="<?php echo BUTTON_EDIT_CROSS_SELLING; ?>"><i class="icon-th-large"></i></a>
 				<a class="btn btn-mini" href="<?php echo os_href_link(FILENAME_CATEGORIES, os_get_all_get_params(array('cPath', 'action', 'pID', 'cID')).'cPath='.$cPath.'&pID='.$products['products_id']); ?>&action=new_product" title="<?php echo BUTTON_EDIT; ?>"><i class="icon-edit"></i></a>
+				<a class="btn btn-mini dropdown-toggle" data-toggle="dropdown" href="#"><i class="icon-cog"></i> <span class="caret"></span></a>
+				<ul class="dropdown-menu">
+					<li><a class="" href="<?php echo os_href_link(FILENAME_NEW_ATTRIBUTES.'?action=edit&current_product_id='.$products['products_id'].'&cpath='.$cPath); ?>" title="<?php echo BUTTON_EDIT_ATTRIBUTES; ?>"><i class="icon-tasks"></i> <?php echo BUTTON_EDIT_ATTRIBUTES; ?></a></li>
+					<li><a class="" href="<?php echo os_href_link(FILENAME_CATEGORIES, os_get_all_get_params(array('cPath', 'action', 'pID', 'cID')).'action=edit_crossselling&current_product_id='.$products['products_id'].'&cpath='.$cPath); ?>" title="<?php echo BUTTON_EDIT_CROSS_SELLING; ?>"><i class="icon-th-large"></i> <?php echo BUTTON_EDIT_CROSS_SELLING; ?></a></li>
+					<li class="divider"></li>
+					<li><a class="ajax-action" data-reload-page="1" data-action="products_duplicateProduct_get&product_id=<?php echo $products['products_id']; ?>&categories_id=<?php echo $cPath; ?>" href="javascript:;"  title="<?php echo BUTTON_COPY; ?>"><i class="icon-copy"></i> <?php echo BUTTON_COPY; ?></a></li>
+				</ul>
 			</div>
 		</td>
 	</tr>
