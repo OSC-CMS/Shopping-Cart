@@ -322,10 +322,11 @@ class product {
 	function getBuyNowButton($id, $name) 
 	{
 		global $PHP_SELF;
+		$params = (basename($PHP_SELF) == 'product_info.php') ? preg_replace('/products_id=\d+&/', '', os_get_all_get_params(array('action'))) : os_get_all_get_params(array('action'));
 
 		$_array = array(
 			'img'	=> 'button_buy_now.gif',
-			'href'	=> os_href_link(basename($PHP_SELF), 'action=buy_now&BUYproducts_id='.$id.'&'.os_get_all_get_params(array ('action')), 'NONSSL'),
+			'href'	=> os_href_link(basename($PHP_SELF), 'action=buy_now&BUYproducts_id='.$id.'&'.$params, 'NONSSL'),
 			'alt'	=> TEXT_BUTTON_BUY." '".$name."'",
 			'code'	=> ''
 		);
@@ -343,10 +344,11 @@ class product {
 	function getBuyNowButtonNew($id, $name) 
 	{
 		global $PHP_SELF;
+		$params = (basename($PHP_SELF) == 'product_info.php') ? preg_replace('/products_id=\d+&/', '', os_get_all_get_params(array('action'))) : os_get_all_get_params(array('action'));
 
 		$_array = array(
 			'img'	=> 'cart_big.gif', 
-			'href'	=> os_href_link(basename($PHP_SELF), 'action=buy_now&BUYproducts_id='.$id.'&'.os_get_all_get_params(array ('action')), 'NONSSL'), 
+			'href'	=> os_href_link(basename($PHP_SELF), 'action=buy_now&BUYproducts_id='.$id.'&'.$params, 'NONSSL'),
 			'alt'	=> TEXT_BUTTON_IN_CART, 
 			'code'	=> ''
 		);
