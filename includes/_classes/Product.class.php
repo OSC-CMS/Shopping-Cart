@@ -182,7 +182,18 @@ class apiProduct extends CartET
 	{
 		if (empty($id)) return false;
 
-		if ($tree == false)
+		if ($tree == true)
+		{
+			if(!isset($this->categories_tree))
+				$this->getTree();
+
+			$result = multi_array_key_exists($id, $this->getCategoriesTree());
+			if ($result)
+				return array($result);
+			else
+				return false;
+		}
+		else
 		{
 			if (!isset($this->categories))
 				$this->getTree();
@@ -192,18 +203,6 @@ class apiProduct extends CartET
 			else
 				return false;
 		}
-		elseif ($tree == true)
-		{
-			if(!isset($this->categories_tree))
-				$this->getTree();
-
-			if (array_key_exists($id, $this->categories_tree))
-				return array($this->categories_tree[$id]);
-			else
-				return false;
-		}
-		else
-			return false;
 	}
 
 	/**

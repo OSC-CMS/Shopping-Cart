@@ -3106,3 +3106,4 @@ function osc_head_array($HEAD)
 }
 
 require 'helpers/html.helper.php';
+require 'helpers/array.helper.php';

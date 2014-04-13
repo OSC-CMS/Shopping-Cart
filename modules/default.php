@@ -23,48 +23,10 @@ else
 	{
 		$category = $cartet->product->getCategory($current_category_id);
 
-		if (isset ($cPath) && preg_match('/_/', $cPath))
+		$getCategoryArray = $cartet->product->getCategory($current_category_id, true);
+
+		if (is_array($getCategoryArray))
 		{
-			$category_links = array_reverse($cPath_array);
-
-			for ($i = 0, $n = sizeof($category_links); $i < $n; $i ++)
-			{
-				if (GROUP_CHECK == 'true')
-				{
-					$group_check = "and c.group_permission_".$_SESSION['customers_status']['customers_status_id']."=1 ";
-				}
-
-				$recursive_check = "";
-				$categories_query = "select cd.categories_description,
-				c.categories_id,
-				cd.categories_name,
-				cd.categories_heading_title,
-				c.categories_image,
-				c.parent_id from ".TABLE_CATEGORIES." c, ".TABLE_CATEGORIES_DESCRIPTION." cd
-				where c.categories_status = '1'
-				and c.parent_id = '".$category_links[$i]."'
-				and c.categories_id = cd.categories_id
-				".$recursive_check."
-				".$group_check."
-				and cd.language_id = '".(int) $_SESSION['languages_id']."'
-				order by sort_order, cd.categories_name";
-				$categories_query = osDBquery($categories_query);
-
-				if (os_db_num_rows($categories_query, true) < 1)
-				{
-					// do nothing, go through the loop
-				}
-				else
-				{
-					break; // we've found the deepest category the customer is in
-				}
-			}
-		}
-		// ПОДКАТЕГОРИИ
-		else
-		{
-			$getCategoryArray = $cartet->product->getCategory($current_category_id, true);
-
 			foreach($getCategoryArray AS $c)
 			{
 				$categories_content = $c['children'];
