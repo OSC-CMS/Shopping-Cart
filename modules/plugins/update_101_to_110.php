@@ -91,8 +91,8 @@ function update_101_to_110_install()
 		`menu_url` varchar(255) NOT NULL DEFAULT '',
 		`menu_class` varchar(255) NOT NULL DEFAULT '',
 		`menu_class_icon` varchar(255) NOT NULL DEFAULT '',
-		`menu_position` tinyint(3) unsigned NOT NULL DEFAULT '0',
-		`menu_group_id` tinyint(3) unsigned NOT NULL DEFAULT '0',
+		`menu_position` int(11) unsigned NOT NULL DEFAULT '0',
+		`menu_group_id` int(11) unsigned NOT NULL DEFAULT '0',
 		`menu_status` tinyint(3) NOT NULL,
 	PRIMARY KEY (`menu_id`)
 	) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=110 ;");
@@ -107,8 +107,8 @@ function update_101_to_110_install()
 		`lang_id` int(11) unsigned NOT NULL AUTO_INCREMENT,
 		`lang_title` varchar(255) NOT NULL DEFAULT '',
 		`lang_type` tinyint(3) NOT NULL DEFAULT '0',
-		`lang_type_id` tinyint(3) NOT NULL DEFAULT '0',
-		`lang_lang` tinyint(3) NOT NULL DEFAULT '0',
+		`lang_type_id` int(11) NOT NULL DEFAULT '0',
+		`lang_lang` int(11) NOT NULL DEFAULT '0',
 	PRIMARY KEY (`lang_id`)
 	) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=117 ;");
 
