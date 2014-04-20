@@ -316,11 +316,19 @@ class specials extends CartET
 
 				$newProduct = array(
 					'specials_new_products_price' => $new_price,
-					'expires_date' => $expires_date,
-					'specials_last_modified' => 'now()'
+					'expires_date' => $expires_date
 				);
 
-				os_db_perform(TABLE_SPECIALS, $newProduct, 'update', "products_id = '".$product_id."'");
+				if ($action == 'save')
+				{
+					$newProduct['specials_last_modified'] = 'now()';
+					os_db_perform(TABLE_SPECIALS, $newProduct, 'update', "products_id = '".$product_id."'");
+				}
+				else
+				{
+					$newProduct['products_id'] = $product_id;
+					os_db_perform(TABLE_SPECIALS, $newProduct);
+				}
 
 				if ($action == 'new')
 				{
