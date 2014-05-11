@@ -8,9 +8,8 @@
 *---------------------------------------------------------
 */
 
-class manufacturers extends CartET
+class apiManufacturers extends CartET
 {
-
 	/**
 	 * Получить производителя по ID
 	 */

@@ -8,9 +8,8 @@
 *---------------------------------------------------------
 */
 
-class featured extends CartET
+class apiFeatured extends CartET
 {
-
 	/**
 	 * Получить рекомендуемый по ID
 	 */

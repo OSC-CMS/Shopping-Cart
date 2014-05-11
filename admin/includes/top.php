@@ -122,9 +122,6 @@ define('TABLE_PERSONAL_OFFERS',DB_PREFIX.'personal_offers_by_customers_status_')
 define('TABLE_COMPANIES',DB_PREFIX.'companies');
 define('TABLE_PERSONS',DB_PREFIX.'persons');
 
-// Временно
-define('CLS_NEW', dirname(__FILE__).'/classes_new/');
-
 define('FILENAME_ACCOUNTING', 'accounting.php');
 define('FILENAME_FILE', 'file.php');
 define('FILENAME_IMPORT', 'import.php');

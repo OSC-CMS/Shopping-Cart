@@ -8,7 +8,7 @@
 *---------------------------------------------------------
 */
 
-class specials extends CartET
+class apiSpecials extends CartET
 {
 	/**
 	 * Получить скидку по ID для товара
@@ -78,15 +78,18 @@ class specials extends CartET
 	{
 		if (is_array($post))
 		{
-			$query = os_db_query("UPDATE ". TABLE_SPECIAL_CATEGORY." SET status = '".(int)$post['status']."' WHERE special_id = '".(int)$post['id']."'");
+			os_db_query("UPDATE ". TABLE_SPECIAL_CATEGORY." SET status = '".(int)$post['status']."' WHERE special_id = '".(int)$post['id']."'");
 
 			$specials_query = os_db_query("SELECT product_id FROM ".TABLE_SPECIAL_PRODUCT." WHERE special_id = '".(int)$post['id']."'");
-			while($specials = os_db_fetch_array($specials_query))
+			if (os_db_num_rows($specials_query) > 0)
 			{
-				$product_id[] = $specials['product_id'];
-			}
+				while($specials = os_db_fetch_array($specials_query))
+				{
+					$product_id[] = $specials['product_id'];
+				}
 
-			os_db_query("UPDATE ". TABLE_SPECIALS. " SET status = '".(int)$post['status']."' WHERE products_id in (".implode(", ", $product_id).")");
+				os_db_query("UPDATE ". TABLE_SPECIALS. " SET status = '".(int)$post['status']."' WHERE products_id in (".implode(", ", $product_id).")");
+			}
 
 			$data = array('msg' => 'Успешно изменено!', 'type' => 'ok');
 		}

@@ -10,13 +10,10 @@
 
 include 'lang/'.$_SESSION['language_admin'].'/featured.php';
 
-require_once(CLS_NEW.'featured.class.php');
-$featured = new featured();
-
 // Если редактируем скидку
 if (isset($_GET['f_id']) && !empty($_GET['f_id']))
 {
-	$featuredData = $featured->getById($_GET['f_id']);
+	$featuredData = $cartet->featured->getById($_GET['f_id']);
 	//_print_r($featuredData);
 }
 else

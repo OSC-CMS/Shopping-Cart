@@ -10,10 +10,7 @@
 
 include 'lang/'.$_SESSION['language_admin'].'/reviews.php';
 
-require_once(CLS_NEW.'reviews.class.php');
-$reviews = new reviews();
-
-$review = $reviews->getById($_GET['r_id']);
+$review = $cartet->reviews->getById($_GET['r_id']);
 
 if ($_GET['action'] == 'edit') { ?>
 	<?php echo $cartet->html->form('reviews_form', 'ajax.php', 'ajax_action=reviews_save', 'post', array('id' => 'reviews_form', 'class' => 'form-inline')); ?>

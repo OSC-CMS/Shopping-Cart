@@ -11,15 +11,12 @@
 include 'lang/'.$_SESSION['language_admin'].'/manufacturers.php';
 $languages = os_get_languages();
 
-require_once(CLS_NEW.'manufacturers.class.php');
-$manufacturers = new manufacturers();
-
 // Если редактируем производителя
 if (isset($_GET['m_id']) && !empty($_GET['m_id']))
 {
-	$manufacturer = $manufacturers->getById($_GET['m_id']);
+	$manufacturer = $cartet->manufacturers->getById($_GET['m_id']);
 
-	$aManufacturersInfo = $manufacturers->getInfoById($manufacturer['manufacturers_id']);
+	$aManufacturersInfo = $cartet->manufacturers->getInfoById($manufacturer['manufacturers_id']);
 }
 
 if ($_GET['action'] == 'edit' OR $_GET['action'] == 'new')
@@ -134,7 +131,7 @@ if ($_GET['action'] == 'edit' OR $_GET['action'] == 'new')
 	</form>
 
 <?php } elseif ($_GET['action'] == 'delete') {
-	$productsCount = $manufacturers->getProductsCount($manufacturer['manufacturers_id']);
+	$productsCount = $cartet->manufacturers->getProductsCount($manufacturer['manufacturers_id']);
 ?>
 
 	<?php echo $cartet->html->form('manufacturers_form', 'ajax.php', 'ajax_action=manufacturers_delete', 'post', array('enctype' => 'multipart/form-data', 'id' => 'manufacturers_form', 'class' => 'form-inline')); ?>

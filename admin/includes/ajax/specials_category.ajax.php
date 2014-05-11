@@ -13,13 +13,10 @@ include 'lang/'.$_SESSION['language_admin'].'/specials.php';
 require(_CLASS.'price.php');
 $osPrice = new osPrice(DEFAULT_CURRENCY, $_SESSION['customers_status']['customers_status_id']);
 
-require_once(CLS_NEW.'specials.class.php');
-$specials = new specials();
-
 // Если редактируем скидку
 if (isset($_GET['c_id']) && !empty($_GET['c_id']))
 {
-	$special = $specials->getCategoryById($_GET['c_id']);
+	$special = $cartet->specials->getCategoryById($_GET['c_id']);
 
 	$per =  $special['discount_type'] == "p" ? "%" : "";
 }

@@ -38,28 +38,7 @@ if (isset($_GET['ajax_action']) && !empty($_GET['ajax_action']))
 		// Смотрим какой тип запроса
 		$setData = ($paramType == 'get') ? $_GET : $_POST;
 
-		// Есть ли файл класса
-		if (is_file(CLS_NEW.$className.'.class.php'))
-		{
-			require_once(CLS_NEW.$className.'.class.php');
-			$classObg = new $className();
-
-			// Проверяем существование класса
-			if (class_exists($className))
-			{
-				// Проверяем существование запрашиваемого метода
-				if (method_exists($classObg, $methodName))
-				{
-					$data = $classObg->$methodName($setData);
-					if ($data)
-					{
-						echo json_encode($data);
-						exit();
-					}
-				}
-			}
-		}
-		elseif (is_object($cartet->$className))
+		if (is_object($cartet->$className))
 		{
 			if (method_exists($cartet->$className, $methodName))
 			{
@@ -84,4 +63,3 @@ if (isset($_GET['ajax_action']) && $_GET['ajax_action'] == 'load_products')
 	echo json_encode($result);
 	exit();
 }
-?>

@@ -8,9 +8,8 @@
 *---------------------------------------------------------
 */
 
-class reviews extends CartET
+class apiReviews extends CartET
 {
-
 	/**
 	 * Получить отзыв по ID
 	 */
