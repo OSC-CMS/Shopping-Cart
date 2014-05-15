@@ -196,8 +196,8 @@ while ($categories = os_db_fetch_array($categories_query))
 		</td>
 		<td class="tcenter">
 			<?php
-				echo '<a '.(($categories['yml_enable'] == 1) ? '' : 'style="display:none;"').' href="javascript:;" class="ajax-change-status status_'.$categories['categories_id'].'_0_yml_enable" data-column="yml_enable" data-action="products_changeCategoryStatus" data-id="'.$categories['categories_id'].'" data-status="0" data-show-status="1" title="'.IMAGE_ICON_STATUS_RED_LIGHT.'"><i class="icon-ok"></i></a>';
-				echo '<a '.(($categories['yml_enable'] == 0) ? '' : 'style="display:none;"').' href="javascript:;" class="ajax-change-status status_'.$categories['categories_id'].'_1_yml_enable" data-column="yml_enable" data-action="products_changeCategoryStatus" data-id="'.$categories['categories_id'].'" data-status="1" data-show-status="0" title="'.IMAGE_ICON_STATUS_GREEN_LIGHT.'"><i class="icon-remove"></i></a>';
+				echo '<a '.(($categories['yml_enable'] == 1) ? '' : 'style="display:none;"').' href="javascript:;" class="ajax-change-status status_'.$categories['categories_id'].'_0_yml_enable" data-column="yml_enable" data-action="products_setCategoriesYmlStatus" data-id="'.$categories['categories_id'].'" data-status="0" data-show-status="1" title="'.IMAGE_ICON_STATUS_RED_LIGHT.'"><i class="icon-ok"></i></a>';
+				echo '<a '.(($categories['yml_enable'] == 0) ? '' : 'style="display:none;"').' href="javascript:;" class="ajax-change-status status_'.$categories['categories_id'].'_1_yml_enable" data-column="yml_enable" data-action="products_setCategoriesYmlStatus" data-id="'.$categories['categories_id'].'" data-status="1" data-show-status="0" title="'.IMAGE_ICON_STATUS_GREEN_LIGHT.'"><i class="icon-remove"></i></a>';
 			?>
 		</td>
 		</td>

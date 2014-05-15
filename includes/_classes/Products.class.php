@@ -156,6 +156,48 @@ class apiProducts extends CartET
 	}
 
 	/**
+	 * Статус XML категории и вложенных подкатегорий и товаров
+	 */
+	public function setCategoriesYmlStatus($params = array())
+	{
+		if (is_array($params) && !empty($params))
+		{
+			os_db_query("UPDATE ".TABLE_CATEGORIES." SET yml_enable = '".(int)$params['status']."' WHERE categories_id = '".(int)$params['id']."'");
+
+			// обновляем статусы у товаров
+			$products_to_categories_data = os_db_query("select ptc.products_id from ".TABLE_PRODUCTS_TO_CATEGORIES." as ptc where ptc.categories_id='".(int)$params['id']."'");
+			if (os_db_num_rows($products_to_categories_data) > 0)
+			{
+				while ($products = os_db_fetch_array($products_to_categories_data))
+				{
+					$result = $this->changeProductStatus(array(
+						'column' => 'products_to_xml',
+						'id' => $products['products_id'],
+						'status' => $params['status']
+					));
+				}
+			}
+
+			// обновляем статусы у категорий
+			$categories_query = os_db_query("SELECT categories_id FROM ".TABLE_CATEGORIES." WHERE parent_id = '".(int)$params['id']."'");
+			if (os_db_num_rows($categories_query) > 0)
+			{
+				while ($categories = os_db_fetch_array($categories_query))
+				{
+					$this->setCategoriesYmlStatus(array(
+						'status' => $params['status'],
+						'id' => $categories['categories_id']
+					));
+				}
+			}
+
+			return array('msg' => 'Успешно изменено!', 'type' => 'ok');
+		}
+		else
+			return array('msg' => 'Произошла ошибка!', 'type' => 'error');
+	}
+
+	/**
 	 * Статусы товаров
 	 */
 	public function changeProductStatus($post)
@@ -524,6 +566,389 @@ class apiProducts extends CartET
 	}
 
 	/**
+	 * Добавление товара
+	 */
+	public function addProduct($params = array())
+	{
+		if (empty($params)) return false;
+
+		//insert_product($products_data, $dest_category_id, $action = 'insert')
+		global $cartet;
+
+		// Пересчет цены товара в валюту по умолчанию по текущему курсу
+		if ($products_data['price_currency'] != DEFAULT_CURRENCY)
+		{
+			require (_CLASS.'price.php');
+			$osPrice = new osPrice(DEFAULT_CURRENCY, $_SESSION['customers_status']['customers_status_id']);
+
+			$convert_price = $osPrice->ConvertCurr($products_data['products_price'], $products_data['price_currency'], DEFAULT_CURRENCY);
+			$products_data['products_price'] = $convert_price['plain'];
+		}
+
+		$products_id = os_db_prepare_input($products_data['products_id']);
+		$products_page_url = os_db_prepare_input($products_data['products_page_url']);
+		$products_date_available = os_db_prepare_input($products_data['products_date_available']);
+		//$products_date_available = (date('Y-m-d') < $products_date_available) ? $products_date_available : 'null';
+
+		if ($products_data['products_startpage'] == 1)
+			$products_status = 1;
+		else
+			$products_status = os_db_prepare_input($products_data['products_status']);
+
+		if ($products_data['products_startpage'] == 0)
+		{
+			$products_status = os_db_prepare_input($products_data['products_status']);
+		}
+
+		if (PRICE_IS_BRUTTO == 'true' && $products_data['products_price'])
+		{
+			$products_data['products_price'] = round(($products_data['products_price'] / (os_get_tax_rate($products_data['products_tax_class_id']) + 100) * 100), PRICE_PRECISION);
+		}
+
+		$customers_statuses_array = os_get_customers_statuses();
+
+		$permission = array ();
+		for ($i = 0; $n = sizeof($customers_statuses_array), $i < $n; $i ++)
+		{
+			if (isset($customers_statuses_array[$i]['id']))
+				$permission[$customers_statuses_array[$i]['id']] = 0;
+		}
+		if (isset ($products_data['groups']))
+			foreach ($products_data['groups'] AS $dummy => $b) {
+				$permission[$b] = 1;
+			}
+		if (@$permission['all']==1) {
+			$permission = array ();
+			end($customers_statuses_array);
+			for ($i = 0; $n = key($customers_statuses_array), $i < $n+1; $i ++) {
+				if (isset($customers_statuses_array[$i]['id']))
+					$permission[$customers_statuses_array[$i]['id']] = 1;
+			}
+		}
+		$permission_array = array ();
+		end($customers_statuses_array);
+		for ($i = 0; $n = key($customers_statuses_array), $i < $n+1; $i ++) {
+			if (isset($customers_statuses_array[$i]['id'])) {
+				$permission_array = array_merge($permission_array, array('group_permission_'.$customers_statuses_array[$i]['id'] => $permission[$customers_statuses_array[$i]['id']]));
+			}
+		}
+
+		$sql_data_array = array(
+			'products_quantity' => os_db_prepare_input($products_data['products_quantity']),
+			'products_to_xml' => os_db_prepare_input($products_data['products_to_xml']),
+			'products_model' => os_db_prepare_input($products_data['products_model']),
+			'products_ean' => os_db_prepare_input($products_data['products_ean']),
+			'products_price' => os_db_prepare_input($products_data['products_price']),
+			'products_sort' => os_db_prepare_input($products_data['products_sort']),
+			'products_shippingtime' => os_db_prepare_input($products_data['shipping_status']),
+			'products_discount_allowed' => os_db_prepare_input($products_data['products_discount_allowed']),
+			'products_date_available' => $products_date_available,
+			'products_weight' => os_db_prepare_input($products_data['products_weight']),
+			'products_status' => $products_status,
+			'products_startpage' => os_db_prepare_input($products_data['products_startpage']),
+			'products_reviews' => os_db_prepare_input($products_data['products_reviews']),
+			'products_search' => os_db_prepare_input($products_data['products_search']),
+			'products_startpage_sort' => os_db_prepare_input($products_data['products_startpage_sort']),
+			'products_tax_class_id' => os_db_prepare_input($products_data['products_tax_class_id']),
+			'product_template' => os_db_prepare_input($products_data['info_template']),
+			'options_template' => os_db_prepare_input($products_data['options_template']),
+			'manufacturers_id' => os_db_prepare_input($products_data['manufacturers_id']),
+			'products_fsk18' => os_db_prepare_input($products_data['fsk18']),
+			'products_vpe_value' => os_db_prepare_input($products_data['products_vpe_value']),
+			'products_vpe_status' => os_db_prepare_input(@$products_data['products_vpe_status']),
+			'products_vpe' => os_db_prepare_input($products_data['products_vpe']),
+			'yml_bid' => os_db_prepare_input($products_data['yml_bid']),
+			'yml_cbid' => os_db_prepare_input($products_data['yml_cbid']),
+			'yml_available' => os_db_prepare_input($products_data['yml_available']),
+			'products_page_url' => os_db_prepare_input($products_data['products_page_url']),
+			'products_bundle' => os_db_prepare_input($products_data['products_bundle']),
+			'yml_manufacturer_warranty' => os_db_prepare_input($products_data['yml_manufacturer_warranty']),
+			'yml_manufacturer_warranty_text' => os_db_prepare_input($products_data['yml_manufacturer_warranty_text']),
+		);
+
+		$sql_data_array = array_merge($sql_data_array, $permission_array);
+		if (!$products_id || $products_id == '')
+		{
+			$new_pid_query = os_db_query("SHOW TABLE STATUS LIKE '".TABLE_PRODUCTS."'");
+			$new_pid_query_values = os_db_fetch_array($new_pid_query);
+			$products_id = $new_pid_query_values['Auto_increment'];
+		}
+
+		// удаление изображений
+		if (!empty($_POST['image_delete']) OR !empty($_POST['images_delete']))
+		{
+			$cartet->products->deleteImages(array(
+				'image_delete' => $_POST['image_delete'],
+				'images_delete' => $_POST['images_delete'],
+				'products_id' => $products_id
+			));
+		}
+
+		// загрузка с компьютера
+		if (!empty($_FILES['images']))
+		{
+			$images_array = reArrayFiles($_FILES['images']);
+			$img = 0;
+			foreach($images_array as $images)
+			{
+				$img++;
+				$ext = pathinfo($images["name"], PATHINFO_EXTENSION);
+				$cFile = $products_id.'_'.translit(urldecode(pathinfo($images["name"], PATHINFO_FILENAME)));
+				$new_file = $cFile.'.'.$ext;
+
+				while (file_exists(dir_path('images_original').$new_file))
+				{
+					$new_base = pathinfo($new_file, PATHINFO_FILENAME);
+					if(preg_match('/_([0-9]+)$/', $new_base, $parts))
+						$new_file = $cFile.'_'.($parts[1]+1).'.'.$ext;
+					else
+						$new_file = $cFile.'_1.'.$ext;
+				}
+
+				if (move_uploaded_file($images["tmp_name"], dir_path('images_original').$new_file))
+				{
+					$products_image_name = $new_file;
+
+					// если нет основной картинки, то создаем
+					if ($img == 1 && empty($_POST['main_image']))
+					{
+						$sql_data_array['products_image'] = os_db_prepare_input($products_image_name);
+
+						require (get_path('includes_admin').'product_thumbnail_images.php');
+						require (get_path('includes_admin').'product_info_images.php');
+						require (get_path('includes_admin').'product_popup_images.php');
+					}
+					// иначе, это доп. картинки
+					else
+					{
+						$products_image_name = $new_file;
+						create_MO_PICS($products_image_name, $img, $action, $products_id, $products_data);
+					}
+				}
+			}
+		}
+
+		// загрузка по ссылке
+		if (!empty($_POST['images_urls']))
+		{
+			$img = 0;
+			foreach($_POST['images_urls'] AS $img_url)
+			{
+				$img++;
+				$products_image_name = files_download_image($img_url, dir_path('images_original'), $products_id);
+				create_MO_PICS($products_image_name, $img, $action, $products_id, $products_data);
+			}
+		}
+
+		if ($action == 'insert')
+		{
+			$insert_sql_data = array ('products_date_added' => 'now()');
+			$sql_data_array = os_array_merge($sql_data_array, $insert_sql_data);
+			os_db_perform(TABLE_PRODUCTS, $sql_data_array);
+			$products_id = os_db_insert_id();
+
+			//Bundle
+			if ($products_data['products_bundle'] == '1')
+			{
+				os_db_query("DELETE FROM ".DB_PREFIX."products_bundles WHERE bundle_id = '".$products_id."'");
+				if (isset($_POST['bundles']))
+				{
+					$arr = $_POST['bundles'];
+					for($i = 0; $i < count($arr['id']); $i++)
+					{
+						os_db_query("INSERT INTO ".DB_PREFIX."products_bundles (bundle_id, subproduct_id, subproduct_qty) VALUES ('".os_db_input($products_id)."', '".os_db_input($arr['id'][$i])."', '".os_db_input($arr['qty'][$i])."')");
+					}
+				}
+
+			}
+			// Bundle
+
+			os_db_query("INSERT INTO ".TABLE_PRODUCTS_TO_CATEGORIES." SET products_id   = '".$products_id."', categories_id = '".$dest_category_id."'");
+		}
+		elseif ($action == 'update') {
+			$update_sql_data = array ('products_last_modified' => 'now()');
+			$sql_data_array = os_array_merge($sql_data_array, $update_sql_data);
+
+			os_db_perform(TABLE_PRODUCTS, $sql_data_array, 'update', 'products_id = \''.os_db_input($products_id).'\'');
+
+			// Bundle
+			if ($products_data['products_bundle'] == '1')
+			{
+				os_db_query("DELETE FROM ".DB_PREFIX."products_bundles WHERE bundle_id = '" . $products_id . "'");
+				if (isset($_POST['bundles']))
+				{
+					$arr = $_POST['bundles'];
+					for($i = 0; $i < count($arr['id']); $i++)
+					{
+						os_db_query("INSERT INTO ".DB_PREFIX."products_bundles (bundle_id, subproduct_id, subproduct_qty) VALUES ('".os_db_input($products_id)."', '".os_db_input($arr['id'][$i])."', '".os_db_input($arr['qty'][$i])."')");
+					}
+				}
+			}
+			// Bundle
+		}
+
+		$languages = os_get_languages();
+		$i = 0;
+		$group_query = os_db_query("SELECT customers_status_id FROM ".TABLE_CUSTOMERS_STATUS." WHERE language_id = '".(int) $_SESSION['languages_id']."' AND customers_status_id != '0'");
+		while ($group_values = os_db_fetch_array($group_query))
+		{
+			$i ++;
+			$group_data[$i] = array ('STATUS_ID' => $group_values['customers_status_id']);
+		}
+		for ($col = 0, $n = sizeof($group_data); $col < $n +1; $col ++) {
+			if (@$group_data[$col]['STATUS_ID'] != '') {
+				$personal_price = os_db_prepare_input($products_data['products_price_'.$group_data[$col]['STATUS_ID']]);
+				if ($personal_price == '' || $personal_price == '0.0000')
+				{
+					$personal_price = '0.00';
+				}
+				else
+				{
+					if (PRICE_IS_BRUTTO == 'true')
+					{
+						$personal_price = ($personal_price / (os_get_tax_rate($products_data['products_tax_class_id']) + 100) * 100);
+					}
+					$personal_price = os_round($personal_price, PRICE_PRECISION);
+				}
+
+				if ($action == 'insert')
+				{
+					os_db_query("DELETE FROM ".TABLE_PERSONAL_OFFERS.$group_data[$col]['STATUS_ID']." WHERE products_id = '".$products_id."' AND quantity = '1'");
+					$insert_array = array ();
+					$insert_array = array ('personal_offer' => $personal_price, 'quantity' => '1', 'products_id' => $products_id);
+					os_db_perform(TABLE_PERSONAL_OFFERS.$group_data[$col]['STATUS_ID'], $insert_array);
+				}
+				else
+				{
+					os_db_query("UPDATE ".TABLE_PERSONAL_OFFERS.$group_data[$col]['STATUS_ID']." SET personal_offer = '".$personal_price."'  WHERE products_id = '".$products_id."' AND quantity = '1'");
+				}
+			}
+		}
+
+		$i = 0;
+		$group_query = os_db_query("SELECT customers_status_id FROM ".TABLE_CUSTOMERS_STATUS." WHERE language_id = '".(int) $_SESSION['languages_id']."' AND customers_status_id != '0'");
+		while ($group_values = os_db_fetch_array($group_query))
+		{
+			$i ++;
+			$group_data[$i] = array ('STATUS_ID' => $group_values['customers_status_id']);
+		}
+
+		for ($col = 0, $n = sizeof($group_data); $col < $n +1; $col ++)
+		{
+			if (@$group_data[$col]['STATUS_ID'] != '') {
+				$quantity = os_db_prepare_input($products_data['products_quantity_staffel_'.$group_data[$col]['STATUS_ID']]);
+				$staffelpreis = os_db_prepare_input($products_data['products_price_staffel_'.$group_data[$col]['STATUS_ID']]);
+				if (PRICE_IS_BRUTTO == 'true') {
+					$staffelpreis = ($staffelpreis / (os_get_tax_rate($products_data['products_tax_class_id']) + 100) * 100);
+				}
+				$staffelpreis = os_round($staffelpreis, PRICE_PRECISION);
+
+				if ($staffelpreis != '' && $quantity != '')
+				{
+					if ($quantity <= 1)
+						$quantity = 2;
+					$check_query = os_db_query("SELECT quantity FROM ".TABLE_PERSONAL_OFFERS.$group_data[$col]['STATUS_ID']." WHERE products_id = '".$products_id."' AND quantity = '".$quantity."'");
+
+					if (os_db_num_rows($check_query) < 1)
+					{
+						os_db_query("INSERT INTO ".TABLE_PERSONAL_OFFERS.$group_data[$col]['STATUS_ID']." SET price_id = '', products_id = '".$products_id."', quantity = '".$quantity."', personal_offer = '".$staffelpreis."'");
+					}
+				}
+			}
+		}
+
+		foreach ($languages AS $lang)
+		{
+			$sql_data_array = array(
+				'products_name' => os_db_prepare_input($products_data['products_name'][$lang['id']]),
+				'products_description' => os_db_prepare_input($products_data['products_description_'.$lang['id']]),
+				'products_short_description' => os_db_prepare_input($products_data['products_short_description_'.$lang['id']]),
+				'products_keywords' => os_db_prepare_input($products_data['products_keywords'][$lang['id']]),
+				'products_url' => os_db_prepare_input($products_data['products_url'][$lang['id']]),
+				'products_meta_title' => os_db_prepare_input($products_data['products_meta_title'][$lang['id']]),
+				'products_meta_description' => os_db_prepare_input($products_data['products_meta_description'][$lang['id']]),
+				'products_meta_keywords' => os_db_prepare_input($products_data['products_meta_keywords'][$lang['id']])
+			);
+
+			if ($action == 'insert')
+			{
+				$sql_data_array['products_id'] = $products_id;
+				$sql_data_array['language_id'] = $lang['id'];
+				os_db_perform(TABLE_PRODUCTS_DESCRIPTION, $sql_data_array);
+			}
+			elseif ($action == 'update')
+			{
+				os_db_perform(TABLE_PRODUCTS_DESCRIPTION, $sql_data_array, 'update', 'products_id = \''.os_db_input($products_id).'\' and language_id = \''.$lang['id'].'\'');
+			}
+		}
+
+		$extra_fields_query = os_db_query("SELECT * FROM ".TABLE_PRODUCTS_TO_PRODUCTS_EXTRA_FIELDS." WHERE products_id = ".os_db_input($products_id));
+		while ($products_extra_fields = os_db_fetch_array($extra_fields_query))
+		{
+			$extra_product_entry[$products_extra_fields['products_extra_fields_id']] = $products_extra_fields['products_extra_fields_value'];
+		}
+
+		if ($_POST['extra_field'])
+		{
+			foreach ($_POST['extra_field'] as $key=>$val)
+			{
+				if (isset($extra_product_entry[$key]))
+				{
+					if ($val == '')
+						os_db_query("DELETE FROM " . TABLE_PRODUCTS_TO_PRODUCTS_EXTRA_FIELDS . " where products_id = " . os_db_input($products_id) . " AND  products_extra_fields_id = " . $key);
+					else
+						os_db_query("UPDATE " . TABLE_PRODUCTS_TO_PRODUCTS_EXTRA_FIELDS . " SET products_extra_fields_value = '" . os_db_prepare_input($val) . "' WHERE products_id = " . os_db_input($products_id) . " AND  products_extra_fields_id = " . $key);
+				}
+				else
+				{
+					if ($val != '')
+						os_db_query("INSERT INTO " . TABLE_PRODUCTS_TO_PRODUCTS_EXTRA_FIELDS . " (products_id, products_extra_fields_id, products_extra_fields_value) VALUES ('" . os_db_input($products_id) . "', '" . $key . "', '" . os_db_prepare_input($val) . "')");
+				}
+			}
+		}
+
+		// Новые доп. поля
+		$efName = $_POST['efName'];
+		$efValue = $_POST['efValue'];
+		$efGroup = $_POST['efGroup'];
+		if (is_array($efName) && is_array($efValue))
+		{
+			$efId = '';
+			foreach($efName as $i => $name)
+			{
+				$value = trim($efValue[$i]);
+				if (!empty($name) && !empty($value))
+				{
+					$extra_fields_query = os_db_query("SELECT * FROM ".TABLE_PRODUCTS_EXTRA_FIELDS." WHERE products_extra_fields_name = '".os_db_prepare_input($name)."' LIMIT 1");
+					$extra_fields = os_db_fetch_array($extra_fields_query);
+					$efId = $extra_fields['products_extra_fields_id'];
+
+					if (!os_db_num_rows($extra_fields_query))
+					{
+						$sql_data_array = array(
+							'products_extra_fields_name' => os_db_prepare_input($name),
+							'products_extra_fields_order' => 0,
+							'products_extra_fields_status' => 1,
+							'products_extra_fields_group' => (int)$efGroup[$i],
+							'languages_id' => (int)$_SESSION['languages_id']
+						);
+						os_db_perform(TABLE_PRODUCTS_EXTRA_FIELDS, $sql_data_array);
+						$efId = os_db_insert_id();
+					}
+
+					if ($value != '')
+						os_db_query("REPLACE INTO ".TABLE_PRODUCTS_TO_PRODUCTS_EXTRA_FIELDS." SET products_id = '".(int)$products_id."', products_extra_fields_id = '".(int)$efId."', products_extra_fields_value = '".os_db_prepare_input($value)."'");
+					else
+						os_db_query("DELETE FROM ".TABLE_PRODUCTS_TO_PRODUCTS_EXTRA_FIELDS." where products_id = '".(int)$products_id."' AND products_extra_fields_id = ".$efId);
+				}
+			}
+		}
+
+		$_POST['product_id'] = os_db_input($products_id);
+		do_action('insert_product');
+	}
+
+	/**
 	 * Ссылка на товар
 	 */
 	public function linkProduct($src_products_id, $dest_categories_id)
@@ -789,9 +1214,6 @@ class apiProducts extends CartET
 		for ($i = 0, $n = sizeof($product_categories); $i < $n; $i ++)
 		{
 			os_db_query("DELETE FROM ".TABLE_PRODUCTS_TO_CATEGORIES." WHERE products_id = '".(int)$product_id."' AND categories_id = '".(int)$product_categories[$i]."'");
-			/*if (($product_categories[$i]) == 0) {
-				$this->set_product_startpage($product_id, 0);
-			}*/
 		}
 
 		$product_categories_query = os_db_query("SELECT COUNT(*) AS total FROM ".TABLE_PRODUCTS_TO_CATEGORIES." WHERE products_id = '".(int)$product_id."'");
@@ -1133,4 +1555,167 @@ class apiProducts extends CartET
 
 		return $data;
 	}
+
+	/**
+	 * Добавление\сохранение категории
+	 */
+	public function saveCategory($categories_data, $dest_category_id, $action = 'insert')
+	{
+		$categories_id = os_db_prepare_input($categories_data['categories_id']);
+		$sort_order = os_db_prepare_input($categories_data['sort_order']);
+		$categories_status = os_db_prepare_input($categories_data['status']);
+		$yml_bid = os_db_prepare_input($categories_data['yml_bid']);
+		$yml_cbid = os_db_prepare_input($categories_data['yml_cbid']);
+		$customers_statuses_array = os_get_customers_statuses();
+		$categories_url = os_db_prepare_input($categories_data['categories_url']);
+
+		$permission = array();
+		for ($i = 0; $n = sizeof($customers_statuses_array), $i < $n; $i ++)
+		{
+			if (isset($customers_statuses_array[$i]['id']))
+				$permission[$customers_statuses_array[$i]['id']] = 0;
+		}
+
+		if (isset($categories_data['groups']))
+		{
+			foreach($categories_data['groups'] AS $dummy => $b)
+				$permission[$b] = 1;
+		}
+
+		if ($permission['all'] == 1)
+		{
+			$permission = array ();
+			end($customers_statuses_array);
+			for ($i = 0; $n = key($customers_statuses_array), $i < $n+1; $i ++)
+			{
+				if (isset($customers_statuses_array[$i]['id']))
+					$permission[$customers_statuses_array[$i]['id']] = 1;
+			}
+		}
+
+		$permission_array = array ();
+		end($customers_statuses_array);
+		for ($i = 0; $n = key($customers_statuses_array), $i < $n+1; $i ++)
+		{
+			if (isset($customers_statuses_array[$i]['id']))
+			{
+				$permission_array = array_merge($permission_array, array('group_permission_'.$customers_statuses_array[$i]['id'] => $permission[$customers_statuses_array[$i]['id']]));
+			}
+		}
+
+		$sql_data_array = array(
+			'sort_order' => $sort_order,
+			'categories_status' => $categories_status,
+			'products_sorting' => os_db_prepare_input($categories_data['products_sorting']),
+			'products_sorting2' => os_db_prepare_input($categories_data['products_sorting2']),
+			'categories_template' => os_db_prepare_input($categories_data['categories_template']),
+			'listing_template' => os_db_prepare_input($categories_data['listing_template']),
+			'yml_bid' => $yml_bid,
+			'yml_cbid' => $yml_cbid,
+			'categories_url' => $categories_url
+		);
+		$sql_data_array = array_merge($sql_data_array,$permission_array);
+
+		if ($action == 'insert')
+		{
+			$insert_sql_data = array ('parent_id' => $dest_category_id, 'date_added' => 'now()');
+			$sql_data_array = os_array_merge($sql_data_array, $insert_sql_data);
+			os_db_perform(TABLE_CATEGORIES, $sql_data_array);
+			$categories_id = os_db_insert_id();
+		}
+		elseif ($action == 'update')
+		{
+			$update_sql_data = array ('last_modified' => 'now()');
+			$sql_data_array = os_array_merge($sql_data_array, $update_sql_data);
+			os_db_perform(TABLE_CATEGORIES, $sql_data_array, 'update', 'categories_id = \''.$categories_id.'\'');
+		}
+
+		os_set_groups($categories_id, $permission_array);
+
+		$languages = os_get_languages();
+		foreach ($languages AS $lang)
+		{
+			$categories_name_array = $categories_data['name'];
+			$sql_data_array = array(
+				'categories_name' => os_db_prepare_input($categories_data['categories_name'][$lang['id']]),
+				'categories_heading_title' => os_db_prepare_input($categories_data['categories_heading_title'][$lang['id']]),
+				'categories_description' => os_db_prepare_input($categories_data['categories_description'][$lang['id']]),
+				'categories_meta_title' => os_db_prepare_input($categories_data['categories_meta_title'][$lang['id']]),
+				'categories_meta_description' => os_db_prepare_input($categories_data['categories_meta_description'][$lang['id']]),
+				'categories_meta_keywords' => os_db_prepare_input($categories_data['categories_meta_keywords'][$lang['id']])
+			);
+
+			if ($action == 'insert')
+			{
+				$insert_sql_data = array(
+					'categories_id' => $categories_id,
+					'language_id' => $lang['id']
+				);
+				$sql_data_array = os_array_merge($sql_data_array, $insert_sql_data);
+				os_db_perform(TABLE_CATEGORIES_DESCRIPTION, $sql_data_array);
+			}
+			elseif ($action == 'update')
+			{
+				os_db_perform(TABLE_CATEGORIES_DESCRIPTION, $sql_data_array, 'update', 'categories_id = \''.$categories_id.'\' and language_id = \''.$lang['id'].'\'');
+			}
+		}
+
+		if ($categories_image = & os_try_upload('categories_image', dir_path('images').'categories/'))
+		{
+			$cname_arr = explode('.', $categories_image->filename);
+			$cnsuffix = array_pop($cname_arr);
+			$categories_image_name = $categories_id.'.'.$cnsuffix;
+			@unlink(dir_path('images').'categories/'.$categories_image_name);
+			@rename(dir_path('images').'categories/'.$categories_image->filename, dir_path('images').'categories/old_'.$categories_image_name);
+			require (get_path('includes_admin').'category_thumbnail_images.php');
+			@unlink(dir_path('images').'categories/old_'.$categories_image_name);
+
+			os_db_query("UPDATE ".TABLE_CATEGORIES." SET categories_image = '".os_db_input($categories_image_name)."' WHERE categories_id = '".(int) $categories_id."'");
+		}
+
+		if ($categories_data['del_cat_pic'] == 'yes')
+		{
+			@unlink(dir_path('images').'categories/'.$categories_data['categories_previous_image']);
+			os_db_query("UPDATE ".TABLE_CATEGORIES." SET categories_image = '' WHERE categories_id = '".(int)$categories_id."'");
+		}
+
+		global $categories_id;
+
+		do_action('insert_category');
+	}
+
+	/**
+	 * Изменение статуса у категории и ее подкатегорий и товаров
+	 */
+	function changeCategoriesStatus($categories_id, $status = '0')
+	{
+		$this->changeCategoryStatus(array(
+			'column' => 'categories_status',
+			'status' => $status,
+			'id' => $categories_id,
+		));
+
+		$q_data = os_db_query("select ptc.products_id from ".TABLE_PRODUCTS_TO_CATEGORIES." as ptc  where ptc.categories_id = '".(int)$categories_id."'");
+		while ($products = os_db_fetch_array($q_data))
+		{
+			$this->changeProductStatus(array(
+				'column' => 'products_status',
+				'status' => $status,
+				'id' => $products['products_id'],
+			));
+		}
+
+		$categories_query = os_db_query("SELECT categories_id FROM ".TABLE_CATEGORIES." WHERE parent_id = '".(int)$categories_id."'");
+		if (os_db_num_rows($categories_query) > 0)
+		{
+			while ($categories = os_db_fetch_array($categories_query))
+			{
+				$this->changeCategoriesStatus($categories['categories_id'], $status);
+			}
+		}
+	}
+
+
+
+
 }
