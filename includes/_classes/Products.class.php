@@ -1518,6 +1518,7 @@ class apiProducts extends CartET
 					'products_price' => os_db_prepare_input($values['products_price']),
 					'products_sort' => (int)$values['products_sort'],
 					'products_shippingtime' => (int)$values['products_shippingtime'],
+					'manufacturers_id' => (int)$values['manufacturers_id'],
 				);
 				if (STOCK_CHECK == 'true')
 				{

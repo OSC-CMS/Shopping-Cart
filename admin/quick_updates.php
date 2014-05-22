@@ -76,22 +76,14 @@ while ($group_values = os_db_fetch_array($group_query))
 
 $products_shippingtime = $cartet->product->getShippingStatus();
 
-function manufacturers_list()
+$aManufacturers = array();
+$getManufacturersQuery = os_db_query("select m.manufacturers_id, m.manufacturers_name from ".TABLE_MANUFACTURERS." m order by m.manufacturers_name ASC");
+if (os_db_num_rows($getManufacturersQuery) > 0)
 {
-	$manufacturers_query = os_db_query("select m.manufacturers_id, m.manufacturers_name from ".TABLE_MANUFACTURERS." m order by m.manufacturers_name ASC");
-	$return_string = '<select name="manufacturer" onChange="this.form.submit();">';
-	$return_string .= '<option value="0">'.TEXT_ALL_MANUFACTURERS.'</option>';
-	while($manufacturers = os_db_fetch_array($manufacturers_query))
+	while($getManufacturers = os_db_fetch_array($getManufacturersQuery))
 	{
-		$return_string .= '<option value="'.$manufacturers['manufacturers_id'].'"';
-
-		if($_GET['manufacturer'] && $manufacturers['manufacturers_id'] == $_GET['manufacturer'])
-			$return_string .= ' SELECTED';
-
-		$return_string .= '>'.$manufacturers['manufacturers_name'].'</option>';
+		$aManufacturers[$getManufacturers['manufacturers_id']] = $getManufacturers['manufacturers_name'];
 	}
-	$return_string .= '</select>';
-	return $return_string;
 }
 
 $row_bypage_array = array(array('id' => '', 'text' => TEXT_MAXI_ROW_BY_PAGE));
@@ -151,7 +143,18 @@ $main->top_menu();
 				<input type="hidden" name="row_by_page" value="<?php echo $_GET['row_by_page']; ?>">
 				<input type="hidden" name="sorting" value="<?php echo $_GET['sorting']; ?>">
 				<fieldset>
-					<?php echo manufacturers_list(); ?>
+					<select name="manufacturer" onChange="this.form.submit();">
+						<option value="0"><?php echo TEXT_ALL_MANUFACTURERS; ?></option>
+						<?php
+						if (is_array($aManufacturers))
+						{
+							foreach($aManufacturers AS $mId => $mName)
+							{
+								echo '<option value="'.$mId.'" '.(($mId == $_GET['manufacturer']) ? 'selected' : '').'>'.$mName.'</option>';
+							}
+						}
+						?>
+					</select>
 				</fieldset>
 			</form>
 		</div>
@@ -201,8 +204,10 @@ $main->top_menu();
 				}
 				?>
 				<th><span class="line"></span><?php echo TABLE_HEADING_SHIPPING; ?></th>
+				<th><span class="line"></span><?php echo TABLE_HEADING_MANUFACTURERS; ?></th>
 			</tr>
 		</thead>
+		<tbody>
 		<?php
 		if ($_GET['search'])
 			$products_query = os_db_query("SELECT * FROM ".TABLE_PRODUCTS." p, ".TABLE_PRODUCTS_DESCRIPTION." pd, ".TABLE_PRODUCTS_TO_CATEGORIES." p2c WHERE p.products_id = pd.products_id AND pd.language_id = '".$_SESSION['languages_id']."' AND p.products_id = p2c.products_id AND (pd.products_name like '%".os_db_prepare_input($_GET['search'])."%' OR p.products_model = '".os_db_prepare_input($_GET['search'])."') ".$manufacturer." ".$cat." ORDER BY ".$prodsort);
@@ -320,9 +325,24 @@ $main->top_menu();
 						}
 						?>
 					</select>
+				</td>
+				<td>
+					<select name="<?php echo $products['products_id']; ?>[manufacturers_id]">
+						<option value=""></option>
+						<?php
+						if (is_array($aManufacturers))
+						{
+							foreach($aManufacturers AS $mId => $mName)
+							{
+								echo '<option value="'.$mId.'" '.(($mId == $products['manufacturers_id']) ? 'selected' : '').'>'.$mName.'</option>';
+							}
+						}
+						?>
+					</select>
+				</td>
 			</tr>
 			<?php } ?>
-		<tbody>
+		</tbody>
 	</table>
 
 	<div class="pagination pagination-mini pagination-right">
