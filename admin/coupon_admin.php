@@ -102,7 +102,7 @@ elseif ($_GET['action'] == 'email')
 		<div class="control-group">
 			<label class="control-label" for="customers_email_address"><?php echo TEXT_CUSTOMER; ?> <span class="input-required">*</span></label>
 			<div class="controls">
-				<select class="input-block-level" id="customers_email_address" name="customers_email_address" data-required="true">
+				<select class="input-block-level" id="customers_email_address" name="customers_email_address" required>
 					<?php
 					foreach ($customers AS $item)
 					{
@@ -115,19 +115,19 @@ elseif ($_GET['action'] == 'email')
 		<div class="control-group">
 			<label class="control-label" for="from"><?php echo TEXT_FROM; ?> <span class="input-required">*</span></label>
 			<div class="controls">
-				<input class="input-block-level" type="text" id="from" name="from" data-required="true" value="<?php echo EMAIL_FROM; ?>">
+				<input class="input-block-level" type="text" id="from" name="from" required value="<?php echo EMAIL_FROM; ?>">
 			</div>
 		</div>
 		<div class="control-group">
 			<label class="control-label" for="subject"><?php echo TEXT_SUBJECT; ?> <span class="input-required">*</span></label>
 			<div class="controls">
-				<input class="input-block-level" type="text" id="subject" name="subject" data-required="true" value="">
+				<input class="input-block-level" type="text" id="subject" name="subject" required value="">
 			</div>
 		</div>
 		<div class="control-group">
 			<label class="control-label" for="message"><?php echo TEXT_MESSAGE; ?> <span class="input-required">*</span></label>
 			<div class="controls">
-				<textarea class="input-block-level" id="message" id="message" name="message" data-required="true"></textarea>
+				<textarea class="input-block-level" id="message" id="message" name="message" required></textarea>
 			</div>
 		</div>
 
@@ -195,7 +195,7 @@ elseif ($_GET['action'] == ('edit' OR 'new'))
 					<div class="control-group">
 						<label class="control-label" for="coupon_name_<?php echo $lang['languages_id']; ?>"><?php echo COUPON_NAME; ?> <span class="input-required">*</span></label>
 						<div class="controls">
-							<input class="input-block-level" type="text" id="coupon_name_<?php echo $lang['languages_id']; ?>" name="coupon_name[<?php echo $lang['languages_id']; ?>]" data-required="true" value="<?php echo $coupon_name[$lang['languages_id']]; ?>">
+							<input class="input-block-level" type="text" id="coupon_name_<?php echo $lang['languages_id']; ?>" name="coupon_name[<?php echo $lang['languages_id']; ?>]" required value="<?php echo $coupon_name[$lang['languages_id']]; ?>">
 							<span class="help-block"><?php echo COUPON_NAME_HELP; ?></span>
 						</div>
 					</div>
@@ -215,7 +215,7 @@ elseif ($_GET['action'] == ('edit' OR 'new'))
 		<div class="control-group">
 			<label class="control-label" for="coupon_amount"><?php echo COUPON_AMOUNT; ?> <span class="input-required">*</span></label>
 			<div class="controls">
-				<input class="input-block-level" type="text" id="coupon_amount" name="coupon_amount" data-required="true" value="<?php echo $coupon_amount; ?>">
+				<input class="input-block-level" type="text" id="coupon_amount" name="coupon_amount" required value="<?php echo $coupon_amount; ?>">
 				<span class="help-block"><?php echo COUPON_AMOUNT_HELP; ?></span>
 			</div>
 		</div>
@@ -239,7 +239,7 @@ elseif ($_GET['action'] == ('edit' OR 'new'))
 		<div class="control-group">
 			<label class="control-label" for="coupon_code"><?php echo COUPON_CODE; ?> <span class="input-required">*</span></label>
 			<div class="controls">
-				<input class="input-block-level" type="text" id="coupon_code" name="coupon_code" data-required="true" value="<?php echo $coupon_code; ?>">
+				<input class="input-block-level" type="text" id="coupon_code" name="coupon_code" required value="<?php echo $coupon_code; ?>">
 				<span class="help-block"><?php echo COUPON_CODE_HELP; ?></span>
 			</div>
 		</div>
@@ -279,7 +279,7 @@ elseif ($_GET['action'] == ('edit' OR 'new'))
 		<div class="control-group">
 			<label class="control-label" for="coupon_startdate"><?php echo COUPON_STARTDATE; ?> <span class="input-required">*</span></label>
 			<div class="controls">
-				<input class="input-block-level formDatetime" type="text" id="coupon_startdate" name="coupon_startdate" data-required="true" data-date-autoclose="true" data-date-format="yyyy-mm-dd" value="<?php echo $coupon_start_date; ?>">
+				<input class="input-block-level formDatetime" type="text" id="coupon_startdate" name="coupon_startdate" required data-date-autoclose="true" data-date-format="yyyy-mm-dd" value="<?php echo $coupon_start_date; ?>">
 				<span class="help-block"><?php echo COUPON_STARTDATE_HELP; ?></span>
 			</div>
 		</div>
@@ -287,7 +287,7 @@ elseif ($_GET['action'] == ('edit' OR 'new'))
 		<div class="control-group">
 			<label class="control-label" for="coupon_finishdate"><?php echo COUPON_FINISHDATE; ?> <span class="input-required">*</span></label>
 			<div class="controls">
-				<input class="input-block-level formDatetime" type="text" id="coupon_finishdate" name="coupon_finishdate" data-required="true" data-date-autoclose="true" data-date-format="yyyy-mm-dd" value="<?php echo $coupon_expire_date; ?>">
+				<input class="input-block-level formDatetime" type="text" id="coupon_finishdate" name="coupon_finishdate" required data-date-autoclose="true" data-date-format="yyyy-mm-dd" value="<?php echo $coupon_expire_date; ?>">
 				<span class="help-block"><?php echo COUPON_FINISHDATE_HELP; ?></span>
 			</div>
 		</div>

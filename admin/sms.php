@@ -57,7 +57,7 @@ $main->top_menu();
 		<div class="control-group">
 			<label class="control-label" for="name">Название (Важно использовать домен в качестве названия! Например: <b>sms.ru</b>) <span class="input-required">*</span></label>
 			<div class="controls">
-				<input type="text" name="sms[name]" id="name" value="<?php echo $getSms['name']; ?>" data-required="true" class="input-block-level">
+				<input type="text" name="sms[name]" id="name" value="<?php echo $getSms['name']; ?>" required class="input-block-level">
 			</div>
 		</div>
 
@@ -123,7 +123,7 @@ $main->top_menu();
 		<div class="control-group">
 			<label class="control-label" for="url">URL для выполнения GET запроса (без http://) <span class="input-required">*</span></label>
 			<div class="controls">
-				<textarea name="sms[url]" id="url" rows="3" class="input-block-level" data-required="true"><?php echo $getSms['url']; ?></textarea>
+				<textarea name="sms[url]" id="url" rows="3" class="input-block-level" required><?php echo $getSms['url']; ?></textarea>
 				<span class="help-block">
 					Пример: api.avisosms.ru/sms/get/?username={login}&password={password}&destination_address={phone}&source_address={title}&message={text}
 					<br />

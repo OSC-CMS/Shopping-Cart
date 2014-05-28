@@ -41,19 +41,19 @@ $main->top_menu();
 		<div class="control-group">
 			<label class="control-label" for="countries_name"><?php echo TEXT_INFO_COUNTRY_NAME; ?> <span class="input-required">*</span></label>
 			<div class="controls">
-				<input class="input-block-level" type="text" id="countries_name" name="countries_name" data-required="true" value="<?php echo $countries_query['countries_name']; ?>">
+				<input class="input-block-level" type="text" id="countries_name" name="countries_name" required value="<?php echo $countries_query['countries_name']; ?>">
 			</div>
 		</div>
 		<div class="control-group">
 			<label class="control-label" for="countries_iso_code_2"><?php echo TEXT_INFO_COUNTRY_CODE_2; ?> <span class="input-required">*</span></label>
 			<div class="controls">
-				<input class="input-block-level" type="text" id="countries_iso_code_2" name="countries_iso_code_2" data-required="true" value="<?php echo $countries_query['countries_iso_code_2']; ?>">
+				<input class="input-block-level" type="text" id="countries_iso_code_2" name="countries_iso_code_2" required value="<?php echo $countries_query['countries_iso_code_2']; ?>">
 			</div>
 		</div>
 		<div class="control-group">
 			<label class="control-label" for="countries_iso_code_3"><?php echo TEXT_INFO_COUNTRY_CODE_3; ?> <span class="input-required">*</span></label>
 			<div class="controls">
-				<input class="input-block-level" type="text" id="countries_iso_code_3" name="countries_iso_code_3" data-required="true" value="<?php echo $countries_query['countries_iso_code_3']; ?>">
+				<input class="input-block-level" type="text" id="countries_iso_code_3" name="countries_iso_code_3" required value="<?php echo $countries_query['countries_iso_code_3']; ?>">
 			</div>
 		</div>
 		<div class="control-group">

@@ -213,13 +213,13 @@ $main->top_menu();
 			<div class="control-group">
 				<label class="control-label" for="geo_zone_name"><?php echo TEXT_INFO_ZONE_NAME; ?> <span class="input-required">*</span></label>
 				<div class="controls">
-					<input class="input-block-level" type="text" id="geo_zone_name" name="geo_zone_name" data-required="true" value="<?php echo $geoZone['geo_zone_name']; ?>">
+					<input class="input-block-level" type="text" id="geo_zone_name" name="geo_zone_name" required value="<?php echo $geoZone['geo_zone_name']; ?>">
 				</div>
 			</div>
 			<div class="control-group">
 				<label class="control-label" for="geo_zone_description"><?php echo TEXT_INFO_ZONE_DESCRIPTION; ?> <span class="input-required">*</span></label>
 				<div class="controls">
-					<input class="input-block-level" type="text" id="geo_zone_description" name="geo_zone_description" data-required="true" value="<?php echo $geoZone['geo_zone_description']; ?>">
+					<input class="input-block-level" type="text" id="geo_zone_description" name="geo_zone_description" required value="<?php echo $geoZone['geo_zone_description']; ?>">
 				</div>
 			</div>
 

@@ -41,7 +41,7 @@ $main->top_menu();
 		<div class="control-group">
 			<label class="control-label" for="tax_class_title"><?php echo TEXT_INFO_CLASS_TITLE; ?> <span class="input-required">*</span></label>
 			<div class="controls">
-				<input class="input-block-level" type="text" id="tax_class_title" name="tax_class_title" data-required="true" value="<?php echo $tax['tax_class_title']; ?>">
+				<input class="input-block-level" type="text" id="tax_class_title" name="tax_class_title" required value="<?php echo $tax['tax_class_title']; ?>">
 			</div>
 		</div>
 		<div class="control-group">

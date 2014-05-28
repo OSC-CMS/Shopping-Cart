@@ -57,7 +57,7 @@ $main->top_menu();
 					<div class="control-group">
 						<label class="control-label" for="shipping_status_name_<?php echo $lang['languages_id']; ?>"><?php echo TEXT_INFO_SHIPPING_STATUS_NAME; ?> <span class="input-required">*</span></label>
 						<div class="controls">
-							<input class="input-block-level" type="text" id="shipping_status_name_<?php echo $lang['languages_id']; ?>" name="shipping_status_name[<?php echo $lang['languages_id']; ?>]" data-required="true" value="<?php echo $shipping_status[$lang['languages_id']]['shipping_status_name']; ?>">
+							<input class="input-block-level" type="text" id="shipping_status_name_<?php echo $lang['languages_id']; ?>" name="shipping_status_name[<?php echo $lang['languages_id']; ?>]" required value="<?php echo $shipping_status[$lang['languages_id']]['shipping_status_name']; ?>">
 						</div>
 					</div>
 				</div>

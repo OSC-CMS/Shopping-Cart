@@ -158,13 +158,13 @@ if ($_GET['action'] == 'editstatus' && !empty($_GET['c_id'])) { ?>
 			<div class="control-group">
 				<label class="control-label" for="memo_title"><?php echo TEXT_TITLE ?></label>
 				<div class="controls">
-					<input class="span12" type="text" id="memo_title" name="memo_title" value="" data-required="true">
+					<input class="span12" type="text" id="memo_title" name="memo_title" value="" required>
 				</div>
 			</div>
 			<div class="control-group">
 				<label class="control-label" for="memo_text"><?php echo TEXT_TEXT; ?></label>
 				<div class="controls">
-					<textarea class="span12" id="memo_text" name="memo_text" data-required="true"></textarea>
+					<textarea class="span12" id="memo_text" name="memo_text" required></textarea>
 				</div>
 			</div>
 			</div>

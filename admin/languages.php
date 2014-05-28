@@ -41,31 +41,31 @@ $main->top_menu();
 	<div class="control-group">
 		<label class="control-label" for="name"><?php echo TEXT_INFO_LANGUAGE_NAME; ?> <span class="input-required">*</span></label>
 		<div class="controls">
-			<input class="input-block-level" type="text" id="name" name="name" data-required="true" value="<?php echo $languages_query['name']; ?>">
+			<input class="input-block-level" type="text" id="name" name="name" required value="<?php echo $languages_query['name']; ?>">
 		</div>
 	</div>
 	<div class="control-group">
 		<label class="control-label" for="code"><?php echo TEXT_INFO_LANGUAGE_CODE; ?> <span class="input-required">*</span></label>
 		<div class="controls">
-			<input class="input-block-level" type="text" id="code" name="code" data-required="true" value="<?php echo $languages_query['code']; ?>">
+			<input class="input-block-level" type="text" id="code" name="code" required value="<?php echo $languages_query['code']; ?>">
 		</div>
 	</div>
 	<div class="control-group">
 		<label class="control-label" for="language_charset"><?php echo TEXT_INFO_LANGUAGE_CHARSET; ?> <span class="input-required">*</span></label>
 		<div class="controls">
-			<input class="input-block-level" type="text" id="language_charset" name="language_charset" data-required="true" value="<?php echo $languages_query['language_charset']; ?>">
+			<input class="input-block-level" type="text" id="language_charset" name="language_charset" required value="<?php echo $languages_query['language_charset']; ?>">
 		</div>
 	</div>
 	<div class="control-group">
 		<label class="control-label" for="image"><?php echo TEXT_INFO_LANGUAGE_IMAGE; ?> <span class="input-required">*</span></label>
 		<div class="controls">
-			<input class="input-block-level" type="text" id="image" name="image" data-required="true" value="<?php echo $languages_query['image']; ?>">
+			<input class="input-block-level" type="text" id="image" name="image" required value="<?php echo $languages_query['image']; ?>">
 		</div>
 	</div>
 	<div class="control-group">
 		<label class="control-label" for="directory"><?php echo TEXT_INFO_LANGUAGE_DIRECTORY; ?> <span class="input-required">*</span></label>
 		<div class="controls">
-			<input class="input-block-level" type="text" id="directory" name="directory" data-required="true" value="<?php echo $languages_query['directory']; ?>">
+			<input class="input-block-level" type="text" id="directory" name="directory" required value="<?php echo $languages_query['directory']; ?>">
 		</div>
 	</div>
 	<div class="control-group">

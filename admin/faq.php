@@ -44,7 +44,7 @@ $main->top_menu();
 		<div class="control-group">
 			<label class="control-label" for="question"><?php echo TEXT_FAQ_QUESTION; ?> <span class="input-required">*</span></label>
 			<div class="controls">
-				<input class="input-block-level" type="text" id="question" name="question" data-required="true" value="<?php echo $faq['question']; ?>">
+				<input class="input-block-level" type="text" id="question" name="question" required value="<?php echo $faq['question']; ?>">
 			</div>
 		</div>
 		<div class="control-group">
@@ -56,14 +56,14 @@ $main->top_menu();
 		<div class="control-group">
 			<label class="control-label" for="answer"><?php echo TEXT_FAQ_ANSWER; ?> <span class="input-required">*</span></label>
 			<div class="controls">
-				<textarea class="input-block-level textarea_big" id="answer" name="answer" data-required="true"><?php echo stripslashes(@$faq['answer']); ?></textarea>
+				<textarea class="input-block-level textarea_big" id="answer" name="answer" required><?php echo stripslashes(@$faq['answer']); ?></textarea>
 			</div>
 		</div>
 		<?php if (isset($_GET['id'])) { ?>
 			<div class="control-group">
 				<label class="control-label" for="date_added"><?php echo TEXT_FAQ_DATE; ?> <span class="input-required">*</span></label>
 				<div class="controls">
-					<input class="input-block-level formDatetime" type="text" data-required="true" data-date-autoclose="true" data-date-format="yyyy-mm-dd hh:ii:ss" id="date_added" name="date_added" data-required="true" value="<?php echo $faq['date_added']; ?>">
+					<input class="input-block-level formDatetime" type="text" required data-date-autoclose="true" data-date-format="yyyy-mm-dd hh:ii:ss" id="date_added" name="date_added" required value="<?php echo $faq['date_added']; ?>">
 				</div>
 			</div>
 		<?php } ?>

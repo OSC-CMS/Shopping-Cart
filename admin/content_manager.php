@@ -392,7 +392,7 @@ $main->top_menu();
 			<div class="control-group">
 				<label class="control-label" for="content_group"><?php echo TEXT_GROUP; ?> <span class="input-required">*</span></label>
 				<div class="controls">
-					<input class="input-block-level" type="text" id="content_group" name="content_group" data-required="true" value="<?php echo $content['content_group']; ?>">
+					<input class="input-block-level" type="text" id="content_group" name="content_group" required value="<?php echo $content['content_group']; ?>">
 					<span class="help-block"><?php echo TEXT_GROUP_DESC; ?></span>
 				</div>
 			</div>

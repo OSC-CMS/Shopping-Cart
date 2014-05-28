@@ -42,7 +42,7 @@ while($customers_values = os_db_fetch_array($mail_query))
 	<div class="control-group">
 		<label class="control-label" for="customers_email_address"><?php echo TEXT_CUSTOMER; ?> <span class="input-required">*</span></label>
 		<div class="controls">
-			<select class="input-block-level" id="customers_email_address" name="customers_email_address" data-required="true">
+			<select class="input-block-level" id="customers_email_address" name="customers_email_address" required>
 				<?php
 				foreach ($customers AS $item)
 				{
@@ -62,25 +62,25 @@ while($customers_values = os_db_fetch_array($mail_query))
 	<div class="control-group">
 		<label class="control-label" for="from"><?php echo TEXT_FROM; ?> <span class="input-required">*</span></label>
 		<div class="controls">
-			<input class="input-block-level" type="text" id="from" name="from" data-required="true" value="<?php echo EMAIL_FROM; ?>">
+			<input class="input-block-level" type="text" id="from" name="from" required value="<?php echo EMAIL_FROM; ?>">
 		</div>
 	</div>
 	<div class="control-group">
 		<label class="control-label" for="subject"><?php echo TEXT_SUBJECT; ?> <span class="input-required">*</span></label>
 		<div class="controls">
-			<input class="input-block-level" type="text" id="subject" name="subject" data-required="true" value="">
+			<input class="input-block-level" type="text" id="subject" name="subject" required value="">
 		</div>
 	</div>
 	<div class="control-group">
 		<label class="control-label" for="amount"><?php echo TEXT_AMOUNT; ?> <span class="input-required">*</span></label>
 		<div class="controls">
-			<input class="input-block-level" type="text" id="amount" name="amount" data-required="true" value="">
+			<input class="input-block-level" type="text" id="amount" name="amount" required value="">
 		</div>
 	</div>
 	<div class="control-group">
 		<label class="control-label" for="message"><?php echo TEXT_MESSAGE; ?> <span class="input-required">*</span></label>
 		<div class="controls">
-			<textarea class="input-block-level" id="message" name="message" data-required="true"></textarea>
+			<textarea class="input-block-level" id="message" name="message" required></textarea>
 		</div>
 	</div>
 

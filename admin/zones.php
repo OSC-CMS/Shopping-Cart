@@ -41,13 +41,13 @@ $main->top_menu();
 		<div class="control-group">
 			<label class="control-label" for="zone_name"><?php echo TEXT_INFO_ZONES_NAME; ?> <span class="input-required">*</span></label>
 			<div class="controls">
-				<input class="input-block-level" type="text" id="zone_name" name="zone_name" data-required="true" value="<?php echo $zones_query['zone_name']; ?>">
+				<input class="input-block-level" type="text" id="zone_name" name="zone_name" required value="<?php echo $zones_query['zone_name']; ?>">
 			</div>
 		</div>
 		<div class="control-group">
 			<label class="control-label" for="zone_code"><?php echo TEXT_INFO_ZONES_CODE; ?> <span class="input-required">*</span></label>
 			<div class="controls">
-				<input class="input-block-level" type="text" id="zone_code" name="zone_code" data-required="true" value="<?php echo $zones_query['zone_code']; ?>">
+				<input class="input-block-level" type="text" id="zone_code" name="zone_code" required value="<?php echo $zones_query['zone_code']; ?>">
 			</div>
 		</div>
 		<div class="control-group">

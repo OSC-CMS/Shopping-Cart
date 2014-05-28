@@ -70,13 +70,13 @@ $main->top_menu();
 	<div class="control-group">
 		<label class="control-label" for="title"><?php echo TEXT_INFO_CURRENCY_TITLE; ?> <span class="input-required">*</span></label>
 		<div class="controls">
-			<input class="input-block-level" type="text" id="title" name="title" data-required="true" value="<?php echo $currencies_query['title']; ?>">
+			<input class="input-block-level" type="text" id="title" name="title" required value="<?php echo $currencies_query['title']; ?>">
 		</div>
 	</div>
 	<div class="control-group">
 		<label class="control-label" for="code"><?php echo TEXT_INFO_CURRENCY_CODE; ?> <span class="input-required">*</span></label>
 		<div class="controls">
-			<input class="input-block-level" type="text" id="code" name="code" data-required="true" value="<?php echo $currencies_query['code']; ?>">
+			<input class="input-block-level" type="text" id="code" name="code" required value="<?php echo $currencies_query['code']; ?>">
 		</div>
 	</div>
 	<div class="control-group">
@@ -112,7 +112,7 @@ $main->top_menu();
 	<div class="control-group">
 		<label class="control-label" for="value"><?php echo TEXT_INFO_CURRENCY_VALUE; ?> <span class="input-required">*</span></label>
 		<div class="controls">
-			<input class="input-block-level" type="text" id="value" name="value" data-required="true" value="<?php echo $currencies_query['value']; ?>">
+			<input class="input-block-level" type="text" id="value" name="value" required value="<?php echo $currencies_query['value']; ?>">
 		</div>
 	</div>
 	<div class="control-group">

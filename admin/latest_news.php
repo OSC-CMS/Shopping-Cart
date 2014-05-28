@@ -62,7 +62,7 @@ if ($_GET['action'] == 'edit' OR $_GET['action'] == 'new')
 		<div class="control-group">
 			<label class="control-label" for="headline"><?php echo TEXT_LATEST_NEWS_HEADLINE; ?> <span class="input-required">*</span></label>
 			<div class="controls">
-				<input class="input-block-level" type="text" id="headline" name="headline" data-required="true" value="<?php echo $latest_news['headline']; ?>" <?php echo $seo_input_field; ?>>
+				<input class="input-block-level" type="text" id="headline" name="headline" required value="<?php echo $latest_news['headline']; ?>" <?php echo $seo_input_field; ?>>
 			</div>
 		</div>
 		<div class="control-group">
@@ -74,14 +74,14 @@ if ($_GET['action'] == 'edit' OR $_GET['action'] == 'new')
 		<div class="control-group">
 			<label class="control-label" for="content"><?php echo TEXT_LATEST_NEWS_CONTENT; ?> <span class="input-required">*</span></label>
 			<div class="controls">
-				<textarea class="input-block-level textarea_big" id="content" name="content" data-required="true"><?php echo stripslashes(@$latest_news['content']); ?></textarea>
+				<textarea class="input-block-level textarea_big" id="content" name="content" required><?php echo stripslashes(@$latest_news['content']); ?></textarea>
 			</div>
 		</div>
 		<?php if (isset($_GET['id'])) { ?>
 		<div class="control-group">
 			<label class="control-label" for="date_added"><?php echo TEXT_LATEST_NEWS_DATE; ?> <span class="input-required">*</span></label>
 			<div class="controls">
-				<input class="input-block-level formDatetime" type="text" data-required="true" data-date-autoclose="true" data-date-format="yyyy-mm-dd hh:ii:ss" id="date_added" name="date_added" data-required="true" value="<?php echo $latest_news['date_added']; ?>">
+				<input class="input-block-level formDatetime" type="text" required data-date-autoclose="true" data-date-format="yyyy-mm-dd hh:ii:ss" id="date_added" name="date_added" required value="<?php echo $latest_news['date_added']; ?>">
 			</div>
 		</div>
 		<?php } ?>

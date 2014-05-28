@@ -224,7 +224,7 @@ $avatar = http_path('images').'avatars/'.$avatarImg;
 						<div class="control-group">
 							<label class="control-label" for="customers_firstname"><?php echo ENTRY_FIRST_NAME; ?> <span class="input-required">*</span></label>
 							<div class="controls">
-								<input class="input-block-level" type="text" id="customers_firstname" name="customers_firstname" data-required="true" value="<?php echo $cInfo->customers_firstname; ?>">
+								<input class="input-block-level" type="text" id="customers_firstname" name="customers_firstname" required value="<?php echo $cInfo->customers_firstname; ?>">
 							</div>
 						</div>
 
@@ -240,7 +240,7 @@ $avatar = http_path('images').'avatars/'.$avatarImg;
 						<div class="control-group">
 							<label class="control-label" for="customers_lastname"><?php echo ENTRY_LAST_NAME; ?> <span class="input-required">*</span></label>
 							<div class="controls">
-								<input class="input-block-level" type="text" id="customers_lastname" name="customers_lastname" data-required="true" value="<?php echo $cInfo->customers_lastname; ?>">
+								<input class="input-block-level" type="text" id="customers_lastname" name="customers_lastname" required value="<?php echo $cInfo->customers_lastname; ?>">
 							</div>
 						</div>
 
@@ -248,7 +248,7 @@ $avatar = http_path('images').'avatars/'.$avatarImg;
 						<div class="control-group">
 							<label class="control-label" for="customers_dob"><?php echo ENTRY_DATE_OF_BIRTH; ?> <span class="input-required">*</span></label>
 							<div class="controls">
-								<input class="input-block-level formDatetime" type="text" id="customers_dob" name="customers_dob" data-required="true" data-date-autoclose="true" data-date-format="yyyy-mm-dd" value="<?php echo $cInfo->customers_dob; ?>">
+								<input class="input-block-level formDatetime" type="text" id="customers_dob" name="customers_dob" required data-date-autoclose="true" data-date-format="yyyy-mm-dd" value="<?php echo $cInfo->customers_dob; ?>">
 							</div>
 						</div>
 						<?php } ?>
@@ -257,7 +257,7 @@ $avatar = http_path('images').'avatars/'.$avatarImg;
 						<div class="control-group">
 							<label class="control-label" for="customers_gender"><?php echo ENTRY_GENDER; ?> <span class="input-required">*</span></label>
 							<div class="controls">
-								<select class="input-block-level" id="customers_gender" name="customers_gender" data-required="true">
+								<select class="input-block-level" id="customers_gender" name="customers_gender" required>
 									<option value="" <?php echo (empty($cInfo->customers_gender)) ? 'selected' : ''; ?>></option>
 									<option value="m" <?php echo ($cInfo->customers_gender == 'm') ? 'selected' : ''; ?>><?php echo MALE; ?></option>
 									<option value="f" <?php echo ($cInfo->customers_gender == 'f') ? 'selected' : ''; ?>><?php echo FEMALE; ?></option>
@@ -269,7 +269,7 @@ $avatar = http_path('images').'avatars/'.$avatarImg;
 						<div class="control-group">
 							<label class="control-label" for="customers_newsletter"><?php echo ENTRY_NEWSLETTER; ?> <span class="input-required">*</span></label>
 							<div class="controls">
-								<select class="input-block-level" id="customers_newsletter" name="customers_newsletter" data-required="true">
+								<select class="input-block-level" id="customers_newsletter" name="customers_newsletter" required>
 									<option value="1" <?php echo ($cInfo->customers_newsletter == 1) ? 'selected' : ''; ?>><?php echo ENTRY_NEWSLETTER_YES; ?></option>
 									<option value="0" <?php echo ($cInfo->customers_newsletter == 0) ? 'selected' : ''; ?>><?php echo ENTRY_NEWSLETTER_NO; ?></option>
 								</select>
@@ -289,7 +289,7 @@ $avatar = http_path('images').'avatars/'.$avatarImg;
 						<div class="control-group">
 							<label class="control-label" for="customers_mail"><?php echo ENTRY_MAIL; ?> <span class="input-required">*</span></label>
 							<div class="controls">
-								<select class="input-block-level" id="customers_mail" name="customers_mail" data-required="true">
+								<select class="input-block-level" id="customers_mail" name="customers_mail" required>
 									<option value="yes" selected><?php echo YES; ?></option>
 									<option value="no"><?php echo NO; ?></option>
 								</select>
@@ -471,7 +471,7 @@ $avatar = http_path('images').'avatars/'.$avatarImg;
 						<div class="control-group">
 							<label class="control-label" for="country"><?php echo ENTRY_COUNTRY; ?> <span class="input-required">*</span></label>
 							<div class="controls">
-								<?php echo os_get_country_list('country', $cInfo->entry_country_id, 'onChange="changeselect();" id="country" data-required="true"'); ?>
+								<?php echo os_get_country_list('country', $cInfo->entry_country_id, 'onChange="changeselect();" id="country" required'); ?>
 							</div>
 						</div>
 						<?php } ?>
@@ -512,7 +512,7 @@ $avatar = http_path('images').'avatars/'.$avatarImg;
 								echo implode(',',$zones);
 								?>
 								);
-								document.write('<select class="input-block-level" id="state" name="state" data-required="true">');
+								document.write('<select class="input-block-level" id="state" name="state" required>');
 								document.write('</select>');
 								changeselect("<?php echo os_db_prepare_input($_POST['state']); ?>");
 								-->
@@ -525,7 +525,7 @@ $avatar = http_path('images').'avatars/'.$avatarImg;
 						<div class="control-group">
 							<label class="control-label" for="entry_suburb"><?php echo ENTRY_SUBURB; ?> <span class="input-required">*</span></label>
 							<div class="controls">
-								<input class="input-block-level" type="text" id="entry_suburb" name="entry_suburb" data-required="true" value="<?php echo $cInfo->entry_suburb; ?>">
+								<input class="input-block-level" type="text" id="entry_suburb" name="entry_suburb" required value="<?php echo $cInfo->entry_suburb; ?>">
 							</div>
 						</div>
 						<?php } ?>
@@ -534,7 +534,7 @@ $avatar = http_path('images').'avatars/'.$avatarImg;
 						<div class="control-group">
 							<label class="control-label" for="entry_city"><?php echo ENTRY_CITY; ?> <span class="input-required">*</span></label>
 							<div class="controls">
-								<input class="input-block-level" type="text" id="entry_city" name="entry_city" data-required="true" value="<?php echo $cInfo->entry_city; ?>">
+								<input class="input-block-level" type="text" id="entry_city" name="entry_city" required value="<?php echo $cInfo->entry_city; ?>">
 							</div>
 						</div>
 						<?php } ?>
@@ -543,7 +543,7 @@ $avatar = http_path('images').'avatars/'.$avatarImg;
 						<div class="control-group">
 							<label class="control-label" for="entry_postcode"><?php echo ENTRY_POST_CODE; ?> <span class="input-required">*</span></label>
 							<div class="controls">
-								<input class="input-block-level" type="text" id="entry_postcode" name="entry_postcode" data-required="true" value="<?php echo $cInfo->entry_postcode; ?>">
+								<input class="input-block-level" type="text" id="entry_postcode" name="entry_postcode" required value="<?php echo $cInfo->entry_postcode; ?>">
 							</div>
 						</div>
 						<?php } ?>
@@ -552,7 +552,7 @@ $avatar = http_path('images').'avatars/'.$avatarImg;
 						<div class="control-group">
 							<label class="control-label" for="entry_street_address"><?php echo ENTRY_STREET_ADDRESS; ?> <span class="input-required">*</span></label>
 							<div class="controls">
-								<input class="input-block-level" type="text" id="entry_street_address" name="entry_street_address" data-required="true" value="<?php echo $cInfo->entry_street_address; ?>">
+								<input class="input-block-level" type="text" id="entry_street_address" name="entry_street_address" required value="<?php echo $cInfo->entry_street_address; ?>">
 							</div>
 						</div>
 						<?php } ?>
@@ -594,7 +594,7 @@ $avatar = http_path('images').'avatars/'.$avatarImg;
 										$emailError = ENTRY_EMAIL_ADDRESS_ERROR_EXISTS;
 								}
 								?>
-								<input class="input-block-level" type="text" id="customers_email_address" name="customers_email_address" data-required="true" data-type="email" value="<?php echo $cInfo->customers_email_address; ?>">
+								<input class="input-block-level" type="text" id="customers_email_address" name="customers_email_address" required data-type="email" value="<?php echo $cInfo->customers_email_address; ?>">
 								<?php echo $emailError; ?>
 							</div>
 						</div>
@@ -603,7 +603,7 @@ $avatar = http_path('images').'avatars/'.$avatarImg;
 						<div class="control-group">
 							<label class="control-label" for="customers_telephone"><?php echo ENTRY_TELEPHONE_NUMBER; ?> <span class="input-required">*</span></label>
 							<div class="controls">
-								<input class="input-block-level" type="text" id="customers_telephone" name="customers_telephone" data-required="true" value="<?php echo $cInfo->customers_telephone; ?>">
+								<input class="input-block-level" type="text" id="customers_telephone" name="customers_telephone" required value="<?php echo $cInfo->customers_telephone; ?>">
 							</div>
 						</div>
 
@@ -621,7 +621,7 @@ $avatar = http_path('images').'avatars/'.$avatarImg;
 							<div class="control-group">
 								<label class="control-label" for="entry_company"><?php echo ENTRY_COMPANY; ?> <span class="input-required">*</span></label>
 								<div class="controls">
-									<input class="input-block-level" type="text" id="entry_company" name="entry_company" data-required="true" value="<?php echo $cInfo->entry_company; ?>">
+									<input class="input-block-level" type="text" id="entry_company" name="entry_company" required value="<?php echo $cInfo->entry_company; ?>">
 								</div>
 							</div>
 
@@ -629,7 +629,7 @@ $avatar = http_path('images').'avatars/'.$avatarImg;
 							<div class="control-group">
 								<label class="control-label" for="customers_vat_id"><?php echo ENTRY_VAT_ID; ?> <span class="input-required">*</span></label>
 								<div class="controls">
-									<input class="input-block-level" type="text" id="customers_vat_id" name="customers_vat_id" data-required="true" value="<?php echo $cInfo->customers_vat_id; ?>">
+									<input class="input-block-level" type="text" id="customers_vat_id" name="customers_vat_id" required value="<?php echo $cInfo->customers_vat_id; ?>">
 								</div>
 							</div>
 							<?php } ?>
@@ -800,18 +800,24 @@ while ($customers = os_db_fetch_array($customers_query))
 
 // Страны
 $aCountries = array();
-$country_query = os_db_query("select countries_id, countries_name from ".TABLE_COUNTRIES." where countries_id IN (".implode(',', $aCustomersCountries).")");
-while ($country = os_db_fetch_array($country_query))
+if ($aCustomersCountries)
 {
-	$aCountries[$country['countries_id']] = $country['countries_name'];
+	$country_query = os_db_query("select countries_id, countries_name from ".TABLE_COUNTRIES." where countries_id IN (".implode(',', $aCustomersCountries).")");
+	while ($country = os_db_fetch_array($country_query))
+	{
+		$aCountries[$country['countries_id']] = $country['countries_name'];
+	}
 }
 
 // Отзывы
 $aReviewsCount = array();
-$reviews_query = os_db_query("select customers_id, count(reviews_id) as number_of_reviews from ".TABLE_REVIEWS." where customers_id IN (".implode(',', $aCustomersIds).") GROUP BY customers_id");
-while ($reviews = os_db_fetch_array($reviews_query))
+if ($aCustomersIds)
 {
-	$aReviewsCount[$reviews['customers_id']] = $reviews['number_of_reviews'];
+	$reviews_query = os_db_query("select customers_id, count(reviews_id) as number_of_reviews from ".TABLE_REVIEWS." where customers_id IN (".implode(',', $aCustomersIds).") GROUP BY customers_id");
+	while ($reviews = os_db_fetch_array($reviews_query))
+	{
+		$aReviewsCount[$reviews['customers_id']] = $reviews['number_of_reviews'];
+	}
 }
 ?>
 
@@ -908,7 +914,7 @@ foreach ($aCustomers AS $customers)
 					<li><a href="<?php echo os_href_link(FILENAME_ORDERS, 'cID='.$customers['customers_id']); ?>"><?php echo BUTTON_ORDERS; ?></a></li>
 					<li><a href="<?php echo os_href_link(FILENAME_CUSTOMERS, os_get_all_get_params(array ('cID', 'action')).'cID='.$customers['customers_id'].'&action=new_order'); ?>" onClick="return confirm('<?php echo NEW_ORDER; ?>')"><?php echo BUTTON_NEW_ORDER; ?></a></li>
 					<li class="divider"></li>
-					<li><a href="<?php echo os_href_link(FILENAME_MAIL, 'selected_box=tools&customer='.$customers['customers_email_address']); ?>"><?php echo BUTTON_EMAIL; ?></a></li>
+					<li><a href="<?php echo os_href_link(FILENAME_MAIL, 'customer='.$customers['customers_email_address']); ?>"><?php echo BUTTON_EMAIL; ?></a></li>
 				</ul>
 			</div>
 		</td>
