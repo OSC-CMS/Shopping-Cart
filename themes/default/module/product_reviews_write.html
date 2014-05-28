@@ -10,7 +10,7 @@
 		<div class="row-fluid">
 			<div class="span4">
 				<label for="author">{#text_author#}</label>
-				<input type="text" name="author" id="author" class="input-block-level" data-required="true" data-error-message="{$smarty.const.JS_REVIEW_AUTHOR}" value="{if $smarty.session.customer_id}{$smarty.session.customer_first_name} {$smarty.session.customer_last_name}{else}{$smarty.const.TEXT_GUEST}{/if}">
+				<input type="text" name="author" id="author" class="input-block-level" required data-parsley-error-message="{$smarty.const.JS_REVIEW_AUTHOR}" value="{if $smarty.session.customer_id}{$smarty.session.customer_first_name} {$smarty.session.customer_last_name}{else}{$smarty.const.TEXT_GUEST}{/if}">
 
 				<label for="review">{#text_rating#}</label>
 				<font color="red">{#text_bad#}</font> 
@@ -25,11 +25,11 @@
 				<a href="javascript:void(0)" title="{#text_captcha_update#}" onclick="reload_captcha()">{$CAPTCHA_IMG}</a>
 
 				<label for="captcha">{#text_sec_code_text#}</label>
-				<input type="text" name="captcha" id="captcha" class="input-block-level" data-required="true" data-error-message="{$smarty.const.ENTRY_CAPTCHA_ERROR}">
+				<input type="text" name="captcha" id="captcha" class="input-block-level" required data-parsley-error-message="{$smarty.const.ENTRY_CAPTCHA_ERROR}">
 			</div>
 			<div class="span8">
 				<label for="review">{#text_input#}</label>
-				<textarea name="review" id="review" class="input-block-level" rows="10" data-required="true" data-minlength="{$smarty.const.REVIEW_TEXT_MIN_LENGTH}" data-error-message="{$smarty.const.JS_REVIEW_TEXT}">{$smarty.post.review}</textarea>
+				<textarea name="review" id="review" class="input-block-level" rows="10" required data-parsley-minlength="{$smarty.const.REVIEW_TEXT_MIN_LENGTH}" data-parsley-error-message="{$smarty.const.JS_REVIEW_TEXT}">{$smarty.post.review}</textarea>
 				<span class="help-block">{#text_note#}</span>
 			</div>
 		</div>

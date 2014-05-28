@@ -98,7 +98,7 @@ _e('<head>');
 						  'href' => FILENAME_RSS2. '?feed=best_sellers&amp;limit=10',
 						  'group' => 'rss_best_sellers'); 
 
-add_js_code ('var SITE_WEB_DIR = "'._HTTP.'";', $HEAD, 'site_web_dir');
+add_js_code('var SITE_WEB_DIR = "'._HTTP.'";', $HEAD, 'site_web_dir');
 
 // jQuery
 add_js(_HTTP.'jscript/jquery/jquery.js', $HEAD,  'jquery');
@@ -115,8 +115,9 @@ add_js(_HTTP.'jscript/jnotifier/js/jnotifier.src.js', $HEAD, 'jnotifier');
 add_js(_HTTP.'jscript/autocomplete/jquery.autocomplete-min.js', $HEAD, 'autocomplete');
 
 // Parsley
-add_js(_HTTP.'jscript/parsley/i18n/messages.'.$_SESSION['language'].'.js', $HEAD, 'parsley');
+add_js(_HTTP.'jscript/parsley/i18n/'.$_SESSION['language'].'.js', $HEAD, 'parsley');
 add_js(_HTTP.'jscript/parsley/parsley.min.js', $HEAD, 'parsley');
+add_js_code('window.ParsleyValidator.setLocale("'.$_SESSION['language'].'");', $HEAD, 'parsley');
 
 // System JS
 add_js(_HTTP.'jscript/jscript_JsHttpRequest.js', $HEAD, 'jshttprequest');
