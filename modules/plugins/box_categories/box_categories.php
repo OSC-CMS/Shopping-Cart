@@ -2,7 +2,7 @@
 /*
 	Plugin Name: Категории
 	Plugin URI: http://osc-cms.com/store/plugins/box-categories
-	Version: 1.3
+	Version: 1.4
 	Description: Выводит блок категорий
 	Author: CartET
 	Author URI: http://osc-cms.com
@@ -16,8 +16,9 @@ function box_categories_js($value)
 {
 	if (get_option('menuJSType') == 'accordion')
 	{
-		add_style(plugurl().'js/menu_accordion.css', $value, 'categories');
-		add_js(plugurl().'js/menu_accordion.js', $value, 'categories');
+		$theme = (file_exists(plugdir().'themes/'.CURRENT_TEMPLATE)) ? CURRENT_TEMPLATE : 'default';
+		add_style(plugurl().'themes/'.$theme.'/css/menu_accordion.css', $value, 'categories');
+		add_js(plugurl().'themes/'.$theme.'/js/menu_accordion.js', $value, 'categories');
 	}
 
 	return $value;
@@ -36,14 +37,16 @@ function box_categories_func()
 	$box->assign('imageHeight', get_option('cImgHeight'));
 	$box->assign('counts', get_option('countProducts'));
 
-	$box->assign('plugDir', dirname(__FILE__).'/themes');
+	$theme = (file_exists(plugdir().'themes/'.CURRENT_TEMPLATE)) ? CURRENT_TEMPLATE : 'default';
+
+	$box->assign('plugDir', dirname(__FILE__).'/themes/'.$theme);
 	$box->assign('language', $_SESSION['language']);
 	$box->template_dir = plugdir();
 
 	if (!CacheCheck())
 	{
 		$box->caching = 0;
-		$_box_value = $box->fetch(dirname(__FILE__).'/themes/categories.html');
+		$_box_value = $box->fetch(dirname(__FILE__).'/themes/'.$theme.'/categories.html');
 	}
 	else
 	{
@@ -51,7 +54,7 @@ function box_categories_func()
 		$box->cache_lifetime = CACHE_LIFETIME;
 		$box->cache_modified_check = CACHE_CHECK;
 		$cache_id = $_SESSION['language'];
-		$_box_value = $box->fetch(dirname(__FILE__).'/themes/categories.html', $cache_id);
+		$_box_value = $box->fetch(dirname(__FILE__).'/themes/'.$theme.'/categories.html', $cache_id);
 	}
 
 	$osTemplate->assign('box_CATEGORIES', $_box_value);
@@ -67,4 +70,3 @@ function box_categories_install()
 	add_option('cImgHeight',		'30', 'input');
 	add_option('menuJSType',		'none', 'radio', "array('none', 'accordion')");
 }
-?>
