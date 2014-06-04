@@ -169,6 +169,7 @@ class plugins
 							$_option_name = $option_name;
 
 						$_value_name = trim($option_name.'_desc');
+						$_option_name_desc = '';
 						if (isset($_lang_array[$module][ $_value_name ]))
 						{
 							$_option_name_desc = addslashes(htmlspecialchars($_lang_array[$module][ $_value_name ]));
@@ -673,7 +674,7 @@ class plugins
         {
             $this->name = $plugins_file[$i][0];
 
-            $plugin_data = get_plugin_data($plugins_file[$i][1]);
+            $plugin_data = $this->get_plugin_data($plugins_file[$i][1]);
 
             $_group = trim($plugin_data['PluginGroup']);
 
@@ -730,6 +731,34 @@ class plugins
 
         return $this->_plug_array;
     }
+
+	public function get_plugin_data($plugin_file)
+	{
+		$fp = fopen($plugin_file, 'r');
+		$plugin_data = fread( $fp, 8192 );
+		fclose($fp);
+
+		preg_match( '|Plugin Name:(.*)$|mi', $plugin_data, $name );
+		preg_match( '|Plugin URI:(.*)$|mi', $plugin_data, $uri );
+		preg_match( '|Version:(.*)|i', $plugin_data, $version );
+		preg_match( '|Description:(.*)$|mi', $plugin_data, $description );
+		preg_match( '|Author:(.*)$|mi', $plugin_data, $author_name );
+		preg_match( '|Author URI:(.*)$|mi', $plugin_data, $author_uri );
+		preg_match( '|Plugin Group:(.*)$|mi', $plugin_data, $PluginGroup);
+
+		$plugin_data = array(
+			'Name' => trim(isset($name[1])?$name[1]:''),
+			'Title' => (!empty($name[1]) ? ($name[1]) : (ucfirst(str_replace('.php', '', $plugin_file)))),
+			'PluginURI' => trim(isset($uri[1])?$uri[1]:''),
+			'Description' => trim(isset($description[1])?$description[1]:''),
+			'Author' => trim(isset($author_name[1])?$author_name[1]:''),
+			'AuthorURI' => trim(isset($author_uri[1])?$author_uri[1]:''),
+			'Version' => trim(isset($version[1])?$version[1]:''),
+			'PluginGroup' => trim(isset($PluginGroup[1])?$PluginGroup[1]:'')
+		);
+
+		return $plugin_data;
+	}
 
     function multi_action()
     {
