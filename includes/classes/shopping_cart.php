@@ -379,7 +379,7 @@ class shoppingCart {
 
 			foreach ($aAttributes AS $attr)
 			{
-				$values = $GetOptionPrice[$products_id.'_'.$option.'_'.$value];
+				$values = $GetOptionPrice[(int)$products_id.'_'.$attr['option'].'_'.$attr['value']];
 				$attributes_price += $values['price'];
 			}
 		}
