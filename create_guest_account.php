@@ -207,11 +207,6 @@ if (isset ($_POST['action']) && ($_POST['action'] == 'process')) {
 			$sql_data_array['customers_dob'] = os_date_raw($dob);
 
 		os_db_perform(TABLE_CUSTOMERS, $sql_data_array);
-
-		$_SESSION['customer_id'] = os_db_insert_id();
-
-    $extra_fields_query = osDBquery("select ce.fields_id from " . TABLE_EXTRA_FIELDS . " ce where ce.fields_status=1 ");
-
 		$_SESSION['customer_id'] = os_db_insert_id();
 		$customers_id = $_SESSION['customer_id'];
 
