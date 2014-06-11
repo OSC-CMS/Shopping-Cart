@@ -119,6 +119,9 @@ add_js(_HTTP.'jscript/parsley/i18n/'.$_SESSION['language'].'.js', $HEAD, 'parsle
 add_js(_HTTP.'jscript/parsley/parsley.min.js', $HEAD, 'parsley');
 add_js_code('window.ParsleyValidator.setLocale("'.$_SESSION['language'].'");', $HEAD, 'parsley');
 
+// Cookie
+add_js(_HTTP.'jscript/cookie/jquery.cookie.js', $HEAD, 'cookie');
+
 // System JS
 add_js(_HTTP.'jscript/jscript_JsHttpRequest.js', $HEAD, 'jshttprequest');
 add_js(_HTTP.'jscript/jscript_ajax.js', $HEAD, 'jscript_ajax');
