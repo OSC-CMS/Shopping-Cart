@@ -404,8 +404,8 @@ if (os_not_null($cPath)) {
 	$current_category_id = 0;
 }
 
-require (dir_path('class').'shipping.php');
-$shippingModules = new shipping;
+//require (dir_path('class').'shipping.php');
+//$shippingModules = new shipping;
 
 // include the breadcrumb class and start the breadcrumb trail
 require (_CLASS.'breadcrumb.php');

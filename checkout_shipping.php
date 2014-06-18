@@ -101,8 +101,8 @@ if ($order->delivery['country']['iso_code_2'] != '')
 	$_SESSION['delivery_zone'] = $order->delivery['country']['iso_code_2'];
 }
 // load all enabled shipping modules
-//require (dir_path('class').'shipping.php');
-//$shippingModules = new shipping;
+require (dir_path('class').'shipping.php');
+$shippingModules = new shipping;
 
 if (defined('MODULE_ORDER_TOTAL_SHIPPING_FREE_SHIPPING') && (MODULE_ORDER_TOTAL_SHIPPING_FREE_SHIPPING == 'true'))
 {

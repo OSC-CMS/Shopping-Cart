@@ -259,17 +259,77 @@ class order {
 
       $this->content_type = $_SESSION['cart']->get_content_type();
 
-      $customer_address_query = os_db_query("select c.payment_unallowed,c.shipping_unallowed,c.customers_firstname,c.customers_secondname,c.customers_cid, c.customers_gender,c.customers_lastname, c.customers_telephone, c.customers_email_address, c.orig_reference, c.login_reference, ab.entry_company, ab.entry_street_address, ab.entry_suburb, ab.entry_postcode, ab.entry_city, ab.entry_zone_id, z.zone_name, co.countries_id, co.countries_name, co.countries_iso_code_2, co.countries_iso_code_3, co.address_format_id, ab.entry_state from " . TABLE_CUSTOMERS . " c, " . TABLE_ADDRESS_BOOK . " ab left join " . TABLE_ZONES . " z on (ab.entry_zone_id = z.zone_id) left join " . TABLE_COUNTRIES . " co on (ab.entry_country_id = co.countries_id) where c.customers_id = '" . $_SESSION['customer_id'] . "' and ab.customers_id = '" . $_SESSION['customer_id'] . "' and c.customers_default_address_id = ab.address_book_id");
-      $customer_address = os_db_fetch_array($customer_address_query);
+	if ($_SESSION['customer_id'])
+	{
+		  $customer_address_query = os_db_query("select c.payment_unallowed,c.shipping_unallowed,c.customers_firstname,c.customers_secondname,c.customers_cid, c.customers_gender,c.customers_lastname, c.customers_telephone, c.customers_email_address, c.orig_reference, c.login_reference, ab.entry_company, ab.entry_street_address, ab.entry_suburb, ab.entry_postcode, ab.entry_city, ab.entry_zone_id, z.zone_name, co.countries_id, co.countries_name, co.countries_iso_code_2, co.countries_iso_code_3, co.address_format_id, ab.entry_state from " . TABLE_CUSTOMERS . " c, " . TABLE_ADDRESS_BOOK . " ab left join " . TABLE_ZONES . " z on (ab.entry_zone_id = z.zone_id) left join " . TABLE_COUNTRIES . " co on (ab.entry_country_id = co.countries_id) where c.customers_id = '" . $_SESSION['customer_id'] . "' and ab.customers_id = '" . $_SESSION['customer_id'] . "' and c.customers_default_address_id = ab.address_book_id");
+		  $customer_address = os_db_fetch_array($customer_address_query);
 
-      $shipping_address_query = os_db_query("select ab.entry_firstname, ab.entry_secondname, ab.entry_lastname, ab.entry_company, ab.entry_street_address, ab.entry_suburb, ab.entry_postcode, ab.entry_city, ab.entry_zone_id, z.zone_name, ab.entry_country_id, c.countries_id, c.countries_name, c.countries_iso_code_2, c.countries_iso_code_3, c.address_format_id, ab.entry_state from " . TABLE_ADDRESS_BOOK . " ab left join " . TABLE_ZONES . " z on (ab.entry_zone_id = z.zone_id) left join " . TABLE_COUNTRIES . " c on (ab.entry_country_id = c.countries_id) where ab.customers_id = '" . $_SESSION['customer_id'] . "' and ab.address_book_id = '" . $_SESSION['sendto'] . "'");
-      $shipping_address = os_db_fetch_array($shipping_address_query);
-      
-      $billing_address_query = os_db_query("select ab.entry_firstname, ab.entry_secondname, ab.entry_lastname, ab.entry_company, ab.entry_street_address, ab.entry_suburb, ab.entry_postcode, ab.entry_city, ab.entry_zone_id, z.zone_name, ab.entry_country_id, c.countries_id, c.countries_name, c.countries_iso_code_2, c.countries_iso_code_3, c.address_format_id, ab.entry_state from " . TABLE_ADDRESS_BOOK . " ab left join " . TABLE_ZONES . " z on (ab.entry_zone_id = z.zone_id) left join " . TABLE_COUNTRIES . " c on (ab.entry_country_id = c.countries_id) where ab.customers_id = '" . $_SESSION['customer_id'] . "' and ab.address_book_id = '" . $_SESSION['billto'] . "'");
-      $billing_address = os_db_fetch_array($billing_address_query);
+		  $shipping_address_query = os_db_query("select ab.entry_firstname, ab.entry_secondname, ab.entry_lastname, ab.entry_company, ab.entry_street_address, ab.entry_suburb, ab.entry_postcode, ab.entry_city, ab.entry_zone_id, z.zone_name, ab.entry_country_id, c.countries_id, c.countries_name, c.countries_iso_code_2, c.countries_iso_code_3, c.address_format_id, ab.entry_state from " . TABLE_ADDRESS_BOOK . " ab left join " . TABLE_ZONES . " z on (ab.entry_zone_id = z.zone_id) left join " . TABLE_COUNTRIES . " c on (ab.entry_country_id = c.countries_id) where ab.customers_id = '" . $_SESSION['customer_id'] . "' and ab.address_book_id = '" . $_SESSION['sendto'] . "'");
+		  $shipping_address = os_db_fetch_array($shipping_address_query);
 
-      $tax_address_query = os_db_query("select ab.entry_country_id, ab.entry_zone_id from " . TABLE_ADDRESS_BOOK . " ab left join " . TABLE_ZONES . " z on (ab.entry_zone_id = z.zone_id) where ab.customers_id = '" . $_SESSION['customer_id'] . "' and ab.address_book_id = '" . ($this->content_type == 'virtual' ? $_SESSION['billto'] : $_SESSION['sendto']) . "'");
-      $tax_address = os_db_fetch_array($tax_address_query);
+		  $billing_address_query = os_db_query("select ab.entry_firstname, ab.entry_secondname, ab.entry_lastname, ab.entry_company, ab.entry_street_address, ab.entry_suburb, ab.entry_postcode, ab.entry_city, ab.entry_zone_id, z.zone_name, ab.entry_country_id, c.countries_id, c.countries_name, c.countries_iso_code_2, c.countries_iso_code_3, c.address_format_id, ab.entry_state from " . TABLE_ADDRESS_BOOK . " ab left join " . TABLE_ZONES . " z on (ab.entry_zone_id = z.zone_id) left join " . TABLE_COUNTRIES . " c on (ab.entry_country_id = c.countries_id) where ab.customers_id = '" . $_SESSION['customer_id'] . "' and ab.address_book_id = '" . $_SESSION['billto'] . "'");
+		  $billing_address = os_db_fetch_array($billing_address_query);
+
+		  $tax_address_query = os_db_query("select ab.entry_country_id, ab.entry_zone_id from " . TABLE_ADDRESS_BOOK . " ab left join " . TABLE_ZONES . " z on (ab.entry_zone_id = z.zone_id) where ab.customers_id = '" . $_SESSION['customer_id'] . "' and ab.address_book_id = '" . ($this->content_type == 'virtual' ? $_SESSION['billto'] : $_SESSION['sendto']) . "'");
+		  $tax_address = os_db_fetch_array($tax_address_query);
+	}
+	else
+	{
+		$state = ($_SESSION['customer_info']['state']) ? $_SESSION['customer_info']['state'] : '';
+		$country = ($_SESSION['customer_info']['country']) ? $_SESSION['customer_info']['country'] : STORE_COUNTRY;
+
+		$zone_id = STORE_ZONE;
+		if ($country && $state)
+		{
+			$zone_query = os_db_query("select distinct zone_id, zone_name from ".TABLE_ZONES." where zone_country_id = '".(int)$country."' and zone_name = '".os_db_input($state)."'");
+			if (os_db_num_rows($zone_query) > 0)
+			{
+				$zone = os_db_fetch_array($zone_query);
+				$zone_id = $zone['zone_id'];
+			}
+		}
+
+		$countries = array();
+		if ($country)
+		{
+			$countries_query = os_db_query("select * from ".TABLE_COUNTRIES." where countries_id = '".(int)$country."'");
+			if (os_db_num_rows($countries_query) > 0)
+			{
+				$countries = os_db_fetch_array($countries_query);
+			}
+		}
+
+		$guestData = array(
+			'customers_firstname' => ($_SESSION['customer_info']['firstname']) ? $_SESSION['customer_info']['firstname'] : '',
+			'customers_secondname' => ($_SESSION['customer_info']['secondname']) ? $_SESSION['customer_info']['secondname'] : '',
+			'customers_lastname' => ($_SESSION['customer_info']['lastname']) ? $_SESSION['customer_info']['lastname'] : '',
+			'customers_cid' => '',
+			'customers_gender' => '',
+			'entry_company' => '',
+			'entry_street_address' => ($_SESSION['customer_info']['street_address']) ? $_SESSION['customer_info']['street_address'] : '',
+			'entry_suburb' => ($_SESSION['customer_info']['suburb']) ? $_SESSION['customer_info']['suburb'] : '',
+			'entry_city' => ($_SESSION['customer_info']['city']) ? $_SESSION['customer_info']['city'] : '',
+			'entry_postcode' => ($_SESSION['customer_info']['postcode']) ? $_SESSION['customer_info']['postcode'] : '',
+			'entry_state' => $state,
+			'entry_zone_id' => $zone_id,
+			'countries_id' => $countries['countries_id'],
+			'countries_name' => $countries['countries_name'],
+			'countries_iso_code_2' => $countries['countries_iso_code_2'],
+			'countries_iso_code_3' => $countries['countries_iso_code_3'],
+			'address_format_id' => $countries['address_format_id'],
+			'customers_telephone' => ($_SESSION['customer_info']['telephone']) ? $_SESSION['customer_info']['telephone'] : '',
+			'payment_unallowed' => '',
+			'shipping_unallowed' => '',
+			'customers_email_address' => ($_SESSION['customer_info']['email_address']) ? $_SESSION['customer_info']['email_address'] : '',
+			'orig_reference' => '',
+			'login_reference' => '',
+		);
+
+		$customer_address = $guestData;
+		$shipping_address = $guestData;
+		$billing_address = $guestData;
+		$tax_address = array();
+	}
 
       $this->info = array('order_status' => DEFAULT_ORDERS_STATUS_ID,
                           'currency' => $_SESSION['currency'],
