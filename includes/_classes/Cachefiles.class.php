@@ -17,6 +17,7 @@ class apiCacheFiles extends CartET
 		list($path, $file) = $this->getFile($key);
 
 		@mkdir(DIR.$path, 0777, true);
+		chmod(DIR.$path, 0777);
 
 		$data = array(
 			'cache_expire' => $cache_expire,
