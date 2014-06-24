@@ -72,7 +72,7 @@ jQuery(document).ready(function($){
 	// Обновление страницы корзины
 	if ($("#form_shopping_cart").length)
 	{
-		//updateShoppingCart();
+		updateShoppingCart();
 	}
 });
 
