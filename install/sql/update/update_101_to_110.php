@@ -49,6 +49,8 @@ os_db_query("ALTER TABLE `".DB_PREFIX."orders` DROP cc_cvv");
 
 os_db_query("ALTER TABLE ".DB_PREFIX."products ADD products_search int(1) default '0';");
 os_db_query("ALTER TABLE ".DB_PREFIX."products ADD yml_available int(1) default '1';");
+os_db_query("ALTER TABLE ".DB_PREFIX."products ADD yml_manufacturer_warranty int(1) default '0';");
+os_db_query("ALTER TABLE ".DB_PREFIX."products ADD yml_manufacturer_warranty_text varchar(255) default '';");
 
 os_db_query("ALTER TABLE  ".DB_PREFIX."latest_news ADD news_image VARCHAR( 255 ) NOT NULL DEFAULT '';");
 
@@ -386,3 +388,6 @@ os_db_query("CREATE TABLE ".DB_PREFIX."sms_notes (
 	PRIMARY KEY (id),
 	KEY order_id (order_id)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE utf8_general_ci;");
+
+// CartET 1.1.2
+os_db_query("ALTER TABLE ".DB_PREFIX."orders_status ADD orders_status_color varchar(7) default '';");

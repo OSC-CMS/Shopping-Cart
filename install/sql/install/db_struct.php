@@ -912,6 +912,7 @@ os_db_query("CREATE TABLE ".DB_PREFIX."orders_status (
   orders_status_id int DEFAULT '0' NOT NULL,
   language_id int DEFAULT '1' NOT NULL,
   orders_status_name varchar(255) NOT NULL,
+  orders_status_color varchar(7) NOT NULL,
   PRIMARY KEY (orders_status_id, language_id),
   KEY idx_orders_status_name (orders_status_name)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE utf8_general_ci;");
@@ -1026,7 +1027,9 @@ os_db_query("CREATE TABLE ".DB_PREFIX."products (
   stock int(1) default '1',
   products_bundle tinyint(4) NOT NULL DEFAULT '0',
   products_reviews int(1) NOT NULL DEFAULT '1',
-  products_search int(1) NOT NULL DEFAULT '1',
+  products_search int(1) NOT NULL DEFAULT '0',
+  yml_manufacturer_warranty int(1) NOT NULL DEFAULT '0',
+  yml_manufacturer_warranty_text varchar(255) DEFAULT '',
   PRIMARY KEY (products_id),
   KEY idx_products_date_added (products_date_added)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE utf8_general_ci;");
@@ -1574,5 +1577,14 @@ os_db_query("CREATE TABLE ".DB_PREFIX."sms_setting (
 	`sms_register` int(1) not null,
 	`sms_fast_order` int(1) not null,
 	PRIMARY KEY (`sms_id`, `sms_default_id`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE utf8_general_ci;");
+
+os_db_query("CREATE TABLE ".DB_PREFIX."admin_setting (
+	`id` int(11) not null auto_increment,
+	`group` varchar(15) NOT NULL DEFAULT '',
+	`name` varchar(25) NOT NULL DEFAULT '',
+	`value` varchar(255) NOT NULL DEFAULT '',
+	PRIMARY KEY (`id`,`name`),
+	KEY `i_name` (`name`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE utf8_general_ci;");
 ?>

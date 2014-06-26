@@ -587,12 +587,12 @@ os_db_query("INSERT INTO `".DB_PREFIX."currencies` VALUES
 os_db_query("INSERT INTO ".DB_PREFIX."languages VALUES (1, 'Русский', 'ru', 'icon.gif', 'ru', 1, 1,'utf-8');");
 
 os_db_query("INSERT INTO `".DB_PREFIX."orders_status` VALUES
-(1, 1, 'Ожидает проверки'),
-(2, 1, 'Ждём оплаты'),
-(3, 1, 'Отменён'),
-(4, 1, 'Выполняется'),
-(5, 1, 'Доставляется'),
-(6, 1, 'Доставлен');");
+(1, 1, 'Ожидает проверки', '#ea4c89'),
+(2, 1, 'Ждём оплаты', '#27a5f9'),
+(3, 1, 'Отменён', '#6c7681'),
+(4, 1, 'Выполняется', '#7c6bca'),
+(5, 1, 'Доставляется', '#f86868'),
+(6, 1, 'Доставлен', '#149e50');");
 
 os_db_query("INSERT INTO `".DB_PREFIX."zones` VALUES
 (1, 109, 'Акмолинская область', 'Акмолинская область'),
@@ -713,7 +713,7 @@ os_db_query("INSERT INTO `".DB_PREFIX."zones` VALUES
 (116, 216, 'Дашховуз', 'Дашховуз'),
 (117, 216, 'Лебап', 'Лебап'),
 (118, 216, 'Мары', 'Мары'),
-(119, 220, 'Республика Крым', 'Республика Крым'),
+(119, 176, 'Республика Крым', 'Республика Крым'),
 (120, 220, 'Винницкая область', 'Винницкая область'),
 (121, 220, 'Волынская область', 'Волынская область'),
 (122, 220, 'Днепропетровская область', 'Днепропетровская область'),
@@ -1887,4 +1887,13 @@ os_db_query("INSERT INTO `".DB_PREFIX."sms` (`id`, `name`, `login`, `password`, 
 (5, 'bytehand.com', '', '', 0, '', '', 'cartet', '', '', 'bytehand.com:3800/send?id={api_id}&key={api_key}&to={phone}&partner=cartet&from={title}&text={text}'),
 (6, 'smsaero.ru', '', '', 1, '', '', 'cartet', '', '', 'gate.smsaero.ru/send/?user={login}&password={password}&to={phone}&text={text}&from={title}'),
 (7, 'prostor-sms.ru', '', '', 0, '', '', 'cartet', '', '', 'api.prostor-sms.ru/messages/v2/send/?phone=%2B{phone}&text={text}&login={login}&password={password}&sender={title}');");
-?>
+
+os_db_query("INSERT INTO `".DB_PREFIX."admin_setting` VALUES
+(1, 'dashboard', 'welcome', '1'),
+(2, 'dashboard', 'orders', '1'),
+(3, 'dashboard', 'products', '1'),
+(4, 'dashboard', 'reviews', '1'),
+(5, 'dashboard', 'cache', '1'),
+(6, 'dashboard', 'notes', '1'),
+(7, 'dashboard', 'customers', '1'),
+(8, 'dashboard', 'stats', '1');");
