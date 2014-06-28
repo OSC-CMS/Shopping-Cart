@@ -10,9 +10,6 @@
 
 require('includes/top.php');
 
-require_once(CLS_NEW.'reviews.class.php');
-$reviews = new reviews();
-
 $breadcrumb->add(HEADING_TITLE, FILENAME_REVIEWS);
 
 $main->head();

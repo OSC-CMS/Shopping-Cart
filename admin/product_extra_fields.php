@@ -36,14 +36,18 @@ if (os_not_null($action)) {
 		break;
 
 		case 'update':
-			foreach ($_POST['field'] as $key => $val) {
-			$sql_data_array = array(
-				'products_extra_fields_name' => os_db_prepare_input($val['name']),
-				'languages_id' =>  os_db_prepare_input($val['language']),
-				'products_extra_fields_order' => os_db_prepare_input($val['order']),
-				'products_extra_fields_group' =>  os_db_prepare_input($val['group'])
-			);
-			os_db_perform(TABLE_PRODUCTS_EXTRA_FIELDS, $sql_data_array, 'update', 'products_extra_fields_id = '.$key);
+			if (isset($_POST['field']) && !empty($_POST['field']))
+			{
+				foreach ($_POST['field'] as $key => $val)
+				{
+					$sql_data_array = array(
+						'products_extra_fields_name' => os_db_prepare_input($val['name']),
+						'languages_id' =>  os_db_prepare_input($val['language']),
+						'products_extra_fields_order' => os_db_prepare_input($val['order']),
+						'products_extra_fields_group' =>  os_db_prepare_input($val['group'])
+					);
+					os_db_perform(TABLE_PRODUCTS_EXTRA_FIELDS, $sql_data_array, 'update', 'products_extra_fields_id = '.$key);
+				}
 			}
 			os_redirect(os_href_link(FILENAME_PRODUCTS_EXTRA_FIELDS.$page));
 		break;
