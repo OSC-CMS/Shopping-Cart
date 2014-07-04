@@ -120,8 +120,10 @@ function updateShoppingCart()
 }
 
 // + и - количества товара в корзине
-function func_qty_count(id, type)
+function func_qty_count(id, type, box)
 {
+	box = box || 0;
+
 	var countQty = $('.sc_qty_'+id);
 
 	if (type == 'p')
@@ -129,7 +131,10 @@ function func_qty_count(id, type)
 	else if (type == 'm' && countQty.val() != 1)
 		countQty.val(parseInt(countQty.val())-1);
 
-	updateShoppingCart();
+	if (box == 0)
+		updateShoppingCart();
+	else
+		updateBoxCart();
 }
 
 // Reload Captcha Image

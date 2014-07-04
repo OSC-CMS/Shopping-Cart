@@ -154,37 +154,30 @@ function doAddProduct(form) {
   return false;
 }
 
-function doDelProduct(form) {
-  showLoading();
-  var reqAddCart = new JsHttpRequest();
-  reqAddCart.onreadystatechange = function() {
-    if (reqAddCart.readyState == 4) {
-      if (reqAddCart.responseJS) {
-        document.location.href = reqAddCart.responseJS.ajax_redirect;
-        return;
-      }
-      else {
-        document.getElementById('divShoppingCart').innerHTML = ''+(reqAddCart.responseText||'')+''
-        if ( SHOW_ADDED ) {
-          showOk();
-          timerID = setTimeout( "addHandler(document, \'mousemove\', hideOk)", 500);
-        }
-      }
-    }
-  }
+// Обработка удаления при клике по ссылке
+function deleteBoxCartProducts(id)
+{
+	$('#bci_delete_id_'+id).prop('checked', true);
+	updateBoxCart();
+	return false;
+}
 
-  var senddata = new Object();
-  var fe = form.elements;
-  for(var i=0 ; i<fe.length ; i++) {
-
-    if ( fe[i].type=="hidden" ) {
-      senddata[fe[i].name] = fe[i].value;
-    }
-  }
-  var url = 'ajax_shopping_cart.php?' + ( senddata["products_id[]"] ? 'products_id[]='+senddata["products_id[]"]+'&' : "" ) + ( senddata["old_qty[]"] ? '&old_qty[]='+senddata["old_qty[]"]+'&' : "" ) + ( senddata["cart_quantity[]"] ? '&cart_quantity[]='+senddata["cart_quantity[]"]+'&' : "" ) + ( senddata["cart_delete[]"] ? '&cart_delete[]='+senddata["cart_delete[]"]+'&' : "" ) + 'action=update_product';
-
-  reqAddCart.caching = false;
-  reqAddCart.open( 'GET', url, true);
-  reqAddCart.send( senddata );
-  return false;
+// Обновление бокса корзины
+function updateBoxCart()
+{
+	$("#divShoppingCart").css('opacity', '0.5');
+	$.ajax({
+		url: SITE_WEB_DIR+"index_ajax.php?ajax_page=ajaxCart",
+		dataType: "json",
+		data: $('#update_box_cart').serialize(),
+		type: "POST",
+		success: function(result)
+		{
+			if (result)
+			{
+				$("#divShoppingCart").html(result);
+				$("#divShoppingCart").css('opacity', '1');
+			}
+		}
+	});
 }

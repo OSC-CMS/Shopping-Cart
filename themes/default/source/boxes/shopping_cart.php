@@ -20,9 +20,12 @@ if ($_SESSION['cart']->count_contents() > 0)
 	for ($i = 0, $n = sizeof($products); $i < $n; $i ++)
 	{
 		$qty += $products[$i]['quantity'];
-		$products_in_cart[] = array (
-			'QTY' => $products[$i]['quantity'], 
-			'LINK' => os_href_link(FILENAME_PRODUCT_INFO, os_product_link($products[$i]['id'],$products[$i]['name'])), 
+		$products_in_cart[] = array(
+			'ID' => $products[$i]['id'],
+			'QTY' => $products[$i]['quantity'],
+			'PRICE' => $osPrice->Format($products[$i]['price'], true),
+			'PRICE_TOTAL' => $osPrice->Format(($products[$i]['price']*$products[$i]['quantity']), true),
+			'LINK' => os_href_link(FILENAME_PRODUCT_INFO, os_product_link($products[$i]['id'],$products[$i]['name'])),
 			'NAME' => $products[$i]['name']
 		);
 	}
