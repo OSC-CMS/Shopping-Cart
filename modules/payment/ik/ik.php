@@ -154,7 +154,6 @@ class ik extends CartET
 		global $order, $osPrice;
 
 		$ikCurrency = (MODULE_PAYMENT_IK_CURRENCY == 'RUB') ? 'RUR' : MODULE_PAYMENT_IK_CURRENCY;
-
 		$OrderID = substr($_SESSION[$this->name], strpos($_SESSION[$this->name], '-')+1);
 		$TotalAmount = number_format($osPrice->CalculateCurrEx($order->info['total'], $ikCurrency), 2, '.', '');
 
@@ -206,7 +205,7 @@ class ik extends CartET
 			$this->order->updateQuantity($order->products[$i]);
 		}
 
-		$this->orders->beforeProcess($order_id, $order);
+		$this->order->beforeProcess($order_id, $order);
 
 		$this->after_process();
 
