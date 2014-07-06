@@ -73,7 +73,7 @@ $main->top_menu();
 	$specials_query_raw = "select A.special_id, A.categ_id, A.discount, A.discount_type, A.status, B.categories_name, A.special_date_added, A.special_last_modified, A.expire_date,
 	A.date_status_change from ". TABLE_SPECIAL_CATEGORY. " A, ".TABLE_CATEGORIES_DESCRIPTION." B where A.categ_id = B.categories_id and 
 	B.language_id = '".(int)$_SESSION['languages_id']."' order by B.categories_name";
-	$specials_split = new splitPageResults($_GET['page'], MAX_DISPLAY_SEARCH_RESULTS, $specials_query_raw, $specials_query_numrows);
+	$specials_split = new splitPageResults($_GET['page'], MAX_DISPLAY_ADMIN_PAGE, $specials_query_raw, $specials_query_numrows);
 	$specials_query = os_db_query($specials_query_raw);
 
 	while ($specials = os_db_fetch_array($specials_query))
