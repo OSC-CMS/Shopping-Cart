@@ -139,13 +139,13 @@ $main->top_menu();
 			<input type="hidden" name="action" value="<?php echo $_GET['saction']; ?>">
 			<input type="hidden" name="zID" value="<?php echo $_GET['zID']; ?>">
 
-			<div class="form-group">
+			<div class="control-group">
 				<label class="control-label" for="zone_country_id"><?php echo TEXT_INFO_COUNTRY; ?> <span class="input-required">*</span></label>
 				<div class="controls">
 					<?php echo os_draw_pull_down_menu('zone_country_id', os_get_countries(TEXT_ALL_COUNTRIES), $zones2geo['zone_country_id'], 'onChange="update_zone(this.form);"'); ?>
 				</div>
 			</div>
-			<div class="form-group">
+			<div class="control-group">
 				<label class="control-label" for="zone_id"><?php echo TEXT_INFO_COUNTRY_ZONE; ?> <span class="input-required">*</span></label>
 				<div class="controls">
 					<?php echo os_draw_pull_down_menu('zone_id', os_prepare_country_zones_pull_down($zones2geo['zone_country_id']), $zones2geo['zone_id']); ?>
@@ -163,12 +163,12 @@ $main->top_menu();
 	<?php } else { ?>
 
 	<div class="second-page-nav">
-		<div class="row">
-			<div class="col-md-6"></div>
-			<div class="col-md-6">
+		<div class="row-fluid">
+			<div class="span6"></div>
+			<div class="span6">
 				<div class="btn-group pull-right">
-					<a class="btn btn-info btn-xs" href="<?php echo os_href_link(FILENAME_GEO_ZONES, 'zpage='.$_GET['zpage'].'&zID='.$_GET['zID'].'&action=list&spage='.$_GET['spage'].'&saction=new'); ?>"><?php echo BUTTON_INSERT; ?></a>
-					<a class="btn btn-info btn-xs" href="<?php echo os_href_link(FILENAME_GEO_ZONES, 'zpage='.$_GET['zpage'].'&zID='.$_GET['zID']); ?>"><?php echo BUTTON_BACK; ?></a>
+					<a class="btn btn-info btn-mini" href="<?php echo os_href_link(FILENAME_GEO_ZONES, 'zpage='.$_GET['zpage'].'&zID='.$_GET['zID'].'&action=list&spage='.$_GET['spage'].'&saction=new'); ?>"><?php echo BUTTON_INSERT; ?></a>
+					<a class="btn btn-info btn-mini" href="<?php echo os_href_link(FILENAME_GEO_ZONES, 'zpage='.$_GET['zpage'].'&zID='.$_GET['zID']); ?>"><?php echo BUTTON_BACK; ?></a>
 				</div>
 			</div>
 		</div>
@@ -196,13 +196,13 @@ $main->top_menu();
 			<td class="tcenter">
 				<?php echo $zones['date_added']; ?>
 				<?php if ($zones['last_modified']) { ?>
-					<i class="fa fa-pencil tt" title="<?php echo TEXT_INFO_LAST_MODIFIED; ?>: <?php echo $zones['last_modified']; ?>"></i>
+					<i class="icon-edit tt" title="<?php echo TEXT_INFO_LAST_MODIFIED; ?>: <?php echo $zones['last_modified']; ?>"></i>
 				<?php } ?>
 			</td>
 			<td width="100">
 				<div class="btn-group pull-right">
-					<a class="btn btn-default btn-xs" href="<?php echo os_href_link(FILENAME_GEO_ZONES, 'zpage='.$_GET['zpage'].'&zID='.$_GET['zID'].'&action=list&spage='.$_GET['spage'].'&sID='.$zones['association_id'].'&saction=edit'); ?>" title="<?php echo BUTTON_EDIT; ?>"><i class="fa fa-pencil"></i></a>
-					<a class="btn btn-default btn-xs" href="#" data-action="customers_deleteSubGeoZone" data-remove-parent="tr" data-id="<?php echo $zones['association_id']; ?>" data-confirm="<?php echo TEXT_INFO_HEADING_DELETE_SUB_ZONE; ?>" title="<?php echo BUTTON_DELETE; ?>"><i class="fa fa-trash-o"></i></a>
+					<a class="btn btn-mini" href="<?php echo os_href_link(FILENAME_GEO_ZONES, 'zpage='.$_GET['zpage'].'&zID='.$_GET['zID'].'&action=list&spage='.$_GET['spage'].'&sID='.$zones['association_id'].'&saction=edit'); ?>" title="<?php echo BUTTON_EDIT; ?>"><i class="icon-edit"></i></a>
+					<a class="btn btn-mini" href="#" data-action="customers_deleteSubGeoZone" data-remove-parent="tr" data-id="<?php echo $zones['association_id']; ?>" data-confirm="<?php echo TEXT_INFO_HEADING_DELETE_SUB_ZONE; ?>" title="<?php echo BUTTON_DELETE; ?>"><i class="icon-trash"></i></a>
 				</div>
 			</td>
 		</tr>
@@ -228,16 +228,16 @@ $main->top_menu();
 			<?php } ?>
 			<input type="hidden" name="action" value="<?php echo $_GET['action']; ?>">
 
-			<div class="form-group">
+			<div class="control-group">
 				<label class="control-label" for="geo_zone_name"><?php echo TEXT_INFO_ZONE_NAME; ?> <span class="input-required">*</span></label>
 				<div class="controls">
-					<input class="form-control" type="text" id="geo_zone_name" name="geo_zone_name" required value="<?php echo $geoZone['geo_zone_name']; ?>">
+					<input class="input-block-level" type="text" id="geo_zone_name" name="geo_zone_name" required value="<?php echo $geoZone['geo_zone_name']; ?>">
 				</div>
 			</div>
-			<div class="form-group">
+			<div class="control-group">
 				<label class="control-label" for="geo_zone_description"><?php echo TEXT_INFO_ZONE_DESCRIPTION; ?> <span class="input-required">*</span></label>
 				<div class="controls">
-					<input class="form-control" type="text" id="geo_zone_description" name="geo_zone_description" required value="<?php echo $geoZone['geo_zone_description']; ?>">
+					<input class="input-block-level" type="text" id="geo_zone_description" name="geo_zone_description" required value="<?php echo $geoZone['geo_zone_description']; ?>">
 				</div>
 			</div>
 
@@ -252,11 +252,11 @@ $main->top_menu();
 	<?php } else { ?>
 
 		<div class="second-page-nav">
-			<div class="row">
-				<div class="col-md-6"></div>
-				<div class="col-md-6">
+			<div class="row-fluid">
+				<div class="span6"></div>
+				<div class="span6">
 					<div class="btn-group pull-right">
-						<a class="btn btn-info btn-xs" href="<?php echo os_href_link(FILENAME_GEO_ZONES, 'action=new_zone'); ?>"><?php echo BUTTON_INSERT; ?></a>
+						<a class="btn btn-info btn-mini" href="<?php echo os_href_link(FILENAME_GEO_ZONES, 'action=new_zone'); ?>"><?php echo BUTTON_INSERT; ?></a>
 					</div>
 				</div>
 			</div>
@@ -301,19 +301,19 @@ $main->top_menu();
 		{
 			?>
 			<tr>
-				<td><a href="<?php echo os_href_link(FILENAME_GEO_ZONES, 'zpage='.$_GET['zpage'].'&zID='.$zones['geo_zone_id'].'&action=list'); ?>"><i class="fa fa-folder-open"></i> <?php echo $zones['geo_zone_name']; ?></a></td>
+				<td><a href="<?php echo os_href_link(FILENAME_GEO_ZONES, 'zpage='.$_GET['zpage'].'&zID='.$zones['geo_zone_id'].'&action=list'); ?>"><i class="icon-folder-close"></i> <?php echo $zones['geo_zone_name']; ?></a></td>
 				<td><?php echo $zones['geo_zone_description']; ?></td>
 				<td><?php echo ($aZonesCount[$zones['geo_zone_id']]) ? $aZonesCount[$zones['geo_zone_id']] : 0; ?></td>
 				<td class="tcenter">
 					<?php echo $zones['date_added']; ?>
 					<?php if ($zones['last_modified']) { ?>
-						<i class="fa fa-pencil tt" title="<?php echo TEXT_INFO_LAST_MODIFIED; ?>: <?php echo $zones['last_modified']; ?>"></i>
+						<i class="icon-edit tt" title="<?php echo TEXT_INFO_LAST_MODIFIED; ?>: <?php echo $zones['last_modified']; ?>"></i>
 					<?php } ?>
 				</td>
 				<td width="100">
 					<div class="btn-group pull-right">
-						<a class="btn btn-default btn-xs" href="<?php echo os_href_link(FILENAME_GEO_ZONES, 'page='.$_GET['page'].'&zID='.$zones['geo_zone_id'].'&action=edit_zone'); ?>" title="<?php echo BUTTON_EDIT; ?>"><i class="fa fa-pencil"></i></a>
-						<a class="btn btn-default btn-xs" href="#" data-action="customers_deleteGeoZone" data-remove-parent="tr" data-id="<?php echo $zones['geo_zone_id']; ?>" data-confirm="<?php echo TEXT_INFO_DELETE_ZONE_INTRO; ?>" title="<?php echo BUTTON_DELETE; ?>"><i class="fa fa-trash-o"></i></a>
+						<a class="btn btn-mini" href="<?php echo os_href_link(FILENAME_GEO_ZONES, 'page='.$_GET['page'].'&zID='.$zones['geo_zone_id'].'&action=edit_zone'); ?>" title="<?php echo BUTTON_EDIT; ?>"><i class="icon-edit"></i></a>
+						<a class="btn btn-mini" href="#" data-action="customers_deleteGeoZone" data-remove-parent="tr" data-id="<?php echo $zones['geo_zone_id']; ?>" data-confirm="<?php echo TEXT_INFO_DELETE_ZONE_INTRO; ?>" title="<?php echo BUTTON_DELETE; ?>"><i class="icon-trash"></i></a>
 					</div>
 				</td>
 			</tr>
