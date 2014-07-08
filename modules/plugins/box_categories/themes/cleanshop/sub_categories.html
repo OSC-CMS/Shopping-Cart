@@ -1,0 +1,14 @@
+<ul class="subcat-nav">
+	{foreach $aCategories as $item}
+		{if $item.menu == 1 && $item.categories_status == 1}
+			<li class="{if $current == $item.categories_id}active{/if} {if in_array($item.categories_id, $current_in)}current-parent{/if}">
+				<a class="{if $current == $item.categories_id}current{/if} {if in_array($item.categories_id, $current_in)}current-parent{/if} clearfix" href="{$item.categories_link}">
+					{$item.categories_name}{if $counts == 'true'}<span class="badge pull-right">{$item.categories_count}</span>{/if}
+				</a>
+				{if $item.children}
+					{include file="$plugDir/sub_categories.html" aCategories=$item.children}
+				{/if}
+			</li>
+		{/if}
+	{/foreach}
+</ul>
