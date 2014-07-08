@@ -40,7 +40,7 @@
  		});
 
   		$this.find("li a").click(function(e) {
-  			if($(this).parent().find("ul").size() != 0){
+  			if($(this).parent().find("ul li").size() != 0){
 				e.preventDefault();
   				if(opts.accordion){
   					if(!$(this).parent().find("ul").is(':visible')){
