@@ -17,7 +17,7 @@ $box_content='';
       $manufacturer = os_db_fetch_array($manufacturer_query,true);
 
       $image='';
-      if (os_not_null($manufacturer['manufacturers_image'])) $image=http_path('images') . $manufacturer['manufacturers_image'];
+      if (os_not_null($manufacturer['manufacturers_image'])) $image = http_path('images') .'manufacturers/'. $manufacturer['manufacturers_image'];
       $box->assign('IMAGE',$image);
       $box->assign('NAME',$manufacturer['manufacturers_name']);
       
