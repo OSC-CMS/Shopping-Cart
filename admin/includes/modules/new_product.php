@@ -152,7 +152,7 @@ echo os_draw_hidden_field('products_id', $pInfo->products_id);
 						<?php
 						echo $cartet->html->input_text(
 							'products_name['.$languages[$i]['id'].']',
-							htmlspecialchars(os_get_products_name($pInfo->products_id, $languages[$i]['id'])),
+							os_get_products_name($pInfo->products_id, $languages[$i]['id']),
 							array_merge($prodParams, $aProductName)
 						);
 						?>
