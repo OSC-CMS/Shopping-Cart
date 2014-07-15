@@ -118,6 +118,25 @@
         return true;
     }
 
+    function set_manufacturers_url_cache ()
+    {
+        $p_query = osDBquery("select manufacturers_id, manufacturers_page_url from ".DB_PREFIX."manufacturers where manufacturers_page_url IS NOT NULL and manufacturers_page_url <> ''");
+
+        $p = '';
+
+        if (os_db_num_rows($p_query,true)) 
+        {
+            while ($products = os_db_fetch_array($p_query,true))  
+            {
+                $p[$products['manufacturers_id']] = $products['manufacturers_page_url'];
+            } 
+        }
+
+        save_cache('manufacturers_url', $p);
+
+        return true;
+    }
+
     function set_faq_url_cache ()
     {
         $p_query = osDBquery("select faq_id, faq_page_url from ".DB_PREFIX."faq where status = 1 and faq_page_url IS NOT NULL and faq_page_url <> ''");
@@ -269,6 +288,10 @@
 
                     case 'categories_url':
                         set_categories_url_cache();
+                        break;
+
+                    case 'manufacturers_url':
+                        set_manufacturers_url_cache();
                         break;				
 
                     case 'default':
@@ -284,6 +307,7 @@
         get_cache('default');
         get_cache('products_url');
         get_cache('categories_url');
+        get_cache('manufacturers_url');
         set_category_cache();
         get_cache('content_url');
         get_cache('news_url');
@@ -418,6 +442,7 @@
     function set_all_cache ()
     {
         set_categories_url_cache();
+        set_manufacturers_url_cache();
         set_products_url_cache();
         //set_configuration_cache();
         set_category_cache();

@@ -556,7 +556,7 @@
 
 		if ($page == FILENAME_DEFAULT)
 		{
-			if (strpos($parameters, 'cat') === false)
+			if (strpos($parameters, 'cat') === false && strpos($parameters, 'manufacturers_id') === false)
 			{
 				return os_href_link_original($page, $parameters, $connection, $add_session_id, $search_engine_safe);
 			}
@@ -581,6 +581,12 @@
 							{
 								$categories_id = $matches[1];
 							}
+						}
+					} elseif ($parsed_param[0] === 'manufacturers_id') {
+						$pos = strrpos($parsed_param[1], '_');
+						if ($pos === false)
+						{
+							$categories_id = $parsed_param[1];
 						}
 					} elseif ($parsed_param[0] === 'action') {
 						$action = $parsed_param[1];
@@ -614,12 +620,22 @@
 						$page_num = $parsed_param[1];
 				}
 
-				global $categories_url_cache;
-
 				$categories_url = '';
-				if (isset($categories_url_cache[$categories_id]))
+				if (strpos($parameters, 'cat') === false)
 				{
-					$categories_url = $categories_url_cache[$categories_id];
+					global $manufacturers_url_cache;
+					if (isset($manufacturers_url_cache[$categories_id]))
+					{
+						$categories_url = $manufacturers_url_cache[$categories_id];
+					}
+				}
+				else
+				{
+					global $categories_url_cache;
+					if (isset($categories_url_cache[$categories_id]))
+					{
+						$categories_url = $categories_url_cache[$categories_id];
+					}
 				}
 
 				if ($categories_url == '')
