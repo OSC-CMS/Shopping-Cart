@@ -13,9 +13,9 @@ $module = new osTemplate;
 $query = $cartet->news->getAll(1, $_SESSION['languages_id'], true, MAX_DISPLAY_LATEST_NEWS);
 
 $aNews = array();
-if (os_db_num_rows($query) > 0)
+if (os_db_num_rows($query, true) > 0)
 {
-	while ($row = os_db_fetch_array($query))
+	while ($row = os_db_fetch_array($query, true))
 	{
 		$aNews[] = $cartet->news->getData($row);
 	}
