@@ -180,7 +180,7 @@ class prochange_merchant extends CartET
 			$this->order->updateQuantity($order->products[$i]);
 		}
 
-		$this->orders->beforeProcess($order_id, $order);
+		$this->order->beforeProcess($order_id, $order);
 
 		$this->after_process();
 

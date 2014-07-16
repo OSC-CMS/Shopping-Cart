@@ -52,8 +52,6 @@ if ($hash == $crc)
 		);
 		os_db_perform(DB_PREFIX.'orders_status_history', $sql_data_arrax);
 
-		echo 'OK'.$inv_id;
+		echo 'YES';
 	}
 }
-
-?>
