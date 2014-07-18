@@ -66,7 +66,21 @@
 </div>
 
 {if $PRODUCTS_BUNDLE !=''}
-<h3>Товары входящие в набор. При покупке за {$PRODUCTS_PRICE} экономия {$PRODUCTS_BUNDLE_SAVING}</h3>
+<h3>Товары входящие в набор. При покупке за
+	{if $price.specialDiscount}
+	{$smarty.const.OLD_PRICE} <span class="pprice">{$price.default.formated}</span> {$smarty.session.currencySymbol}<br />
+	{*{$smarty.const.NEW_PRICE} <span class="pprice">{$price.specialDiscount.formated}</span> {$smarty.session.currencySymbol}*}
+	{else if $price.special}
+	{$smarty.const.OLD_PRICE} <span class="pprice">{$price.default.formated}</span> {$smarty.session.currencySymbol}<br />
+	{*{$smarty.const.NEW_PRICE} <span class="pprice">{$price.special.formated}</span> {$smarty.session.currencySymbol}*}
+	{else if $price.specialGraduated}
+	{$smarty.const.OLD_PRICE} <span class="pprice">{$price.default.formated}</span> {$smarty.session.currencySymbol}<br />
+	{*{$smarty.const.NEW_PRICE} <span class="pprice">{$price.specialGraduated.formated}</span> {$smarty.session.currencySymbol}*}
+	{else}
+	{*<span class="pprice">{$price.price.formated}</span> {$smarty.session.currencySymbol}*}
+	{/if}
+	<span class="pprice">{$price.price.formated}</span> {$smarty.session.currencySymbol}
+экономия {$PRODUCTS_BUNDLE_SAVING} {$smarty.session.currencySymbol}</h3>
 <p></p>
 <table class="table table-striped table-bordered">
 	<thead>
@@ -82,11 +96,11 @@
 			<td width="40" class="tcenter">{if $p.IMAGE}<a class="vtip btn" href="{$p.PLINK}" title="<img src='{$p.IMAGE|replace:"thumbnail_images":"info_images"}' />"><i class="icon-picture"></i></a>{/if}</td>
 			<td><a href="{$p.PLINK}">{$p.NAME}</a></td>
 			<td class="tcenter"><span class="badge badge-success">{$p.QTY}</span></td>
-			<td>{$p.PRICE}</td>
+			<td>{$p.PRICE} {$smarty.session.currencySymbol}</td>
 		</tr>
 		{/foreach}
 		<tr>
-			<td colspan="4">Общая цена товаров по отдельности учитывая количество: {$PRODUCTS_BUNDLE_SUM} Вы экономите: {$PRODUCTS_BUNDLE_SAVING}</td>
+			<td colspan="4">Общая цена товаров по отдельности учитывая количество: {$PRODUCTS_BUNDLE_SUM} {$smarty.session.currencySymbol} Вы экономите: {$PRODUCTS_BUNDLE_SAVING} {$smarty.session.currencySymbol}</td>
 		</tr>
 	</tbody>
 </table>
