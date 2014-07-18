@@ -55,7 +55,12 @@ if (isset ($_POST['action']) && ($_POST['action'] == 'process')) {
 	   $telephone = os_db_prepare_input($_POST['telephone']);
    if (ACCOUNT_FAX == 'true')
 	   $fax = os_db_prepare_input($_POST['fax']);
-	$newsletter = '0';
+
+	if (isset($_POST['newsletter']))
+		$newsletter = 1;
+	else
+		$newsletter = 0;
+
 	$password = os_db_prepare_input($_POST['password']);
 	$confirmation = os_db_prepare_input($_POST['confirmation']);
 
@@ -233,8 +238,7 @@ if (ACCOUNT_USER_NAME == 'true' && ACCOUNT_USER_NAME_REG == 'true') {
 	//don't know why, but this happens sometimes and new user becomes admin
 	if ($customers_status == 0 || !$customers_status)
 		$customers_status = DEFAULT_CUSTOMERS_STATUS_ID;
-	if (!$newsletter)
-		$newsletter = 0;
+
 	if ($error == false) {
 		$sql_data_array = array (
 			'customers_vat_id' => $vat,
@@ -269,6 +273,25 @@ if (ACCOUNT_USER_NAME == 'true' && ACCOUNT_USER_NAME_REG == 'true') {
 			'customers_id' => $customers_id,
 		);
 		customerProfile($customerProfileArray, 'new');
+
+		// Рассылка
+		if ($newsletter && $email_address)
+		{
+			$key = os_random_charcode(32);
+			$newsletter_link = os_href_link(FILENAME_NEWSLETTER, 'action=activate&email='.$email_address.'&key='.$key, 'NONSSL');
+
+			$n_sql_data_array = array(
+				'customers_email_address' => os_db_input($email_address),
+				'customers_id' => os_db_input($customers_id),
+				'customers_status' => 2,
+				'customers_firstname' => os_db_input($firstname),
+				'customers_lastname' => os_db_input($lastname),
+				'mail_status' => '0',
+				'mail_key' => $key,
+				'date_added' => 'now()'
+			);
+			os_db_perform(TABLE_NEWSLETTER_RECIPIENTS, $n_sql_data_array);
+		}
 
    	  	$extra_fields_query = os_db_query("select ce.fields_id from " . TABLE_EXTRA_FIELDS . " ce where ce.fields_status=1 ");
     	  while($extra_fields = os_db_fetch_array($extra_fields_query))
@@ -357,6 +380,15 @@ if (ACCOUNT_USER_NAME == 'true' && ACCOUNT_USER_NAME_REG == 'true') {
 		// load data into array
 		$module_content = array ();
 		$module_content = array ('MAIL_NAME' => $name, 'MAIL_REPLY_ADDRESS' => EMAIL_SUPPORT_REPLY_ADDRESS, 'MAIL_GENDER' => $gender);
+
+		// Рассылка
+		if ($newsletter && $email_address)
+		{
+			$newsletter_link = os_href_link(FILENAME_NEWSLETTER, 'action=activate&email='.$email_address.'&key='.$key, 'NONSSL');
+			$osTemplate->assign('NEWSLETTER_LINK', $newsletter_link);
+		}
+		else
+			$osTemplate->assign('NEWSLETTER_LINK', '');
 
 		// assign data to template
 		$osTemplate->assign('language', $_SESSION['language']);
@@ -504,6 +536,8 @@ if (ACCOUNT_DOB == 'true') {
 } else {
 	$osTemplate->assign('birthdate', '0');
 }
+
+$osTemplate->assign('INPUT_NEWSLETTER', os_draw_checkbox_field('newsletter', '1', true));
 
 $osTemplate->assign('INPUT_EMAIL', os_draw_input_fieldNote(array ('name' => 'email_address', 'text' => '&nbsp;'. (os_not_null(ENTRY_EMAIL_ADDRESS_TEXT) ? '<span class="Requirement">'.ENTRY_EMAIL_ADDRESS_TEXT.'</span>' : '')), '', 'id="email_addres"'));
 $osTemplate->assign('ENTRY_EMAIL_ADDRESS_ERROR', ENTRY_EMAIL_ADDRESS_ERROR);
