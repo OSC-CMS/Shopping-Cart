@@ -17,7 +17,7 @@ require (_INCLUDES.'header.php');
 $listing_sql = $cartet->product->getList(array(
 	'products_status' => 1,
 	'where' => array('s.status = 1'),
-	'order' => 's.specials_date_added DESC',
+	'order' => 's.specials_date_added ASC',
 ));
 
 $specials_split = new splitPageResults($listing_sql, $_GET['page'], MAX_DISPLAY_SPECIAL_PRODUCTS);
@@ -43,5 +43,5 @@ $osTemplate->caching = 0;
  $osTemplate->loadFilter('output', 'trimhitespace');
 $template = (file_exists(_THEMES_C.FILENAME_SPECIALS.'.html') ? CURRENT_TEMPLATE.'/'.FILENAME_SPECIALS.'.html' : CURRENT_TEMPLATE.'/index.html');
 $osTemplate->display($template);
+
 include ('includes/bottom.php');
-?>

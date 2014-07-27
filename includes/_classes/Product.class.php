@@ -338,6 +338,12 @@ class apiProduct extends CartET
 		{
 			$categoryInfo = $this->getCategory($params['categories_id']);
 
+			if (empty($categoryInfo['products_sorting']))
+				$categoryInfo['products_sorting'] = 'pd.products_name';
+
+			if (empty($categoryInfo['products_sorting2']))
+				$categoryInfo['products_sorting2'] = 'ASC';
+
 			// Сортировка товара
 			$sorting_data = $this->sorting($categoryInfo);
 			$order_by = ' '.$sorting_data['products_sorting'].' '.$sorting_data['products_sorting2'].' ';
@@ -369,6 +375,10 @@ class apiProduct extends CartET
 		if ($params['limit'])
 			$limit = " LIMIT ".(int)$params['limit'];
 
+		// Сортировка
+		if ($params['order'])
+			$order_by = $params['order'];
+
 		// Проверка прав
 		$group_check = (GROUP_CHECK == 'true' && !$params['admin']) ? " AND p.group_permission_".$_SESSION['customers_status']['customers_status_id']." = 1 " : '';
 		$fsk_lock = ($_SESSION['customers_status']['customers_fsk18_display'] == '0' && !$params['admin']) ? ' AND p.products_fsk18 != 1 ' : '';
@@ -378,12 +388,16 @@ class apiProduct extends CartET
 			*
 		FROM
 			".TABLE_PRODUCTS." p
-				LEFT JOIN ".TABLE_PRODUCTS_DESCRIPTION." pd ON (pd.products_id = p.products_id)
 				LEFT JOIN ".TABLE_MANUFACTURERS." m ON (p.manufacturers_id = m.manufacturers_id)
-				LEFT JOIN ".TABLE_SPECIALS." s ON (p.products_id = s.products_id)
-				LEFT JOIN ".TABLE_PRODUCTS_TO_CATEGORIES." p2c ON (p.products_id = p2c.products_id AND pd.products_id = p2c.products_id)
+				LEFT JOIN ".TABLE_FEATURED." f ON (f.products_id = p.products_id AND f.status = 1)
+				LEFT JOIN ".TABLE_SPECIALS." s ON (p.products_id = s.products_id),
+			".TABLE_PRODUCTS_DESCRIPTION." pd,
+			".TABLE_PRODUCTS_TO_CATEGORIES." p2c
 		WHERE
-			pd.language_id = '".(int)$language."'
+			pd.language_id = '".(int)$language."' AND
+			pd.products_id = p.products_id AND
+			p.products_id = p2c.products_id AND
+			pd.products_id = p2c.products_id
 			".join(' AND ', $where)."
 			".$group_check."
 			".$status."
@@ -393,7 +407,7 @@ class apiProduct extends CartET
 			ORDER BY
 				".$order_by."
 			".$limit."
-		";//
+		";
 
 		/*$listing_query = osDBquery($listing_sql);
 
