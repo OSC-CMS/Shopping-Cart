@@ -23,12 +23,7 @@ if ($_SESSION['customers_status']['customers_fsk18_display'] == '0') {
 if (GROUP_CHECK == 'true') {
 	$group_check = " and p.group_permission_".$_SESSION['customers_status']['customers_status_id']."=1 ";
 }
-$featured_query_raw = "select p.products_id,
-                                pd.products_name,
-                                pd.products_short_description,
-                                p.products_price,
-                                p.products_tax_class_id,p.products_shippingtime,
-                                p.products_image,p.products_vpe_status,p.products_vpe_value,p.products_vpe,p.products_fsk18 from ".TABLE_PRODUCTS." p, ".TABLE_PRODUCTS_DESCRIPTION." pd, ".TABLE_FEATURED." f
+$featured_query_raw = "select * from ".TABLE_PRODUCTS." p, ".TABLE_PRODUCTS_DESCRIPTION." pd, ".TABLE_FEATURED." f
                                 where p.products_status = '1'
                                 and f.products_id = p.products_id
                                 and p.products_id = pd.products_id
@@ -36,6 +31,7 @@ $featured_query_raw = "select p.products_id,
                                 ".$fsk_lock."
                                 and pd.language_id = '".(int) $_SESSION['languages_id']."'
                                 and f.status = '1' order by f.featured_date_added DESC";
+
 $featured_split = new splitPageResults($featured_query_raw, $_GET['page'], MAX_DISPLAY_FEATURED_PRODUCTS);
 
 $module_content = '';
