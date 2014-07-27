@@ -288,7 +288,19 @@ if (isset($_GET['o_id']) && !empty($_GET['o_id']))
 					<input type="hidden" name="old_currencies_id" value="<?php echo $currencies[$order->info['currency']]['currencies_id']; ?>" />
 				</div>
 			</div>
-
+			<script>
+				/*
+				 ------------------------------------------------------
+				 При изменении способа доставки подставляем название в поле
+				 ------------------------------------------------------
+				 */
+				jQuery(function(){
+					$('#change_order_shipping_method').on('change', function()
+					{
+						$( "input[name='total[ot_shipping][title]']" ).val($('#change_order_shipping_method option:selected').text());
+					});
+				});
+			</script>
 			<h5><?php echo TEXT_ORDER_TOTAL; ?></h5>
 			<table class="table table-condensed table-big-list">
 				<tr>
@@ -336,7 +348,7 @@ if (isset($_GET['o_id']) && !empty($_GET['o_id']))
 							$aShipping = explode('_', $order->info['shipping_class']);
 							$cShipping = $aShipping[0];
 							?>
-							<?php echo os_draw_pull_down_menu('total['.$total.'][shipping_method]', $getShippingModules, $cShipping); ?>
+							<?php echo os_draw_pull_down_menu('total['.$total.'][shipping_method]', $getShippingModules, $cShipping, 'id="change_order_shipping_method"'); ?>
 						<?php } ?>
 					</td>
 				</tr>
