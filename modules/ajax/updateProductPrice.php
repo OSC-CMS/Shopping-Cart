@@ -8,6 +8,8 @@
 *---------------------------------------------------------
 */
 
+if (!$cartet->request->isAjax()) die();
+
 if (isset($_POST['products_id']) && !empty($_POST['products_id']))
 {
 	$oProduct = new product($_POST['products_id']);

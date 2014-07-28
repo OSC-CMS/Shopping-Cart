@@ -130,7 +130,7 @@ else
 		// optional Product List Filter
 		if (PRODUCT_LIST_FILTER > 0)
 		{
-			if (isset ($_GET['manufacturers_id']))
+			if (isset($_GET['manufacturers_id']))
 				$filterlist_sql = "select distinct c.categories_id as id, cd.categories_name as name from ".TABLE_PRODUCTS." p, ".TABLE_PRODUCTS_TO_CATEGORIES." p2c, ".TABLE_CATEGORIES." c, ".TABLE_CATEGORIES_DESCRIPTION." cd where p.products_status = '1' and c.categories_status = '1' and p.products_id = p2c.products_id and p2c.categories_id = c.categories_id and p2c.categories_id = cd.categories_id and cd.language_id = '".(int) $_SESSION['languages_id']."' and p.manufacturers_id = '".(int) $_GET['manufacturers_id']."' order by cd.categories_name";
 			else
 				$filterlist_sql = "select distinct m.manufacturers_id as id, m.manufacturers_name as name from ".TABLE_PRODUCTS." p, ".TABLE_PRODUCTS_TO_CATEGORIES." p2c, ".TABLE_MANUFACTURERS." m where p.products_status = '1' and p.manufacturers_id = m.manufacturers_id and p.products_id = p2c.products_id and p2c.categories_id = '".$current_category_id."' order by m.manufacturers_name";
@@ -195,7 +195,7 @@ else
 		if (isset ($_GET['manufacturers_id']))
 		{
 			$image = osDBquery("select manufacturers_image from ".TABLE_MANUFACTURERS." where manufacturers_id = '".(int) $_GET['manufacturers_id']."'");
-			$image = os_db_fetch_array($image,true);
+			$image = os_db_fetch_array($image, true);
 			$image = $image['manufacturers_image'];
 		}
 		elseif ($current_category_id)

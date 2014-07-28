@@ -323,6 +323,7 @@ class apiProduct extends CartET
 		$category = '';
 		$manufacturer = '';
 		$status = '';
+		$category_status = '';
 		$distinct = '';
 		$limit = '';
 		$language = $_SESSION['languages_id'];
@@ -363,6 +364,10 @@ class apiProduct extends CartET
 		if ($params['products_status'])
 			$status = " AND p.products_status = '".(int)$params['products_status']."' ";
 
+		// Статус категории
+		if ($params['category_status'])
+			$category_status = " AND c.categories_status = '".(int)$params['category_status']."' ";
+
 		// Без дублей
 		if ($params['distinct'])
 			$distinct = " DISTINCT ";
@@ -392,15 +397,18 @@ class apiProduct extends CartET
 				LEFT JOIN ".TABLE_FEATURED." f ON (f.products_id = p.products_id AND f.status = 1)
 				LEFT JOIN ".TABLE_SPECIALS." s ON (p.products_id = s.products_id),
 			".TABLE_PRODUCTS_DESCRIPTION." pd,
+			".TABLE_CATEGORIES." c,
 			".TABLE_PRODUCTS_TO_CATEGORIES." p2c
 		WHERE
 			pd.language_id = '".(int)$language."' AND
 			pd.products_id = p.products_id AND
 			p.products_id = p2c.products_id AND
-			pd.products_id = p2c.products_id
+			pd.products_id = p2c.products_id AND
+			p2c.categories_id = c.categories_id
 			".join(' AND ', $where)."
 			".$group_check."
 			".$status."
+			".$category_status."
 			".$fsk_lock."
 			".$category."
 			".$manufacturer."

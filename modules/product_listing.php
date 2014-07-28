@@ -20,30 +20,20 @@ else
 
 $module->assign('LINK_PAGE', os_href_link(basename($PHP_SELF), os_get_all_get_params(array('page','on_page','sort', 'direction', 'info','x','y')).'on_page='));
 
-if (isset($_GET['status']))
+if (isset($_GET['status']) && is_numeric($_GET['status']))
 {
 	if ('all' === $_GET['status'])
-	{
 		$listing_sql = str_replace("p.products_status = '1'", "1", $listing_sql);
-	}
 	else
-	{
-		$_GET['status'] = (int)($_GET['status']);
-		$listing_sql = str_replace("p.products_status = '1'", "p.products_status = '".$_GET['status']."'", $listing_sql);
-	}
+		$listing_sql = str_replace("p.products_status = '1'", "p.products_status = '".(int)$_GET['status']."'", $listing_sql);
 }
 
 $listing_split = new splitPageResults($listing_sql, @(int)$_GET['page'], $num_page, 'p.products_id');
 
-$module_content = array ();
+$module_content = array();
 if ($listing_split->number_of_rows > 0)
 {
 	$navigation = $listing_split->display_links(MAX_DISPLAY_PAGE_LINKS, os_get_all_get_params(array ('page', 'info', 'x', 'y')));
-
-	if (GROUP_CHECK == 'true')
-	{
-		$group_check = "and c.group_permission_".$_SESSION['customers_status']['customers_status_id']."=1 ";
-	}
 
 	$category = $cartet->product->getCategory($current_category_id);
 
@@ -52,8 +42,6 @@ if ($listing_split->number_of_rows > 0)
 	$module->assign('CATEGORIES_IMAGE', $category['categories_image']);
 	$module->assign('CATEGORIES_DESCRIPTION', $category['categories_description']);
 
-	$rows = 0;
-
 	$listing_query = osDBquery($listing_split->sql_query);
 
 	/*
@@ -61,10 +49,7 @@ if ($listing_split->number_of_rows > 0)
 	*/
 	while ($listing = os_db_fetch_array($listing_query, true))
 	{
-		//$rows ++;
 		$_products_array[$listing['products_id']] = $listing;
-		//$module_content[] =  $product->buildDataArray($listing);
-		//$ids[] = $module_content[sizeof($module_content) - 1]['PRODUCTS_ID'];
 	}
 
 	global $_products_array;
@@ -73,7 +58,6 @@ if ($listing_split->number_of_rows > 0)
 	{
 		foreach ($_products_array as $_products_id => $_products_value)
 		{
-			$rows ++;
 			$module_content[] = apply_filter('products_listing', $product->buildDataArray($_products_value) );
 			$ids[] = $module_content[sizeof($module_content) - 1]['PRODUCTS_ID'];
 		}
@@ -82,14 +66,14 @@ if ($listing_split->number_of_rows > 0)
 	// Parameters start
 	if (is_array($ids) && sizeof($ids) > 0)
 	{
-		$cats = osDBquery("SELECT products_id, categories_id FROM ".TABLE_PRODUCTS_TO_CATEGORIES." WHERE products_id IN (".implode(", ", $ids).")");
+		/*$cats = osDBquery("SELECT products_id, categories_id FROM ".TABLE_PRODUCTS_TO_CATEGORIES." WHERE products_id IN (".implode(", ", $ids).")");
 		$temp = array();
 
 		while ($c = os_db_fetch_array($cats, true))
 		{
 			if (isset($temp[$c['products_id']]) && $temp[$c['products_id']] < 1)
 				$temp[$c['products_id']] =  $c['categories_id'];
-		}
+		}*/
 
 		$p_list = array();
 		foreach($module_content as $k => $m)
@@ -97,7 +81,7 @@ if ($listing_split->number_of_rows > 0)
 			if (isset($m['PRODUCTS_ID']))
 				$_PRODUCTS_ID = $m['PRODUCTS_ID'];
 			else
-				$_PRODUCTS_ID= 0;
+				$_PRODUCTS_ID = 0;
 
 			if (isset($p_list[$_PRODUCTS_ID]))
 				$module_content[$k]['params'] = $p_list[$_PRODUCTS_ID];
@@ -106,7 +90,6 @@ if ($listing_split->number_of_rows > 0)
 		}
 	}
 	// Parameters end
-
 }
 else
 	$result = false;// no product found

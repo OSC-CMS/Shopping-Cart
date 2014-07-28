@@ -44,6 +44,7 @@ if (!$osTemplate->isCached(CURRENT_TEMPLATE.'/module/new_products_overview.html'
 
 	$products_new_query_raw = $cartet->product->getList(array(
 		'products_status' => 1,
+		'category_status' => 1,
 		'where' => $days,
 		'order' => 'p.products_date_added DESC',
 	));

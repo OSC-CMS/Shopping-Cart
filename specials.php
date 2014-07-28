@@ -16,6 +16,7 @@ require (_INCLUDES.'header.php');
 
 $listing_sql = $cartet->product->getList(array(
 	'products_status' => 1,
+	'category_status' => 1,
 	'where' => array('s.status = 1'),
 	'order' => 's.specials_date_added ASC',
 ));
