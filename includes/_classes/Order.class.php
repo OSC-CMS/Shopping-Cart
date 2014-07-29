@@ -677,19 +677,70 @@ class apiOrder extends CartET
 	}
 
 	/**
+	 * Пересчет Итого
+	 */
+	public function recalculateTotalPrice($o_id, $price)
+	{
+		if (empty($o_id)) return false;
+
+		$order = new order($o_id);
+		$osPrice = new osPrice($order->info['currency'], isset($order->info['status']) ? $order->info['status'] : '');
+
+		$getOrderTotal = os_db_query("SELECT * FROM ".TABLE_ORDERS_TOTAL." WHERE orders_id = '".(int)$o_id."'");
+		if (os_db_num_rows($getOrderTotal) > 0)
+		{
+			while($o = os_db_fetch_array($getOrderTotal))
+			{
+				if ($o['class'] == 'ot_total' OR $o['class'] == 'ot_subtotal')
+				{
+					$calculate = $o['value']+$price;
+
+					$formatPrice = $osPrice->currencies[$order->info['currency']]['symbol_left'].' '.$osPrice->Format($calculate, true).' '.$osPrice->currencies[$order->info['currency']]['symbol_right'];
+
+					os_db_perform(TABLE_ORDERS_TOTAL, array(
+						'text' => os_db_prepare_input($formatPrice),
+						'value' => os_db_input($calculate),
+					), 'update', "class = '".os_db_input($o['class'])."' AND orders_id = '".(int)$o_id."'");
+				}
+			}
+		}
+	}
+
+	/**
 	 * Быстрое добавление товара к заказу
 	 */
-	public function addProductsToOrder($post)
+	public function addProductsToOrder($params = array())
 	{
 		$newProducts = array();
-		if (isset($post))
+		if (is_array($params['new_product']))
 		{
-			foreach($post as $k => $v)
+			foreach($params['new_product'] as $k => $v)
 				foreach($v as $item => $value)
 					$newProducts[$item][$k] = $value;
 
+			$pIds = array();
+			foreach($newProducts AS $product)
+				$pIds[] = $product['products_id'];
+
+			// Просто скидки
+			$product_specials_query = os_db_query("select products_id, specials_new_products_price from ".TABLE_SPECIALS." where status = 1 AND products_id IN (".implode(',', $pIds).")");
+			$checkspecial = array();
+			if (os_db_num_rows($product_specials_query) > 0)
+			{
+				while ($product = os_db_fetch_array($product_specials_query))
+				{
+					$checkspecial[$product['products_id']] = $product['specials_new_products_price'];
+				}
+			}
+
+			$total_price = '';
 			foreach ($newProducts as $key => $products)
 			{
+				if ($products['products_price'] == $products['products_real_price'])
+				{
+					$products['products_price'] = ($checkspecial[$products['products_id']]) ? $checkspecial[$products['products_id']] : $products['products_price'];
+				}
+
 				$sqlOrderProducts = array(
 					'orders_id' => (int)$products['orders_id'],
 					'products_id' => (int)$products['products_id'],
@@ -705,7 +756,33 @@ class apiOrder extends CartET
 					'bundle' => 0,
 				);
 
+				$total_price += $products['products_price']*$products['product_qty'];
 				os_db_perform(TABLE_ORDERS_PRODUCTS, $sqlOrderProducts);
+
+				// обновление количества товара
+				if (STOCK_LIMITED == 'true')
+				{
+					$updateQty = array(
+						'qty' => (int)$products['product_qty'],
+						'name' => os_db_prepare_input($products['products_name']),
+						'model' => os_db_prepare_input($products['products_model']),
+						'tax_class_id' => 0,
+						'tax' => '',
+						'tax_description' => '',
+						'price' => os_db_prepare_input($products['products_price']),
+						'final_price' => os_db_prepare_input($products['products_price']*$products['product_qty']),
+						'shipping_time' => '',
+						'weight' => '0.00',
+						'bundle' => 0,
+						'id' => (int)$products['products_id'],
+					);
+					$this->updateQuantity($updateQty);
+				}
+			}
+
+			if ($params['recalculate'] == '1')
+			{
+				$this->recalculateTotalPrice($params['order_id'], $total_price);
 			}
 		}
 	}
@@ -937,10 +1014,6 @@ class apiOrder extends CartET
 
 		return $data;
 	}
-
-
-	public function recalculatePriceDeleteAtribute()
-	{}
 
 	/**
 	 * Обновление атрибутов товара в заказе
