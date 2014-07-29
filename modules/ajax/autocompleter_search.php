@@ -8,6 +8,8 @@
 *---------------------------------------------------------
 */
 
+if (!$cartet->request->isAjax()) die();
+
 $limit = 30;
 
 $keyword = strval(preg_replace('/[^\p{L}\p{Nd}\d\s_\-\.\%\s]/ui', '', $_REQUEST['query']));
@@ -27,7 +29,7 @@ $searchQuery = os_db_query("
 		pd.products_name DESC limit ".$limit."
 ");
 
-while ($p = os_db_fetch_array($searchQuery, true))
+while ($p = os_db_fetch_array($searchQuery))
 {
 	if(!empty($p['products_image']))
 	{

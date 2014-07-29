@@ -124,7 +124,7 @@ class apiProducts extends CartET
 				pd.products_name DESC limit ".$limit."
 		");
 
-		while ($p = os_db_fetch_array($searchQuery, true))
+		while ($p = os_db_fetch_array($searchQuery))
 		{
 			$products_name[] = $p['products_name'];
 			$products_data[] = $p;
