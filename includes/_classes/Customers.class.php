@@ -435,6 +435,7 @@ class apiCustomers extends CartET
 
 			if ($params['action'] == 'new')
 			{
+				$sql_data_array['customers_date_added'] = 'now()';
 				os_db_perform(TABLE_CUSTOMERS, $sql_data_array);
 				$customers_id = os_db_insert_id();
 			}
