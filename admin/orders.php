@@ -459,7 +459,7 @@ break;
 // добавление товара к заказу
 if (isset($_POST['new_product']) && !empty($_POST['new_product']))
 {
-	$cartet->order->addProductsToOrder($_POST['new_product']);
+	$cartet->order->addProductsToOrder($_POST);
 	os_redirect(os_href_link(FILENAME_ORDERS, os_get_all_get_params(array ('action')).'action=edit'));
 }
 
