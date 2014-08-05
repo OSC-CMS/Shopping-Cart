@@ -243,22 +243,12 @@ class product {
 				$group_check = " and p.group_permission_".$_SESSION['customers_status']['customers_status_id']."=1 ";
 			}
 
-			$cross_query = osDBquery("select p.products_fsk18,
-																						 p.products_tax_class_id,
-																                                                 p.products_id,
-																                                                 p.products_image,
-																                                                 pd.products_name,
-																						 						pd.products_short_description,
-																                                                 p.products_fsk18,p.products_price,p.products_vpe,
-						                           																p.products_vpe_status,
-						                           																p.products_vpe_value,  
-																                                                 xp.sort_order,
-																												 p.products_bundle from ".TABLE_PRODUCTS_XSELL." xp, ".TABLE_PRODUCTS." p, ".TABLE_PRODUCTS_DESCRIPTION." pd
+			$cross_query = osDBquery("select * from ".TABLE_PRODUCTS_XSELL." xp, ".TABLE_PRODUCTS." p, ".TABLE_PRODUCTS_DESCRIPTION." pd
 																                                            where xp.xsell_id = '".$this->pID."' and xp.products_id = p.products_id ".$fsk_lock.$group_check."
 																                                            and p.products_id = pd.products_id
 																                                            and pd.language_id = '".$_SESSION['languages_id']."'
 																                                            and p.products_status = '1'
-																                                            order by xp.sort_order asc");
+																                                            order by xp.sort_order asc limit ".MAX_DISPLAY_ALSO_PURCHASED);
 
 
 			while ($xsell = os_db_fetch_array($cross_query, true)) {
@@ -270,7 +260,7 @@ class product {
 		return $cross_sell_data;
 	 	
 	 	
-	 	
+	 
 	 }
 	
 
@@ -319,15 +309,12 @@ class product {
 		return $this->isProduct;
 	}
 	
-	function getBuyNowButton($id, $name) 
+	function getBuyNowButton($id, $name)
 	{
-		global $PHP_SELF;
-		$params = (basename($PHP_SELF) == 'product_info.php') ? preg_replace('/products_id=\d+&/', '', os_get_all_get_params(array('action'))) : os_get_all_get_params(array('action'));
-
 		$_array = array(
 			'img'	=> 'button_buy_now.gif',
-			'href'	=> os_href_link(basename($PHP_SELF), 'action=buy_now&BUYproducts_id='.$id.'&'.$params, 'NONSSL'),
-			'alt'	=> TEXT_BUTTON_BUY." '".$name."'",
+			'href'	=> os_href_link(FILENAME_DEFAULT, 'action=buy_now&BUYproducts_id='.$id.'&'.os_get_all_get_params(array('action')), 'NONSSL'),
+			'alt'	=> TEXT_BUTTON_BUY,
 			'code'	=> ''
 		);
 
@@ -341,15 +328,12 @@ class product {
 		return $_array['code'];
 	}
 
-	function getBuyNowButtonNew($id, $name) 
+	function getBuyNowButtonNew($id, $name)
 	{
-		global $PHP_SELF;
-		$params = (basename($PHP_SELF) == 'product_info.php') ? preg_replace('/products_id=\d+&/', '', os_get_all_get_params(array('action'))) : os_get_all_get_params(array('action'));
-
 		$_array = array(
 			'img'	=> 'cart_big.gif', 
-			'href'	=> os_href_link(basename($PHP_SELF), 'action=buy_now&BUYproducts_id='.$id.'&'.$params, 'NONSSL'),
-			'alt'	=> TEXT_BUTTON_IN_CART, 
+			'href'	=> os_href_link(FILENAME_DEFAULT, 'action=buy_now&BUYproducts_id='.$id.'&'.os_get_all_get_params(array('action')), 'NONSSL'),
+			'alt'	=> TEXT_BUTTON_IN_CART,
 			'code'	=> ''
 		);
 
