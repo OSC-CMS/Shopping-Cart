@@ -733,6 +733,17 @@ class apiOrder extends CartET
 				}
 			}
 
+			// Время доставки
+			$status_query = osDBquery("SELECT shipping_status_name, shipping_status_id FROM ".TABLE_SHIPPING_STATUS." where language_id = '".(int)$_SESSION['languages_id']."'");
+			$shipping_status = array();
+			if (os_db_num_rows($status_query, true) > 0)
+			{
+				while ($status_data = os_db_fetch_array($status_query, true)) 
+				{
+					$shipping_status[$status_data['shipping_status_id']] = $status_data['shipping_status_name'];
+				}
+			}
+
 			$total_price = '';
 			foreach ($newProducts as $key => $products)
 			{
@@ -748,7 +759,7 @@ class apiOrder extends CartET
 					'products_name' => os_db_prepare_input($products['products_name']),
 					'products_price' => os_db_prepare_input($products['products_price']),
 					'products_discount_made' => '',
-					'products_shipping_time' => '',
+					'products_shipping_time' => os_db_prepare_input($shipping_status[$products['products_shippingtime']]),
 					'final_price' => os_db_prepare_input($products['products_price']*$products['product_qty']),
 					'products_tax' => 0,
 					'products_quantity' => (int)$products['product_qty'],
@@ -771,7 +782,7 @@ class apiOrder extends CartET
 						'tax_description' => '',
 						'price' => os_db_prepare_input($products['products_price']),
 						'final_price' => os_db_prepare_input($products['products_price']*$products['product_qty']),
-						'shipping_time' => '',
+						'shipping_time' => os_db_prepare_input($shipping_status[$products['products_shippingtime']]),
 						'weight' => '0.00',
 						'bundle' => 0,
 						'id' => (int)$products['products_id'],

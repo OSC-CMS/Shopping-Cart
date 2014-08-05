@@ -979,6 +979,7 @@ $(function(){
 			newProduct.find('input[name*=products_id]').val(data.products_id);
 			newProduct.find('input[name*=products_price]').val(data.products_price);
 			newProduct.find('input[name*=products_model]').val(data.products_model);
+			newProduct.find('input[name*=products_shippingtime]').val(data.products_shippingtime);
 			newProduct.find('input[name*=products_name]').val(data.products_name);
 			$("#add_product").val(''); 
 			newProduct.show();

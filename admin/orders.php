@@ -879,6 +879,7 @@ $main->top_menu();
 							<input type="hidden" name="new_product[orders_id][]" value="<?php echo $oID; ?>" />
 							<input type="hidden" name="new_product[allow_tax][]" value="<?php echo $order->products[0]['allow_tax']; ?>" />
 							<input type="hidden" name="new_product[products_model][]" value="" />
+							<input type="hidden" name="new_product[products_shippingtime][]" value="" />
 							<input type="hidden" name="new_product[products_name][]" value="" />
 							<input class="width40px tcenter" type="number" name="new_product[product_qty][]" value="1" />
 						</td>
