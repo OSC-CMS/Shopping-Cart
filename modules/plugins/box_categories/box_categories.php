@@ -43,20 +43,8 @@ function box_categories_func()
 	$box->assign('language', $_SESSION['language']);
 	$box->template_dir = plugdir();
 
-	if (!CacheCheck())
-	{
-		$box->caching = 0;
-		$_box_value = $box->fetch(dirname(__FILE__).'/themes/'.$theme.'/categories.html');
-	}
-	else
-	{
-		$box->caching = 1;
-		$box->cache_lifetime = CACHE_LIFETIME;
-		$box->cache_modified_check = CACHE_CHECK;
-		$cache_id = $_SESSION['language'];
-		$_box_value = $box->fetch(dirname(__FILE__).'/themes/'.$theme.'/categories.html', $cache_id);
-	}
-
+	$box->caching = 0;
+	$_box_value = $box->fetch(dirname(__FILE__).'/themes/'.$theme.'/categories.html');
 	$osTemplate->assign('box_CATEGORIES', $_box_value);
 }
 
