@@ -2,7 +2,7 @@
 /*
 	Plugin Name: Категории
 	Plugin URI: http://osc-cms.com/store/plugins/box-categories
-	Version: 1.4
+	Version: 1.5
 	Description: Выводит блок категорий
 	Author: CartET
 	Author URI: http://osc-cms.com
@@ -14,7 +14,7 @@ add_filter('head_array_detail', 'box_categories_js');
 
 function box_categories_js($value)
 {
-	if (get_option('menuJSType') == 'accordion')
+	if (get_option('menuType') == 'accordion')
 	{
 		$theme = (file_exists(plugdir().'themes/'.CURRENT_TEMPLATE)) ? CURRENT_TEMPLATE : 'default';
 		add_style(plugurl().'themes/'.$theme.'/css/menu_accordion.css', $value, 'categories');
@@ -36,6 +36,7 @@ function box_categories_func()
 	$box->assign('imageWidth', get_option('cImgWidth'));
 	$box->assign('imageHeight', get_option('cImgHeight'));
 	$box->assign('counts', get_option('countProducts'));
+	$box->assign('menuType', get_option('menuType'));
 
 	$theme = (file_exists(plugdir().'themes/'.CURRENT_TEMPLATE)) ? CURRENT_TEMPLATE : 'default';
 
@@ -52,9 +53,8 @@ function box_categories_install()
 {
 	add_option('countProducts',		'false', 'radio', "array('true', 'false')");
 	add_option('subCategories',		'true', 'radio', "array('true', 'false')");
-	add_option('maxSubCategories',	'5', 'input');
 	add_option('showCatImages',		'false', 'radio', "array('true', 'false')");
 	add_option('cImgWidth',			'30', 'input');
 	add_option('cImgHeight',		'30', 'input');
-	add_option('menuJSType',		'none', 'radio', "array('none', 'accordion')");
+	add_option('menuType',			'none', 'radio', "array('none', 'accordion', 'active')");
 }

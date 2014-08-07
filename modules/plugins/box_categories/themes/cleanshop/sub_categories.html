@@ -5,7 +5,7 @@
 				<a class="{if $current == $item.categories_id}current{/if} {if in_array($item.categories_id, $current_in)}current-parent{/if} clearfix" href="{$item.categories_link}">
 					{$item.categories_name}{if $counts == 'true'}<span class="badge pull-right">{$item.categories_count}</span>{/if}
 				</a>
-				{if $item.children}
+				{if $item.children && ($menuType == 'active' && ($current == $item.categories_id OR in_array($item.categories_id, $current_in)) OR $menuType != 'active')}
 					{include file="$plugDir/sub_categories.html" aCategories=$item.children}
 				{/if}
 			</li>

@@ -12,7 +12,7 @@
 						{if $item.categories_image && $image == 'true'}<img class="pull-left" width="{$imageWidth}" height="{$imageHeight}" src="{$item.categories_image}" alt="{$item.name}">{/if}
 						{$item.categories_name}{if $counts == 'true'}<span class="fright">{$item.categories_count}</span>{/if}
 					</a>
-					{if $item.children}
+					{if $item.children && ($menuType == 'active' && ($current == $item.categories_id OR in_array($item.categories_id, $current_in)) OR $menuType != 'active')}
 						{include file="$plugDir/sub_categories.html" aCategories=$item.children}
 					{/if}
 					</li>
