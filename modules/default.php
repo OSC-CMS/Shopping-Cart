@@ -75,6 +75,7 @@ else
 			'categories_id' => $current_category_id,
 			'subcategories' => $getSubcategoriesIds,
 			'products_status' => 1,
+			'category_status' => 1,
 		));
 
 		include (DIR_WS_MODULES.'product_listing_subcategories.php');
@@ -95,6 +96,7 @@ else
 					'categories_id' => $current_category_id,
 					'manufacturers_id' => $_GET['filter_id'],
 					'products_status' => 1,
+					'category_status' => 1,
 				));
 			}
 			else
@@ -105,6 +107,7 @@ else
 					'categories_id' => $current_category_id,
 					'manufacturers_id' => $_GET['manufacturers_id'],
 					'products_status' => 1,
+					'category_status' => 1,
 				));
 			}
 		}
@@ -116,6 +119,7 @@ else
 					'categories_id' => $current_category_id,
 					'manufacturers_id' => $_GET['filter_id'],
 					'products_status' => 1,
+					'category_status' => 1,
 				));
 			}
 			else
@@ -123,6 +127,7 @@ else
 				$listing_sql = $cartet->product->getList(array(
 					'categories_id' => $current_category_id,
 					'products_status' => 1,
+					'category_status' => 1,
 				));
 			}
 		}
