@@ -170,7 +170,7 @@ class qiwi extends CartET
 				'login' => MODULE_PAYMENT_QIWI_ID, // login - Ваш ID в системе QIWI
 				'password' => MODULE_PAYMENT_QIWI_SECRET_KEY, // password - Ваш пароль
 				'user' => $_POST['qiwi_telephone'], // user - Телефон покупателя (10 символов, например 916820XXXX)
-				'amount' => number_format($order->info['total'],0), // amount - Сумма платежа в рублях
+				'amount' => number_format($order->info['total_value'],0), // amount - Сумма платежа в рублях
 				'comment' => substr($_SESSION[$this->name], strpos($_SESSION[$this->name], '-')+1), // comment - Комментарий, который пользователь увидит в своем личном кабинете или платежном автомате
 				'txn' => substr($_SESSION[$this->name], strpos($_SESSION[$this->name], '-')+1), // txn - Наш внутренний уникальный номер транзакции
 				'lifetime' => date("d.m.Y H:i:s", strtotime("+2 weeks")), // lifetime - Время жизни платежа до его автоматической отмены

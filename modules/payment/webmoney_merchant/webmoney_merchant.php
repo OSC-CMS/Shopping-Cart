@@ -172,12 +172,12 @@ class webmoney_merchant extends CartET
 		if ($_SESSION['wm'] == 'wmr')
 		{
 			$purse = MODULE_PAYMENT_WEBMONEY_MERCHANT_WMR;
-			$order_sum = $order->info['total'];
+			$order_sum = $order->info['total_value'];
 		}
 		else
 		{
 			$purse = MODULE_PAYMENT_WEBMONEY_MERCHANT_WMZ;
-			$order_sum = number_format($osPrice->CalculateCurrEx($order->info['total'], 'USD'),2);
+			$order_sum = number_format($osPrice->CalculateCurrEx($order->info['total_value'], 'USD'),2);
 		}
 
 		$process_button_string = 

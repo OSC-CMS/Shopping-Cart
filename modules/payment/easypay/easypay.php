@@ -152,7 +152,7 @@ class easypay extends CartET
 		$order_no = substr($_SESSION[$this->name], strpos($_SESSION[$this->name], '-')+1);
 
 		#получаем стоимость заказа в белорусских рублях
-		$sum = ceil($order->info["total"]);
+		$sum = ceil($order->info["total_value"]);
 
 		#подготовка формы для оплаты
 		$process_button_string =

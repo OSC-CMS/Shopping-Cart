@@ -29,7 +29,7 @@ require (_CLASS.'order.php');
 
 $inv_id = get_var('orderId');
 $order = new order($inv_id);
-$order_sum = $order->info['total'];
+$order_sum = $order->info['total_value'];
 
 // checking and handling
 if (number_format($order_sum,0) == number_format($_POST['recipientAmount'],0)) {

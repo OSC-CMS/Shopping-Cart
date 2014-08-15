@@ -148,7 +148,7 @@ class rbkmoney extends CartET
 			os_draw_hidden_field('eshopId', MODULE_PAYMENT_RBKMONEY_SHOP_ID) .
 			os_draw_hidden_field('orderId', $order_id) .
 			os_draw_hidden_field('serviceName', $order_id) .
-			os_draw_hidden_field('recipientAmount', $order->info['total']) .
+			os_draw_hidden_field('recipientAmount', $order->info['total_value']) .
 			os_draw_hidden_field('recipientCurrency', 'RUR') .
 			os_draw_hidden_field('successUrl', os_href_link(FILENAME_CHECKOUT_PROCESS, '', 'SSL')) .
 			os_draw_hidden_field('failUrl', os_href_link(FILENAME_CHECKOUT_SHIPPING, '', 'SSL'));

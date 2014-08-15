@@ -151,7 +151,7 @@ class z_payment extends CartET
 		$process_button_string = '';
 
 		$purse = MODULE_PAYMENT_Z_PAYMENT_ID;
-		$order_sum = $order->info['total'];
+		$order_sum = $order->info['total_value'];
 
 		$order_id = substr($_SESSION[$this->name], strpos($_SESSION[$this->name], '-')+1);
 

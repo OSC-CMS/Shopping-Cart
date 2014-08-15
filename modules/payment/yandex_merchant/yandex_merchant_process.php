@@ -43,7 +43,7 @@ if ($md5 !== $_POST['md5'])
 $order = new order((int)$_POST['orderNumber']);
 
 global $osPrice;
-$orderTotal = number_format($osPrice->CalculateCurrEx($order->info['total'], 'RUR'), 2, '.', '');
+$orderTotal = number_format($osPrice->CalculateCurrEx($order->info['total_value'], 'RUR'), 2, '.', '');
 
 if (floatval($orderTotal) !== floatval($_POST['orderSumAmount']))
 	ym_return_msg("error: orderSumAmount");

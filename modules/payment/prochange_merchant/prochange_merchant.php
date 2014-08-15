@@ -156,7 +156,7 @@ class prochange_merchant extends CartET
 
 		$process_button_string = '';
 
-		$order_sum = $order->info['total'];
+		$order_sum = $order->info['total_value'];
 
 		$process_button_string = 
 			os_draw_hidden_field('PRO_FIELD_1', substr($_SESSION[$this->name], strpos($_SESSION[$this->name], '-')+1)) .

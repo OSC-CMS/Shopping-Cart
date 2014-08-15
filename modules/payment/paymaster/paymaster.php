@@ -144,7 +144,7 @@ class paymaster extends CartET
 		$process_button_string = '';
 
 		$purse = MODULE_PAYMENT_PAYMASTER_WMR;
-		$order_sum = $order->info['total'];
+		$order_sum = $order->info['total_value'];
 
 		$process_button_string = 
 			os_draw_hidden_field('LMI_PAYMENT_NO', substr($_SESSION[$this->name], strpos($_SESSION[$this->name], '-')+1)) .

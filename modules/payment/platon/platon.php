@@ -143,7 +143,7 @@ class platon extends CartET
 		global $order;
 
 		$order_id = substr($_SESSION['cart_platon_id'], strpos($_SESSION['cart_platon_id'], '-')+1);
-		$price = round($order->info['total'], 2);
+		$price = round($order->info['total_value'], 2);
 
 		$data = base64_encode(serialize(array(
 			'amount' => $price,

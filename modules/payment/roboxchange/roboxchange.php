@@ -151,7 +151,7 @@ class roboxchange extends CartET
 
 		$process_button_string = '';
 
-		$order_sum = $order->info['total'];
+		$order_sum = $order->info['total_value'];
 		$crc  = md5(MODULE_PAYMENT_ROBOXCHANGE_LOGIN.':'.$order_sum.':'.$order_id.':'.MODULE_PAYMENT_ROBOXCHANGE_PASSWORD1);
 
 		$process_button_string = 

@@ -23,7 +23,7 @@ if (get_var('LMI_PAYEE_PURSE') != MODULE_PAYMENT_Z_PAYMENT_ID)
 // данные заказа
 $order = new order(get_var('LMI_PAYMENT_NO'));
 
-if ($order->info['total'] != get_var('LMI_PAYMENT_AMOUNT'))
+if ($order->info['total_value'] != get_var('LMI_PAYMENT_AMOUNT'))
 	die("ERR: Сумма оплаты не соответсвует сумме заказа!");
 
 $CalcHash = md5(get_var('LMI_PAYEE_PURSE').get_var('LMI_PAYMENT_AMOUNT').get_var('LMI_PAYMENT_NO').get_var('LMI_MODE').get_var('LMI_SYS_INVS_NO').get_var('LMI_SYS_TRANS_NO').get_var('LMI_SYS_TRANS_DATE').get_var('MODULE_PAYMENT_Z_PAYMENT_SECRET_KEY').get_var('LMI_PAYER_PURSE').get_var('LMI_PAYER_WM'));

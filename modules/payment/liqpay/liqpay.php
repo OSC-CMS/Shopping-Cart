@@ -149,7 +149,7 @@ class liqpay extends CartET
 	{
 		global $customer_id, $order, $sendto, $osPrice, $currencies, $cart_liqpay_id, $shipping;
 
-		$order_sum = $order->info['total'];
+		$order_sum = $order->info['total_value'];
 
 		$order_id = substr($_SESSION[$this->name], strpos($_SESSION[$this->name], '-')+1);
 		$curr_check = os_db_query("select currency from " . TABLE_ORDERS . " where orders_id = '" . (int)$order_id . "'");

@@ -143,7 +143,7 @@ class yandex_merchant extends CartET
 		global $order, $osPrice;
 
 		$OrderID = substr($_SESSION[$this->name], strpos($_SESSION[$this->name], '-')+1);
-		$TotalAmount = number_format($osPrice->CalculateCurrEx($order->info['total'], 'RUR'), 2, '.', '');
+		$TotalAmount = number_format($osPrice->CalculateCurrEx($order->info['total_value'], 'RUR'), 2, '.', '');
 
 		$_SESSION['yamoney_payment'] = $_POST['yandex_payment_type'];
 

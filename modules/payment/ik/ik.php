@@ -155,7 +155,7 @@ class ik extends CartET
 
 		$ikCurrency = (MODULE_PAYMENT_IK_CURRENCY == 'RUB') ? 'RUR' : MODULE_PAYMENT_IK_CURRENCY;
 		$OrderID = substr($_SESSION[$this->name], strpos($_SESSION[$this->name], '-')+1);
-		$TotalAmount = number_format($osPrice->CalculateCurrEx($order->info['total'], $ikCurrency), 2, '.', '');
+		$TotalAmount = number_format($osPrice->CalculateCurrEx($order->info['total_value'], $ikCurrency), 2, '.', '');
 
 		$result = array(
 			'ik_am' => $TotalAmount, // Сумма платежа
