@@ -55,7 +55,7 @@ class ot_discountshipping
 		$do = false;
 		if ($amount > $this->minimum)
 		{
-			$table = split("[,]" , MODULE_ORDER_TOTAL_DISCOUNTSHIPPING_TYPE);
+			$table = preg_split("/[,]/", MODULE_ORDER_TOTAL_DISCOUNTSHIPPING_TYPE);
 			for ($i = 0; $i < count($table); $i++)
 			{
 				if ($shipping == $table[$i])
@@ -101,7 +101,7 @@ class ot_discountshipping
 			$t_prid = os_get_prid($products[$i]['id']);
 			$gv_query = os_db_query("select products_price, products_tax_class_id, products_model from " . TABLE_PRODUCTS . " where products_id = '" . $t_prid . "'");
 			$gv_result = os_db_fetch_array($gv_query);
-			if (ereg('^GIFT', addslashes($gv_result['products_model'])))
+			if (preg_match('/^GIFT/', addslashes($gv_result['products_model'])))
 			{ 
 				$qty = $cart->get_quantity($t_prid);
 				$products_tax = os_get_tax_rate($gv_result['products_tax_class_id']);
