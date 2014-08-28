@@ -6,6 +6,11 @@
 *	http://www.cartet.org
 *
 *---------------------------------------------------------
+*
+*	Based on: osCommerce, nextcommerce, xt:Commerce
+*	Released under the GNU General Public License
+*
+*---------------------------------------------------------
 */
 
 include ('includes/top.php');
@@ -234,7 +239,7 @@ if (MODULE_ORDER_TOTAL_INSTALLED)
 $osTemplate->assign('totalArray', $totalArray);
 
 // Заполенные поля методов оплаты(если есть)
-if (is_array($payment_modules->modules))
+/*if (is_array($payment_modules->modules))
 {
 	if ($confirmation = $payment_modules->confirmation())
 	{
@@ -248,7 +253,7 @@ if (is_array($payment_modules->modules))
 		}
 		$osTemplate->assign('PAYMENT_INFORMATION', $payment_info);
 	}
-}
+}*/
 
 // Комментарий к заказу
 if (os_not_null($order->info['comments']))
@@ -258,7 +263,7 @@ if (os_not_null($order->info['comments']))
 
 // Если метод оплаты требует перехода на сайт сервиса, то посылаем на form_action_url,
 // в противном случае форма отправляет на окончательное формирование заказа
-if (isset ($$_SESSION['payment']->form_action_url) && !$$_SESSION['payment']->tmpOrders)
+/*if (isset ($$_SESSION['payment']->form_action_url) && !$$_SESSION['payment']->tmpOrders)
 	$form_action_url = $$_SESSION['payment']->form_action_url;
 else
 	$form_action_url = os_href_link(FILENAME_CHECKOUT_PROCESS, '', 'SSL');
@@ -267,17 +272,18 @@ if (isset($$_SESSION['payment']->form_action_method) && !empty($$_SESSION['payme
 	$form_action_method = $$_SESSION['payment']->form_action_method;
 else
 	$form_action_method = 'post';
+*/
 
-$osTemplate->assign('CHECKOUT_FORM', os_draw_form('checkout_confirmation', $form_action_url, $form_action_method));
+$osTemplate->assign('CHECKOUT_FORM', os_draw_form('checkout_confirmation', os_href_link('checkout_process_local.php', '', 'SSL')));
 $osTemplate->assign('CHECKOUT_FORM_END', '</form>');
 
 // метод класса оплаты process_button
-$payment_button = '';
+/*$payment_button = '';
 if (is_array($payment_modules->modules))
 {
 	$payment_button .= $payment_modules->process_button();
 }
-$osTemplate->assign('MODULE_BUTTONS', $payment_button);
+$osTemplate->assign('MODULE_BUTTONS', $payment_button);*/
 
 // Кнопка подтверждения заказа
 $_array = array
@@ -342,4 +348,3 @@ $osTemplate->loadFilter('output', 'trimhitespace');
 $template = (file_exists(_THEMES_C.FILENAME_CHECKOUT_CONFIRMATION.'.html') ? CURRENT_TEMPLATE.'/'.FILENAME_CHECKOUT_CONFIRMATION.'.html' : CURRENT_TEMPLATE.'/index.html');
 $osTemplate->display($template);
 include('includes/bottom.php');
-?>

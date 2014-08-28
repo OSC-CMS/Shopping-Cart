@@ -6,6 +6,11 @@
 *	http://www.cartet.org
 *
 *---------------------------------------------------------
+*
+*	Based on: osCommerce, nextcommerce, xt:Commerce
+*	Released under the GNU General Public License
+*
+*---------------------------------------------------------
 */
 
 defined('_VALID_OS') or die('Прямой доступ  не допускается.');
@@ -137,14 +142,6 @@ if ($_SESSION['customer_id'] == $order_check['customers_id'])
 			$cartet->sms->send($smsText, $order->customer['telephone']);
 		}
 	}
-
-	if (AFTERBUY_ACTIVATED == 'true')
-	{
-		require_once (dir_path('class').'afterbuy.php');
-		$aBUY = new os_afterbuy_functions($insert_id);
-		if ($aBUY->order_send())
-			$aBUY->process_order();
-	}
 }
 else
 {
@@ -152,4 +149,3 @@ else
 	$osTemplate->assign('ERROR', 'You are not allowed to view this order!');
 	$osTemplate->display(CURRENT_TEMPLATE.'/module/error_message.html');
 }
-?>

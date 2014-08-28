@@ -6,19 +6,33 @@
 *	http://www.cartet.org
 *
 *---------------------------------------------------------
+*
+*	Based on: osCommerce, nextcommerce, xt:Commerce
+*	Released under the GNU General Public License
+*
+*---------------------------------------------------------
 */
 
 include ('includes/top.php');
 //$osTemplate = new osTemplate;
 
 //security checks
-if (!isset ($_SESSION['customer_id'])) { os_redirect(os_href_link(FILENAME_LOGIN, '', 'SSL')); }
-if (!isset ($_GET['order_id']) || (isset ($_GET['order_id']) && !is_numeric($_GET['order_id']))) { 
-   os_redirect(os_href_link(FILENAME_ACCOUNT_HISTORY, '', 'SSL'));
+if (!isset($_SESSION['customer_id']))
+{
+	os_redirect(os_href_link(FILENAME_LOGIN, '', 'SSL'));
 }
-$customer_info_query = os_db_query("select customers_id from ".TABLE_ORDERS." where orders_id = '".(int) $_GET['order_id']."'");
+
+if (!isset($_GET['order_id']) || (isset($_GET['order_id']) && !is_numeric($_GET['order_id'])))
+{
+	os_redirect(os_href_link(FILENAME_ACCOUNT_HISTORY, '', 'SSL'));
+}
+
+$customer_info_query = os_db_query("select customers_id from ".TABLE_ORDERS." where orders_id = '".(int)$_GET['order_id']."'");
 $customer_info = os_db_fetch_array($customer_info_query);
-if ($customer_info['customers_id'] != $_SESSION['customer_id']) { os_redirect(os_href_link(FILENAME_ACCOUNT_HISTORY, '', 'SSL')); }
+if ($customer_info['customers_id'] != $_SESSION['customer_id'])
+{
+	os_redirect(os_href_link(FILENAME_ACCOUNT_HISTORY, '', 'SSL'));
+}
 
 $breadcrumb->add(NAVBAR_TITLE_1_ACCOUNT_HISTORY_INFO, os_href_link(FILENAME_ACCOUNT, '', 'SSL'));
 $breadcrumb->add(NAVBAR_TITLE_2_ACCOUNT_HISTORY_INFO, os_href_link(FILENAME_ACCOUNT_HISTORY, '', 'SSL'));
@@ -26,12 +40,17 @@ $breadcrumb->add(sprintf(NAVBAR_TITLE_3_ACCOUNT_HISTORY_INFO, (int)$_GET['order_
 
 require (_CLASS.'order.php');
 $order = new order((int)$_GET['order_id']);
+
 require (_INCLUDES.'header.php');
 
 // Delivery Info
-if ($order->delivery != false) {
+if ($order->delivery != false)
+{
 	$osTemplate->assign('DELIVERY_LABEL', os_address_format($order->delivery['format_id'], $order->delivery, 1, ' ', '<br />'));
-	if ($order->info['shipping_method']) { $osTemplate->assign('SHIPPING_METHOD', $order->info['shipping_method']); }
+	if ($order->info['shipping_method'])
+	{
+		$osTemplate->assign('SHIPPING_METHOD', $order->info['shipping_method']);
+	}
 }
 
 $order_total = $order->getTotalData((int)$_GET['order_id']); 
@@ -46,19 +65,17 @@ if ($order->info['payment_method'] != '' && $order->info['payment_method'] != 'n
 	$osTemplate->assign('PAYMENT_METHOD', constant(MODULE_PAYMENT_.strtoupper($order->info['payment_method'])._TEXT_TITLE));
 }
 
-
-
 // Order History
 $statuses_query = os_db_query("select os.orders_status_name, osh.date_added, osh.comments from ".TABLE_ORDERS_STATUS." os, ".TABLE_ORDERS_STATUS_HISTORY." osh where osh.orders_id = '".(int) $_GET['order_id']."' and osh.orders_status_id = os.orders_status_id and os.language_id = '".(int) $_SESSION['languages_id']."' order by osh.date_added");
-while ($statuses = os_db_fetch_array($statuses_query)) {
+while ($statuses = os_db_fetch_array($statuses_query))
+{
 	$history_block .= os_date_short($statuses['date_added'])."\n".$statuses['orders_status_name']."\n". (empty ($statuses['comments']) ? '&nbsp;' : nl2br(htmlspecialchars($statuses['comments'])))."\n";
 }
 $osTemplate->assign('HISTORY_BLOCK', $history_block);
 
 // Download-Products
-if (DOWNLOAD_ENABLED == 'true') include (_MODULES.'downloads.php');
-
-// Stuff
+if (DOWNLOAD_ENABLED == 'true')
+	include (_MODULES.'downloads.php');
 
 // фильтр кнопок печати
 $array = array();
@@ -81,20 +98,74 @@ $osTemplate->assign('BILLING_ADDRESS_EDIT', os_href_link(FILENAME_CHECKOUT_PAYME
 $from_history = preg_match("/page=/i", os_get_all_get_params()); // referer from account_history yes/no
 $back_to = $from_history ? FILENAME_ACCOUNT_HISTORY : FILENAME_ACCOUNT; // if from account_history => return to account_history
 
-   	$_array = array('img' => 'button_back.gif', 
-	                                'href' => os_href_link($back_to,os_get_all_get_params(array ('order_id')), 'SSL'), 
-									'alt' => IMAGE_BUTTON_BACK,								
-									'code' => ''
-	);
-	
-	$_array = apply_filter('button_back', $_array);
-	
-	if (empty($_array['code']))
-	{
-	   $_array['code'] = '<a href="' . $_array['href'] . '">' . os_image_button( $_array['img'], $_array['alt']) . '</a>';
-	}
-	
+$_array = array('img' => 'button_back.gif',
+	'href' => os_href_link($back_to,os_get_all_get_params(array ('order_id')), 'SSL'),
+	'alt' => IMAGE_BUTTON_BACK,
+	'code' => ''
+);
+
+$_array = apply_filter('button_back', $_array);
+
+if (empty($_array['code']))
+{
+	$_array['code'] = '<a href="'.$_array['href'].'">'.os_image_button( $_array['img'], $_array['alt']).'</a>';
+}
+
 $osTemplate->assign('BUTTON_BACK', $_array['code']);
+
+$osTemplate->assign('order', $order);
+
+// Оплата
+$payment_method = $order->info['payment_method'];
+
+require (_CLASS.'payment.php');
+$payment_modules = new payment($payment_method);
+
+// Если метод оплаты требует перехода на сайт сервиса, то посылаем на form_action_url,
+// в противном случае форма отправляет на окончательное формирование заказа
+if (isset($$payment_method->form_action_url) && !$$payment_method->tmpOrders)
+{
+	// Заполенные поля методов оплаты(если есть)
+	if (is_array($payment_modules->modules))
+	{
+		if ($confirmation = $payment_modules->confirmation())
+		{
+			$payment_info = $confirmation['title'];
+			for ($i = 0, $n = sizeof($confirmation['fields']); $i < $n; $i++)
+			{
+				$payment_info .= '<table>
+			<tr><td>'.$confirmation['fields'][$i]['title'] . '</td>
+			<td>'.stripslashes($confirmation['fields'][$i]['field']).'</td>
+			</tr></table>';
+			}
+			$osTemplate->assign('PAYMENT_INFORMATION', $payment_info);
+		}
+	}
+
+	$form_action_url = $$payment_method->form_action_url;
+	$osTemplate->assign('PAID', true);
+
+	if (isset($$payment_method->form_action_method) && !empty($$payment_method->form_action_method))
+		$form_action_method = $$payment_method->form_action_method;
+	else
+		$form_action_method = 'post';
+
+	$osTemplate->assign('CHECKOUT_FORM', os_draw_form('checkout_confirmation', $form_action_url, $form_action_method));
+	$osTemplate->assign('CHECKOUT_FORM_END', '</form>');
+
+	// метод класса оплаты process_button
+	$payment_button = '';
+	if (is_array($payment_modules->modules))
+	{
+		$payment_button .= $payment_modules->process_button();
+	}
+	$osTemplate->assign('MODULE_BUTTONS', $payment_button);
+	$osTemplate->assign('CHECKOUT_BUTTON', buttonSubmit('button_confirm_order.gif', null, TEXT_BUTTON_PAY_NOW));
+}
+else
+	$osTemplate->assign('PAID', false);
+
+
 
 $osTemplate->assign('language', $_SESSION['language']);
 $osTemplate->caching = 0;
@@ -102,8 +173,7 @@ $main_content = $osTemplate->fetch(CURRENT_TEMPLATE.'/module/account_history_inf
 $osTemplate->assign('language', $_SESSION['language']);
 $osTemplate->assign('main_content', $main_content);
 $osTemplate->caching = 0;
- $osTemplate->loadFilter('output', 'trimhitespace');
+$osTemplate->loadFilter('output', 'trimhitespace');
 $template = (file_exists(_THEMES_C.FILENAME_ACCOUNT_HISTORY_INFO.'.html') ? CURRENT_TEMPLATE.'/'.FILENAME_ACCOUNT_HISTORY_INFO.'.html' : CURRENT_TEMPLATE.'/index.html');
 $osTemplate->display($template);
 include ('includes/bottom.php');
-?>

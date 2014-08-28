@@ -57,4 +57,43 @@ $shippingModules = new shipping($_SESSION['shipping']);
 require (_CLASS.'order.php');
 $order = new order();
 
-$payment_modules->before_process();
+if (!$$_SESSION['payment']->form_action_url)
+	$payment_modules->before_process();
+
+require (_CLASS.'order_total.php');
+$order_total_modules = new order_total();
+
+$order_totals = $order_total_modules->process();
+
+// Формируем заказ
+$aNewOrder = $cartet->order->newOrder($order, $order_totals, $order_total_modules);
+$order_id = $aNewOrder['order_id'];
+
+$order_totals = $order_total_modules->apply_credit();
+
+$cartet->order->beforeProcess($order_id);
+
+require_once(_INCLUDES.'affiliate_checkout_process.php');
+
+$payment_modules->after_process();
+
+// чистим корзину
+$_SESSION['cart']->reset(true);
+
+// очищаем сессионные данные
+unset($_SESSION['sendto']);
+unset($_SESSION['billto']);
+unset($_SESSION['shipping']);
+unset($_SESSION['payment']);
+unset($_SESSION['comments']);
+unset($_SESSION['last_order']);
+unset($_SESSION['tmp_oID']);
+
+//GV Code Start
+if (isset($_SESSION['credit_covers']))
+	unset($_SESSION['credit_covers']);
+
+$order_total_modules->clear_posts(); //ICW ADDED FOR CREDIT CLASS SYSTEM
+// GV Code End
+
+os_redirect(os_href_link(FILENAME_CHECKOUT_SUCCESS, 'order_id='.$order_id, 'SSL'));

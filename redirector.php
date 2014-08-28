@@ -28,7 +28,7 @@
 
     $db_l = mysql_connect(DB_SERVER, DB_SERVER_USERNAME, DB_SERVER_PASSWORD);
     mysql_select_db(DB_DATABASE);
-   
+
     $URI = array();
 
     if (preg_match('/(((.*)\/)*)(.*)\.php/', $_SERVER['REQUEST_URI'], $URI)) {
@@ -57,7 +57,7 @@
           if (preg_match('/\/cat\/c(.*)_/', $_SERVER['REQUEST_URI'], $cat)) {
             $cURL = '';
             $query = 'select categories_url from ' . TABLE_CATEGORIES . ' where categories_id="' . (int)$cat[1] . '"';
-            $result = mysql_query($query);   
+            $result = mysql_query($query);
             if (mysql_num_rows($result) > 0) {
               $row = mysql_fetch_array($result, MYSQL_ASSOC);
               $cURL = $row['categories_url'];
@@ -78,7 +78,7 @@
           $pi = array();
           if (preg_match('/\/info\/p(.*)_/', $_SERVER['REQUEST_URI'], $pi)) {
             $query = 'select products_page_url from ' . TABLE_PRODUCTS . ' where products_id="' . (int)$pi[1] . '"';
-            $result = mysql_query($query);   
+            $result = mysql_query($query);
             if (mysql_num_rows($result) > 0) {
               $row = mysql_fetch_array($result, MYSQL_ASSOC);
               $pURL = $row['products_page_url'];
@@ -99,7 +99,7 @@
           $coid = array();
           if (preg_match('/\/coID\/(.*)\//', $_SERVER['REQUEST_URI'], $coid)) {
             $query = 'select content_page_url from ' . TABLE_CONTENT_MANAGER . ' where content_id="' . (int)$coid[1] . '"';
-            $result = mysql_query($query);   
+            $result = mysql_query($query);
             if (mysql_num_rows($result) > 0) {
               $row = mysql_fetch_array($result, MYSQL_ASSOC);
               $iURL = $row['content_page_url'];
@@ -120,7 +120,7 @@
           $articleid = array();
           if (preg_match('/\/articles_id\/(.*)\//', $_SERVER['REQUEST_URI'], $articleid)) {
             $query = 'select articles_page_url from ' . TABLE_ARTICLES . ' where articles_id="' . (int)$articleid[1] . '"';
-            $result = mysql_query($query);   
+            $result = mysql_query($query);
             if (mysql_num_rows($result) > 0) {
               $row = mysql_fetch_array($result, MYSQL_ASSOC);
               $aURL = $row['articles_page_url'];
@@ -142,7 +142,7 @@
           $newsid = array();
           if (preg_match('/\/news_id\/(.*)\//', $_SERVER['REQUEST_URI'], $newsid)) {
             $query = 'select news_page_url from ' . TABLE_LATEST_NEWS . ' where news_id="' . (int)$newsid[1] . '"';
-            $result = mysql_query($query);   
+            $result = mysql_query($query);
             if (mysql_num_rows($result) > 0) {
               $row = mysql_fetch_array($result, MYSQL_ASSOC);
               $nURL = $row['news_page_url'];
@@ -164,7 +164,7 @@
           $faqid = array();
           if (preg_match('/\/faq_id\/(.*)\//', $_SERVER['REQUEST_URI'], $faqid)) {
             $query = 'select faq_page_url from ' . TABLE_FAQ . ' where faq_id="' . (int)$faqid[1] . '"';
-            $result = mysql_query($query);   
+            $result = mysql_query($query);
             if (mysql_num_rows($result) > 0) {
               $row = mysql_fetch_array($result, MYSQL_ASSOC);
               $fURL = $row['faq_page_url'];
@@ -186,7 +186,7 @@
           $topicid = array();
           if (preg_match('/\/tPath\/(.*)\//', $_SERVER['REQUEST_URI'], $topicid)) {
             $query = 'select topics_page_url from ' . TABLE_TOPICS . ' where topics_id="' . (int)$topicid[1] . '"';
-            $result = mysql_query($query);   
+            $result = mysql_query($query);
             if (mysql_num_rows($result) > 0) {
               $row = mysql_fetch_array($result, MYSQL_ASSOC);
               $tURL = $row['topics_page_url'];
@@ -210,7 +210,7 @@
       $PHP_SELF = '/index.php';
       include('index.php');
     }
-  } else { 
+  } else {
     $URI_elements = explode("?", ltrim($_SERVER['REQUEST_URI'], '/'));
 
 
@@ -223,7 +223,7 @@
       for ($i = 0, $n = sizeof($requests); $i < $n; $i++) {
         $param = explode("=", $requests[$i]);
         $_GET[$param[0]] = $param[1];
-      } 
+      }
     }
 
     if (isset($URI_elements[0]) && (strlen($URI_elements[0]) > 0)) {
@@ -257,7 +257,7 @@
           if (isset($_GET['cat']) && $_GET['cat'] != '') {
             $cURL = '';
             $query = 'select categories_url from ' . TABLE_CATEGORIES . ' where categories_id="' . os_db_prepare_input($_GET['cat']) . '"';
-            $result = mysql_query($query);   
+            $result = mysql_query($query);
             if (mysql_num_rows($result) > 0) {
               $row = mysql_fetch_array($result, MYSQL_ASSOC);
               $cURL = $row['categories_url'];
@@ -277,7 +277,7 @@
         case 'product_info':
           if (isset($_GET['products_id']) && $_GET['products_id'] != '') {
             $query = 'select products_page_url from ' . TABLE_PRODUCTS . ' where products_id="' . os_db_prepare_input($_GET['products_id']) . '"';
-            $result = mysql_query($query);   
+            $result = mysql_query($query);
             if (mysql_num_rows($result) > 0) {
               $row = mysql_fetch_array($result, MYSQL_ASSOC);
               $pURL = $row['products_page_url'];
@@ -297,7 +297,7 @@
         case 'shop_content':
           if (isset($_GET['coID']) && $_GET['coID'] != '') {
             $query = 'select content_page_url from ' . TABLE_CONTENT_MANAGER . ' where content_id="' . os_db_prepare_input($_GET['coID']) . '"';
-            $result = mysql_query($query);   
+            $result = mysql_query($query);
             if (mysql_num_rows($result) > 0) {
               $row = mysql_fetch_array($result, MYSQL_ASSOC);
               $iURL = $row['content_page_url'];

@@ -6,6 +6,11 @@
 *	http://www.cartet.org
 *
 *---------------------------------------------------------
+*
+*	Based on: osCommerce, nextcommerce, xt:Commerce
+*	Released under the GNU General Public License
+*
+*---------------------------------------------------------
 */
 
 $module = new osTemplate;
@@ -21,7 +26,7 @@ $expected_query = osDBquery("select p.products_id,
                                   pd.products_name,
                                   products_date_available as date_expected from ".TABLE_PRODUCTS." p, ".TABLE_PRODUCTS_DESCRIPTION." pd
                                   where to_days(products_date_available) >= to_days(now())
-                                  and p.products_id = pd.products_id
+                                  and p.products_id = pd.products_id AND p.products_status = 0
                                   ".$group_check."
                                   ".$fsk_lock."
                                   and pd.language_id = '".(int) $_SESSION['languages_id']."'

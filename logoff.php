@@ -6,6 +6,11 @@
 *	http://www.cartet.org
 *
 *---------------------------------------------------------
+*
+*	Based on: osCommerce, nextcommerce, xt:Commerce
+*	Released under the GNU General Public License
+*
+*---------------------------------------------------------
 */
 
 include ('includes/top.php');
@@ -29,7 +34,6 @@ unset ($_SESSION['customer_zone_id']);
 unset ($_SESSION['comments']);
 unset ($_SESSION['user_info']);
 unset ($_SESSION['customers_status']);
-unset ($_SESSION['selected_box']);
 unset ($_SESSION['navigation']);
 unset ($_SESSION['shipping']);
 unset ($_SESSION['payment']);
