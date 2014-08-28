@@ -6,6 +6,11 @@
 *	http://www.cartet.org
 *
 *---------------------------------------------------------
+*
+*	Based on: osCommerce, nextcommerce, xt:Commerce
+*	Released under the GNU General Public License
+*
+*---------------------------------------------------------
 */
 
 $os_action = array();
@@ -48,25 +53,21 @@ function add_button_send($value)
 
 function add_button($tag, $name, $value = '')
 {
-   if (!empty($name) && !empty($tag))
-   {
-      switch ($tag)
-      {
-          case 'page':
-	           return '<a class="btn btn-mini" href="'.FILENAME_PLUGINS_PAGE.'?page='.$name.'"><span>'.$value.'</span></a>';
-		
-	      break;
-	  
-	      case 'main_page':
-	           return '<a class="btn btn-mini" href="'.FILENAME_PLUGINS_PAGE.'?main_page='.$name.'"><span>'.$value.'</span></a>';
-	      break;
-	      break;
-	  
-	      case 'link':
-	           return '<a class="btn btn-mini" href="'.$name.'"><span>'.$value.'</span></a>';
-	      break;
-      }
-   }
+	if (!empty($name) && !empty($tag))
+	{
+		switch ($tag)
+		{
+			case 'page':
+				return '<a class="btn btn-xs btn-default" href="'.FILENAME_PLUGINS_PAGE.'?page='.$name.'">'.$value.'</a>';
+				break;
+			case 'main_page':
+				return '<a class="btn btn-xs btn-default" href="'.FILENAME_PLUGINS_PAGE.'?main_page='.$name.'">'.$value.'</a>';
+				break;
+			case 'link':
+				return '<a class="btn btn-xs btn-default" href="'.$name.'">'.$value.'</a>';
+				break;
+		}
+	}
 }
 
 
