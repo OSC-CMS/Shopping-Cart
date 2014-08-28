@@ -84,12 +84,6 @@ class easypay extends CartET
 		}
 	}
 
-	// Возможность валидации поле использую JS.
-	function javascript_validation()
-	{
-		return false;
-	}
-
 	// Выбор метода оплаты в списке
 	function selection()
 	{
@@ -152,7 +146,7 @@ class easypay extends CartET
 		$order_no = substr($_SESSION[$this->name], strpos($_SESSION[$this->name], '-')+1);
 
 		#получаем стоимость заказа в белорусских рублях
-		$sum = ceil($order->info["total_value"]);
+		$sum = ceil($order->info["total"]);
 
 		#подготовка формы для оплаты
 		$process_button_string =
@@ -182,7 +176,7 @@ class easypay extends CartET
 			$this->order->updateQuantity($order->products[$i]);
 		}
 
-		$this->order->beforeProcess($order_id, $order);
+		$this->order->beforeProcess($order_id);
 
 		$this->after_process();
 
@@ -190,23 +184,19 @@ class easypay extends CartET
 
 		$_SESSION['cart']->reset(true);
 
-		// unregister session variables used during checkout
 		unset($_SESSION['sendto']);
 		unset($_SESSION['billto']);
 		unset($_SESSION['shipping']);
 		unset($_SESSION['payment']);
 		unset($_SESSION['comments']);
+		unset($_SESSION['last_order']);
+		unset($_SESSION['tmp_oID']);
 		unset($_SESSION[$this->name]);
 
-		os_redirect(os_href_link(FILENAME_CHECKOUT_SUCCESS, '', 'SSL'));
+		os_redirect(os_href_link(FILENAME_CHECKOUT_SUCCESS, 'order_id='.$order_id, 'SSL'));
 	}
 
 	function after_process()
-	{
-		return false;
-	}
-
-	function output_error()
 	{
 		return false;
 	}

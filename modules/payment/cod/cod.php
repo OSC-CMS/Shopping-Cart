@@ -86,11 +86,6 @@ class cod extends CartET
 		}
 	}
 
-	function javascript_validation()
-	{
-		return false;
-	}
-
 	function selection()
 	{
 		global $osPrice,$order;

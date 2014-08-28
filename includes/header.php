@@ -131,10 +131,6 @@ if (is_file(_THEMES_C.'javascript/general.js.php'))
 {
 	add_head_file( _THEMES_C.'javascript/general.js.php', $HEAD );
 }
-if (strstr($PHP_SELF, FILENAME_CHECKOUT_PAYMENT))
-{
-	add_head_code ($payment_modules->javascript_validation(), $HEAD );
-}
 if (strstr($PHP_SELF, FILENAME_CREATE_ACCOUNT))
 {
 	add_head_file ( dir_path('includes') . 'form_check.js.php', $HEAD);
@@ -213,16 +209,10 @@ $osTemplate->assign('mainpage', os_href_link(FILENAME_DEFAULT, '', 'SSL'));
 
 
 
-  if (isset($_GET['error_message']) && os_not_null($_GET['error_message'])) {
-
-$osTemplate->assign('error','
-    <table border="0" width="100%" cellspacing="0" cellpadding="2">
-      <tr class="headerError">
-        <td class="headerError">'. htmlspecialchars(urldecode($_GET['error_message'])).'</td>
-      </tr>
-    </table>');
-
-  }
+if (isset($_GET['error_message']) && os_not_null($_GET['error_message']))
+{
+	$osTemplate->assign('error', htmlspecialchars(urldecode($_GET['error_message'])));
+}
 
   if (isset($_GET['info_message']) && os_not_null($_GET['info_message'])) {
 

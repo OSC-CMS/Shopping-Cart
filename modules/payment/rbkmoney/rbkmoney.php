@@ -82,11 +82,6 @@ class rbkmoney extends CartET
 		}
 	}
 
-	function javascript_validation()
-	{
-		return false;
-	}
-
 	function selection()
 	{
 		if (isset($_SESSION[$this->name]))
@@ -148,7 +143,7 @@ class rbkmoney extends CartET
 			os_draw_hidden_field('eshopId', MODULE_PAYMENT_RBKMONEY_SHOP_ID) .
 			os_draw_hidden_field('orderId', $order_id) .
 			os_draw_hidden_field('serviceName', $order_id) .
-			os_draw_hidden_field('recipientAmount', $order->info['total_value']) .
+			os_draw_hidden_field('recipientAmount', $order->info['total']) .
 			os_draw_hidden_field('recipientCurrency', 'RUR') .
 			os_draw_hidden_field('successUrl', os_href_link(FILENAME_CHECKOUT_PROCESS, '', 'SSL')) .
 			os_draw_hidden_field('failUrl', os_href_link(FILENAME_CHECKOUT_SHIPPING, '', 'SSL'));
@@ -168,7 +163,7 @@ class rbkmoney extends CartET
 			$this->order->updateQuantity($order->products[$i]);
 		}
 
-		$this->order->beforeProcess($order_id, $order);
+		$this->order->beforeProcess($order_id);
 
 		$this->after_process();
 
@@ -176,23 +171,19 @@ class rbkmoney extends CartET
 
 		$_SESSION['cart']->reset(true);
 
-		// unregister session variables used during checkout
 		unset($_SESSION['sendto']);
 		unset($_SESSION['billto']);
 		unset($_SESSION['shipping']);
 		unset($_SESSION['payment']);
 		unset($_SESSION['comments']);
+		unset($_SESSION['last_order']);
+		unset($_SESSION['tmp_oID']);
 		unset($_SESSION[$this->name]);
 
-		os_redirect(os_href_link(FILENAME_CHECKOUT_SUCCESS, '', 'SSL'));
+		os_redirect(os_href_link(FILENAME_CHECKOUT_SUCCESS, 'order_id='.$order_id, 'SSL'));
 	}
 
 	function after_process()
-	{
-		return false;
-	}
-
-	function output_error()
 	{
 		return false;
 	}

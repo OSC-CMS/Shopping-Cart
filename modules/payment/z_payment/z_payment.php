@@ -90,11 +90,6 @@ class z_payment extends CartET
 		}
 	}
 
-	function javascript_validation()
-	{
-		return false;
-	}
-
 	function selection()
 	{
 		if (isset($_SESSION[$this->name]))
@@ -151,7 +146,7 @@ class z_payment extends CartET
 		$process_button_string = '';
 
 		$purse = MODULE_PAYMENT_Z_PAYMENT_ID;
-		$order_sum = $order->info['total_value'];
+		$order_sum = $order->info['total'];
 
 		$order_id = substr($_SESSION[$this->name], strpos($_SESSION[$this->name], '-')+1);
 
@@ -177,7 +172,7 @@ class z_payment extends CartET
 			$this->order->updateQuantity($order->products[$i]);
 		}
 
-		$this->order->beforeProcess($order_id, $order);
+		$this->order->beforeProcess($order_id);
 
 		$this->after_process();
 
@@ -185,24 +180,19 @@ class z_payment extends CartET
 
 		$_SESSION['cart']->reset(true);
 
-		// unregister session variables used during checkout
 		unset($_SESSION['sendto']);
 		unset($_SESSION['billto']);
 		unset($_SESSION['shipping']);
 		unset($_SESSION['payment']);
 		unset($_SESSION['comments']);
-
+		unset($_SESSION['last_order']);
+		unset($_SESSION['tmp_oID']);
 		unset($_SESSION[$this->name]);
 
-		os_redirect(os_href_link(FILENAME_CHECKOUT_SUCCESS, '', 'SSL'));
+		os_redirect(os_href_link(FILENAME_CHECKOUT_SUCCESS, 'order_id='.$order_id, 'SSL'));
 	}
 
 	function after_process()
-	{
-		return false;
-	}
-
-	function output_error()
 	{
 		return false;
 	}

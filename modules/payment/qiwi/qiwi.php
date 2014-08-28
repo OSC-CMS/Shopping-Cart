@@ -88,10 +88,6 @@ class qiwi extends CartET
 		}
 	}
 
-	function javascript_validation() {
-		return false;
-	}
-
 	function selection()
 	{
 		if (isset($_SESSION[$this->name]))
@@ -170,7 +166,7 @@ class qiwi extends CartET
 				'login' => MODULE_PAYMENT_QIWI_ID, // login - Ваш ID в системе QIWI
 				'password' => MODULE_PAYMENT_QIWI_SECRET_KEY, // password - Ваш пароль
 				'user' => $_POST['qiwi_telephone'], // user - Телефон покупателя (10 символов, например 916820XXXX)
-				'amount' => number_format($order->info['total_value'],0), // amount - Сумма платежа в рублях
+				'amount' => number_format($order->info['total'],0), // amount - Сумма платежа в рублях
 				'comment' => substr($_SESSION[$this->name], strpos($_SESSION[$this->name], '-')+1), // comment - Комментарий, который пользователь увидит в своем личном кабинете или платежном автомате
 				'txn' => substr($_SESSION[$this->name], strpos($_SESSION[$this->name], '-')+1), // txn - Наш внутренний уникальный номер транзакции
 				'lifetime' => date("d.m.Y H:i:s", strtotime("+2 weeks")), // lifetime - Время жизни платежа до его автоматической отмены
@@ -218,7 +214,7 @@ class qiwi extends CartET
 			$this->order->updateQuantity($order->products[$i]);
 		}
 
-		$this->order->beforeProcess($order_id, $order);
+		$this->order->beforeProcess($order_id);
 
 		$this->after_process();
 
@@ -226,23 +222,19 @@ class qiwi extends CartET
 
 		$_SESSION['cart']->reset(true);
 
-		// unregister session variables used during checkout
 		unset($_SESSION['sendto']);
 		unset($_SESSION['billto']);
 		unset($_SESSION['shipping']);
 		unset($_SESSION['payment']);
 		unset($_SESSION['comments']);
+		unset($_SESSION['last_order']);
+		unset($_SESSION['tmp_oID']);
 		unset($_SESSION[$this->name]);
 
-		os_redirect(os_href_link(FILENAME_CHECKOUT_SUCCESS, '', 'SSL'));
+		os_redirect(os_href_link(FILENAME_CHECKOUT_SUCCESS, 'order_id='.$order_id, 'SSL'));
 	}
 
 	function after_process() 
-	{
-		return false;
-	}
-
-	function output_error() 
 	{
 		return false;
 	}

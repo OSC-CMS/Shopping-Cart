@@ -85,11 +85,6 @@ class soglas extends CartET
 		}
 	}
 
-	function javascript_validation()
-	{
-		return false;
-	}
-
 	function selection()
 	{
 		global $osPrice,$order;

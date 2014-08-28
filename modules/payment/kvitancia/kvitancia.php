@@ -76,11 +76,6 @@ class kvitancia extends CartET
 		}
 	}
 
-	function javascript_validation()
-	{
-		return false;
-	}
-
 	function selection()
 	{
 		global $order;
@@ -156,11 +151,6 @@ class kvitancia extends CartET
 
 		if ($this->order_status)
 		os_db_query("UPDATE ".TABLE_ORDERS." SET orders_status='".$this->order_status."' WHERE orders_id='".$insert_id."'");
-	}
-
-	function output_error()
-	{
-		return false;
 	}
 
 	function check()

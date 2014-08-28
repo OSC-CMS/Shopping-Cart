@@ -89,7 +89,8 @@ class apiOrder extends CartET
 			'language' => $_SESSION['language'],
 			'comments' => $order->info['comments'],
 			'orig_reference' => $order->customer['orig_reference'],
-			'login_reference' => $order->customer['login_reference']
+			'login_reference' => $order->customer['login_reference'],
+			'paid' => 0,
 		);
 		os_db_perform(TABLE_ORDERS, $sql_data_array);
 		$insert_id = os_db_insert_id();
@@ -210,7 +211,7 @@ class apiOrder extends CartET
 						");
 					}
 
-					// update attribute stock
+					// обновляем количество атрибутов
 					os_db_query("UPDATE ".TABLE_PRODUCTS_ATTRIBUTES." SET attributes_stock=attributes_stock - '".$order->products[$i]['qty']."' WHERE products_id='".$order->products[$i]['id']."' AND options_values_id='".$order->products[$i]['attributes'][$j]['value_id']."' AND options_id='".$order->products[$i]['attributes'][$j]['option_id']."'");
 
 					$attributes_values = os_db_fetch_array($attributes);
@@ -253,16 +254,8 @@ class apiOrder extends CartET
 			$customers_logon_query = os_db_query("SELECT customers_info_number_of_logons FROM ".TABLE_CUSTOMERS_INFO." WHERE customers_info_id  = '".(int)$_SESSION['customer_id']."'");
 			$customers_logon = os_db_fetch_array($customers_logon_query);
 
-			if ($customers_logon['customers_info_number_of_logons'] == 0)
-			{
-				// direct sale
-				os_db_query("UPDATE ".TABLE_ORDERS." SET conversion_type = '1' WHERE orders_id = '".(int)$insert_id."'");
-			}
-			else
-			{
-				// late sale
-				os_db_query("UPDATE ".TABLE_ORDERS." SET conversion_type = '2' WHERE orders_id = '".(int)$insert_id."'");
-			}
+			$conversion_type = ($customers_logon['customers_info_number_of_logons'] == 0) ? 1 : 2;
+			os_db_query("UPDATE ".TABLE_ORDERS." SET conversion_type = '".(int)$conversion_type."' WHERE orders_id = '".(int)$insert_id."'");
 		}
 		else
 		{
@@ -275,21 +268,13 @@ class apiOrder extends CartET
 				$customers_logon_query = os_db_query("SELECT customers_info_number_of_logons FROM ".TABLE_CUSTOMERS_INFO." WHERE customers_info_id  = '".(int)$_SESSION['customer_id']."'");
 				$customers_logon = os_db_fetch_array($customers_logon_query);
 
-				if ($customers_logon['customers_info_number_of_logons'] == 0)
-				{
-					// direct sale
-					os_db_query("UPDATE ".TABLE_ORDERS." SET conversion_type = '1' WHERE orders_id = '".(int)$insert_id."'");
-				}
-				else
-				{
-					// late sale
-					os_db_query("UPDATE ".TABLE_ORDERS." SET conversion_type = '2' WHERE orders_id = '".(int)$insert_id."'");
-				}
+				$conversion_type = ($customers_logon['customers_info_number_of_logons'] == 0) ? 1 : 2;
+				os_db_query("UPDATE ".TABLE_ORDERS." SET conversion_type = '".(int)$conversion_type."' WHERE orders_id = '".(int)$insert_id."'");
 			}
 		}
 
 		return array(
-			'insert_id' => $insert_id
+			'order_id' => $insert_id
 		);
 	}
 
@@ -474,7 +459,7 @@ class apiOrder extends CartET
 				// Формируем заказ и считаем товары...
 				$aNewOrder = $this->newOrder($order, $order_totals, $order_total_modules);
 
-				$_SESSION[$sessionPayment] = $_SESSION['cartID'].'-'.$aNewOrder['insert_id'];
+				$_SESSION[$sessionPayment] = $_SESSION['cartID'].'-'.$aNewOrder['order_id'];
 			}
 			return array(
 				'insert_order' => $insert_order
@@ -487,9 +472,11 @@ class apiOrder extends CartET
 	/**
 	 * Уведомление покупателей о завершении заказа
 	 */
-	public function beforeProcess($order_id, $order)
+	public function beforeProcess($order_id)
 	{
-		if (empty($order_id) OR !is_object($order)) return false;
+		if (empty($order_id)) return false;
+
+		$order = new order($order_id);
 
 		$osTemplate = new osTemplate;
 
@@ -547,22 +534,36 @@ class apiOrder extends CartET
 		$osTemplate->assign('EMAIL', $order->customer['email_address']);
 		$osTemplate->assign('PHONE',$order->customer['telephone']);
 
-		// dont allow cache
+		// Информация по оплате
+		// WebMoney
+		if ($order->info['payment_method'] == 'webmoney')
+		{
+			$osTemplate->assign('PAYMENT_INFO_HTML', MODULE_PAYMENT_WEBMONEY_TEXT_DESCRIPTION);
+			$osTemplate->assign('PAYMENT_INFO_TXT', str_replace("<br />", "\n", MODULE_PAYMENT_WEBMONEY_TEXT_DESCRIPTION));
+		}
+
+		// Yandex
+		if ($order->info['payment_method'] == 'yandex')
+		{
+			$osTemplate->assign('PAYMENT_INFO_HTML', MODULE_PAYMENT_YANDEX_TEXT_DESCRIPTION);
+			$osTemplate->assign('PAYMENT_INFO_TXT', str_replace("<br />", "\n", MODULE_PAYMENT_YANDEX_TEXT_DESCRIPTION));
+		}
+
 		$osTemplate->caching = false;
 
 		$html_mail = $osTemplate->fetch(_MAIL.$_SESSION['language'].'/order_mail.html');
 		$txt_mail = $osTemplate->fetch(_MAIL.$_SESSION['language'].'/order_mail.txt');
 
-		// create subject
+		// Тема письма
 		$order_subject = str_replace('{$nr}', $order_id, EMAIL_BILLING_SUBJECT_ORDER);
 		$order_subject = str_replace('{$date}', strftime(DATE_FORMAT_LONG), $order_subject);
 		$order_subject = str_replace('{$lastname}', $order->customer['lastname'], $order_subject);
 		$order_subject = str_replace('{$firstname}', $order->customer['firstname'], $order_subject);
 
-		// send mail to admin
+		// Уведомление администратору
 		os_php_mail(EMAIL_BILLING_ADDRESS, EMAIL_BILLING_NAME, EMAIL_BILLING_ADDRESS, STORE_NAME, EMAIL_BILLING_FORWARDING_STRING, $order->customer['email_address'], $order->customer['firstname'], '', '', $order_subject, $html_mail, $txt_mail);
 
-		// send mail to customer
+		// Уведомление покупателю
 		if ($order->customer['email_address'])
 			os_php_mail(EMAIL_BILLING_ADDRESS, EMAIL_BILLING_NAME, $order->customer['email_address'], $order->customer['firstname'].' '.$order->customer['lastname'], '', EMAIL_BILLING_REPLY_ADDRESS, EMAIL_BILLING_REPLY_ADDRESS_NAME, '', '', $order_subject, $html_mail, $txt_mail);
 
@@ -589,6 +590,8 @@ class apiOrder extends CartET
 				$this->sms->send($smsText, $order->customer['telephone']);
 			}
 		}
+
+		do_action('send_order');
 
 		return true;
 	}
@@ -1226,4 +1229,3 @@ class apiOrder extends CartET
 		return $data;
 	}
 }
-?>

@@ -35,7 +35,7 @@ class apiNews extends CartET
 
 		if (os_db_num_rows($sql, true) > 0)
 		{
-			$result = os_db_fetch_array($sql);
+			$result = os_db_fetch_array($sql, true);
 
 			$this->newsData = $result;
 

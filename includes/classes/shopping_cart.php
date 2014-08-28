@@ -61,7 +61,9 @@ class shoppingCart {
 
 	function reset($reset_database = false) {
 
-		$this->contents = array ();
+		$this->contents = array();
+		$this->_products = array();
+		$this->cartInfo = array();
 		$this->total = 0;
 		$this->weight = 0;
 		$this->content_type = false;
@@ -74,6 +76,23 @@ class shoppingCart {
 		unset ($this->cartID);
 		if (isset ($_SESSION['cartID']))
 			unset ($_SESSION['cartID']);
+	}
+
+	function cleanup()
+	{
+		$this->_products = array();
+		$this->cartInfo = array();
+
+		reset($this->contents);
+		while (list ($key,) = each($this->contents)) {
+			if (@$this->contents[$key]['qty'] < 1) {
+				unset ($this->contents[$key]);
+				if (os_session_is_registered('customer_id')) {
+					os_db_query("delete from ".TABLE_CUSTOMERS_BASKET." where customers_id = '".$_SESSION['customer_id']."' and products_id = '".$key."'");
+					os_db_query("delete from ".TABLE_CUSTOMERS_BASKET_ATTRIBUTES." where customers_id = '".$_SESSION['customer_id']."' and products_id = '".$key."'");
+				}
+			}
+		}
 	}
 
 	function add_cart($products_id, $qty = '1', $attributes = '', $notify = true) {
@@ -165,22 +184,6 @@ class shoppingCart {
 				if (isset ($_SESSION['customer_id']))
 					os_db_query("update ".TABLE_CUSTOMERS_BASKET_ATTRIBUTES." set products_options_value_id = '".$value."' where customers_id = '".$_SESSION['customer_id']."' and products_id = '".$products_id."' and products_options_id = '".$option."'");
 			}
-			}
-		}
-	}
-
-	function cleanup() {
-
-		$this->_products = array();
-		$this->cartInfo = array();
-		reset($this->contents);
-		while (list ($key,) = each($this->contents)) {
-			if (@$this->contents[$key]['qty'] < 1) {
-				unset ($this->contents[$key]);
-				if (os_session_is_registered('customer_id')) {
-					os_db_query("delete from ".TABLE_CUSTOMERS_BASKET." where customers_id = '".$_SESSION['customer_id']."' and products_id = '".$key."'");
-					os_db_query("delete from ".TABLE_CUSTOMERS_BASKET_ATTRIBUTES." where customers_id = '".$_SESSION['customer_id']."' and products_id = '".$key."'");
-				}
 			}
 		}
 	}

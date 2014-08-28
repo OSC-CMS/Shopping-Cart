@@ -24,24 +24,5 @@ define('MODULE_PAYMENT_YANDEX_MERCHANT_SHOP_ID_TITLE' , 'ShopID:');
 define('MODULE_PAYMENT_YANDEX_MERCHANT_SHOP_ID_DESC' , 'Идентификатор Контрагента');
 define('MODULE_PAYMENT_YANDEX_MERCHANT_SCID_TITLE' , 'scid:');
 define('MODULE_PAYMENT_YANDEX_MERCHANT_SCID_DESC' , 'Номер витрины Контрагента');
-define('MODULE_PAYMENT_YANDEX_MERCHANT_KEY_TITLE' , 'Секретный ключ:');
-define('MODULE_PAYMENT_YANDEX_MERCHANT_KEY_DESC' , 'Секретный ключ который указан в анкете');
 define('MODULE_PAYMENT_YANDEX_MERCHANT_TEST_TITLE', 'Тестирование');
 define('MODULE_PAYMENT_YANDEX_MERCHANT_TEST_DESC', 'Включить режим отладки');
-define('MODULE_PAYMENT_YANDEX_MERCHANT_PAYMENT_TYPE_TITLE','Способ оплаты');
-define('MODULE_PAYMENT_YANDEX_MERCHANT_PAYMENT_TYPE_DESC','Укажите через запятую варианты оплаты для выбора покупателем:<br />
-PC - Оплата со счета Яндекс.Денег.<br />
-AC - Оплата с произвольной банковской карты.<br />
-MC - Платеж со счета мобильного телефона.<br />
-GP - Оплата наличными через кассы и терминалы.<br />
-WM - Оплата с кошелька в системе WebMoney.<br />
-SB - Оплата через Сбербанк Онлайн.');
-
-define('MODULE_PAYMENT_YANDEX_MERCHANT_PAYMENT_TYPE_AC', 'Оплата с банковской карты');
-define('MODULE_PAYMENT_YANDEX_MERCHANT_PAYMENT_TYPE_PC', 'Оплата со счета Яндекс.Денег');
-define('MODULE_PAYMENT_YANDEX_MERCHANT_PAYMENT_TYPE_MC', 'Платеж со счета мобильного телефона');
-define('MODULE_PAYMENT_YANDEX_MERCHANT_PAYMENT_TYPE_GP', 'Оплата наличными через кассы и терминалы');
-define('MODULE_PAYMENT_YANDEX_MERCHANT_PAYMENT_TYPE_WM', 'Оплата с кошелька в системе WebMoney');
-define('MODULE_PAYMENT_YANDEX_MERCHANT_PAYMENT_TYPE_SB', 'Оплата через Сбербанк Онлайн');
-
-define('MODULE_PAYMENT_YANDEX_MERCHANT_PAYMENT_SELECT', 'Выберите метод оплаты');

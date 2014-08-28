@@ -84,12 +84,6 @@ class webmoney extends CartET
 		}
 	}
 
-	// Возможность валидации поле использую JS.
-	function javascript_validation()
-	{
-		return false;
-	}
-
 	// Выбор метода оплаты в списке
 	function selection()
 	{

@@ -9,38 +9,13 @@
 */
 
 // Красивый print_r()
-function _print_r($v)
+function _print_r($v, $d = false)
 {
 	echo '<pre>';
 	print_r($v);
 	echo '</pre>';
-}
 
-function downloadImage($image, $path, $name = '')
-{
-	if (empty($image) OR empty($path)) return false;
-
-	$image = str_replace(' ', '%20', $image);
-
-	$file = pathinfo($image, PATHINFO_BASENAME);
-	$ext = pathinfo($file, PATHINFO_EXTENSION);
-
-	$cName = (!empty($name)) ? $name : '';
-	$cFile = $cName.'_'.translit(urldecode(pathinfo($file, PATHINFO_FILENAME)));
-
-	$new_file = $cFile.'.'.$ext;
-
-	while (file_exists($path.$new_file))
-	{
-		$new_base = pathinfo($new_file, PATHINFO_FILENAME);
-		if(preg_match('/_([0-9]+)$/', $new_base, $parts))
-			$new_file = $cFile.'_'.($parts[1]+1).'.'.$ext;
-		else
-			$new_file = $cFile.'_1.'.$ext;
-	}
-	copy($image, $path.$new_file);
-
-	return $new_file;
+	if ($d) { die(); }
 }
 
 function translit($string, $strtolower = true)
@@ -139,50 +114,6 @@ function curl_get($url)
 		$page = file_get_contents($url);
 
 	return $page;
-}
-
-function files_remove_directory($directory, $clear = false)
-{
-	if(substr($directory,-1) == '/')
-	{
-		$directory = substr($directory,0,-1);
-	}
-
-	if(!file_exists($directory) || !is_dir($directory) || !is_readable($directory))
-	{
-		return false;
-	}
-
-	$handle = opendir($directory);
-
-	while (false !== ($node = readdir($handle)))
-	{
-		if($node != '.' && $node != '..')
-		{
-			$path = $directory.'/'.$node;
-
-			if (is_dir($path))
-			{
-				if (!files_remove_directory($path)) { return false; }
-			}
-			else
-			{
-				if (!@unlink($path)) { return false; }
-			}
-		}
-	}
-
-	closedir($handle);
-
-	if ($clear == false)
-	{
-		if (!@rmdir($directory))
-		{
-			return false;
-		}
-	}
-
-	return true;
 }
 
 // Запрос на получение наборов товаров
@@ -3107,3 +3038,4 @@ function osc_head_array($HEAD)
 
 require 'helpers/html.helper.php';
 require 'helpers/array.helper.php';
+require 'helpers/files.helper.php';

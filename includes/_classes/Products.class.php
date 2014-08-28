@@ -566,14 +566,17 @@ class apiProducts extends CartET
 	}
 
 	/**
-	 * Добавление товара
+	 * Сохранение товара
 	 */
-	public function addProduct($params = array())
+	public function saveProduct($params = array())
 	{
 		if (empty($params)) return false;
 
-		//insert_product($products_data, $dest_category_id, $action = 'insert')
-		global $cartet;
+		$params = apply_filter('save_product_before', $params);
+
+		$products_data = $params['products_data'];
+		$dest_category_id = $params['category_id'];
+		$action = ($params['action']) ? $params['action'] : 'insert';
 
 		// Пересчет цены товара в валюту по умолчанию по текущему курсу
 		if ($products_data['price_currency'] != DEFAULT_CURRENCY)
@@ -655,7 +658,7 @@ class apiProducts extends CartET
 			'manufacturers_id' => os_db_prepare_input($products_data['manufacturers_id']),
 			'products_fsk18' => os_db_prepare_input($products_data['fsk18']),
 			'products_vpe_value' => os_db_prepare_input($products_data['products_vpe_value']),
-			'products_vpe_status' => os_db_prepare_input(@$products_data['products_vpe_status']),
+			'products_vpe_status' => os_db_prepare_input($products_data['products_vpe_status']),
 			'products_vpe' => os_db_prepare_input($products_data['products_vpe']),
 			'yml_bid' => os_db_prepare_input($products_data['yml_bid']),
 			'yml_cbid' => os_db_prepare_input($products_data['yml_cbid']),
@@ -677,7 +680,7 @@ class apiProducts extends CartET
 		// удаление изображений
 		if (!empty($_POST['image_delete']) OR !empty($_POST['images_delete']))
 		{
-			$cartet->products->deleteImages(array(
+			$this->deleteImages(array(
 				'image_delete' => $_POST['image_delete'],
 				'images_delete' => $_POST['images_delete'],
 				'products_id' => $products_id
@@ -687,7 +690,7 @@ class apiProducts extends CartET
 		// загрузка с компьютера
 		if (!empty($_FILES['images']))
 		{
-			$images_array = reArrayFiles($_FILES['images']);
+			$images_array = files_make_files_array($_FILES['images']);
 			$img = 0;
 			foreach($images_array as $images)
 			{
@@ -722,7 +725,7 @@ class apiProducts extends CartET
 					else
 					{
 						$products_image_name = $new_file;
-						create_MO_PICS($products_image_name, $img, $action, $products_id, $products_data);
+						$this->createMoreImages($products_image_name, $img, $action, $products_id, $products_data);
 					}
 				}
 			}
@@ -736,7 +739,7 @@ class apiProducts extends CartET
 			{
 				$img++;
 				$products_image_name = files_download_image($img_url, dir_path('images_original'), $products_id);
-				create_MO_PICS($products_image_name, $img, $action, $products_id, $products_data);
+				$this->createMoreImages($products_image_name, $img, $action, $products_id, $products_data);
 			}
 		}
 
@@ -765,13 +768,14 @@ class apiProducts extends CartET
 
 			os_db_query("INSERT INTO ".TABLE_PRODUCTS_TO_CATEGORIES." SET products_id   = '".$products_id."', categories_id = '".$dest_category_id."'");
 		}
-		elseif ($action == 'update') {
-			$update_sql_data = array ('products_last_modified' => 'now()');
+		elseif ($action == 'update')
+		{
+			$update_sql_data = array('products_last_modified' => 'now()');
 			$sql_data_array = os_array_merge($sql_data_array, $update_sql_data);
 
 			os_db_perform(TABLE_PRODUCTS, $sql_data_array, 'update', 'products_id = \''.os_db_input($products_id).'\'');
 
-			// Bundle
+			// Наборы
 			if ($products_data['products_bundle'] == '1')
 			{
 				os_db_query("DELETE FROM ".DB_PREFIX."products_bundles WHERE bundle_id = '" . $products_id . "'");
@@ -784,7 +788,6 @@ class apiProducts extends CartET
 					}
 				}
 			}
-			// Bundle
 		}
 
 		$languages = os_get_languages();
@@ -795,7 +798,8 @@ class apiProducts extends CartET
 			$i ++;
 			$group_data[$i] = array ('STATUS_ID' => $group_values['customers_status_id']);
 		}
-		for ($col = 0, $n = sizeof($group_data); $col < $n +1; $col ++) {
+		for ($col = 0, $n = sizeof($group_data); $col < $n +1; $col ++)
+		{
 			if (@$group_data[$col]['STATUS_ID'] != '') {
 				$personal_price = os_db_prepare_input($products_data['products_price_'.$group_data[$col]['STATUS_ID']]);
 				if ($personal_price == '' || $personal_price == '0.0000')
@@ -944,8 +948,16 @@ class apiProducts extends CartET
 			}
 		}
 
+		apply_filter('save_product_after', array(
+			'product_id' => $products_id,
+			'category_id' => $params['category_id'],
+			'action' => $params['action'],
+		));
+
 		$_POST['product_id'] = os_db_input($products_id);
 		do_action('insert_product');
+		set_products_url_cache();
+		return true;
 	}
 
 	/**
@@ -992,6 +1004,7 @@ class apiProducts extends CartET
 			}
 		}
 
+		//$sql_data_array['products_date_added'] = 'now()';
 		os_db_perform(TABLE_PRODUCTS, $sql_data_array);
 		$dup_products_id = os_db_insert_id();
 
@@ -1309,8 +1322,53 @@ class apiProducts extends CartET
 
 		global $products_id;
 		$products_id = os_db_input($product_id);
+	}
 
-		//do_action('remove_product');
+	/**
+	 * Обновление сопутствующих товаров
+	 */
+	function saveCrossSelling($params)
+	{
+		if ($params['special'] == 'add_entries')
+		{
+			if (isset ($params['ids']))
+			{
+				foreach ($params['ids'] AS $pID)
+				{
+					$sql_data_array = array(
+						'products_id' => $params['current_product_id'],
+						'xsell_id' => $pID,
+						'products_xsell_grp_name_id' => $params['group_name'][$pID]
+					);
+
+					$check_query = os_db_query("SELECT * FROM ".TABLE_PRODUCTS_XSELL." WHERE products_id = '".$params['current_product_id']."' and xsell_id = '".(int)$pID."'");
+					if (!os_db_num_rows($check_query))
+						os_db_perform(TABLE_PRODUCTS_XSELL, $sql_data_array);
+				}
+			}
+		}
+
+		if ($params['special'] == 'edit')
+		{
+			if (isset ($params['ids']))
+			{
+				foreach ($params['ids'] AS $pID)
+				{
+					os_db_query("DELETE FROM ".TABLE_PRODUCTS_XSELL." WHERE  = '".(int)$pID."'");
+				}
+			}
+
+			if (isset ($params['sort']))
+			{
+				foreach ($params['sort'] AS $ID => $sort)
+				{
+					os_db_perform(TABLE_PRODUCTS_XSELL, array(
+						'sort_order' => $sort,
+						'products_xsell_grp_name_id' => $params['group_name'][$ID]
+					), 'update', "ID = '".(int)$ID."'");
+				}
+			}
+		}
 	}
 
 	/**
@@ -1412,6 +1470,54 @@ class apiProducts extends CartET
 			$data = array('msg' => 'Главная картинка не установлена!', 'type' => 'error');
 		
 		return $data;
+	}
+
+	/**
+	 * Создание копий изображений
+	 */
+	public function createMoreImages($mo_products_image_name, $mo_image_number, $action, $products_id, $products_data, $img_text = '')
+	{
+		$absolute_image_number = $mo_image_number+1;
+		$mo_img = array(
+			'products_id' => os_db_prepare_input($products_id),
+			'image_nr' => os_db_prepare_input($absolute_image_number),
+			'image_name' => os_db_prepare_input($mo_products_image_name),
+			'text' => os_db_prepare_input($img_text)
+		);
+
+		$previous_image_name = $products_data['products_previous_image_'.$absolute_image_number];
+
+		if ($action == 'insert')
+		{
+			os_db_perform(TABLE_PRODUCTS_IMAGES, $mo_img);
+		}
+		elseif ($action == 'update' && $previous_image_name)
+		{
+			if ($products_data['del_mo_pic'])
+			{
+				foreach ($products_data['del_mo_pic'] AS $dummy => $val)
+				{
+					if ($val == $previous_image_name)
+					{
+						os_db_perform(TABLE_PRODUCTS_IMAGES, $mo_img);
+					}
+					break;
+				}
+			}
+
+			os_db_perform(TABLE_PRODUCTS_IMAGES, $mo_img, 'update', 'image_name = \''.os_db_input($previous_image_name).'\'');
+
+		}
+		elseif (!$previous_image_name)
+		{
+			os_db_perform(TABLE_PRODUCTS_IMAGES, $mo_img);
+		}
+
+		$products_image_name = $mo_products_image_name;
+
+		require (get_path('includes_admin').'product_thumbnail_images.php');
+		require (get_path('includes_admin').'product_info_images.php');
+		require (get_path('includes_admin').'product_popup_images.php');
 	}
 
 	/**
@@ -1565,6 +1671,7 @@ class apiProducts extends CartET
 		$categories_id = os_db_prepare_input($categories_data['categories_id']);
 		$sort_order = os_db_prepare_input($categories_data['sort_order']);
 		$categories_status = os_db_prepare_input($categories_data['status']);
+		$menu = os_db_prepare_input($categories_data['menu']);
 		$yml_bid = os_db_prepare_input($categories_data['yml_bid']);
 		$yml_cbid = os_db_prepare_input($categories_data['yml_cbid']);
 		$customers_statuses_array = os_get_customers_statuses();
@@ -1613,7 +1720,8 @@ class apiProducts extends CartET
 			'listing_template' => os_db_prepare_input($categories_data['listing_template']),
 			'yml_bid' => $yml_bid,
 			'yml_cbid' => $yml_cbid,
-			'categories_url' => $categories_url
+			'categories_url' => $categories_url,
+			'menu' => $menu,
 		);
 		$sql_data_array = array_merge($sql_data_array,$permission_array);
 
@@ -1715,8 +1823,4 @@ class apiProducts extends CartET
 			}
 		}
 	}
-
-
-
-
 }

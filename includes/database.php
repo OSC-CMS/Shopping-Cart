@@ -77,7 +77,6 @@ define('TABLE_COUPON_REDEEM_TRACK', DB_PREFIX.'coupon_redeem_track');
 define('TABLE_COUPON_EMAIL_TRACK', DB_PREFIX.'coupon_email_track');
 define('TABLE_COUPONS', DB_PREFIX.'coupons');
 define('TABLE_COUPONS_DESCRIPTION', DB_PREFIX.'coupons_description');
-define('TABLE_BLACKLIST', DB_PREFIX.'card_blacklist');
 define('TABLE_CAMPAIGNS_IP',DB_PREFIX.'campaigns_ip');
 
 define('TABLE_LATEST_NEWS', DB_PREFIX.'latest_news');

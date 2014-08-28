@@ -31,7 +31,7 @@ if ($sign !== $my_sign)
 	die("Bad sign");
 
 $order = new order((int)$order_id);
-if ($amount != round($order->info['total_value'], 2) || $amount <= 0)
+if ($amount != round($order->info['total'], 2) || $amount <= 0)
 	die("incorrect price");
 
 $sql_data_array = array('orders_status' => MODULE_PAYMENT_PLATON_ORDER_STATUS);

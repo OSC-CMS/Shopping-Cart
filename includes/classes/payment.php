@@ -98,56 +98,6 @@ class payment
       }
     }
 
-    function javascript_validation() {
-      $js = '';
-      if (is_array($this->modules)) {
-        $js = '<script type="text/javascript"><!-- ' . "\n" .
-              'function check_form() {' . "\n" .
-              '  var error = 0;' . "\n" .
-              '  var error_message = unescape("' . os_js_lang(JS_ERROR) . '");' . "\n" .
-              '  var payment_value = null;' . "\n" .
-              '  if (document.getElementById("checkout_payment").payment.length) {' . "\n" .
-              '    for (var i=0; i<document.getElementById("checkout_payment").payment.length; i++) {' . "\n" .
-              '      if (document.getElementById("checkout_payment").payment[i].checked) {' . "\n" .
-              '        payment_value = document.getElementById("checkout_payment").payment[i].value;' . "\n" .
-              '      }' . "\n" .
-              '    }' . "\n" .
-              '  } else if (document.getElementById("checkout_payment").payment.checked) {' . "\n" .
-              '    payment_value = document.getElementById("checkout_payment").payment.value;' . "\n" .
-              '  } else if (document.getElementById("checkout_payment").payment.value) {' . "\n" .
-              '    payment_value = document.getElementById("checkout_payment").payment.value;' . "\n" .
-              '  }' . "\n\n";
-
-        reset($this->modules);
-        while (list(, $value) = each($this->modules)) {
-          $class = substr($value, 0, strrpos($value, '.'));
-          if ($GLOBALS[$class]->enabled) {
-            $js .= $GLOBALS[$class]->javascript_validation();
-          }
-        }
-        if (DISPLAY_CONDITIONS_ON_CHECKOUT == 'true') {
-        $js .= "\n" . '  if (!document.getElementById("checkout_payment").conditions.checked) {' . "\n" .
-               '    error_message = error_message + unescape("' . os_js_lang(ERROR_CONDITIONS_NOT_ACCEPTED) . '");' . "\n" .
-               '    error = 1;' . "\n" .
-               '  }' . "\n\n";
-        }
-        $js .= "\n" . '  if (payment_value == null) {' . "\n" .
-               '    error_message = error_message + unescape("' . os_js_lang(JS_ERROR_NO_PAYMENT_MODULE_SELECTED) . '");' . "\n" .
-               '    error = 1;' . "\n" .
-               '  }' . "\n\n" .
-               '  if (error == 1 && submitter != 1) {' . "\n" . 
-               '    alert(error_message);' . "\n" .
-               '    return false;' . "\n" .
-               '  } else {' . "\n" .
-               '    return true;' . "\n" .
-               '  }' . "\n" .
-               '}' . "\n" .
-               '//--></script>' . "\n";
-      }
-
-      return $js;
-    }
-
     function selection() {
       $selection_array = array();
 
@@ -211,13 +161,13 @@ class payment
       }
     }
     
-    function payment_action() {
+    /*function payment_action() {
       if (is_array($this->modules)) {
         if (is_object($GLOBALS[$this->selected_module]) && ($GLOBALS[$this->selected_module]->enabled) ) {
           return $GLOBALS[$this->selected_module]->payment_action();
         }
       }
-    }
+    }*/
 
     function after_process() {
       if (is_array($this->modules)) {
