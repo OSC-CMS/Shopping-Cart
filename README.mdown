@@ -28,3 +28,6 @@
 
   * **Официальный сайт**: [http://osc-cms.com](http://osc-cms.com)
   * **Форум поддержки**: [http://osc-cms.com/forum](http://osc-cms.com/forum)
+
+  * Based on: osCommerce, nextcommerce, xt:Commerce
+  * Released under the GNU General Public License
