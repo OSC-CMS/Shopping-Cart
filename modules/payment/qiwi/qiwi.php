@@ -161,14 +161,17 @@ class qiwi extends CartET
 
 			$client->useHTTPPersistentConnection();
 
+			$order_id = substr($_SESSION[$this->name], strpos($_SESSION[$this->name], '-')+1);
+			$OrderID = ($order_id) ? $order_id : (($this->request->get('order_id')) ? $this->request->get('order_id') : '');
+
 			// Параметры для передачи данных о платеже
 			$params = array(
 				'login' => MODULE_PAYMENT_QIWI_ID, // login - Ваш ID в системе QIWI
 				'password' => MODULE_PAYMENT_QIWI_SECRET_KEY, // password - Ваш пароль
-				'user' => $_POST['qiwi_telephone'], // user - Телефон покупателя (10 символов, например 916820XXXX)
+				'user' => $this->request->get('qiwi_telephone'), // user - Телефон покупателя (10 символов, например 916820XXXX)
 				'amount' => number_format($order->info['total'],0), // amount - Сумма платежа в рублях
-				'comment' => substr($_SESSION[$this->name], strpos($_SESSION[$this->name], '-')+1), // comment - Комментарий, который пользователь увидит в своем личном кабинете или платежном автомате
-				'txn' => substr($_SESSION[$this->name], strpos($_SESSION[$this->name], '-')+1), // txn - Наш внутренний уникальный номер транзакции
+				'comment' => $OrderID, // comment - Комментарий, который пользователь увидит в своем личном кабинете или платежном автомате
+				'txn' => $OrderID, // txn - Наш внутренний уникальный номер транзакции
 				'lifetime' => date("d.m.Y H:i:s", strtotime("+2 weeks")), // lifetime - Время жизни платежа до его автоматической отмены
 				'alarm' => 1, // alarm - Оповещать ли клиента через СМС или звонком о выписанном счете
 				'create' => 1 // create - 0 - только для зарегистрированных пользователей QIWI, 1 - для всех
@@ -191,7 +194,7 @@ class qiwi extends CartET
 			//}
 			//}
 
-			os_db_query("INSERT INTO ".TABLE_PERSONS." (orders_id, name, address) VALUES ('" . os_db_prepare_input((int)substr($_SESSION[$this->name], strpos($_SESSION[$this->name], '-')+1)) . "', '" . os_db_prepare_input($_POST['kvit_name']) . "', '" . os_db_prepare_input($_POST['qiwi_telephone']) ."')");
+			os_db_query("INSERT INTO ".TABLE_PERSONS." (orders_id, name, address) VALUES ('" . os_db_prepare_input((int)$OrderID) . "', '" . os_db_prepare_input($this->request->get('kvit_name')) . "', '" . os_db_prepare_input($this->request->get('qiwi_telephone')) ."')");
 		}
 
 		return array('title' => MODULE_PAYMENT_QIWI_TEXT_DESCRIPTION);

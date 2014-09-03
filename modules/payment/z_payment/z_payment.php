@@ -149,11 +149,12 @@ class z_payment extends CartET
 		$order_sum = $order->info['total'];
 
 		$order_id = substr($_SESSION[$this->name], strpos($_SESSION[$this->name], '-')+1);
+		$OrderID = ($order_id) ? $order_id : (($this->request->get('order_id')) ? $this->request->get('order_id') : '');
 
 		$process_button_string =
-			os_draw_hidden_field('LMI_PAYMENT_NO', $order_id).
+			os_draw_hidden_field('LMI_PAYMENT_NO', $OrderID).
 			os_draw_hidden_field('LMI_PAYEE_PURSE', $purse).
-			os_draw_hidden_field('LMI_PAYMENT_DESC', 'OrderId-'.$order_id).
+			os_draw_hidden_field('LMI_PAYMENT_DESC', 'OrderId-'.$OrderID).
 			os_draw_hidden_field('LMI_PAYMENT_AMOUNT', $order_sum).
 			os_draw_hidden_field('CLIENT_MAIL', $order->customer['email_address']);
 

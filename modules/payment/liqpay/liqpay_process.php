@@ -23,7 +23,7 @@ $xml = simplexml_load_string($xml_decoded);
 // checking and handling
 if ($xml->status == 'success') {
 if (number_format($xml->amount,0) == number_format($order->info['total'],0)) {
-  $sql_data_array = array('orders_status' => MODULE_PAYMENT_LIQPAY_ORDER_STATUS_ID);
+  $sql_data_array = array('orders_status' => MODULE_PAYMENT_LIQPAY_ORDER_STATUS_ID, 'paid' => 1);
   os_db_perform('orders', $sql_data_array, 'update', "orders_id='".$xml->order_id."'");
 
   $sql_data_arrax = array('orders_id' => $xml->order_id,

@@ -34,7 +34,7 @@ $order = new order((int)$order_id);
 if ($amount != round($order->info['total'], 2) || $amount <= 0)
 	die("incorrect price");
 
-$sql_data_array = array('orders_status' => MODULE_PAYMENT_PLATON_ORDER_STATUS);
+$sql_data_array = array('orders_status' => MODULE_PAYMENT_PLATON_ORDER_STATUS, 'paid' => 1);
 os_db_perform(DB_PREFIX.'orders', $sql_data_array, 'update', "orders_id='".(int)$order_id."'");
 
 $sql_data_arrax = array(

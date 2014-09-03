@@ -137,13 +137,15 @@ class platon extends CartET
 	{
 		global $order;
 
-		$order_id = substr($_SESSION['cart_platon_id'], strpos($_SESSION['cart_platon_id'], '-')+1);
+		$order_id = substr($_SESSION[$this->name], strpos($_SESSION[$this->name], '-')+1);
+		$OrderID = ($order_id) ? $order_id : (($this->request->get('order_id')) ? $this->request->get('order_id') : '');
+
 		$price = round($order->info['total'], 2);
 
 		$data = base64_encode(serialize(array(
 			'amount' => $price,
 			'currency' => $_SESSION['currency'],
-			'name' => 'Order ID '.$order_id)
+			'name' => 'Order ID '.$OrderID)
 		));
 
 		//$url = _HTTP.'process.php?payment=platon';
@@ -152,7 +154,7 @@ class platon extends CartET
 
 		$process_button_string = 
 			os_draw_hidden_field('key', MODULE_PAYMENT_PLATON_KEY).
-			os_draw_hidden_field('order', $order_id).
+			os_draw_hidden_field('order', $OrderID).
 			os_draw_hidden_field('data', $data).
 			os_draw_hidden_field('url', $url).
 			os_draw_hidden_field('error_url', _HTTP.'checkout_payment.php').

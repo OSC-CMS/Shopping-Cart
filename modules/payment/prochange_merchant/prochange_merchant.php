@@ -152,11 +152,14 @@ class prochange_merchant extends CartET
 
 		$order_sum = $order->info['total'];
 
-		$process_button_string = 
-			os_draw_hidden_field('PRO_FIELD_1', substr($_SESSION[$this->name], strpos($_SESSION[$this->name], '-')+1)) .
+		$order_id = substr($_SESSION[$this->name], strpos($_SESSION[$this->name], '-')+1);
+		$OrderID = ($order_id) ? $order_id : (($this->request->get('order_id')) ? $this->request->get('order_id') : '');
+
+		$process_button_string =
+			os_draw_hidden_field('PRO_FIELD_1', $OrderID) .
 			os_draw_hidden_field('PRO_CLIENT', MODULE_PAYMENT_PROCHANGE_MERCHANT_PRO_CLIENT) .
 			os_draw_hidden_field('PRO_RA', MODULE_PAYMENT_PROCHANGE_MERCHANT_PRO_RA) .
-			os_draw_hidden_field('PRO_PAYMENT_DESC', substr($_SESSION[$this->name], strpos($_SESSION[$this->name], '-')+1)) .
+			os_draw_hidden_field('PRO_PAYMENT_DESC', $OrderID) .
 			os_draw_hidden_field('PRO_SUMMA', $order_sum);
 
 		return $process_button_string;

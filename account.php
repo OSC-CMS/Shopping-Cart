@@ -48,6 +48,7 @@ if (os_count_customer_orders() > 0) {
 	                                  o.delivery_country,
 	                                  o.billing_name,
 	                                  o.billing_country,
+	                                  o.paid,
 	                                  ot.text as order_total,
 	                                  s.orders_status_name
 	                                  from ".TABLE_ORDERS." o, ".TABLE_ORDERS_TOTAL."
@@ -81,7 +82,8 @@ if (os_count_customer_orders() > 0) {
 			'ORDER_DATE' => os_date_short($orders['date_purchased']), 
 			'ORDER_STATUS' => $orders['orders_status_name'], 
 			'ORDER_TOTAL' => $orders['order_total'], 
-			'ORDER_LINK' => os_href_link(FILENAME_ACCOUNT_HISTORY_INFO, 'order_id='.$orders['orders_id'], 'SSL'), 
+			'ORDER_PAID' => $orders['paid'],
+			'ORDER_LINK' => os_href_link(FILENAME_ACCOUNT_HISTORY_INFO, 'order_id='.$orders['orders_id'], 'SSL'),
 			'ORDER_BUTTON' => $_array['code']);
 	}
 

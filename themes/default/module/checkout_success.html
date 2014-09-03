@@ -1,4 +1,5 @@
 {config_load file="$language/lang.conf" section="checkout_success"}
+
 <div class="page-header">
 	<h1>{#heading_success#}</h1>
 </div>
@@ -20,7 +21,18 @@
 
 <hr>
 
-{$FORM_ACTION}
+{if !$order->info['paid'] && $PAID == true}
+	<div class="alert alert-error fade in">
+		<h3>{#text_order_payment#}</h3>
+		{$CHECKOUT_FORM}
+		{$PAYMENT_INFORMATION}
+		<br />
+		{$MODULE_BUTTONS}
+		{$CHECKOUT_BUTTON}
+		{$CHECKOUT_FORM_END}
+	</div>
+	<hr>
+{/if}
 
 <p>
 	<h3>{#text_printorder#}</h3>
@@ -31,24 +43,25 @@
 	{/if}
 </p>
 
-{if $GV_SEND_LINK}
-<hr>
-<div class="well well-small">
-	<p>{#gv_has_vouchera#} {$GV_SEND_LINK} {#gv_has_voucherb#}</p>
-</div>
-{/if}
+{$FORM_ACTION}
+	{if $GV_SEND_LINK}
+	<hr>
+	<div class="well well-small">
+		<p>{#gv_has_vouchera#} {$GV_SEND_LINK} {#gv_has_voucherb#}</p>
+	</div>
+	{/if}
 
-{if $google_tracking eq 'true'}
-<div class="well well-small">
-	<p>{$tracking_code}</p>
-</div>
-{/if}
+	{if $google_tracking eq 'true'}
+	<div class="well well-small">
+		<p>{$tracking_code}</p>
+	</div>
+	{/if}
 
-{if $downloads_content neq ''}
-<div class="well well-small">
-	<p>{$downloads_content}</p>
-</div>
-{/if}
+	{if $downloads_content neq ''}
+	<div class="well well-small">
+		<p>{$downloads_content}</p>
+	</div>
+	{/if}
 
-{$BUTTON_CONTINUE}
+	{$BUTTON_CONTINUE}
 {$FORM_END}

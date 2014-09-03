@@ -35,7 +35,7 @@ $_POST['LMI_PAYER_PURSE'].$_POST['LMI_PAYER_WM']));
 
 // checking and handling
 if ($hash == $crc) {
-  $sql_data_array = array('orders_status' => MODULE_PAYMENT_WEBMONEY_MERCHANT_ORDER_STATUS_ID);
+  $sql_data_array = array('orders_status' => MODULE_PAYMENT_WEBMONEY_MERCHANT_ORDER_STATUS_ID, 'paid' => 1);
   os_db_perform(DB_PREFIX.'orders', $sql_data_array, 'update', "orders_id='".$inv_id."'");
 
   $sql_data_arrax = array('orders_id' => $inv_id,

@@ -142,16 +142,17 @@ class roboxchange extends CartET
 		global $order;
 
 		$order_id = substr($_SESSION[$this->name], strpos($_SESSION[$this->name], '-')+1);
+		$OrderID = ($order_id) ? $order_id : (($this->request->get('order_id')) ? $this->request->get('order_id') : '');
 
 		$process_button_string = '';
 
 		$order_sum = $order->info['total'];
-		$crc  = md5(MODULE_PAYMENT_ROBOXCHANGE_LOGIN.':'.$order_sum.':'.$order_id.':'.MODULE_PAYMENT_ROBOXCHANGE_PASSWORD1);
+		$crc  = md5(MODULE_PAYMENT_ROBOXCHANGE_LOGIN.':'.$order_sum.':'.$OrderID.':'.MODULE_PAYMENT_ROBOXCHANGE_PASSWORD1);
 
 		$process_button_string = 
-			os_draw_hidden_field('InvId', $order_id) .
+			os_draw_hidden_field('InvId', $OrderID) .
 			os_draw_hidden_field('MrchLogin', MODULE_PAYMENT_ROBOXCHANGE_LOGIN) .
-			os_draw_hidden_field('Desc', $order_id) .
+			os_draw_hidden_field('Desc', $OrderID) .
 			os_draw_hidden_field('OutSum', $order_sum) .
 			os_draw_hidden_field('SignatureValue', $crc);
 

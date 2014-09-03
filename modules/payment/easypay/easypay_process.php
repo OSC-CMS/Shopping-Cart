@@ -41,7 +41,7 @@ if($check)
 	// checking and handling
 	if (number_format($params["sum"], 0) == number_format($order->info['total_value'],0))
 	{
-		$sql_data_array = array('orders_status' => MODULE_PAYMENT_EASYPAY_ORDER_STATUS_ID);
+		$sql_data_array = array('orders_status' => MODULE_PAYMENT_EASYPAY_ORDER_STATUS_ID, 'paid' => 1);
 		os_db_perform(DB_PREFIX.'orders', $sql_data_array, 'update', "orders_id='".$inv_id."'");
 
 		$sql_data_arrax = array(

@@ -141,11 +141,14 @@ class paymaster extends CartET
 		$purse = MODULE_PAYMENT_PAYMASTER_WMR;
 		$order_sum = $order->info['total'];
 
+		$order_id = substr($_SESSION[$this->name], strpos($_SESSION[$this->name], '-')+1);
+		$OrderID = ($order_id) ? $order_id : (($this->request->get('order_id')) ? $this->request->get('order_id') : '');
+
 		$process_button_string = 
-			os_draw_hidden_field('LMI_PAYMENT_NO', substr($_SESSION[$this->name], strpos($_SESSION[$this->name], '-')+1)) .
+			os_draw_hidden_field('LMI_PAYMENT_NO', $OrderID) .
 			os_draw_hidden_field('LMI_MERCHANT_ID', MODULE_PAYMENT_PAYMASTER_ID) .
 			os_draw_hidden_field('LMI_CURRENCY', 'RUB') .
-			os_draw_hidden_field('LMI_PAYMENT_DESC', substr($_SESSION[$this->name], strpos($_SESSION[$this->name], '-')+1)) .
+			os_draw_hidden_field('LMI_PAYMENT_DESC', $OrderID) .
 			os_draw_hidden_field('LMI_PAYMENT_AMOUNT', $order_sum) .
 			os_draw_hidden_field('LMI_SIM_MODE', '0');
 

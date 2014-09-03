@@ -13,7 +13,7 @@ class apiOrder extends CartET
 	/**
 	 * Формирование нового заказа
 	 */
-	public function newOrder($order, $order_totals, $order_total_modules)
+	public function newOrder($order, $order_totals, $order_total_modules, $paid = 0)
 	{
 		// Скидки
 		if ($_SESSION['customers_status']['customers_status_ot_discount_flag'] == 1)
@@ -90,7 +90,7 @@ class apiOrder extends CartET
 			'comments' => $order->info['comments'],
 			'orig_reference' => $order->customer['orig_reference'],
 			'login_reference' => $order->customer['login_reference'],
-			'paid' => 0,
+			'paid' => $paid,
 		);
 		os_db_perform(TABLE_ORDERS, $sql_data_array);
 		$insert_id = os_db_insert_id();

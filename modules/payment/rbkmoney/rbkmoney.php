@@ -136,13 +136,14 @@ class rbkmoney extends CartET
 		global $order;
 
 		$order_id = substr($_SESSION[$this->name], strpos($_SESSION[$this->name], '-')+1);
+		$OrderID = ($order_id) ? $order_id : (($this->request->get('order_id')) ? $this->request->get('order_id') : '');
 
 		$process_button_string = '';
 
 		$process_button_string = 
 			os_draw_hidden_field('eshopId', MODULE_PAYMENT_RBKMONEY_SHOP_ID) .
-			os_draw_hidden_field('orderId', $order_id) .
-			os_draw_hidden_field('serviceName', $order_id) .
+			os_draw_hidden_field('orderId', $OrderID) .
+			os_draw_hidden_field('serviceName', $OrderID) .
 			os_draw_hidden_field('recipientAmount', $order->info['total']) .
 			os_draw_hidden_field('recipientCurrency', 'RUR') .
 			os_draw_hidden_field('successUrl', os_href_link(FILENAME_CHECKOUT_PROCESS, '', 'SSL')) .

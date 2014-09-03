@@ -146,7 +146,9 @@ class liqpay extends CartET
 		$order_sum = $order->info['total'];
 
 		$order_id = substr($_SESSION[$this->name], strpos($_SESSION[$this->name], '-')+1);
-		$curr_check = os_db_query("select currency from " . TABLE_ORDERS . " where orders_id = '" . (int)$order_id . "'");
+		$OrderID = ($order_id) ? $order_id : (($this->request->get('order_id')) ? $this->request->get('order_id') : '');
+
+		$curr_check = os_db_query("select currency from " . TABLE_ORDERS . " where orders_id = '" . (int)$OrderID . "'");
 		$curr = os_db_fetch_array($curr_check);
 
 		$xml = '<?xml version="1.0" encoding="utf-8"?>
@@ -155,10 +157,10 @@ class liqpay extends CartET
 		<merchant_id>'.MODULE_PAYMENT_LIQPAY_ID.'</merchant_id>
 		<result_url>'.os_href_link(FILENAME_CHECKOUT_PROCESS, '', 'SSL').'</result_url>
 		<server_url>'.os_href_link('liqpay.php', '', 'SSL').'</server_url>
-		<order_id>'.$order_id.'</order_id>
+		<order_id>'.$OrderID.'</order_id>
 		<amount>'.$order_sum.'</amount>
 		<currency>'.$curr['currency'].'</currency>
-		<description>'.$order_id.'</description>
+		<description>'.$OrderID.'</description>
 		<default_phone></default_phone>
 		<pay_way>card</pay_way>
 		</request>';

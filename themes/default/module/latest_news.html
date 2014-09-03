@@ -5,7 +5,6 @@
 		<h1><a href="{$aNews.link}">{$aNews.headline}</a></h1>
 	</div>
 
-	<p>{if $aNews.news_image}<img src="{$smarty.const._HTTP}images/news/{$aNews.news_image}">{/if}</p>
 	<p>{$aNews.content}</p>
 	<p>{$aNews.date_added}</p>
 
@@ -21,14 +20,13 @@
 		<div class="row-fluid">
 			{foreach $aNews as $n}
 			<div class="span4 news-block">
-				<div class="row-fluid">
-					<div class="span4">{if $n.news_image}<a href="{$n.link}"><img src="{$smarty.const._HTTP}images/news/{$n.news_image}"></a>{/if}</div>
-					<div class="span8">
-						<h2><a href="{$n.link}">{$n.headline}</a></h2>
-						<p class="news-block-text">{$n.content|os_truncate:$smarty.const.MAX_DISPLAY_LATEST_NEWS_CONTENT:" ..."}</p>
-						<p>{$n.date_added}</p>
-					</div>
-				</div>
+				<h2><a href="{$n.link}">{$n.headline}</a></h2>
+				<p class="news-block-text">
+					{if isset($n.news_image) && !empty($n.news_image)}<img src="{$smarty.const._HTTP}images/news/{$n.news_image}">{/if}
+					{$n.content|os_truncate:$smarty.const.MAX_DISPLAY_LATEST_NEWS_CONTENT:" ..."}
+				</p>
+				<p>{$n.date_added}</p>
+				<p>{$n.like}</p>
 			</div>
 			{if $n@iteration % 3 == 0}</div><hr><div class="row-fluid">{/if}
 			{/foreach}

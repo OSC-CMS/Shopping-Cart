@@ -40,7 +40,7 @@ if ($hash == $crc)
 {
 	if (number_format($_POST['LMI_PAYMENT_AMOUNT'],0) == number_format($order->info['total_value'],0))
 	{
-		$sql_data_array = array('orders_status' => MODULE_PAYMENT_PAYMASTER_ORDER_STATUS_ID);
+		$sql_data_array = array('orders_status' => MODULE_PAYMENT_PAYMASTER_ORDER_STATUS_ID, 'paid' => 1);
 		os_db_perform(DB_PREFIX.'orders', $sql_data_array, 'update', "orders_id='".$inv_id."'");
 
 		$sql_data_arrax = array(

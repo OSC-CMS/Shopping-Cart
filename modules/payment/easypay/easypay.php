@@ -140,10 +140,11 @@ class easypay extends CartET
 	 */
 	function process_button()
 	{
-		global $customer_id, $order, $sendto, $osPrice, $currencies, $shipping;
+		global $order;
 
 		#номер заказа
 		$order_no = substr($_SESSION[$this->name], strpos($_SESSION[$this->name], '-')+1);
+		$OrderID = ($order_no) ? $order_no : (($this->request->get('order_id')) ? $this->request->get('order_id') : '');
 
 		#получаем стоимость заказа в белорусских рублях
 		$sum = ceil($order->info["total"]);
@@ -151,12 +152,12 @@ class easypay extends CartET
 		#подготовка формы для оплаты
 		$process_button_string =
 			os_draw_hidden_field("EP_MerNo",			MODULE_PAYMENT_EASYPAY_MERCHNO).
-			os_draw_hidden_field("EP_OrderNo",			$order_no).
+			os_draw_hidden_field("EP_OrderNo",			$OrderID).
 			os_draw_hidden_field("EP_Sum",				$sum).
 			os_draw_hidden_field("EP_Expires",			5).
-			os_draw_hidden_field("EP_Comment",			$order_no).
-			os_draw_hidden_field("EP_OrderInfo",		$order_no).
-			os_draw_hidden_field("EP_Hash",				md5(MODULE_PAYMENT_EASYPAY_MERCHNO.MODULE_PAYMENT_EASYPAY_WEBKEY.$order_no.$sum)).
+			os_draw_hidden_field("EP_Comment",			$OrderID).
+			os_draw_hidden_field("EP_OrderInfo",		$OrderID).
+			os_draw_hidden_field("EP_Hash",				md5(MODULE_PAYMENT_EASYPAY_MERCHNO.MODULE_PAYMENT_EASYPAY_WEBKEY.$OrderID.$sum)).
 			os_draw_hidden_field("EP_Success_URL",		os_href_link(FILENAME_CHECKOUT_PROCESS)).
 			os_draw_hidden_field("EP_Cancel_URL",		os_href_link(FILENAME_CHECKOUT_CONFIRMATION)).
 			os_draw_hidden_field("EP_Debug",			MODULE_PAYMENT_EASYPAY_DEBUG);

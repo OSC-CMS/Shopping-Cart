@@ -63,7 +63,8 @@ if ($md5 == $request['md5'])
 	{
 		$sql_data_array = array
 		(
-			'orders_status' => MODULE_PAYMENT_YANDEX_MERCHANT_ORDER_STATUS_ID
+			'orders_status' => MODULE_PAYMENT_YANDEX_MERCHANT_ORDER_STATUS_ID,
+			'paid' => 1
 		);
 		os_db_perform(DB_PREFIX.'orders', $sql_data_array, 'update', "orders_id='".(int)$request['orderNumber']."'");
 

@@ -22,7 +22,7 @@
 		<td>{$order_data.ORDER_PRODUCTS}</td>
 		<td>{$order_data.ORDER_ID}</td>
 		<td>{$order_data.ORDER_TOTAL}</td>
-		<td>{$order_data.ORDER_STATUS}</td>
+		<td>{$order_data.ORDER_STATUS} {if $order_data.ORDER_PAID == 0}<span class="label label-important">{#text_order_paid#}</span>{/if}</td>
 		<td>{$order_data.ORDER_BUTTON}</td>
 	</tr>
 	{/foreach}

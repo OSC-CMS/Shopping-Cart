@@ -71,7 +71,8 @@ if ($ik_sign === $sign && $ik_inv_st == 'success')
 
 	$sql_data_array = array
 	(
-		'orders_status' => MODULE_PAYMENT_IK_ORDER_STATUS_ID
+		'orders_status' => MODULE_PAYMENT_IK_ORDER_STATUS_ID,
+		'paid' => 1
 	);
 	os_db_perform(DB_PREFIX.'orders', $sql_data_array, 'update', "orders_id='".(int)$ik_pm_no."'");
 

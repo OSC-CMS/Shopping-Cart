@@ -151,6 +151,8 @@ class ik extends CartET
 		$OrderID = substr($_SESSION[$this->name], strpos($_SESSION[$this->name], '-')+1);
 		$TotalAmount = number_format($osPrice->CalculateCurrEx($order->info['total'], $ikCurrency), 2, '.', '');
 
+		$OrderID = ($OrderID) ? $OrderID : (($this->request->get('order_id')) ? $this->request->get('order_id') : '');
+
 		$result = array(
 			'ik_am' => $TotalAmount, // Сумма платежа
 			'ik_pm_no' => $OrderID, // Номер заказа

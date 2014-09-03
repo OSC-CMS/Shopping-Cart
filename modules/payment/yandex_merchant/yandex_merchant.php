@@ -149,7 +149,9 @@ class yandex_merchant extends CartET
 	{
 		global $order, $osPrice;
 
-		$OrderID = substr($_SESSION[$this->name], strpos($_SESSION[$this->name], '-')+1);
+		$order_id = substr($_SESSION[$this->name], strpos($_SESSION[$this->name], '-')+1);
+		$OrderID = ($order_id) ? $order_id : (($this->request->get('order_id')) ? $this->request->get('order_id') : '');
+
 		$TotalAmount = number_format($osPrice->CalculateCurrEx($order->info['total'], 'RUR'), 2, '.', '');
 
 		$process_button_string = os_draw_hidden_field('shopId', MODULE_PAYMENT_YANDEX_MERCHANT_SHOP_ID).

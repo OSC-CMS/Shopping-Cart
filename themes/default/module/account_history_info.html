@@ -8,6 +8,20 @@
 			<h3 class="bold">{#text_oid#} {$ORDER_NUMBER}</h3>
 			<p>{$ORDER_STATUS}<br />{#text_date#} {$ORDER_DATE}</p>
 		</div>
+
+		{if !$order->info['paid'] && $PAID == true}
+			<div class="alert alert-error fade in">
+				<h3>{#text_order_payment#}</h3>
+				{$CHECKOUT_FORM}
+				{$PAYMENT_INFORMATION}
+				<br />
+				{$MODULE_BUTTONS}
+				{$CHECKOUT_BUTTON}
+				{$CHECKOUT_FORM_END}
+			</div>
+			<hr>
+		{/if}
+
 		<div class="sub-block {if $BILLING_LABEL}w48 left{/if}">
 			<h3 class="bold">{#text_shipping_address#}</h3>
 			<p>{$DELIVERY_LABEL}</p>
@@ -43,6 +57,7 @@
 			<p>{$PAYMENT_INFORMATION}</p>
 		</div>
 		{/if}
+
 		<div class="sub-block">
 			<h3 class="bold">{#title_history#}</h3>
 			<p>{$HISTORY_BLOCK}</p>

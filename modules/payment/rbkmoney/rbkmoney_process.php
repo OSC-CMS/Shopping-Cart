@@ -34,7 +34,7 @@ $order_sum = $order->info['total'];
 // checking and handling
 if (number_format($order_sum,0) == number_format($_POST['recipientAmount'],0)) {
 if ($_POST['paymentStatus'] == '5') {
-  $sql_data_array = array('orders_status' => MODULE_PAYMENT_RBKMONEY_ORDER_STATUS_ID);
+  $sql_data_array = array('orders_status' => MODULE_PAYMENT_RBKMONEY_ORDER_STATUS_ID, 'paid' => 1);
   os_db_perform(DB_PREFIX.'orders', $sql_data_array, 'update', "orders_id='".$inv_id."'");
 
   $sql_data_arrax = array('orders_id' => $inv_id,

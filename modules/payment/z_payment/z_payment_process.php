@@ -33,7 +33,8 @@ if (get_var('LMI_HASH') == strtoupper($CalcHash))
 {
 	//Все прошло успешно
 	$sql_data_array = array(
-		'orders_status' => MODULE_PAYMENT_Z_PAYMENT_ORDER_STATUS_ID
+		'orders_status' => MODULE_PAYMENT_Z_PAYMENT_ORDER_STATUS_ID,
+		'paid' => 1
 	);
 	os_db_perform(DB_PREFIX.'orders', $sql_data_array, 'update', "orders_id='".(int)get_var('LMI_PAYMENT_NO')."'");
 

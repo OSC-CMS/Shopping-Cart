@@ -160,6 +160,7 @@ class webmoney_merchant extends CartET
 		global $order, $osPrice;
 
 		$order_id = substr($_SESSION[$this->name], strpos($_SESSION[$this->name], '-')+1);
+		$OrderID = ($order_id) ? $order_id : (($this->request->get('order_id')) ? $this->request->get('order_id') : '');
 
 		$process_button_string = '';
 
@@ -175,9 +176,9 @@ class webmoney_merchant extends CartET
 		}
 
 		$process_button_string = 
-			os_draw_hidden_field('LMI_PAYMENT_NO', $order_id).
+			os_draw_hidden_field('LMI_PAYMENT_NO', $OrderID).
 			os_draw_hidden_field('LMI_PAYEE_PURSE', $purse).
-			os_draw_hidden_field('LMI_PAYMENT_DESC', $order_id).
+			os_draw_hidden_field('LMI_PAYMENT_DESC', $OrderID).
 			os_draw_hidden_field('LMI_PAYMENT_AMOUNT', $order_sum).
 			os_draw_hidden_field('LMI_SIM_MODE', '0');
 

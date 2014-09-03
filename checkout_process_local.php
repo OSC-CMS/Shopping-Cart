@@ -66,7 +66,7 @@ $order_total_modules = new order_total();
 $order_totals = $order_total_modules->process();
 
 // Формируем заказ
-$aNewOrder = $cartet->order->newOrder($order, $order_totals, $order_total_modules);
+$aNewOrder = $cartet->order->newOrder($order, $order_totals, $order_total_modules, 1);
 $order_id = $aNewOrder['order_id'];
 
 $order_totals = $order_total_modules->apply_credit();

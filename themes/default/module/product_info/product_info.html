@@ -68,16 +68,16 @@
 {if $PRODUCTS_BUNDLE !=''}
 <h3>Товары входящие в набор. При покупке за
 	{if $price.specialDiscount}
-	{$smarty.const.OLD_PRICE} <span class="pprice">{$price.default.formated}</span> {$smarty.session.currencySymbol}<br />
-	{*{$smarty.const.NEW_PRICE} <span class="pprice">{$price.specialDiscount.formated}</span> {$smarty.session.currencySymbol}*}
+		{$smarty.const.OLD_PRICE} <span class="pprice">{$price.default.formated}</span> {$smarty.session.currencySymbol}<br />
+		{*{$smarty.const.NEW_PRICE} <span class="pprice">{$price.specialDiscount.formated}</span> {$smarty.session.currencySymbol}*}
 	{else if $price.special}
-	{$smarty.const.OLD_PRICE} <span class="pprice">{$price.default.formated}</span> {$smarty.session.currencySymbol}<br />
-	{*{$smarty.const.NEW_PRICE} <span class="pprice">{$price.special.formated}</span> {$smarty.session.currencySymbol}*}
+		{$smarty.const.OLD_PRICE} <span class="pprice">{$price.default.formated}</span> {$smarty.session.currencySymbol}<br />
+		{*{$smarty.const.NEW_PRICE} <span class="pprice">{$price.special.formated}</span> {$smarty.session.currencySymbol}*}
 	{else if $price.specialGraduated}
-	{$smarty.const.OLD_PRICE} <span class="pprice">{$price.default.formated}</span> {$smarty.session.currencySymbol}<br />
-	{*{$smarty.const.NEW_PRICE} <span class="pprice">{$price.specialGraduated.formated}</span> {$smarty.session.currencySymbol}*}
+		{$smarty.const.OLD_PRICE} <span class="pprice">{$price.default.formated}</span> {$smarty.session.currencySymbol}<br />
+		{*{$smarty.const.NEW_PRICE} <span class="pprice">{$price.specialGraduated.formated}</span> {$smarty.session.currencySymbol}*}
 	{else}
-	{*<span class="pprice">{$price.price.formated}</span> {$smarty.session.currencySymbol}*}
+		{*<span class="pprice">{$price.price.formated}</span> {$smarty.session.currencySymbol}*}
 	{/if}
 	<span class="pprice">{$price.price.formated}</span> {$smarty.session.currencySymbol}
 экономия {$PRODUCTS_BUNDLE_SAVING} {$smarty.session.currencySymbol}</h3>
