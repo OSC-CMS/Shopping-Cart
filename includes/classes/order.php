@@ -517,6 +517,7 @@ class order
 			if ($_SESSION['customers_status']['customers_status_ot_discount_flag'] == '1')
 			{
 				$this->info['total'] -= ($this->info['subtotal'] /100 * $_SESSION['customers_status']['customers_status_ot_discount']);
+				$this->info['total_value'] = $this->info['total'];
 			}
 		}
 		else
@@ -525,6 +526,7 @@ class order
 			if ($_SESSION['customers_status']['customers_status_ot_discount_flag'] == '1')
 			{
 				$this->info['total'] -= ($this->info['subtotal'] /100 * $_SESSION['customers_status']['customers_status_ot_discount']);
+				$this->info['total_value'] = $this->info['total'];
 			}
 		}
 	}
