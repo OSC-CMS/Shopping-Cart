@@ -117,7 +117,7 @@ $products_sql = "
 		p.products_id, p2c.categories_id, p.products_model, p.products_quantity, p.products_image,
 		IF(s.status, s.specials_new_products_price, p.products_price) AS products_price, 
 		p.products_tax_class_id, p.manufacturers_id, p.products_sort, pd.products_name, m.manufacturers_name, pd.products_description, 
-		pd.products_short_description, p.yml_bid, p.yml_cbid, p.yml_available, p.yml_manufacturer_warranty, p.yml_manufacturer_warranty_text
+		pd.products_short_description, p.yml_bid, p.yml_cbid, p.yml_available
 	FROM 
 		".TABLE_PRODUCTS." p
 			LEFT JOIN ".TABLE_PRODUCTS_DESCRIPTION." pd ON (p.products_id = pd.products_id)
@@ -205,9 +205,9 @@ while ($products = os_db_fetch_array($products_query))
 
 	os_yml_out('  <description>'.os_yml_clear_string($products['products_short_description']).'</description>');
 
-	$yml_manufacturer_warranty = ($products['yml_manufacturer_warranty'] == 1) ? 'true' : 'false';
-	$yml_manufacturer_warranty = (!empty($products['yml_manufacturer_warranty_text'])) ? $products['yml_manufacturer_warranty_text'] : $yml_manufacturer_warranty;
-	os_yml_out('  <manufacturer_warranty>'.os_yml_clear_string($yml_manufacturer_warranty).'</manufacturer_warranty> ');
+	//$yml_manufacturer_warranty = ($products['yml_manufacturer_warranty'] == 1) ? 'true' : 'false';
+	//$yml_manufacturer_warranty = (!empty($products['yml_manufacturer_warranty_text'])) ? $products['yml_manufacturer_warranty_text'] : $yml_manufacturer_warranty;
+	//os_yml_out('  <manufacturer_warranty>'.os_yml_clear_string($yml_manufacturer_warranty).'</manufacturer_warranty> ');
 
 	if (YML_SALES_NOTES != '')
 	{
