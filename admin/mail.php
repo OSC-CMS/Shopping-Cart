@@ -71,18 +71,7 @@ include_once (_LIB.'phpmailer/func.mail.php');
   if ($_GET['mail_sent_to']) {
     $messageStack->add(sprintf(NOTICE_EMAIL_SENT_TO, $_GET['mail_sent_to']), 'notice');
   }
-  
-  add_action('head_admin', 'head_mail');
-  
-  function head_mail()
-  {
-     if (!isset($_GET['action'])) 
-	 {
-           $query=os_db_query("SELECT code FROM ". TABLE_LANGUAGES ." WHERE languages_id='".$_SESSION['languages_id']."'");
-           $data=os_db_fetch_array($query);
-           echo os_wysiwyg_tiny('mail',$data['code']);
-     } 
-  }
+
 ?>
 <?php $main->head(); ?>
 <?php $main->top_menu(); ?>
@@ -193,7 +182,8 @@ include_once (_LIB.'phpmailer/func.mail.php');
               </tr>
               <tr>
                 <td valign="top" class="main"><?php echo TEXT_MESSAGE; ?></td>
-              <td><?php echo os_draw_textarea_field('message', 'soft', '100%', '20'); ?><br /><a href="javascript:toggleHTMLEditor('message');" class="code"><?php echo TEXT_EDIT_E;?></a></td>
+              <td><?php echo os_draw_textarea_field('message', 'soft', '100%', '20'); ?>
+			  </td>
               <tr>
                 <td colspan="2" align="right"><span class="button"><button type="submit" value="<?php echo BUTTON_SEND_EMAIL; ?>"><?php echo BUTTON_SEND_EMAIL; ?></button></span></td>
               </tr>
