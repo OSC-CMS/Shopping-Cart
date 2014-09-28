@@ -51,7 +51,6 @@ function check_db()
 	}
 
 	return array(
-		'error' => false,
-		'message' => t('db_10')
+		'error' => false
 	);
 }

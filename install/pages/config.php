@@ -24,29 +24,25 @@ function step($is_submit)
 
 function create_config($path)
 {
-	$type = $_SESSION['install']['type'];
-
-	if ($type == '1')
-	{
-	    if (!is_writable($path.'config.php')){
-	        return array(
-	            'error' => true,
-	            'message' => t('config_4')
-	        );
-	    }
-	    if (!is_writable($path.'htaccess.txt')){
-	        return array(
-	            'error' => true,
-	            'message' => t('config_5')
-	        );
-	    }
-
-		write_files($path);
+	if (!is_writable($path.'config.php')) {
+		return array(
+			'error' => true,
+			'message' => t('config_4')
+		);
 	}
 
-    return array(
-        'error' => false,
-    );
+	if (!is_writable($path.'htaccess.txt')) {
+		return array(
+			'error' => true,
+			'message' => t('config_5')
+		);
+	}
+
+	write_files($path);
+
+	return array(
+		'error' => false,
+	);
 }
 
 function write_files($path)

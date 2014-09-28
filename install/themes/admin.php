@@ -1,8 +1,5 @@
 <h1><?php echo t('step_6'); ?></h1>
 
-<?php $type = $_SESSION['install']['type']; ?>
-
-<?php if ($type == '1') { ?>
 <form id="step-form">
     <fieldset>
 	    <div class="field">
@@ -41,11 +38,6 @@
         </div>
     </fieldset>
 </form>
-<?php } elseif ($type == '2') { ?>
-	<p>
-		<?php echo t('admin_3'); ?>
-	</p>
-<?php } ?>
 
 <div class="buttons">
     <input class="button button-rounded button-flat-action" type="button" name="next" id="btn-next" value="<?php echo t('next'); ?>" onclick="submitStep()" />

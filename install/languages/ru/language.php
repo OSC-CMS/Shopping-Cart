@@ -19,7 +19,7 @@ $language = array(
 	'step_8' => 'Завершение установки',
 
 	'main_title' => 'Установка CartET',
-	'main_copyright' => '&copy; '.date("Y").' <a target="_blank" href="http://osc-cms.com">CartET</a> | <a target="_blank" href="http://osc-cms.com/forum">Support</a>',
+	'main_copyright' => '&copy; '.date("Y").' <a target="_blank" href="http://osc-cms.com">CartET</a> | <a target="_blank" href="http://osc-cms.com/forum">Форум поддержки</a>',
 
 	'yes' => 'Да',
 	'no' => 'Нет',
@@ -31,8 +31,7 @@ $language = array(
 
 	'admin_1' => 'Email',
 	'admin_2' => 'Пароль',
-	'admin_3' => 'Вы делали обновление.<br />Создание администратора не требуется.',
-	'admin_4' => 'Заполните поля Email и Пароль',
+	'admin_3' => 'Заполните поля Email и Пароль',
 	'admin_default_firstname' => 'John',
 	'admin_default_lastname' => 'Smith',
 	'admin_default_street_address' => 'ул. Мира 346, кв. 78',
@@ -48,7 +47,6 @@ $language = array(
 	'config_3' => 'После записи необходимо будет сделать эти файлы недоступными для записи.',
 	'config_4' => 'Файл config.php недоступен для записи',
 	'config_5' => 'Файл htaccess.txt недоступен для записи',
-	'config_6' => 'Вы делали обновление.<br />Изменение файлов не требуется.',
 
 	'db_1' => 'Укажите данные для подключения к базе MySQL<br />База данных должна быть в кодировке <b>utf8_general_ci</b>',
 	'db_2' => 'Сервер MySQL',
@@ -79,7 +77,7 @@ $language = array(
 	'php_5' => 'Рекомендуемые расширения',
 	'php_6' => 'Данные расширения не являются необходимыми, но без них будет недоступна часть функционала',
 
-	'start_1' => 'Данная версия CartET предназначена для тестирования.',
+	'start_1' => 'Данная версия CartET на стадии тестирования!',
 	'start_2' => 'Мастер установки CartET проверит удовлетворяет ли ваш сервер системным требованиям.',
 	'start_3' => 'В процессе работы мастер задаст несколько вопросов, необходимых для корректной установки и настройки CartET.',
 	'start_4' => 'Перед началом установки необходимо создать чистую базу данных MySQL в кодировке <b>utf8_general_ci</b>',

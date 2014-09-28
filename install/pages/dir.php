@@ -52,12 +52,8 @@ function checkWritables()
 		'tmp/' => $_dir.'tmp/',
 	);
 
-	$type = $_SESSION['install']['type'];
-	if ($type == '1')
-	{
-		$arr['config.php'] = $_dir.'config.php';
-		$arr['htaccess.txt'] = $_dir.'htaccess.txt';
-	}
+	$arr['config.php'] = $_dir.'config.php';
+	$arr['htaccess.txt'] = $_dir.'htaccess.txt';
 
 	return $arr;
 }

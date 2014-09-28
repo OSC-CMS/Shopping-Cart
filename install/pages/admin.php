@@ -12,7 +12,7 @@ function step($is_submit)
 {
     if ($is_submit)
     {
-        return check_admin();
+        return create_admin();
     }
 
     $result = array('html' => display('admin', array()));
@@ -20,32 +20,18 @@ function step($is_submit)
     return $result;
 }
 
-function check_admin()
-{
-	$type = $_SESSION['install']['type'];
-
-	if ($type == '1')
-	{
-	    $email = $_POST['EMAIL_ADRESS'];
-	    $pass = $_POST['PASSWORD'];
-
-	    if (!$email || !$pass){
-	        return array(
-	            'error' => true,
-	            'message' => t('admin_4')
-	        );
-	    }
-
-	    create_admin();
-	}
-
-    return array(
-        'error' => false,
-    );
-}
-
 function create_admin()
 {
+	$email = $_POST['EMAIL_ADRESS'];
+	$pass = $_POST['PASSWORD'];
+
+	if (!$email || !$pass){
+		return array(
+			'error' => true,
+			'message' => t('admin_3')
+		);
+	}
+
 	$db = $_SESSION['install']['db'];
 	os_db_connect_installer($db['host'], $db['user'], $db['pass']);
 	os_db_select_db($db['base']);
@@ -111,4 +97,8 @@ function create_admin()
 	os_db_query("UPDATE ".DB_PREFIX."configuration SET configuration_value='".($email_from)."' WHERE configuration_key = 'EMAIL_BILLING_ADDRESS'");
 	os_db_query("UPDATE ".DB_PREFIX."configuration SET configuration_value='".($email_from)."' WHERE configuration_key = 'CONTACT_US_EMAIL_ADDRESS'");
 	os_db_query("UPDATE ".DB_PREFIX."configuration SET configuration_value='".($email_from)."' WHERE configuration_key = 'EMAIL_SUPPORT_ADDRESS'");
+
+	return array(
+		'error' => false,
+	);
 }
