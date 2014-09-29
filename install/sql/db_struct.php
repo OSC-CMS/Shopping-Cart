@@ -887,6 +887,7 @@ os_db_query("CREATE TABLE ".DB_PREFIX."orders (
   orders_ident_key varchar(255),
   orig_reference text,
   login_reference text,
+  paid int(1) NOT NULL default '0',
   PRIMARY KEY (orders_id)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE utf8_general_ci;");
 
