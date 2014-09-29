@@ -81,6 +81,10 @@ $ymlAvailable = array(
 	array('id' => 1, 'text' => TEXT_YANDEX_MARKET_AVAILABLE_1),
 	array('id' => 2, 'text' => TEXT_YANDEX_MARKET_AVAILABLE_2)
 );
+$ymlManufacturerWarranty = array(
+	array('id' => 0, 'text' => TEXT_YANDEX_MARKET_MANUFACTURER_WARRANTY_0),
+	array('id' => 1, 'text' => TEXT_YANDEX_MARKET_MANUFACTURER_WARRANTY_1)
+);
 ?>
 
 <?php
@@ -479,6 +483,25 @@ echo os_draw_hidden_field('products_id', $pInfo->products_id);
 									array('class' => 'input-block-level')
 								);
 								?>
+							</div>
+						</div>
+						<div class="control-group">
+							<label class="control-label" for=""><?php echo TEXT_YANDEX_MARKET_MANUFACTURER_WARRANTY; ?></label>
+							<div class="controls">
+								<?php echo os_draw_pull_down_menu('yml_manufacturer_warranty', $ymlManufacturerWarranty, (($pInfo->yml_manufacturer_warranty != '') ? $pInfo->yml_manufacturer_warranty : 0)); ?>
+							</div>
+						</div>
+						<div class="control-group">
+							<label class="control-label" for=""><?php echo TEXT_YANDEX_MARKET_MANUFACTURER_WARRANTY_TEXT; ?></label>
+							<div class="controls">
+								<?php
+								echo $cartet->html->input_text(
+									'yml_manufacturer_warranty_text',
+									$pInfo->yml_manufacturer_warranty_text,
+									array('class' => 'form-control')
+								);
+								?>
+								<span class="help-block"><?php echo TEXT_YANDEX_MARKET_MANUFACTURER_WARRANTY_TEXT_DESC; ?></span>
 							</div>
 						</div>
 					</div>

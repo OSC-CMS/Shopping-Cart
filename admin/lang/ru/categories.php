@@ -216,6 +216,12 @@ define('TEXT_YANDEX_MARKET_AVAILABLE_0','Под заказ');
 define('TEXT_YANDEX_MARKET_AVAILABLE_1','В наличии');
 define('TEXT_YANDEX_MARKET_AVAILABLE_2','Определять по количеству');
 
+define('TEXT_YANDEX_MARKET_MANUFACTURER_WARRANTY', 'Официальная гарантия производителя');
+define('TEXT_YANDEX_MARKET_MANUFACTURER_WARRANTY_0', 'Нет');
+define('TEXT_YANDEX_MARKET_MANUFACTURER_WARRANTY_1', 'Есть');
+define('TEXT_YANDEX_MARKET_MANUFACTURER_WARRANTY_TEXT', 'Номер гарантии');
+define('TEXT_YANDEX_MARKET_MANUFACTURER_WARRANTY_TEXT_DESC', 'Выводится в manufacturer_warranty');
+
 define('TEXT_LAST_PAGE','Последняя &raquo;');
 define('TEXT_FIRST_PAGE','&laquo; Первая');
 
