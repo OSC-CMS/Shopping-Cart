@@ -319,6 +319,7 @@ class apiProduct extends CartET
 	public function getList($params = array())
 	{
 		// Опции
+		$group_by = '';
 		$order_by = 'pd.products_name ASC';
 		$category = '';
 		$manufacturer = '';
@@ -384,6 +385,9 @@ class apiProduct extends CartET
 		if ($params['order'])
 			$order_by = $params['order'];
 
+		if ($params['group'])
+			$group_by = 'GROUP BY '.$params['group'];
+
 		// Проверка прав
 		$group_check = (GROUP_CHECK == 'true' && !$params['admin']) ? " AND p.group_permission_".$_SESSION['customers_status']['customers_status_id']." = 1 " : '';
 		$fsk_lock = ($_SESSION['customers_status']['customers_fsk18_display'] == '0' && !$params['admin']) ? ' AND p.products_fsk18 != 1 ' : '';
@@ -412,6 +416,7 @@ class apiProduct extends CartET
 			".$fsk_lock."
 			".$category."
 			".$manufacturer."
+			".$group_by."
 			ORDER BY
 				".$order_by."
 			".$limit."
