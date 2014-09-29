@@ -239,21 +239,10 @@ if (MODULE_ORDER_TOTAL_INSTALLED)
 $osTemplate->assign('totalArray', $totalArray);
 
 // Заполенные поля методов оплаты(если есть)
-/*if (is_array($payment_modules->modules))
+if (is_array($payment_modules->modules))
 {
-	if ($confirmation = $payment_modules->confirmation())
-	{
-		$payment_info = $confirmation['title'];
-		for ($i = 0, $n = sizeof($confirmation['fields']); $i < $n; $i++)
-		{
-			$payment_info .= '<table>
-			<tr><td class="main">'.$confirmation['fields'][$i]['title'] . '</td>
-			<td class="main">'.stripslashes($confirmation['fields'][$i]['field']) . '</td>
-			</tr></table>';
-		}
-		$osTemplate->assign('PAYMENT_INFORMATION', $payment_info);
-	}
-}*/
+	$confirmation = $payment_modules->confirmation();
+}
 
 // Комментарий к заказу
 if (os_not_null($order->info['comments']))
@@ -263,18 +252,18 @@ if (os_not_null($order->info['comments']))
 
 // Если метод оплаты требует перехода на сайт сервиса, то посылаем на form_action_url,
 // в противном случае форма отправляет на окончательное формирование заказа
-/*if (isset ($$_SESSION['payment']->form_action_url) && !$$_SESSION['payment']->tmpOrders)
-	$form_action_url = $$_SESSION['payment']->form_action_url;
+if (isset ($$_SESSION['payment']->form_action_url) && !$$_SESSION['payment']->tmpOrders)
+	$form_action_url = FILENAME_CHECKOUT_PROCESS;
 else
-	$form_action_url = os_href_link(FILENAME_CHECKOUT_PROCESS, '', 'SSL');
-
+	$form_action_url = 'checkout_process_local.php';
+/*
 if (isset($$_SESSION['payment']->form_action_method) && !empty($$_SESSION['payment']->form_action_method))
 	$form_action_method = $$_SESSION['payment']->form_action_method;
 else
 	$form_action_method = 'post';
 */
 
-$osTemplate->assign('CHECKOUT_FORM', os_draw_form('checkout_confirmation', os_href_link('checkout_process_local.php', '', 'SSL')));
+$osTemplate->assign('CHECKOUT_FORM', os_draw_form('checkout_confirmation', os_href_link($form_action_url, '', 'SSL')));
 $osTemplate->assign('CHECKOUT_FORM_END', '</form>');
 
 // метод класса оплаты process_button
