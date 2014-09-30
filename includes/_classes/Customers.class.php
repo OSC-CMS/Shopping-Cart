@@ -20,11 +20,26 @@ class apiCustomers extends CartET
 		$customers_id = (isset($params['customers_id'])) ? $params['customers_id'] : $params['pk'];
 		$status = (isset($params['status'])) ? $params['status'] : $params['value'];
 
-		$check_status_query = os_db_query("select customers_status from ".TABLE_CUSTOMERS." where customers_id = '".(int)$customers_id."'");
+		$check_status_query = os_db_query("SELECT * FROM ".TABLE_CUSTOMERS." WHERE customers_id = '".(int)$customers_id."'");
 		$check_status = os_db_fetch_array($check_status_query);
 
 		if ($check_status['customers_status'] != $status)
 		{
+			if ($check_status['customers_email_address']) {
+				require _LIB . 'phpmailer/PHPMailerAutoload.php';
+				include_once(_LIB . 'phpmailer/func.mail.php');
+
+				$osTemplate = new osTemplate;
+				$osTemplate->assign('language', $_SESSION['language']);
+				$osTemplate->assign('status', os_get_customers_status_name($status));
+
+				$osTemplate->caching = false;
+				$html_mail = $osTemplate->fetch(_MAIL . $_SESSION['language'] . '/change_customer_status.html');
+				$txt_mail = $osTemplate->fetch(_MAIL . $_SESSION['language'] . '/change_customer_status.txt');
+
+				os_php_mail(EMAIL_SUPPORT_ADDRESS, EMAIL_SUPPORT_NAME, $check_status['customers_email_address'], $check_status['customers_firstname'] . ' ' . $check_status['customers_lastname'], EMAIL_SUPPORT_FORWARDING_STRING, EMAIL_SUPPORT_REPLY_ADDRESS, EMAIL_SUPPORT_REPLY_ADDRESS_NAME, '', '', EMAIL_SUPPORT_SUBJECT, $html_mail, $txt_mail);
+			}
+
 			os_db_query("update ".TABLE_CUSTOMERS." set customers_status = '".(int)$status."' where customers_id = '".(int)$customers_id."'");
 
 			if ($status == 0)
@@ -229,6 +244,7 @@ class apiCustomers extends CartET
 		$customers_vat_id = os_db_prepare_input($params['customers_vat_id']);
 		$customers_vat_id_status = os_db_prepare_input($params['customers_vat_id_status']);
 		$customers_status = os_db_prepare_input($params['status']);
+		$customers_status_old = os_db_prepare_input($params['status_old']);
 		$customers_firstname = os_db_prepare_input($params['customers_firstname']);
 		$customers_username = os_db_prepare_input($params['customers_username']);
 		$customers_secondname = os_db_prepare_input($params['customers_secondname']);
@@ -532,24 +548,37 @@ class apiCustomers extends CartET
 				os_db_perform(TABLE_CUSTOMERS_TO_EXTRA_FIELDS, $sql_data_array);
 			}
 
-			// Отправляем email пользователю
-			if (($customers_send_mail == 'yes'))
+			if (($customers_status != $customers_status_old && !empty($customers_status_old)) OR $customers_send_mail == 'yes')
 			{
 				require _LIB . 'phpmailer/PHPMailerAutoload.php';
-				include_once (_LIB.'phpmailer/func.mail.php');
+				include_once(_LIB . 'phpmailer/func.mail.php');
+
 				$osTemplate = new osTemplate;
-
 				$osTemplate->assign('language', $_SESSION['language']);
-				$osTemplate->caching = false;
+			}
 
+			if ($customers_status != $customers_status_old && !empty($customers_status_old))
+			{
+				$osTemplate->assign('status', os_get_customers_status_name($customers_status));
+
+				$osTemplate->caching = false;
+				$html_mail = $osTemplate->fetch(_MAIL.$_SESSION['language'].'/change_customer_status.html');
+				$txt_mail = $osTemplate->fetch(_MAIL.$_SESSION['language'].'/change_customer_status.txt');
+
+				os_php_mail(EMAIL_SUPPORT_ADDRESS, EMAIL_SUPPORT_NAME, $customers_email_address, $customers_lastname.' '.$customers_firstname, EMAIL_SUPPORT_FORWARDING_STRING, EMAIL_SUPPORT_REPLY_ADDRESS, EMAIL_SUPPORT_REPLY_ADDRESS_NAME, '', '', EMAIL_SUPPORT_SUBJECT, $html_mail, $txt_mail);
+			}
+
+			// Отправляем email пользователю
+			if ($customers_send_mail == 'yes')
+			{
 				$osTemplate->assign('tpl_path', http_path('themes_c'));
 				$osTemplate->assign('logo_path', http_path('themes_c').'img/');
-
 				$osTemplate->assign('NAME', $customers_lastname.' '.$customers_firstname);
 				$osTemplate->assign('EMAIL', $customers_email_address);
 				$osTemplate->assign('COMMENTS', $mail_comments);
 				$osTemplate->assign('PASSWORD', $password);
 
+				$osTemplate->caching = false;
 				$html_mail = $osTemplate->fetch(_MAIL.'admin/'.$_SESSION['language'].'/create_account_mail.html');
 				$txt_mail = $osTemplate->fetch(_MAIL.'admin/'.$_SESSION['language'].'/create_account_mail.txt');
 
@@ -805,8 +834,10 @@ class apiCustomers extends CartET
 				'customers_status_discount_attributes' => os_db_prepare_input($customers_status_discount_attributes)
 			);
 
-			if ($params['action'] == 'insert') {
-				if (!os_not_null($customers_status_id)) {
+			if ($params['action'] == 'insert')
+			{
+				if (!os_not_null($customers_status_id))
+				{
 					$next_id_query = os_db_query("select max(customers_status_id) as customers_status_id from ".TABLE_CUSTOMERS_STATUS."");
 					$next_id = os_db_fetch_array($next_id_query);
 					$customers_status_id = $next_id['customers_status_id'] + 1;

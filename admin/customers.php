@@ -182,7 +182,7 @@ $avatar = http_path('images').'avatars/'.$avatarImg;
 	<?php if ($_GET['action'] == 'edit') { ?>
 	<input type="hidden" name="default_address_id" value="<?php echo $cInfo->customers_default_address_id; ?>">
 	<input type="hidden" name="cID" value="<?php echo $_GET['cID']; ?>">
-	<input type="hidden" name="status" value="<?php echo $cInfo->customers_status; ?>">
+	<input type="hidden" name="status_old" value="<?php echo $cInfo->customers_status; ?>">
 	<?php } elseif ($_GET['action'] == 'new') { ?>
 	<input type="hidden" name="action" value="new">
 	<?php } ?>
