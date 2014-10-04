@@ -11,11 +11,9 @@
 require_once ('includes/top.php');
 
 require_once (_CLASS_ADMIN.FILENAME_IMAGEMANIPULATOR);
-require_once (_CLASS_ADMIN.'categories.php');
 require_once (_CLASS_ADMIN.'currencies.php');
 
 $currencies = new currencies();
-$catfunc = new categories();
 
 if (@$_GET['function'])
 {
@@ -37,14 +35,18 @@ if (isset ($_POST['multi_status_on']))
 	{
 		foreach ($_POST['multi_categories'] AS $category_id)
 		{
-			$catfunc->set_category_recursive($category_id, '1');
+			$cartet->products->changeCategoriesStatus($category_id, '1');
 		}
 	}
 	if (is_array($_POST['multi_products']))
 	{
 		foreach ($_POST['multi_products'] AS $product_id)
 		{
-			$catfunc->set_product_status($product_id, '1');
+			$cartet->products->changeProductStatus(array(
+				'column' => 'products_status',
+				'status' => 1,
+				'id' => $product_id,
+			));
 		}
 	}
 
@@ -59,14 +61,18 @@ if (isset ($_POST['multi_status_off']))
 	{
 		foreach ($_POST['multi_categories'] AS $category_id)
 		{
-			$catfunc->set_category_recursive($category_id, "0");
+			$cartet->products->changeCategoriesStatus($category_id, '0');
 		}
 	}
 	if (is_array($_POST['multi_products']))
 	{
 		foreach ($_POST['multi_products'] AS $product_id)
 		{
-			$catfunc->set_product_status($product_id, "0");
+			$cartet->products->changeProductStatus(array(
+				'column' => 'products_status',
+				'status' => 0,
+				'id' => $product_id,
+			));
 		}
 	}
 
@@ -80,32 +86,39 @@ if (@$_GET['action'])
 	switch ($_GET['action'])
 	{
 		case 'update_category' :
-			$catfunc->insert_category($_POST, '', 'update');
+			$cartet->products->saveCategory($_POST, '', 'update');
 			set_categories_url_cache();
 			os_redirect(os_href_link(FILENAME_CATEGORIES, 'cPath='.$_GET['cPath']));
 		break;
 
 		case 'insert_category' :
-			$catfunc->insert_category($_POST, $current_category_id);
+			$cartet->products->saveCategory($_POST, $current_category_id);
 			set_categories_url_cache();
 			set_category_cache();
 			os_redirect(os_href_link(FILENAME_CATEGORIES, 'cPath='.$_GET['cPath']));
 		break;
 
 		case 'update_product' :
-			$catfunc->insert_product($_POST, '', 'update');
-			set_products_url_cache();
+			$cartet->products->saveProduct(array(
+				'products_data' => $_POST,
+				'category_id' => $current_category_id,
+				'action' => 'update'
+			));
+
 			os_redirect(os_href_link(FILENAME_CATEGORIES, 'cPath='.$_GET['cPath']));
 		break;
 
 		case 'insert_product' :
-			$catfunc->insert_product($_POST, $current_category_id);
-			set_products_url_cache();
+			$cartet->products->saveProduct(array(
+				'products_data' => $_POST,
+				'category_id' => $current_category_id,
+			));
+
 			os_redirect(os_href_link(FILENAME_CATEGORIES, 'cPath='.$_GET['cPath']));
 		break;
 
 		case 'edit_crossselling' :
-			$catfunc->edit_cross_sell($_GET);
+			$cartet->products->saveCrossSelling($_GET);
 			set_products_url_cache();
 			set_categories_url_cache();
 		break;
@@ -125,11 +138,11 @@ else
 	$messageStack->add(ERROR_CATALOG_IMAGE_DIRECTORY_DOES_NOT_EXIST.' '.dir_path('images'), 'error');
 }
 
-$getcPath = '';
-if ($_GET['cpath'])
-	$getcPath = '?cPath='.$_GET['cpath'];
+$_cPath = '';
+if ($_GET['cPath'])
+	$_cPath = '?cPath='.$_GET['cPath'];
 
-$breadcrumb->add(BOX_HEADING_PRODUCTS, os_href_link(FILENAME_CATEGORIES.$getcPath));
+$breadcrumb->add(BOX_HEADING_PRODUCTS, os_href_link(FILENAME_CATEGORIES.$_cPath));
 
 if (isset($_GET['action']) && ($_GET['action'] == 'new_category' || $_GET['action'] == 'edit_category'))
 	include (_MODULES_ADMIN.'new_category.php');
@@ -139,10 +152,7 @@ elseif (isset($_GET['action']) && $_GET['action'] == 'edit_crossselling')
 	include (_MODULES_ADMIN.'cross_selling.php');
 else
 {
-	if (!$cPath)
-	{
-		$cPath = '0';
-	}
+	$cPath = (isset($_GET['cPath']) && !empty($_GET['cPath'])) ? $_GET['cPath'] : 0;
 
 	include (_MODULES_ADMIN.'categories_view.php');
 }
