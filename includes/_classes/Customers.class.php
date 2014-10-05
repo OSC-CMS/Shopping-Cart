@@ -25,13 +25,24 @@ class apiCustomers extends CartET
 
 		if ($check_status['customers_status'] != $status)
 		{
-			if ($check_status['customers_email_address']) {
-				require _LIB . 'phpmailer/PHPMailerAutoload.php';
-				include_once(_LIB . 'phpmailer/func.mail.php');
+			if ($check_status['customers_email_address'])
+			{
+				$customers_status_query = os_db_query("SELECT * FROM ".TABLE_CUSTOMERS_STATUS." WHERE customers_status_id = '".$status."' AND language_id = '".$_SESSION['languages_id']."'");
+				$customers_status = os_db_fetch_array($customers_status_query);
 
 				$osTemplate = new osTemplate;
 				$osTemplate->assign('language', $_SESSION['language']);
-				$osTemplate->assign('status', os_get_customers_status_name($status));
+				$osTemplate->assign('status', $customers_status['customers_status_name']);
+
+				if ($customers_status['customers_status_discount'] > 0)
+				{
+					$osTemplate->assign('discount', $customers_status['customers_status_discount']);
+				}
+
+				if ($customers_status['customers_status_ot_discount'] > 0 && $customers_status['customers_status_ot_discount_flag'] == 1)
+				{
+					$osTemplate->assign('ot_discount', $customers_status['customers_status_ot_discount']);
+				}
 
 				$osTemplate->caching = false;
 				$html_mail = $osTemplate->fetch(_MAIL . $_SESSION['language'] . '/change_customer_status.html');
@@ -559,7 +570,20 @@ class apiCustomers extends CartET
 
 			if ($customers_status != $customers_status_old && !empty($customers_status_old))
 			{
-				$osTemplate->assign('status', os_get_customers_status_name($customers_status));
+				$customers_status_query = os_db_query("SELECT * FROM ".TABLE_CUSTOMERS_STATUS." WHERE customers_status_id = '".$customers_status."' AND language_id = '".$_SESSION['languages_id']."'");
+				$customers_status = os_db_fetch_array($customers_status_query);
+
+				$osTemplate->assign('status', $customers_status['customers_status_name']);
+
+				if ($customers_status['customers_status_discount'] > 0)
+				{
+					$osTemplate->assign('discount', $customers_status['customers_status_discount']);
+				}
+
+				if ($customers_status['customers_status_ot_discount'] > 0 && $customers_status['customers_status_ot_discount_flag'] == 1)
+				{
+					$osTemplate->assign('ot_discount', $customers_status['customers_status_ot_discount']);
+				}
 
 				$osTemplate->caching = false;
 				$html_mail = $osTemplate->fetch(_MAIL.$_SESSION['language'].'/change_customer_status.html');
