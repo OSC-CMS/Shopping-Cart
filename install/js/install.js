@@ -1,5 +1,8 @@
 function nextStep(){
 
+    $('#messages div').removeClass('warning');
+    $('#messages div').html('');
+
     if (current_step === false){
         current_step = 0;
     } else {
@@ -82,7 +85,9 @@ function submitStep(){
             return;
         }
 
-        alert(result.message);
+        //alert(result.message);
+        $('#messages div').addClass('warning');
+        $('#messages div').html(result.message);
 
     }, 'json');
 

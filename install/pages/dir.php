@@ -19,43 +19,38 @@ function step($is_submit){
 
 function checkWritables()
 {
-	$_dir = ROOT_PATH;
-
-	$arr = array(
-		'admin/backups/' => $_dir.'admin/backups/',
-		'cache/' => $_dir.'cache/',
-		'cache/cache/' => $_dir.'cache/cache/',
-		'cache/compiled/' => $_dir.'cache/compiled/',
-		'cache/database/' => $_dir.'cache/database/',
-		'cache/system/' => $_dir.'cache/system/',
-		'cache/url/' => $_dir.'cache/url/',
-		'images/' => $_dir.'images/',
-		'images/articles/' => $_dir.'images/articles/',
-		'images/attribute_images/' => $_dir.'images/attribute_images/',
-		'images/attribute_images/mini/' => $_dir.'images/attribute_images/mini/',
-		'images/attribute_images/original/' => $_dir.'images/attribute_images/original/',
-		'images/attribute_images/thumbs/' => $_dir.'images/attribute_images/thumbs/',
-		'images/avatars/' => $_dir.'images/avatars/',
-		'images/banner/' => $_dir.'images/banner/',
-		'images/categories/' => $_dir.'images/categories/',
-		'images/groups/' => $_dir.'images/groups/',
-		'images/manufacturers/' => $_dir.'images/manufacturers/',
-		'images/news/' => $_dir.'images/news/',
-		'images/product_images/info_images/' => $_dir.'images/product_images/info_images/',
-		'images/product_images/original_images/' => $_dir.'images/product_images/original_images/',
-		'images/product_images/popup_images/' => $_dir.'images/product_images/popup_images/',
-		'images/product_images/thumbnail_images/' => $_dir.'images/product_images/thumbnail_images/',
-		'images/shipping_status/' => $_dir.'images/shipping_status/',
-		'media/export/' => $_dir.'media/export/',
-		'media/import/' => $_dir.'media/import/',
-		'media/products/' => $_dir.'media/products/',
-		'tmp/' => $_dir.'tmp/',
+	return array(
+		'admin/backups/' => ROOT_PATH.'admin/backups/',
+		'cache/' => ROOT_PATH.'cache/',
+		'cache/cache/' => ROOT_PATH.'cache/cache/',
+		'cache/compiled/' => ROOT_PATH.'cache/compiled/',
+		'cache/database/' => ROOT_PATH.'cache/database/',
+		'cache/system/' => ROOT_PATH.'cache/system/',
+		'cache/url/' => ROOT_PATH.'cache/url/',
+		'images/' => ROOT_PATH.'images/',
+		'images/articles/' => ROOT_PATH.'images/articles/',
+		'images/attribute_images/' => ROOT_PATH.'images/attribute_images/',
+		'images/attribute_images/mini/' => ROOT_PATH.'images/attribute_images/mini/',
+		'images/attribute_images/original/' => ROOT_PATH.'images/attribute_images/original/',
+		'images/attribute_images/thumbs/' => ROOT_PATH.'images/attribute_images/thumbs/',
+		'images/avatars/' => ROOT_PATH.'images/avatars/',
+		'images/banner/' => ROOT_PATH.'images/banner/',
+		'images/categories/' => ROOT_PATH.'images/categories/',
+		'images/groups/' => ROOT_PATH.'images/groups/',
+		'images/manufacturers/' => ROOT_PATH.'images/manufacturers/',
+		'images/news/' => ROOT_PATH.'images/news/',
+		'images/product_images/info_images/' => ROOT_PATH.'images/product_images/info_images/',
+		'images/product_images/original_images/' => ROOT_PATH.'images/product_images/original_images/',
+		'images/product_images/popup_images/' => ROOT_PATH.'images/product_images/popup_images/',
+		'images/product_images/thumbnail_images/' => ROOT_PATH.'images/product_images/thumbnail_images/',
+		'images/shipping_status/' => ROOT_PATH.'images/shipping_status/',
+		'media/export/' => ROOT_PATH.'media/export/',
+		'media/import/' => ROOT_PATH.'media/import/',
+		'media/products/' => ROOT_PATH.'media/products/',
+		'tmp/' => ROOT_PATH.'tmp/',
+		'config.php' => ROOT_PATH.'config.php',
+		'htaccess.txt' => ROOT_PATH.'htaccess.txt',
 	);
-
-	$arr['config.php'] = $_dir.'config.php';
-	$arr['htaccess.txt'] = $_dir.'htaccess.txt';
-
-	return $arr;
 }
 
 

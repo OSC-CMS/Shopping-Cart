@@ -22,6 +22,8 @@
             </div>
         </div>
 
+        <div id="messages" class="wrapp"><div></div></div>
+
         <table id="main" class="wrapp">
             <tr>
                 <td id="sidebar" valign="top">

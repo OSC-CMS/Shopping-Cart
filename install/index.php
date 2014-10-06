@@ -8,9 +8,11 @@
 *---------------------------------------------------------
 */
 
+//ini_set("display_errors", 1);
+//error_reporting(E_ALL);
 error_reporting(1);
 
-session_start();
+@session_start();
 
 define('DS', DIRECTORY_SEPARATOR);
 define('PATH', dirname(__FILE__).DS);
@@ -81,7 +83,7 @@ $step_result = run_step($steps[$current_step], false);
 
 echo display('index', array(
 	'steps' => $steps,
-	'is_lang_selected' => $is_lang_selected,
+	'is_lang_selected' => $lang,
 	'langs' => get_langs(),
 	'current_step' => $current_step,
 	'step_html' => $step_result['html']

@@ -38,24 +38,32 @@ function create_config($path)
 		);
 	}
 
-	write_files($path);
+	$result = write_files($path);
 
-	return array(
-		'error' => false,
-	);
+	return $result;
 }
 
 function write_files($path)
 {
+	if (!is_array($_SESSION['install']['db']))
+	{
+		return array(
+			'error' => true,
+			'message' => t('config_6')
+		);
+	}
+
+	$db = $_SESSION['install']['db'];
+
 	// config.php
 	$file_contents = '<?php'."\n".
-	'define(\'DB_SERVER\', \''.trim(stripslashes($_SESSION['install']['db']['host'])).'\');'."\n".
-	'define(\'DB_SERVER_USERNAME\', \''.trim(stripslashes($_SESSION['install']['db']['user'])).'\');'."\n".
-	'define(\'DB_SERVER_PASSWORD\', \''.trim(stripslashes($_SESSION['install']['db']['pass'])). '\');'."\n".
-	'define(\'DB_DATABASE\', \''.trim(stripslashes($_SESSION['install']['db']['base'])). '\');'."\n".
-	'define(\'DB_PREFIX\', \''.trim(stripslashes($_SESSION['install']['db']['prefix'])). '\');'."\n".
+	'define(\'DB_SERVER\', \''.trim(stripslashes($db['host'])).'\');'."\n".
+	'define(\'DB_SERVER_USERNAME\', \''.trim(stripslashes($db['user'])).'\');'."\n".
+	'define(\'DB_SERVER_PASSWORD\', \''.trim(stripslashes($db['pass'])). '\');'."\n".
+	'define(\'DB_DATABASE\', \''.trim(stripslashes($db['base'])). '\');'."\n".
+	'define(\'DB_PREFIX\', \''.trim(stripslashes($db['prefix'])). '\');'."\n".
 	'define(\'USE_PCONNECT\', \''.'false'.'\');'."\n" .
-	'define(\'STORE_SESSIONS\', \''.(($_SESSION['install']['db']['sessions'] == 'files') ? '' : 'mysql').'\'); '.
+	'define(\'STORE_SESSIONS\', \''.(($db['sessions'] == 'files') ? '' : 'mysql').'\'); '.
 	"\n"."\n".'include(\'includes/paths.php\');'.
 	"\n".'?>';
 
@@ -108,4 +116,8 @@ function write_files($path)
 		@fclose($fp);
 		@rename($path.'htaccess.txt', $path.'.htaccess');
 	}
+
+	return array(
+		'error' => false
+	);
 }
