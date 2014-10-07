@@ -44,6 +44,9 @@ class apiCustomers extends CartET
 					$osTemplate->assign('ot_discount', $customers_status['customers_status_ot_discount']);
 				}
 
+				require _LIB . 'phpmailer/PHPMailerAutoload.php';
+				include_once(_LIB . 'phpmailer/func.mail.php');
+
 				$osTemplate->caching = false;
 				$html_mail = $osTemplate->fetch(_MAIL . $_SESSION['language'] . '/change_customer_status.html');
 				$txt_mail = $osTemplate->fetch(_MAIL . $_SESSION['language'] . '/change_customer_status.txt');
