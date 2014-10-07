@@ -93,6 +93,18 @@ class yandex_merchant extends CartET
 		}
 	}
 
+	private function payment_types()
+	{
+		return array(
+			'AC' => MODULE_PAYMENT_YANDEX_MERCHANT_PAYMENT_TYPE_AC,
+			'PC' => MODULE_PAYMENT_YANDEX_MERCHANT_PAYMENT_TYPE_PC,
+			'MC' => MODULE_PAYMENT_YANDEX_MERCHANT_PAYMENT_TYPE_MC,
+			'GP' => MODULE_PAYMENT_YANDEX_MERCHANT_PAYMENT_TYPE_GP,
+			'WM' => MODULE_PAYMENT_YANDEX_MERCHANT_PAYMENT_TYPE_WM,
+			'SB' => MODULE_PAYMENT_YANDEX_MERCHANT_PAYMENT_TYPE_SB,
+		);
+	}
+
 	// Выбор метода оплаты в списке
 	function selection()
 	{
@@ -112,10 +124,29 @@ class yandex_merchant extends CartET
 
 		if (os_not_null($this->icon)) $icon = os_image(http_path('payment').$this->code.'/'.$this->icon, $this->title);
 
-		return array(
+		$payment_types = explode(',', MODULE_PAYMENT_YANDEX_MERCHANT_PAYMENT_TYPE);
+
+		$payment_types_select = array();
+		foreach($this->payment_types() AS $key => $val)
+		{
+			if (in_array($key, $payment_types))
+				$payment_types_select[] = array('id' => $key, 'text' => $val);
+		}
+
+		$selected = ($_SESSION['yamoney_payment']) ? $_SESSION['yamoney_payment'] : 'AC';
+
+		return array
+		(
 			'id' => $this->code,
 			'icon' => $icon,
-			'module' => $this->public_title
+			'module' => $this->title,
+			'description' => $this->info,
+			'fields' => array(
+				array(
+					'title' => MODULE_PAYMENT_YANDEX_MERCHANT_PAYMENT_SELECT,
+					'field' => os_draw_pull_down_menu('yandex_payment_type', $payment_types_select, $selected),
+				)
+			)
 		);
 	}
 
@@ -147,22 +178,30 @@ class yandex_merchant extends CartET
 	 */
 	function process_button()
 	{
-		global $order, $osPrice;
+		global $order;
 
-		$order_id = substr($_SESSION[$this->name], strpos($_SESSION[$this->name], '-')+1);
-		$OrderID = ($order_id) ? $order_id : (($this->request->get('order_id')) ? $this->request->get('order_id') : '');
+		$OrderID = substr($_SESSION[$this->name], strpos($_SESSION[$this->name], '-')+1);
+		$TotalAmount = number_format($order->info['total_value'], 2, '.', '');
 
-		$TotalAmount = number_format($osPrice->CalculateCurrEx($order->info['total'], 'RUR'), 2, '.', '');
+		$_SESSION['yamoney_payment'] = $_POST['yandex_payment_type'];
+
+		$payment_types = explode(',', MODULE_PAYMENT_YANDEX_MERCHANT_PAYMENT_TYPE);
+		if (in_array($_SESSION['yamoney_payment'], $payment_types))
+			$payment_type = $_SESSION['yamoney_payment'];
+		else
+			$payment_type = 'AC';
 
 		$process_button_string = os_draw_hidden_field('shopId', MODULE_PAYMENT_YANDEX_MERCHANT_SHOP_ID).
-		os_draw_hidden_field('scid', MODULE_PAYMENT_YANDEX_MERCHANT_SCID).
-		os_draw_hidden_field('sum', $TotalAmount).
-		os_draw_hidden_field('orderNumber', $OrderID).
-		os_draw_hidden_field('shopSuccessURL', _HTTP.FILENAME_CHECKOUT_PROCESS).
-		os_draw_hidden_field('shopFailURL', _HTTP.FILENAME_CHECKOUT_PAYMENT).
-		os_draw_hidden_field('customerNumber', $_SESSION['customer_id']).
-		os_draw_hidden_field('cps_email', $order->customer['email_address']).
-		os_draw_hidden_field('cps_phone', $order->customer['telephone']);
+			os_draw_hidden_field('scid', MODULE_PAYMENT_YANDEX_MERCHANT_SCID).
+			os_draw_hidden_field('Sum', $TotalAmount).
+			os_draw_hidden_field('orderNumber', $OrderID).
+			os_draw_hidden_field('shopSuccessURL', os_href_link(FILENAME_CHECKOUT_PROCESS, '', 'SSL')).
+			os_draw_hidden_field('shopFailURL', os_href_link(FILENAME_CHECKOUT_PAYMENT, '', 'SSL')).
+			os_draw_hidden_field('customerNumber', $_SESSION['customer_id']).
+			os_draw_hidden_field('cps_email', $order->customer['email_address']).
+			os_draw_hidden_field('cps_phone', $order->customer['telephone']).
+			os_draw_hidden_field('cms_name', 'CartET').
+			os_draw_hidden_field('paymentType', $payment_type);
 
 		return $process_button_string;
 	}
@@ -195,6 +234,7 @@ class yandex_merchant extends CartET
 		unset($_SESSION['last_order']);
 		unset($_SESSION['tmp_oID']);
 		unset($_SESSION[$this->name]);
+		unset($_SESSION['yamoney_payment']);
 
 		os_redirect(os_href_link(FILENAME_CHECKOUT_SUCCESS, 'order_id='.$order_id, 'SSL'));
 	}
@@ -220,10 +260,12 @@ class yandex_merchant extends CartET
 		os_db_query("insert into ".TABLE_CONFIGURATION." (configuration_key, configuration_value, configuration_group_id, sort_order, set_function, date_added) values ('MODULE_PAYMENT_YANDEX_MERCHANT_STATUS', 'True', '6', '1', 'os_cfg_select_option(array(\'True\', \'False\'), ', now())");
 		os_db_query("insert into ".TABLE_CONFIGURATION." (configuration_key, configuration_value, configuration_group_id, sort_order, date_added) values ('MODULE_PAYMENT_YANDEX_MERCHANT_SHOP_ID', '', '6', '2', now())");
 		os_db_query("insert into ".TABLE_CONFIGURATION." (configuration_key, configuration_value, configuration_group_id, sort_order, date_added) values ('MODULE_PAYMENT_YANDEX_MERCHANT_SCID', '', '6', '3', now())");
-		os_db_query("insert into ".TABLE_CONFIGURATION." (configuration_key, configuration_value, configuration_group_id, sort_order, set_function, date_added) values ('MODULE_PAYMENT_YANDEX_MERCHANT_TEST', 'True', '6', '4', 'os_cfg_select_option(array(\'True\', \'False\'), ', now())");
-		os_db_query("insert into ".TABLE_CONFIGURATION." (configuration_key, configuration_value, configuration_group_id, sort_order, use_function, set_function, date_added) values ('MODULE_PAYMENT_YANDEX_MERCHANT_ZONE', '0', '6', '5', 'os_get_zone_class_title', 'os_cfg_pull_down_zone_classes(', now())");
-		os_db_query("insert into ".TABLE_CONFIGURATION." (configuration_key, configuration_value, configuration_group_id, sort_order, date_added) values ('MODULE_PAYMENT_YANDEX_MERCHANT_SORT_ORDER', '1', '6', '6', now())");
-		os_db_query("insert into ".TABLE_CONFIGURATION." (configuration_key, configuration_value, configuration_group_id, sort_order, set_function, use_function, date_added) values ('MODULE_PAYMENT_YANDEX_MERCHANT_ORDER_STATUS_ID', '0', '6', '7', 'os_cfg_pull_down_order_statuses(', 'os_get_order_status_name', now())");
+		os_db_query("insert into ".TABLE_CONFIGURATION." (configuration_key, configuration_value, configuration_group_id, sort_order, date_added) values ('MODULE_PAYMENT_YANDEX_MERCHANT_KEY', '', '6', '4', now())");
+		os_db_query("insert into ".TABLE_CONFIGURATION." (configuration_key, configuration_value, configuration_group_id, sort_order, date_added) values ('MODULE_PAYMENT_YANDEX_MERCHANT_PAYMENT_TYPE', 'AC,PC,MC,GP,WM,SB', '6', '5', now())");
+		os_db_query("insert into ".TABLE_CONFIGURATION." (configuration_key, configuration_value, configuration_group_id, sort_order, set_function, date_added) values ('MODULE_PAYMENT_YANDEX_MERCHANT_TEST', 'True', '6', '6', 'os_cfg_select_option(array(\'True\', \'False\'), ', now())");
+		os_db_query("insert into ".TABLE_CONFIGURATION." (configuration_key, configuration_value, configuration_group_id, sort_order, use_function, set_function, date_added) values ('MODULE_PAYMENT_YANDEX_MERCHANT_ZONE', '0', '6', '7', 'os_get_zone_class_title', 'os_cfg_pull_down_zone_classes(', now())");
+		os_db_query("insert into ".TABLE_CONFIGURATION." (configuration_key, configuration_value, configuration_group_id, sort_order, date_added) values ('MODULE_PAYMENT_YANDEX_MERCHANT_SORT_ORDER', '1', '6', '8', now())");
+		os_db_query("insert into ".TABLE_CONFIGURATION." (configuration_key, configuration_value, configuration_group_id, sort_order, set_function, use_function, date_added) values ('MODULE_PAYMENT_YANDEX_MERCHANT_ORDER_STATUS_ID', '0', '6', '9', 'os_cfg_pull_down_order_statuses(', 'os_get_order_status_name', now())");
 	}
 
 	function remove()
@@ -238,6 +280,8 @@ class yandex_merchant extends CartET
 			'MODULE_PAYMENT_YANDEX_MERCHANT_ALLOWED',
 			'MODULE_PAYMENT_YANDEX_MERCHANT_SHOP_ID',
 			'MODULE_PAYMENT_YANDEX_MERCHANT_SCID',
+			'MODULE_PAYMENT_YANDEX_MERCHANT_KEY',
+			'MODULE_PAYMENT_YANDEX_MERCHANT_PAYMENT_TYPE',
 			'MODULE_PAYMENT_YANDEX_MERCHANT_TEST',
 			'MODULE_PAYMENT_YANDEX_MERCHANT_ZONE',
 			'MODULE_PAYMENT_YANDEX_MERCHANT_SORT_ORDER',
