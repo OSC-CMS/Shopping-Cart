@@ -56,7 +56,7 @@ class order
 	
 		$order_status_query = os_db_query("select orders_status_name from ".TABLE_ORDERS_STATUS." where orders_status_id = '".$order['orders_status']."' and language_id = '".$_SESSION['languages_id']."'");
 		$order_status = os_db_fetch_array($order_status_query);
-	
+
 		$this->info = array(
 			'order_id' => $order_id,
 			'currency' => $order['currency'],
@@ -517,7 +517,6 @@ class order
 			if ($_SESSION['customers_status']['customers_status_ot_discount_flag'] == '1')
 			{
 				$this->info['total'] -= ($this->info['subtotal'] /100 * $_SESSION['customers_status']['customers_status_ot_discount']);
-				$this->info['total_value'] = $this->info['total'];
 			}
 		}
 		else
@@ -526,8 +525,8 @@ class order
 			if ($_SESSION['customers_status']['customers_status_ot_discount_flag'] == '1')
 			{
 				$this->info['total'] -= ($this->info['subtotal'] /100 * $_SESSION['customers_status']['customers_status_ot_discount']);
-				$this->info['total_value'] = $this->info['total'];
 			}
 		}
+		$this->info['total_value'] = $this->info['total'];
 	}
 }
