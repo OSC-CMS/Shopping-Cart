@@ -1,0 +1,9 @@
+{foreach $aCategories as $item}
+	{if $item.menu == 1 && $item.categories_status == 1}
+		<a href="{$item.categories_link}">{$item.categories_name}{if $counts == 'true'} ({$item.categories_count}){/if}</a>
+		{if !$item@last}, {/if}
+		{if $item.children}
+			{include file="$plugDir/sub_categories.html" aCategories=$item.children}
+		{/if}
+	{/if}
+{/foreach}

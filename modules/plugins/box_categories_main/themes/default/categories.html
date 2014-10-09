@@ -1,0 +1,26 @@
+{if $aCategories}
+	{foreach $aCategories as $item}
+		{if $item.menu == 1 && $item.categories_status == 1}
+			<div class="span3">
+				<div class="main-category-item">
+					{if $item.categories_image && $image == 'true'}
+					<div class="main-category-item-image">
+						<img class="pull-left" width="{$imageWidth}" height="{$imageHeight}" src="{$item.categories_image}" alt="{$item.name}">
+					</div>
+					{/if}
+					<div class="main-category-item-content">
+						<a href="{$item.categories_link}">
+							<h4>{$item.categories_name}{if $counts == 'true'} ({$item.categories_count}){/if}</h4>
+						</a>
+						<div class="main-category-item-sub">
+							{if $item.children}
+								{include file="$plugDir/sub_categories.html" aCategories=$item.children}
+							{/if}
+						</div>
+					</div>
+				</div>
+			</div>
+			{if $item@iteration % 4 == 0}</div><div class="row-fluid">{/if}
+		{/if}
+	{/foreach}
+{/if}
