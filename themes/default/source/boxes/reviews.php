@@ -46,7 +46,7 @@ $box_content = '<div align="center"><a href="' . os_href_link(FILENAME_PRODUCT_R
 
   } elseif ($product->isProduct() && $product->data['products_reviews'] == '1') {
     // display 'write a review' box
-    $box_content = '<a href="' . os_href_link(FILENAME_PRODUCT_REVIEWS_WRITE, os_product_link($product->data['products_id'],$product->data['products_name'])) . '">' . BOX_REVIEWS_WRITE_REVIEW .'</a>';
+    $box_content = '<a href="' . os_href_link(FILENAME_PRODUCT_INFO, os_product_link($product->data['products_id'],$product->data['products_name'])) . '">' . BOX_REVIEWS_WRITE_REVIEW .'</a>';
    }
 
   if ($box_content!='') {
