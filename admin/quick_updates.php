@@ -103,7 +103,10 @@ if (isset($_GET['action']) && $_GET['action'] == 'multiup')
 	if (is_numeric($value))
 	{
 		$isPersent = substr($price, -1) == '%';
-		$sql = 'UPDATE '.TABLE_PRODUCTS.' SET products_price = products_price + '.($isPersent ? 'products_price * ('.$value.'/100)' : $value);
+		if ($_POST['cPath'] > 0)
+			$sql = 'UPDATE '.TABLE_PRODUCTS.' p, '.TABLE_PRODUCTS_TO_CATEGORIES.' p2c SET products_price = products_price + '.($isPersent ? 'products_price * ('.$value.'/100)' : $value).' WHERE p.products_id = p2c.products_id AND p2c.categories_id = \''.(int)$_POST['cPath'].'\'';
+		else
+			$sql = 'UPDATE '.TABLE_PRODUCTS.' SET products_price = products_price + '.($isPersent ? 'products_price * ('.$value.'/100)' : $value);
 		os_db_query($sql);
 	}
 	os_redirect(FILENAME_QUICK_UPDATES);
@@ -119,6 +122,7 @@ $main->top_menu();
 	<form class="form-inline" method="post" action="quick_updates.php?action=multiup">
 		<label class="checkbox"><?php echo TEXT_MARGE_INFO; ?></label>
 		<input type="text" class="input-medium" name="price">
+		<?php echo os_draw_pull_down_menu('cPath', os_get_category_tree(), $current_category_id, ''); ?>
 		<button type="submit" class="btn">OK</button>
 		<label class="checkbox"><?php echo TEXT_SPEC_PRICE_INFO1; ?></label>
 	</form>
