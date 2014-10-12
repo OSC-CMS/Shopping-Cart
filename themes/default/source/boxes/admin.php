@@ -28,7 +28,7 @@ $box_content='';
  while ($orders_status = os_db_fetch_array($orders_status_query,true)) 
   {
 
-    $orders_contents .= '<li><a href="'.os_href_link_admin(FILENAME_ORDERS, 'selected_box=customers&amp;status=' . $orders_status['orders_status_id'], 'SSL') . '">' . $orders_status['orders_status_name'].'<span class="pull-right">'.(isset($_orders_status[$orders_status['orders_status_id']]) ? $_orders_status[$orders_status['orders_status_id']] : '0').'</span></a></li>';
+    $orders_contents .= '<li><a href="'.os_href_link_admin(FILENAME_ORDERS, 'status=' . $orders_status['orders_status_id'], 'SSL') . '">' . $orders_status['orders_status_name'].'<span class="pull-right">'.(isset($_orders_status[$orders_status['orders_status_id']]) ? $_orders_status[$orders_status['orders_status_id']] : '0').'</span></a></li>';
   }
   
   //$orders_contents = substr($orders_contents, 0, -6);
