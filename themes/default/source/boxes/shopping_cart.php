@@ -20,15 +20,46 @@ if ($_SESSION['cart']->count_contents() > 0)
 	for ($i = 0, $n = sizeof($products); $i < $n; $i ++)
 	{
 		$qty += $products[$i]['quantity'];
+		$productIds = str_replace(array('{','}'), '_', $products[$i]['id']);
 		$products_in_cart[] = array(
-			'ID' => $products[$i]['id'],
+			'ID' => $productIds,
+			'P_ID' => $products[$i]['id'],
 			'QTY' => $products[$i]['quantity'],
 			'PRICE' => $osPrice->Format($products[$i]['price'], true),
 			'PRICE_TOTAL' => $osPrice->Format(($products[$i]['price']*$products[$i]['quantity']), true),
 			'LINK' => os_href_link(FILENAME_PRODUCT_INFO, os_product_link($products[$i]['id'],$products[$i]['name'])),
 			'NAME' => $products[$i]['name']
 		);
+
+		// Push all attributes information in an array
+		if (isset ($products[$i]['attributes']))
+		{
+			while (list ($option, $value) = each($products[$i]['attributes']))
+			{
+				$attributes = os_db_query("select popt.products_options_name, popt.products_options_type, poval.products_options_values_name, pa.options_values_price, pa.price_prefix,pa.attributes_stock,pa.products_attributes_id,pa.attributes_model
+				from ".TABLE_PRODUCTS_OPTIONS." popt, ".TABLE_PRODUCTS_OPTIONS_VALUES." poval, ".TABLE_PRODUCTS_ATTRIBUTES." pa
+				where pa.products_id = '".$products[$i]['id']."'
+				and pa.options_id = '".$option."'
+				and pa.options_id = popt.products_options_id
+				and pa.options_values_id = '".$value."'
+				and pa.options_values_id = poval.products_options_values_id
+				and popt.language_id = '".(int)$_SESSION['languages_id']."'
+				and poval.language_id = '".(int)$_SESSION['languages_id']."'");
+				$attributes_values = os_db_fetch_array($attributes);
+
+				if ($attributes_values['products_options_type']=='2' || $attributes_values['products_options_type']=='3')
+				{
+					$hidden_options .= os_draw_hidden_field('id[' . $products[$i]['id'] . '][txt_' . $option . '_'.$value.']',  $products[$i]['attributes_values'][$option]);
+				}
+				else
+				{
+					$hidden_options .= os_draw_hidden_field('id[' . $products[$i]['id'] . '][' . $option . ']', $value);
+				}
+			}
+		}
 	}
+
+	$box->assign('HIDDEN_OPTIONS', $hidden_options);
 
 	$total = $getCartInfo['show_total'];
 	if ($_SESSION['customers_status']['customers_status_ot_discount_flag'] == '1' && $_SESSION['customers_status']['customers_status_ot_discount'] != '0.00')

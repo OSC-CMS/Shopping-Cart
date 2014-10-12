@@ -6,16 +6,18 @@
 		<h3 class="box-cart-title"><a href="shopping_cart.php">{#heading_cart#}</a></h3>
 		{if $empty=='false'}
 		<form id="update_box_cart" action="" method="post">
+			{$HIDDEN_OPTIONS}
 			<table class="table table-condensed box-cart-table-products">
 				<tbody>
 					{foreach name=aussen item=products_data from=$products}
 					<tr>
 						<td colspan="3">
 							{if $smarty.const.AJAX_CART == 'true'}
-								<input class="bci-checkbox" id="bci_delete_id_{$products_data.ID}" type="checkbox" name="cart_delete[]" value="{$products_data.ID}" onclick="updateBoxCart();"> 
-								<a class="bci-delete" href="javascript:;" onclick="deleteBoxCartProducts({$products_data.ID})"><i class="icon icon-trash"></i></a>
+								<input class="bci-checkbox" id="bci_delete_id_{$products_data.ID}" type="checkbox" name="cart_delete[]" value="{$products_data.P_ID}" onclick="updateBoxCart();">
+								<a class="bci-delete" href="javascript:;" onclick="deleteBoxCartProducts('{$products_data.ID}')"><i class="icon icon-trash"></i></a>
 							{/if}
-							<input type="hidden" name="products_id[]" value="{$products_data.ID}">
+							<input type="hidden" name="products_id[]" value="{$products_data.P_ID}">
+							<input type="hidden" name="old_qty[]" value="{$products_data.QTY}">
 							<a href="{$products_data.LINK}" title="{$products_data.NAME}">{$products_data.NAME|os_truncate:$smarty.const.MAX_DISPLAY_CART:"...":true}</a>
 						</td>
 					</tr>
