@@ -397,8 +397,8 @@ function os_product_thumb_image($image, $alt, $width = '', $height = '')
 function os_break_string($string, $len, $break_char = '-') {
     $l = 0;
     $output = '';
-    for ($i = 0; $i < strlen($string); $i ++) {
-        $char = substr($string, $i, 1);
+    for ($i = 0; $i < mb_strlen($string); $i ++) {
+        $char = mb_substr($string, $i, 1);
         if ($char != ' ') {
             $l ++;
         } else {
@@ -2032,16 +2032,4 @@ function osc_pages_menu($numr, $max_count, $c_page, $param = '')
 
 
     return $stp;
-}
-
-
-function os_set_product_status($products_id, $status) 
-{
-    if ($status == '1') {
-        return os_db_query("update " . TABLE_PRODUCTS . " set products_status = '1', products_last_modified = now() where products_id = '" . (int)$products_id . "'");
-    } elseif ($status == '0') {
-        return os_db_query("update " . TABLE_PRODUCTS . " set products_status = '0', products_last_modified = now() where products_id = '" . (int)$products_id . "'");
-    } else {
-        return -1;
-    }
 }
