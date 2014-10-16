@@ -119,6 +119,18 @@ function updateShoppingCart()
 	});
 }
 
+function func_qty_count_product(type)
+{
+	var countQty = $('#products_quantity');
+
+	if (type == 'p')
+		countQty.val(parseInt(countQty.val())+1);
+	else if (type == 'm' && countQty.val() != 1)
+		countQty.val(parseInt(countQty.val())-1);
+
+	updateProductPrice();
+}
+
 // + и - количества товара в корзине
 function func_qty_count(id, type, box)
 {

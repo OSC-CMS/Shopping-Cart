@@ -52,7 +52,11 @@
 			{if $PRODUCTS_STOCK eq 1}
 				<li>{#stock#} {$PRODUCTS_QUANTITY}</li>
 				<li>
-					<span class="pull-left product-info-qty">{$ADD_QTY|replace:'name="products_qty"':'name="products_qty" onchange="updateProductPrice()"'}</span>
+					<span class="pull-left product-info-qty">
+						<a href="javascript:;" onclick="func_qty_count_product('m')"><i class="icon-minus"></i></a>
+						{$ADD_QTY|replace:'name="products_qty"':'name="products_qty" id="products_quantity" onchange="updateProductPrice()"'}
+						<a href="javascript:;" onclick="func_qty_count_product('p')"><i class="icon-plus"></i></a>
+					</span>
 					<span class="pull-left product-info-cart-button">{$ADD_CART_BUTTON}</span>
 					<div class="clear"></div>
 				</li>
