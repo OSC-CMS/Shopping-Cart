@@ -29,6 +29,7 @@ $searchQuery = os_db_query("
 		pd.products_name DESC limit ".$limit."
 ");
 
+$products_data = array();
 while ($p = os_db_fetch_array($searchQuery))
 {
 	if(!empty($p['products_image']))
@@ -42,6 +43,7 @@ while ($p = os_db_fetch_array($searchQuery))
 	$products_data[] = $p;
 }
 
+$res = new stdClass;
 $res->query = $keyword;
 $res->suggestions = $products_name;
 $res->data = $products_data;
