@@ -184,6 +184,13 @@ echo os_draw_form('new_category', FILENAME_CATEGORIES, 'cPath='.$cPath.'&cID='.$
 						<div class="control-group">
 							<div class="controls">
 								<label class="checkbox">
+									<?php echo os_draw_selection_field('menu', 'checkbox', '1',$cInfo->menu==1 ? true : false); ?> <?php echo TABLE_HEADING_MENU; ?>
+								</label>
+							</div>
+						</div>
+						<div class="control-group">
+							<div class="controls">
+								<label class="checkbox">
 									<?php echo os_draw_selection_field('status', 'checkbox', '1',$cInfo->categories_status==1 ? true : false); ?> <?php echo TEXT_EDIT_STATUS; ?>
 								</label>
 							</div>
