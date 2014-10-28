@@ -777,9 +777,9 @@ class apiProducts extends CartET
 			os_db_perform(TABLE_PRODUCTS, $sql_data_array, 'update', 'products_id = \''.os_db_input($products_id).'\'');
 
 			// Наборы
+			os_db_query("DELETE FROM ".DB_PREFIX."products_bundles WHERE bundle_id = '" . $products_id . "'");
 			if ($products_data['products_bundle'] == '1')
 			{
-				os_db_query("DELETE FROM ".DB_PREFIX."products_bundles WHERE bundle_id = '" . $products_id . "'");
 				if (isset($_POST['bundles']))
 				{
 					$arr = $_POST['bundles'];
