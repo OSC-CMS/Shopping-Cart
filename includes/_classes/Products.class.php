@@ -170,7 +170,7 @@ class apiProducts extends CartET
 			{
 				while ($products = os_db_fetch_array($products_to_categories_data))
 				{
-					$result = $this->changeProductStatus(array(
+					$this->changeProductStatus(array(
 						'column' => 'products_to_xml',
 						'id' => $products['products_id'],
 						'status' => $params['status']
@@ -513,7 +513,8 @@ class apiProducts extends CartET
 				'listing_template' => $ccopy_values['listing_template'],
 				'sort_order' => $ccopy_values['sort_order'],
 				'products_sorting' => $ccopy_values['products_sorting'],
-				'products_sorting2' => $ccopy_values['products_sorting2']
+				'products_sorting2' => $ccopy_values['products_sorting2'],
+				'menu' => $ccopy_values['menu'],
 			);
 
 			$customers_statuses_array = os_get_customers_statuses();
@@ -751,9 +752,9 @@ class apiProducts extends CartET
 			$products_id = os_db_insert_id();
 
 			//Bundle
+			os_db_query("DELETE FROM ".DB_PREFIX."products_bundles WHERE bundle_id = '".$products_id."'");
 			if ($products_data['products_bundle'] == '1')
 			{
-				os_db_query("DELETE FROM ".DB_PREFIX."products_bundles WHERE bundle_id = '".$products_id."'");
 				if (isset($_POST['bundles']))
 				{
 					$arr = $_POST['bundles'];
@@ -1075,6 +1076,22 @@ class apiProducts extends CartET
 					'products_extra_fields_value' => os_db_prepare_input($extraFields['products_extra_fields_value'])
 				);
 				os_db_perform(TABLE_PRODUCTS_TO_PRODUCTS_EXTRA_FIELDS, $sql_data_array);
+			}
+		}
+
+		// Копирование сопуствующих
+		$xsellQuery = os_db_query("SELECT * FROM ".TABLE_PRODUCTS_XSELL." WHERE products_id = ".$src_products_id."");
+		if (os_db_num_rows($xsellQuery) > 0)
+		{
+			while ($xsell = os_db_fetch_array($xsellQuery))
+			{
+				$sql_data_array = array(
+					'products_id' => $dup_products_id,
+					'products_xsell_grp_name_id' => os_db_prepare_input($xsell['products_xsell_grp_name_id']),
+					'xsell_id' => os_db_prepare_input($xsell['xsell_id']),
+					'sort_order' => os_db_prepare_input($xsell['sort_order'])
+				);
+				os_db_perform(TABLE_PRODUCTS_XSELL, $sql_data_array);
 			}
 		}
 
