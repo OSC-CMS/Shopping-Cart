@@ -124,9 +124,17 @@ class osPrice {
 		}
 
 		if ($this->currencies[$this->actualCurr]['symbol_right'])
+		{
 			$_SESSION['currencySymbol'] = $this->currencies[$this->actualCurr]['symbol_right'];
+			$_SESSION['currencySymbolRight'] = $this->currencies[$this->actualCurr]['symbol_right'];
+			$_SESSION['currencySymbolLeft'] = '';
+		}
 		elseif ($this->currencies[$this->actualCurr]['symbol_left'])
+		{
 			$_SESSION['currencySymbol'] = $this->currencies[$this->actualCurr]['symbol_left'];
+			$_SESSION['currencySymbolLeft'] = $this->currencies[$this->actualCurr]['symbol_left'];
+			$_SESSION['currencySymbolRight'] = '';
+		}
 	}
 
 	/**
