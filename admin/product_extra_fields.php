@@ -109,6 +109,17 @@ if (isset($_POST['save_group']))
 	os_redirect(os_href_link(FILENAME_PRODUCTS_EXTRA_FIELDS, 'act=groups'));
 }
 
+if (isset($_GET['action']) && $_GET['action'] == 'delete')
+{
+	$gId = $_GET['groups_id'];
+	if ($gId)
+	{
+		os_db_query("DELETE FROM ".DB_PREFIX."products_extra_fields_groups WHERE extra_fields_groups_id = ".os_db_input($gId));
+		os_db_query("DELETE FROM ".DB_PREFIX."products_extra_fields_groups_desc WHERE extra_fields_groups_id = ".os_db_input($gId));
+	}
+
+	os_redirect(os_href_link(FILENAME_PRODUCTS_EXTRA_FIELDS, 'act=groups'));
+}
 
 $breadcrumb->add(HEADING_TITLE, FILENAME_PRODUCTS_EXTRA_FIELDS);
 
@@ -243,7 +254,7 @@ $main->top_menu();
 						<div class="btn-group pull-right">
 							<?php
 							echo '<a class="btn btn-mini" href="'.os_href_link(FILENAME_PRODUCTS_EXTRA_FIELDS, 'act=groups&action=edit&groups_id='.$extra_fields['extra_fields_groups_id']).'" title="'.BUTTON_EDIT.'"><i class="icon-edit"></i></a>';
-							echo '<a class="btn btn-mini" href="'.os_href_link(FILENAME_PRODUCTS_EXTRA_FIELDS, 'act=groups&action=delete&groups_id='.$extra_fields['extra_fields_groups_id']).'" title="'.BUTTON_DELETE.'"><i class="icon-trash"></i></a>';
+							echo '<a class="btn btn-mini" href="'.os_href_link(FILENAME_PRODUCTS_EXTRA_FIELDS, 'act=groups&action=delete&groups_id='.$extra_fields['extra_fields_groups_id']).'" title="'.BUTTON_DELETE.'" onclick="return confirm(\''.EF_GROUP_DELETE_CONFIRM.'\')"><i class="icon-trash"></i></a>';
 							?>
 						</div>
 					</td>

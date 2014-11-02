@@ -26,6 +26,7 @@ define('EF_GROUP_NAME', 'Название группы');
 define('EF_GROUP_ORDER', 'Сортировка');
 define('EF_GROUP_STATUS', 'Статус');
 define('EF_GROUP_NEW', 'Новая группа');
+define('EF_GROUP_DELETE_CONFIRM', 'Вы уверены, что хотите удалить группу?');
 
 define ('TEXT_ALL_LANGUAGES', 'Все');
 define ('TEXT_ACTION', 'Действие');
