@@ -206,7 +206,7 @@ $breadcrumb->add(NAVBAR_TITLE_2_PAYMENT_ADDRESS, os_href_link(FILENAME_CHECKOUT_
 $addresses_count = os_count_customer_address_book_entries();
 require (_INCLUDES.'header.php');
 
-$osTemplate->assign('FORM_ACTION', os_draw_form('checkout_address', os_href_link(FILENAME_CHECKOUT_PAYMENT_ADDRESS, '', 'SSL'), 'post', 'onsubmit="return checkform(this);"') . os_draw_hidden_field('required', 'gender,firstname,lastname,address,postcode,city,state,country', 'id="required"'));
+$osTemplate->assign('FORM_ACTION', os_draw_form('checkout_address', os_href_link(FILENAME_CHECKOUT_PAYMENT_ADDRESS, '', 'SSL'), 'post') . os_draw_hidden_field('required', 'gender,firstname,lastname,address,postcode,city,state,country', 'id="required"'));
 
 //if ($messageStack->size('checkout_address') > 0) {
 //	$osTemplate->assign('error', $messageStack->output('checkout_address'));

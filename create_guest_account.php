@@ -327,7 +327,7 @@ require (dir_path('includes').'header.php');
 //	$osTemplate->assign('error', $messageStack->output('create_account'));
 
 //}
-$osTemplate->assign('FORM_ACTION', os_draw_form('create_account', os_href_link(FILENAME_CREATE_GUEST_ACCOUNT, '', 'SSL'), 'post', 'onsubmit="return checkform(this);"').os_draw_hidden_field('action', 'process') . os_draw_hidden_field('required', 'gender,firstname,lastname,dob,email,address,postcode,city,state,country,telephone', 'id="required"'));
+$osTemplate->assign('FORM_ACTION', os_draw_form('create_account', os_href_link(FILENAME_CREATE_GUEST_ACCOUNT, '', 'SSL'), 'post').os_draw_hidden_field('action', 'process') . os_draw_hidden_field('required', 'gender,firstname,lastname,dob,email,address,postcode,city,state,country,telephone', 'id="required"'));
 
 if (ACCOUNT_GENDER == 'true') {
 	$osTemplate->assign('gender', '1');

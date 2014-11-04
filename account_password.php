@@ -71,7 +71,7 @@ require (dir_path('includes').'header.php');
 //if ($messageStack->size('account_password') > 0)
 //	$osTemplate->assign('error', $messageStack->output('account_password'));
 
-$osTemplate->assign('FORM_ACTION', os_draw_form('account_password', os_href_link(FILENAME_ACCOUNT_PASSWORD, '', 'SSL'), 'post', 'onsubmit="return checkform(this);"').os_draw_hidden_field('action', 'process') . os_draw_hidden_field('required', 'password_current,password_new,password_confirmation', 'id="required"'));
+$osTemplate->assign('FORM_ACTION', os_draw_form('account_password', os_href_link(FILENAME_ACCOUNT_PASSWORD, '', 'SSL'), 'post').os_draw_hidden_field('action', 'process') . os_draw_hidden_field('required', 'password_current,password_new,password_confirmation', 'id="required"'));
 
 $osTemplate->assign('INPUT_ACTUAL', os_draw_password_fieldNote(array ('name' => 'password_current', 'text' => '&nbsp;'. (os_not_null(ENTRY_PASSWORD_CURRENT_TEXT) ? '<span class="Requirement">'.ENTRY_PASSWORD_CURRENT_TEXT.'</span>' : '')), '', 'id="password_current"'));
 $osTemplate->assign('ENTRY_PASSWORD_CURRENT_ERROR', ENTRY_PASSWORD_CURRENT_ERROR);

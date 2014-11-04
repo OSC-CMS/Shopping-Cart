@@ -440,7 +440,7 @@ if (ACCOUNT_PROFILE == 'true')
 }
 // END Profile
 
-$osTemplate->assign('FORM_ACTION', os_draw_form('account_edit', os_href_link(FILENAME_ACCOUNT_EDIT, '', 'SSL'), 'post', 'onsubmit="return checkform(this);" enctype="multipart/form-data"').os_draw_hidden_field('action', 'process') . os_draw_hidden_field('required', 'gender,firstname,lastname,dob,email,telephone,username', 'id="required"'));
+$osTemplate->assign('FORM_ACTION', os_draw_form('account_edit', os_href_link(FILENAME_ACCOUNT_EDIT, '', 'SSL'), 'post', 'enctype="multipart/form-data"').os_draw_hidden_field('action', 'process') . os_draw_hidden_field('required', 'gender,firstname,lastname,dob,email,telephone,username', 'id="required"'));
 $osTemplate->assign('FORM_END', '</form>');
 $_array = array(
 	'img' => 'button_back.gif', 

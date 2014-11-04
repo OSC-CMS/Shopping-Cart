@@ -93,7 +93,7 @@ else
 	$osTemplate->assign('AUTHOR', $customer_info['customers_firstname'].' '.$customer_info['customers_lastname']);
 	$osTemplate->assign('INPUT_TEXT', os_draw_textarea_field('review', 'soft', '', '', $_POST['review'], '', false));
 	$osTemplate->assign('INPUT_RATING', os_draw_radio_field('rating', '1').' '.os_draw_radio_field('rating', '2').' '.os_draw_radio_field('rating', '3').' '.os_draw_radio_field('rating', '4').' '.os_draw_radio_field('rating', '5'));
-	$osTemplate->assign('FORM_ACTION', os_draw_form('product_reviews_write', os_href_link(FILENAME_PRODUCT_REVIEWS_WRITE, 'action=process&'.os_product_link($product->data['products_id'],$product->data['products_name'])), 'post', 'onsubmit="return checkForm();"'));
+	$osTemplate->assign('FORM_ACTION', os_draw_form('product_reviews_write', os_href_link(FILENAME_PRODUCT_REVIEWS_WRITE, 'action=process&'.os_product_link($product->data['products_id'],$product->data['products_name'])), 'post'));
 	
 	 $_array = array('img' => 'button_back.gif', 
 	                                'href' => 'javascript:history.back(1)', 

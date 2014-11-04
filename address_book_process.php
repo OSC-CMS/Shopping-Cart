@@ -257,7 +257,7 @@ elseif (isset ($_GET['delete']) && is_numeric($_GET['delete'])) {
 
 require (dir_path('includes').'header.php');
 if (isset ($_GET['delete']) == false)
-	$action = os_draw_form('addressbook', os_href_link(FILENAME_ADDRESS_BOOK_PROCESS, (isset ($_GET['edit']) ? 'edit='.$_GET['edit'] : ''), 'SSL'), 'post', 'onsubmit="return checkform(this);"') . os_draw_hidden_field('required', 'gender,firstname,lastname,address,postcode,city,state,country', 'id="required"');
+	$action = os_draw_form('addressbook', os_href_link(FILENAME_ADDRESS_BOOK_PROCESS, (isset ($_GET['edit']) ? 'edit='.$_GET['edit'] : ''), 'SSL'), 'post') . os_draw_hidden_field('required', 'gender,firstname,lastname,address,postcode,city,state,country', 'id="required"');
 
 $osTemplate->assign('FORM_ACTION', $action);
 //if ($messageStack->size('addressbook') > 0) {
