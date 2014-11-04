@@ -113,6 +113,7 @@ else
 					'manufacturers_id' => $_GET['manufacturers_id'],
 					'products_status' => 1,
 					'category_status' => 1,
+					'group' => 'p.products_id',
 				));
 			}
 		}
