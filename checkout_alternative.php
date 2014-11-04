@@ -45,7 +45,7 @@ require (_CLASS . 'payment.php');
 
 $breadcrumb->add(TEXT_CHECKOUT_ALTERNATIVE);
 
-$osTemplate->assign('FORM_ACTION', os_draw_form('checkout_alternative', os_href_link(FILENAME_CHECKOUT_ALTERNATIVE, '', 'SSL'), 'post', 'onsubmit="return checkform(this);"').os_draw_hidden_field('action', 'process') . os_draw_hidden_field('required', 'gender,firstname,lastname,dob,email,address,postcode,city,state,country,telephone,pass,confirmation', 'id="required"'));
+$osTemplate->assign('FORM_ACTION', os_draw_form('checkout_alternative', os_href_link(FILENAME_CHECKOUT_ALTERNATIVE, '', 'SSL'), 'post').os_draw_hidden_field('action', 'process') . os_draw_hidden_field('required', 'gender,firstname,lastname,dob,email,address,postcode,city,state,country,telephone,pass,confirmation', 'id="required"'));
 $osTemplate->assign('ADDRESS_LABEL', os_address_label($_SESSION['customer_id'], $_SESSION['sendto'], true, ' ', '<br />'));
 $osTemplate->assign('FORM_END', '</form>');
 
