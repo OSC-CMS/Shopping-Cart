@@ -798,62 +798,67 @@ $main->top_menu();
 				</tr>
 				</thead>
 
-				<?php foreach($cartet->orders->getProducts($_GET['oID']) AS $product) { ?>
-					<tr>
-						<td class="tcenter"><a href="#" class="ajax_editable" data-action="order_quickChangeProduct" data-name="products_quantity" data-pk="<?php echo $product['orders_products_id']; ?>" data-type="text"><?php echo $product['products_quantity']; ?></a></td>
-						<td>
-							<a href="<?php echo os_href_link(FILENAME_CATEGORIES, 'pID='.$product['products_id'].'&action=new_product'); ?>" target="_blank"><?php echo $product['products_name']; ?></a>
-							<?php
-							//Bundle
-							$products_bundle = '';
-							if ($product['bundle'] == 1)
-							{
-								$bundle_query = getBundleProducts($product['products_id']);
-
-								if (os_db_num_rows($bundle_query) > 0)
-								{
-									while($bundle_data = os_db_fetch_array($bundle_query))
-									{
-										$products_bundle_data .= '- <a href="'.os_href_link(FILENAME_CATEGORIES, 'pID='.$bundle_data['products_id'].'&action=new_product').'">'.$bundle_data['products_name'].' ('.TEXT_QTY.$bundle_data['products_quantity'].TEXT_UNITS.')</a><br />';
-									}
-								}
-								$products_bundle = (!empty($products_bundle_data)) ? '<div class="bundles-products-block">'.$products_bundle_data.'</div>' : '';
-							}
-							echo $products_bundle;
-							?>
-						</td>
-						<td><a href="#" class="ajax_editable" data-action="order_quickChangeProduct" data-name="products_model" data-pk="<?php echo $product['orders_products_id']; ?>" data-type="text"><?php echo $product['products_model']; ?></a></td>
-						<td><a href="#" class="ajax_editable" data-action="order_quickChangeProduct" data-name="products_shipping_time" data-pk="<?php echo $product['orders_products_id']; ?>" data-type="text"><?php echo $product['products_shipping_time']; ?></a></td>
-						<td><?php echo format_price($product['final_price'] / $product['products_quantity'], 1, $order->info['currency'], isset($product['allow_tax']) ? $product['allow_tax'] : '', $product['products_tax']); ?></td>
-						<?php if (isset($product['allow_tax']) && $product['allow_tax'] == 1) { ?>
-							<td><a href="#" class="ajax_editable" data-action="order_quickChangeProduct" data-name="products_tax" data-pk="<?php echo $product['orders_products_id']; ?>" data-type="text"><?php echo $product['products_tax']; ?></a></td>
-							<td><a href="#" class="ajax_editable" data-action="order_quickChangeProduct" data-name="products_price" data-pk="<?php echo $product['orders_products_id']; ?>" data-type="text"><?php echo $product['products_price']; ?></a></td>
-						<?php } ?>
-						<td class="tright"><a href="#" class="ajax_editable" data-action="order_quickChangeProduct" data-name="final_price" data-pk="<?php echo $product['orders_products_id']; ?>" data-type="text"><?php echo $product['final_price'] ; ?></a></td>
-						<td class="width80px">
-							<div class="btn-group pull-right">
-								<a class="btn btn-mini ajax-load-page" href="#" data-container="1" data-load-page="orders&o_id=<?php echo $_GET['oID']; ?>&p_id=<?php echo $product['products_id']; ?>&op_id=<?php echo $product['orders_products_id']; ?>&action=edit_attributes" data-toggle="modal"><i class="icon-tasks"></i></a>
-								<a class="btn btn-mini" href="#" data-action="order_deleteProduct" data-remove-parent="tr" data-id="<?php echo $product['orders_products_id']; ?>" data-confirm="Вы уверены, что хотите удалить этот товар?"><i class="icon-trash"></i></a>
-							</div>
-						</td>
-					</tr>
-					<?php if (is_array($product['attributes']) && !empty($product['attributes'])) { ?>
+				<?php
+				$aProducts = $cartet->orders->getProducts($_GET['oID']);
+				if (is_array($aProducts))
+				{
+					foreach($aProducts AS $product) { ?>
 						<tr>
-							<td colspan="9">
-								<div class="table-big-text">
-									<?php foreach($product['attributes'] AS $attributes) { ?>
-										<span class="label label-gray">
-											<a href="#" data-action="order_deleteAttributes" data-remove-parent="span" data-id="<?php echo $attributes['orders_products_attributes_id']; ?>" data-confirm="Вы уверены, что хотите удалить этот атрибут?"><i class="icon-remove"></i></a>
-											<?php echo $attributes['products_options']; ?>: <?php echo $attributes['products_options_values']; ?> |
-											<?php echo $osPrice->Format($attributes['options_values_price'], true); ?>
-											<?php echo ($attributes['attributes_model']) ? '('.$attributes['attributes_model'].')' : ''; ?>
-										</span>
-									<?php } ?>
+							<td class="tcenter"><a href="#" class="ajax_editable" data-action="order_quickChangeProduct" data-name="products_quantity" data-pk="<?php echo $product['orders_products_id']; ?>" data-type="text"><?php echo $product['products_quantity']; ?></a></td>
+							<td>
+								<a href="<?php echo os_href_link(FILENAME_CATEGORIES, 'pID='.$product['products_id'].'&action=new_product'); ?>" target="_blank"><?php echo $product['products_name']; ?></a>
+								<?php
+								//Bundle
+								$products_bundle = '';
+								if ($product['bundle'] == 1)
+								{
+									$bundle_query = getBundleProducts($product['products_id']);
+
+									if (os_db_num_rows($bundle_query) > 0)
+									{
+										while($bundle_data = os_db_fetch_array($bundle_query))
+										{
+											$products_bundle_data .= '- <a href="'.os_href_link(FILENAME_CATEGORIES, 'pID='.$bundle_data['products_id'].'&action=new_product').'">'.$bundle_data['products_name'].' ('.TEXT_QTY.$bundle_data['products_quantity'].TEXT_UNITS.')</a><br />';
+										}
+									}
+									$products_bundle = (!empty($products_bundle_data)) ? '<div class="bundles-products-block">'.$products_bundle_data.'</div>' : '';
+								}
+								echo $products_bundle;
+								?>
+							</td>
+							<td><a href="#" class="ajax_editable" data-action="order_quickChangeProduct" data-name="products_model" data-pk="<?php echo $product['orders_products_id']; ?>" data-type="text"><?php echo $product['products_model']; ?></a></td>
+							<td><a href="#" class="ajax_editable" data-action="order_quickChangeProduct" data-name="products_shipping_time" data-pk="<?php echo $product['orders_products_id']; ?>" data-type="text"><?php echo $product['products_shipping_time']; ?></a></td>
+							<td><?php echo format_price($product['final_price'] / $product['products_quantity'], 1, $order->info['currency'], isset($product['allow_tax']) ? $product['allow_tax'] : '', $product['products_tax']); ?></td>
+							<?php if (isset($product['allow_tax']) && $product['allow_tax'] == 1) { ?>
+								<td><a href="#" class="ajax_editable" data-action="order_quickChangeProduct" data-name="products_tax" data-pk="<?php echo $product['orders_products_id']; ?>" data-type="text"><?php echo $product['products_tax']; ?></a></td>
+								<td><a href="#" class="ajax_editable" data-action="order_quickChangeProduct" data-name="products_price" data-pk="<?php echo $product['orders_products_id']; ?>" data-type="text"><?php echo $product['products_price']; ?></a></td>
+							<?php } ?>
+							<td class="tright"><a href="#" class="ajax_editable" data-action="order_quickChangeProduct" data-name="final_price" data-pk="<?php echo $product['orders_products_id']; ?>" data-type="text"><?php echo $product['final_price'] ; ?></a></td>
+							<td class="width80px">
+								<div class="btn-group pull-right">
+									<a class="btn btn-mini ajax-load-page" href="#" data-container="1" data-load-page="orders&o_id=<?php echo $_GET['oID']; ?>&p_id=<?php echo $product['products_id']; ?>&op_id=<?php echo $product['orders_products_id']; ?>&action=edit_attributes" data-toggle="modal"><i class="icon-tasks"></i></a>
+									<a class="btn btn-mini" href="#" data-action="order_deleteProduct" data-remove-parent="tr" data-id="<?php echo $product['orders_products_id']; ?>" data-confirm="Вы уверены, что хотите удалить этот товар?"><i class="icon-trash"></i></a>
 								</div>
 							</td>
 						</tr>
-					<?php } ?>
-				<?php } ?>
+						<?php if (is_array($product['attributes']) && !empty($product['attributes'])) { ?>
+							<tr>
+								<td colspan="9">
+									<div class="table-big-text">
+										<?php foreach($product['attributes'] AS $attributes) { ?>
+											<span class="label label-gray">
+												<a href="#" data-action="order_deleteAttributes" data-remove-parent="span" data-id="<?php echo $attributes['orders_products_attributes_id']; ?>" data-confirm="Вы уверены, что хотите удалить этот атрибут?"><i class="icon-remove"></i></a>
+												<?php echo $attributes['products_options']; ?>: <?php echo $attributes['products_options_values']; ?> |
+												<?php echo $osPrice->Format($attributes['options_values_price'], true); ?>
+												<?php echo ($attributes['attributes_model']) ? '('.$attributes['attributes_model'].')' : ''; ?>
+											</span>
+										<?php } ?>
+									</div>
+								</td>
+							</tr>
+						<?php }
+					}
+				} ?>
 			</table>
 
 			<div class="pt10"><button type="button" class="btn btn-mini btn-info" data-toggle="collapse" data-target="#add_products">Добавить товар</button></div>
