@@ -1371,7 +1371,7 @@ class apiProducts extends CartET
 			{
 				foreach ($params['ids'] AS $pID)
 				{
-					os_db_query("DELETE FROM ".TABLE_PRODUCTS_XSELL." WHERE  = '".(int)$pID."'");
+					os_db_query("DELETE FROM ".TABLE_PRODUCTS_XSELL." WHERE ID = '".(int)$pID."'");
 				}
 			}
 
