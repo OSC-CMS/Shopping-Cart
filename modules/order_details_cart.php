@@ -275,9 +275,6 @@ if ($_SESSION['cart']->count_contents() > 0)
 			}
 		}
 	}
-	if (@$_GET['info_message'])
-		$osTemplate->assign('info_message', str_replace('+', ' ', htmlspecialchars($_GET['info_message'])));
-
 }
 else
 {

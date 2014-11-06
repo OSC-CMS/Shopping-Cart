@@ -18,6 +18,9 @@ $cart_empty = false;
 
 $breadcrumb->add(NAVBAR_TITLE_SHOPPING_CART, os_href_link(FILENAME_SHOPPING_CART));
 
+if (isset($_GET['info_message']) && !empty($_GET['info_message']))
+	$messageStack->add('info_message', str_replace('+', ' ', htmlspecialchars($_GET['info_message'])));
+
 require (_INCLUDES.'header.php');
 
 require (DIR_WS_MODULES.'order_details_cart.php');
