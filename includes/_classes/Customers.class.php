@@ -27,6 +27,9 @@ class apiCustomers extends CartET
 		{
 			if ($check_status['customers_email_address'])
 			{
+				require _LIB . 'phpmailer/PHPMailerAutoload.php';
+				include_once(_LIB . 'phpmailer/func.mail.php');
+
 				$customers_status_query = os_db_query("SELECT * FROM ".TABLE_CUSTOMERS_STATUS." WHERE customers_status_id = '".$status."' AND language_id = '".$_SESSION['languages_id']."'");
 				$customers_status = os_db_fetch_array($customers_status_query);
 
@@ -43,9 +46,6 @@ class apiCustomers extends CartET
 				{
 					$osTemplate->assign('ot_discount', $customers_status['customers_status_ot_discount']);
 				}
-
-				require _LIB . 'phpmailer/PHPMailerAutoload.php';
-				include_once(_LIB . 'phpmailer/func.mail.php');
 
 				$osTemplate->caching = false;
 				$html_mail = $osTemplate->fetch(_MAIL . $_SESSION['language'] . '/change_customer_status.html');
@@ -670,7 +670,7 @@ class apiCustomers extends CartET
 			$fields_id = os_db_prepare_input($params['field_id']);
 
 		$sql_data_array = array(
-			'fields_status' => (int)$params['fields_input_type'],
+			'fields_status' => (int)$params['fields_status'],
 			'fields_input_type' => (int)$params['fields_input_type'],
 			'fields_input_value' => os_db_prepare_input($params['fields_input_value']),
 			'fields_required_status' => (int)$params['fields_required_status'],
@@ -733,7 +733,7 @@ class apiCustomers extends CartET
 			$lang[$l['languages_id']] = $l;
 		}
 
-		$aField['fields_lang'] = $langs;
+		$aField['fields_lang'] = $lang;
 		return $aField;
 	}
 
