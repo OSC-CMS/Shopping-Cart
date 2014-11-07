@@ -2,7 +2,7 @@
 /*
 	Plugin Name: Категории на главной
 	Plugin URI: http://osc-cms.com/store/plugins/box-categories-main
-	Version: 1.0
+	Version: 1.1
 	Description: Выводит блок категорий на главной
 	Author: CartET
 	Author URI: http://osc-cms.com
@@ -32,6 +32,7 @@ function box_categories_main_func()
 	$box->assign('imageWidth', get_option('cImgWidthMain'));
 	$box->assign('imageHeight', get_option('cImgHeightMain'));
 	$box->assign('counts', get_option('countProductsMain'));
+	$box->assign('subcats', get_option('subCategoriesMain'));
 
 	$theme = (file_exists(plugdir().'themes/'.CURRENT_TEMPLATE)) ? CURRENT_TEMPLATE : 'default';
 

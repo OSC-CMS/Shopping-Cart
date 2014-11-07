@@ -36,6 +36,7 @@ function box_categories_func()
 	$box->assign('imageWidth', get_option('cImgWidth'));
 	$box->assign('imageHeight', get_option('cImgHeight'));
 	$box->assign('counts', get_option('countProducts'));
+	$box->assign('subcats', get_option('subCategories'));
 	$box->assign('menuType', get_option('menuType'));
 
 	$theme = (file_exists(plugdir().'themes/'.CURRENT_TEMPLATE)) ? CURRENT_TEMPLATE : 'default';

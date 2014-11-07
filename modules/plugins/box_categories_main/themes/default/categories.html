@@ -13,7 +13,7 @@
 							<h4>{$item.categories_name}{if $counts == 'true'} ({$item.categories_count}){/if}</h4>
 						</a>
 						<div class="main-category-item-sub">
-							{if $item.children}
+							{if $item.children && $subcats == 'true'}
 								{include file="$plugDir/sub_categories.html" aCategories=$item.children}
 							{/if}
 						</div>
