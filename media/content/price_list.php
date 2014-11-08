@@ -53,7 +53,7 @@
             $_orders = ' order by p.products_price ASC';
         }
     }
-    $export_query = "select p.products_id, pd.products_name, p.products_model, p.products_price, p.products_status, p.products_tax_class_id from " . TABLE_PRODUCTS . " p LEFT JOIN " . TABLE_PRODUCTS_DESCRIPTION . " pd ON p.products_id = pd.products_id  where p.products_status = 1".$_orders;
+    $export_query = "select p.products_id, pd.products_name, p.products_model, p.products_price, p.products_status, p.products_tax_class_id from " . TABLE_PRODUCTS . " p LEFT JOIN " . TABLE_PRODUCTS_DESCRIPTION . " pd ON p.products_id = pd.products_id where p.products_status = 1 AND pd.language_id = '".(int)$_SESSION['languages_id']."'".$_orders;
 
     $export_query = $db->query($export_query);
 
