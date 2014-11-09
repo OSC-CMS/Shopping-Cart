@@ -118,7 +118,7 @@ class apiProducts extends CartET
 				".TABLE_PRODUCTS." p 
 					LEFT JOIN ".TABLE_PRODUCTS_DESCRIPTION." pd on pd.products_id = p.products_id 
 			WHERE 
-				pd.products_name LIKE '%".mysql_real_escape_string($query)."%' AND 
+				pd.products_name LIKE '%".mysql_real_escape_string($query)."%' AND
 				pd.language_id = '".(int)$lang."' 
 			ORDER BY 
 				pd.products_name DESC limit ".$limit."
@@ -139,15 +139,39 @@ class apiProducts extends CartET
 	/**
 	 * Статусы категории
 	 */
-	public function changeCategoryStatus($post)
+	public function changeCategoryStatus($params)
 	{
-		if (is_array($post))
+		if (is_array($params))
 		{
-			$result = os_db_query("UPDATE ".TABLE_CATEGORIES." SET ".os_db_prepare_input($post['column'])." = '".(int)$post['status']."' WHERE categories_id = '".(int)$post['id']."'");
-			if ($result)
-				$data = array('msg' => 'Успешно изменено!', 'type' => 'ok');
-			else
-				$data = array('msg' => 'Произошла ошибка!', 'type' => 'error');
+			$getCategoryArray = $this->product->getCategory($params['id'], true);
+			$getSubcategoriesIds = $this->product->getSubcategoriesId($getCategoryArray);
+
+			$result = os_db_query("UPDATE ".TABLE_CATEGORIES." SET ".os_db_prepare_input($params['column'])." = '".(int)$params['status']."' WHERE categories_id = '".(int)$params['id']."'");
+			
+			if (is_array($getSubcategoriesIds))
+			{
+				foreach($getSubcategoriesIds AS $c_id)
+				{
+					// обновляем статусы у категорий
+					os_db_query("UPDATE ".TABLE_CATEGORIES." SET ".os_db_prepare_input($params['column'])." = '".(int)$params['status']."' WHERE categories_id = '".(int)$c_id."'");
+				
+					// обновляем статусы у товаров
+					$products_to_categories_data = os_db_query("select ptc.products_id from ".TABLE_PRODUCTS_TO_CATEGORIES." as ptc where ptc.categories_id='".(int)$c_id."'");
+					if (os_db_num_rows($products_to_categories_data) > 0)
+					{
+						while ($products = os_db_fetch_array($products_to_categories_data))
+						{
+							$this->changeProductStatus(array(
+								'column' => 'products_status',
+								'id' => $products['products_id'],
+								'status' => $params['status']
+							));
+						}
+					}
+				}
+			}
+
+			$data = array('msg' => 'Успешно изменено!', 'type' => 'ok');
 		}
 		else
 			$data = array('msg' => 'Произошла ошибка!', 'type' => 'error');
