@@ -17,7 +17,7 @@ function smarty_function_menu($group)
 	{
 		foreach ($menu as $row)
 		{
-			$item = '<a href="'.$row['menu_url'].'">'.$row['lang_title'].'</a>';
+			$item = '<a href="'.$row['menu_url'].'">'.(($row['menu_class_icon']) ? '<span class="'.$row['menu_class_icon'].'"></span> ' : '').$row['lang_title'].'</a>';
 
 			$cartet->tree->addItem(
 				$row['menu_id'],
@@ -37,5 +37,3 @@ function smarty_function_menu($group)
 		return $result;
 	}
 }
-
-?>
