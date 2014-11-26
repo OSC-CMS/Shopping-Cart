@@ -132,6 +132,7 @@ $main->top_menu();
 					<?php if (isset($_GET['coID']) && !empty($_GET['coID'])) { ?>
 						<span class="label label-success">
 					<?php
+					echo '<input type="hidden" name="products_id" value="'.$pinfo['products_id'].'">';
 					echo $pinfo['products_name'];
 					?>
 					</span>
