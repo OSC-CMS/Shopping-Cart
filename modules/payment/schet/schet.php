@@ -206,7 +206,6 @@ class schet extends CartET
 
 	function before_process()
 	{
-		$this->pre_confirmation_check();
 		return false;
 	}
 
