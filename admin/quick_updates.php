@@ -100,6 +100,18 @@ if (isset($_GET['action']) && $_GET['action'] == 'multiup')
 {
 	$price = $_POST['price'];
 	$value = trim($price, '%');
+
+	if ($_POST['customer_groups'] == 1)
+	{
+		$i = 0;
+		$group_query = os_db_query("SELECT customers_status_id FROM ".TABLE_CUSTOMERS_STATUS." WHERE language_id = '".(int) $_SESSION['languages_id']."' AND customers_status_id != '0'");
+		while ($group_values = os_db_fetch_array($group_query))
+		{
+			$i++;
+			$group_data[$i] = array('STATUS_ID' => $group_values['customers_status_id']);
+		}
+	}
+
 	if (is_numeric($value))
 	{
 		$isPersent = substr($price, -1) == '%';
@@ -111,6 +123,17 @@ if (isset($_GET['action']) && $_GET['action'] == 'multiup')
 				$where_manufacturer = "p.manufacturers_id = '".(int)$_POST['manufacturer']."' AND ";
 			}
 			$sql = 'UPDATE '.TABLE_PRODUCTS.' p, '.TABLE_PRODUCTS_TO_CATEGORIES.' p2c SET products_price = products_price + '.($isPersent ? 'products_price * ('.$value.'/100)' : $value).' WHERE '.$where_manufacturer.' p.products_id = p2c.products_id AND p2c.categories_id = \''.(int)$_POST['cPath'].'\'';
+
+			if ($_POST['customer_groups'] == 1)
+			{
+				for ($col = 0, $n = sizeof($group_data); $col < $n +1; $col ++)
+				{
+					if (@$group_data[$col]['STATUS_ID'] != '')
+					{
+						os_db_query("UPDATE ".TABLE_PERSONAL_OFFERS.$group_data[$col]['STATUS_ID']." po, ".TABLE_PRODUCTS_TO_CATEGORIES." p2c SET po.personal_offer = po.personal_offer + ".($isPersent ? 'po.personal_offer * ('.$value.'/100)' : $value)." WHERE po.products_id = p2c.products_id AND p2c.categories_id = '".(int)$_POST['cPath']."'");
+					}
+				}
+			}
 		}
 		else
 		{
@@ -120,6 +143,17 @@ if (isset($_GET['action']) && $_GET['action'] == 'multiup')
 				$where_manufacturer = " WHERE manufacturers_id = '".(int)$_POST['manufacturer']."'";
 			}
 			$sql = 'UPDATE '.TABLE_PRODUCTS.' SET products_price = products_price + '.($isPersent ? 'products_price * ('.$value.'/100)' : $value).$where_manufacturer;
+
+			if ($_POST['customer_groups'] == 1)
+			{
+				for ($col = 0, $n = sizeof($group_data); $col < $n +1; $col ++)
+				{
+					if (@$group_data[$col]['STATUS_ID'] != '')
+					{
+						os_db_query("UPDATE ".TABLE_PERSONAL_OFFERS.$group_data[$col]['STATUS_ID']." SET personal_offer = personal_offer + ".($isPersent ? 'personal_offer * ('.$value.'/100)' : $value)."");
+					}
+				}
+			}
 		}
 		os_db_query($sql);
 	}
@@ -149,6 +183,7 @@ $main->top_menu();
 			}
 			?>
 		</select>
+		<label class="checkbox"><input type="checkbox" name="customer_groups" value="1"/> <?php echo TEXT_MARGE_CUSTOMER_GROUPS; ?></label>
 		<button type="submit" class="btn">OK</button>
 		<label class="checkbox"><?php echo TEXT_SPEC_PRICE_INFO1; ?></label>
 	</form>
