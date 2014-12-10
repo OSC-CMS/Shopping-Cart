@@ -48,12 +48,11 @@ if ($products_bundles['total'] > 0)
 		);
 
 		// Считаем стоимость с кол. и считаем экономию
-		$bSum += $bundle_data['products_price']*$bundle_data['subproduct_qty'];
+		$bSum += $products_price['price']['plain']*$bundle_data['subproduct_qty'];
 		$bSaving = $bSum - $product->data['products_price'];
 
 		$bundle_sum = $osPrice->GetPrice($bundle_data['products_id'], true, 1, $bundle_data['products_tax_class_id'], $bSum, 1, 0, $bundle_data['products_discount_allowed']);
 		$bundle_saving = $osPrice->GetPrice($bundle_data['products_id'], true, 1, $bundle_data['products_tax_class_id'], $bSaving, 1, 0, $bundle_data['products_discount_allowed']);
-
 	}
 }
 
