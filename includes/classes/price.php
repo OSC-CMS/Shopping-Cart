@@ -174,7 +174,10 @@ class osPrice {
 			if ($sPrice = $this->GetGraduatedPrice($pID, $qty))
 			{
 				$getPrice = $this->FormatSpecialGraduated($pID, $this->AddTax($sPrice, $products_tax), $pPrice, $format, $vpeStatus, $pID, $discountAllowed);
-				$getFormatSpecialGraduated = $getPrice;
+				if ($pPrice != $getPrice['plain'])
+				{
+					$getFormatSpecialGraduated = $getPrice;
+				}
 			}
 		} 
 		else 
@@ -182,7 +185,10 @@ class osPrice {
 			if ($sPrice = $this->GetGroupPrice($pID, 1))
 			{
 				$getPrice = $this->FormatSpecialGraduated($pID, $this->AddTax($sPrice, $products_tax), $pPrice, $format, $vpeStatus, $pID, $discountAllowed);
-				$getFormatSpecialGraduated = $getPrice;
+				if ($pPrice != $getPrice['plain'])
+				{
+					$getFormatSpecialGraduated = $getPrice;
+				}
 			}
 		}
 
