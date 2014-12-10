@@ -34,7 +34,7 @@ if ($products_bundles['total'] > 0)
 		else
 			$image = http_path('images_thumbnail').'../noimage.gif';
 
-		$products_price = $osPrice->GetPrice($bundle_data['products_id'], true, 1, $bundle_data['products_tax_class_id'], $bundle_data['products_price'], 1, 0, $bundle_data['products_discount_allowed']);
+		$bundle_products_price = $osPrice->GetPrice($bundle_data['products_id'], true, $bundle_data['subproduct_qty'], $bundle_data['products_tax_class_id'], $bundle_data['products_price'], 1, 0, $bundle_data['products_discount_allowed']);
 
 		$products_bundle_data[] = array
 		(
@@ -43,13 +43,13 @@ if ($products_bundles['total'] > 0)
 			'PRODUCTS_ID' => $bundle_data['products_id'],
 			'QTY' => $bundle_data['subproduct_qty'],
 			'NAME' => $bundle_data['products_name'],
-			'PRICE' => $products_price['price']['formated'],
-			'PRICE_PLAIN' => $products_price['price']['plain'],
+			'PRICE' => $bundle_products_price['price']['formated'],
+			'PRICE_PLAIN' => $bundle_products_price['price']['plain'],
 		);
 
 		// Считаем стоимость с кол. и считаем экономию
-		$bSum += $products_price['price']['plain']*$bundle_data['subproduct_qty'];
-		$bSaving = $bSum - $product->data['products_price'];
+		$bSum += $bundle_products_price['price']['plain'];
+		$bSaving = $bSum - $products_price['price']['plain'];
 
 		$bundle_sum = $osPrice->GetPrice($bundle_data['products_id'], true, 1, $bundle_data['products_tax_class_id'], $bSum, 1, 0, $bundle_data['products_discount_allowed']);
 		$bundle_saving = $osPrice->GetPrice($bundle_data['products_id'], true, 1, $bundle_data['products_tax_class_id'], $bSaving, 1, 0, $bundle_data['products_discount_allowed']);
@@ -60,4 +60,3 @@ $info->assign('PRODUCTS_BUNDLE', $product->data['products_bundle']);
 $info->assign('PRODUCTS_BUNDLE_DATA', $products_bundle_data);
 $info->assign('PRODUCTS_BUNDLE_SUM', $bundle_sum['price']['formated']);
 $info->assign('PRODUCTS_BUNDLE_SAVING', $bundle_saving['price']['formated']);
-?>
