@@ -169,14 +169,14 @@ if (($_SESSION['customer_id'] == $order_check['customers_id']) OR ($_SESSION['cu
 
 	$osTemplate->assign('summa', $iw->get($total_summ['value']));*/
 
-	$osTemplate->assign('language', $_SESSION['language_admin']);
+	$osTemplate->assign('language', $_SESSION['language']);
 	$osTemplate->assign('charset', $_SESSION['language_charset']);
 	$osTemplate->assign('logo_path', http_path('images'));
 	$osTemplate->assign('oID', $oID);
 
 	if ($order->info['payment_method']!='' && $order->info['payment_method']!='no_payment')
 	{
-		include (DIR_FS_DOCUMENT_ROOT.'/modules/payment/'.$order->info['payment_method'].'/'.$_SESSION['language_admin'].'.php');
+		include (DIR_FS_DOCUMENT_ROOT.'/modules/payment/'.$order->info['payment_method'].'/'.$_SESSION['language'].'.php');
 		$payment_method=constant(strtoupper('MODULE_PAYMENT_'.$order->info['payment_method'].'_TEXT_TITLE'));
 		$osTemplate->assign('PAYMENT_METHOD',$payment_method);
 	}
