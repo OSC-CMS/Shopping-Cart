@@ -47,16 +47,15 @@ if ($products_bundles['total'] > 0)
 			'PRICE_PLAIN' => $bundle_products_price['price']['plain'],
 		);
 
-		// Считаем стоимость с кол. и считаем экономию
 		$bSum += $bundle_products_price['price']['plain'];
-		$bSaving = $bSum - $products_price['price']['plain'];
-
-		$bundle_sum = $osPrice->GetPrice($bundle_data['products_id'], true, 1, $bundle_data['products_tax_class_id'], $bSum, 1, 0, $bundle_data['products_discount_allowed']);
-		$bundle_saving = $osPrice->GetPrice($bundle_data['products_id'], true, 1, $bundle_data['products_tax_class_id'], $bSaving, 1, 0, $bundle_data['products_discount_allowed']);
 	}
+
+	$bSaving = $bSum - $products_price['price']['plain'];
+	$bundle_sum = $osPrice->Format($bSum, true);
+	$bundle_saving = $osPrice->Format($bSaving, true);
 }
 
 $info->assign('PRODUCTS_BUNDLE', $product->data['products_bundle']);
 $info->assign('PRODUCTS_BUNDLE_DATA', $products_bundle_data);
-$info->assign('PRODUCTS_BUNDLE_SUM', $bundle_sum['price']['formated']);
-$info->assign('PRODUCTS_BUNDLE_SAVING', $bundle_saving['price']['formated']);
+$info->assign('PRODUCTS_BUNDLE_SUM', $bundle_sum);
+$info->assign('PRODUCTS_BUNDLE_SAVING', $bundle_saving);
