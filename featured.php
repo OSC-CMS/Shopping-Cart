@@ -23,6 +23,7 @@ require (dir_path('includes').'header.php');
 $featured_query_raw = $cartet->product->getList(array(
 	'products_status' => 1,
 	'category_status' => 1,
+	'group' => 'p.products_id',
 	'where' => array('f.products_id = p.products_id', 'f.status = 1'),
 	'order' => 'f.featured_date_added DESC',
 ));
