@@ -302,7 +302,11 @@ class product {
 				$vpe = $vpe * (1 / $product_info['products_vpe_value']);
 				$vpe = $osPrice->Format($vpe, true, $product_info['products_tax_class_id']).TXT_PER.os_get_vpe_name($product_info['products_vpe']);
 			}
-			$staffel_data[$i] = array ('QUANTITY' => $quantity, 'VPE' => $vpe, 'PRICE' => $osPrice->Format($staffel[$i]['price'] - $staffel[$i]['price'] / 100 * $discount, true, $this->data['products_tax_class_id']));
+			$staffel_data[$i] = array(
+				'QUANTITY' => $quantity,
+				'VPE' => $vpe,
+				'PRICE' => $osPrice->Format($staffel[$i]['price'] - $staffel[$i]['price'] / 100 * $discount, true, $this->data['products_tax_class_id'], true)
+			);
 		}
 
 		return $staffel_data;
