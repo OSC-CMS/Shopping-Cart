@@ -318,6 +318,8 @@ class apiProduct extends CartET
 
 	public function getList($params = array())
 	{
+		$params = apply_filter('before_products_list_params', $params);
+
 		// Опции
 		$group_by = '';
 		$order_by = 'pd.products_name ASC';
