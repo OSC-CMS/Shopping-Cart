@@ -34,7 +34,6 @@ else
 		$where[] = "p.products_date_added > '".$date_new_products."'";
 	}
 
-	$where[] = 'p.products_startpage = 1';
 	$where[] = 'c.parent_id = '.$new_products_category_id;
 
 	$new_products_query = $cartet->product->getList(array(
