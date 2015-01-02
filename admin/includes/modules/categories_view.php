@@ -142,24 +142,6 @@ $main->top_menu();
 </div>
 
 <table class="table table-condensed table-big-list">
-	<thead>
-		<tr>
-			<th width="5%" class="tcenter"><?php echo TABLE_HEADING_EDIT; ?><input type="checkbox" class="selectAllCheckbox" onClick="javascript:SwitchCheck();"></th>
-			<th width="25%"><span class="line"></span><?php echo TABLE_HEADING_CATEGORIES_PRODUCTS.os_sorting(FILENAME_CATEGORIES,'name'); ?></th>
-			<th width="5%"><span class="line"></span><?php echo TABLE_HEADING_STATUS.os_sorting(FILENAME_CATEGORIES,'status'); ?></th>
-			<th width="5%"><span class="line"></span><?php echo TABLE_HEADING_STARTPAGE.os_sorting(FILENAME_CATEGORIES,'startpage'); ?></th>
-			<th width="5%"><span class="line"></span><?php echo TABLE_HEADING_STOCKS.os_sorting(FILENAME_CATEGORIES,'stocksort');?></th>
-			<?php if (STOCK_CHECK == 'true') { ?><th width="5%"><span class="line"></span><?php echo TABLE_HEADING_STOCK.os_sorting(FILENAME_CATEGORIES,'stock'); ?></th><?php } ?>
-			<th width="5%"><span class="line"></span><?php echo TABLE_HEADING_MENU; ?></th>
-			<th width="5%"><span class="line"></span><?php echo TABLE_HEADING_XML.os_sorting(FILENAME_CATEGORIES,'yandex'); ?></th>
-			<th width="10%"><span class="line"></span><?php echo TABLE_HEADING_PRICE.os_sorting(FILENAME_CATEGORIES,'price'); ?></th>
-			<th width="5%"><span class="line"></span><?php echo TABLE_HEADING_SORT.os_sorting(FILENAME_CATEGORIES,'sort'); ?></th>
-			<th width="10%"><span class="line"></span><?php echo TABLE_HEADING_SHIPPING_TIME; ?></th>
-			<th width="10%"><span class="line"></span><?php echo TABLE_HEADING_MODEL; ?></th>
-			<th width="5%" class="tright"><span class="line"></span><?php echo TABLE_HEADING_ACTION; ?></th>
-		</tr>
-	</thead>
-	<tbody>
 <?php
 $categories_count = 0;
 $rows = 0;
@@ -168,51 +150,13 @@ if (@$_GET['search'])
 else
 	$categories_query = os_db_query("select c.categories_id, cd.categories_name, c.categories_image, c.parent_id, c.sort_order, c.date_added, c.last_modified, c.yml_enable, c.categories_status, c.menu from ".TABLE_CATEGORIES." c, ".TABLE_CATEGORIES_DESCRIPTION." cd where c.parent_id = '".$current_category_id."' and c.categories_id = cd.categories_id and cd.language_id = '".(int)$_SESSION['languages_id']."' order by ".$catsort);
 
-while ($categories = os_db_fetch_array($categories_query))
+$aCategories = array();
+if (os_db_num_rows($categories_query) > 0)
 {
-	$categories_count++;
-	$rows++;
-
-	if (@$_GET['search'])
-		$cPath = @$categories['parent_id'];
-	?>
-	<tr class="categories_tr">
-		<td class="tcenter"><input type="checkbox" name="multi_categories[]" value="<?php echo $categories['categories_id']; ?>" /></td>
-		<td><input class="width90" type="text" name="categories[<?php echo $categories['categories_id']; ?>][categories_name]" value="<?php echo $categories['categories_name']; ?>" /></td>
-		<td class="tcenter">
-			<?php
-				echo '<a '.(($categories['categories_status'] == 1) ? '' : 'style="display:none;"').' href="javascript:;" class="ajax-change-status status_'.$categories['categories_id'].'_0_categories_status" data-column="categories_status" data-action="products_changeCategoryStatus" data-id="'.$categories['categories_id'].'" data-status="0" data-show-status="1" title="'.IMAGE_ICON_STATUS_RED_LIGHT.'"><i class="icon-ok"></i></a>';
-				echo '<a '.(($categories['categories_status'] == 0) ? '' : 'style="display:none;"').' href="javascript:;" class="ajax-change-status status_'.$categories['categories_id'].'_1_categories_status" data-column="categories_status" data-action="products_changeCategoryStatus" data-id="'.$categories['categories_id'].'" data-status="1" data-show-status="0" title="'.IMAGE_ICON_STATUS_GREEN_LIGHT.'"><i class="icon-remove"></i></a>';
-			?>
-		</td>
-		<td class="tcenter">--</td>
-		<td class="tcenter">--</td>
-		<?php if (STOCK_CHECK == 'true') { ?><td class="tcenter">--</td><?php } ?>
-		<td class="tcenter">
-			<?php
-				echo '<a '.(($categories['menu'] == 1) ? '' : 'style="display:none;"').' href="javascript:;" class="ajax-change-status status_'.$categories['categories_id'].'_0_menu" data-column="menu" data-action="products_changeCategoryStatus" data-id="'.$categories['categories_id'].'" data-status="0" data-show-status="1" title="'.IMAGE_ICON_STATUS_RED_LIGHT.'"><i class="icon-ok"></i></a>';
-				echo '<a '.(($categories['menu'] == 0) ? '' : 'style="display:none;"').' href="javascript:;" class="ajax-change-status status_'.$categories['categories_id'].'_1_menu" data-column="menu" data-action="products_changeCategoryStatus" data-id="'.$categories['categories_id'].'" data-status="1" data-show-status="0" title="'.IMAGE_ICON_STATUS_GREEN_LIGHT.'"><i class="icon-remove"></i></a>';
-			?>
-		</td>
-		<td class="tcenter">
-			<?php
-				echo '<a '.(($categories['yml_enable'] == 1) ? '' : 'style="display:none;"').' href="javascript:;" class="ajax-change-status status_'.$categories['categories_id'].'_0_yml_enable" data-column="yml_enable" data-action="products_setCategoriesYmlStatus" data-id="'.$categories['categories_id'].'" data-status="0" data-show-status="1" title="'.IMAGE_ICON_STATUS_RED_LIGHT.'"><i class="icon-ok"></i></a>';
-				echo '<a '.(($categories['yml_enable'] == 0) ? '' : 'style="display:none;"').' href="javascript:;" class="ajax-change-status status_'.$categories['categories_id'].'_1_yml_enable" data-column="yml_enable" data-action="products_setCategoriesYmlStatus" data-id="'.$categories['categories_id'].'" data-status="1" data-show-status="0" title="'.IMAGE_ICON_STATUS_GREEN_LIGHT.'"><i class="icon-remove"></i></a>';
-			?>
-		</td>
-		</td>
-		<td class="tcenter">--</td>
-		<td class="tcenter"><input class="width40px tcenter" type="text" name="categories[<?php echo $categories['categories_id']; ?>][sort_order]" value="<?php echo $categories['sort_order']; ?>" /></td>
-		<td class="tcenter">--</td>
-		<td class="tcenter">--</td>
-		<td><div class="btn-group pull-right">
-		<?php
-		echo '<a class="btn btn-mini" href="'.os_href_link(FILENAME_CATEGORIES, os_get_all_get_params(array('cPath', 'action', 'pID', 'cID')).os_get_path($categories['categories_id'])) .'"><i class="icon-folder-open"></i></a>';
-		echo '<a class="btn btn-mini" href="'.os_href_link(FILENAME_CATEGORIES, os_get_all_get_params(array('cPath', 'action', 'pID', 'cID')).'cPath='.$cPath.'&cID='.$categories['categories_id']."&action=edit_category").'" title="'.BUTTON_EDIT.'"><i class="icon-edit"></i></a> ';
-		?>
-	</div></td>
-	</tr>
-	<?php
+	while ($c = os_db_fetch_array($categories_query))
+	{
+		$aCategories[] = $c;
+	}
 }
 
 if (@$_GET['search'])
@@ -265,93 +209,205 @@ if (@$_GET['search'])
 else
 	$products_query = os_db_query("SELECT p.products_tax_class_id,p.products_sort, p.products_id, p.stock, pd.products_name, p.products_quantity, p.products_to_xml,p.products_image, p.products_price, p.products_discount_allowed, p.products_date_added, p.products_last_modified, p.products_date_available, p.products_status,p.products_startpage,p.products_startpage_sort,p.products_shippingtime,p.products_model, p2c.categories_id FROM ".TABLE_PRODUCTS." p, ".TABLE_PRODUCTS_DESCRIPTION." pd, ".TABLE_PRODUCTS_TO_CATEGORIES." p2c WHERE p.products_id = pd.products_id AND pd.language_id = '".(int)$_SESSION['languages_id']."' AND p.products_id = p2c.products_id AND p2c.categories_id = '".$current_category_id."' ORDER BY ".$prodsort." limit ".$page.",".$max_count);
 
-while ($products = os_db_fetch_array($products_query))
+$aProducts = array();
+if (os_db_num_rows($products_query) > 0)
 {
-	$products_count++;
-	$rows++;
+	while ($_p = os_db_fetch_array($products_query))
+	{
+		$aProducts[] = $_p;
+	}
+}
 
-	if (@$_GET['search'])
-		$cPath=$products['categories_id'];
-	?>
-	<tr class="products_tr">
-		<td class="tcenter"><input type="checkbox" name="multi_products[]" value="<?php echo @$products['products_id']; ?>" /></td>
-		<td><input class="width90" type="text" name="products[<?php echo $products['products_id']; ?>][products_name]" value="<?php echo html($products['products_name']); ?>" /></td>
-		<td class="tcenter">
+?>
+	<thead>
+		<tr>
+			<th width="5%" class="tcenter"><?php echo TABLE_HEADING_EDIT; ?><input type="checkbox" class="selectAllCheckbox" onClick="javascript:SwitchCheck();"></th>
+			<th width="25%"><span class="line"></span><?php echo TABLE_HEADING_CATEGORIES_PRODUCTS.os_sorting(FILENAME_CATEGORIES,'name'); ?></th>
+			<th width="5%"><span class="line"></span><?php echo TABLE_HEADING_STATUS.os_sorting(FILENAME_CATEGORIES,'status'); ?></th>
+			<th width="5%"><span class="line"></span><?php echo TABLE_HEADING_STARTPAGE.os_sorting(FILENAME_CATEGORIES,'startpage'); ?></th>
+			<th width="5%"><span class="line"></span><?php echo TABLE_HEADING_STOCKS.os_sorting(FILENAME_CATEGORIES,'stocksort');?></th>
+			<?php if (STOCK_CHECK == 'true') { ?><th width="5%"><span class="line"></span><?php echo TABLE_HEADING_STOCK.os_sorting(FILENAME_CATEGORIES,'stock'); ?></th><?php } ?>
+			<th width="5%"><span class="line"></span><?php echo TABLE_HEADING_MENU; ?></th>
+			<th width="5%"><span class="line"></span><?php echo TABLE_HEADING_XML.os_sorting(FILENAME_CATEGORIES,'yandex'); ?></th>
+			<th width="10%"><span class="line"></span><?php echo TABLE_HEADING_PRICE.os_sorting(FILENAME_CATEGORIES,'price'); ?></th>
+			<th width="5%"><span class="line"></span><?php echo TABLE_HEADING_SORT.os_sorting(FILENAME_CATEGORIES,'sort'); ?></th>
+			<th width="10%"><span class="line"></span><?php echo TABLE_HEADING_SHIPPING_TIME; ?></th>
+			<th width="10%"><span class="line"></span><?php echo TABLE_HEADING_MODEL; ?></th>
 			<?php
-				echo '<a '.(($products['products_status'] == 1) ? '' : 'style="display:none;"').' href="javascript:;" class="ajax-change-status status_'.$products['products_id'].'_0_products_status" data-column="products_status" data-action="products_changeProductStatus" data-id="'.$products['products_id'].'" data-status="0" data-show-status="1" title="'.IMAGE_ICON_STATUS_RED_LIGHT.'"><i class="icon-ok"></i></a>';
-				echo '<a '.(($products['products_status'] == 0) ? '' : 'style="display:none;"').' href="javascript:;" class="ajax-change-status status_'.$products['products_id'].'_1_products_status" data-column="products_status" data-action="products_changeProductStatus" data-id="'.$products['products_id'].'" data-status="1" data-show-status="0" title="'.IMAGE_ICON_STATUS_GREEN_LIGHT.'"><i class="icon-remove"></i></a>';
+			$array = array();
+			$array['categories'] = $aCategories;
+			$array['products'] = $aProducts;
+			$array = apply_filter('table_products', $array);
+
+			if (isset($array['values']) && is_array($array['values']) )
+			{
+				foreach ($array['values'] as $num => $value)
+				{
+					echo '<th><span class="line"></span>'.$value['name'].'</th>';
+				}
+			}
 			?>
-		</td>
-		<td class="tcenter">
-			<?php
-				echo '<a '.(($products['products_startpage'] == 1) ? '' : 'style="display:none;"').' href="javascript:;" class="ajax-change-status status_'.$products['products_id'].'_0_products_startpage" data-column="products_startpage" data-action="products_changeProductStatus" data-id="'.$products['products_id'].'" data-status="0" data-show-status="1" title="'.IMAGE_ICON_STATUS_RED_LIGHT.'"><i class="icon-ok"></i></a>';
-				echo '<a '.(($products['products_startpage'] == 0) ? '' : 'style="display:none;"').' href="javascript:;" class="ajax-change-status status_'.$products['products_id'].'_1_products_startpage" data-column="products_startpage" data-action="products_changeProductStatus" data-id="'.$products['products_id'].'" data-status="1" data-show-status="0" title="'.IMAGE_ICON_STATUS_GREEN_LIGHT.'"><i class="icon-remove"></i></a>';
-			?>
-		</td>
-		<td class="tcenter">
-			<?php
-				echo '<a '.(($products['stock'] == 1) ? '' : 'style="display:none;"').' href="javascript:;" class="ajax-change-status status_'.$products['products_id'].'_0_stock" data-column="stock" data-action="products_changeProductStatus" data-id="'.$products['products_id'].'" data-status="0" data-show-status="1" title="'.IMAGE_ICON_STATUS_RED_LIGHT.'"><i class="icon-ok"></i></a>';
-				echo '<a '.(($products['stock'] == 0) ? '' : 'style="display:none;"').' href="javascript:;" class="ajax-change-status status_'.$products['products_id'].'_1_stock" data-column="stock" data-action="products_changeProductStatus" data-id="'.$products['products_id'].'" data-status="1" data-show-status="0" title="'.IMAGE_ICON_STATUS_GREEN_LIGHT.'"><i class="icon-remove"></i></a>';
-			?>
-		</td>
-		<?php if (STOCK_CHECK == 'true') {
-			$bgStock = ($products['products_quantity'] <= 0) ? 'bg-stock-warn' : '';
+			<th width="5%" class="tright"><span class="line"></span><?php echo TABLE_HEADING_ACTION; ?></th>
+		</tr>
+	</thead>
+	<tbody>
+
+<?php
+
+if (is_array($aCategories))
+{
+	foreach ($aCategories AS $categories)
+	{
+		$categories_count++;
+		$rows++;
+
+		if (@$_GET['search'])
+			$cPath = @$categories['parent_id'];
 		?>
-		<td class="tcenter"><input class="width40px tcenter <?php echo $bgStock; ?>" type="text" name="products[<?php echo $products['products_id']; ?>][products_quantity]" value="<?php echo $products['products_quantity']; ?>" /></td>
-		<?php } ?>
-		<td class="tcenter">--</td>
-		<td class="tcenter">
-			<?php
-				echo '<a '.(($products['products_to_xml'] == 1) ? '' : 'style="display:none;"').' href="javascript:;" class="ajax-change-status status_'.$products['products_id'].'_0_products_to_xml" data-column="products_to_xml" data-action="products_changeProductStatus" data-id="'.$products['products_id'].'" data-status="0" data-show-status="1" title="'.IMAGE_ICON_STATUS_RED_LIGHT.'"><i class="icon-ok"></i></a>';
-				echo '<a '.(($products['products_to_xml'] == 0) ? '' : 'style="display:none;"').' href="javascript:;" class="ajax-change-status status_'.$products['products_id'].'_1_products_to_xml" data-column="products_to_xml" data-action="products_changeProductStatus" data-id="'.$products['products_id'].'" data-status="1" data-show-status="0" title="'.IMAGE_ICON_STATUS_GREEN_LIGHT.'"><i class="icon-remove"></i></a>';
-			?>
-		</td>
-		<td class="tcenter">
-			<?php
-			if (PRICE_IS_BRUTTO == 'true')
-				$products_price = os_round($products['products_price'] * ((100 + os_get_tax_rate($products['products_tax_class_id'])) / 100), PRICE_PRECISION);
-			else
-				$products_price = $products['products_price'];
-			?>
-			<input class="width100px" type="text" name="products[<?php echo $products['products_id']; ?>][products_price]" value="<?php echo $products_price; ?>" />
-		</td>
-		<td class="tcenter">
-		<?php 
-		if ($current_category_id == 0)
-			echo '<input class="width40px tcenter" type="text" name="products['.$products['products_id'].'][products_startpage_sort]" value="'.$products['products_startpage_sort'].'" />';
-		else
-			echo '<input class="width40px tcenter" type="text" name="products['.$products['products_id'].'][products_sort]" value="'.$products['products_sort'].'" />';
-		?>
-		</td>
-		<td class="tcenter">
-			<select class="width100px" name="products[<?php echo $products['products_id']; ?>][products_shippingtime]">
+		<tr class="categories_tr">
+			<td class="tcenter"><input type="checkbox" name="multi_categories[]" value="<?php echo $categories['categories_id']; ?>" /></td>
+			<td><input class="width90" type="text" name="categories[<?php echo $categories['categories_id']; ?>][categories_name]" value="<?php echo $categories['categories_name']; ?>" /></td>
+			<td class="tcenter">
 				<?php
-					if (is_array($products_shippingtime))
-					{
-						foreach($products_shippingtime AS $id => $text)
-						{
-							$selected = ($products['products_shippingtime'] == $id) ? 'selected' : '';
-							echo '<option value="'.$id.'" '.$selected.'>'.$text.'</option>';
-						}
-					}
+					echo '<a '.(($categories['categories_status'] == 1) ? '' : 'style="display:none;"').' href="javascript:;" class="ajax-change-status status_'.$categories['categories_id'].'_0_categories_status" data-column="categories_status" data-action="products_changeCategoryStatus" data-id="'.$categories['categories_id'].'" data-status="0" data-show-status="1" title="'.IMAGE_ICON_STATUS_RED_LIGHT.'"><i class="icon-ok"></i></a>';
+					echo '<a '.(($categories['categories_status'] == 0) ? '' : 'style="display:none;"').' href="javascript:;" class="ajax-change-status status_'.$categories['categories_id'].'_1_categories_status" data-column="categories_status" data-action="products_changeCategoryStatus" data-id="'.$categories['categories_id'].'" data-status="1" data-show-status="0" title="'.IMAGE_ICON_STATUS_GREEN_LIGHT.'"><i class="icon-remove"></i></a>';
 				?>
-			</select>
-		</td>
-		<td class="tcenter"><input class="width100px" type="text" name="products[<?php echo $products['products_id']; ?>][products_model]" value="<?php echo html($products['products_model']); ?>" /></td>
-		<td>
-			<div class="btn-group pull-right">
-				<a class="btn btn-mini" href="<?php echo os_href_link(FILENAME_CATEGORIES, os_get_all_get_params(array('cPath', 'action', 'pID', 'cID')).'cPath='.$cPath.'&pID='.$products['products_id']); ?>&action=new_product" title="<?php echo BUTTON_EDIT; ?>"><i class="icon-edit"></i></a>
-				<a class="btn btn-mini dropdown-toggle" data-toggle="dropdown" href="#"><i class="icon-cog"></i> <span class="caret"></span></a>
-				<ul class="dropdown-menu">
-					<li><a class="" href="<?php echo os_href_link(FILENAME_NEW_ATTRIBUTES.'?action=edit&current_product_id='.$products['products_id'].'&cpath='.$cPath); ?>" title="<?php echo BUTTON_EDIT_ATTRIBUTES; ?>"><i class="icon-tasks"></i> <?php echo BUTTON_EDIT_ATTRIBUTES; ?></a></li>
-					<li><a class="" href="<?php echo os_href_link(FILENAME_CATEGORIES, os_get_all_get_params(array('cPath', 'action', 'pID', 'cID')).'action=edit_crossselling&current_product_id='.$products['products_id'].'&cpath='.$cPath); ?>" title="<?php echo BUTTON_EDIT_CROSS_SELLING; ?>"><i class="icon-th-large"></i> <?php echo BUTTON_EDIT_CROSS_SELLING; ?></a></li>
-					<li class="divider"></li>
-					<li><a class="ajax-action" data-reload-page="1" data-action="products_duplicateProduct_get&product_id=<?php echo $products['products_id']; ?>&categories_id=<?php echo $cPath; ?>" href="javascript:;"  title="<?php echo BUTTON_COPY; ?>"><i class="icon-copy"></i> <?php echo BUTTON_COPY; ?></a></li>
-				</ul>
-			</div>
-		</td>
-	</tr>
+			</td>
+			<td class="tcenter">--</td>
+			<td class="tcenter">--</td>
+			<?php if (STOCK_CHECK == 'true') { ?><td class="tcenter">--</td><?php } ?>
+			<td class="tcenter">
+				<?php
+					echo '<a '.(($categories['menu'] == 1) ? '' : 'style="display:none;"').' href="javascript:;" class="ajax-change-status status_'.$categories['categories_id'].'_0_menu" data-column="menu" data-action="products_changeCategoryStatus" data-id="'.$categories['categories_id'].'" data-status="0" data-show-status="1" title="'.IMAGE_ICON_STATUS_RED_LIGHT.'"><i class="icon-ok"></i></a>';
+					echo '<a '.(($categories['menu'] == 0) ? '' : 'style="display:none;"').' href="javascript:;" class="ajax-change-status status_'.$categories['categories_id'].'_1_menu" data-column="menu" data-action="products_changeCategoryStatus" data-id="'.$categories['categories_id'].'" data-status="1" data-show-status="0" title="'.IMAGE_ICON_STATUS_GREEN_LIGHT.'"><i class="icon-remove"></i></a>';
+				?>
+			</td>
+			<td class="tcenter">
+				<?php
+					echo '<a '.(($categories['yml_enable'] == 1) ? '' : 'style="display:none;"').' href="javascript:;" class="ajax-change-status status_'.$categories['categories_id'].'_0_yml_enable" data-column="yml_enable" data-action="products_setCategoriesYmlStatus" data-id="'.$categories['categories_id'].'" data-status="0" data-show-status="1" title="'.IMAGE_ICON_STATUS_RED_LIGHT.'"><i class="icon-ok"></i></a>';
+					echo '<a '.(($categories['yml_enable'] == 0) ? '' : 'style="display:none;"').' href="javascript:;" class="ajax-change-status status_'.$categories['categories_id'].'_1_yml_enable" data-column="yml_enable" data-action="products_setCategoriesYmlStatus" data-id="'.$categories['categories_id'].'" data-status="1" data-show-status="0" title="'.IMAGE_ICON_STATUS_GREEN_LIGHT.'"><i class="icon-remove"></i></a>';
+				?>
+			</td>
+			</td>
+			<td class="tcenter">--</td>
+			<td class="tcenter"><input class="width40px tcenter" type="text" name="categories[<?php echo $categories['categories_id']; ?>][sort_order]" value="<?php echo $categories['sort_order']; ?>" /></td>
+			<td class="tcenter">--</td>
+			<td class="tcenter">--</td>
+			<?php if (isset($array['values']) && is_array($array['values']))
+			{
+				foreach ($array['values'] as $num => $value)
+				{
+					echo $value['content_categories'][$categories['categories_id']];
+				}
+			} ?>
+			<td><div class="btn-group pull-right">
+			<?php
+			echo '<a class="btn btn-mini" href="'.os_href_link(FILENAME_CATEGORIES, os_get_all_get_params(array('cPath', 'action', 'pID', 'cID')).os_get_path($categories['categories_id'])) .'"><i class="icon-folder-open"></i></a>';
+			echo '<a class="btn btn-mini" href="'.os_href_link(FILENAME_CATEGORIES, os_get_all_get_params(array('cPath', 'action', 'pID', 'cID')).'cPath='.$cPath.'&cID='.$categories['categories_id']."&action=edit_category").'" title="'.BUTTON_EDIT.'"><i class="icon-edit"></i></a> ';
+			?>
+		</div></td>
+		</tr>
+		<?php
+	}
+}
+
+if (is_array($aProducts))
+{
+	foreach ($aProducts AS $products)
+	{
+		$products_count++;
+		$rows++;
+
+		if (@$_GET['search'])
+			$cPath=$products['categories_id'];
+		?>
+		<tr class="products_tr">
+			<td class="tcenter"><input type="checkbox" name="multi_products[]" value="<?php echo @$products['products_id']; ?>" /></td>
+			<td><input class="width90" type="text" name="products[<?php echo $products['products_id']; ?>][products_name]" value="<?php echo html($products['products_name']); ?>" /></td>
+			<td class="tcenter">
+				<?php
+					echo '<a '.(($products['products_status'] == 1) ? '' : 'style="display:none;"').' href="javascript:;" class="ajax-change-status status_'.$products['products_id'].'_0_products_status" data-column="products_status" data-action="products_changeProductStatus" data-id="'.$products['products_id'].'" data-status="0" data-show-status="1" title="'.IMAGE_ICON_STATUS_RED_LIGHT.'"><i class="icon-ok"></i></a>';
+					echo '<a '.(($products['products_status'] == 0) ? '' : 'style="display:none;"').' href="javascript:;" class="ajax-change-status status_'.$products['products_id'].'_1_products_status" data-column="products_status" data-action="products_changeProductStatus" data-id="'.$products['products_id'].'" data-status="1" data-show-status="0" title="'.IMAGE_ICON_STATUS_GREEN_LIGHT.'"><i class="icon-remove"></i></a>';
+				?>
+			</td>
+			<td class="tcenter">
+				<?php
+					echo '<a '.(($products['products_startpage'] == 1) ? '' : 'style="display:none;"').' href="javascript:;" class="ajax-change-status status_'.$products['products_id'].'_0_products_startpage" data-column="products_startpage" data-action="products_changeProductStatus" data-id="'.$products['products_id'].'" data-status="0" data-show-status="1" title="'.IMAGE_ICON_STATUS_RED_LIGHT.'"><i class="icon-ok"></i></a>';
+					echo '<a '.(($products['products_startpage'] == 0) ? '' : 'style="display:none;"').' href="javascript:;" class="ajax-change-status status_'.$products['products_id'].'_1_products_startpage" data-column="products_startpage" data-action="products_changeProductStatus" data-id="'.$products['products_id'].'" data-status="1" data-show-status="0" title="'.IMAGE_ICON_STATUS_GREEN_LIGHT.'"><i class="icon-remove"></i></a>';
+				?>
+			</td>
+			<td class="tcenter">
+				<?php
+					echo '<a '.(($products['stock'] == 1) ? '' : 'style="display:none;"').' href="javascript:;" class="ajax-change-status status_'.$products['products_id'].'_0_stock" data-column="stock" data-action="products_changeProductStatus" data-id="'.$products['products_id'].'" data-status="0" data-show-status="1" title="'.IMAGE_ICON_STATUS_RED_LIGHT.'"><i class="icon-ok"></i></a>';
+					echo '<a '.(($products['stock'] == 0) ? '' : 'style="display:none;"').' href="javascript:;" class="ajax-change-status status_'.$products['products_id'].'_1_stock" data-column="stock" data-action="products_changeProductStatus" data-id="'.$products['products_id'].'" data-status="1" data-show-status="0" title="'.IMAGE_ICON_STATUS_GREEN_LIGHT.'"><i class="icon-remove"></i></a>';
+				?>
+			</td>
+			<?php if (STOCK_CHECK == 'true') {
+				$bgStock = ($products['products_quantity'] <= 0) ? 'bg-stock-warn' : '';
+			?>
+			<td class="tcenter"><input class="width40px tcenter <?php echo $bgStock; ?>" type="text" name="products[<?php echo $products['products_id']; ?>][products_quantity]" value="<?php echo $products['products_quantity']; ?>" /></td>
+			<?php } ?>
+			<td class="tcenter">--</td>
+			<td class="tcenter">
+				<?php
+					echo '<a '.(($products['products_to_xml'] == 1) ? '' : 'style="display:none;"').' href="javascript:;" class="ajax-change-status status_'.$products['products_id'].'_0_products_to_xml" data-column="products_to_xml" data-action="products_changeProductStatus" data-id="'.$products['products_id'].'" data-status="0" data-show-status="1" title="'.IMAGE_ICON_STATUS_RED_LIGHT.'"><i class="icon-ok"></i></a>';
+					echo '<a '.(($products['products_to_xml'] == 0) ? '' : 'style="display:none;"').' href="javascript:;" class="ajax-change-status status_'.$products['products_id'].'_1_products_to_xml" data-column="products_to_xml" data-action="products_changeProductStatus" data-id="'.$products['products_id'].'" data-status="1" data-show-status="0" title="'.IMAGE_ICON_STATUS_GREEN_LIGHT.'"><i class="icon-remove"></i></a>';
+				?>
+			</td>
+			<td class="tcenter">
+				<?php
+				if (PRICE_IS_BRUTTO == 'true')
+					$products_price = os_round($products['products_price'] * ((100 + os_get_tax_rate($products['products_tax_class_id'])) / 100), PRICE_PRECISION);
+				else
+					$products_price = $products['products_price'];
+				?>
+				<input class="width100px" type="text" name="products[<?php echo $products['products_id']; ?>][products_price]" value="<?php echo $products_price; ?>" />
+			</td>
+			<td class="tcenter">
+			<?php 
+			if ($current_category_id == 0)
+				echo '<input class="width40px tcenter" type="text" name="products['.$products['products_id'].'][products_startpage_sort]" value="'.$products['products_startpage_sort'].'" />';
+			else
+				echo '<input class="width40px tcenter" type="text" name="products['.$products['products_id'].'][products_sort]" value="'.$products['products_sort'].'" />';
+			?>
+			</td>
+			<td class="tcenter">
+				<select class="width100px" name="products[<?php echo $products['products_id']; ?>][products_shippingtime]">
+					<?php
+						if (is_array($products_shippingtime))
+						{
+							foreach($products_shippingtime AS $id => $text)
+							{
+								$selected = ($products['products_shippingtime'] == $id) ? 'selected' : '';
+								echo '<option value="'.$id.'" '.$selected.'>'.$text.'</option>';
+							}
+						}
+					?>
+				</select>
+			</td>
+			<td class="tcenter"><input class="width100px" type="text" name="products[<?php echo $products['products_id']; ?>][products_model]" value="<?php echo html($products['products_model']); ?>" /></td>
+			<?php if (isset($array['values']) && is_array($array['values']))
+			{
+				foreach ($array['values'] as $num => $value)
+				{
+					echo $value['content_products'][$products['products_id']];
+				}
+			} ?>
+			<td>
+				<div class="btn-group pull-right">
+					<a class="btn btn-mini" href="<?php echo os_href_link(FILENAME_CATEGORIES, os_get_all_get_params(array('cPath', 'action', 'pID', 'cID')).'cPath='.$cPath.'&pID='.$products['products_id']); ?>&action=new_product" title="<?php echo BUTTON_EDIT; ?>"><i class="icon-edit"></i></a>
+					<a class="btn btn-mini dropdown-toggle" data-toggle="dropdown" href="#"><i class="icon-cog"></i> <span class="caret"></span></a>
+					<ul class="dropdown-menu">
+						<li><a class="" href="<?php echo os_href_link(FILENAME_NEW_ATTRIBUTES.'?action=edit&current_product_id='.$products['products_id'].'&cpath='.$cPath); ?>" title="<?php echo BUTTON_EDIT_ATTRIBUTES; ?>"><i class="icon-tasks"></i> <?php echo BUTTON_EDIT_ATTRIBUTES; ?></a></li>
+						<li><a class="" href="<?php echo os_href_link(FILENAME_CATEGORIES, os_get_all_get_params(array('cPath', 'action', 'pID', 'cID')).'action=edit_crossselling&current_product_id='.$products['products_id'].'&cpath='.$cPath); ?>" title="<?php echo BUTTON_EDIT_CROSS_SELLING; ?>"><i class="icon-th-large"></i> <?php echo BUTTON_EDIT_CROSS_SELLING; ?></a></li>
+						<li class="divider"></li>
+						<li><a class="ajax-action" data-reload-page="1" data-action="products_duplicateProduct_get&product_id=<?php echo $products['products_id']; ?>&categories_id=<?php echo $cPath; ?>" href="javascript:;"  title="<?php echo BUTTON_COPY; ?>"><i class="icon-copy"></i> <?php echo BUTTON_COPY; ?></a></li>
+					</ul>
+				</div>
+			</td>
+		</tr>
 	<?php } ?>
+<?php } ?>
 	<tbody>
 </table>
 
