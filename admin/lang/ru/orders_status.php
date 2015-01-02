@@ -20,6 +20,8 @@ define('TEXT_INFO_DELETE_INTRO', 'Вы действительно хотите �
 define('TEXT_INFO_HEADING_NEW_ORDERS_STATUS', 'Новый статус заказа');
 define('TEXT_INFO_HEADING_EDIT_ORDERS_STATUS', 'Редактировать статус заказа');
 define('TEXT_INFO_HEADING_DELETE_ORDERS_STATUS', 'Удалить статус заказа');
+define('TEXT_ORDERS_STATUS_TITLE_NAME', 'Название статуса');
+define('TEXT_ORDERS_STATUS_TITLE_COLOR', 'Цвет');
 
 define('ERROR_REMOVE_DEFAULT_ORDER_STATUS', 'Ошибка: Статус заказа по умолчанию не может быть удален, измените статус и попробуйте снова.');
 define('ERROR_STATUS_USED_IN_ORDERS', 'Ошибка: Этот статус используется в настоящее время.');

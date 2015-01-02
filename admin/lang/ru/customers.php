@@ -56,4 +56,19 @@ define('CATEGORY_EXTRA_FIELDS','Доп. поля');
 
 define('PULL_DOWN_DEFAULT','Выберите');
 
+define('CUSTOMERS_TABS_PROFILE', 'Профиль');
+define('CUSTOMERS_TABS_OTHER', 'Разное');
+
+define('LANG_CUSTOMERS_PROFILE_USERNAME', 'Логин');
+define('LANG_CUSTOMERS_PROFILE_SIGNATURE', 'Подпись');
+define('LANG_CUSTOMERS_PROFILE_AVATAR', 'Аватар');
+define('LANG_CUSTOMERS_PROFILE_PHOTO', 'Фото');
+define('LANG_CUSTOMERS_PROFILE_SHOW_GENDER', 'Показывать пол');
+define('LANG_CUSTOMERS_PROFILE_SHOW_FIRSTNAME', 'Показывать имя');
+define('LANG_CUSTOMERS_PROFILE_SHOW_SECONDNAME', 'Показывать отчество');
+define('LANG_CUSTOMERS_PROFILE_SHOW_LASTNAME', 'Показывать фамилию');
+define('LANG_CUSTOMERS_PROFILE_SHOW_DOB', 'Показывать дату рождения');
+define('LANG_CUSTOMERS_PROFILE_SHOW_EMAIL', 'Показывать ');
+define('LANG_CUSTOMERS_PROFILE_SHOW_TELEPHONE', 'Показывать ');
+define('LANG_CUSTOMERS_PROFILE_SHOW_FAX', 'Показывать факс');
 ?>

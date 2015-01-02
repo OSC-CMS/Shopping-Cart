@@ -23,6 +23,8 @@ define('HEADER_TITLE_TOP', 'Администрирование');
 define('HEADER_TITLE_SUPPORT_SITE', 'Сайт поддержки');
 define('HEADER_TITLE_ONLINE_CATALOG', 'Каталог');
 define('HEADER_TITLE_ADMINISTRATION', 'Администрация');
+define('HEADER_TITLE_SEARCH', 'Поиск...');
+define('HEADER_TITLE_ACCOUNT_EDIT', 'Редактировать аккаунт');
 
 define('MALE', 'Мужской');
 define('FEMALE', 'Женский');
@@ -507,5 +509,14 @@ define('ON','Включить');
 define('OFF','Выключить');
 
 define('CATEGORIES_LIST','Список категорий');
+
+define('LANG_SETTING_INDEX2_WELCOME', 'Приветствие');
+define('LANG_SETTING_INDEX2_ORDERS', 'Заказы');
+define('LANG_SETTING_INDEX2_PRODUCTS', 'Товары');
+define('LANG_SETTING_INDEX2_REVIEWS', 'Отзывы');
+define('LANG_SETTING_INDEX2_CACHE', 'Кэш');
+define('LANG_SETTING_INDEX2_NOTES', 'Заметки');
+define('LANG_SETTING_INDEX2_CUSTOMERS', 'Покупатели');
+define('LANG_SETTING_INDEX2_STATS', 'Статистика');
 
 ?>

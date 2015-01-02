@@ -250,7 +250,17 @@ define('TABLE_HEADING_CONTENT_FILE','Файл');
 define('TABLE_HEADING_CONTENT_FILESIZE','Размер:');
 define('TABLE_HEADING_CONTENT_ACTION','Действие');
 
+define('TEXT_PRODUCTS_SET_MAIN_IMAGE', 'Установить главной картинкой');
+define('TEXT_PRODUCTS_ADD_IMAGE_DESCRIPTION', 'Добавить описание изображения');
 
+define('TEXT_PRODUCTS_UPLOAD_IMAGE_PC', 'С компьютера');
+define('TEXT_PRODUCTS_UPLOAD_IMAGE_WEB', 'Из интернета');
+define('TEXT_PRODUCTS_UPLOAD_IMAGE_AUTO', 'Автоматически');
+define('TEXT_PRODUCTS_SELECT_ALL_IMAGE', 'Выбрать все');
+define('TEXT_PRODUCTS_MAIN_IMAGE_ERROR', 'Главная картинка не установлена!');
+
+define('TEXT_PRODUCTS_EF_AUTO', 'Подобрать автоматически');
+define('TEXT_PRODUCTS_EF_ADD', 'Добавить новое поле');
 
 
 
