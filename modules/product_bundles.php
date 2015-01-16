@@ -34,7 +34,7 @@ if ($products_bundles['total'] > 0)
 		else
 			$image = http_path('images_thumbnail').'../noimage.gif';
 
-		$bundle_products_price = $osPrice->GetPrice($bundle_data['products_id'], true, $bundle_data['subproduct_qty'], $bundle_data['products_tax_class_id'], $bundle_data['products_price'], 1, 0, $bundle_data['products_discount_allowed']);
+		$bundle_products_price = $osPrice->GetPrice($bundle_data['products_id'], true, $bundle_data['subproduct_qty'], $bundle_data['products_tax_class_id'], $bundle_data['products_price']*$bundle_data['subproduct_qty'], 1, 0, $bundle_data['products_discount_allowed']);
 
 		$products_bundle_data[] = array
 		(
