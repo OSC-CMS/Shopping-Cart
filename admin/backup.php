@@ -395,7 +395,7 @@ $TEXT_DUMPER_STRING_COUNT = TEXT_DUMPER_STRING_COUNT;
                     		if ($NumericColumn[$k])
                     		    $row[$k] = isset($row[$k]) ? $row[$k] : "NULL";
                     		else
-                    			$row[$k] = isset($row[$k]) ? "'" . mysql_escape_string($row[$k]) . "'" : "NULL";
+                    			$row[$k] = isset($row[$k]) ? "'" . mysql_real_escape_string($row[$k]) . "'" : "NULL";
                     	}
 
     					$this->fn_write($fp, ($i == 1 ? "" : ",") . "\n(" . implode(", ", $row) . ")");
