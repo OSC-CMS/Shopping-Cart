@@ -146,7 +146,7 @@ class z_payment extends CartET
 		$process_button_string = '';
 
 		$purse = MODULE_PAYMENT_Z_PAYMENT_ID;
-		$order_sum = $order->info['total'];
+		$order_sum = number_format($order->info['total_value'], 2, '.', '');
 
 		$order_id = substr($_SESSION[$this->name], strpos($_SESSION[$this->name], '-')+1);
 		$OrderID = ($order_id) ? $order_id : (($this->request->get('order_id')) ? $this->request->get('order_id') : '');
