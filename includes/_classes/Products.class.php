@@ -1420,7 +1420,7 @@ class apiProducts extends CartET
 		if (!empty($params['image_delete']))
 		{
 			os_db_query("UPDATE ".TABLE_PRODUCTS." SET products_image = '' WHERE products_id = '".(int)$params['products_id']."'");
-			$this->deleteImageFile($params['image_delete']);
+			$this->deleteImageFile($params['image_delete'][0]);
 		}
 
 		if (is_array($params['images_delete']) && !empty($params['images_delete']))
