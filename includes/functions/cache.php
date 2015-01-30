@@ -608,7 +608,7 @@
                 }
             }
 
-            $product_query = osDBquery("select products_id, products_price, products_discount_allowed, products_tax_class_id, products_weight from ".TABLE_PRODUCTS." where ".$sql);
+            $product_query = osDBquery("select products_id, products_price, products_discount_allowed, price_currency_code, products_tax_class_id, products_weight from ".TABLE_PRODUCTS." where ".$sql);
 
             if (os_db_num_rows($product_query,true)) 
             {
@@ -650,7 +650,7 @@
             }
             $sql = '('.$sql.')';
 
-            $product_query = osDBquery("select p.products_id, pd.products_name,p.products_shippingtime, p.products_image, p.products_model, p.products_price, p.products_discount_allowed, p.products_weight, p.products_tax_class_id, p.products_bundle from ".TABLE_PRODUCTS." p, ".TABLE_PRODUCTS_DESCRIPTION." pd where ".$sql." and pd.products_id = p.products_id and pd.language_id = '".$_SESSION['languages_id']."'");
+            $product_query = osDBquery("select p.products_id, pd.products_name,p.products_shippingtime, p.products_image, p.products_model, p.products_price, p.products_discount_allowed, p.price_currency_code, p.products_weight, p.products_tax_class_id, p.products_bundle from ".TABLE_PRODUCTS." p, ".TABLE_PRODUCTS_DESCRIPTION." pd where ".$sql." and pd.products_id = p.products_id and pd.language_id = '".$_SESSION['languages_id']."'");
 
             if (os_db_num_rows($product_query,true)) 
             {

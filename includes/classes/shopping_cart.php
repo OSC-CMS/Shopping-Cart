@@ -225,7 +225,7 @@ class shoppingCart {
 	{
         do_action('remove_cart');
 		
-		$this->contents[$products_id]= NULL;
+		$this->contents[$products_id] = NULL;
 		if (os_session_is_registered('customer_id')) {
 			os_db_query("delete from ".TABLE_CUSTOMERS_BASKET." where customers_id = '".$_SESSION['customer_id']."' and products_id = '".$products_id."'");
 			os_db_query("delete from ".TABLE_CUSTOMERS_BASKET_ATTRIBUTES." where customers_id = '".$_SESSION['customer_id']."' and products_id = '".$products_id."'");
@@ -300,7 +300,7 @@ class shoppingCart {
 		{
 			$qty = $product['products_quantity'];
 
-			$products_price = $osPrice->GetPrice($product['products_id'], false, $qty, $product['products_tax_class_id'], $product['products_price'], 0, 0, $product['products_discount_allowed']);
+			$products_price = $osPrice->GetPrice($product['products_id'], false, $qty, $product['products_tax_class_id'], $product['products_price'], 0, 0, $product['products_discount_allowed'], $product['price_currency_code']);
 
 			$this->total += $products_price['price'] * $qty;
 			$this->qty += $qty;
@@ -415,13 +415,13 @@ class shoppingCart {
 			if ($products = get_products_cache(os_get_prid($products_id))) {
 				$prid = $products['products_id'];
 
-				$products_price = $osPrice->GetPrice($products['products_id'], false, $this->contents[$products_id]['qty'], $products['products_tax_class_id'], $products['products_price'], 0, 0, $products['products_discount_allowed']);
+				$products_price = $osPrice->GetPrice($products['products_id'], false, $this->contents[$products_id]['qty'], $products['products_tax_class_id'], $products['products_price'], 0, 0, $products['products_discount_allowed'], $products['price_currency_code']);
 				$productsPrice = $products_price['price'] + $this->attributes_price($products_id);
 
 				$products_array[] = array (
-				
-				'id' => $products_id, 
-				'name' => $products['products_name'], 
+
+				'id' => $products_id,
+				'name' => $products['products_name'],
 				'model' => $products['products_model'], 
 				'image' => $products['products_image'], 
 				'price' => $productsPrice, 

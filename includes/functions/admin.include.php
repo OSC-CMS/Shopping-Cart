@@ -1401,6 +1401,18 @@ function os_validate_email($email) {
 // todo: соединить все whos_online os_update_whos_online
 function os_update_whos_online()
 {
+	global $cartet;
+	if ($cartet->request->isAjax()) return false;
+
+    $wo_last_page_url = addslashes(getenv('REQUEST_URI'));
+    $wo_last_page_url = mysql_real_escape_string($wo_last_page_url);
+
+	$requests = array(
+		'/captcha.php',
+	);
+
+	if (in_array($wo_last_page_url, $requests)) return false;
+
     if (isset($_SESSION['customer_id'])) {
         $wo_customer_id = $_SESSION['customer_id'];
 
@@ -1415,8 +1427,6 @@ function os_update_whos_online()
 
     $wo_session_id = os_session_id();
     $wo_ip_address = getenv('REMOTE_ADDR');
-    $wo_last_page_url = addslashes(getenv('REQUEST_URI'));
-    $wo_last_page_url = mysql_real_escape_string($wo_last_page_url);
     $current_time = time();
     $xx_mins_ago = ($current_time - 900);
 
@@ -2014,13 +2024,13 @@ function os_get_products($session)
     $products_array = array();
     reset($session);
     while (list($products_id, ) = each($session['cart']->contents)) {
-        $products_query = os_db_query("select p.products_id, pd.products_name,p.products_image, p.products_model, p.products_price, p.products_discount_allowed, p.products_weight, p.products_tax_class_id from " . TABLE_PRODUCTS . " p, " . TABLE_PRODUCTS_DESCRIPTION . " pd where p.products_id='" . os_get_prid($products_id) . "' and pd.products_id = p.products_id and pd.language_id = '" . $_SESSION['languages_id'] . "'");
+        $products_query = os_db_query("select p.products_id, pd.products_name,p.products_image, p.products_model, p.products_price, p.products_discount_allowed, p.price_currency_code, p.products_weight, p.products_tax_class_id from " . TABLE_PRODUCTS . " p, " . TABLE_PRODUCTS_DESCRIPTION . " pd where p.products_id='" . os_get_prid($products_id) . "' and pd.products_id = p.products_id and pd.language_id = '" . $_SESSION['languages_id'] . "'");
         if ($products = os_db_fetch_array($products_query)) {
             $prid = $products['products_id'];
 
             // dirty workaround
             $osPrice = new osPrice($session['currency'],$session['customers_status']['customers_status_id']);
-            $products_price = $osPrice->GetPrice($products['products_id'], false, $session['cart']->contents[$products_id]['qty'], $products['products_tax_class_id'], $products['products_price'], 0, 0, $products['products_discount_allowed']);
+            $products_price = $osPrice->GetPrice($products['products_id'], false, $session['cart']->contents[$products_id]['qty'], $products['products_tax_class_id'], $products['products_price'], 0, 0, $products['products_discount_allowed'], $products['price_currency_code']);
 
             $products_array[] = array('id' => $products_id,
             'name' => $products['products_name'],

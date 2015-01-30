@@ -20,7 +20,7 @@ include ('includes/top.php');
 $product_info_query = os_db_query("select * FROM ".TABLE_PRODUCTS." p, ".TABLE_PRODUCTS_DESCRIPTION." pd where p.products_status = '1' and p.products_id = '".(int) $_GET['products_id']."' and pd.products_id = p.products_id and pd.language_id = '".(int) $_SESSION['languages_id']."'");
 $product_info = os_db_fetch_array($product_info_query);
 
-$products_price = $osPrice->GetPrice($product_info['products_id'], true, 1, $product_info['products_tax_class_id'], $product_info['products_price'], 1);
+$products_price = $osPrice->GetPrice($product_info['products_id'], true, 1, $product_info['products_tax_class_id'], $product_info['products_price'], 1, 0, $product_info['products_discount_allowed'], $product_info['price_currency_code']);
 
 $products_attributes_query = os_db_query("select count(*) as total from ".TABLE_PRODUCTS_OPTIONS." popt, ".TABLE_PRODUCTS_ATTRIBUTES." patrib where patrib.products_id='".(int) $_GET['products_id']."' and patrib.options_id = popt.products_options_id and popt.language_id = '".(int) $_SESSION['languages_id']."'");
 $products_attributes = os_db_fetch_array($products_attributes_query);

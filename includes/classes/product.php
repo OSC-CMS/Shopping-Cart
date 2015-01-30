@@ -382,7 +382,7 @@ class product {
 			    $tax_rate = $osPrice->TAX[$array['products_tax_class_id']];
 			}
 	
-    		$products_price = $osPrice->GetPrice($array['products_id'], true, 1, $array['products_tax_class_id'], $array['products_price'], 1, 0, $array['products_discount_allowed']);
+    		$products_price = $osPrice->GetPrice($array['products_id'], true, 1, $array['products_tax_class_id'], $array['products_price'], 1, 0, $array['products_discount_allowed'], $array['price_currency_code']);
 
 			if ($_SESSION['customers_status']['customers_status_show_price'] != '0') {
 			if ($_SESSION['customers_status']['customers_fsk18'] == '1') {

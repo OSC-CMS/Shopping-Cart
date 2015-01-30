@@ -140,8 +140,14 @@ class osPrice {
 	/**
 	 * Get Price
 	 */
-	function GetPrice($pID, $format = true, $qty, $tax_class, $pPrice, $vpeStatus = 0, $cedit_id = 0, $discountAllowed = 0) 
+	function GetPrice($pID, $format = true, $qty, $tax_class, $pPrice, $vpeStatus = 0, $cedit_id = 0, $discountAllowed = 0, $price_currency_code = '')
 	{
+		if (!empty($price_currency_code))
+		{
+			$pPrice = $this->ConvertCurr($pPrice, $price_currency_code, DEFAULT_CURRENCY);
+			$pPrice = $pPrice['plain'];
+		}
+
 		if ($this->cStatus['customers_status_show_price'] == '0')
 			return $this->ShowNote($vpeStatus, $vpeStatus);
 
@@ -660,12 +666,12 @@ class osPrice {
 		   //$this->currencies[$this->actualCurr]['value'] * $price
 		   if ($cur_code1 == $cur_code2)
 		   {
-		      return array ('formated' => $this->Format($price, true), 'plain' => $price);
+		      return array ('formated' => $this->Format($price, $format), 'plain' => $price);
 		   }
 		   else
 		   { 
 		      $price = ($price*$this->currencies[$cur_code2]['value'])/$this->currencies[$cur_code1]['value'];
-		      return array ('formated' => $this->Format($price, true), 'plain' => $this->Format($price, false));
+		      return array ('formated' => $this->Format($price, $format), 'plain' => $this->Format($price, false));
 		   }
 		}
 		else

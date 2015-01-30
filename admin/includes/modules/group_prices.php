@@ -53,21 +53,35 @@ while ($group_values = os_db_fetch_array($group_query))
 <?php
 $currencies = $osPrice->currencies;
 if (is_array($currencies)) { ?>
-	<div class="control-group">
-		<label class="control-label" for=""><?php echo TEXT_PRODUCTS_PRICE_CURRENCY; ?></label>
-		<div class="controls">
-			<?php
-			$curArray = array();
-			while (list($key, $value) = each($currencies))
-			{
-				$curArray[] = array(
-					'id' => $key,
-					'text' => $value['title'],
-				);
-			}
-			?>
-			<?php echo os_draw_pull_down_menu('price_currency', $curArray, DEFAULT_CURRENCY); ?>
-			<span class="help-block"><?php echo TEXT_PRODUCTS_PRICE_CURRENCY_DESC; ?></span>
+
+
+
+	<div class="row-fluid">
+		<div class="span6">
+			<div class="control-group">
+				<label class="control-label" for=""><?php echo TEXT_PRODUCTS_PRICE_CURRENCY; ?></label>
+				<div class="controls">
+					<?php
+					$curArray = array();
+					while (list($key, $value) = each($currencies))
+					{
+						$curArray[] = array(
+							'id' => $key,
+							'text' => $value['title'],
+						);
+					}
+					?>
+					<?php echo os_draw_pull_down_menu('price_currency', $curArray, DEFAULT_CURRENCY); ?>
+					<span class="help-block"><?php echo TEXT_PRODUCTS_PRICE_CURRENCY_DESC; ?></span>
+				</div>
+			</div>
+		</div>
+		<div class="span6">
+			<div class="control-group">
+				<div class="controls">
+					<label class="checkbox"><?php echo os_draw_selection_field('price_currency_code', 'checkbox', '1', ($pInfo->price_currency_code) ? true : false); ?> <?php echo TEXT_PRODUCTS_PRICE_CURRENCY_SAVE; ?></label>
+				</div>
+			</div>
 		</div>
 	</div>
 <?php } ?>

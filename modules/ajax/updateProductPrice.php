@@ -14,7 +14,7 @@ if (isset($_POST['products_id']) && !empty($_POST['products_id']))
 {
 	$oProduct = new product($_POST['products_id']);
 
-	$pPrice = $osPrice->GetPrice($oProduct->data['products_id'], false, 1, $oProduct->data['products_tax_class_id'], $oProduct->data['products_price'], 1, 0, $oProduct->data['products_discount_allowed']);
+	$pPrice = $osPrice->GetPrice($oProduct->data['products_id'], false, 1, $oProduct->data['products_tax_class_id'], $oProduct->data['products_price'], 1, 0, $oProduct->data['products_discount_allowed'], $oProduct->data['price_currency_code']);
 
 	$products_qty = str_replace('-', '', (int)$_POST['products_qty']);
 	$products_qty = ($products_qty > 0) ? $products_qty : 1;

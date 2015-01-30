@@ -604,7 +604,7 @@ class apiProducts extends CartET
 		$action = ($params['action']) ? $params['action'] : 'insert';
 
 		// Пересчет цены товара в валюту по умолчанию по текущему курсу
-		if ($products_data['price_currency'] != DEFAULT_CURRENCY)
+		if ($products_data['price_currency'] != DEFAULT_CURRENCY && !$products_data['price_currency_code'])
 		{
 			require (_CLASS.'price.php');
 			$osPrice = new osPrice(DEFAULT_CURRENCY, $_SESSION['customers_status']['customers_status_id']);
@@ -692,6 +692,7 @@ class apiProducts extends CartET
 			'products_bundle' => os_db_prepare_input($products_data['products_bundle']),
 			'yml_manufacturer_warranty' => os_db_prepare_input($products_data['yml_manufacturer_warranty']),
 			'yml_manufacturer_warranty_text' => os_db_prepare_input($products_data['yml_manufacturer_warranty_text']),
+			'price_currency_code' => os_db_prepare_input($products_data['price_currency']),
 		);
 
 		$sql_data_array = array_merge($sql_data_array, $permission_array);

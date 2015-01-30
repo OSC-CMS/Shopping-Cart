@@ -423,17 +423,17 @@ $order->info['tax'] -= $tod_amount;
 		global $order,$osPrice;
 		$products_id = os_get_prid($product_id);
 		$qty = $_SESSION['cart']->contents[$products_id]['qty'];
-		$product_query = os_db_query("select products_id, products_price, products_tax_class_id, products_weight, products_discount_allowed from ".TABLE_PRODUCTS." where products_id='".$product_id."'");
+		$product_query = os_db_query("select products_id, products_price, products_tax_class_id, products_weight, products_discount_allowed, price_currency_code from ".TABLE_PRODUCTS." where products_id='".$product_id."'");
 		if ($product = os_db_fetch_array($product_query)) {
 			$prid = $product['products_id'];
 
 			if ($this->include_tax == 'true')
 			{
-				$tPrice = $osPrice->GetPrice($product['products_id'], false, 1, $product['products_tax_class_id'], $product['products_price'], 1, 0, $product['products_discount_allowed']);
+				$tPrice = $osPrice->GetPrice($product['products_id'], false, 1, $product['products_tax_class_id'], $product['products_price'], 1, 0, $product['products_discount_allowed'], $product['price_currency_code']);
 				$total_price += $qty * $tPrice['price'];
 				$_SESSION['total_price']=$total_price;
 			} else {
-				$tPrice = $osPrice->GetPrice($product['products_id'], false, 1, 0, $product['products_price'], 1, 0, $product['products_discount_allowed']);
+				$tPrice = $osPrice->GetPrice($product['products_id'], false, 1, 0, $product['products_price'], 1, 0, $product['products_discount_allowed'], $product['price_currency_code']);
 				$total_price += $qty * $tPrice['price'];
 			}
 

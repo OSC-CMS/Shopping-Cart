@@ -83,7 +83,7 @@ if ($product->getAttributesCount() > 0) {
 					$price = $osPrice->GetOptionPrice($product->data['products_id'], $products_options_name['products_options_id'], $products_options['products_options_values_id']);
 					$price = $price['price'];
 				}
-				$products_price = $osPrice->GetPrice($product->data['products_id'], false, 1, $product->data['products_tax_class_id'], $product->data['products_price'], 0, 0, $product->data['products_discount_allowed']);
+				$products_price = $osPrice->GetPrice($product->data['products_id'], false, 1, $product->data['products_tax_class_id'], $product->data['products_price'], 0, 0, $product->data['products_discount_allowed'], $product->data['price_currency_code']);
 
 				if ($_SESSION['customers_status']['customers_status_discount_attributes'] == 1 && $products_options['price_prefix'] == '+')
 					$price -= $price / 100 * $discount;				
