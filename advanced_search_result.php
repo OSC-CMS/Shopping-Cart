@@ -158,6 +158,8 @@
         p.products_image,
         p.products_weight,
         p.products_tax_class_id,
+        p.products_discount_allowed,
+        p.price_currency_code,
         pd.products_name,
         pd.products_short_description,
         pd.products_description ";

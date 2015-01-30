@@ -116,7 +116,7 @@ $products_sql = "
 	SELECT distinct 
 		p.products_id, p2c.categories_id, p.products_model, p.products_quantity, p.products_image,
 		IF(s.status, s.specials_new_products_price, p.products_price) AS products_price, 
-		p.products_tax_class_id, p.manufacturers_id, p.products_sort, pd.products_name, m.manufacturers_name, pd.products_description, 
+		p.products_tax_class_id, p.products_tax_class_id, p.products_discount_allowed, p.price_currency_code, p.products_sort, pd.products_name, m.manufacturers_name, pd.products_description, 
 		pd.products_short_description, p.yml_bid, p.yml_cbid, p.yml_available, p.yml_manufacturer_warranty, p.yml_manufacturer_warranty_text
 	FROM 
 		".TABLE_PRODUCTS." p
@@ -167,7 +167,7 @@ while ($products = os_db_fetch_array($products_query))
 		$cbid = ' cbid="'.$products["yml_cbid"].'"';
 
 	$price = $products['products_price'];
-	$price = $osPrice->GetPrice($products['products_id'], false, 1, $products['products_tax_class_id'], $price);
+	$price = $osPrice->GetPrice($products['products_id'], false, 1, $products['products_tax_class_id'], $price, 1, 0, $products['products_discount_allowed'], $products['price_currency_code']);
 	$url = os_href_link(FILENAME_PRODUCT_INFO, os_product_link($products['products_id'], $products['products_name']).(isset($_GET['ref']) ? '&amp;ref='.$_GET['ref'] : null).$yml_referer, 'NONSSL', false);
 	$available = ' available="'.$available.'"';
 	os_yml_out('<offer id="'.$products['products_id'].'"'.$available.$bid.$cbid.'>');
