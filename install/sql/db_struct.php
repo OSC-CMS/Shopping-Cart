@@ -1031,13 +1031,14 @@ os_db_query("CREATE TABLE ".DB_PREFIX."products (
   products_search int(1) NOT NULL DEFAULT '0',
   yml_manufacturer_warranty int(1) NOT NULL DEFAULT '0',
   yml_manufacturer_warranty_text varchar(255) DEFAULT '',
+  price_currency_code VARCHAR(10) NOT NULL DEFAULT '',
   PRIMARY KEY (products_id),
   KEY idx_products_date_added (products_date_added)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE utf8_general_ci;");
 
 os_db_query("CREATE TABLE ".DB_PREFIX."products_bundles (
-  bundle_id smallint(6) NOT NULL,
-  subproduct_id smallint(6) NOT NULL,
+  bundle_id int(11) NOT NULL,
+  subproduct_id int(11) NOT NULL,
   subproduct_qty tinyint(4) NOT NULL,
   PRIMARY KEY (`bundle_id`,`subproduct_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE utf8_general_ci;");
