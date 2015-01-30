@@ -692,7 +692,7 @@ class apiProducts extends CartET
 			'products_bundle' => os_db_prepare_input($products_data['products_bundle']),
 			'yml_manufacturer_warranty' => os_db_prepare_input($products_data['yml_manufacturer_warranty']),
 			'yml_manufacturer_warranty_text' => os_db_prepare_input($products_data['yml_manufacturer_warranty_text']),
-			'price_currency_code' => os_db_prepare_input($products_data['price_currency']),
+			'price_currency_code' => (($products_data['price_currency_code']) ? os_db_prepare_input($products_data['price_currency']) : ''),
 		);
 
 		$sql_data_array = array_merge($sql_data_array, $permission_array);

@@ -71,7 +71,7 @@ if (is_array($currencies)) { ?>
 						);
 					}
 					?>
-					<?php echo os_draw_pull_down_menu('price_currency', $curArray, DEFAULT_CURRENCY); ?>
+					<?php echo os_draw_pull_down_menu('price_currency', $curArray, ($pInfo->price_currency_code) ? $pInfo->price_currency_code : DEFAULT_CURRENCY); ?>
 					<span class="help-block"><?php echo TEXT_PRODUCTS_PRICE_CURRENCY_DESC; ?></span>
 				</div>
 			</div>
