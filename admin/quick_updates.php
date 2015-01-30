@@ -255,6 +255,7 @@ $main->top_menu();
 			<tr>
 				<th><?php echo '#'.os_sorting(FILENAME_QUICK_UPDATES, 'id'); ?></th>
 				<th><span class="line"></span><?php echo TABLE_HEADING_PRODUCTS.os_sorting(FILENAME_QUICK_UPDATES, 'name'); ?></th>
+				<th><span class="line"></span><?php echo TABLE_HEADING_SORT; ?></th>
 				<?php if (STOCK_CHECK == 'true') { ?>
 				<th><span class="line"></span><?php echo TABLE_HEADING_QUANTITY.os_sorting(FILENAME_QUICK_UPDATES, 'stock'); ?></th>
 				<?php } ?>
@@ -345,6 +346,7 @@ $main->top_menu();
 				<td><?php echo $products['products_name']; ?></td>
 				<?php if (STOCK_CHECK == 'true') { ?>
 				<td><input class="width100px" type="text" name="<?php echo $products['products_id']; ?>[products_quantity]" value="<?php echo $products['products_quantity']; ?>" /></td>
+				<td><input class="width40px" type="text" name="<?php echo $products['products_id']; ?>[products_sort]" value="<?php echo $products['products_sort']; ?>" /></td>
 				<?php } ?>
 				<td class="tcenter">
 					<?php
