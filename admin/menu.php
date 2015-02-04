@@ -252,8 +252,6 @@ $languages = $cartet->language->get();
 	{
 		foreach ($menu as $row)
 		{
-			$delete = ($groupId > 1) ? '<a href="#" data-action="menu_delete" data-remove-parent="li" data-id="'.$row['menu_id'].'" data-confirm="Вы уверены, что хотите удалить это меню?"><i class="icon-trash"></i></a>' : '';
-
 			$item ='
 			<div class="menu-item"><div class="menu-move"><i class="icon-move"></i></div>
 				<div class="menu-title">'.$row['lang_title'].'</div>
@@ -265,7 +263,7 @@ $languages = $cartet->language->get();
 				<div class="menu-class">'.$row['menu_class_icon'].'</div>
 				<div class="menu-actions">
 					<a href="menu.php?action=edit_menu&group_id='.$row['menu_group_id'].'&menu_id='.$row['menu_id'].'"><i class="icon-edit"></i></a>
-					'.$delete.'
+					<a href="#" data-action="menu_delete" data-remove-parent="li" data-id="'.$row['menu_id'].'" data-confirm="Вы уверены, что хотите удалить это меню?"><i class="icon-trash"></i></a>
 				</div>
 			</div><ul></ul>
 			';

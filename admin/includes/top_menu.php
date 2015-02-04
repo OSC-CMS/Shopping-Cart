@@ -143,7 +143,7 @@ function add_plug_menu($title, $url)
 
 				$_access = explode('.php', $row['menu_url']);
 
-				if (!empty($row['menu_url']))
+				if (!empty($row['menu_url']) && in_array($_access[0], $admin_access))
 				{
 					if (($_SESSION['customers_status']['customers_status_id'] == '0') && ($admin_access[$_access[0]] == '1'))
 					{
