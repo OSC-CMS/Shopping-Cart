@@ -989,6 +989,23 @@ $main->top_menu();
 			$ordersProducts = $cartet->orders->getProducts(array('orders_id' => $ordersIds));
 		}
 
+		// Получаем последние комментарии заказов
+		$aComments = array();
+		if (!empty($ordersIds))
+		{
+			$orders_history_query = os_db_query("select orders_id, orders_status_id, date_added, comments from ".TABLE_ORDERS_STATUS_HISTORY." where orders_id IN (".implode(',', $ordersIds).") order by date_added DESC");
+			if (os_db_num_rows($orders_history_query) > 0)
+			{
+				while($comment = os_db_fetch_array($orders_history_query))
+				{
+					if ($comment['comments'])
+					{
+						$aComments[$comment['orders_id']][] = $comment;
+					}
+				}
+			}
+		}
+
 		foreach($ordersData AS $orderId => $orders)
 		{
 			$products = $ordersProducts[$orderId];
@@ -1038,6 +1055,12 @@ $main->top_menu();
 		<tr class="display-none item_<?php echo $orders['orders_id']; ?>">
 			<td colspan="8">
 				<div class="table-big-text">
+					<?php if ($aComments[$orders['orders_id']][0]['comments']) { ?>
+					<div class="p10">
+						<strong><?php echo ENTRY_NOTIFY_COMMENTS; ?>:</strong><br />
+						<?php echo $aComments[$orders['orders_id']][0]['date_added']; ?> - <?php echo $aComments[$orders['orders_id']][0]['comments']; ?>
+					</div>
+					<?php } ?>
 					<div class="row-fluid order-products-list-item">
 						<div class="span6">
 						<?php
