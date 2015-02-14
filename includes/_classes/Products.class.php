@@ -147,25 +147,45 @@ class apiProducts extends CartET
 			$getSubcategoriesIds = $this->product->getSubcategoriesId($getCategoryArray);
 
 			$result = os_db_query("UPDATE ".TABLE_CATEGORIES." SET ".os_db_prepare_input($params['column'])." = '".(int)$params['status']."' WHERE categories_id = '".(int)$params['id']."'");
-			
+
+			if ($params['column'] == 'categories_status')
+			{
+				// обновляем статусы у товаров
+				$_products_to_categories_data = os_db_query("select ptc.products_id from ".TABLE_PRODUCTS_TO_CATEGORIES." as ptc where ptc.categories_id='".(int)$params['id']."'");
+				if (os_db_num_rows($_products_to_categories_data) > 0)
+				{
+					while ($_products = os_db_fetch_array($_products_to_categories_data))
+					{
+						$this->changeProductStatus(array(
+							'column' => 'products_status',
+							'id' => $_products['products_id'],
+							'status' => $params['status']
+						));
+					}
+				}
+			}
+
 			if (is_array($getSubcategoriesIds))
 			{
 				foreach($getSubcategoriesIds AS $c_id)
 				{
 					// обновляем статусы у категорий
 					os_db_query("UPDATE ".TABLE_CATEGORIES." SET ".os_db_prepare_input($params['column'])." = '".(int)$params['status']."' WHERE categories_id = '".(int)$c_id."'");
-				
-					// обновляем статусы у товаров
-					$products_to_categories_data = os_db_query("select ptc.products_id from ".TABLE_PRODUCTS_TO_CATEGORIES." as ptc where ptc.categories_id='".(int)$c_id."'");
-					if (os_db_num_rows($products_to_categories_data) > 0)
+
+					if ($params['column'] == 'categories_status')
 					{
-						while ($products = os_db_fetch_array($products_to_categories_data))
+						// обновляем статусы у товаров
+						$products_to_categories_data = os_db_query("select ptc.products_id from ".TABLE_PRODUCTS_TO_CATEGORIES." as ptc where ptc.categories_id='".(int)$c_id."'");
+						if (os_db_num_rows($products_to_categories_data) > 0)
 						{
-							$this->changeProductStatus(array(
-								'column' => 'products_status',
-								'id' => $products['products_id'],
-								'status' => $params['status']
-							));
+							while ($products = os_db_fetch_array($products_to_categories_data))
+							{
+								$this->changeProductStatus(array(
+									'column' => 'products_status',
+									'id' => $products['products_id'],
+									'status' => $params['status']
+								));
+							}
 						}
 					}
 				}
@@ -229,6 +249,25 @@ class apiProducts extends CartET
 		if (is_array($post))
 		{
 			$result = os_db_query("UPDATE ".TABLE_PRODUCTS." SET ".os_db_prepare_input($post['column'])." = '".(int)$post['status']."' WHERE products_id = '".(int)$post['id']."'");
+			if ($result)
+				$data = array('msg' => 'Успешно изменено!', 'type' => 'ok');
+			else
+				$data = array('msg' => 'Произошла ошибка!', 'type' => 'error');
+		}
+		else
+			$data = array('msg' => 'Произошла ошибка!', 'type' => 'error');
+
+		return $data;
+	}
+
+	/**
+	 * Статусы категорий
+	 */
+	public function setCategoryStatus($post)
+	{
+		if (is_array($post))
+		{
+			$result = os_db_query("UPDATE ".TABLE_CATEGORIES." SET ".os_db_prepare_input($post['column'])." = '".(int)$post['status']."' WHERE categories_id = '".(int)$post['id']."'");
 			if ($result)
 				$data = array('msg' => 'Успешно изменено!', 'type' => 'ok');
 			else
