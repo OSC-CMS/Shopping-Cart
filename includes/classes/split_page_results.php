@@ -76,9 +76,10 @@ class splitPageResults
 		$prev = array();
 		if ($this->current_page_number > 1)
 		{
+			$_prev = (($this->current_page_number - 1) != 1) ? $page. '='.($this->current_page_number - 1): '';
 			$prev = array(
 				'title' => PREVNEXT_BUTTON_PREV,
-				'link' => os_href_link(basename($PHP_SELF), $parameters .$page. '='.($this->current_page_number - 1), $request_type),
+				'link' => os_href_link(basename($PHP_SELF), $parameters .$_prev, $request_type),
 			);
 		}
 
@@ -104,7 +105,8 @@ class splitPageResults
 		$pagination = array();
 		for ($jump_to_page = 1 + (($cur_window_num - 1) * $max_page_links); ($jump_to_page <= ($cur_window_num * $max_page_links)) && ($jump_to_page <= $this->number_of_pages); $jump_to_page++)
 		{
-			$link = ($jump_to_page == $this->current_page_number) ? '' : os_href_link(basename($PHP_SELF), $parameters .$page. '='.$jump_to_page, $request_type);
+			$_jump_to_page = ($jump_to_page != 1) ? $page.'='.$jump_to_page : '';
+			$link = ($jump_to_page == $this->current_page_number) ? '' : os_href_link(basename($PHP_SELF), $parameters .$_jump_to_page, $request_type);
 			$pagination[] = array(
 				'title' => $jump_to_page,
 				'link' => $link,
