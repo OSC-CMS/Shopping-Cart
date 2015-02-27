@@ -121,6 +121,7 @@ define('PREVNEXT_TITLE_NEXT_SET_OF_NO_PAGE', 'Следующие %d страни
 define('PREVNEXT_BUTTON_PREV', 'Предыдущая');
 define('PREVNEXT_BUTTON_NEXT', 'Следующая');
 
+define('TEXT_METATAGS_PAGE_TITLE', 'Страница');
 
 define('IMAGE_BUTTON_ADD_ADDRESS', 'Добавить адрес');
 define('IMAGE_BUTTON_BACK', 'Назад');

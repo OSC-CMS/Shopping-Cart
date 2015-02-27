@@ -108,6 +108,8 @@ else
 			$categories_meta['categories_meta_title'] = $categories_meta['categories_name'];
 		}
 
+		$page_id = ($cartet->request->get('page') && $cartet->request->get('page') != 1) ? ', '.TEXT_METATAGS_PAGE_TITLE.' '.$cartet->request->get('page') : '';
+
 		if (isset($_GET['filter_id']) or isset($_GET['manufacturers_id']))
 		{
 			$manufacturerData = $cartet->product->manufacturerData;
@@ -119,7 +121,7 @@ else
 
 		$_description  = $categories_meta['categories_meta_description'].$mDesc;
 		$_keywords  = $categories_meta['categories_meta_keywords'].$mKey;
-		$_title  = $categories_meta['categories_meta_title'].$mName.' - '.TITLE;
+		$_title  = $categories_meta['categories_meta_title'].$mName.$page_id.' - '.TITLE;
 	}
 	else
 	{
