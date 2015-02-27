@@ -330,7 +330,13 @@ class apiProduct extends CartET
 		$distinct = '';
 		$limit = '';
 		$language = $_SESSION['languages_id'];
+		$join = array();
 		$where = array();
+
+		// Добавляем JOIN запросы
+		if (isset($params['join']) && !empty($params['join']))
+			foreach($params['join'] AS $j)
+				$join[] = os_db_prepare_input($j);
 
 		// Дополнительные условия выборки
 		if (isset($params['where']) && !empty($params['where']))
@@ -381,7 +387,7 @@ class apiProduct extends CartET
 
 		// Лимит
 		if ($params['limit'])
-			$limit = " LIMIT ".(int)$params['limit'];
+			$limit = " LIMIT ".$params['limit'];
 
 		// Сортировка
 		if ($params['order'])
@@ -401,7 +407,8 @@ class apiProduct extends CartET
 			".TABLE_PRODUCTS." p
 				LEFT JOIN ".TABLE_MANUFACTURERS." m ON (p.manufacturers_id = m.manufacturers_id)
 				LEFT JOIN ".TABLE_FEATURED." f ON (f.products_id = p.products_id AND f.status = 1)
-				LEFT JOIN ".TABLE_SPECIALS." s ON (p.products_id = s.products_id),
+				LEFT JOIN ".TABLE_SPECIALS." s ON (p.products_id = s.products_id)
+				".join(' ', $join).",
 			".TABLE_PRODUCTS_DESCRIPTION." pd,
 			".TABLE_CATEGORIES." c,
 			".TABLE_PRODUCTS_TO_CATEGORIES." p2c
