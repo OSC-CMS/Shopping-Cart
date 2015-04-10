@@ -77,7 +77,7 @@ class product {
 
 		$reviews_query = osDBquery("
 		SELECT
-			r.reviews_rating, r.reviews_id, r.customers_id as rcid, r.customers_name AS rCustomerName, r.date_added, r.last_modified, r.reviews_read, r.status, rd.reviews_text, 
+			r.reviews_rating, r.reviews_id, r.customers_id as rcid, r.customers_name AS rCustomerName, r.date_added, r.last_modified, r.reviews_read, r.status, rd.reviews_text, rd.reviews_text_admin, 
 			p.customers_avatar, p.show_firstname, p.show_secondname, p.show_lastname, c.customers_firstname cfn, c.customers_secondname as csn, c.customers_lastname as cln, c.customers_username 
 		FROM 
 			".TABLE_REVIEWS." r 
@@ -126,7 +126,8 @@ class product {
 					'AVATAR' => $customers_avatar,
 					'DATE' => $reviews['date_added'],
 					'RATING' => os_image('themes/'.CURRENT_TEMPLATE.'/img/stars_'.$reviews['reviews_rating'].'.gif', sprintf(TEXT_OF_5_STARS, $reviews['reviews_rating'])),
-					'TEXT' => os_break_string(nl2br(htmlspecialchars($reviews['reviews_text'])), 60, '-<br />')
+					'TEXT' => os_break_string(nl2br(htmlspecialchars($reviews['reviews_text'])), 60, '-<br />'),
+					'TEXT_ADMIN' => os_break_string(nl2br(htmlspecialchars($reviews['reviews_text_admin'])), 60, '-<br />'),
 				);
 				// TODO: пересмотреть ограничения по количеству отзывов на странице
 				if ($row == PRODUCT_REVIEWS_VIEW)

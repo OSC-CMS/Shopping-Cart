@@ -77,6 +77,11 @@ while ($reviews = os_db_fetch_array($reviews_query))
 	<tr>
 		<td colspan="8"><div class="table-big-text"><?php echo nl2br(os_db_output(os_break_string($reviews['reviews_text'], 20))); ?></div></td>
 	</tr>
+	<?php if ($reviews['reviews_text_admin']) { ?>
+		<div class="well well-small">
+			<?php echo nl2br(os_db_output(os_break_string($reviews['reviews_text_admin'], 20))); ?>
+		</div>
+	<?php } ?>
 	<?php
 }
 ?>

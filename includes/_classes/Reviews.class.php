@@ -63,6 +63,7 @@ class apiReviews extends CartET
 
 		$updateInfoArray = array(
 			'reviews_text' =>  os_db_prepare_input($_POST['reviews_text']),
+			'reviews_text_admin' =>  os_db_prepare_input($_POST['reviews_text_admin']),
 		);
 
 		os_db_perform(TABLE_REVIEWS_DESCRIPTION, $updateInfoArray, 'update', "reviews_id = '".(int)$_POST['reviews_id']."'");

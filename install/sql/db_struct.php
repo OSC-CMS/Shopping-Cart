@@ -1172,6 +1172,7 @@ os_db_query("CREATE TABLE ".DB_PREFIX."reviews_description (
   reviews_id int NOT NULL,
   languages_id int NOT NULL,
   reviews_text text NOT NULL,
+  reviews_text_admin text NOT NULL,
   PRIMARY KEY (reviews_id, languages_id)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE utf8_general_ci;");
 

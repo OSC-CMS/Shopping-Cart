@@ -21,6 +21,7 @@ define('ENTRY_PRODUCT', 'Товар');
 define('ENTRY_FROM', 'От');
 define('ENTRY_DATE', 'Дата');
 define('ENTRY_REVIEW', 'Отзыв');
+define('ENTRY_REVIEW_ADMIN', 'Ответ администратора');
 define('ENTRY_REVIEW_TEXT', 'HTML не поддерживается!');
 define('ENTRY_RATING', 'Рейтинг');
 

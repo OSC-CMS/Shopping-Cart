@@ -31,6 +31,12 @@ if ($_GET['action'] == 'edit') { ?>
 					<?php echo $cartet->html->textarea('reviews_text', $review['reviews_text'], array('class' => 'input-block-level', 'rows' => '4'), true); ?>
 				</div>
 			</div>
+			<div class="control-group">
+				<label class="control-label" for=""><?php echo ENTRY_REVIEW_ADMIN; ?> (<?php echo ENTRY_REVIEW_TEXT; ?>)</label>
+				<div class="controls">
+					<?php echo $cartet->html->textarea('reviews_text_admin', $review['reviews_text_admin'], array('class' => 'input-block-level', 'rows' => '3'), true); ?>
+				</div>
+			</div>
 
 			<p>
 				<?php echo ENTRY_PRODUCT; ?>: <a target="_blank" href="<?php echo FILENAME_CATEGORIES; ?>?pID=<?php echo $review['products_id']; ?>&action=new_product"><?php echo $review['products_name']; ?></a>

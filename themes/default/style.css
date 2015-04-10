@@ -183,7 +183,7 @@ form#individual_banner {margin:0!important;}
 	-webkit-border-radius: 3px;
 	border-radius: 3px;
 }
-
+.new-reviews-page .nrp-text-admin {border-color:red;color:red;}
 
 
 .product-info-ul {}

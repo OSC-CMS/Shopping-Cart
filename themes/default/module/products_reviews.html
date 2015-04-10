@@ -19,6 +19,7 @@
 				<li>{#text_date#} <span class="bold">{$module_data.DATE}</span></li>
 			</ul>
 			<div class="nrp-text">{$module_data.TEXT}</div>
+			{if isset($module_data.TEXT_ADMIN) && !empty($module_data.TEXT_ADMIN)}<div class="nrp-text nrp-text-admin"><strong>{#text_admin#}</strong><br />{$module_data.TEXT_ADMIN}</div>{/if}
 		</div>
 		<div class="clear"></div>
 	</li>
