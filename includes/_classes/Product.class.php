@@ -407,7 +407,7 @@ class apiProduct extends CartET
 			".TABLE_PRODUCTS." p
 				LEFT JOIN ".TABLE_MANUFACTURERS." m ON (p.manufacturers_id = m.manufacturers_id)
 				LEFT JOIN ".TABLE_FEATURED." f ON (f.products_id = p.products_id AND f.status = 1)
-				LEFT JOIN ".TABLE_SPECIALS." s ON (p.products_id = s.products_id)
+				LEFT JOIN ".TABLE_SPECIALS." s ON (p.products_id = s.products_id AND s.status = 1)
 				".join(' ', $join).",
 			".TABLE_PRODUCTS_DESCRIPTION." pd,
 			".TABLE_CATEGORIES." c,
