@@ -945,7 +945,7 @@ $main->top_menu();
 					<th class="tcenter"><span class="line"></span><?php echo TEXT_ORDER_PRODUCTS; ?></th>
 					<th><span class="line"></span><?php echo TABLE_HEADING_ORDER_TOTAL; ?></th>
 					<th class="tcenter"><span class="line"></span><?php echo TABLE_HEADING_DATE_PURCHASED; ?></th>
-					<th class="tcenter"><span class="line"></span><?php echo TABLE_HEADING_STATUS; ?></th>
+					<th class="tcenter" colspan="2"><span class="line"></span><?php echo TABLE_HEADING_STATUS; ?></th>
 					<th class="tright"><span class="line"></span><?php echo TABLE_HEADING_ACTION; ?></th>
 				</tr>
 			</thead>
@@ -1023,6 +1023,7 @@ $main->top_menu();
 			<td class="tcenter"><?php echo $productsCount;?></a></td>
 			<td><?php echo strip_tags($orders['order_total']); ?></td>
 			<td class="tcenter"><?php echo $orders['date_purchased']; ?></td>
+			<td class="tcenter" width="30"><div style="width:100%;height:15px;background: <?php echo $orders['orders_status_color']; ?>;"></div></td>
 			<td class="tcenter"><?php if($orders['orders_status']!='0') { echo $orders['orders_status_name']; }else{ echo '<font color="#FF0000">'.TEXT_VALIDATING.'</font>';}?></td>
 			<td>
 				<div class="pull-right">
@@ -1053,7 +1054,7 @@ $main->top_menu();
 			</td>
 		</tr>
 		<tr class="display-none item_<?php echo $orders['orders_id']; ?>">
-			<td colspan="8">
+			<td colspan="9">
 				<div class="table-big-text">
 					<?php if ($aComments[$orders['orders_id']][0]['comments']) { ?>
 					<div class="p10">

@@ -20,10 +20,12 @@ if ($_POST['save_status'])
 	foreach($languages AS $lang)
 	{
 		$orders_status_name_array = $_POST['orders_status_name'];
+		$orders_status_color_array = $_POST['orders_status_color'];
 		$language_id = $lang['languages_id'];
 
 		$sql_data_array = array(
-			'orders_status_name' => os_db_prepare_input($orders_status_name_array[$language_id])
+			'orders_status_name' => os_db_prepare_input($orders_status_name_array[$language_id]),
+			'orders_status_color' => os_db_prepare_input($orders_status_color_array[$language_id]),
 		);
 
 		if ($_GET['action'] == 'new')
@@ -126,6 +128,13 @@ $main->top_menu();
 					<?php $i = 0; foreach ($languages as $lang) { $i++; ?>
 					<div class="tab-pane <?php echo ($i == 1) ? 'active' : ''; ?>" id="tab_lang_<?php echo $lang['languages_id']; ?>">
 						<input type="text" name="orders_status_name[<?php echo $lang['languages_id']; ?>]" value="<?php echo $statusEdit[$lang['languages_id']]['orders_status_name']; ?>" />
+
+						<div class="control-group">
+							<label class="control-label" for="orders_status_color"><?php echo TEXT_ORDERS_STATUS_TITLE_COLOR; ?></label>
+							<div class="controls">
+								<input type="text" class="orders_status_color" name="orders_status_color[<?php echo $lang['languages_id']; ?>]" value="<?php echo $statusEdit[$lang['languages_id']]['orders_status_color']; ?>" />
+							</div>
+						</div>
 					</div>
 					<?php } ?>
 				</div>
@@ -137,6 +146,13 @@ $main->top_menu();
 				<label class="checkbox"><?php echo os_draw_checkbox_field('default').' '.TEXT_SET_DEFAULT; ?></label>
 			</div>
 		</div>
+
+		<script>
+			$(function(){
+				$('.orders_status_color').colorpicker();
+			});
+		</script>
+
 		<hr>
 		<div class="tcenter footer-btn">
 			<?php if (isset($_GET['oID'])) { ?>
@@ -196,12 +212,13 @@ $main->top_menu();
 	<table class="table table-condensed table-big-list border-radius-top">
 		<thead>
 			<tr>
+				<th width="100"><?php echo TEXT_ORDERS_STATUS_TITLE_COLOR; ?></th>
 				<th><?php echo TABLE_HEADING_ORDERS_STATUS; ?></th>
 				<th><span class="line"></span><?php echo TABLE_HEADING_ACTION; ?></th>
 			</tr>
 		</thead>
 	<?php
-	$orders_status_query_raw = "select orders_status_id, orders_status_name from ".TABLE_ORDERS_STATUS." where language_id = '".(int)$_SESSION['languages_id']."' order by orders_status_id";
+	$orders_status_query_raw = "select orders_status_id, orders_status_name, orders_status_color from ".TABLE_ORDERS_STATUS." where language_id = '".(int)$_SESSION['languages_id']."' order by orders_status_id";
 	$orders_status_split = new splitPageResults($_GET['page'], MAX_DISPLAY_ADMIN_PAGE, $orders_status_query_raw, $orders_status_query_numrows);
 	$orders_status_query = os_db_query($orders_status_query_raw);
 
@@ -213,6 +230,7 @@ $main->top_menu();
 			$ordersStatus = $orders_status['orders_status_name'];
 		?>
 		<tr>
+			<td><div style="width:70%;height:15px;background: <?php echo $orders_status['orders_status_color']; ?>;"></div></td>
 			<td><?php echo $ordersStatus; ?></td>
 			<td width="100">
 				<div class="btn-group pull-right">

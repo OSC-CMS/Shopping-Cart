@@ -158,9 +158,13 @@ class main extends CartET
 		_e('<script type="text/javascript" src="'._HTTP.'jscript/jquery-form/jquery.form.js"></script>');
 
 		// Datetimepicker
-		_e('<link href="'._HTTP.'jscript/datetimepicker/css/datetimepicker.css" rel="stylesheet" media="screen">');
+		_e('<link href="'._HTTP.'jscript/datetimepicker/css/bootstrap-datetimepicker.min.css" rel="stylesheet" media="screen">');
 		_e('<script type="text/javascript" src="'._HTTP.'jscript/datetimepicker/js/bootstrap-datetimepicker.js" charset="UTF-8"></script>');
 		_e('<script type="text/javascript" src="'._HTTP.'jscript/datetimepicker/js/locales/bootstrap-datetimepicker.'.$_SESSION['language_admin'].'.js" charset="UTF-8"></script>');
+
+		// Color picker
+		_e('<link href="'._HTTP.'jscript/colorpicker/css/bootstrap-colorpicker.min.css" rel="stylesheet">');
+		_e('<script src="'._HTTP.'jscript/colorpicker/js/bootstrap-colorpicker.js"></script>');
 
 		// Autocomplete
 		_e('<script type="text/javascript" src="'._HTTP.'jscript/autocomplete/jquery.autocomplete-min.js"></script>');
@@ -178,7 +182,7 @@ class main extends CartET
 		_e('<script src="'._HTTP.'jscript/jquery-sortable/jquery-sortable.js"></script>');
 
 		// Parsley
-		_e('<script type="text/javascript" src="'._HTTP.'jscript/parsley/i18n/messages.'.$_SESSION['language_admin'].'.js"></script>');
+		_e('<script type="text/javascript" src="'._HTTP.'jscript/parsley/i18n/'.$_SESSION['language_admin'].'.js"></script>');
 		_e('<script type="text/javascript" src="'._HTTP.'jscript/parsley/parsley.min.js"></script>');
 
 		// Admin JS File
