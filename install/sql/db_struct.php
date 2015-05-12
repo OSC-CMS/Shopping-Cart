@@ -1590,4 +1590,19 @@ os_db_query("CREATE TABLE ".DB_PREFIX."admin_setting (
 	PRIMARY KEY (`id`,`name`),
 	KEY `i_name` (`name`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE utf8_general_ci;");
-?>
+
+os_db_query("CREATE TABLE IF NOT EXISTS `".DB_PREFIX."cron_tasks` (
+    `id` int(11) NOT NULL AUTO_INCREMENT,
+    `title` varchar(250) DEFAULT NULL,
+    `class` varchar(32) DEFAULT NULL,
+    `function` varchar(32) DEFAULT NULL,
+    `period` int(11) DEFAULT NULL,
+    `date_last_run` timestamp NULL DEFAULT NULL,
+    `status` tinyint(1) DEFAULT NULL,
+    `new` tinyint(1) NOT NULL DEFAULT '1',
+    PRIMARY KEY (`id`),
+    KEY `period` (`period`),
+    KEY `date_last_run` (`date_last_run`),
+    KEY `status` (`status`),
+    KEY `new` (`new`)
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=5 ;");
