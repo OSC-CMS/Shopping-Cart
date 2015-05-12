@@ -498,8 +498,7 @@
     //function CheckSpecial($pID) 
     function get_checkspecial ($pID)
     {
-        global $checkspecial_cache;
-        global $checkspecial_count_cache;
+        global $checkspecial_cache, $checkspecial_count_cache, $osPrice;
 
         $pID = (int)$pID;
 
@@ -509,13 +508,21 @@
         }
         else
         {
-            $product_query = "select products_id, specials_new_products_price from ".TABLE_SPECIALS." where status=1";
+            $product_query = "select s.products_id, s.specials_new_products_price, p.price_currency_code from ".TABLE_SPECIALS." s, ".TABLE_PRODUCTS." p where s.products_id = p.products_id AND s.status = 1";
 
             $product_query = osDBquery($product_query);
 
             while ($product = os_db_fetch_array($product_query, true))
-            { 
-                $checkspecial_cache[$product['products_id']] = $product['specials_new_products_price'];
+            {
+                if (!empty($product['price_currency_code']))
+                {
+                    $pPrice = $osPrice->ConvertCurr($product['specials_new_products_price'], $product['price_currency_code'], DEFAULT_CURRENCY);
+                    $pPrice = $pPrice['plain'];
+                }
+                else
+                    $pPrice = $product['specials_new_products_price'];
+
+                $checkspecial_cache[$product['products_id']] = $pPrice;
             }
 
             if (count($checkspecial_cache) == 0) 
