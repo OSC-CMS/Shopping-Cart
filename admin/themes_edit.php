@@ -144,6 +144,7 @@ if ($dir = opendir(dir_path('themes')))
 			<h1><?php echo THEMES_TEXT; ?></h1>
 		</div>
 		<select class="input-block-level" name="navSelect" onchange="top.location.href = this.options[this.selectedIndex].value">
+			<option value=""></option>
 			<?php
 			foreach($templates_array as $type)
 			{
@@ -157,7 +158,7 @@ if ($dir = opendir(dir_path('themes')))
 				else
 				{
 					if ($type == 'default')
-						echo '<option selected value="?themes_a='.$type.'">'.$type.'</option>';
+						echo '<option selected value="?themes_a='.$type.'" selected>'.$type.'</option>';
 					else
 						echo '<option value="?themes_a='.$type.'">'.$type.'</option>';
 				}
