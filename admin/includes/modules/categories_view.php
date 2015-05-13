@@ -46,6 +46,14 @@ if (@$_GET['sorting'])
 			$catsort = 'c.sort_order ASC';
 			$prodsort = 'p.products_price DESC';
 		break;
+		case 'currency':
+			$catsort = 'c.sort_order ASC';
+			$prodsort = 'p.price_currency_code ASC';
+		break;
+		case 'currency-desc':
+			$catsort = 'c.sort_order ASC';
+			$prodsort = 'p.price_currency_code DESC';
+		break;
 		case 'stock':
 			$catsort = 'c.sort_order ASC';
 			$prodsort = 'p.products_quantity ASC';
@@ -84,6 +92,22 @@ else
 
 $main->head();
 $main->top_menu();
+
+require (_CLASS.'price.php');
+$osPrice = new osPrice(DEFAULT_CURRENCY, $_SESSION['customers_status']['customers_status_id']);
+
+$currencies = $osPrice->currencies;
+$curArray = array();
+if ($currencies)
+{
+	while (list($key, $value) = each($currencies))
+	{
+		$curArray[] = array(
+			'id' => $key,
+			'text' => $value['title'],
+		);
+	}
+}
 ?>
 
 <div class="second-page-nav">
@@ -160,9 +184,9 @@ if (os_db_num_rows($categories_query) > 0)
 }
 
 if (@$_GET['search'])
-	$products_query = os_db_query("SELECT p.products_tax_class_id, p.products_id, pd.products_name, p.products_sort, p.products_quantity, p.products_to_xml, p.products_image, p.products_price, p.products_discount_allowed, p.products_date_added, p.products_last_modified, p.products_date_available, p.products_status, p.products_startpage, p.products_startpage_sort, p2c.categories_id FROM ".TABLE_PRODUCTS." p, ".TABLE_PRODUCTS_DESCRIPTION." pd, ".TABLE_PRODUCTS_TO_CATEGORIES." p2c WHERE p.products_id = pd.products_id AND pd.language_id = '".$_SESSION['languages_id']."' AND p.products_id = p2c.products_id AND (pd.products_name like '%".$_GET['search']."%' OR p.products_model = '".$_GET['search']."') ORDER BY ".$prodsort);
+	$products_query = os_db_query("SELECT p.products_tax_class_id, p.products_id, pd.products_name, p.products_sort, p.products_quantity, p.products_to_xml, p.products_image, p.products_price, p.products_discount_allowed, p.products_date_added, p.products_last_modified, p.products_date_available, p.products_status, p.products_startpage, p.products_startpage_sort, p.price_currency_code, p2c.categories_id FROM ".TABLE_PRODUCTS." p, ".TABLE_PRODUCTS_DESCRIPTION." pd, ".TABLE_PRODUCTS_TO_CATEGORIES." p2c WHERE p.products_id = pd.products_id AND pd.language_id = '".$_SESSION['languages_id']."' AND p.products_id = p2c.products_id AND (pd.products_name like '%".$_GET['search']."%' OR p.products_model = '".$_GET['search']."') ORDER BY ".$prodsort);
 else
-	$products_query = os_db_query("SELECT p.products_tax_class_id, p.products_sort, p.products_id, pd.products_name, p.products_quantity, p.products_to_xml, p.products_image, p.products_price, p.products_discount_allowed, p.products_date_added, p.products_last_modified, p.products_date_available, p.products_status, p.products_startpage, p.products_startpage_sort, p2c.categories_id FROM ".TABLE_PRODUCTS." p, ".TABLE_PRODUCTS_DESCRIPTION." pd, ".TABLE_PRODUCTS_TO_CATEGORIES." p2c WHERE p.products_id = pd.products_id AND pd.language_id = '".(int)$_SESSION['languages_id']."' AND p.products_id = p2c.products_id AND p2c.categories_id = '".$current_category_id."' ORDER BY ".$prodsort);
+	$products_query = os_db_query("SELECT p.products_tax_class_id, p.products_sort, p.products_id, pd.products_name, p.products_quantity, p.products_to_xml, p.products_image, p.products_price, p.products_discount_allowed, p.products_date_added, p.products_last_modified, p.products_date_available, p.products_status, p.products_startpage, p.products_startpage_sort, p.price_currency_code, p2c.categories_id FROM ".TABLE_PRODUCTS." p, ".TABLE_PRODUCTS_DESCRIPTION." pd, ".TABLE_PRODUCTS_TO_CATEGORIES." p2c WHERE p.products_id = pd.products_id AND pd.language_id = '".(int)$_SESSION['languages_id']."' AND p.products_id = p2c.products_id AND p2c.categories_id = '".$current_category_id."' ORDER BY ".$prodsort);
 
 $numr = os_db_num_rows($products_query);
 $products_count = 0;
@@ -205,9 +229,9 @@ $page = ($page-1)*MAX_DISPLAY_ADMIN_PAGE;
 $products_shippingtime = $cartet->product->getShippingStatus();
 
 if (@$_GET['search'])
-	$products_query = os_db_query("SELECT p.products_tax_class_id,p.products_id,pd.products_name,p.products_sort,p.stock, p.products_quantity,p.products_to_xml,p.products_image,p.products_price,p.products_discount_allowed,p.products_date_added,p.products_last_modified,p.products_date_available,p.products_status,p.products_startpage,p.products_startpage_sort,p.products_shippingtime,p.products_model,p2c.categories_id FROM ".TABLE_PRODUCTS." p, ".TABLE_PRODUCTS_DESCRIPTION." pd, ".TABLE_PRODUCTS_TO_CATEGORIES." p2c WHERE p.products_id = pd.products_id AND pd.language_id = '".$_SESSION['languages_id']."' AND p.products_id = p2c.products_id AND (pd.products_name like '%".$_GET['search']."%' OR p.products_model = '".$_GET['search']."') ORDER BY ".$prodsort." limit ".$page.",".$max_count);
+	$products_query = os_db_query("SELECT p.products_tax_class_id,p.products_id,pd.products_name,p.products_sort,p.stock, p.products_quantity,p.products_to_xml,p.products_image,p.products_price,p.products_discount_allowed,p.products_date_added,p.products_last_modified,p.products_date_available,p.products_status,p.products_startpage,p.products_startpage_sort,p.products_shippingtime,p.products_model,p.price_currency_code,p2c.categories_id FROM ".TABLE_PRODUCTS." p, ".TABLE_PRODUCTS_DESCRIPTION." pd, ".TABLE_PRODUCTS_TO_CATEGORIES." p2c WHERE p.products_id = pd.products_id AND pd.language_id = '".$_SESSION['languages_id']."' AND p.products_id = p2c.products_id AND (pd.products_name like '%".$_GET['search']."%' OR p.products_model = '".$_GET['search']."') ORDER BY ".$prodsort." limit ".$page.",".$max_count);
 else
-	$products_query = os_db_query("SELECT p.products_tax_class_id,p.products_sort, p.products_id, p.stock, pd.products_name, p.products_quantity, p.products_to_xml,p.products_image, p.products_price, p.products_discount_allowed, p.products_date_added, p.products_last_modified, p.products_date_available, p.products_status,p.products_startpage,p.products_startpage_sort,p.products_shippingtime,p.products_model, p2c.categories_id FROM ".TABLE_PRODUCTS." p, ".TABLE_PRODUCTS_DESCRIPTION." pd, ".TABLE_PRODUCTS_TO_CATEGORIES." p2c WHERE p.products_id = pd.products_id AND pd.language_id = '".(int)$_SESSION['languages_id']."' AND p.products_id = p2c.products_id AND p2c.categories_id = '".$current_category_id."' ORDER BY ".$prodsort." limit ".$page.",".$max_count);
+	$products_query = os_db_query("SELECT p.products_tax_class_id,p.products_sort, p.products_id, p.stock, pd.products_name, p.products_quantity, p.products_to_xml,p.products_image, p.products_price, p.products_discount_allowed, p.products_date_added, p.products_last_modified, p.products_date_available, p.products_status,p.products_startpage,p.products_startpage_sort,p.products_shippingtime,p.products_model,p.price_currency_code, p2c.categories_id FROM ".TABLE_PRODUCTS." p, ".TABLE_PRODUCTS_DESCRIPTION." pd, ".TABLE_PRODUCTS_TO_CATEGORIES." p2c WHERE p.products_id = pd.products_id AND pd.language_id = '".(int)$_SESSION['languages_id']."' AND p.products_id = p2c.products_id AND p2c.categories_id = '".$current_category_id."' ORDER BY ".$prodsort." limit ".$page.",".$max_count);
 
 $aProducts = array();
 if (os_db_num_rows($products_query) > 0)
@@ -230,6 +254,7 @@ if (os_db_num_rows($products_query) > 0)
 			<th width="5%"><span class="line"></span><?php echo TABLE_HEADING_MENU; ?></th>
 			<th width="5%"><span class="line"></span><?php echo TABLE_HEADING_XML.os_sorting(FILENAME_CATEGORIES,'yandex'); ?></th>
 			<th width="10%"><span class="line"></span><?php echo TABLE_HEADING_PRICE.os_sorting(FILENAME_CATEGORIES,'price'); ?></th>
+			<th width="10%"><span class="line"></span><?php echo TABLE_HEADING_CURRENCY.os_sorting(FILENAME_CATEGORIES,'currency'); ?></th>
 			<th width="5%"><span class="line"></span><?php echo TABLE_HEADING_SORT.os_sorting(FILENAME_CATEGORIES,'sort'); ?></th>
 			<th width="10%"><span class="line"></span><?php echo TABLE_HEADING_SHIPPING_TIME; ?></th>
 			<th width="10%"><span class="line"></span><?php echo TABLE_HEADING_MODEL; ?></th>
@@ -289,6 +314,7 @@ if (is_array($aCategories))
 				?>
 			</td>
 			</td>
+			<td class="tcenter">--</td>
 			<td class="tcenter">--</td>
 			<td class="tcenter"><input class="width40px tcenter" type="text" name="categories[<?php echo $categories['categories_id']; ?>][sort_order]" value="<?php echo $categories['sort_order']; ?>" /></td>
 			<td class="tcenter">--</td>
@@ -362,6 +388,9 @@ if (is_array($aProducts))
 					$products_price = $products['products_price'];
 				?>
 				<input class="width100px" type="text" name="products[<?php echo $products['products_id']; ?>][products_price]" value="<?php echo $products_price; ?>" />
+			</td>
+			<td class="tcenter">
+				<?php echo os_draw_pull_down_menu('products['.$products['products_id'].'][price_currency_code]', $curArray, (($products['price_currency_code']) ? $products['price_currency_code'] : DEFAULT_CURRENCY), 'class="width100px"'); ?>
 			</td>
 			<td class="tcenter">
 			<?php 

@@ -53,9 +53,6 @@ while ($group_values = os_db_fetch_array($group_query))
 <?php
 $currencies = $osPrice->currencies;
 if (is_array($currencies)) { ?>
-
-
-
 	<div class="row-fluid">
 		<div class="span6">
 			<div class="control-group">

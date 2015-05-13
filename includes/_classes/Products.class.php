@@ -404,6 +404,7 @@ class apiProducts extends CartET
 					$sqlDataCat = array
 					(
 						'products_price' => os_db_prepare_input($values['products_price']),
+						'price_currency_code' => os_db_prepare_input($values['price_currency_code']),
 						'products_sort' => (int)$values['products_sort'],
 						'products_shippingtime' => (int)$values['products_shippingtime'],
 						'products_model' => os_db_prepare_input($values['products_model']),

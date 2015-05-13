@@ -175,7 +175,6 @@ class apiContent extends CartET
 		$parent_check = os_db_prepare_input($params['parent_check']);
 		$parent_id = os_db_prepare_input($params['parent_id']);
 		$group_id = os_db_prepare_input($params['content_group']);
-		$group_ids = $group_ids;
 		$sort_order = os_db_prepare_input($params['sort_order']);
 		$content_meta_title = os_db_prepare_input($params['content_meta_title']);
 		$content_meta_description = os_db_prepare_input($params['content_meta_description']);
@@ -269,7 +268,6 @@ class apiContent extends CartET
 		$coID = os_db_prepare_input($params['coID']);
 		$file_comment = os_db_prepare_input($params['file_comment']);
 		$select_file = os_db_prepare_input($params['select_file']);
-		$group_ids = $group_ids;
 
 		for ($i = 0, $n = sizeof($languages); $i < $n; $i++)
 		{
