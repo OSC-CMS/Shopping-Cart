@@ -1755,7 +1755,8 @@ os_db_query("INSERT INTO ".DB_PREFIX."menu (`menu_id`, `menu_parent_id`, `menu_u
 (111, 103, 'configuration.php?gID=32', '', '', 4, 1, 1),
 (112, 114, 'cartet.php', '', '', 2, 1, 1),
 (113, 114, 'update.php', '', '', 1, 1, 1),
-(114, 0, '', '', 'icon-cog', 14, 1, 1);");
+(114, 0, '', '', 'icon-cog', 14, 1, 1),
+(115, 55, 'cron.php', '', '', 3, 1, 1);");
 
 os_db_query("INSERT INTO ".DB_PREFIX."menu_group (`group_id`, `group_status`) VALUES
 (1, 1),
@@ -1875,7 +1876,8 @@ os_db_query("INSERT INTO ".DB_PREFIX."menu_lang (`lang_id`, `lang_title`, `lang_
 (118, 'Быстрый заказ', 0, 111, 1),
 (119, 'О CartET', 0, 114, 1),
 (120, 'Обновления', 0, 113, 1),
-(121, 'О CartET', 0, 112, 1);");
+(121, 'О CartET', 0, 112, 1),
+(122, 'Планировщик CRON', 0, 115, 1);");
 
 os_db_query("INSERT INTO `".DB_PREFIX."sms_setting` VALUES(1, 0, 0, 1, 1, 1, 0, 0);");
 
@@ -1889,11 +1891,12 @@ os_db_query("INSERT INTO `".DB_PREFIX."sms` (`id`, `name`, `login`, `password`, 
 (7, 'prostor-sms.ru', '', '', 0, '', '', 'cartet', '', '', 'api.prostor-sms.ru/messages/v2/send/?phone=%2B{phone}&text={text}&login={login}&password={password}&sender={title}');");
 
 os_db_query("INSERT INTO `".DB_PREFIX."admin_setting` VALUES
-(1, 'dashboard', 'welcome', '1'),
-(2, 'dashboard', 'orders', '1'),
-(3, 'dashboard', 'products', '1'),
-(4, 'dashboard', 'reviews', '1'),
-(5, 'dashboard', 'cache', '1'),
-(6, 'dashboard', 'notes', '1'),
-(7, 'dashboard', 'customers', '1'),
-(8, 'dashboard', 'stats', '1');");
+(1, 'index2', 'welcome', '1', '1'),
+(2, 'index2', 'orders', '1', '1'),
+(3, 'index2', 'products', '1', '1'),
+(4, 'index2', 'reviews', '1', '1'),
+(5, 'index2', 'cache', '1', '1'),
+(6, 'index2', 'notes', '1', '1'),
+(7, 'index2', 'customers', '1', '1'),
+(8, 'index2', 'stats', '1', '1'),
+(9, 'index2', 'month_stats', '1', '1');");

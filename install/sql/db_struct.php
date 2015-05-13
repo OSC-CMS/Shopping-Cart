@@ -1587,6 +1587,7 @@ os_db_query("CREATE TABLE ".DB_PREFIX."admin_setting (
 	`group` varchar(15) NOT NULL DEFAULT '',
 	`name` varchar(25) NOT NULL DEFAULT '',
 	`value` varchar(255) NOT NULL DEFAULT '',
+	`setting_type` TINYINT(5) NOT NULL,
 	PRIMARY KEY (`id`,`name`),
 	KEY `i_name` (`name`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE utf8_general_ci;");

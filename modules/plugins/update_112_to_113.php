@@ -49,9 +49,21 @@ function update_112_to_113_install()
 		`group` varchar(15) NOT NULL DEFAULT '',
 		`name` varchar(25) NOT NULL DEFAULT '',
 		`value` varchar(255) NOT NULL DEFAULT '',
+		`setting_type` TINYINT(5) NOT NULL,
 		PRIMARY KEY (`id`,`name`),
 		KEY `i_name` (`name`)
 	) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE utf8_general_ci;");
+
+	os_db_query("INSERT INTO `".DB_PREFIX."admin_setting` VALUES
+	(1, 'index2', 'welcome', '1', '1'),
+	(2, 'index2', 'orders', '1', '1'),
+	(3, 'index2', 'products', '1', '1'),
+	(4, 'index2', 'reviews', '1', '1'),
+	(5, 'index2', 'cache', '1', '1'),
+	(6, 'index2', 'notes', '1', '1'),
+	(7, 'index2', 'customers', '1', '1'),
+	(8, 'index2', 'stats', '1', '1'),
+	(9, 'index2', 'month_stats', '1', '1');");
 
 	$messageStack->add_session('База успешно обновлена!<br />Выключите и удалите данный плагин!', 'success');
 	os_redirect(FILENAME_PLUGINS.'?module=update_112_to_113');
