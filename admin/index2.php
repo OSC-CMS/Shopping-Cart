@@ -19,6 +19,8 @@ $folder_warning = '';
 $installed_payment = '';
 $installed_shipping = '';
 include(get_path('modules_admin') . FILENAME_SECURITY_CHECK);
+
+$getSettingGroup = $cartet->admin->getSettingGroup('index2');
 ?>
 
 <!-- <div class="page-header-big">
@@ -36,68 +38,99 @@ include(get_path('modules_admin') . FILENAME_SECURITY_CHECK);
 
 	<div class="row-fluid">
 		<div class="span6">
-			<div class="well well-box well-nice">
-				<div class="navbar">
-					<div class="navbar-inner">
-						<h4 class="title"><?php echo TEXT_SUMMARY_ORDERS; ?></h4>
-						<div class="well-right-btn">
-							<a class="btn btn-success btn-mini pull-right" href="<?php echo os_href_link(FILENAME_ORDERS, '', 'NONSSL'); ?>"><?php echo TABLE_HEADING_ORDERS; ?></a>
+			<div class="index2_orders" style="display:<?php echo ($getSettingGroup['orders']['setting'] == 1) ? 'block' : 'none'; ?>;">
+				<div class="well well-box well-nice">
+					<div class="navbar">
+						<div class="navbar-inner">
+							<h4 class="title"><?php echo TEXT_SUMMARY_ORDERS; ?></h4>
+							<div class="well-right-btn">
+								<a class="btn btn-success btn-mini pull-right" href="<?php echo os_href_link(FILENAME_ORDERS, '', 'NONSSL'); ?>"><?php echo TABLE_HEADING_ORDERS; ?></a>
+							</div>
 						</div>
 					</div>
-				</div>
-				<div class="well-box-content well-max-height well-small-font">
-					<?php include(get_path('page_admin').'index/orders.php'); ?>
-				</div>
-			</div>
-			<div class="well well-box well-nice">
-				<div class="navbar">
-					<div class="navbar-inner">
-						<h4 class="title"><?php echo TEXT_SUMMARY_REVIEWS; ?></h4>
-						<div class="well-right-btn">
-							<a class="btn btn-success btn-mini pull-right" href="<?php echo os_href_link(FILENAME_REVIEWS, '', 'NONSSL'); ?>"><?php echo TEXT_SUMMARY_REVIEWS_ALL; ?></a>
-						</div>
+					<div class="well-box-content well-max-height well-small-font">
+						<?php include(get_path('page_admin').'index/orders.php'); ?>
 					</div>
 				</div>
-				<div class="well-box-content well-max-height well-small-font">
-					<?php include(get_path('page_admin').'index/reviews.php'); ?>
+			</div>
+
+			<div class="index2_month_stats" style="display:<?php echo ($getSettingGroup['month_stats']['setting'] == 1) ? 'block' : 'none'; ?>;">
+				<div class="well well-box well-nice">
+					<div class="navbar">
+						<div class="navbar-inner">
+							<h4 class="title"><?php echo BOX_HEADING_ORDER_STATISTICS; ?></h4>
+						</div>
+					</div>
+					<div class="well-box-content p10">
+						<?php include(get_path('page_admin').'index/flot_statistics.php'); ?>
+					</div>
 				</div>
 			</div>
-			<div class="well well-box well-nice">
-				<div class="navbar">
-				    <div class="navbar-inner">
-				        <h4 class="title"><?php echo TEXT_SUMMARY_PRODUCTS; ?></h4>
-				    </div>
+
+			<div class="index2_reviews" style="display:<?php echo ($getSettingGroup['reviews']['setting'] == 1) ? 'block' : 'none'; ?>;">
+				<div class="well well-box well-nice">
+					<div class="navbar">
+						<div class="navbar-inner">
+							<h4 class="title"><?php echo TEXT_SUMMARY_REVIEWS; ?></h4>
+							<div class="well-right-btn">
+								<a class="btn btn-success btn-mini pull-right" href="<?php echo os_href_link(FILENAME_REVIEWS, '', 'NONSSL'); ?>"><?php echo TEXT_SUMMARY_REVIEWS_ALL; ?></a>
+							</div>
+						</div>
+					</div>
+					<div class="well-box-content well-max-height well-small-font">
+						<?php include(get_path('page_admin').'index/reviews.php'); ?>
+					</div>
 				</div>
-				<div class="well-box-content well-max-height well-small-font">
-					<?php include(get_path('page_admin').'index/products.php'); ?>
+			</div>
+
+			<div class="index2_products" style="display:<?php echo ($getSettingGroup['products']['setting'] == 1) ? 'block' : 'none'; ?>;">
+				<div class="well well-box well-nice">
+					<div class="navbar">
+					    <div class="navbar-inner">
+					        <h4 class="title"><?php echo TEXT_SUMMARY_PRODUCTS; ?></h4>
+					    </div>
+					</div>
+					<div class="well-box-content well-max-height well-small-font">
+						<?php include(get_path('page_admin').'index/products.php'); ?>
+					</div>
 				</div>
 			</div>
 
 		</div>
 		<div class="span6">
 
-			<div class="well well-box well-nice">
-				<div class="navbar">
-				    <div class="navbar-inner">
-				        <h4 class="title"><?php echo BOX_HEADING_STATISTICS; ?></h4>
-				    </div>
-				</div>
-				<div class="well-box-content well-max-height well-small-font">
-					<?php include(get_path('page_admin').'index/order_status.php'); ?>
-				</div>
-			</div>
-			<div class="well well-box well-nice">
-				<div class="navbar">
-					<div class="navbar-inner">
-						<h4 class="title"><?php echo TEXT_SUMMARY_CUSTOMERS; ?></h4>
+			<div class="index2_stats" style="display:<?php echo ($getSettingGroup['stats']['setting'] == 1) ? 'block' : 'none'; ?>;">
+				<div class="well well-box well-nice">
+					<div class="navbar">
+					    <div class="navbar-inner">
+					        <h4 class="title"><?php echo BOX_HEADING_STATISTICS; ?></h4>
+					    </div>
+					</div>
+					<div class="well-box-content well-max-height well-small-font">
+						<?php include(get_path('page_admin').'index/order_status.php'); ?>
 					</div>
 				</div>
-				<div class="well-box-content well-max-height well-small-font">
-					<?php include(get_path('page_admin').'index/customers.php'); ?>
+			</div>
+
+			<div class="index2_customers" style="display:<?php echo ($getSettingGroup['customers']['setting'] == 1) ? 'block' : 'none'; ?>;">
+				<div class="well well-box well-nice">
+					<div class="navbar">
+						<div class="navbar-inner">
+							<h4 class="title"><?php echo TEXT_SUMMARY_CUSTOMERS; ?></h4>
+						</div>
+					</div>
+					<div class="well-box-content well-max-height well-small-font">
+						<?php include(get_path('page_admin').'index/customers.php'); ?>
+					</div>
 				</div>
 			</div>
-			<?php include(get_path('page_admin').'index/notes.php'); ?>
-			<?php include(get_path('page_admin').'index/cache.php'); ?>
+
+			<div class="index2_notes" style="display:<?php echo ($getSettingGroup['notes']['setting'] == 1) ? 'block' : 'none'; ?>;">
+				<?php include(get_path('page_admin').'index/notes.php'); ?>
+			</div>
+			<div class="index2_cache" style="display:<?php echo ($getSettingGroup['cache']['setting'] == 1) ? 'block' : 'none'; ?>;">
+				<?php include(get_path('page_admin').'index/cache.php'); ?>
+			</div>
 		</div>
 	</div>
 

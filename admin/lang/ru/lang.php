@@ -39,6 +39,7 @@ define('BOX_HEADING_CUSTOMERS','Покупатели');
 define('BOX_HEADING_PRODUCTS','Каталог');
 define('BOX_HEADING_OTHER','Система');
 define('BOX_HEADING_STATISTICS','Статистика');
+define('BOX_HEADING_ORDER_STATISTICS','Статистика за месяц');
 define('BOX_HEADING_TOOLS','Инструменты');
 define('BOX_HEADING_LOGOFF','Выйти');
 
@@ -510,6 +511,10 @@ define('OFF','Выключить');
 
 define('CATEGORIES_LIST','Список категорий');
 
+// заголовки настроек
+define('LANG_SETTING_INDEX2_TITLE', 'Отображать блоки');
+
+// настройки
 define('LANG_SETTING_INDEX2_WELCOME', 'Приветствие');
 define('LANG_SETTING_INDEX2_ORDERS', 'Заказы');
 define('LANG_SETTING_INDEX2_PRODUCTS', 'Товары');
@@ -518,5 +523,11 @@ define('LANG_SETTING_INDEX2_CACHE', 'Кэш');
 define('LANG_SETTING_INDEX2_NOTES', 'Заметки');
 define('LANG_SETTING_INDEX2_CUSTOMERS', 'Покупатели');
 define('LANG_SETTING_INDEX2_STATS', 'Статистика');
+define('LANG_SETTING_INDEX2_MONTH_STATS', 'Статистика за месяц');
+
+// помощь по страницам
+define('LANG_HELP_INDEX2_TITLE', 'Добро пожаловать в панель управления CartET!');
+define('LANG_HELP_INDEX2_DESC', 'Это главная страница панели управления. Тут вы можете увидеть важные данные: статистику продаж, новые отзывы, заказы и т.д...<br />Вы можете получить подсказки по всем страницам нажав на кнопку Помощь в правом верхнем углу экрана.');
+
 
 ?>

@@ -15,7 +15,7 @@ $admin_access = os_db_fetch_array($admin_access_query);
 
 $menu_value = array();
 
-global $p, $menu_value, $breadcrumb;
+global $p, $menu_value, $breadcrumb, $cartet;
 $plug_array = $p->info;
 
 /*if (SET_WHOS_ONLINE == "false")
@@ -57,7 +57,7 @@ global $os_remove_action;
 			</li>
 			<?php $update = $this->service->checkUpdate(true); ?>
 			<?php if (!empty($update['version'])) { ?>
-				<li><a href="update.php">Доступно обновление <?php echo $update['version']; ?></a></li>
+				<li><a href="update.php">Доступно обновление <?php if (!empty($update['version']['version'])) { echo $update['version']['version']; } ?></a></li>
 			<?php } else { ?>
 				<li><a href="update.php">Проверить обновления</a></li>
 			<?php } ?>
@@ -167,7 +167,80 @@ function add_plug_menu($title, $url)
 		<hr class="divider nomargin">
 	</div><!--/#sidebar-->
 
+<?php
+$current_page = preg_split('/\?/', basename($_SERVER['PHP_SELF'])); $current_page = $current_page[0];
+$pagename = strtok($current_page, '.');
+
+if (!$pagename)
+{
+	$pagename = 'index2';
+}
+
+$getSettingGroup = $cartet->admin->getSettingGroup($pagename);
+
+$_help_title = 'LANG_HELP_'.strtoupper($pagename).'_TITLE';
+$help_title = defined($_help_title) ? constant($_help_title) : '';
+
+$_help_desc = 'LANG_HELP_'.strtoupper($pagename).'_DESC';
+$help_desc = defined($_help_desc) ? constant($_help_desc) : '';
+?>
+
+	<?php if ($pagename) { ?>
+		<div id="setting-menu">
+			<?php if ($getSettingGroup) { ?><a class="sm-link sm-link-setting" href="javascript:;">Настройки</a><?php } ?>
+			<?php if ($help_title OR $help_desc) { ?><a class="sm-link sm-link-help" href="javascript:;">Помощь</a><?php } ?>
+		</div>
+	<?php } ?>
+
 	<div id="main-content" class="clearfix">
+		<?php if ($pagename) { ?>
+			<?php if ($getSettingGroup) { ?>
+				<div id="setting-menu-wrap" style="display: none;">
+					<div class="menu-wrap-inner clearfix">
+						<div class="menu-wrap-content">
+							<h5>
+								<?php
+								$setting_title = 'LANG_SETTING_'.strtoupper($pagename).'_TITLE';
+								echo defined($setting_title) ? constant($setting_title) : $pagename;
+								?>
+							</h5>
+							<form id="actions-<?php echo $pagename; ?>" data-action="admin_save<?php echo ucfirst($pagename); ?>" data-group="<?php echo $pagename; ?>" action="" method="post">
+								<?php
+								if ($getSettingGroup)
+								{
+									foreach($getSettingGroup AS $name => $value)
+									{
+										$setting_label = 'LANG_SETTING_'.strtoupper($pagename).'_'.strtoupper($name);
+										$title = defined($setting_label) ? constant($setting_label) : $name;
+										?>
+											<input type="hidden" name="<?php echo $name; ?>" value="0" />
+											<?php if ($value['type'] == 1) { ?>
+												<label class="admin-setting-checkbox"><input class="admin-setting-actions" type="checkbox" name="<?php echo $name; ?>" value="1" <?php echo ($value['setting']) ? 'checked' : ''; ?> /> <?php echo $title; ?></label>
+											<?php } ?>
+										<?php
+									}
+								}
+								?>
+							</form>
+						</div>
+					</div>
+				</div>
+			<?php } ?>
+
+			<?php
+			if ($help_title OR $help_desc)
+			{
+			?>
+				<div id="help-menu-wrap" style="display: none;">
+					<div class="menu-wrap-inner clearfix">
+						<div class="menu-wrap-content">
+							<h5><?php echo $help_title; ?></h5>
+							<p><?php echo $help_desc; ?></p>
+						</div>
+					</div>
+				</div>
+			<?php } ?>
+		<?php } ?>
 
 		<?php global $PHP_SELF; if (!strstr($PHP_SELF, 'index2.php')) { ?>
 		<div class="breadcrumbs">

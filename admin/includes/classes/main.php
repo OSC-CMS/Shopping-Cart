@@ -181,6 +181,13 @@ class main extends CartET
 		// jQuery Sortable
 		_e('<script src="'._HTTP.'jscript/jquery-sortable/jquery-sortable.js"></script>');
 
+		// Flot
+		_e('<script src="'._HTTP.'jscript/flot/jquery.flot.js"></script>');
+		_e('<script src="'._HTTP.'jscript/flot/jquery.flot.time.min.js"></script>');
+		_e('<script src="'._HTTP.'jscript/flot/jquery.flot.tooltip.min.js"></script>');
+		_e('<script src="'._HTTP.'jscript/flot/jquery.flot.resize.js"></script>');
+		_e('<script src="'._HTTP.'jscript/flot/jquery.flot.orderBars.js"></script>');
+
 		// Parsley
 		_e('<script type="text/javascript" src="'._HTTP.'jscript/parsley/i18n/'.$_SESSION['language_admin'].'.js"></script>');
 		_e('<script type="text/javascript" src="'._HTTP.'jscript/parsley/parsley.min.js"></script>');

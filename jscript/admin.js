@@ -423,6 +423,22 @@ $(document).ready(function ()
 		return false;
 	});*/
 
+    /*
+     ------------------------------------------------------
+     Панель настроек и помощи
+     ------------------------------------------------------
+     */
+    $('.sm-link-setting').on('click', function() {
+        $(this).toggleClass('active');
+        $("#setting-menu-wrap").toggle();
+        return false;
+    });
+    $('.sm-link-help').on('click', function() {
+        $(this).toggleClass('active');
+        $("#help-menu-wrap").toggle();
+        return false;
+    });
+
 	/*
 	------------------------------------------------------
 		Табы
@@ -1368,4 +1384,52 @@ jQuery(function(){
 
 		return false;
 	});
+});
+
+/*
+ ------------------------------------------------------
+ Панели на главной
+ ------------------------------------------------------
+ */
+jQuery(function(){
+    jQuery('.admin-setting-actions').on('click', function()
+    {
+        // ID формы
+        var sFormId = jQuery(this).closest('form').attr('id');
+        var oForm = jQuery('#'+sFormId);
+        // Какой экшон выполнять
+        var sFormAction = oForm.data('action');
+        // Группа настроек
+        var sFormGroup = oForm.data('group');
+
+        jQuery.ajax({
+            type: "post",
+            url: aSetting.urlAdmin+"ajax.php?ajax_action="+sFormAction,
+            dataType: "json",
+            data: oForm.serialize(),
+            success: function(returnData) {
+                // если что-то вернулось
+                if (returnData)
+                {
+                    jQuery.each(returnData, function(name, val) {
+                        if (val == 0)
+                            $('.'+sFormGroup+'_'+name).css('display', 'none');
+                        else if (val == 1)
+                            $('.'+sFormGroup+'_'+name).css('display', 'block');
+                    });
+                }
+            },
+            error: function(returnData) {
+                // если что-то вернулось
+                if (returnData)
+                {
+                    // показываем уведомление, если оно есть
+                    if (returnData.msg)
+                    {
+                        jQuery.jnotify(returnData.msg, returnData.type);
+                    }
+                }
+            }
+        });
+    })
 });

@@ -625,7 +625,15 @@ body.dragging, body.dragging * {cursor: move !important;}
 
 
 
+#setting-menu {position:absolute;top:1px;right:10px;}
+#setting-menu a.sm-link {padding:4px 8px;font-size: 11px;color:#fff;background: #6c7681;border-bottom-right-radius: 2px;border-bottom-left-radius: 2px;}
+#setting-menu a.sm-link:hover, #setting-menu a.sm-link.active {background: #d74e7b;}
+#setting-menu-wrap, #help-menu-wrap {margin-top: 0;padding: 20px;border-bottom: 2px solid #d74e7b;background: #f5f5f5;}
 
+.menu-wrap-inner {width: 100%;}
+.menu-wrap-inner .menu-wrap-content {overflow: hidden;}
+.menu-wrap-inner h5 {margin-top:0;}
 
-
+.admin-setting-checkbox {margin-right:15px;float:left;}
+.admin-setting-checkbox input {margin:-1px 0 0 0;}
 

@@ -491,7 +491,6 @@ else
     os_redirect(os_href_link(FILENAME_LOGIN));
   }
 
-
   if (os_check_permission($pagename) == '0') 
   {
     os_redirect(os_href_link(FILENAME_LOGIN));
