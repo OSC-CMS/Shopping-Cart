@@ -15,7 +15,7 @@ $admin_access = os_db_fetch_array($admin_access_query);
 
 $menu_value = array();
 
-global $p, $menu_value, $breadcrumb, $cartet;
+global $p, $menu_value, $breadcrumb;
 $plug_array = $p->info;
 
 /*if (SET_WHOS_ONLINE == "false")
@@ -176,7 +176,7 @@ if (!$pagename)
 	$pagename = 'index2';
 }
 
-$getSettingGroup = $cartet->admin->getSettingGroup($pagename);
+$getSettingGroup = $this->admin->getSettingGroup($pagename);
 
 $_help_title = 'LANG_HELP_'.strtoupper($pagename).'_TITLE';
 $help_title = defined($_help_title) ? constant($_help_title) : '';
