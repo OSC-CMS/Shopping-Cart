@@ -39,6 +39,7 @@
 		</div>
 		{/if}
 
+		{if $module_content}
 		<p>
 			<div class="btn-group pull-left">
 				<a class="btn dropdown-toggle" data-toggle="dropdown" href="#">{#text_sort#}<span class="caret"></span></a>
@@ -63,11 +64,12 @@
 			</div>
 			<div class="clearfix"></div>
 		</p>
+		{/if}
 	</div>
 </div>
 {/if}
 
-{$param_filter}
+{if $module_content}{$param_filter}{/if}
 
 {if $module_content}
 <ul class="thumbnails">

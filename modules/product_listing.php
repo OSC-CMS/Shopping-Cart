@@ -40,13 +40,6 @@ if ($listing_split->number_of_rows > 0)
 {
 	$navigation = $listing_split->display_links(MAX_DISPLAY_PAGE_LINKS, os_get_all_get_params(array ('page', 'info', 'x', 'y')));
 
-	$category = $cartet->product->getCategory($current_category_id);
-
-	$module->assign('CATEGORIES_NAME', $category['categories_name']);
-	$module->assign('CATEGORIES_HEADING_TITLE', $category['categories_heading_title']);
-	$module->assign('CATEGORIES_IMAGE', $category['categories_image']);
-	$module->assign('CATEGORIES_DESCRIPTION', $category['categories_description']);
-
 	$listing_query = osDBquery($listing_split->sql_query);
 
 	/*
@@ -100,7 +93,7 @@ else
 	$result = false;// no product found
 
 // get default template
-if (@$category['listing_template'] == '' or @$category['listing_template'] == 'default')
+if (@$cat_array['listing_template'] == '' or @$cat_array['listing_template'] == 'default')
 {
 	$files = array ();
 	if ($dir = opendir(_THEMES_C.'module/product_listing/'))
@@ -114,11 +107,16 @@ if (@$category['listing_template'] == '' or @$category['listing_template'] == 'd
 		closedir($dir);
 	}
 	sort($files);
-	$category['listing_template'] = $files[0];
+	$cat_array['listing_template'] = $files[0];
 }
 
-if ($result != false)
-{
+//if ($result != false)
+//{
+	$module->assign('CATEGORIES_NAME', $cat_array['categories_name']);
+	$module->assign('CATEGORIES_HEADING_TITLE', $cat_array['categories_heading_title']);
+	$module->assign('CATEGORIES_IMAGE', $cat_array['categories_image']);
+	$module->assign('CATEGORIES_DESCRIPTION', $cat_array['categories_description']);
+
 	$module->assign('param_filter', apply_filter('param_filter', '') );
 	$module->assign('MANUFACTURER_DROPDOWN', @$manufacturer_dropdown);
 	$module->assign('manufacturers', @$manufacturer_sort);
@@ -136,7 +134,7 @@ if ($result != false)
 	if (!CacheCheck())
 	{
 		$module->caching = 0;
-		$module = $module->fetch(CURRENT_TEMPLATE.'/module/product_listing/'.$category['listing_template']);
+		$module = $module->fetch(CURRENT_TEMPLATE.'/module/product_listing/'.$cat_array['listing_template']);
 	}
 	else
 	{
@@ -144,14 +142,14 @@ if ($result != false)
 		$module->cache_lifetime = CACHE_LIFETIME;
 		$module->cache_modified_check = CACHE_CHECK;
 		$cache_id = $current_category_id.'_'.$_SESSION['language'].'_'.$_SESSION['customers_status']['customers_status_name'].'_'.$_SESSION['currency'].'_'.$_GET['manufacturers_id'].'_'.$_GET['filter_id'].'__'.$_GET['q'].'_'.$_GET['price_min'].'_'.$_GET['price_max'].'_'.$_GET['on_page'].'_'.$_GET['page'].'_'.$_GET['keywords'].'_'.$_GET['categories_id'].'_'.$_GET['pfrom'].'_'.$_GET['pto'].'_'.$_GET['x'].'_'.$_GET['y'];
-		$module = $module->fetch(CURRENT_TEMPLATE.'/module/product_listing/'.$category['listing_template'], $cache_id);
+		$module = $module->fetch(CURRENT_TEMPLATE.'/module/product_listing/'.$cat_array['listing_template'], $cache_id);
 	}
 
 	$module = apply_filter('main_content', $module);
 	$osTemplate->assign('main_content', $module);
-}
+/*}
 else
 {
 	$error = TEXT_PRODUCT_NOT_FOUND;
 	include (DIR_WS_MODULES.FILENAME_ERROR_HANDLER);
-}
+}*/
