@@ -200,6 +200,13 @@ $cat_data = get_categories_info ($current_category_id);
 
 		$info->assign('CATEGORY', $cat_data['categories_name']);
       $info->assign('MANUFACTURER',$manufacturer['manufacturers_name']);
+	$manufacturers_image = '';
+	if (!empty($manufacturer['manufacturers_image']))
+	{
+		$manufacturers_image = _HTTP.'manufacturers/'.$manufacturer['manufacturers_image'];
+	}
+	$info->assign('MANUFACTURER_IMAGE', $manufacturers_image);
+
 
 		if ($product->data['products_image'] != '')
 			$image = dir_path('images_info').$product->data['products_image'];
