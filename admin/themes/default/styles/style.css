@@ -637,3 +637,22 @@ body.dragging, body.dragging * {cursor: move !important;}
 .admin-setting-checkbox {margin-right:15px;float:left;}
 .admin-setting-checkbox input {margin:-1px 0 0 0;}
 
+
+
+
+/* Tabs vertical
+-------------------------------------------------- */
+.tabs-vertical-env {margin-bottom:20px}
+.tabs-vertical-env:before, .tabs-vertical-env:after {content:" ";display:table}
+.tabs-vertical-env:after {clear:both}
+.tabs-vertical-env .tabs-vertical {margin-bottom:0}
+.tabs-vertical-env .tabs-vertical a {position: relative;display: block;padding: 6px 12px;}
+.tabs-vertical-env .tabs-vertical + .tab-content {margin-bottom:0}
+.tabs-vertical {float:left;background:#f7f7f7;width:15%;margin-bottom:20px;-webkit-border-radius:3px;-webkit-background-clip:padding-box;-moz-border-radius:3px;-moz-background-clip:padding;border-radius:3px;background-clip:padding-box}
+.tabs-vertical > li {border-bottom:1px solid #ebebec}
+.tabs-vertical > li:first-child > a {-webkit-border-radius:3px 3px 0 0;-webkit-background-clip:padding-box;-moz-border-radius:3px 3px 0 0;-moz-background-clip:padding;border-radius:3px 3px 0 0;background-clip:padding-box}
+.tabs-vertical > li:last-child {border-bottom:0}
+.tabs-vertical > li:last-child > a {-webkit-border-radius:0 0 3px 3px;-webkit-background-clip:padding-box;-moz-border-radius:0 0 3px 3px;-moz-background-clip:padding;border-radius:0 0 3px 3px;background-clip:padding-box}
+.tabs-vertical > li:hover > a {background-color:rgba(255,255,255,0.3);}
+.tabs-vertical > li.active > a {display:block;position:relative;background-color:#ebebec;color:#ec5502}
+.tabs-vertical + .tab-content {float:right;width:85%;padding-left:20px;-webkit-box-sizing:border-box;-moz-box-sizing:border-box;box-sizing:border-box;margin-bottom:20px;}

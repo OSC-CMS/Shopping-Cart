@@ -93,39 +93,40 @@ echo os_draw_hidden_field('products_date_added', (($pInfo->products_date_added) 
 echo os_draw_hidden_field('products_id', $pInfo->products_id);
 ?>
 
-	<div class="btn-group pull-right">
-		<input class="btn btn-success" type="submit" value="<?php echo BUTTON_SAVE; ?>" />
-		<a class="btn" href="<?php echo os_href_link(FILENAME_NEW_ATTRIBUTES, 'action=edit'.'&current_product_id='.$_GET['pID'].'&cpath='.$cPath); ?>"><?php echo BUTTON_EDIT_ATTRIBUTES; ?></a>
-		<a class="btn" href="<?php echo os_href_link(FILENAME_CATEGORIES, 'action=edit_crossselling'.'&current_product_id='.$_GET['pID'].'&cpath='.$cPath); ?>"><?php echo BUTTON_EDIT_CROSS_SELLING; ?></a>
-	</div>
+<div class="btn-group pull-right">
+	<input class="btn btn-success" type="submit" value="<?php echo BUTTON_SAVE; ?>" />
+	<a class="btn" href="<?php echo os_href_link(FILENAME_NEW_ATTRIBUTES, 'action=edit'.'&current_product_id='.$_GET['pID'].'&cpath='.$cPath); ?>"><?php echo BUTTON_EDIT_ATTRIBUTES; ?></a>
+	<a class="btn" href="<?php echo os_href_link(FILENAME_CATEGORIES, 'action=edit_crossselling'.'&current_product_id='.$_GET['pID'].'&cpath='.$cPath); ?>"><?php echo BUTTON_EDIT_CROSS_SELLING; ?></a>
+</div>
 
-	<ul class="nav nav-tabs" id="productTabs">
+<div class="clear"></div>
+
+<div class="tabs-vertical-env">
+
+	<ul class="nav tabs-vertical">
 		<?php for ($i = 0, $n = sizeof($languages); $i < $n; $i++) { ?>
-		<li <?php echo ($i == 0) ? 'class="active"' : ''; ?>><a href="#tab_lang_<?php echo $languages[$i]['id']; ?>"><?php echo $languages[$i]['name']; ?></a></li>
+			<li <?php echo ($i == 0) ? 'class="active"' : ''; ?>><a href="#tab_lang_<?php echo $languages[$i]['id']; ?>" data-toggle="tab"><?php echo $languages[$i]['name']; ?></a></li>
 		<?php } ?>
-		<li><a href="#tab_info"><?php echo TEXT_PRODUCTS_DATA; ?></a></li>
-		<li><a href="#tab_price"><?php echo HEADING_PRICES_OPTIONS; ?></a></li>
-		<li><a href="#tab_images"><?php echo HEADING_PRODUCT_IMAGES; ?></a></li>
-		<li><a href="#tab_extra_fields"><?php echo HEADING_PRODUCT_EXTRA_FIELDS;?></a></li>
-		<li><a href="#tab_bundle"><?php echo TABLE_HEADING_BUNDLE; ?></a></li>
-		<li><a href="#tab_files"><?php echo TABLE_HEADING_CONTENT_FILES; ?></a></li>
+		<li><a href="#tab_info" data-toggle="tab"><?php echo TEXT_PRODUCTS_DATA; ?></a></li>
+		<li><a href="#tab_price" data-toggle="tab"><?php echo HEADING_PRICES_OPTIONS; ?></a></li>
+		<li><a href="#tab_images" data-toggle="tab"><?php echo HEADING_PRODUCT_IMAGES; ?></a></li>
+		<li><a href="#tab_extra_fields" data-toggle="tab"><?php echo HEADING_PRODUCT_EXTRA_FIELDS;?></a></li>
+		<li><a href="#tab_bundle" data-toggle="tab"><?php echo TABLE_HEADING_BUNDLE; ?></a></li>
+		<li><a href="#tab_files" data-toggle="tab"><?php echo TABLE_HEADING_CONTENT_FILES; ?></a></li>
 		<?php if (GROUP_CHECK=='true') { ?>
-		<li><a href="#tab_groups"><?php echo ENTRY_CUSTOMERS_ACCESS; ?></a></li>
+			<li><a href="#tab_groups" data-toggle="tab"><?php echo ENTRY_CUSTOMERS_ACCESS; ?></a></li>
 		<?php } ?>
 		<?php
 		$array = array();
-
 		$array['param'] = array('products_id' => @$_GET['pID'], 'category_id'=>@$_GET['cPath'] );
-
 		$array = apply_filter('news_product_add_tabs', $array);
-
 		if (isset($array['values']) && is_array($array['values']) )
 		{
 			$ip = 0;
 			foreach ($array['values'] as $num => $value)
 			{
 				$ip++;
-				echo '<li><a href="#tab_plugin_'.$ip.'">'.$value['tab_name'].'</a></li>';
+				echo '<li><a href="#tab_plugin_'.$ip.'" data-toggle="tab">'.$value['tab_name'].'</a></li>';
 			}
 		}
 		?>
@@ -328,21 +329,21 @@ echo os_draw_hidden_field('products_id', $pInfo->products_id);
 						<div class="control-group">
 							<label class="control-label" for=""><?php echo TEXT_PRODUCTS_MANUFACTURER; ?></label>
 							<div class="controls">
-								<?php echo os_draw_pull_down_menu('manufacturers_id', $manufacturers_array, $pInfo->manufacturers_id); ?>
+								<?php echo os_draw_pull_down_menu('manufacturers_id', $manufacturers_array, $pInfo->manufacturers_id, 'class="input-block-level"'); ?>
 								<span class="help-block"><a class="btn btn-mini btn-info" href="<?php echo os_href_link(FILENAME_MANUFACTURERS, '', 'NONSSL', false); ?>"><?php echo TEXT_EDIT; ?></a></span>
 							</div>
 						</div>
 						<div class="control-group">
 							<label class="control-label" for=""><?php echo TEXT_FSK18; ?></label>
 							<div class="controls">
-								<?php echo os_draw_pull_down_menu('fsk18', $fsk18_array, $pInfo->products_fsk18); ?>
+								<?php echo os_draw_pull_down_menu('fsk18', $fsk18_array, $pInfo->products_fsk18, 'class="input-block-level"'); ?>
 							</div>
 						</div>
 						<?php if (ACTIVATE_SHIPPING_STATUS=='true') { ?>
 						<div class="control-group">
 							<label class="control-label" for=""><?php echo BOX_SHIPPING_STATUS; ?></label>
 							<div class="controls">
-								<?php echo os_draw_pull_down_menu('shipping_status', $shipping_statuses, $pInfo->products_shippingtime); ?>
+								<?php echo os_draw_pull_down_menu('shipping_status', $shipping_statuses, $pInfo->products_shippingtime, 'class="input-block-level"'); ?>
 								<span class="help-block"><a class="btn btn-mini btn-info" href="<?php echo os_href_link(FILENAME_SHIPPING_STATUS, '', 'NONSSL', false); ?>"><?php echo TEXT_EDIT; ?></a></span>
 							</div>
 						</div>
@@ -374,13 +375,13 @@ echo os_draw_hidden_field('products_id', $pInfo->products_id);
 						<div class="control-group">
 							<label class="control-label" for=""><?php echo TEXT_CHOOSE_INFO_TEMPLATE; ?></label>
 							<div class="controls">
-								<?php echo os_draw_pull_down_menu('info_template', $files['product_info'], $pInfo->product_template); ?>
+								<?php echo os_draw_pull_down_menu('info_template', $files['product_info'], $pInfo->product_template, 'class="input-block-level"'); ?>
 							</div>
 						</div>
 						<div class="control-group">
 							<label class="control-label" for=""><?php echo TEXT_CHOOSE_OPTIONS_TEMPLATE; ?></label>
 							<div class="controls">
-								<?php echo os_draw_pull_down_menu('options_template', $files['product_options'], $pInfo->options_template); ?>
+								<?php echo os_draw_pull_down_menu('options_template', $files['product_options'], $pInfo->options_template, 'class="input-block-level"'); ?>
 							</div>
 						</div>
 					</div>
@@ -389,7 +390,7 @@ echo os_draw_hidden_field('products_id', $pInfo->products_id);
 						<div class="control-group">
 							<label class="control-label" for=""><?php echo TEXT_PRODUCTS_STATUS; ?></label>
 							<div class="controls">
-								<?php echo os_draw_pull_down_menu('products_status', $fsk18_array, (($pInfo->products_status != '') ? $pInfo->products_status : 1)); ?>
+								<?php echo os_draw_pull_down_menu('products_status', $fsk18_array, (($pInfo->products_status != '') ? $pInfo->products_status : 1), 'class="input-block-level"'); ?>
 							</div>
 						</div>
 						<div class="control-group">
@@ -407,7 +408,7 @@ echo os_draw_hidden_field('products_id', $pInfo->products_id);
 						<div class="control-group">
 							<label class="control-label" for=""><?php echo TEXT_PRODUCTS_STARTPAGE; ?></label>
 							<div class="controls">
-								<?php echo os_draw_pull_down_menu('products_startpage', $fsk18_array, (($pInfo->products_startpage != '') ? $pInfo->products_startpage : 0)); ?>
+								<?php echo os_draw_pull_down_menu('products_startpage', $fsk18_array, (($pInfo->products_startpage != '') ? $pInfo->products_startpage : 0), 'class="input-block-level"'); ?>
 							</div>
 						</div>
 						<div class="control-group">
@@ -437,13 +438,13 @@ echo os_draw_hidden_field('products_id', $pInfo->products_id);
 						<div class="control-group">
 							<label class="control-label" for=""><?php echo TEXT_PRODUCTS_REVIEWS; ?></label>
 							<div class="controls">
-								<?php echo os_draw_pull_down_menu('products_reviews', $fsk18_array, (($pInfo->products_reviews != '') ? $pInfo->products_reviews : 1)); ?>
+								<?php echo os_draw_pull_down_menu('products_reviews', $fsk18_array, (($pInfo->products_reviews != '') ? $pInfo->products_reviews : 1), 'class="input-block-level"'); ?>
 							</div>
 						</div>
 						<div class="control-group">
 							<label class="control-label" for=""><?php echo TEXT_PRODUCTS_SEARCH; ?></label>
 							<div class="controls">
-								<?php echo os_draw_pull_down_menu('products_search', $fsk18_array, (($pInfo->products_search != '') ? $pInfo->products_search : 0)); ?>
+								<?php echo os_draw_pull_down_menu('products_search', $fsk18_array, (($pInfo->products_search != '') ? $pInfo->products_search : 0), 'class="input-block-level"'); ?>
 							</div>
 						</div>
 
@@ -452,13 +453,13 @@ echo os_draw_hidden_field('products_id', $pInfo->products_id);
 						<div class="control-group">
 							<label class="control-label" for=""><?php echo TEXT_PRODUCTS_TO_XML; ?></label>
 							<div class="controls">
-								<?php echo os_draw_pull_down_menu('products_to_xml', $fsk18_array, (($pInfo->products_to_xml != '') ? $pInfo->products_to_xml : 1)); ?>
+								<?php echo os_draw_pull_down_menu('products_to_xml', $fsk18_array, (($pInfo->products_to_xml != '') ? $pInfo->products_to_xml : 1), 'class="input-block-level"'); ?>
 							</div>
 						</div>
 						<div class="control-group">
 							<label class="control-label" for=""><?php echo TEXT_YANDEX_MARKET_AVAILABLE; ?></label>
 							<div class="controls">
-								<?php echo os_draw_pull_down_menu('yml_available', $ymlAvailable, (($pInfo->yml_available != '') ? $pInfo->yml_available : 1)); ?>
+								<?php echo os_draw_pull_down_menu('yml_available', $ymlAvailable, (($pInfo->yml_available != '') ? $pInfo->yml_available : 1), 'class="input-block-level"'); ?>
 							</div>
 						</div>
 						<div class="control-group">
@@ -488,7 +489,7 @@ echo os_draw_hidden_field('products_id', $pInfo->products_id);
 						<div class="control-group">
 							<label class="control-label" for=""><?php echo TEXT_YANDEX_MARKET_MANUFACTURER_WARRANTY; ?></label>
 							<div class="controls">
-								<?php echo os_draw_pull_down_menu('yml_manufacturer_warranty', $ymlManufacturerWarranty, (($pInfo->yml_manufacturer_warranty != '') ? $pInfo->yml_manufacturer_warranty : 0)); ?>
+								<?php echo os_draw_pull_down_menu('yml_manufacturer_warranty', $ymlManufacturerWarranty, (($pInfo->yml_manufacturer_warranty != '') ? $pInfo->yml_manufacturer_warranty : 0), 'class="input-block-level"'); ?>
 							</div>
 						</div>
 						<div class="control-group">
@@ -498,7 +499,7 @@ echo os_draw_hidden_field('products_id', $pInfo->products_id);
 								echo $cartet->html->input_text(
 									'yml_manufacturer_warranty_text',
 									$pInfo->yml_manufacturer_warranty_text,
-									array('class' => 'form-control')
+									array('class' => 'input-block-level')
 								);
 								?>
 								<span class="help-block"><?php echo TEXT_YANDEX_MARKET_MANUFACTURER_WARRANTY_TEXT_DESC; ?></span>
@@ -926,6 +927,8 @@ while ($content_data = os_db_fetch_array($content_query))
 		?>
 		<!-- /ПЛАГИНЫ -->
 	</div>
+</div>
+
 <hr>
 	<div class="tcenter footer-btn">
 		<input class="btn btn-success" type="submit" value="<?php echo BUTTON_SAVE; ?>" />
