@@ -37,6 +37,28 @@ if (isset($_GET['action']))
 require (get_path('class_admin').'order.php');
 require (_CLASS.'price.php');
 
+if (isset($_GET['oID']) && !empty($_GET['oID']) && isset($_GET['action']) && $_GET['action'] == 'review_request')
+{
+	$order = new order($_GET['oID']);
+
+	if (os_validate_email($order->customer['email_address']))
+	{
+		$osTemplate->assign('language', $_SESSION['language_admin']);
+		$osTemplate->caching = false;
+		$osTemplate->assign('tpl_path', DIR_FS_CATALOG.'themes/admin/'.CURRENT_TEMPLATE.'/');
+		$osTemplate->assign('logo_path', http_path('images'));
+
+		$osTemplate->assign('order', $order);
+		$osTemplate->assign('order_id', $_GET['oID']);
+
+		$html_mail = $osTemplate->fetch(_MAIL.'admin/'.$_SESSION['language_admin'].'/review_request.html');
+		$txt_mail = $osTemplate->fetch(_MAIL.'admin/'.$_SESSION['language_admin'].'/review_request.txt');
+		os_php_mail(EMAIL_BILLING_ADDRESS, EMAIL_BILLING_NAME, $order->customer['email_address'], $order->customer['name'], '', EMAIL_BILLING_REPLY_ADDRESS, EMAIL_BILLING_REPLY_ADDRESS_NAME, '', '', TEXT_ORDER_REVIEWS_SUBJECT, $html_mail, $txt_mail);
+
+		os_redirect(os_href_link(FILENAME_ORDERS),os_get_all_get_params());
+	}
+}
+
 if (isset($_GET['action']))
 {
 	if ((($_GET['action'] == 'edit') || ($_GET['action'] == 'update_order')) && ($order_exists))
@@ -1048,6 +1070,7 @@ $main->top_menu();
 					<div class="btn-group">
 						<a class="btn btn-mini show_or_hide" data-toggle="button" data-item="<?php echo $orders['orders_id']; ?>" href="#"><i class="icon-info-sign"></i></a>
 						<a class="btn btn-mini" href="<?php echo os_href_link(FILENAME_ORDERS, os_get_all_get_params(array ('oID', 'action')).'oID='.$orders['orders_id'].'&action=edit'); ?>" title="<?php echo BUTTON_EDIT; ?>"><i class="icon-pencil"></i></a>
+						<a class="btn btn-mini" href="<?php echo os_href_link(FILENAME_ORDERS, os_get_all_get_params(array ('oID', 'action')).'oID='.$orders['orders_id'].'&action=review_request'); ?>" title="<?php echo TEXT_ORDER_REVIEWS; ?>" onclick="return confirm('<?php echo TEXT_ORDER_REVIEWS; ?>')"><i class="icon-comments"></i></a>
 						<a class="btn btn-mini ajax-load-page" href="<?php echo os_href_link(FILENAME_ORDERS, os_get_all_get_params(array ('oID', 'action')).'oID='.$orders['orders_id'].'&action=delete'); ?>" data-load-page="orders&o_id=<?php echo $orders['orders_id']; ?>&action=delete" data-toggle="modal" title="<?php echo BUTTON_DELETE; ?>"><i class="icon-trash"></i></a>
 					</div>
 				</div>

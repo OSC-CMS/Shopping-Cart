@@ -167,6 +167,9 @@ define('TEXT_ORDER_PAYMENT','Оплата / Доставка');
 define('TEXT_ORDER_PRODUCTS','Товары');
 define('TEXT_ORDER_STATUS','Статус');
 
+define('TEXT_ORDER_REVIEWS', 'Напомнить об отзыве');
+define('TEXT_ORDER_REVIEWS_SUBJECT', 'Оставьте свой отзыв о заказанном товаре');
+
 define('BUS_HEADING_TITLE','Смена статуса');
 define('BUS_TEXT_NEW_STATUS', 'Выберите новый статус');
 define('BUS_NOTIFY_CUSTOMERS', 'Уведомить покупателя (ей)');
