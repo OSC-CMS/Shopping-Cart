@@ -146,6 +146,8 @@ define('TXT_STAFFELPREIS','Цена от количества');
 define('HEADING_PRODUCTS_MEDIA','<b>Картинки товара</b>');
 define('TABLE_HEADING_PRICE','Цена');
 
+define('TABLE_HEADING_CURRENCY','Валюта');
+
 define('TEXT_CHOOSE_INFO_TEMPLATE','Шаблон информации о товаре');
 define('SAVE_ENTRY','Сохранить ?');
 
