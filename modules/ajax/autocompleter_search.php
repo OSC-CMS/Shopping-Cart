@@ -40,6 +40,8 @@ while ($p = os_db_fetch_array($searchQuery))
 	else
 		$products_name[] = $p['products_name'];
 
+	$p['products_link'] = os_href_link(FILENAME_PRODUCT_INFO, os_product_link($p['products_id'], $p['products_name']));
+
 	$products_data[] = $p;
 }
 

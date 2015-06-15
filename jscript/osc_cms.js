@@ -43,7 +43,8 @@ jQuery(document).ready(function($){
 		noCache: false,
 		onSelect: function(value, data)
 		{
-			$("#quick_find_keyword").closest('form').submit();
+			document.location.href = data.products_link;
+			//$("#quick_find_keyword").closest('form').submit();
 		},
 		fnFormatResult: function(value, data, currentValue)
 		{
