@@ -53,19 +53,19 @@
             $_orders = ' order by p.products_price ASC';
         }
     }
-    $export_query = "select p.products_id, pd.products_name, p.products_model, p.products_price, p.products_status, p.products_tax_class_id from " . TABLE_PRODUCTS . " p LEFT JOIN " . TABLE_PRODUCTS_DESCRIPTION . " pd ON p.products_id = pd.products_id where p.products_status = 1 AND pd.language_id = '".(int)$_SESSION['languages_id']."'".$_orders;
+    $export_query = "select p.products_id, pd.products_name, p.products_model, p.products_price, p.products_status, p.products_tax_class_id, p.products_discount_allowed, p.price_currency_code from " . TABLE_PRODUCTS . " p LEFT JOIN " . TABLE_PRODUCTS_DESCRIPTION . " pd ON p.products_id = pd.products_id where p.products_status = 1 AND pd.language_id = '".(int)$_SESSION['languages_id']."'".$_orders;
 
     $export_query = $db->query($export_query);
 
     while ($row = $db->fetch_array($export_query,false)) 
     {
-        $products_price = $osPrice->Format( $row['products_price']*$osPrice->currencies[ $_SESSION['currency'] ]['value'] , true);
+        $products_price = $osPrice->GetPrice($row['products_id'], 1, 1, $row['products_tax_class_id'], $row['products_price'], 1, 0, $row['products_discount_allowed'], $row['price_currency_code']);
 
         echo "<tr>\n";
         echo "<td>"."<a href=\"".os_href_link(FILENAME_PRODUCT_INFO, 'products_id=' .$row["products_id"])."\">" .$row["products_name"]."</a></td>\n";
 
         echo "<td>";
-        echo $products_price; 
+        echo $products_price['price']['formated'].' '.$_SESSION['currencySymbol'];
         echo "</td>\n";
         echo "</tr>\n";
     }
