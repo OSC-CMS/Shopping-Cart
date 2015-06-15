@@ -47,7 +47,7 @@ global $os_remove_action;
 				else
 					$_version = ' --- ';
 				?>
-				<a href="#" class="dropdown-toggle" data-toggle="dropdown"><?php echo BOX_VERSION; ?> <?php echo $this->service->getVersion(); ?> <i class="icon-caret-down"></i></span></span></a>
+				<a href="#" class="dropdown-toggle" data-toggle="dropdown"><?php echo BOX_VERSION; ?> <?php echo $this->service->getVersion(); ?> <i class="icon-caret-down"></i></a>
 				<ul class="dropdown-menu">
 					<li><a href="http://osc-cms.com" target="_blank" title="CartET">CartET</a></li>
 					<li><a href="http://osc-cms.com/docs" target="_blank"><?php echo BOX_HELP; ?></a></li>
@@ -178,11 +178,24 @@ if (!$pagename)
 
 $getSettingGroup = $this->admin->getSettingGroup($pagename);
 
-$_help_title = 'LANG_HELP_'.strtoupper($pagename).'_TITLE';
-$help_title = defined($_help_title) ? constant($_help_title) : '';
+if ($pagename == 'plugins_page' && isset($_GET['page']) && !empty($_GET['page']))
+{
+	$plugin = $_GET['page'];
 
-$_help_desc = 'LANG_HELP_'.strtoupper($pagename).'_DESC';
-$help_desc = defined($_help_desc) ? constant($_help_desc) : '';
+	$_help_title = 'LANG_HELP_PLUGINS_PAGE_'.strtoupper($plugin).'_TITLE';
+	$help_title = defined($_help_title) ? constant($_help_title) : '';
+
+	$_help_desc = 'LANG_HELP_PLUGINS_PAGE_'.strtoupper($plugin).'_DESC';
+	$help_desc = defined($_help_desc) ? constant($_help_desc) : '';
+}
+else
+{
+	$_help_title = 'LANG_HELP_'.strtoupper($pagename).'_TITLE';
+	$help_title = defined($_help_title) ? constant($_help_title) : '';
+
+	$_help_desc = 'LANG_HELP_'.strtoupper($pagename).'_DESC';
+	$help_desc = defined($_help_desc) ? constant($_help_desc) : '';
+}
 ?>
 
 	<?php if ($pagename) { ?>
