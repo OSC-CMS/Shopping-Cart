@@ -1340,7 +1340,6 @@ class apiProducts extends CartET
 			}
 
 			os_db_query("DELETE FROM ".TABLE_PRODUCTS_CONTENT." WHERE products_id = '".os_db_input($product_id)."' AND (content_file = '".$product_content['content_file']."' OR content_file = '')");
-
 		}
 
 		// Изображения

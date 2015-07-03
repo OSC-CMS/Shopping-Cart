@@ -30,7 +30,7 @@ $main->top_menu();
 		</tr>
 	</thead>
 <?php
-$reviews_query_raw = "select * from ".TABLE_REVIEWS." r, ".TABLE_REVIEWS_DESCRIPTION." rd where r.reviews_id = rd.reviews_id";
+$reviews_query_raw = "select * from ".TABLE_REVIEWS." r, ".TABLE_REVIEWS_DESCRIPTION." rd where r.reviews_id = rd.reviews_id ORDER BY r.reviews_id DESC";
 $reviews_split = new splitPageResults($_GET['page'], MAX_DISPLAY_ADMIN_PAGE, $reviews_query_raw, $reviews_query_numrows);
 $reviews_query = os_db_query($reviews_query_raw);
 while ($reviews = os_db_fetch_array($reviews_query))
