@@ -21,109 +21,124 @@ switch (@$_GET['action'])
 
 		$id = os_db_prepare_input((int)$_POST['ID']);
 		$status_all = os_db_prepare_input(@$_POST['status_all']);
-		if (@$newsletter_title=='') $newsletter_title='no title';
+
+		if (@$newsletter_title=='')
+			$newsletter_title='no title';
 
 		$rzp='';
-		for ($i=0,$n=sizeof($customers_status);$i<$n; $i++) {
-		if (os_db_prepare_input(@$_POST['status'][$i])=='yes') {
-		if ($rzp!='') $rzp.=',';
-		$rzp.=$customers_status[$i]['id'];
-		}
+		for ($i=0,$n=sizeof($customers_status);$i<$n; $i++)
+		{
+			if (os_db_prepare_input(@$_POST['status'][$i])=='yes')
+			{
+				if ($rzp!='')
+					$rzp.=',';
+
+				$rzp.=$customers_status[$i]['id'];
+			}
 		}
 
-		if (os_db_prepare_input(@$_POST['status_all'])=='yes') $rzp.=',all';
+		if (os_db_prepare_input(@$_POST['status_all'])=='yes')
+			$rzp.=',all';
 
 		$error=false;
-		if ($error == false) {
+		if ($error == false)
+		{
+			$sql_data_array = array(
+				'title'=> os_db_prepare_input($_POST['title']),
+				'status' => '0',
+				'bc'=>$rzp,
+				'cc'=>os_db_prepare_input($_POST['cc']),
+				'date' => 'now()',
+				'body' => os_db_prepare_input($_POST['newsletter_body'])
+			);
 
-		$sql_data_array = array( 'title'=> os_db_prepare_input($_POST['title']),
-		'status' => '0',
-		'bc'=>$rzp,
-		'cc'=>os_db_prepare_input($_POST['cc']),
-		'date' => 'now()',
-		'body' => os_db_prepare_input($_POST['newsletter_body']));
+			if ($id!='')
+			{
+				os_db_perform(TABLE_MODULE_NEWSLETTER, $sql_data_array, 'update', "newsletter_id = '".$id."'");
+				os_db_query("DROP TABLE IF EXISTS ".TABLE_NEWSLETTER_TEMP.$id);
+				os_db_query("CREATE TABLE ".TABLE_NEWSLETTER_TEMP.$id."
+				(
+				id int(11) NOT NULL auto_increment,
+				customers_id int(11) NOT NULL default '0',
+				customers_status int(11) NOT NULL default '0',
+				customers_firstname varchar(64) NOT NULL default '',
+				customers_lastname varchar(64) NOT NULL default '',
+				customers_email_address text NOT NULL,
+				mail_key varchar(32) NOT NULL,
+				date datetime NOT NULL default '0000-00-00 00:00:00',
+				comment varchar(64) NOT NULL default '',
+				PRIMARY KEY  (id)
+				) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE utf8_general_ci");
+			}
+			else
+			{
+				os_db_perform(TABLE_MODULE_NEWSLETTER, $sql_data_array);
+				$id=os_db_insert_id();
+				os_db_query("DROP TABLE IF EXISTS ".TABLE_NEWSLETTER_TEMP.$id);
+				os_db_query("CREATE TABLE ".TABLE_NEWSLETTER_TEMP.$id."
+				(
+				id int(11) NOT NULL auto_increment,
+				customers_id int(11) NOT NULL default '0',
+				customers_status int(11) NOT NULL default '0',
+				customers_firstname varchar(64) NOT NULL default '',
+				customers_lastname varchar(64) NOT NULL default '',
+				customers_email_address text NOT NULL,
+				mail_key varchar(32) NOT NULL,
+				date datetime NOT NULL default '0000-00-00 00:00:00',
+				comment varchar(64) NOT NULL default '',
+				PRIMARY KEY  (id)
+				) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE utf8_general_ci");
+			}
 
-		if ($id!='') {
-		os_db_perform(TABLE_MODULE_NEWSLETTER, $sql_data_array, 'update', "newsletter_id = '".$id."'");
-		os_db_query("DROP TABLE IF EXISTS ".TABLE_NEWSLETTER_TEMP.$id);
-		os_db_query("CREATE TABLE ".TABLE_NEWSLETTER_TEMP.$id."
-		(
-		id int(11) NOT NULL auto_increment,
-		customers_id int(11) NOT NULL default '0',
-		customers_status int(11) NOT NULL default '0',
-		customers_firstname varchar(64) NOT NULL default '',
-		customers_lastname varchar(64) NOT NULL default '',
-		customers_email_address text NOT NULL,
-		mail_key varchar(32) NOT NULL,
-		date datetime NOT NULL default '0000-00-00 00:00:00',
-		comment varchar(64) NOT NULL default '',
-		PRIMARY KEY  (id)
-		) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE utf8_general_ci");
-		} else {
-		os_db_perform(TABLE_MODULE_NEWSLETTER, $sql_data_array);
-		$id=os_db_insert_id();
-		os_db_query("DROP TABLE IF EXISTS ".TABLE_NEWSLETTER_TEMP.$id);
-		os_db_query("CREATE TABLE ".TABLE_NEWSLETTER_TEMP.$id."
-		(
-		id int(11) NOT NULL auto_increment,
-		customers_id int(11) NOT NULL default '0',
-		customers_status int(11) NOT NULL default '0',
-		customers_firstname varchar(64) NOT NULL default '',
-		customers_lastname varchar(64) NOT NULL default '',
-		customers_email_address text NOT NULL,
-		mail_key varchar(32) NOT NULL,
-		date datetime NOT NULL default '0000-00-00 00:00:00',
-		comment varchar(64) NOT NULL default '',
-		PRIMARY KEY  (id)
-		) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE utf8_general_ci");
-		}
+			$flag='';
+			if (!strpos($rzp,'all'))
+				$flag='true';
 
-		$flag='';
-		if (!strpos($rzp,'all')) $flag='true';
-		$rzp=str_replace(',all','',$rzp);
-		$groups=explode(',',$rzp);
-		$sql_data_array='';
+			$rzp=str_replace(',all','',$rzp);
+			
+			$groups=explode(',',$rzp);
+			$sql_data_array='';
 
-		for ($i=0,$n=sizeof($groups);$i<$n;$i++) {
+			for ($i=0,$n=sizeof($groups);$i<$n;$i++) {
 
-		if (os_db_prepare_input(@$_POST['status_all'])=='yes') {
-		$customers_query=os_db_query("SELECT
-		customers_id,
-		customers_firstname,
-		customers_lastname,
-		customers_email_address
-		FROM ".TABLE_CUSTOMERS."
-		WHERE
-		customers_status='".$groups[$i]."'");
-		} else {
-		$customers_query=os_db_query("SELECT
-		customers_email_address,
-		customers_id,
-		customers_firstname,
-		customers_lastname,
-		mail_key        
-		FROM ".TABLE_NEWSLETTER_RECIPIENTS."
-		WHERE
-		customers_status='".$groups[$i]."' and
-		mail_status='1'");
-		}
-		while ($customers_data=os_db_fetch_array($customers_query)){
-		$sql_data_array=array(
-		'customers_id'=>$customers_data['customers_id'],
-		'customers_status'=>$groups[$i],
-		'customers_firstname'=>$customers_data['customers_firstname'],
-		'customers_lastname'=>$customers_data['customers_lastname'],
-		'customers_email_address'=>$customers_data['customers_email_address'],
-		'mail_key'=>$customers_data['mail_key'],
-		'date'=>'now()');
+			if (os_db_prepare_input(@$_POST['status_all'])=='yes') {
+			$customers_query=os_db_query("SELECT
+			customers_id,
+			customers_firstname,
+			customers_lastname,
+			customers_email_address
+			FROM ".TABLE_CUSTOMERS."
+			WHERE
+			customers_status='".$groups[$i]."'");
+			} else {
+			$customers_query=os_db_query("SELECT
+			customers_email_address,
+			customers_id,
+			customers_firstname,
+			customers_lastname,
+			mail_key        
+			FROM ".TABLE_NEWSLETTER_RECIPIENTS."
+			WHERE
+			customers_status='".$groups[$i]."' and
+			mail_status='1'");
+			}
+			while ($customers_data=os_db_fetch_array($customers_query)){
+			$sql_data_array=array(
+			'customers_id'=>$customers_data['customers_id'],
+			'customers_status'=>$groups[$i],
+			'customers_firstname'=>$customers_data['customers_firstname'],
+			'customers_lastname'=>$customers_data['customers_lastname'],
+			'customers_email_address'=>$customers_data['customers_email_address'],
+			'mail_key'=>$customers_data['mail_key'],
+			'date'=>'now()');
 
-		os_db_perform(TABLE_NEWSLETTER_TEMP.$id, $sql_data_array);
-		}
+			os_db_perform(TABLE_NEWSLETTER_TEMP.$id, $sql_data_array);
+			}
 
 
-		}
+			}
 
-		os_redirect(os_href_link(FILENAME_MODULE_NEWSLETTER));
+			os_redirect(os_href_link(FILENAME_MODULE_NEWSLETTER));
 		}
 
 	break;
@@ -179,7 +194,7 @@ if (@$_GET['send'])
 	{
 		$link1 = chr(13).chr(10).chr(13).chr(10).TEXT_NEWSLETTER_REMOVE.chr(13).chr(10).chr(13).chr(10).HTTP_CATALOG_SERVER.DIR_WS_CATALOG.FILENAME_CATALOG_NEWSLETTER.'?action=remove&email='.$email_data[$i-1]['email'].'&key='.$email_data[$i-1]['key'];
 
-		$link2 = $link2 = '<br /><br /><hr>'.TEXT_NEWSLETTER_REMOVE.'<br /><a href="'.HTTP_CATALOG_SERVER.DIR_WS_CATALOG.FILENAME_CATALOG_NEWSLETTER.'?action=remove&email='.$email_data[$i-1]['email'].'&key='.$email_data[$i-1]['key'].'">'.TEXT_REMOVE_LINK.'</a>';
+		$link2 = '<br /><br /><hr>'.TEXT_NEWSLETTER_REMOVE.'<br /><a href="'.HTTP_CATALOG_SERVER.DIR_WS_CATALOG.FILENAME_CATALOG_NEWSLETTER.'?action=remove&email='.$email_data[$i-1]['email'].'&key='.$email_data[$i-1]['key'].'">'.TEXT_REMOVE_LINK.'</a>';
 
 		os_php_mail(
 			EMAIL_SUPPORT_ADDRESS,
