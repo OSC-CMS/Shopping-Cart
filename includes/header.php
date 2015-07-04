@@ -130,7 +130,7 @@ add_js(_HTTP.'jscript/cookie/jquery.cookie.js', $HEAD, 'cookie');
 // System JS
 add_js(_HTTP.'jscript/jscript_JsHttpRequest.js', $HEAD, 'jshttprequest');
 add_js(_HTTP.'jscript/jscript_ajax.js', $HEAD, 'jscript_ajax');
-add_js(_HTTP.'jscript/osc_cms.js', $HEAD, 'osc_cms');
+add_js(_HTTP.'jscript/cartet.js', $HEAD, 'cartet');
 
 if (is_file(_THEMES_C.'javascript/general.js.php'))
 {
