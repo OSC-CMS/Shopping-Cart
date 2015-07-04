@@ -972,7 +972,7 @@ function dinamicSelect(this_id, ajax_action, sub_select, sub_select_value, sub_s
 */
 $(function(){
 	// Удаление товара из быстрого добавления
-	$('.del_new_product').live('click', function() {
+	$('body').on('click', '.del_new_product', function() {
 		$(this).parents("table").fadeOut(200, function() {
 			$(this).remove();
 		});
@@ -1268,7 +1268,7 @@ jQuery(function(){
 		$('<input class="input-block-level" name="images_urls[]" type="text" value="http://">').appendTo('#images').focus().select();
 	});
 
-	$(".productImages .delete input").live('click', function()
+	$(".productImages .delete").on('click', 'input', function()
 	{
 		$(this).closest("li").toggleClass('selected');
 	});
@@ -1279,7 +1279,7 @@ jQuery(function(){
 		$('#tableImagesList input[type="checkbox"]').closest("li").toggleClass('selected');
 	});
 
-	$(".productImages a.delete_href").live('click', function()
+	$(".productImages").on('click', 'a.delete_href', function()
 	{
 		$(this).closest("li").fadeOut(200, function() { $(this).remove(); });
 		return false;
