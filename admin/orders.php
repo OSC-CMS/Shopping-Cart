@@ -564,7 +564,7 @@ $main->top_menu();
 						<?php if (isset($order->customer['telephone']) && !empty($order->customer['telephone'])) { ?>
 							<li><strong><?php echo ENTRY_TELEPHONE; ?></strong> <?php echo $order->customer['telephone']; ?></li>
 						<?php } ?>
-						<li><strong><?php echo ENTRY_EMAIL_ADDRESS; ?></strong> <?php echo '<a href="mailto:'.$order->customer['email_address'].'">'.$order->customer['email_address'].'</a>'; ?></li>
+						<li><strong><?php echo ENTRY_EMAIL_ADDRESS; ?></strong> <a href="mailto:<?php echo $order->customer['email_address']; ?>"><?php echo $order->customer['email_address']; ?></a> <a class="btn btn-mini" href="<?php echo FILENAME_CUSTOMERS; ?>?search=<?php echo urlencode($order->customer['email_address']); ?>" target="_blank"><i class="icon-search"></i></a></li>
 						<?php if (isset($order->customer['vat_id']) && !empty($order->customer['vat_id'])) { ?>
 							<li><strong><?php echo ENTRY_CUSTOMERS_VAT_ID; ?></strong> <?php echo $order->customer['vat_id']; ?></li>
 						<?php } ?>
