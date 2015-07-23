@@ -10,11 +10,44 @@
 
 require('includes/top.php');
 
-if ($_POST)
+if (isset($_POST['cPath']))
+{
+	$cId = (int)$_POST['cPath'];
+	$aId = (int)$_POST['categories'];
+
+	$getProductsQ = os_db_query("SELECT DISTINCT p.products_id FROM ".TABLE_PRODUCTS." p, ".TABLE_PRODUCTS_TO_CATEGORIES." p2c WHERE p2c.categories_id = '".$cId."' AND p.products_id = p2c.products_id");
+
+	if (os_db_num_rows($getProductsQ) > 0)
+	{
+		$aProducts = array();
+		while($_p = os_db_fetch_array($getProductsQ))
+		{
+			$aProducts[] = $_p['products_id'];
+		}
+
+		foreach ($aProducts AS $p_id)
+		{
+			os_db_query("DELETE FROM ".TABLE_ARTICLES_XSELL." WHERE xsell_id = '".(int)$p_id."'");
+		}
+
+		foreach ($aProducts AS $p_id)
+		{
+			os_db_perform(TABLE_ARTICLES_XSELL, array(
+				'articles_id' => $aId,
+				'xsell_id' => $p_id,
+				'sort_order' => 1,
+			));
+		}
+	}
+
+	os_redirect(os_href_link(FILENAME_ARTICLES_XSELL, '', 'NONSSL'));
+}
+
+if (!isset($_POST['cPath']) && $_POST['products'])
 {
 	if ($_POST['run_update'] == true)
 	{
-		$query ="DELETE FROM ".TABLE_ARTICLES_XSELL." WHERE articles_id = '".$_GET['products']."'";
+		$query = "DELETE FROM ".TABLE_ARTICLES_XSELL." WHERE articles_id = '".$_GET['products']."'";
 		if (!os_db_query($query))
 		exit(TEXT_NO_DELETE);
 	}
@@ -31,8 +64,6 @@ if ($_POST)
 	
 	os_redirect(os_href_link(FILENAME_ARTICLES_XSELL, '', 'NONSSL'));
 }
-
-
 
 $breadcrumb->add(HEADING_TITLE, FILENAME_ARTICLES_XSELL);
 
@@ -67,7 +98,22 @@ function general_db_conct($query_1)
 	return array($a_to_pass,$b_to_pass,$c_to_pass,$d_to_pass,$e_to_pass,$f_to_pass,$g_to_pass,$h_to_pass,$i_to_pass,$j_to_pass,$k_to_pass,$l_to_pass,$m_to_pass,$n_to_pass,$o_to_pass);
 }
 
-if ($_GET['products'])
+if ($_GET['categories'])
+{
+	?>
+	<form action="<?php os_href_link(FILENAME_ARTICLES_XSELL, '', 'NONSSL'); ?>" method="post">
+		<?php echo os_draw_pull_down_menu('cPath', os_get_category_tree()); ?>
+		<div class="footer-btn">
+			<input type="hidden" name="categories" value="<?php echo $_GET['categories']; ?>">
+			<input class="btn btn-success" type="submit" value="<?php echo BUTTON_SAVE; ?>" />
+			<a class="btn btn-link" href="<?php echo os_href_link(FILENAME_ARTICLES_XSELL); ?>"><?php echo BUTTON_CANCEL; ?></a>
+		</div>
+	</form>
+
+
+<?php
+}
+elseif ($_GET['products'])
 {
 ?>
 <form action="<?php os_href_link(FILENAME_ARTICLES_XSELL, '', 'NONSSL'); ?>" method="post">
@@ -142,7 +188,12 @@ else
 			}
 			else
 				echo "<td>-</td>\n";
-			echo '<td><a href="'.os_href_link(FILENAME_ARTICLES_XSELL, 'products='.$articles_id[$i], 'NONSSL').'">'.TEXT_ADD_PRODUCTS.'</a></td>';
+			echo '<td width="240">
+				<div class="btn-group">
+					<a class="btn btn-mini" href="'.os_href_link(FILENAME_ARTICLES_XSELL, 'products='.$articles_id[$i], 'NONSSL').'">'.TEXT_ADD_PRODUCTS.'</a>
+					<a class="btn btn-mini" href="'.os_href_link(FILENAME_ARTICLES_XSELL, 'categories='.$articles_id[$i], 'NONSSL').'">'.TEXT_ADD_CATEGORIES.'</a>
+				</div>
+			</td>';
 			echo "</tr>\n";
 			unset($Related_items);
 		}

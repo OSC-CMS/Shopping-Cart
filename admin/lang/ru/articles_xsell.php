@@ -22,5 +22,6 @@ define('TEXT_NO_UPDATE', 'невозможно обновить базу дан�
 
 define('TEXT_PRODUCT_ID','ID');
 define('TEXT_ADD_PRODUCTS','Добавить товар');
+define('TEXT_ADD_CATEGORIES','Добавить категорию');
 
 ?>
