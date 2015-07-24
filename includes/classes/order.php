@@ -69,7 +69,8 @@ class order
 			'total_value' => $order_total['value'],
 			'shipping_method' => ((substr($shipping_method['title'], -1) == ':') ? substr(strip_tags($shipping_method['title']), 0, -1) : strip_tags($shipping_method['title'])),
 			'comments' => $order['comments'],
-			'paid' => $order['paid']
+			'paid' => $order['paid'],
+			'order_hash' => $order['order_hash'],
 		);
 	
 		$this->customer = array(

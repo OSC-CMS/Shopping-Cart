@@ -20,6 +20,8 @@ function update_112_to_113_install()
 
 	os_db_query("ALTER TABLE ".DB_PREFIX."orders_status ADD orders_status_color varchar(7) default '';");
 
+	os_db_query("ALTER TABLE ".DB_PREFIX."orders ADD order_hash CHAR(32);");
+
 	os_db_query("UPDATE ".DB_PREFIX."products SET products_search = 0");
 
 	os_db_query("ALTER TABLE `".DB_PREFIX."products` ADD  `price_currency_code` VARCHAR( 10 ) NOT NULL DEFAULT ''");
@@ -27,6 +29,8 @@ function update_112_to_113_install()
 	os_db_query("ALTER TABLE `".DB_PREFIX."reviews_description` ADD reviews_text_admin text NOT NULL DEFAULT ''");
 
 	os_db_query("ALTER TABLE ".DB_PREFIX."admin_access ADD cron int(1) NOT NULL default '1';");
+
+	os_db_query("INSERT INTO `".DB_PREFIX."configuration` VALUES('', 'USE_ORDERS_HASH', 'false', 17, 19, NULL, '0000-00-00 00:00:00', NULL, 'os_cfg_select_option(array(\'true\', \'false\'),');");
 
 	os_db_query("CREATE TABLE IF NOT EXISTS `".DB_PREFIX."cron_tasks` (
 		`id` int(11) NOT NULL AUTO_INCREMENT,

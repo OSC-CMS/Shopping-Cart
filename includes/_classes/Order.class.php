@@ -246,16 +246,23 @@ class apiOrder extends CartET
 			}
 		}
 
+		// хэш заказа для просмотра информации о заказе без авторизации
+		if (USE_ORDERS_HASH == 'true')
+		{
+			$aUpdateOrder['order_hash'] = md5(time().$insert_id.$_SESSION['customer_id']);
+		}
+
 		if (isset($_SESSION['tracking']['refID']))
 		{
-			os_db_query("UPDATE ".TABLE_ORDERS." SET refferers_id = '".$_SESSION['tracking']['refID']."' WHERE orders_id = '".(int)$insert_id."'");
+			$aUpdateOrder['refferers_id'] = os_db_prepare_input($_SESSION['tracking']['refID']);
 
 			// check if late or direct sale                         
 			$customers_logon_query = os_db_query("SELECT customers_info_number_of_logons FROM ".TABLE_CUSTOMERS_INFO." WHERE customers_info_id  = '".(int)$_SESSION['customer_id']."'");
 			$customers_logon = os_db_fetch_array($customers_logon_query);
 
 			$conversion_type = ($customers_logon['customers_info_number_of_logons'] == 0) ? 1 : 2;
-			os_db_query("UPDATE ".TABLE_ORDERS." SET conversion_type = '".(int)$conversion_type."' WHERE orders_id = '".(int)$insert_id."'");
+
+			$aUpdateOrder['conversion_type'] = (int)$conversion_type;
 		}
 		else
 		{
@@ -263,15 +270,18 @@ class apiOrder extends CartET
 			$customers_data = os_db_fetch_array($customers_query);
 			if (os_db_num_rows($customers_query))
 			{
-				os_db_query("UPDATE ".TABLE_ORDERS." SET refferers_id = '".$customers_data['ref']."' WHERE orders_id = '".(int)$insert_id."'");
+				$aUpdateOrder['refferers_id'] = $customers_data['ref'];
+
 				// check if late or direct sale                         
 				$customers_logon_query = os_db_query("SELECT customers_info_number_of_logons FROM ".TABLE_CUSTOMERS_INFO." WHERE customers_info_id  = '".(int)$_SESSION['customer_id']."'");
 				$customers_logon = os_db_fetch_array($customers_logon_query);
 
 				$conversion_type = ($customers_logon['customers_info_number_of_logons'] == 0) ? 1 : 2;
-				os_db_query("UPDATE ".TABLE_ORDERS." SET conversion_type = '".(int)$conversion_type."' WHERE orders_id = '".(int)$insert_id."'");
+				$aUpdateOrder['conversion_type'] = (int)$conversion_type;
 			}
 		}
+
+		os_db_perform(TABLE_ORDERS, $aUpdateOrder, 'update', "orders_id = '".(int)$insert_id."'");
 
 		return array(
 			'order_id' => $insert_id

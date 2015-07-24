@@ -16,30 +16,47 @@
 include ('includes/top.php');
 //$osTemplate = new osTemplate;
 
-//security checks
-if (!isset($_SESSION['customer_id']))
+if (isset($_GET['order_hash']) && !empty($_GET['order_hash']) && USE_ORDERS_HASH == 'true')
 {
-	os_redirect(os_href_link(FILENAME_LOGIN, '', 'SSL'));
+	$oh = os_db_prepare_input(os_db_input($_GET['order_hash']));
+	$check_order_by_hash_query = os_db_query("SELECT orders_id FROM ".TABLE_ORDERS." WHERE order_hash = '".$oh."'");
+	if (os_db_num_rows($check_order_by_hash_query) == 1)
+	{
+		$check_order_by_hash = os_db_fetch_array($check_order_by_hash_query);
+		$order_id = $check_order_by_hash['orders_id'];
+	}
+	else
+		os_redirect(os_href_link(FILENAME_LOGIN, '', 'SSL'));
 }
-
-if (!isset($_GET['order_id']) || (isset($_GET['order_id']) && !is_numeric($_GET['order_id'])))
+else
 {
-	os_redirect(os_href_link(FILENAME_ACCOUNT_HISTORY, '', 'SSL'));
-}
+	//security checks
+	if (!isset($_SESSION['customer_id']))
+	{
+		os_redirect(os_href_link(FILENAME_LOGIN, '', 'SSL'));
+	}
 
-$customer_info_query = os_db_query("select customers_id from ".TABLE_ORDERS." where orders_id = '".(int)$_GET['order_id']."'");
-$customer_info = os_db_fetch_array($customer_info_query);
-if ($customer_info['customers_id'] != $_SESSION['customer_id'])
-{
-	os_redirect(os_href_link(FILENAME_ACCOUNT_HISTORY, '', 'SSL'));
+	if (!isset($_GET['order_id']) || (isset($_GET['order_id']) && !is_numeric($_GET['order_id'])))
+	{
+		os_redirect(os_href_link(FILENAME_ACCOUNT_HISTORY, '', 'SSL'));
+	}
+
+	$customer_info_query = os_db_query("select customers_id from ".TABLE_ORDERS." where orders_id = '".(int)$_GET['order_id']."'");
+	$customer_info = os_db_fetch_array($customer_info_query);
+	if ($customer_info['customers_id'] != $_SESSION['customer_id'])
+	{
+		os_redirect(os_href_link(FILENAME_ACCOUNT_HISTORY, '', 'SSL'));
+	}
+
+	$order_id = $_GET['order_id'];
 }
 
 $breadcrumb->add(NAVBAR_TITLE_1_ACCOUNT_HISTORY_INFO, os_href_link(FILENAME_ACCOUNT, '', 'SSL'));
 $breadcrumb->add(NAVBAR_TITLE_2_ACCOUNT_HISTORY_INFO, os_href_link(FILENAME_ACCOUNT_HISTORY, '', 'SSL'));
-$breadcrumb->add(sprintf(NAVBAR_TITLE_3_ACCOUNT_HISTORY_INFO, (int)$_GET['order_id']), os_href_link(FILENAME_ACCOUNT_HISTORY_INFO, 'order_id='.(int)$_GET['order_id'], 'SSL'));
+$breadcrumb->add(sprintf(NAVBAR_TITLE_3_ACCOUNT_HISTORY_INFO, (int)$order_id), os_href_link(FILENAME_ACCOUNT_HISTORY_INFO, 'order_id='.(int)$order_id, 'SSL'));
 
 require (_CLASS.'order.php');
-$order = new order((int)$_GET['order_id']);
+$order = new order((int)$order_id);
 
 require (_INCLUDES.'header.php');
 
@@ -53,9 +70,9 @@ if ($order->delivery != false)
 	}
 }
 
-$order_total = $order->getTotalData((int)$_GET['order_id']); 
+$order_total = $order->getTotalData((int)$order_id);
 
-$osTemplate->assign('order_data', $order->getOrderData((int)$_GET['order_id']));
+$osTemplate->assign('order_data', $order->getOrderData((int)$order_id));
 $osTemplate->assign('order_total', $order_total['data']);
 
 // Payment Method
@@ -66,12 +83,14 @@ if ($order->info['payment_method'] != '' && $order->info['payment_method'] != 'n
 }
 
 // Order History
-$statuses_query = os_db_query("select os.orders_status_name, osh.date_added, osh.comments from ".TABLE_ORDERS_STATUS." os, ".TABLE_ORDERS_STATUS_HISTORY." osh where osh.orders_id = '".(int) $_GET['order_id']."' and osh.orders_status_id = os.orders_status_id and os.language_id = '".(int) $_SESSION['languages_id']."' order by osh.date_added");
+$statuses_query = os_db_query("select os.orders_status_name, osh.date_added, osh.comments from ".TABLE_ORDERS_STATUS." os, ".TABLE_ORDERS_STATUS_HISTORY." osh where osh.orders_id = '".(int) $order_id."' and osh.orders_status_id = os.orders_status_id and os.language_id = '".(int) $_SESSION['languages_id']."' order by osh.date_added");
+
+$aHistory = array();
 while ($statuses = os_db_fetch_array($statuses_query))
 {
-	$history_block .= os_date_short($statuses['date_added'])."\n".$statuses['orders_status_name']."\n". (empty ($statuses['comments']) ? '&nbsp;' : nl2br(htmlspecialchars($statuses['comments'])))."\n";
+	$aHistory[] = $statuses;
 }
-$osTemplate->assign('HISTORY_BLOCK', $history_block);
+$osTemplate->assign('aHistory', $aHistory);
 
 // Download-Products
 if (DOWNLOAD_ENABLED == 'true')
@@ -79,7 +98,7 @@ if (DOWNLOAD_ENABLED == 'true')
 
 // фильтр кнопок печати
 $array = array();
-$array['params'] = array('order_id' => $_GET['order_id'], 'payment_method' => $order->info['payment_method']);
+$array['params'] = array('order_id' => $order_id, 'payment_method' => $order->info['payment_method']);
 $array = apply_filter('print_menu', $array);
 if (is_array($array['link']) && !empty($array['link']))
 {
@@ -87,7 +106,7 @@ if (is_array($array['link']) && !empty($array['link']))
 }
 // фильтр кнопок печати
 
-$osTemplate->assign('ORDER_NUMBER', (int)$_GET['order_id']);
+$osTemplate->assign('ORDER_NUMBER', (int)$order_id);
 $osTemplate->assign('ORDER_DATE', os_date_long($order->info['date_purchased']));
 $osTemplate->assign('ORDER_STATUS', $order->info['orders_status']);
 $osTemplate->assign('BILLING_LABEL', os_address_format($order->billing['format_id'], $order->billing, 1, ' ', '<br />'));
@@ -95,11 +114,16 @@ $osTemplate->assign('PRODUCTS_EDIT', os_href_link(FILENAME_SHOPPING_CART, '', 'S
 $osTemplate->assign('SHIPPING_ADDRESS_EDIT', os_href_link(FILENAME_CHECKOUT_SHIPPING_ADDRESS, '', 'SSL'));
 $osTemplate->assign('BILLING_ADDRESS_EDIT', os_href_link(FILENAME_CHECKOUT_PAYMENT_ADDRESS, '', 'SSL'));
 
+if ($order->info['order_hash'] && USE_ORDERS_HASH == 'true')
+{
+	$osTemplate->assign('ORDER_HASH', os_href_link(FILENAME_ACCOUNT_HISTORY_INFO, 'order_hash='.$order->info['order_hash'], 'SSL'));
+}
+
 $from_history = preg_match("/page=/i", os_get_all_get_params()); // referer from account_history yes/no
 $back_to = $from_history ? FILENAME_ACCOUNT_HISTORY : FILENAME_ACCOUNT; // if from account_history => return to account_history
 
 $_array = array('img' => 'button_back.gif',
-	'href' => os_href_link($back_to,os_get_all_get_params(array ('order_id')), 'SSL'),
+	'href' => os_href_link($back_to, os_get_all_get_params(array ('order_id')), 'SSL'),
 	'alt' => IMAGE_BUTTON_BACK,
 	'code' => ''
 );
@@ -108,7 +132,7 @@ $_array = apply_filter('button_back', $_array);
 
 if (empty($_array['code']))
 {
-	$_array['code'] = '<a href="'.$_array['href'].'">'.os_image_button( $_array['img'], $_array['alt']).'</a>';
+	$_array['code'] = buttonSubmit($_array['img'], $_array['href'], $_array['alt']);
 }
 
 $osTemplate->assign('BUTTON_BACK', $_array['code']);
