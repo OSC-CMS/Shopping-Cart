@@ -1596,7 +1596,8 @@ os_db_query("INSERT INTO `".DB_PREFIX."configuration` VALUES
 (395, 'VIS_MAIN_NEWS', 'true', 30, 32, NULL, '0000-00-00 00:00:00', NULL, 'os_cfg_select_option(array(\'true\', \'false\'),'),
 (396, 'VIS_MAIN_FEATURES', 'true', 30, 33, NULL, '0000-00-00 00:00:00', NULL, 'os_cfg_select_option(array(\'true\', \'false\'),'),
 (397, 'VIS_MAIN_NEW', 'true', 30, 34, NULL, '0000-00-00 00:00:00', NULL, 'os_cfg_select_option(array(\'true\', \'false\'),'),
-(398, 'VIS_MAIN_UPCOMING', 'true', 30, 35, NULL, '0000-00-00 00:00:00', NULL, 'os_cfg_select_option(array(\'true\', \'false\'),');
+(398, 'VIS_MAIN_UPCOMING', 'true', 30, 35, NULL, '0000-00-00 00:00:00', NULL, 'os_cfg_select_option(array(\'true\', \'false\'),'),
+(399, 'USE_ORDERS_HASH', 'true', 17, 19, NULL, '0000-00-00 00:00:00', NULL, 'os_cfg_select_option(array(\'true\', \'false\'),');
 ");
 
 os_db_query("DELETE FROM ".DB_PREFIX."configuration WHERE configuration_group_id=12");
