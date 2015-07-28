@@ -525,6 +525,11 @@ class apiOrder extends CartET
 		$osTemplate->assign('logo_path', HTTP_SERVER.DIR_WS_CATALOG.'themes/'.CURRENT_TEMPLATE.'/img/');
 		$osTemplate->assign('oID', $order_id);
 
+		if ($order->info['order_hash'] && USE_ORDERS_HASH == 'true')
+		{
+			$osTemplate->assign('ORDER_HASH', os_href_link(FILENAME_ACCOUNT_HISTORY_INFO, 'order_hash='.$order->info['order_hash'], 'SSL'));
+		}
+
 		if ($order->info['payment_method'] != '' && $order->info['payment_method'] != 'no_payment')
 		{
 			include (_MODULES.'payment/'.$order->info['payment_method'].'/'.$_SESSION['language'].'.php');
