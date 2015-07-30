@@ -275,6 +275,27 @@ if ($_SESSION['cart']->count_contents() > 0)
 			}
 		}
 	}
+
+	//plugins
+	if (isset($os_action['shopping_cart_page']) && !empty($os_action['shopping_cart_page']))
+	{
+		foreach ($os_action['shopping_cart_page'] as $_info => $_pr)
+		{
+			if (function_exists($_info))
+			{
+				$p->name = $os_action_plug[$_info];
+				$p->group = $p->info[$p->name]['group'];
+				$p->set_dir();
+
+				$_products_info_val = $_info();
+				if (isset($_products_info_val['name']) && $_products_info_val['value'])
+				{
+					$osTemplate->assign($_products_info_val['name'] , $_products_info_val['value']);
+				}
+			}
+		}
+	}
+	//plugins
 }
 else
 {
