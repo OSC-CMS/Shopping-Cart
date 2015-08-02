@@ -10,19 +10,11 @@
 
 require('includes/top.php');
 
-$page = ((isset($_GET['page'])) ? '?page='.$_GET['page'] : '');
-
 $action = (isset($_GET['action']) ? $_GET['action'] : '');
 if (isset($_POST['remove'])) $action='remove';
 
 if (os_not_null($action)) {
 	switch ($action) {
-		case 'setflag':
-			$sql_data_array = array('products_extra_fields_status' => os_db_prepare_input($_GET['flag']));
-			os_db_perform(TABLE_PRODUCTS_EXTRA_FIELDS, $sql_data_array, 'update', 'products_extra_fields_id='.$_GET['id']);
-			os_redirect(os_href_link(FILENAME_PRODUCTS_EXTRA_FIELDS.$page));
-		break;
-
 		case 'add':
 			$sql_data_array = array(
 				'products_extra_fields_name' => os_db_prepare_input($_POST['field']['name']),
@@ -32,7 +24,7 @@ if (os_not_null($action)) {
 			);
 			os_db_perform(TABLE_PRODUCTS_EXTRA_FIELDS, $sql_data_array, 'insert');
 
-			os_redirect(os_href_link(FILENAME_PRODUCTS_EXTRA_FIELDS.$page));
+			os_redirect(os_href_link(FILENAME_PRODUCTS_EXTRA_FIELDS, 'page='.$_POST['page'].'&group='.$_POST['group']));
 		break;
 
 		case 'update':
@@ -49,7 +41,7 @@ if (os_not_null($action)) {
 					os_db_perform(TABLE_PRODUCTS_EXTRA_FIELDS, $sql_data_array, 'update', 'products_extra_fields_id = '.$key);
 				}
 			}
-			os_redirect(os_href_link(FILENAME_PRODUCTS_EXTRA_FIELDS.$page));
+			os_redirect(os_href_link(FILENAME_PRODUCTS_EXTRA_FIELDS, 'page='.$_POST['page'].'&group='.$_POST['group']));
 		break;
 
 		case 'remove':
@@ -58,7 +50,7 @@ if (os_not_null($action)) {
 			os_db_query("DELETE FROM ".TABLE_PRODUCTS_EXTRA_FIELDS." WHERE products_extra_fields_id=".os_db_input($key));
 			os_db_query("DELETE FROM ".TABLE_PRODUCTS_TO_PRODUCTS_EXTRA_FIELDS." WHERE products_extra_fields_id=".os_db_input($key));
 			}
-			os_redirect(os_href_link(FILENAME_PRODUCTS_EXTRA_FIELDS.$page));
+			os_redirect(os_href_link(FILENAME_PRODUCTS_EXTRA_FIELDS, 'page='.$_POST['page'].'&group='.$_POST['group']));
 			}
 		break;
 	}
@@ -267,7 +259,6 @@ $main->top_menu();
 <?php } else { ?>
 
 <?php
-
 $getGroupsQuery = os_db_query("SELECT * FROM ".DB_PREFIX."products_extra_fields_groups g LEFT JOIN ".DB_PREFIX."products_extra_fields_groups_desc d ON (g.extra_fields_groups_id = d.extra_fields_groups_id AND d.extra_fields_groups_languages_id = '".(int)$_SESSION['languages_id']."') ORDER BY g.extra_fields_groups_order");
 $groupsList = array();
 if (os_db_num_rows($getGroupsQuery) > 0)
@@ -321,6 +312,31 @@ if (os_db_num_rows($getGroupsQuery) > 0)
 		</div>
 	</div>
 
+	<div class="second-page-nav">
+		<div class="row-fluid">
+			<div class="span6">
+				<?php echo os_draw_form('goto', FILENAME_PRODUCTS_EXTRA_FIELDS, '', 'get'); ?>
+				<fieldset>
+					<?php
+					$_groupsList[] = array(
+						'id' => '',
+						'text' => EF_SELECT_GROUP
+					);
+					$aGroups = array_merge($_groupsList, $groupsList);
+					$_g = (isset($_GET['group']) && !empty($_GET['group'])) ? $_GET['group'] : "";
+					echo os_draw_pull_down_menu('group', $aGroups, $_g, 'onChange="this.form.submit();"');
+					?>
+				</fieldset>
+				</form>
+			</div>
+			<div class="span6">
+				<div class="pull-right">
+
+				</div>
+			</div>
+		</div>
+	</div>
+
 	<form name="extra_fields" action="<?php echo os_href_link(FILENAME_PRODUCTS_EXTRA_FIELDS,'action=update&page='.$_GET['page']); ?>" method="post">
 		<?php echo $action_message; ?>
 		<table class="table table-condensed table-big-list" id="tableList">
@@ -336,7 +352,9 @@ if (os_db_num_rows($getGroupsQuery) > 0)
 				</tr>
 			</thead>
 		<?php
-		$products_extra_fields_query_raw = "select * from ".TABLE_PRODUCTS_EXTRA_FIELDS." order by products_extra_fields_order";
+		//page='.$_GET['page'].'&group='.$_GET['group']
+		$where = (isset($_GET['group']) && !empty($_GET['group'])) ? " WHERE products_extra_fields_group = ".(int)$_GET['group'] : "";
+		$products_extra_fields_query_raw = "select * from ".TABLE_PRODUCTS_EXTRA_FIELDS." ".$where." order by products_extra_fields_order";
 
 		$products_extra_fields_split = new splitPageResults($_GET['page'], MAX_DISPLAY_ADMIN_PAGE, $products_extra_fields_query_raw, $customers_status_query_numrows);
 		$products_extra_fields_query = os_db_query($products_extra_fields_query_raw);
@@ -361,6 +379,8 @@ if (os_db_num_rows($getGroupsQuery) > 0)
 		</table>
 		<hr>
 		<div class="tcenter footer-btn">
+			<input type="hidden" name="group" value="<?php echo ((isset($_GET['group'])) ? $_GET['group'] : ''); ?>" />
+			<input type="hidden" name="page" value="<?php echo ((isset($_GET['page'])) ? $_GET['page'] : ''); ?>" />
 			<input class="btn btn-success" type="submit" value="<?php echo BUTTON_UPDATE; ?>" />
 			<input class="btn btn-danger" name="remove" type="submit" value="<?php echo BUTTON_DELETE; ?>" />
 		</div>
