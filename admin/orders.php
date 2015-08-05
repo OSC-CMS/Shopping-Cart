@@ -118,7 +118,7 @@ if (isset($_POST['submit']) && isset($_POST['multi_orders']))
 		foreach ($_POST['multi_orders'] as $this_orderID)
 		{
 			$order_updated = false;
-			$check_status_query = os_db_query("select customers_name, customers_telephone, customers_email_address, orders_status, date_purchased from ".TABLE_ORDERS." where orders_id = '".(int)$this_orderID."'");
+			$check_status_query = os_db_query("select customers_name, customers_telephone, customers_email_address, orders_status, date_purchased, order_hash from ".TABLE_ORDERS." where orders_id = '".(int)$this_orderID."'");
 			$check_status = os_db_fetch_array($check_status_query);
 
 			if ($check_status['orders_status'] != $status)
@@ -137,6 +137,11 @@ if (isset($_POST['submit']) && isset($_POST['multi_orders']))
 					$osTemplate->assign('ORDER_LINK', os_catalog_href_link(FILENAME_CATALOG_ACCOUNT_HISTORY_INFO, 'order_id='.$_POST['multi_orders'], 'SSL'));
 					$osTemplate->assign('ORDER_DATE', os_date_long($check_status['date_purchased']));
 					$osTemplate->assign('ORDER_STATUS', $orders_status_array[$status]);
+
+					if ($check_status['order_hash'] && USE_ORDERS_HASH == 'true')
+					{
+						$osTemplate->assign('ORDER_HASH', os_href_link(FILENAME_ACCOUNT_HISTORY_INFO, 'order_hash='.$check_status['order_hash'], 'SSL'));
+					}
 
 					if (is_file(_MAIL.'admin/'.$_SESSION['language_admin'].'/change_order_mail_'.$status.'.html') && is_file(_MAIL.'admin/'.$_SESSION['language_admin'].'/change_order_mail_'.$status.'.txt'))
 					{
@@ -308,7 +313,7 @@ $oID = os_db_prepare_input($_GET['oID']);
 $status = os_db_prepare_input($_POST['status']);
 $comments = os_db_prepare_input($_POST['comments']);
 $order_updated = false;
-$check_status_query = os_db_query("select customers_name, customers_email_address, orders_status, date_purchased from ".TABLE_ORDERS." where orders_id = '".os_db_input($oID)."'");
+$check_status_query = os_db_query("select customers_name, customers_email_address, orders_status, date_purchased, order_hash from ".TABLE_ORDERS." where orders_id = '".os_db_input($oID)."'");
 $check_status = os_db_fetch_array($check_status_query);
 if ($check_status['orders_status'] != $status || $comments != '') {
 os_db_query("update ".TABLE_ORDERS." set orders_status = '".os_db_input($status)."', last_modified = now() where orders_id = '".os_db_input($oID)."'");
@@ -335,6 +340,11 @@ if (isset($_POST['notify']) && $_POST['notify'] == 'on')
 	$osTemplate->assign('ORDER_DATE', os_date_long($check_status['date_purchased']));
 	$osTemplate->assign('NOTIFY_COMMENTS', $notify_comments);
 	$osTemplate->assign('ORDER_STATUS', $orders_status_array[$status]);
+
+	if ($check_status['order_hash'] && USE_ORDERS_HASH == 'true')
+	{
+		$osTemplate->assign('ORDER_HASH', os_href_link(FILENAME_ACCOUNT_HISTORY_INFO, 'order_hash='.$check_status['order_hash'], 'SSL'));
+	}
 
 	if (is_file(_MAIL.'admin/'.$order->info['language'].'/change_order_mail_'.$status.'.html') && is_file(_MAIL.'admin/'.$order->info['language'].'/change_order_mail_'.$status.'.txt'))
 	{
