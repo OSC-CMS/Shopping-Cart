@@ -109,29 +109,14 @@ os_yml_out('  </categories>');
 
 // Товар
 os_yml_out('  <offers>');
-//$products_short_description = os_db_query('describe '.TABLE_PRODUCTS_DESCRIPTION.' products_short_description');
-//$yml_select = os_db_query('describe '.TABLE_PRODUCTS.' products_to_xml');
 
-$products_sql = "
-	SELECT distinct 
-		p.products_id, p2c.categories_id, p.products_model, p.products_quantity, p.products_image,
-		IF(s.status, s.specials_new_products_price, p.products_price) AS products_price, 
-		p.products_tax_class_id, p.products_tax_class_id, p.products_discount_allowed, p.price_currency_code, p.products_sort, pd.products_name, m.manufacturers_name, pd.products_description, 
-		pd.products_short_description, p.yml_bid, p.yml_cbid, p.yml_available, p.yml_manufacturer_warranty, p.yml_manufacturer_warranty_text
-	FROM 
-		".TABLE_PRODUCTS." p
-			LEFT JOIN ".TABLE_PRODUCTS_DESCRIPTION." pd ON (p.products_id = pd.products_id)
-			LEFT JOIN ".TABLE_MANUFACTURERS." m ON (p.manufacturers_id = m.manufacturers_id)
-			LEFT JOIN ".TABLE_PRODUCTS_TO_CATEGORIES." p2c ON (p.products_id = p2c.products_id)
-			LEFT JOIN ".TABLE_SPECIALS." s ON (p.products_id = s.products_id)
-	WHERE 
-		p.products_status = 1 AND 
-		p.products_to_xml = 1 AND 
-		pd.language_id = ".(int)$_SESSION['languages_id']."
-	GROUP BY 
-		p.products_id 
-	ORDER BY 
-		p.products_id ASC";
+$products_sql = $cartet->product->getList(array(
+	'products_status' => 1,
+	'category_status' => 1,
+	'where' => array('p.products_to_xml = 1'),
+	'group' => 'p.products_id',
+	'order' => 'p.products_id ASC',
+));
 
 $products_query = os_db_query($products_sql);
 while ($products = os_db_fetch_array($products_query))
@@ -166,13 +151,23 @@ while ($products = os_db_fetch_array($products_query))
 	if ($products["yml_cbid"] > 0)
 		$cbid = ' cbid="'.$products["yml_cbid"].'"';
 
-	$price = $products['products_price'];
-	$price = $osPrice->GetPrice($products['products_id'], false, 1, $products['products_tax_class_id'], $price, 1, 0, $products['products_discount_allowed'], $products['price_currency_code']);
+	//$price = $osPrice->GetPrice($products['products_id'], false, 1, $products['products_tax_class_id'], $price, 1, 0, $products['products_discount_allowed'], $products['price_currency_code']);
+	//$price = $osPrice->GetPrice($products['products_id'], 1, 1, $products['products_tax_class_id'], $row['products_price'], 1, 0, $products['products_discount_allowed'], $products['price_currency_code']);
+	$price = $osPrice->GetPrice($products['products_id'], true, 1, $products['products_tax_class_id'], $products['products_price'], 1, 0, $products['products_discount_allowed'], $products['price_currency_code']);
+
+
 	$url = os_href_link(FILENAME_PRODUCT_INFO, os_product_link($products['products_id'], $products['products_name']).(isset($_GET['ref']) ? '&amp;ref='.$_GET['ref'] : null).$yml_referer, 'NONSSL', false);
 	$available = ' available="'.$available.'"';
 	os_yml_out('<offer id="'.$products['products_id'].'"'.$available.$bid.$cbid.'>');
 	os_yml_out('  <url>'.$url.'</url>');
-	os_yml_out('  <price>'.$price['price'].'</price>');
+
+	if ($price['special']['plain'] > 0)
+	{
+		os_yml_out('  <oldprice>'.$price['default']['plain'].'</oldprice>');
+	}
+
+	os_yml_out('  <price>'.$price['price']['plain'].'</price>');
+
 	os_yml_out('  <currencyId>'.$current_currency.'</currencyId>');
 	os_yml_out('  <categoryId>'.$products['categories_id'].'</categoryId>');
 
@@ -207,6 +202,7 @@ while ($products = os_db_fetch_array($products_query))
 
 	$yml_manufacturer_warranty = ($products['yml_manufacturer_warranty'] == 1) ? 'true' : 'false';
 	$yml_manufacturer_warranty = (!empty($products['yml_manufacturer_warranty_text'])) ? $products['yml_manufacturer_warranty_text'] : $yml_manufacturer_warranty;
+
 	os_yml_out('  <manufacturer_warranty>'.os_yml_clear_string($yml_manufacturer_warranty).'</manufacturer_warranty> ');
 
 	if (YML_SALES_NOTES != '')
