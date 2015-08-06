@@ -140,7 +140,7 @@ if (isset($_POST['submit']) && isset($_POST['multi_orders']))
 
 					if ($check_status['order_hash'] && USE_ORDERS_HASH == 'true')
 					{
-						$osTemplate->assign('ORDER_HASH', os_href_link(FILENAME_ACCOUNT_HISTORY_INFO, 'order_hash='.$check_status['order_hash'], 'SSL'));
+						$osTemplate->assign('ORDER_HASH', _HTTP.FILENAME_ACCOUNT_HISTORY_INFO.'&order_hash='.$check_status['order_hash']);
 					}
 
 					if (is_file(_MAIL.'admin/'.$_SESSION['language_admin'].'/change_order_mail_'.$status.'.html') && is_file(_MAIL.'admin/'.$_SESSION['language_admin'].'/change_order_mail_'.$status.'.txt'))
@@ -343,7 +343,7 @@ if (isset($_POST['notify']) && $_POST['notify'] == 'on')
 
 	if ($check_status['order_hash'] && USE_ORDERS_HASH == 'true')
 	{
-		$osTemplate->assign('ORDER_HASH', os_href_link(FILENAME_ACCOUNT_HISTORY_INFO, 'order_hash='.$check_status['order_hash'], 'SSL'));
+		$osTemplate->assign('ORDER_HASH', _HTTP.FILENAME_ACCOUNT_HISTORY_INFO.'&order_hash='.$check_status['order_hash']);
 	}
 
 	if (is_file(_MAIL.'admin/'.$order->info['language'].'/change_order_mail_'.$status.'.html') && is_file(_MAIL.'admin/'.$order->info['language'].'/change_order_mail_'.$status.'.txt'))
