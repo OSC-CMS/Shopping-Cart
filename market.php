@@ -151,10 +151,7 @@ while ($products = os_db_fetch_array($products_query))
 	if ($products["yml_cbid"] > 0)
 		$cbid = ' cbid="'.$products["yml_cbid"].'"';
 
-	//$price = $osPrice->GetPrice($products['products_id'], false, 1, $products['products_tax_class_id'], $price, 1, 0, $products['products_discount_allowed'], $products['price_currency_code']);
-	//$price = $osPrice->GetPrice($products['products_id'], 1, 1, $products['products_tax_class_id'], $row['products_price'], 1, 0, $products['products_discount_allowed'], $products['price_currency_code']);
 	$price = $osPrice->GetPrice($products['products_id'], true, 1, $products['products_tax_class_id'], $products['products_price'], 1, 0, $products['products_discount_allowed'], $products['price_currency_code']);
-
 
 	$url = os_href_link(FILENAME_PRODUCT_INFO, os_product_link($products['products_id'], $products['products_name']).(isset($_GET['ref']) ? '&amp;ref='.$_GET['ref'] : null).$yml_referer, 'NONSSL', false);
 	$available = ' available="'.$available.'"';
