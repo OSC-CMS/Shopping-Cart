@@ -1018,10 +1018,10 @@ $(function(){
 			action = $('input[name="action"]').val();
 
 		// получаем все чекбоксы какие есть в форме
-		$("input[type=checkbox]").each(function()
+		$("#set_attributes input[type=checkbox]").each(function()
 		{
 			// только выбранные чекбоксы
-			if ($(this).attr("checked"))
+			if (($(this)).prop( "checked" ))
 			{
 				fieldId = $(this).attr("name").match(/\[(\d+)\]\s?(.*)/);
 

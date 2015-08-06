@@ -32,7 +32,7 @@ require(_CLASS.'price.php');
 $osPrice = new osPrice(DEFAULT_CURRENCY,$_SESSION['customers_status']['customers_status_id']);
 ?>
 
-<form action="<?php echo $_SERVER['PHP_SELF']; ?>" method="post" name="SUBMIT_ATTRIBUTES" enctype="multipart/form-data">
+<form id="set_attributes" action="<?php echo $_SERVER['PHP_SELF']; ?>" method="post" name="SUBMIT_ATTRIBUTES" enctype="multipart/form-data">
 <input type="hidden" name="current_product_id" value="<?php echo $_POST['current_product_id']; ?>">
 <input type="hidden" name="action" value="change">
 
