@@ -789,10 +789,7 @@ class apiProducts extends CartET
 					}
 					// иначе, это доп. картинки
 					else
-					{
-						$products_image_name = $new_file;
 						$this->createMoreImages($products_image_name, $img, $action, $products_id, $products_data);
-					}
 				}
 			}
 		}
@@ -805,7 +802,19 @@ class apiProducts extends CartET
 			{
 				$img++;
 				$products_image_name = files_download_image($img_url, dir_path('images_original'), $products_id);
-				$this->createMoreImages($products_image_name, $img, $action, $products_id, $products_data);
+
+				// если нет основной картинки, то создаем
+				if ($img == 1 && empty($_POST['main_image']))
+				{
+					$sql_data_array['products_image'] = os_db_prepare_input($products_image_name);
+
+					require (get_path('includes_admin').'product_thumbnail_images.php');
+					require (get_path('includes_admin').'product_info_images.php');
+					require (get_path('includes_admin').'product_popup_images.php');
+				}
+				// иначе, это доп. картинки
+				else
+					$this->createMoreImages($products_image_name, $img, $action, $products_id, $products_data);
 			}
 		}
 
