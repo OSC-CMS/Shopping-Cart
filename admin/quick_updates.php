@@ -344,9 +344,9 @@ $main->top_menu();
 			<tr class="products_tr">
 				<td><?php echo $products['products_id']; ?></td>
 				<td><?php echo $products['products_name']; ?></td>
-				<?php if (STOCK_CHECK == 'true') { ?>
-				<td><input class="width100px" type="text" name="<?php echo $products['products_id']; ?>[products_quantity]" value="<?php echo $products['products_quantity']; ?>" /></td>
 				<td><input class="width40px" type="text" name="<?php echo $products['products_id']; ?>[products_sort]" value="<?php echo $products['products_sort']; ?>" /></td>
+				<?php if (STOCK_CHECK == 'true') { ?>
+					<td><input class="width100px" type="text" name="<?php echo $products['products_id']; ?>[products_quantity]" value="<?php echo $products['products_quantity']; ?>" /></td>
 				<?php } ?>
 				<td class="tcenter">
 					<?php
