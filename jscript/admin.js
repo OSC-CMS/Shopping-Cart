@@ -529,6 +529,12 @@ $(document).ready(function ()
 					}
 				}
 			}
+            /*error: function(xhr, status, errorThrown)
+             {
+             // если ошибка
+             $('.ajax-load-mask').addClass('off');
+             $.jnotify(errorThrown+'<br />'+xhr.responseText, 'error', {lifeTime: 40000});
+             }*/
 		});
 	});
 

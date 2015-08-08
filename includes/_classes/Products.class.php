@@ -637,40 +637,44 @@ class apiProducts extends CartET
 	{
 		if (empty($params)) return false;
 
+		if (!class_exists('image_manipulation'))
+		{
+			require_once (_CLASS_ADMIN.FILENAME_IMAGEMANIPULATOR);
+		}
+
 		$params = apply_filter('save_product_before', $params);
 
-		$products_data = $params['products_data'];
 		$dest_category_id = $params['category_id'];
 		$action = ($params['action']) ? $params['action'] : 'insert';
 
 		// Пересчет цены товара в валюту по умолчанию по текущему курсу
-		if ($products_data['price_currency'] != DEFAULT_CURRENCY && !$products_data['price_currency_code'])
+		if ($params['price_currency'] != DEFAULT_CURRENCY && !$params['price_currency_code'])
 		{
 			require (_CLASS.'price.php');
 			$osPrice = new osPrice(DEFAULT_CURRENCY, $_SESSION['customers_status']['customers_status_id']);
 
-			$convert_price = $osPrice->ConvertCurr($products_data['products_price'], $products_data['price_currency'], DEFAULT_CURRENCY);
-			$products_data['products_price'] = $convert_price['plain'];
+			$convert_price = $osPrice->ConvertCurr($params['products_price'], $params['price_currency'], DEFAULT_CURRENCY);
+			$params['products_price'] = $convert_price['plain'];
 		}
 
-		$products_id = os_db_prepare_input($products_data['products_id']);
-		$products_page_url = os_db_prepare_input($products_data['products_page_url']);
-		$products_date_available = os_db_prepare_input($products_data['products_date_available']);
+		$products_id = os_db_prepare_input($params['products_id']);
+		$products_page_url = os_db_prepare_input($params['products_page_url']);
+		$products_date_available = os_db_prepare_input($params['products_date_available']);
 		//$products_date_available = (date('Y-m-d') < $products_date_available) ? $products_date_available : 'null';
 
-		if ($products_data['products_startpage'] == 1)
+		if ($params['products_startpage'] == 1)
 			$products_status = 1;
 		else
-			$products_status = os_db_prepare_input($products_data['products_status']);
+			$products_status = os_db_prepare_input($params['products_status']);
 
-		if ($products_data['products_startpage'] == 0)
+		if ($params['products_startpage'] == 0)
 		{
-			$products_status = os_db_prepare_input($products_data['products_status']);
+			$products_status = os_db_prepare_input($params['products_status']);
 		}
 
-		if (PRICE_IS_BRUTTO == 'true' && $products_data['products_price'])
+		if (PRICE_IS_BRUTTO == 'true' && $params['products_price'])
 		{
-			$products_data['products_price'] = round(($products_data['products_price'] / (os_get_tax_rate($products_data['products_tax_class_id']) + 100) * 100), PRICE_PRECISION);
+			$params['products_price'] = round(($params['products_price'] / (os_get_tax_rate($params['products_tax_class_id']) + 100) * 100), PRICE_PRECISION);
 		}
 
 		$customers_statuses_array = os_get_customers_statuses();
@@ -681,8 +685,8 @@ class apiProducts extends CartET
 			if (isset($customers_statuses_array[$i]['id']))
 				$permission[$customers_statuses_array[$i]['id']] = 0;
 		}
-		if (isset ($products_data['groups']))
-			foreach ($products_data['groups'] AS $dummy => $b) {
+		if (isset ($params['groups']))
+			foreach ($params['groups'] AS $dummy => $b) {
 				$permission[$b] = 1;
 			}
 		if (@$permission['all']==1) {
@@ -702,37 +706,37 @@ class apiProducts extends CartET
 		}
 
 		$sql_data_array = array(
-			'products_quantity' => os_db_prepare_input($products_data['products_quantity']),
-			'products_to_xml' => os_db_prepare_input($products_data['products_to_xml']),
-			'products_model' => os_db_prepare_input($products_data['products_model']),
-			'products_ean' => os_db_prepare_input($products_data['products_ean']),
-			'products_price' => os_db_prepare_input($products_data['products_price']),
-			'products_sort' => os_db_prepare_input($products_data['products_sort']),
-			'products_shippingtime' => os_db_prepare_input($products_data['shipping_status']),
-			'products_discount_allowed' => os_db_prepare_input($products_data['products_discount_allowed']),
+			'products_quantity' => os_db_prepare_input($params['products_quantity']),
+			'products_to_xml' => os_db_prepare_input($params['products_to_xml']),
+			'products_model' => os_db_prepare_input($params['products_model']),
+			'products_ean' => os_db_prepare_input($params['products_ean']),
+			'products_price' => os_db_prepare_input($params['products_price']),
+			'products_sort' => os_db_prepare_input($params['products_sort']),
+			'products_shippingtime' => os_db_prepare_input($params['shipping_status']),
+			'products_discount_allowed' => os_db_prepare_input($params['products_discount_allowed']),
 			'products_date_available' => $products_date_available,
-			'products_weight' => os_db_prepare_input($products_data['products_weight']),
+			'products_weight' => os_db_prepare_input($params['products_weight']),
 			'products_status' => $products_status,
-			'products_startpage' => os_db_prepare_input($products_data['products_startpage']),
-			'products_reviews' => os_db_prepare_input($products_data['products_reviews']),
-			'products_search' => os_db_prepare_input($products_data['products_search']),
-			'products_startpage_sort' => os_db_prepare_input($products_data['products_startpage_sort']),
-			'products_tax_class_id' => os_db_prepare_input($products_data['products_tax_class_id']),
-			'product_template' => os_db_prepare_input($products_data['info_template']),
-			'options_template' => os_db_prepare_input($products_data['options_template']),
-			'manufacturers_id' => os_db_prepare_input($products_data['manufacturers_id']),
-			'products_fsk18' => os_db_prepare_input($products_data['fsk18']),
-			'products_vpe_value' => os_db_prepare_input($products_data['products_vpe_value']),
-			'products_vpe_status' => os_db_prepare_input($products_data['products_vpe_status']),
-			'products_vpe' => os_db_prepare_input($products_data['products_vpe']),
-			'yml_bid' => os_db_prepare_input($products_data['yml_bid']),
-			'yml_cbid' => os_db_prepare_input($products_data['yml_cbid']),
-			'yml_available' => os_db_prepare_input($products_data['yml_available']),
-			'products_page_url' => os_db_prepare_input($products_data['products_page_url']),
-			'products_bundle' => os_db_prepare_input($products_data['products_bundle']),
-			'yml_manufacturer_warranty' => os_db_prepare_input($products_data['yml_manufacturer_warranty']),
-			'yml_manufacturer_warranty_text' => os_db_prepare_input($products_data['yml_manufacturer_warranty_text']),
-			'price_currency_code' => (($products_data['price_currency_code']) ? os_db_prepare_input($products_data['price_currency']) : ''),
+			'products_startpage' => os_db_prepare_input($params['products_startpage']),
+			'products_reviews' => os_db_prepare_input($params['products_reviews']),
+			'products_search' => os_db_prepare_input($params['products_search']),
+			'products_startpage_sort' => os_db_prepare_input($params['products_startpage_sort']),
+			'products_tax_class_id' => os_db_prepare_input($params['products_tax_class_id']),
+			'product_template' => os_db_prepare_input($params['info_template']),
+			'options_template' => os_db_prepare_input($params['options_template']),
+			'manufacturers_id' => os_db_prepare_input($params['manufacturers_id']),
+			'products_fsk18' => os_db_prepare_input($params['fsk18']),
+			'products_vpe_value' => os_db_prepare_input($params['products_vpe_value']),
+			'products_vpe_status' => os_db_prepare_input($params['products_vpe_status']),
+			'products_vpe' => os_db_prepare_input($params['products_vpe']),
+			'yml_bid' => os_db_prepare_input($params['yml_bid']),
+			'yml_cbid' => os_db_prepare_input($params['yml_cbid']),
+			'yml_available' => os_db_prepare_input($params['yml_available']),
+			'products_page_url' => os_db_prepare_input($params['products_page_url']),
+			'products_bundle' => os_db_prepare_input($params['products_bundle']),
+			'yml_manufacturer_warranty' => os_db_prepare_input($params['yml_manufacturer_warranty']),
+			'yml_manufacturer_warranty_text' => os_db_prepare_input($params['yml_manufacturer_warranty_text']),
+			'price_currency_code' => (($params['price_currency_code']) ? os_db_prepare_input($params['price_currency']) : ''),
 		);
 
 		$sql_data_array = array_merge($sql_data_array, $permission_array);
@@ -789,7 +793,7 @@ class apiProducts extends CartET
 					}
 					// иначе, это доп. картинки
 					else
-						$this->createMoreImages($products_image_name, $img, $action, $products_id, $products_data);
+						$this->createMoreImages($products_image_name, $img, $action, $products_id, $params);
 				}
 			}
 		}
@@ -814,7 +818,7 @@ class apiProducts extends CartET
 				}
 				// иначе, это доп. картинки
 				else
-					$this->createMoreImages($products_image_name, $img, $action, $products_id, $products_data);
+					$this->createMoreImages($products_image_name, $img, $action, $products_id, $params);
 			}
 		}
 
@@ -827,7 +831,7 @@ class apiProducts extends CartET
 
 			//Bundle
 			os_db_query("DELETE FROM ".DB_PREFIX."products_bundles WHERE bundle_id = '".$products_id."'");
-			if ($products_data['products_bundle'] == '1')
+			if ($params['products_bundle'] == '1')
 			{
 				if (isset($_POST['bundles']))
 				{
@@ -852,7 +856,7 @@ class apiProducts extends CartET
 
 			// Наборы
 			os_db_query("DELETE FROM ".DB_PREFIX."products_bundles WHERE bundle_id = '" . $products_id . "'");
-			if ($products_data['products_bundle'] == '1')
+			if ($params['products_bundle'] == '1')
 			{
 				if (isset($_POST['bundles']))
 				{
@@ -876,7 +880,7 @@ class apiProducts extends CartET
 		for ($col = 0, $n = sizeof($group_data); $col < $n +1; $col ++)
 		{
 			if (@$group_data[$col]['STATUS_ID'] != '') {
-				$personal_price = os_db_prepare_input($products_data['products_price_'.$group_data[$col]['STATUS_ID']]);
+				$personal_price = os_db_prepare_input($params['products_price_'.$group_data[$col]['STATUS_ID']]);
 				if ($personal_price == '' || $personal_price == '0.0000')
 				{
 					$personal_price = '0.00';
@@ -885,7 +889,7 @@ class apiProducts extends CartET
 				{
 					if (PRICE_IS_BRUTTO == 'true')
 					{
-						$personal_price = ($personal_price / (os_get_tax_rate($products_data['products_tax_class_id']) + 100) * 100);
+						$personal_price = ($personal_price / (os_get_tax_rate($params['products_tax_class_id']) + 100) * 100);
 					}
 					$personal_price = os_round($personal_price, PRICE_PRECISION);
 				}
@@ -915,10 +919,10 @@ class apiProducts extends CartET
 		for ($col = 0, $n = sizeof($group_data); $col < $n +1; $col ++)
 		{
 			if (@$group_data[$col]['STATUS_ID'] != '') {
-				$quantity = os_db_prepare_input($products_data['products_quantity_staffel_'.$group_data[$col]['STATUS_ID']]);
-				$staffelpreis = os_db_prepare_input($products_data['products_price_staffel_'.$group_data[$col]['STATUS_ID']]);
+				$quantity = os_db_prepare_input($params['products_quantity_staffel_'.$group_data[$col]['STATUS_ID']]);
+				$staffelpreis = os_db_prepare_input($params['products_price_staffel_'.$group_data[$col]['STATUS_ID']]);
 				if (PRICE_IS_BRUTTO == 'true') {
-					$staffelpreis = ($staffelpreis / (os_get_tax_rate($products_data['products_tax_class_id']) + 100) * 100);
+					$staffelpreis = ($staffelpreis / (os_get_tax_rate($params['products_tax_class_id']) + 100) * 100);
 				}
 				$staffelpreis = os_round($staffelpreis, PRICE_PRECISION);
 
@@ -939,14 +943,14 @@ class apiProducts extends CartET
 		foreach ($languages AS $lang)
 		{
 			$sql_data_array = array(
-				'products_name' => os_db_prepare_input($products_data['products_name'][$lang['id']]),
-				'products_description' => os_db_prepare_input($products_data['products_description_'.$lang['id']]),
-				'products_short_description' => os_db_prepare_input($products_data['products_short_description_'.$lang['id']]),
-				'products_keywords' => os_db_prepare_input($products_data['products_keywords'][$lang['id']]),
-				'products_url' => os_db_prepare_input($products_data['products_url'][$lang['id']]),
-				'products_meta_title' => os_db_prepare_input($products_data['products_meta_title'][$lang['id']]),
-				'products_meta_description' => os_db_prepare_input($products_data['products_meta_description'][$lang['id']]),
-				'products_meta_keywords' => os_db_prepare_input($products_data['products_meta_keywords'][$lang['id']])
+				'products_name' => os_db_prepare_input($params['products_name'][$lang['id']]),
+				'products_description' => os_db_prepare_input($params['products_description_'.$lang['id']]),
+				'products_short_description' => os_db_prepare_input($params['products_short_description_'.$lang['id']]),
+				'products_keywords' => os_db_prepare_input($params['products_keywords'][$lang['id']]),
+				'products_url' => os_db_prepare_input($params['products_url'][$lang['id']]),
+				'products_meta_title' => os_db_prepare_input($params['products_meta_title'][$lang['id']]),
+				'products_meta_description' => os_db_prepare_input($params['products_meta_description'][$lang['id']]),
+				'products_meta_keywords' => os_db_prepare_input($params['products_meta_keywords'][$lang['id']])
 			);
 
 			if ($action == 'insert')
@@ -1032,7 +1036,11 @@ class apiProducts extends CartET
 		$_POST['product_id'] = os_db_input($products_id);
 		do_action('insert_product');
 		set_products_url_cache();
-		return true;
+
+
+		$data = array('msg' => 'Успешно сохранено!', 'type' => 'ok');
+
+		return $data;
 	}
 
 	/**
@@ -1466,6 +1474,7 @@ class apiProducts extends CartET
 	 */
 	public function deleteImages($params)
 	{
+
 		if (!empty($params['image_delete']))
 		{
 			os_db_query("UPDATE ".TABLE_PRODUCTS." SET products_image = '' WHERE products_id = '".(int)$params['products_id']."'");

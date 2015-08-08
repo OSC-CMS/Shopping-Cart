@@ -88,13 +88,18 @@ $ymlManufacturerWarranty = array(
 ?>
 
 <?php
-echo os_draw_form('new_product', FILENAME_CATEGORIES, 'cPath='.$_GET['cPath'].'&pID='.$_GET['pID'].(isset($_GET['page']) ? '&page='.$_GET['page'] : '').'&action='.$form_action, 'post', 'enctype="multipart/form-data" cf="true"');
+echo os_draw_form('new_product', FILENAME_CATEGORIES, 'cPath='.$_GET['cPath'].'&pID='.$_GET['pID'].(isset($_GET['page']) ? '&page='.$_GET['page'] : '').'&action='.$form_action, 'post', 'id="products_edit" enctype="multipart/form-data" cf="true"');
 echo os_draw_hidden_field('products_date_added', (($pInfo->products_date_added) ? $pInfo->products_date_added : date('Y-m-d')));
 echo os_draw_hidden_field('products_id', $pInfo->products_id);
+echo os_draw_hidden_field('category_id', $current_category_id);
+if (isset($_GET['pID']) && !empty($_GET['pID']))
+{
+	echo os_draw_hidden_field('action', 'update');
+}
 ?>
 
 <div class="btn-group pull-right">
-	<input class="btn btn-success" type="submit" value="<?php echo BUTTON_SAVE; ?>" />
+	<input class="btn btn-success ajax-save-form" data-form-action="products_saveProduct" data-reload-page="1" type="submit" value="<?php echo BUTTON_SAVE; ?>" />
 	<a class="btn" href="<?php echo os_href_link(FILENAME_NEW_ATTRIBUTES, 'action=edit'.'&current_product_id='.$_GET['pID'].'&cpath='.$cPath); ?>"><?php echo BUTTON_EDIT_ATTRIBUTES; ?></a>
 	<a class="btn" href="<?php echo os_href_link(FILENAME_CATEGORIES, 'action=edit_crossselling'.'&current_product_id='.$_GET['pID'].'&cpath='.$cPath); ?>"><?php echo BUTTON_EDIT_CROSS_SELLING; ?></a>
 </div>
@@ -931,8 +936,8 @@ while ($content_data = os_db_fetch_array($content_query))
 
 <hr>
 	<div class="tcenter footer-btn">
-		<input class="btn btn-success" type="submit" value="<?php echo BUTTON_SAVE; ?>" />
-		<a class="btn btn-link" href="<?php echo os_href_link(FILENAME_CATEGORIES, 'cPath='.$cPath); ?>"><?php echo BUTTON_CANCEL; ?></a>
+		<input class="btn btn-success ajax-save-form" data-form-action="products_saveProduct" data-reload-page="1" type="submit" value="<?php echo BUTTON_SAVE; ?>" />
+		<a class="btn btn-link" href="<?php echo os_href_link(FILENAME_CATEGORIES, 'cPath='.$cPath); ?>"><?php echo BUTTON_BACK; ?></a>
 	</div>
 
 </form>

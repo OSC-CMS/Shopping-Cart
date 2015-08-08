@@ -99,20 +99,13 @@ if (@$_GET['action'])
 		break;
 
 		case 'update_product' :
-			$cartet->products->saveProduct(array(
-				'products_data' => $_POST,
-				'category_id' => $current_category_id,
-				'action' => 'update'
-			));
+			$cartet->products->saveProduct($_POST);
 
 			os_redirect(os_href_link(FILENAME_CATEGORIES, 'cPath='.$_GET['cPath']));
 		break;
 
 		case 'insert_product' :
-			$cartet->products->saveProduct(array(
-				'products_data' => $_POST,
-				'category_id' => $current_category_id,
-			));
+			$cartet->products->saveProduct($_POST);
 
 			os_redirect(os_href_link(FILENAME_CATEGORIES, 'cPath='.$_GET['cPath']));
 		break;
