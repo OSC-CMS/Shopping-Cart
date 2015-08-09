@@ -291,7 +291,7 @@ if (is_array($aCategories))
 		?>
 		<tr class="categories_tr">
 			<td class="tcenter"><input type="checkbox" name="multi_categories[]" value="<?php echo $categories['categories_id']; ?>" /></td>
-			<td><input class="width90" type="text" name="categories[<?php echo $categories['categories_id']; ?>][categories_name]" value="<?php echo $categories['categories_name']; ?>" /></td>
+			<td><input class="width90" type="text" name="categories[<?php echo $categories['categories_id']; ?>][categories_name]" value="<?php echo html($categories['categories_name']); ?>" /></td>
 			<td class="tcenter">
 				<?php
 					echo '<a '.(($categories['categories_status'] == 1) ? '' : 'style="display:none;"').' href="javascript:;" class="ajax-change-status status_'.$categories['categories_id'].'_0_categories_status" data-column="categories_status" data-action="products_changeCategoryStatus" data-id="'.$categories['categories_id'].'" data-status="0" data-show-status="1" title="'.IMAGE_ICON_STATUS_RED_LIGHT.'"><i class="icon-ok"></i></a>';
