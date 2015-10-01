@@ -169,6 +169,7 @@ $default_these = array(
 	'v_products_image',
 	'v_categories_id',
 	'v_products_price',
+	'v_price_currency_code',
 	'v_products_quantity',
 	'v_products_weight',
 	'v_date_avail',
@@ -1277,6 +1278,7 @@ function ep_create_filelayout($dltype)
 			// VJ product attribs begin
 			$header_array = array(
 				'v_products_price'    => $iii++,
+				'v_price_currency_code'    => $iii++,
 				'v_products_weight'   => $iii++,
 				'v_date_avail'      => $iii++,
 				'v_date_added'      => $iii++,
@@ -1314,6 +1316,7 @@ function ep_create_filelayout($dltype)
 				p.products_image as v_products_image,
 				p.products_page_url as v_products_page_url,
 				p.products_price as v_products_price,
+				p.price_currency_code as v_price_currency_code,
 				p.products_weight as v_products_weight,
 				p.products_date_available as v_date_avail,
 				p.products_date_added as v_date_added,
@@ -1356,6 +1359,7 @@ function ep_create_filelayout($dltype)
 				'v_products_name_1'    => $iii++,
 				'v_products_page_url'    => $iii++,
 				'v_products_price'    => $iii++,
+				'v_price_currency_code'    => $iii++,
 				'v_products_quantity'   => $iii++,
 				//      'v_products_quantity_order_min'   => $iii++,
 				//      'v_products_quantity_order_units'   => $iii++,
@@ -1378,6 +1382,7 @@ function ep_create_filelayout($dltype)
 				pd.products_name as v_products_name,
 				p.products_page_url as v_products_page_url,
 				p.products_price as v_products_price,
+				p.price_currency_code as v_price_currency_code,
 				p.products_quantity as v_products_quantity,
 				p.products_sort as v_products_sort
 			FROM
@@ -1435,6 +1440,7 @@ function ep_create_filelayout($dltype)
 			$filelayout = array(
 				'v_products_id'   => $iii++,
 				'v_products_price'    => $iii++,
+				'v_price_currency_code'    => $iii++,
 				'v_products_quantity'    => $iii++,
 			);
 
@@ -1442,6 +1448,7 @@ function ep_create_filelayout($dltype)
 			SELECT 
 				p.products_id as v_products_id,
 				p.products_price as v_products_price,
+				p.price_currency_code as v_price_currency_code,
 				p.products_quantity as v_products_quantity
 			FROM
 				".TABLE_PRODUCTS." as p,
@@ -1464,6 +1471,7 @@ function ep_create_filelayout($dltype)
 			$filelayout = array(
 				'v_products_model'   => $iii++,
 				'v_products_price'    => $iii++,
+				'v_price_currency_code'    => $iii++,
 				'v_products_quantity'    => $iii++,
 			);
 
@@ -1472,6 +1480,7 @@ function ep_create_filelayout($dltype)
 				p.products_id as v_products_id,
 				p.products_model as v_products_model, 
 				p.products_price as v_products_price,
+				p.price_currency_code as v_price_currency_code,
 				p.products_quantity as v_products_quantity
 			FROM
 				".TABLE_PRODUCTS." as p,
@@ -1508,6 +1517,7 @@ function ep_create_filelayout($dltype)
 
 			$filelayout  = array_merge($filelayout , array(
 				'v_products_price'    => $iii++,
+				'v_price_currency_code'    => $iii++,
 				'v_products_fullpath_image' => $iii++,
 				'v_category_fullpath'   => $iii++,
 				'v_froogle_offer_id'    => $iii++,
@@ -1531,6 +1541,7 @@ function ep_create_filelayout($dltype)
 				'name'      => $iii++,
 				'description'   => $iii++,
 				'price'     => $iii++,
+				'price_currency'     => $iii++,
 				'image_url'   => $iii++,
 				'category'    => $iii++,
 				'offer_id'    => $iii++,
@@ -1559,6 +1570,7 @@ function ep_create_filelayout($dltype)
 				p.products_image as v_products_image,
 				p.products_page_url as v_products_page_url,
 				p.products_price as v_products_price,
+				p.price_currency_code as v_price_currency_code,
 				p.products_weight as v_products_weight,
 				p.products_date_added as v_date_avail,
 				p.products_tax_class_id as v_tax_class_id,
@@ -1793,6 +1805,7 @@ function walk( $item1 )
 			p.products_image as v_products_image,
 			p.products_page_url as v_products_page_url,
 			p.products_price as v_products_price,
+			p.price_currency_code as v_price_currency_code,
 			p.products_weight as v_products_weight,
 			p.products_date_added as v_date_avail,
 			p.products_tax_class_id as v_tax_class_id,
@@ -2188,6 +2201,7 @@ function walk( $item1 )
 				group_permission_3,
 				products_page_url,
 				products_price,
+				price_currency_code,
 				products_status,
 				products_tax_class_id,
 				products_weight,
@@ -2204,6 +2218,7 @@ function walk( $item1 )
 				'1',
 				'$v_products_page_url',
 				'$v_products_price',
+				'$v_price_currency_code',
 				'$v_db_status',
 				'$v_tax_class_id',
 				'$v_products_weight',
@@ -2225,6 +2240,7 @@ function walk( $item1 )
 				SET
 				products_page_url="'.$v_products_page_url.'" ,
 				products_price="'.$v_products_price.'" ,
+				price_currency_code="'.$v_price_currency_code.'" ,
 				products_page_url="'.$v_products_page_url.'" ,
 				products_model="'.$v_products_model.'" ,
 				group_permission_0="1" ,
