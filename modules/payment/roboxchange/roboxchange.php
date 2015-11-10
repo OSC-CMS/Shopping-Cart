@@ -52,7 +52,7 @@ class roboxchange extends CartET
 		if (MODULE_PAYMENT_ROBOXCHANGE_TEST == 'test')
 			$this->form_action_url = 'http://test.robokassa.ru/Index.aspx';
 		else
-			$this->form_action_url = 'https://merchant.roboxchange.com/Index.aspx';
+			$this->form_action_url = 'https://auth.robokassa.ru/Merchant/Index.aspx';
 	}
 
 	// Обновление статуса(?)
