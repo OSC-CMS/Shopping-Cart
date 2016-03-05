@@ -51,7 +51,7 @@ $main->top_menu();
 	$manufacturers_query_raw = "
 		SELECT 
 			m.*, 
-			(SELECT count(p.products_id) FROM ".TABLE_PRODUCTS." p WHERE p.manufacturers_id = m.manufacturers_id) as products_count 
+			(SELECT count(p.products_id) FROM ".TABLE_PRODUCTS." p WHERE manufacturers_name = m.manufacturers_name) as products_count 
 		FROM 
 			".TABLE_MANUFACTURERS." m 
 		ORDER BY 
